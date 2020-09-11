@@ -1,0 +1,15 @@
+﻿@inherits InputBase<string?>
+<input @bind="Value" />
+
+@code {
+
+	//[Parameter]public int Id { get; set; }
+	//[Parameter] public string CssClass { get; set; }
+
+	protected override bool TryParseValueFromString(string? value, out string? result, /*[NotNullWhen(false)]*/ out string? validationErrorMessage)
+	{
+		result = value;
+		validationErrorMessage = null;
+		return true;
+	}
+}
