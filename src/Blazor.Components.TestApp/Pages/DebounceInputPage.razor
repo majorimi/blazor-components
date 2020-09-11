@@ -1,25 +1,3 @@
 ﻿@page "/debounceinput"
 
-<pre>Delay time: @DebounceMilisec ms</pre>
-<pre>Min required chars: @MinCharsLength</pre>
-<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
-
-<DebounceInput id="id1" class="form-control" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-    Value="@DebounceInputText" 
-    Delay="@DebounceMilisec" 
-    MinLength="@MinCharsLength"
-    ValueChanged="e => { DebounceInputText = e; }" 
-    ForceNotifyByEnter="@ForceNotifyByEnter"
-    ForceNotifyOnBlur ="@ForceNotifyOnBlur"
-    DiagEnabled="true" />
-
-Current value: @DebounceInputText
-
-@code {
-    private string DebounceInputText = "init";
-    private int DebounceMilisec = 1000;
-    private int MinCharsLength = 2;
-    private bool ForceNotifyByEnter = true;
-    private bool ForceNotifyOnBlur = true;
-}
+<Blazor.Components.Tests.Common.DebounceInputPage />
