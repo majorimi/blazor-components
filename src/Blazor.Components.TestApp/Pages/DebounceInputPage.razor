@@ -1,0 +1,8 @@
+﻿@page "/debounceinput"
+
+<DebounceInput id="id1" class="form-control" Value="@ModalOverlayColor" Delay="1400" MinLength="2" ValueChanged="e => { ModalOverlayColor = e; }" DiagEnabled="true">
+</DebounceInput> Current value: @ModalOverlayColor
+
+@code {
+    private string ModalOverlayColor = "init";
+}

@@ -1,0 +1,176 @@
+﻿@using System.Timers;
+
+<input value="@InternalValue" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AllOtherAttributes />
+
+@code {
+	private string InternalValue;
+
+	[Parameter] public string Value { get; set; }
+	[Parameter] public int MinLength { get; set; } = 0;
+	[Parameter] public int Delay { get; set; } = 200;
+	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
+	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
+	[Parameter] public bool DiagEnabled { get; set; } = false;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+	private Timer aTimer;
+
+	protected override void OnInitialized()
+	{
+		InternalValue = Value;
+
+		aTimer = new Timer(Delay);
+		aTimer.Elapsed += OnElapsed;
+		aTimer.AutoReset = false;
+
+		WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
+	}
+
+	private void OnTextChange(ChangeEventArgs e)
+	{
+		WriteDiag($"OnTextChange event: '{e.Value}'");
+
+		aTimer.Stop(); //Stop previous timer
+		aTimer.Start(); //Re-start timer
+
+		InternalValue = e.Value?.ToString();
+	}
+	private void OnBlur(FocusEventArgs e)
+	{
+		WriteDiag($"OnBlur event: '{e.Type}'");
+
+		if (ForceNotifyOnBlur)
+		{
+			aTimer.Stop(); //Stop timer
+			OnElapsed(null, null);
+		}
+	}
+	private void OnKeyPress(KeyboardEventArgs e)
+	{
+		WriteDiag($"OnKeyPress event: '{e.Key}'");
+
+		if(ForceNotifyByEnter && (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false))
+		{
+			aTimer.Stop(); //Stop timer
+			OnElapsed(null, null);
+		}
+	}
+
+	private void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
+		//TODO: might be better to send empty when below MinLength...
+		if (InternalValue?.Length >= MinLength || Value?.Length > MinLength) //User deleted chars, so must fire the MinLength string
+		{
+			var invokeValue = InternalValue;
+			if (InternalValue?.Length < MinLength)
+			{
+				invokeValue = Value?.Substring(0, MinLength);
+			}
+
+			InvokeAsync(async () =>
+			{
+				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
+
+				Value = InternalValue;
+				await ValueChanged.InvokeAsync(invokeValue);
+				StateHasChanged();
+			});
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		if (DiagEnabled)
+		{
+			Console.WriteLine($"Component {nameof(DebounceInput)}: {message}");
+			System.Diagnostics.Debug.Write($"Component {nameof(DebounceInput)}: {message}");
+		}
+	}
+}
+
+
+
+
+
+
+@*<input @bind-value=InternalValue @bind-value:event="oninput" @attributes=AllOtherAttributes />
+
+@code {
+
+	private string _value;
+	private string InternalValue
+	{
+		get => _value;
+		set
+		{
+			//Stop previous timer
+			aTimer.Stop();
+			//Re-start timer
+			aTimer.Start();
+
+			_value = value;
+		}
+	}
+
+	[Parameter] public string Value { get; set; }
+	[Parameter] public int MinLength { get; set; } = 0;
+	[Parameter] public int Delay { get; set; } = 200;
+	//[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
+	//[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
+	[Parameter] public bool DiagEnabled { get; set; } = false;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+	private Timer aTimer;
+
+	protected override void OnInitialized()
+	{
+		_value = Value;
+
+		aTimer = new Timer(Delay);
+		aTimer.Elapsed += OnElapsed;
+		aTimer.AutoReset = false;
+
+		WriteDiag($"Initialized with Value: '{_value}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
+	}
+
+	private void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
+
+		if (InternalValue?.Length >= MinLength || Value?.Length > MinLength) //User deleted chars, so must fire the MinLength string
+		{
+			var invokeValue = InternalValue;
+			if (InternalValue?.Length < MinLength)
+			{
+				invokeValue = Value?.Substring(0, MinLength);
+			}
+
+			InvokeAsync(async () =>
+			{
+				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
+
+				Value = InternalValue;
+				await ValueChanged.InvokeAsync(invokeValue);
+				StateHasChanged();
+			});
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		if (DiagEnabled)
+		{
+			Console.WriteLine($"Component {nameof(DebounceInput)}: {message}");
+			System.Diagnostics.Debug.Write($"Component {nameof(DebounceInput)}: {message}");
+		}
+	}
+}*@
