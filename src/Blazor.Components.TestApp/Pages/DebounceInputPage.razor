@@ -1,13 +1,25 @@
 ﻿@page "/debounceinput"
 
-<DebounceInput id="id1" class="form-control" Value="@DebounceInputText" Delay="1400" MinLength="2" ValueChanged="e => { DebounceInputText = e; }" DiagEnabled="true">
-</DebounceInput> Current value: @DebounceInputText
+<pre>Delay time: @DebounceMilisec ms</pre>
+<pre>Min required chars: @MinCharsLength</pre>
+<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
 
-<br />
-<DebounceInput2 id="id2" Value="@DebounceInput2Text" Delay="800" MinLength="2" ValueChanged="e => { DebounceInput2Text = e; }">
-</DebounceInput2> Current value: @DebounceInput2Text
+<DebounceInput id="id1" class="form-control" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+    Value="@DebounceInputText" 
+    Delay="@DebounceMilisec" 
+    MinLength="@MinCharsLength"
+    ValueChanged="e => { DebounceInputText = e; }" 
+    ForceNotifyByEnter="@ForceNotifyByEnter"
+    ForceNotifyOnBlur ="@ForceNotifyOnBlur"
+    DiagEnabled="true" />
+
+Current value: @DebounceInputText
 
 @code {
     private string DebounceInputText = "init";
-    private string DebounceInput2Text = "init";
+    private int DebounceMilisec = 1000;
+    private int MinCharsLength = 2;
+    private bool ForceNotifyByEnter = true;
+    private bool ForceNotifyOnBlur = true;
 }
