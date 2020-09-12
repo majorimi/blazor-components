@@ -20,6 +20,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
 		<ProjectReference Include="..\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
+		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

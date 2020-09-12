@@ -1,12 +1,12 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Blazor.WebAssembly.Logging.Console;
 
 namespace Blazor.Components.TestApp
 {
@@ -19,7 +19,8 @@ namespace Blazor.Components.TestApp
 
 			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-			builder.Logging.SetMinimumLevel(LogLevel.Debug);
+			builder.Logging.AddBrowserConsole()
+				.SetMinimumLevel(LogLevel.Debug);
 
 			await builder.Build().RunAsync();
 		}
