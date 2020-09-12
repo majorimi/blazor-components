@@ -19,6 +19,8 @@ namespace Blazor.Components.TestApp
 
 			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+			builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
 			await builder.Build().RunAsync();
 		}
 	}

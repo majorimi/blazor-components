@@ -1,4 +1,7 @@
 ﻿@using System.Timers;
+@using Microsoft.Extensions.Logging;
+
+@inject ILogger<DebounceInput> _logger;
 
 <input value="@InternalValue" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AllOtherAttributes />
 
@@ -10,7 +13,6 @@
 	[Parameter] public int Delay { get; set; } = 200;
 	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
-	[Parameter] public bool DiagEnabled { get; set; } = false;
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -63,33 +65,24 @@
 	private void OnElapsed(object source, ElapsedEventArgs e)
 	{
 		WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
-		//TODO: might be better to send empty when below MinLength...
-		if (InternalValue?.Length >= MinLength || Value?.Length > MinLength) //User deleted chars, so must fire the MinLength string
+
+		var invokeValue = InternalValue?.Length >= MinLength 
+			? InternalValue
+			: string.Empty;
+
+		InvokeAsync(async () =>
 		{
-			var invokeValue = InternalValue;
-			if (InternalValue?.Length < MinLength)
-			{
-				invokeValue = Value?.Substring(0, MinLength);
-			}
+			WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
 
-			InvokeAsync(async () =>
-			{
-				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
-
-				Value = InternalValue;
-				await ValueChanged.InvokeAsync(invokeValue);
-				StateHasChanged();
-			});
-		}
+			Value = InternalValue;
+			await ValueChanged.InvokeAsync(invokeValue);
+			StateHasChanged();
+		});
 	}
 
 	private void WriteDiag(string message)
 	{
-		if (DiagEnabled)
-		{
-			Console.WriteLine($"Component {nameof(DebounceInput)}: {message}");
-			System.Diagnostics.Debug.Write($"Component {nameof(DebounceInput)}: {message}");
-		}
+		_logger.LogDebug($"Component {nameof(DebounceInput)}: {message}");
 	}
 }
 

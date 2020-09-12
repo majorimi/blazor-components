@@ -12,12 +12,11 @@
     MinLength="@MinCharsLength"
     ValueChanged="e => { DebounceInputText = e; }" 
     ForceNotifyByEnter="@ForceNotifyByEnter"
-    ForceNotifyOnBlur ="@ForceNotifyOnBlur"
-    DiagEnabled="true" />
+    ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
 
 <br />
 <p>Notified value: @DebounceInputText</p>
-<p>Actual value: @Ref?.Value</p> @*TODO: fix nulls*@
+<p>Actual value: @(Ref?.Value ?? DebounceInputText)</p>
 
 
 @code {
