@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Blazor.Components.TestServerApp</a>
+    <a class="navbar-brand" href="">Blazor Components (Server)</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,6 +30,8 @@
     </ul>
 </div>
 
+@using Microsoft.Extensions.Logging;
+@inject ILogger<NavMenu> _logger;
 @code {
     private bool collapseNavMenu = true;
 
@@ -38,5 +40,6 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        _logger.LogInformation($"Nav menu collapsed status changed: {(NavMenuCssClass ?? "opened")}");
     }
 }

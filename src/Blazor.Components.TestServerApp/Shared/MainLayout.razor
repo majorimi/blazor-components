@@ -1,15 +1,29 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="sidebar">
-    <NavMenu />
+	<NavMenu />
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
+	<div class="top-row px-4">
+		<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+	</div>
 
-    <div class="content px-4">
-        @Body
-    </div>
+	<div class="content px-4">
+		@Body
+	</div>
 </div>
+
+@using Blazor.Server.Logging.Console;
+@inject IJSRuntime _runtime;
+
+@code{
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			//setup logger
+			BrowserConsoleLoggerProvider.SetLogger(_runtime);
+		}
+	}
+}

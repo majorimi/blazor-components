@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
@@ -14,7 +15,7 @@ namespace Blazor.Server.Logging.Console
 
 	internal class BrowserConsoleLogger : ILogger
 	{
-		private readonly IJSRuntime _jsRuntime;
+		private IJSRuntime _jsRuntime;
 		private Func<string, LogLevel, bool> _filter;
 		private IExternalScopeProvider ScopeProvider { get; set; }
 
@@ -46,6 +47,11 @@ namespace Blazor.Server.Logging.Console
 			ScopeProvider = scopeProvider;
 		}
 
+		public void SetIJSRuntime(IJSRuntime runtime) //HACK: This is a hack IJSRuntime should be injected but cannot be done...
+		{
+			_jsRuntime = runtime;
+		}
+
 		public bool IsEnabled(LogLevel logLevel)
 		{
 			if (logLevel == LogLevel.None)
@@ -72,7 +78,14 @@ namespace Blazor.Server.Logging.Console
 
 			if (!string.IsNullOrEmpty(message) || exception != null)
 			{
-				await ServerConsoleLogging.LogConsole(_jsRuntime, message);
+				try
+				{
+					await ServerConsoleLogging.LogConsole(_jsRuntime, message);
+				}
+				catch (InvalidOperationException e)
+				{
+					//hack
+				}
 			}
 		}
 

@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 namespace Blazor.Server.Logging.Console
 {
 	[ProviderAlias("ServerBrowserConsole")]
-	internal class BrowserConsoleLoggerProvider : ILoggerProvider
+	public class BrowserConsoleLoggerProvider : ILoggerProvider
 	{
 		private static readonly Func<string, LogLevel, bool> TrueFilter = (cat, level) => true;
 
-		private readonly IJSRuntime _jsRuntime;
-		private readonly ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
+		private readonly static ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
 		private readonly Func<string, LogLevel, bool> _filter;
 
-
-		public BrowserConsoleLoggerProvider(IJSRuntime runtime)
+		private static IJSRuntime _jsRuntime; //Should be injectable but not working...
+		public static void SetLogger(IJSRuntime runtime) //HACK: This is a hack IJSRuntime should be injected but cannot be done...
 		{
 			_jsRuntime = runtime;
+			foreach (var item in _loggers.Values)
+			{
+				item.SetIJSRuntime(_jsRuntime);
+			}
+		}
+
+		public BrowserConsoleLoggerProvider(/*IJSRuntime runtime*/)
+		{
+			//_jsRuntime = runtime;
 		}
 
 		public BrowserConsoleLoggerProvider(Func<string, LogLevel, bool> filter)

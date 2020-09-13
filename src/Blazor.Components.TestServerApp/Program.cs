@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 
 namespace Blazor.Components.TestServerApp
 {
@@ -33,8 +34,8 @@ namespace Blazor.Components.TestServerApp
 
 					webBuilder.ConfigureLogging(logger =>
 					{
-						logger.AddBrowserConsole()
-							.SetMinimumLevel(LogLevel.Debug);
+						logger.SetMinimumLevel(LogLevel.Debug);
+						logger.AddBrowserConsole();
 					});
 					webBuilder.UseStartup<Startup>();
 				});
