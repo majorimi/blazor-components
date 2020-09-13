@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Blazor.Server.Logging.Console;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -23,6 +26,16 @@ namespace Blazor.Components.TestServerApp
 			Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
+					webBuilder.ConfigureServices(config =>
+					{
+						//config.AddSingleton<Microsoft.JSInterop.JSRuntime>();
+					});
+
+					webBuilder.ConfigureLogging(logger =>
+					{
+						logger.AddBrowserConsole()
+							.SetMinimumLevel(LogLevel.Debug);
+					});
 					webBuilder.UseStartup<Startup>();
 				});
 	}
