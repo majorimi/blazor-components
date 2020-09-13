@@ -3,6 +3,23 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>1.0.0-preview.8.100.1</Version>
+	<AssemblyVersion>0.9.0.0</AssemblyVersion>
+	<FileVersion>0.9.0.0</FileVersion>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components</PackageProjectUrl>
+	<Authors>Imre Toth</Authors>
+	<Product>Blazor Components</Product>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageTags>.Net5 Blazor Htlm.Input</PackageTags>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<PackageId>Majorsoft.Blazor.Extensions.Debounce.Input</PackageId>
+	<Title>Blazor Extensions Debounce Input</Title>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageReleaseNotes>First release using .NET 5 preview.8</PackageReleaseNotes>
+	<Copyright>Imre Toth 2020</Copyright>
+	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea element with debounced onChange.</Description>
   </PropertyGroup>
 
 
@@ -13,6 +30,14 @@
 
   <ItemGroup>
 	<Folder Include="wwwroot\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
   </ItemGroup>
 
 </Project>
