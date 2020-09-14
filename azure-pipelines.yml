@@ -13,7 +13,7 @@ trigger:
     include:
     - src/*
 
-name: 1.0.0.$(rev:r)
+name: 0.9.0.$(rev:r)
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -22,7 +22,10 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  AssemblyCompany: 'Majorsoft'
+  AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
+  AssemblyCopyright: 'Copyright © 2020 Majorsoft'
 
 jobs:
   - job: BuildAndPublish
@@ -34,6 +37,29 @@ jobs:
       inputs:
        packageType: 'sdk'
        version: '5.0.100-preview.8.20417.9' # replace this value with the version that you need for your project
+
+    - task: Assembly-Info-NetCore@2
+      displayName: 'Update Web Assembly Info'
+      inputs:
+        Path: '$(Build.SourcesDirectory)'
+        FileNames: '/src/**/*.csproj'
+        InsertAttributes: true
+        FileEncoding: 'auto'
+        WriteBOM: false
+        Authors: '$(AssemblyAuthor)'
+        Company: '$(AssemblyCompany)'
+        Product: '$(AssemblyProduct)'
+        Description: 'Project 8b3s: 8 billion trees'
+        Copyright: '$(AssemblyCopyright)'
+        RepositoryType: 'Git'
+        VersionNumber: '$(AssemblyVersion)'
+        FileVersionNumber: '$(AssemblyVersion)'
+        InformationalVersion: '$(AssemblyVersion)'
+        PackageVersion: '$(AssemblyVersion)'
+        GeneratePackageOnBuild: false
+        LogLevel: 'verbose'
+        FailOnWarning: false
+        DisableTelemetry: false
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore packages'
@@ -47,5 +73,12 @@ jobs:
       inputs:
         command: 'build'
         projects: '**/*.csproj'
-        zipAfterPublish: true
-        workingDirectory: src/
+        arguments: '/p:AssemblyVersion=1.2.3.4'
+        workingDirectory: 'src/'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: '06db9479-0904-487a-9688-bfd150241ec7/70fe8fb2-40b5-4afd-acc9-66ba1c22bfb0'
