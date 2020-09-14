@@ -73,8 +73,7 @@ jobs:
       inputs:
         command: 'build'
         projects: '**/*.csproj'
-        arguments: '/p:AssemblyVersion=1.2.3.4'
-        workingDirectory: 'src/'
+        workingDirectory: src/
 
     - task: DotNetCoreCLI@2
       inputs:
