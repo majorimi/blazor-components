@@ -14,12 +14,12 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Htlm.Input</PackageTags>
 	<PackageIcon>blazor.components.png</PackageIcon>
-	<PackageId>Majorsoft.Blazor.Extensions.Debounce.Input</PackageId>
-	<Title>Blazor Extensions Debounce Input</Title>
+	<PackageId>Majorsoft.Blazor.Components.Debounce.Input</PackageId>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReleaseNotes>First release using .NET 5 preview.8</PackageReleaseNotes>
 	<Copyright>Imre Toth 2020</Copyright>
-	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea element with debounced onChange.</Description>
+	<Description>Blazor component that renders an Input, InputText, Textarea or InputTextarea element with debounced onChange.</Description>
+	<Title>Blazor Components Debounce Input</Title>
   </PropertyGroup>
 
 
