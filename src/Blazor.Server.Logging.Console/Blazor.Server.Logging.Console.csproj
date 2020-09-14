@@ -4,7 +4,7 @@
 	<TargetFramework>net5.0</TargetFramework>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>Majorsoft.Blazor.Server.Logging.Console</PackageId>
-	<Version>1.0.0-preview.8.100.1</Version>
+	<Version>1.0.0-preview.8.20417.9</Version>
 	<Authors>Imre Toth</Authors>
 	<Product>Majorsoft Blazor Components</Product>
 	<Description>Blazor extension for logging to browser console.  WARNING: only works for apps using Server Hosting Model!</Description>
