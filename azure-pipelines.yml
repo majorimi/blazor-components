@@ -25,7 +25,7 @@ variables:
   AssemblyCompany: 'Majorsoft'
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
-  AssemblyCopyright: 'Copyright © 2020 Majorsoft'
+  AssemblyCopyright: 'Copyright Â© 2020 Majorsoft'
 
 jobs:
   - job: BuildAndPublish
@@ -78,6 +78,6 @@ jobs:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        packagesToPush: '**/*.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '06db9479-0904-487a-9688-bfd150241ec7/70fe8fb2-40b5-4afd-acc9-66ba1c22bfb0'
