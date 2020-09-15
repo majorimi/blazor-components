@@ -26,6 +26,7 @@ variables:
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
+  Version: $(AssemblyVersion)-preview.8.20417.9
 
 jobs:
   - job: BuildAndPublish
@@ -67,6 +68,16 @@ jobs:
         command: 'restore'
         projects: 'src/Blazor.Components.sln'
         feedsToUse: 'select'
+
+    - task: PowerShell@2
+      displayName: Update Nuget package vesion
+      inputs:
+        targetType: 'inline'
+        script: |
+          $newVersion = "<Version>" + $(Version) + "<`/Version>"
+          $regex = '<Version>.*'
+          $file = 'src/**/*.csproj'
+          (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
