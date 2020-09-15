@@ -50,10 +50,10 @@ jobs:
         Authors: '$(AssemblyAuthor)'
         Company: '$(AssemblyCompany)'
         Product: '$(AssemblyProduct)'
-        Description: 'Project 8b3s: 8 billion trees'
+        Description: 'Blazor Components by Imre Toth'
         Copyright: '$(AssemblyCopyright)'
         RepositoryType: 'Git'
-        VersionNumber: '$(AssemblyVersion)'
+        VersionNumber: '$(AssemblyVersion)$(PreviewPackageVersion)'
         FileVersionNumber: '$(AssemblyVersion)'
         InformationalVersion: '$(AssemblyVersion)'
         PackageVersion: '$(AssemblyVersion)'
@@ -69,21 +69,21 @@ jobs:
         projects: 'src/Blazor.Components.sln'
         feedsToUse: 'select'
 
-    - task: PowerShell@2
-      displayName: Update Nuget package vesion
-      inputs:
-        targetType: 'inline'
-        script: |
-          $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
-          Write-Host $version
-          $newVersion = "<Version>" + $version + "<`/Version>"
-          Write-Host $newVersion
-          $regex = '<Version>.*'
-          Get-ChildItem -Path src/**/*.csproj | % {
-            $file = $_.FullName
-            Write-Host $file
-            (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
-          }
+    # - task: PowerShell@2
+    #   displayName: Update Nuget package vesion
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
+    #       Write-Host $version
+    #       $newVersion = "<Version>" + $version + "<`/Version>"
+    #       Write-Host $newVersion
+    #       $regex = '<Version>.*'
+    #       Get-ChildItem -Path src/**/*.csproj | % {
+    #         $file = $_.FullName
+    #         Write-Host $file
+    #         (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
+    #       }
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
