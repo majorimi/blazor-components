@@ -74,7 +74,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          $version = $(AssemblyVersion)$(PreviewPackageVersion)
+          $version = '$(AssemblyVersion)$(PreviewPackageVersion)'
           $newVersion = "<Version>" + $version + "<`/Version>"
           $regex = '<Version>.*'
           $file = 'src/**/*.csproj'
