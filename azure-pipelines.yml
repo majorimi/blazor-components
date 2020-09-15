@@ -94,6 +94,7 @@ jobs:
         workingDirectory: src/
 
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet upload Nuget'
       inputs:
         command: 'push'
         packagesToPush: '**/*.nupkg'
