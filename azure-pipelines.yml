@@ -77,8 +77,11 @@ jobs:
           $version = '$(AssemblyVersion)$(PreviewPackageVersion)'
           $newVersion = "<Version>" + $version + "<`/Version>"
           $regex = '<Version>.*'
-          $file = 'src/**/*.csproj'
-          (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
+          Get-ChildItem -Path src/**/*.csproj | % {
+            $file = $_.FullName
+            Write-Host $file
+            (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
+          }
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
