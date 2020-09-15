@@ -26,7 +26,7 @@ variables:
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
-  Version: $(AssemblyVersion)-preview.8.20417.9
+  PreviewPackageVersion: '-preview.8.20417.9'
 
 jobs:
   - job: BuildAndPublish
@@ -74,7 +74,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          $newVersion = "<Version>" + $(Version) + "<`/Version>"
+          $version = $(AssemblyVersion)$(PreviewPackageVersion)
+          $newVersion = "<Version>" + $version + "<`/Version>"
           $regex = '<Version>.*'
           $file = 'src/**/*.csproj'
           (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
