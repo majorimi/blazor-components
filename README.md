@@ -1,5 +1,7 @@
-Blazor Components
+
+Blazor Components <img src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" width="32px" />
 ============
+
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/majorimi.blazor-components?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
@@ -16,4 +18,4 @@ Blazor Extensions are providing useful features to develop Balazor applications:
 
 Blazor UI Components are providing new UI componets to develop Balazor applications:
 
-* **Blazor.Components.Debounce.Input**: [Debounce](https://github.com/majorimi/blazor-components/blob/master/.github/docs/debounceInputs.md) component that renders an Input, Textarea or other element with debounced onChange.
+* **Blazor.Components.Debounce.Input**: [Debounce](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) component that renders an Input, Textarea or other element with debounced onChange.
