@@ -7,7 +7,7 @@
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
 	<Product>Majorsoft Blazor Components</Product>
-	<Description>Blazor extension for logging to browser console. NOTE: only works for apps using Server Hosting Model!</Description>
+	<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using Server Hosting Model!</Description>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components</PackageProjectUrl>
