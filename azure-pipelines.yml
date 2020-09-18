@@ -22,12 +22,12 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  AssemblyVersion: '$(Build.BuildNumber)'
+  AssemblyVersion: $(Build.BuildNumber)
   AssemblyCompany: 'Majorsoft'
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
-  PreviewPackageVersion: '-rc.1.20452.10'
+  PreviewPackageVersion: -rc.1.20452.10
 
 jobs:
   - job: BuildAndPublish
