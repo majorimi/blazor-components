@@ -18,4 +18,4 @@ Blazor Extensions are providing useful features to develop Balazor applications:
 
 Blazor UI Components are providing new UI componets to develop Balazor applications:
 
-* **Blazor.Components.Debounce.Input**: [Debounce](https://github.com/majorimi/blazor-components/blob/master/.github/docs/debounceInputs.md) component that renders an Input, Textarea or other element with debounced onChange.
+* **Blazor.Components.Debounce.Input**: [Debounce](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) component that renders an Input, Textarea or other element with debounced onChange.
