@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	<TargetFramework>net5.0</TargetFramework>
+	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-preview.8.20414.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
 	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
   </ItemGroup>
 
 </Project>

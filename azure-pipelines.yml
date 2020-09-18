@@ -27,7 +27,7 @@ variables:
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
-  PreviewPackageVersion: '-preview.8.20417.9'
+  PreviewPackageVersion: '-rc.1.20452.10'
 
 jobs:
   - job: BuildAndPublish
@@ -38,7 +38,7 @@ jobs:
       displayName: Install .NET 5
       inputs:
        packageType: 'sdk'
-       version: '5.0.100-preview.8.20417.9' # replace this value with the version that you need for your project
+       version: '5.0.100-rc.1.20452.10' # replace this value with the version that you need for your project
 
     - task: Assembly-Info-NetCore@2
       displayName: 'Update Web Assembly Info'

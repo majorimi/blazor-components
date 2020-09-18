@@ -15,14 +15,14 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor WebAssemly ConsoleLog</PackageTags>
 	<PackageReleaseNotes>First release using .NET 5 preview.8</PackageReleaseNotes>
-	<Description>Blazor extension for logging to browser console.  WARNING: only works for apps using WebAssemly Hosting Model!</Description>
+	<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using WebAssemly Hosting Model!</Description>
 	  <Title>Blazor WebAssembly Logging Console</Title>
   </PropertyGroup>
 
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-preview.8.20414.8" />
-	<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.8.20407.11" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+	<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
 
 
