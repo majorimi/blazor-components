@@ -1,5 +1,7 @@
-Blazor Components
+
+Blazor Components <img src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" width="32px" />
 ============
+
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/majorimi.blazor-components?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
