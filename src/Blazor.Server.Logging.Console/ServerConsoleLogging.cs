@@ -6,11 +6,11 @@ namespace Blazor.Server.Logging.Console
 {
 	internal class ServerConsoleLogging
 	{
-		public static ValueTask<string> LogConsole(IJSRuntime jsRuntime, string message)
+		public static ValueTask<string> LogConsole(JSObjectReference jSObjectReference, string message)
 		{
-			if (jsRuntime != null)
+			if (jSObjectReference != null)
 			{
-				return jsRuntime.InvokeAsync<string>("serverConsoleLogging.log", message);
+				return jSObjectReference.InvokeAsync<string>("consoleLogger", message);
 			}
 
 			return ValueTask.FromResult<string>(null);

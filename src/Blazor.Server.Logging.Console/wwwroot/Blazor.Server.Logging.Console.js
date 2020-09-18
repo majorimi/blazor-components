@@ -1,5 +1,3 @@
-window.serverConsoleLogging = {
-  log: function (message) {
+export function consoleLogger(message) {
     return console.log(message);
-  }
-};
+}
