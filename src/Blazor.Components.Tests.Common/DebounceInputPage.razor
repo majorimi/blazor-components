@@ -1,12 +1,12 @@
-﻿<h3>Debounce Input cotrol</h3>
+﻿<h3>Debounce Input component</h3>
 
 <pre>Delay time: @DebounceMilisec ms</pre>
 <pre>Min required chars: @MinCharsLength</pre>
 <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
 <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
 
-<DebounceInput id="id1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-    @ref="Ref"
+<DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+    @ref="input1"
     Value="@DebounceInputText" 
     Delay="@DebounceMilisec" 
     MinLength="@MinCharsLength"
@@ -14,9 +14,33 @@
     ForceNotifyByEnter="@ForceNotifyByEnter"
     ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
 
+
 <br />
 <p>Notified value: @DebounceInputText</p>
-<p>Actual value: @(Ref?.Value ?? DebounceInputText)</p>
+<p>Actual value: @(input1?.Value ?? DebounceInputText)</p>
+
+<hr />
+
+<h3>Debounce TextArea component</h3>
+
+<pre>Delay time: @DebounceTextAreaMilisec ms</pre>
+<pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
+<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+
+<DebounceTextArea id="tx1" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
+    @ref="text1"
+    Value="@DebounceTextAreaText" 
+    Delay="@DebounceTextAreaMilisec" 
+    MinLength="@DebounceTextAreaMilisecMinCharsLength"
+    ValueChanged="e => { DebounceTextAreaText = e; }" 
+    ForceNotifyByEnter="@ForceNotifyByEnter"
+    ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
+
+
+<br />
+<p>Notified value: @DebounceTextAreaText</p>
+<p>Actual value: @(text1?.Value ?? DebounceTextAreaText)</p>
 
 
 @code {
@@ -25,8 +49,12 @@
     private int MinCharsLength = 2;
     private bool ForceNotifyByEnter = true;
     private bool ForceNotifyOnBlur = true;
+    private DebounceInput input1;
 
-    private DebounceInput Ref;
+    private string DebounceTextAreaText = "init";
+    private int DebounceTextAreaMilisec = 1000;
+    private int DebounceTextAreaMilisecMinCharsLength = 10;
+    private DebounceTextArea text1;
 }
 
 <hr />
