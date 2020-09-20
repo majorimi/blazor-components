@@ -12,23 +12,23 @@ namespace Blazor.Components.Debounce.Input
 	{
 		protected string InternalValue;
 
-		[Parameter] public string Value { get; set; }
+		[Parameter] public string CurrentValue { get; set; }
 		[Parameter] public int MinLength { get; set; } = 0;
 		[Parameter] public int Delay { get; set; } = 200;
 		[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 		[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
 		[Parameter(CaptureUnmatchedValues = true)]
-		public Dictionary<string, object> AllOtherAttributes { get; set; }
+		public Dictionary<string, object> AdditionalAttributes { get; set; }
 
-		[Parameter] public EventCallback<string> ValueChanged { get; set; }
+		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
 		private Timer _timre;
 		protected abstract ILogger BaseLogger { get; }
 
 		protected override void OnInitialized()
 		{
-			InternalValue = Value;
+			InternalValue = CurrentValue;
 
 			_timre = new Timer(Delay);
 			_timre.Elapsed += OnElapsed;
@@ -79,8 +79,8 @@ namespace Blazor.Components.Debounce.Input
 			{
 				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
 
-				Value = InternalValue;
-				await ValueChanged.InvokeAsync(invokeValue);
+				CurrentValue = InternalValue;
+				await OnValueChanged.InvokeAsync(invokeValue);
 				StateHasChanged();
 			});
 		}

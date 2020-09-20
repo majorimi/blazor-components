@@ -1,60 +1,116 @@
-﻿<h3>Debounce Input component</h3>
+﻿@using System.ComponentModel.DataAnnotations;
 
-<pre>Delay time: @DebounceMilisec ms</pre>
-<pre>Min required chars: @MinCharsLength</pre>
-<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+<h3>Debounce Input component</h3>
+
+<div>
+    <pre>Delay time: @DebounceMilisec ms</pre>
+    <pre>Min required chars: @MinCharsLength</pre>
+    <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+    <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+</div>
 
 <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
     @ref="input1"
-    Value="@DebounceInputText" 
+    CurrentValue="@DebounceInputValue" 
     Delay="@DebounceMilisec" 
     MinLength="@MinCharsLength"
-    ValueChanged="e => { DebounceInputText = e; }" 
+    OnValueChanged="e => { DebounceInputValue = e; }" 
     ForceNotifyByEnter="@ForceNotifyByEnter"
     ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
 
-
 <br />
-<p>Notified value: @DebounceInputText</p>
-<p>Actual value: @(input1?.Value ?? DebounceInputText)</p>
+<p>Notified value: @DebounceInputValue</p>
+<p>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</p>
 
 <hr />
 
+
+<h3>Debounce InputText component</h3>
+
+<div>
+    <pre>Delay time: @DebounceMilisec ms</pre>
+    <pre>Min required chars: @MinCharsLength</pre>
+    <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+    <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+</div>
+
+<EditForm Model="@exampleModel">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    @*<InputText @bind-Value="exampleModel.Name" />*@
+    <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
+        @ref="inputText1"
+        Delay="@DebounceInputTextDebounceMilisec" 
+        MinLength="@DebounceInputTextMinCharsLength"
+        OnValueChanged="e => { DebounceInputTextValue = e; }" 
+        ForceNotifyByEnter="@ForceNotifyByEnter2"
+        ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+<br />
+<p>Notified value: @DebounceInputTextValue</p>
+<p>Actual value: @(exampleModel.Name)</p>
+
+<hr />
+
+
 <h3>Debounce TextArea component</h3>
 
-<pre>Delay time: @DebounceTextAreaMilisec ms</pre>
-<pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
-<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+<div>
+    <pre>Delay time: @DebounceTextAreaMilisec ms</pre>
+    <pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
+    <pre>Force Notify by Enter: @ForceNotifyByEnter3</pre>
+    <pre>Force Notify On Blur: @ForceNotifyOnBlur3</pre>
+</div>
 
 <DebounceTextArea id="tx1" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
     @ref="text1"
-    Value="@DebounceTextAreaText" 
+    CurrentValue="@DebounceTextAreaText" 
     Delay="@DebounceTextAreaMilisec" 
     MinLength="@DebounceTextAreaMilisecMinCharsLength"
-    ValueChanged="e => { DebounceTextAreaText = e; }" 
-    ForceNotifyByEnter="@ForceNotifyByEnter"
-    ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
-
+    OnValueChanged="e => { DebounceTextAreaText = e; }" 
+    ForceNotifyByEnter="@ForceNotifyByEnter3"
+    ForceNotifyOnBlur ="@ForceNotifyOnBlur3" />
 
 <br />
 <p>Notified value: @DebounceTextAreaText</p>
-<p>Actual value: @(text1?.Value ?? DebounceTextAreaText)</p>
+<p>Actual value: @(text1?.CurrentValue ?? DebounceTextAreaText)</p>
 
 
 @code {
-    private string DebounceInputText = "init";
+    //DebounceInput
+    private string DebounceInputValue = "";
     private int DebounceMilisec = 1000;
     private int MinCharsLength = 2;
     private bool ForceNotifyByEnter = true;
     private bool ForceNotifyOnBlur = true;
     private DebounceInput input1;
 
-    private string DebounceTextAreaText = "init";
+    //DebounceInputText
+    private string DebounceInputTextValue = "";
+    private int DebounceInputTextDebounceMilisec = 1000;
+    private int DebounceInputTextMinCharsLength = 2;
+    private bool ForceNotifyByEnter2 = true;
+    private bool ForceNotifyOnBlur2 = true;
+    private DebounceInputText inputText1;
+
+    //DebounceTextArea
+    private string DebounceTextAreaText = "";
     private int DebounceTextAreaMilisec = 1000;
     private int DebounceTextAreaMilisecMinCharsLength = 10;
+    private bool ForceNotifyByEnter3 = true;
+    private bool ForceNotifyOnBlur3 = true;
     private DebounceTextArea text1;
-}
 
-<hr />
+    //Form model
+    private ExampleModel exampleModel = new ExampleModel();
+    public class ExampleModel
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Name is too long.")]
+        public string Name { get; set; }
+    }
+}

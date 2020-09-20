@@ -1,15 +1,90 @@
-﻿@inherits InputBase<string?>
-<input @bind="Value" />
+﻿@using Microsoft.Extensions.Logging
+@using System.Timers
+
+@inherits InputText
+@inject ILogger<DebounceInputText> _logger;
+
+@*<InputText value="@InternalValue" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AllOtherAttributes/>*@
+<input value="@InternalValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
 
 @code {
+	protected string InternalValue;
 
-	//[Parameter]public int Id { get; set; }
-	//[Parameter] public string CssClass { get; set; }
+	[Parameter] public int MinLength { get; set; } = 0;
+	[Parameter] public int Delay { get; set; } = 200;
+	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
+	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
-	protected override bool TryParseValueFromString(string? value, out string? result, /*[NotNullWhen(false)]*/ out string? validationErrorMessage)
+	[Parameter] public EventCallback<string> OnValueChanged { get; set; }
+
+	private Timer _timre;
+
+	protected override void OnInitialized()
 	{
-		result = value;
-		validationErrorMessage = null;
-		return true;
+		InternalValue = CurrentValue;
+
+		_timre = new Timer(Delay);
+		_timre.Elapsed += OnElapsed;
+		_timre.AutoReset = false;
+
+		WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
+
+		base.OnInitialized();
+	}
+
+	protected void OnTextChange(ChangeEventArgs e)
+	{
+		WriteDiag($"OnTextChange event: '{e.Value}'");
+
+		_timre.Stop(); //Stop previous timer
+		_timre.Start(); //Re-start timer
+
+		InternalValue = e.Value?.ToString();
+
+		EventCallback.Factory.CreateBinder<string>(this, __value => CurrentValueAsString = __value, CurrentValueAsString);
+	}
+	protected void OnBlur(FocusEventArgs e)
+	{
+		WriteDiag($"OnBlur event: '{e.Type}'");
+
+		if (ForceNotifyOnBlur)
+		{
+			_timre.Stop(); //Stop timer
+			OnElapsed(null, null);
+		}
+	}
+	protected void OnKeyPress(KeyboardEventArgs e)
+	{
+		WriteDiag($"OnKeyPress event: '{e.Key}'");
+
+		if (ForceNotifyByEnter && (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false))
+		{
+			_timre.Stop(); //Stop timer
+			OnElapsed(null, null);
+		}
+	}
+
+	protected void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
+
+		var invokeValue = InternalValue?.Length >= MinLength
+			? InternalValue
+			: string.Empty;
+
+		InvokeAsync(async () =>
+		{
+			WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
+
+			CurrentValue = InternalValue;
+			//await ValueChanged.InvokeAsync(invokeValue);  //Base class event...
+			await OnValueChanged.InvokeAsync(invokeValue);
+			StateHasChanged();
+		});
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 }
