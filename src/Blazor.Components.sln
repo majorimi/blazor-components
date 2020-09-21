@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.WebAssembly.Logging.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{121A4471-EF7A-4F9A-A856-67E8376A4AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Server.Logging.Console", "Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj", "{54494EC2-258E-443F-BA77-66A0E30FD782}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Server.Logging.Console", "Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj", "{54494EC2-258E-443F-BA77-66A0E30FD782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

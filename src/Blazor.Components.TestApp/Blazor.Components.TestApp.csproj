@@ -16,13 +16,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
-		<ProjectReference Include="..\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
-		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.csproj" />
+	  <Watch Remove="Pages\Extensions.razor" />
+	  <Watch Remove="Pages\Loading.razor" />
+	  <Watch Remove="Pages\TimerComponent.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\" />
+		<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
+		<ProjectReference Include="..\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
+		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.csproj" />
 	</ItemGroup>
 
 </Project>
