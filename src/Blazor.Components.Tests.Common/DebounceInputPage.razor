@@ -4,120 +4,126 @@
 <p>Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. For usege see soruce code and docs on 
 <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.</p>
 
-<h3>DebounceInput component</h3>
-<p>Wraps around <strong>HTML Input</strong> control and adds debounce (delay) with notification onChange.</p>
-<div>
-    <pre>Delay time: @DebounceMilisec ms</pre>
-    <pre>Min required chars: @MinCharsLength</pre>
-    <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-    <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>DebounceInput component</h3>
+    <p>Wraps around <strong>HTML Input</strong> control and adds debounce (delay) with notification onChange.</p>
+
+    <div>
+        <pre>Delay time: @DebounceMilisec ms</pre>
+        <pre>Min required chars: @MinCharsLength</pre>
+        <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+        <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+    </div>
+
+    <div class="pb-2">
+        <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+            @ref="input1"
+            CurrentValue="@DebounceInputValue" 
+            Delay="@DebounceMilisec" 
+            MinLength="@MinCharsLength"
+            OnValueChanged="e => { DebounceInputValue = e; }" 
+            ForceNotifyByEnter="@ForceNotifyByEnter"
+            ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
+    </div>
+
+    <div>Notified value: @DebounceInputValue</div>
+    <div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
 </div>
 
-<DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-    @ref="input1"
-    CurrentValue="@DebounceInputValue" 
-    Delay="@DebounceMilisec" 
-    MinLength="@MinCharsLength"
-    OnValueChanged="e => { DebounceInputValue = e; }" 
-    ForceNotifyByEnter="@ForceNotifyByEnter"
-    ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
 
-<br />
-<p>Notified value: @DebounceInputValue</p>
-<p>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</p>
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>DebounceInputText component</h3>
+    <p>Wraps around <strong>Blazor InputText</strong> component and adds debounce (delay) with notification onChange.</p>
 
-<hr />
+    <div>
+        <pre>Delay time: @DebounceInputTextDebounceMilisec ms</pre>
+        <pre>Min required chars: @DebounceInputTextMinCharsLength</pre>
+        <pre>Force Notify by Enter: @ForceNotifyByEnter2</pre>
+        <pre>Force Notify On Blur: @ForceNotifyOnBlur2</pre>
+    </div>
 
+    <EditForm Model="@exampleModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<h3>DebounceInputText component</h3>
-<p>Wraps around <strong>Blazor InputText</strong> component and adds debounce (delay) with notification onChange.</p>
+        <div class="pb-2">
+            @*<InputText @bind-Value="exampleModel.Name" />*@
+            <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
+                @ref="inputText1"
+                Delay="@DebounceInputTextDebounceMilisec" 
+                MinLength="@DebounceInputTextMinCharsLength"
+                OnValueChanged="e => { DebounceInputTextValue = e; }" 
+                ForceNotifyByEnter="@ForceNotifyByEnter2"
+                ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
+        </div>
+        <div class="pb-2">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
 
-<div>
-    <pre>Delay time: @DebounceInputTextDebounceMilisec ms</pre>
-    <pre>Min required chars: @DebounceInputTextMinCharsLength</pre>
-    <pre>Force Notify by Enter: @ForceNotifyByEnter2</pre>
-    <pre>Force Notify On Blur: @ForceNotifyOnBlur2</pre>
+    <div>Notified value: @DebounceInputTextValue</div>
+    <div>Actual value: @(exampleModel.Name)</div>
 </div>
 
-<EditForm Model="@exampleModel">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>DebounceTextArea component</h3>
+    <p>Wraps around <strong>HTML TextArea</strong> control and adds debounce (delay) with notification onChange.</p>
 
-    @*<InputText @bind-Value="exampleModel.Name" />*@
-    <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
-        @ref="inputText1"
-        Delay="@DebounceInputTextDebounceMilisec" 
-        MinLength="@DebounceInputTextMinCharsLength"
-        OnValueChanged="e => { DebounceInputTextValue = e; }" 
-        ForceNotifyByEnter="@ForceNotifyByEnter2"
-        ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
+    <div>
+        <pre>Delay time: @DebounceTextAreaMilisec ms</pre>
+        <pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
+        <pre>Force Notify by Enter: @ForceNotifyByEnter3</pre>
+        <pre>Force Notify On Blur: @ForceNotifyOnBlur3</pre>
+    </div>
 
-    <button class="btn btn-primary" type="submit">Submit</button>
-</EditForm>
+    <div class="pb-2">
+        <DebounceTextArea class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
+            @ref="text1"
+            CurrentValue="@DebounceTextAreaText" 
+            Delay="@DebounceTextAreaMilisec" 
+            MinLength="@DebounceTextAreaMilisecMinCharsLength"
+            OnValueChanged="e => { DebounceTextAreaText = e; }" 
+            ForceNotifyByEnter="@ForceNotifyByEnter3"
+            ForceNotifyOnBlur ="@ForceNotifyOnBlur3" />
+    </div>
 
-<br />
-<p>Notified value: @DebounceInputTextValue</p>
-<p>Actual value: @(exampleModel.Name)</p>
-
-<hr />
-
-
-<h3>DebounceTextArea component</h3>
-<p>Wraps around <strong>HTML TextArea</strong> control and adds debounce (delay) with notification onChange.</p>
-
-<div>
-    <pre>Delay time: @DebounceTextAreaMilisec ms</pre>
-    <pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
-    <pre>Force Notify by Enter: @ForceNotifyByEnter3</pre>
-    <pre>Force Notify On Blur: @ForceNotifyOnBlur3</pre>
+    <div>Notified value: @DebounceTextAreaText</div>
+    <div>Actual value: @(text1?.CurrentValue ?? DebounceTextAreaText)</div>
 </div>
 
-<DebounceTextArea id="tx1" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
-    @ref="text1"
-    CurrentValue="@DebounceTextAreaText" 
-    Delay="@DebounceTextAreaMilisec" 
-    MinLength="@DebounceTextAreaMilisecMinCharsLength"
-    OnValueChanged="e => { DebounceTextAreaText = e; }" 
-    ForceNotifyByEnter="@ForceNotifyByEnter3"
-    ForceNotifyOnBlur ="@ForceNotifyOnBlur3" />
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>DebounceInputTextArea component</h3>
+    <p>Wraps around <strong>Blazor InputTextArea</strong> component and adds debounce (delay) with notification onChange.</p>
 
-<br />
-<p>Notified value: @DebounceTextAreaText</p>
-<p>Actual value: @(text1?.CurrentValue ?? DebounceTextAreaText)</p>
+    <div>
+        <pre>Delay time: @DebounceInputTextAreaMilisec ms</pre>
+        <pre>Min required chars: @DebounceInputTextAreaMinCharsLength</pre>
+        <pre>Force Notify by Enter: @ForceNotifyByEnter4</pre>
+        <pre>Force Notify On Blur: @ForceNotifyOnBlur4</pre>
+    </div>
 
-<hr />
+    <EditForm Model="@exampleModel2">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<h3>DebounceInputTextArea component</h3>
-<p>Wraps around <strong>Blazor InputTextArea</strong> component and adds debounce (delay) with notification onChange.</p>
+        <div class="pb-2">
+            @*<InputTextArea @bind-Value="exampleModel.Name" />*@
+            <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
+                @ref="inputTextArea1"
+                Delay="@DebounceInputTextAreaMilisec" 
+                MinLength="@DebounceInputTextAreaMinCharsLength"
+                OnValueChanged="e => { DebounceInputTextAreaValue = e; }" 
+                ForceNotifyByEnter="@ForceNotifyByEnter4"
+                ForceNotifyOnBlur ="@ForceNotifyOnBlur4" />
+        </div>
+        <div class="pb-2">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
 
-<div>
-    <pre>Delay time: @DebounceInputTextAreaMilisec ms</pre>
-    <pre>Min required chars: @DebounceInputTextAreaMinCharsLength</pre>
-    <pre>Force Notify by Enter: @ForceNotifyByEnter4</pre>
-    <pre>Force Notify On Blur: @ForceNotifyOnBlur4</pre>
+    <div>Notified value: @DebounceInputTextAreaValue</div>
+    <div>Actual value: @(exampleModel2.Name)</div>
 </div>
-
-<EditForm Model="@exampleModel2">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    @*<InputTextArea @bind-Value="exampleModel.Name" />*@
-    <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
-        @ref="inputTextArea1"
-        Delay="@DebounceInputTextAreaMilisec" 
-        MinLength="@DebounceInputTextAreaMinCharsLength"
-        OnValueChanged="e => { DebounceInputTextAreaValue = e; }" 
-        ForceNotifyByEnter="@ForceNotifyByEnter4"
-        ForceNotifyOnBlur ="@ForceNotifyOnBlur4" />
-
-    <button class="btn btn-primary" type="submit">Submit</button>
-</EditForm>
-
-<br />
-<p>Notified value: @DebounceInputTextAreaValue</p>
-<p>Actual value: @(exampleModel2.Name)</p>
-
-<hr />
 
 
 @code {
