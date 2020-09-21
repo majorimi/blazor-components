@@ -9,7 +9,7 @@
 	<Product>Majorsoft Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>

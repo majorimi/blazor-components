@@ -5,7 +5,7 @@
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<Version>1.0.0.0</Version>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md</PackageProjectUrl>
 	<Authors>Imre Toth</Authors>
 	<Product>Blazor Components</Product>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
