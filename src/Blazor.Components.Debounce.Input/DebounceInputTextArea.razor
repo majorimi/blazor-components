@@ -4,7 +4,7 @@
 @inherits InputText
 @inject ILogger<DebounceInputText> _logger;
 
-<input value="@InternalValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
+<textarea value="@InternalValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
 
 @code {
 	protected string InternalValue;

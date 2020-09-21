@@ -1,0 +1,57 @@
+﻿<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="sidebar">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">@AppName</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="fa fa-lg fa-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="extensions">
+                    <span class="fa fa-lg fa-puzzle-piece" aria-hidden="true"></span> Extensions
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="debounceinput">
+                    <span class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></span> Debounce Inputs
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="timer">
+                    <span class="fa fa-lg fa-clock-o" aria-hidden="true"></span> Timer Component
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="loading">
+                    <span class="fa fa-lg fa-spinner" aria-hidden="true"></span> Loading Components
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@using Microsoft.Extensions.Logging;
+@inject ILogger<NavMenu> _logger;
+@code {
+
+    [Parameter] public string AppName { get; set; }
+
+    private bool collapseNavMenu = true;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+        _logger.LogInformation($"Nav menu collapsed status changed: {(NavMenuCssClass ?? "opened")}");
+    }
+}

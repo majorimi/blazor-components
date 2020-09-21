@@ -15,7 +15,7 @@
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Server ConsoleLog</PackageTags>
-	<PackageReleaseNotes>First release using .NET 5 preview.8</PackageReleaseNotes>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Title>Blazor Server Logging Console</Title>
   </PropertyGroup>
 

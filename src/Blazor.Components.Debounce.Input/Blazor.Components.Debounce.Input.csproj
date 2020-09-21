@@ -14,7 +14,7 @@
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<PackageId>Majorsoft.Blazor.Components.Debounce.Input</PackageId>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageReleaseNotes>First release using .NET 5 preview.8</PackageReleaseNotes>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Copyright>Imre Toth 2020</Copyright>
 	<Description>Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange.</Description>
 	<Title>Blazor Components Debounce Input</Title>
@@ -23,11 +23,6 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-	<Folder Include="wwwroot\" />
   </ItemGroup>
 
 
