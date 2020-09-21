@@ -11,10 +11,17 @@
 	<h3>Loading page</h3>
 	<p>Renders and Overlay layer with customizable content for showing Page loaing...</p>
 
-	<LoadingPage @ref="_loadingPage" OnLoading="@SendRequest">
+	<LoadingPage OnLoading="@SendRequest">
 		<LoadingContent>
 			<i class="fa fa-spinner fa-3x fa-spin"></i> 
 			<h2 class="m-3">Loading...</h2>
+		</LoadingContent>
+	</LoadingPage>
+
+	<LoadingPage @ref="_loadingPage" OverlayBackgroundColor="lightblue">
+		<LoadingContent>
+			<i class="fa fa-refresh fa-3x fa-spin"></i> 
+			<h2 class="m-3">Refreshing...</h2>
 		</LoadingContent>
 	</LoadingPage>
 
@@ -71,14 +78,14 @@
 	{
 		_loadingPage.Set(); //Set the button to Loading state
 
-		await Task.Delay(1500);
+		await Task.Delay(1200); //write your code here...
 
 		_loadingPage.Reset(); //Reset button to default state
 	}
 
 	private async Task SendRequest()
 	{
-		await Task.Delay(1500);
+		await Task.Delay(1500); //write your code here...
 	}
 
 	//Use it with EditForm otherwise use LoadingButton.OnClicked event.
@@ -87,7 +94,7 @@
 	{
 		_loadingButton.Set(); //Set the button to Loading state
 
-		await Task.Delay(1500);
+		await Task.Delay(1500); //write your code here...
 
 		_loadingButton.Reset(); //Reset button to default state
 	}
