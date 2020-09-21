@@ -1,5 +1,54 @@
-﻿<h3>Extensions</h3>
+﻿<h1>Blazor Extensions</h1>
+<p>Useful custom <strong>Extensions</strong> for <a href="https://blazor.net/" target="_blank">Blazor</a> applications. </p>
 
-@code {
+<div class="container-fluid p-3 border rounded">
+	<h3>Browser Console logger</h3>
 
+	<p>
+		Blazor Extensions are providing useful features to develop Balazor applications:
+		<ul>
+			<li>Blazor.Server.Logging.Console: Enables <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md" target="_blank">browser conole logging</a> for Blazor applications using <strong>Server Hosted model</strong>.</li>
+			<li>Blazor.WebAssembly.Logging.Console: Enables <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md" target="_blank">browser conole logging</a> for Blazor applications using <strong>WebAssembly Hosting model</strong>.</li>
+		</ul>
+	</p>
+
+	<p>
+		<strong>NOTE:</strong> Plase check the currently set <code>LogLevel</code> in <code>Program.cs</code> in the <code>Main()</code> method. 
+		<br />
+		For examle: <code>builder.Logging.SetMinimumLevel(LogLevel.Debug);</code>
+	</p>
+	<div class="pb-2">
+		Message: <input class="form-control w-25" @bind="_loggerText" />
+	</div>
+	<div class="pb-2">
+		Log Level: <select class="form-control selectpicker w-25" @bind="_logLevel">
+			@foreach (var item in Enum.GetValues(typeof(LogLevel)))
+			{
+				<option value="@item">@item</option>
+			}
+		</select>
+	</div>
+	<div>
+		<button class="btn btn-primary" @onclick="LogToConsole">Log to Console</button>
+	</div>
+</div>
+
+<br />
+
+
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Extensions> _logger;
+
+@code{
+	private string _loggerText;
+	private LogLevel _logLevel;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+	}
+
+	private void LogToConsole()
+	{
+		_logger.Log(_logLevel, _loggerText, null);
+	}
 }
