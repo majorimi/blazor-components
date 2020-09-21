@@ -10,6 +10,15 @@
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading page</h3>
 	<p>Renders and Overlay layer with customizable content for showing Page loaing...</p>
+
+	<LoadingPage @ref="_loadingPage" OnLoading="@SendRequest">
+		<LoadingContent>
+			<i class="fa fa-spinner fa-3x fa-spin"></i> 
+			<h2 class="m-3">Loading...</h2>
+		</LoadingContent>
+	</LoadingPage>
+
+	<button class="btn btn-primary" @onclick="LoadForm">Prompt loader...</button>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -56,11 +65,23 @@
 </div>
 
 @code {
+	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
+	private LoadingPage _loadingPage;
+	private async Task LoadForm()
+	{
+		_loadingPage.Set(); //Set the button to Loading state
+
+		await Task.Delay(1500);
+
+		_loadingPage.Reset(); //Reset button to default state
+	}
+
 	private async Task SendRequest()
 	{
 		await Task.Delay(1500);
 	}
 
+	//Use it with EditForm otherwise use LoadingButton.OnClicked event.
 	private LoadingButton _loadingButton;
 	private async Task FormOnValidSubmit()
 	{
