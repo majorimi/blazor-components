@@ -65,6 +65,13 @@ app {
         top: -2px;
     }
 
+    .sidebar .fa {
+        width: 2rem;
+        font-size: 1.1rem;
+        vertical-align: text-top;
+        top: -2px;
+    }
+
     .sidebar .nav-item {
         font-size: 0.9rem;
         padding-bottom: 0.5rem;
