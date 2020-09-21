@@ -1,5 +1,79 @@
-﻿<h3>Loading Components</h3>
+﻿@using System.ComponentModel.DataAnnotations;
+
+<h1>Loading Components</h1>
+
+<p>Blazor components that renders loading Overlay for pages disabled buttons during Async operatons, etc.  For usege see soruce code and docs on 
+<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Loading page</h3>
+	<p>Renders and Overlay layer with customizable content for showing Page loaing...</p>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Loading button</h3>
+	<p>Renders <strong>HTML Button</strong> with customizable content for showing async operation in progress/loaing...</p>
+
+	<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
+		<Content>
+			Fetch data
+		</Content>
+		<LoadingContent>
+			<i class="fa fa-spinner fa-spin"></i> Loading...
+		</LoadingContent>
+	</LoadingButton>
+
+	<LoadingButton class="btn btn-warning" OnClicked="@SendRequest">
+		<Content>
+			Save <i class="fa fa-save"></i>
+		</Content>
+		<LoadingContent>
+			<i class="fa fa-refresh fa-spin"></i> Loading...
+		</LoadingContent>
+	</LoadingButton>
+
+	<hr />
+	<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="pb-2">
+			<InputText @bind-Value="exampleModel.Name" class="form-control w-25" />
+		</div>
+		<div class="pb-2">
+			<LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
+				<Content>
+					Submit
+				</Content>
+				<LoadingContent>
+					<i class="fa fa-circle-o-notch fa-spin"></i> Loading...
+				</LoadingContent>
+			</LoadingButton>
+		</div>
+	</EditForm>
+</div>
 
 @code {
+	private async Task SendRequest()
+	{
+		await Task.Delay(1500);
+	}
 
+	private LoadingButton _loadingButton;
+	private async Task FormOnValidSubmit()
+	{
+		_loadingButton.Set(); //Set the button to Loading state
+
+		await Task.Delay(1500);
+
+		_loadingButton.Reset(); //Reset button to default state
+	}
+
+	//Form model
+	private ExampleModel exampleModel = new ExampleModel();
+	public class ExampleModel
+	{
+		[Required]
+		public string Name { get; set; }
+	}
 }

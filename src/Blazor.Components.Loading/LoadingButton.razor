@@ -1,0 +1,41 @@
+﻿<button @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@_isLoading @attributes=AllOtherAttributes>
+	@(!_isLoading ? Content : LoadingContent)
+</button>
+
+@code {
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public RenderFragment LoadingContent { get; set; }
+
+	[Parameter]
+	public ButtonTypes Type { get; set; } = ButtonTypes.Button;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] 
+	public EventCallback OnClicked { get; set; }
+
+	private bool _isLoading = false;
+	private async Task ButtonClicked(MouseEventArgs e)
+	{
+		_isLoading = true;
+
+		try
+		{
+			if(OnClicked.HasDelegate)
+			{
+				await OnClicked.InvokeAsync();
+			}
+		}
+		finally
+		{
+			_isLoading = false;
+		}
+	}
+
+	public void Set() => _isLoading = true;
+	public void Reset() => _isLoading = false;
+}
