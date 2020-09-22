@@ -1,0 +1,104 @@
+﻿@using Microsoft.Extensions.Logging
+@using System.Timers
+
+@implements IDisposable
+@inject ILogger<Timer> _logger;
+
+@code {
+		[Parameter] public double IntervalInMilisec { get; set; } = 200;
+		[Parameter] public int DelayInMilisec { get; set; } = 0;
+		[Parameter] public Times Occurring { get; set; } = Times.Once();
+		[Parameter] public bool AutoStart { get; set; } = true;
+
+		[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
+
+	private Timer _timer;
+	private ulong _eventCount = 0;
+
+	protected override void OnInitialized()
+	{
+		if (DelayInMilisec > 0)
+		{
+			_timer = new Timer(DelayInMilisec);
+			_timer.Elapsed += OnDelay;
+			_timer.AutoReset = false;
+		}
+		else
+		{
+			_timer = new Timer(IntervalInMilisec);
+			_timer.Elapsed += OnElapsed;
+			_timer.AutoReset = Occurring.Count == 1 ? false : true;
+		}
+
+		if (AutoStart)
+		{
+			_timer.Start();
+		}
+
+		WriteDiag($"Initialized Timer interval: '{IntervalInMilisec}' ms. Delay before start: {DelayInMilisec} ms. Max occurring: {Occurring.Count}, AutoStart: {AutoStart}");
+	}
+
+	private void OnDelay(object source, ElapsedEventArgs e)
+	{
+		_timer.Stop();
+		_timer.Elapsed -= OnDelay;
+		_timer.Elapsed += OnElapsed;
+
+		_timer.Interval = IntervalInMilisec;
+		_timer.AutoReset = Occurring.Count == 1 ? false : true;
+
+		_timer.Start();
+	}
+	private void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		if (_eventCount == 0 && DelayInMilisec > 0)
+		{
+			WriteDiag($"Timer triggered first time and Delay: {DelayInMilisec} ms required. Stopping and resuming timer after delay exceeded.");
+			_timer.Stop();
+
+			_timer.Start();
+		}
+
+		_eventCount++;
+		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount}. Invoke OnCicleElapsed event");
+		InvokeAsync(async () =>
+		{
+			await OnIntervalElapsed.InvokeAsync(_eventCount);
+			StateHasChanged();
+		});
+
+		if (_eventCount >= Occurring.Count)
+		{
+			_timer.AutoReset = false;
+			_timer.Stop();
+
+			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the reqired occurrence: {Occurring.Count} Timer stopped.");
+			return;
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
+	}
+
+	public bool IsEnabled => _timer?.Enabled ?? false;
+
+	public void Start() => _timer?.Start();
+	public void Stop() => _timer?.Stop();
+	public void Reset()
+	{
+		_timer?.Stop();
+		_eventCount = 0;
+		_timer?.Start();
+	}
+
+	public void Dispose()
+	{
+		if (_timer is not null)
+		{
+			_timer.Elapsed -= OnElapsed;
+			_timer.Dispose();
+		}
+	}
+}
