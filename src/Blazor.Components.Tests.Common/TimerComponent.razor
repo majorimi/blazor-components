@@ -4,6 +4,66 @@
     <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md" target="_blank">Github</a>.
 </p>
 
-@code {
 
+<p>
+	<span>Countdown: <strong>@(_countDown > 0 ? $"T-{_countDown}..." : "Liftoff...")</strong></span>
+	<AdvancedTimer IntervalInMilisec="1000" Occurring="Times.Exactly(10)" AutoStart="true" OnIntervalElapsed="@(c => CountDown(c))" />
+</p>
+
+<p>
+	<span>Delayed counter (starts after 2 sec.): <strong>@_count</strong></span>
+	<AdvancedTimer IntervalInMilisec="1000" DelayInMilisec="2000" Occurring="Times.Exactly(10)" OnIntervalElapsed="@(c => Counter(c))" />
+</p>
+
+<p>
+	<span>Infinite clock (Manual Start): <strong>@_time</strong></span>
+	<AdvancedTimer @ref="_clock" IntervalInMilisec="250" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
+	<button class="btn btn-sm btn-primary" @onclick="StartStopClock">@_buttonText</button>
+</p>
+
+<p>
+	<span>Asyc evnet handling (Times.Once): <strong>@_asyncCalled</strong></span>
+	<AdvancedTimer IntervalInMilisec="3000" Occurring="Times.Once()" OnIntervalElapsed="@(c => CallAsync(c))" />
+</p>
+
+@code {
+	private ulong _count = 0;
+	private void Counter(ulong count)
+	{
+		_count++;
+	}
+
+	private ulong _countDown = 10;
+	private void CountDown(ulong count)
+	{
+		_countDown = 10 - count;
+	}
+
+	private string _time = DateTime.Now.ToString("hh:mm:ss.f");
+	private AdvancedTimer _clock;
+	private string _buttonText = "Start";
+	private void Clock()
+	{
+		_time = DateTime.Now.ToString("hh:mm:ss.f");
+	}
+	private void StartStopClock()
+	{
+		if (_clock.IsEnabled)
+		{
+			_clock.Stop();
+			_buttonText = "Start";
+		}
+		else
+		{
+			_clock.Start();
+			_buttonText = "Stop";
+		}
+	}
+
+	private string _asyncCalled = "Async call handled: 0 time.";
+	private async Task CallAsync(ulong count)
+	{
+		await Task.Delay(1500); //should not be a longer running operation than Timer Interval
+		_asyncCalled = $"Async call ended: {count} time(s)";
+	}
 }
