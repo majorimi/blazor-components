@@ -13,7 +13,7 @@ trigger:
     include:
     - src/*
 
-name: 0.9.0.$(rev:r)
+name: 0.9.$(rev:r)
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -22,16 +22,16 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  AssemblyVersion: $(Build.BuildNumber)
   AssemblyCompany: 'Majorsoft'
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
-  PreviewPackageVersion: -rc.1.20452.10
+  #AssemblyVersion: '$(Build.BuildNumber)'
+  #PreviewPackageVersion: '-rc.1.20452.10'
 
 jobs:
   - job: BuildAndPublish
-    displayName: Build
+    displayName: Package Nuget
     steps:
 
     - task: UseDotNet@2

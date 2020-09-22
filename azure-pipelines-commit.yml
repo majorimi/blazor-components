@@ -1,0 +1,48 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - src/*
+
+name: 0.9.0.$(rev:r)
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+jobs:
+  - job: BuildAndPublish
+    displayName: Commit check Build
+    steps:
+
+    - task: UseDotNet@2
+      displayName: Install .NET 5
+      inputs:
+       packageType: 'sdk'
+       version: '5.0.100-rc.1.20452.10' # replace this value with the version that you need for your project
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore packages'
+      inputs:
+        command: 'restore'
+        projects: 'src/Blazor.Components.sln'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        workingDirectory: src/

@@ -1,5 +1,80 @@
-﻿<h3>Timer Component</h3>
+﻿<h1>Timer Component</h1>
+<p>
+	Blazor component that can be used for scheduled and periodically repeated tasks to call custom code. For usege see soruce code and docs on 
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md" target="_blank">Github</a>.
+</p>
+
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<span>Countdown from 10: <strong>@(_countDown > 0 ? $"T-{_countDown}..." : "Liftoff...")</strong></span>
+	<AdvancedTimer IntervalInMilisec="1000" Occurring="Times.Exactly(10)" AutoStart="true" OnIntervalElapsed="@(c => CountDown(c))" />
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<span>Delayed counter (starts after 2 sec.): <strong>@_count</strong></span>
+	<AdvancedTimer @ref="_counter" IntervalInMilisec="1000" DelayInMilisec="2000" Occurring="Times.Exactly(10)" OnIntervalElapsed="@(c => Counter(c))" />
+
+	<br />
+	<button class="btn btn-sm btn-primary" @onclick="CounterReset">Reset</button>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<span>Infinite clock (Manual Start): <strong>@_time</strong></span>
+	<AdvancedTimer @ref="_clock" IntervalInMilisec="250" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
+
+	<br />
+	<button class="btn btn-sm btn-primary" @onclick="StartStopClock">@_buttonText</button>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<span>Asyc evnet handling (Times.Once): <strong>@_asyncCalled</strong></span>
+	<AdvancedTimer IntervalInMilisec="3000" Occurring="Times.Once()" OnIntervalElapsed="@(c => CallAsync(c))" />
+</div>
 
 @code {
+	//Countdown
+	private ulong _countDown = 10;
+	private void CountDown(ulong count)
+	{
+		_countDown = 10 - count;
+	}
 
+	//Counter
+	private AdvancedTimer _counter;
+	private ulong _count = 0;
+	private void Counter(ulong count)
+	{
+		_count = count;
+	}
+	private void CounterReset() => _counter.Reset();
+
+	//Clock
+	private string _time = DateTime.Now.ToString("hh:mm:ss.f");
+	private AdvancedTimer _clock;
+	private string _buttonText = "Start";
+	private void Clock()
+	{
+		_time = DateTime.Now.ToString("hh:mm:ss.f");
+	}
+	private void StartStopClock()
+	{
+		if (_clock.IsEnabled)
+		{
+			_clock.Stop();
+			_buttonText = "Start";
+		}
+		else
+		{
+			_clock.Start();
+			_buttonText = "Stop";
+		}
+	}
+
+	//Async call
+	private string _asyncCalled = "Async call handled: 0 time.";
+	private async Task CallAsync(ulong count)
+	{
+		await Task.Delay(1500); //should not be a longer running operation than Timer Interval
+		_asyncCalled = $"Async call ended: {count} time(s)";
+	}
 }

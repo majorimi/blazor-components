@@ -107,7 +107,7 @@
         <ValidationSummary />
 
         <div class="pb-2">
-            @*<InputTextArea @bind-Value="exampleModel.Name" />*@
+            @*<InputTextArea @bind-Value="exampleModel2.Name" />*@
             <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
                 @ref="inputTextArea1"
                 Delay="@DebounceInputTextAreaMilisec" 

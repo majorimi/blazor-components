@@ -1,4 +1,4 @@
-Blazor Components Deboudnce Input controlls
+Blazor Components Debounce Input controls
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/majorimi.blazor-components?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Debounce.Input?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/)
@@ -9,10 +9,10 @@ Blazor component that renders an Input, InputText, Textarea or InputTextarea, et
 
 ### Installation
 
-Blazor.Components.Deboudnce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/). 
+Blazor.Components.Debounce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Deboudnce.Input
+dotnet add package Majorsoft.Blazor.Components.Debounce.Input
 ```
 Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/absoluteLatest) to install.
 

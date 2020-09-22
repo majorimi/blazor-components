@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{121A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Server.Logging.Console", "Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj", "{54494EC2-258E-443F-BA77-66A0E30FD782}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.Loading", "Blazor.Components.Loading\Blazor.Components.Loading.csproj", "{77FBB136-2BB9-4D0F-90D9-7485566A8882}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Timer", "Blazor.Components.Timer\Blazor.Components.Timer.csproj", "{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{54494EC2-258E-443F-BA77-66A0E30FD782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54494EC2-258E-443F-BA77-66A0E30FD782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54494EC2-258E-443F-BA77-66A0E30FD782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FBB136-2BB9-4D0F-90D9-7485566A8882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FBB136-2BB9-4D0F-90D9-7485566A8882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FBB136-2BB9-4D0F-90D9-7485566A8882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FBB136-2BB9-4D0F-90D9-7485566A8882}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

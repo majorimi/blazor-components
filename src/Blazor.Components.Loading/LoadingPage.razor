@@ -1,0 +1,54 @@
+﻿<div class="loading" style="background-color: @OverlayBackgroundColor?.ToLower();" hidden="@(!_isLoading)" @attributes=AllOtherAttributes>
+	<div class="loading-content">@(LoadingContent)</div>	
+</div>
+
+@inject ILogger<LoadingPage> _logger;
+@code {
+	[Parameter]
+	public RenderFragment LoadingContent { get; set; }
+
+	[Parameter]
+	public string OverlayBackgroundColor { get; set; } = "gray";
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] 
+	public EventCallback OnLoading { get; set; }
+	
+	public void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	public void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
+	}
+
+	private bool _isLoading = false;
+	protected override async Task OnInitializedAsync()
+	{
+		_isLoading = true;
+		WriteDiag($"Clicked currently IsLoading: '{_isLoading}'.");
+
+		try
+		{
+			if(OnLoading.HasDelegate)
+			{
+				await OnLoading.InvokeAsync();
+			}
+		}
+		finally
+		{
+			_isLoading = false;
+			WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

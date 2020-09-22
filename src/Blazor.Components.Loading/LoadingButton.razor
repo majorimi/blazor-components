@@ -1,0 +1,57 @@
+﻿<button @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@_isLoading @attributes=AllOtherAttributes>
+	@(!_isLoading ? Content : LoadingContent)
+</button>
+
+@inject ILogger<LoadingButton> _logger;
+@code {
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public RenderFragment LoadingContent { get; set; }
+
+	[Parameter]
+	public ButtonTypes Type { get; set; } = ButtonTypes.Button;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] 
+	public EventCallback OnClicked { get; set; }
+	
+	public void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	public void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
+	}
+
+	private bool _isLoading = false;
+	private async Task ButtonClicked(MouseEventArgs e)
+	{
+		_isLoading = true;
+		WriteDiag($"Initialized currently IsLoading: '{_isLoading}'.");
+
+		try
+		{
+			if(OnClicked.HasDelegate)
+			{
+				await OnClicked.InvokeAsync();
+			}
+		}
+		finally
+		{
+			_isLoading = false;
+			WriteDiag($"Async load finished IsLoading: '{_isLoading}'.");
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazor.Components.Debounce.Input
 {
-	public abstract class DebounceTimerBase : ComponentBase
+	public abstract class DebounceTimerBase : ComponentBase, IDisposable
 	{
 		protected string InternalValue;
 
@@ -23,16 +23,16 @@ namespace Blazor.Components.Debounce.Input
 
 		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
-		private Timer _timre;
+		private Timer _timer;
 		protected abstract ILogger BaseLogger { get; }
 
 		protected override void OnInitialized()
 		{
 			InternalValue = CurrentValue;
 
-			_timre = new Timer(Delay);
-			_timre.Elapsed += OnElapsed;
-			_timre.AutoReset = false;
+			_timer = new Timer(Delay);
+			_timer.Elapsed += OnElapsed;
+			_timer.AutoReset = false;
 
 			WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
 		}
@@ -41,8 +41,8 @@ namespace Blazor.Components.Debounce.Input
 		{
 			WriteDiag($"OnTextChange event: '{e.Value}'");
 
-			_timre.Stop(); //Stop previous timer
-			_timre.Start(); //Re-start timer
+			_timer.Stop(); //Stop previous timer
+			_timer.Start(); //Re-start timer
 
 			InternalValue = e.Value?.ToString();
 		}
@@ -52,7 +52,7 @@ namespace Blazor.Components.Debounce.Input
 
 			if (ForceNotifyOnBlur)
 			{
-				_timre.Stop(); //Stop timer
+				_timer.Stop(); //Stop timer
 				OnElapsed(null, null);
 			}
 		}
@@ -62,7 +62,7 @@ namespace Blazor.Components.Debounce.Input
 
 			if (ForceNotifyByEnter && (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false))
 			{
-				_timre.Stop(); //Stop timer
+				_timer.Stop(); //Stop timer
 				OnElapsed(null, null);
 			}
 		}
@@ -83,6 +83,15 @@ namespace Blazor.Components.Debounce.Input
 				await OnValueChanged.InvokeAsync(invokeValue);
 				StateHasChanged();
 			});
+		}
+
+		public void Dispose()
+		{
+			if (_timer is not null)
+			{
+				_timer.Elapsed -= OnElapsed;
+				_timer.Dispose();
+			}
 		}
 
 		private void WriteDiag(string message)
