@@ -76,11 +76,16 @@
 	private LoadingPage _loadingPage;
 	private async Task LoadForm()
 	{
-		_loadingPage.Set(); //Set the button to Loading state
+		try
+		{
+			_loadingPage.Set(); //Set the layout to Loading state
 
-		await Task.Delay(1200); //write your code here...
-
-		_loadingPage.Reset(); //Reset button to default state
+			await Task.Delay(1200); //write your code here...
+		}
+		finally
+		{
+			_loadingPage.Reset(); //Reset layout to default state in FINALLY to handle any errors!
+		}
 	}
 
 	private async Task SendRequest()
@@ -92,11 +97,16 @@
 	private LoadingButton _loadingButton;
 	private async Task FormOnValidSubmit()
 	{
-		_loadingButton.Set(); //Set the button to Loading state
+		try
+		{
+			_loadingButton.Set(); //Set the button to Loading state
 
-		await Task.Delay(1500); //write your code here...
-
-		_loadingButton.Reset(); //Reset button to default state
+			await Task.Delay(1500); //write your code here...
+		}
+		finally
+		{
+			_loadingButton.Reset(); //Reset button to default state in FINALLY to handle any errors!
+		}
 	}
 
 	//Form model
