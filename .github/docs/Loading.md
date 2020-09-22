@@ -7,6 +7,8 @@ Blazor Loading Components
 
 Blazor components that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loaing...
 
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
+
 ### Installation
 
 Blazor.Components.Loading is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading/). 

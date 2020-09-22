@@ -9,7 +9,8 @@ Blazor Components <img src="https://github.com/majorimi/blazor-components/blob/m
 Blazor Components is a set of UI Components and other useful Extensions for [Blazor](https://blazor.net) applications.
 All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 
 
-Detailed descriptions are available on separated readme files. Please follow the link provided on each bullet points.
+Detailed descriptions and usage code samples are available on separated readme files. 
+Please follow the link provided on each bullet points. Also you can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/).
 
 ## Blazor Extensions
 
