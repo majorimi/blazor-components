@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazor.Components.Debounce.Input
 {
-	public abstract class DebounceTimerBase : ComponentBase
+	public abstract class DebounceTimerBase : ComponentBase, IDisposable
 	{
 		protected string InternalValue;
 
@@ -52,7 +52,7 @@ namespace Blazor.Components.Debounce.Input
 
 			if (ForceNotifyOnBlur)
 			{
-				_timre.Stop(); //Stop timer
+				_timer.Stop(); //Stop timer
 				OnElapsed(null, null);
 			}
 		}
@@ -62,7 +62,7 @@ namespace Blazor.Components.Debounce.Input
 
 			if (ForceNotifyByEnter && (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false))
 			{
-				_timre.Stop(); //Stop timer
+				_timer.Stop(); //Stop timer
 				OnElapsed(null, null);
 			}
 		}
@@ -83,6 +83,15 @@ namespace Blazor.Components.Debounce.Input
 				await OnValueChanged.InvokeAsync(invokeValue);
 				StateHasChanged();
 			});
+		}
+
+		public void Dispose()
+		{
+			if (_timer is not null)
+			{
+				_timer.Elapsed -= OnElapsed;
+				_timer.Dispose();
+			}
 		}
 
 		private void WriteDiag(string message)

@@ -1,7 +1,7 @@
-﻿@using Microsoft.Extensions.Logging
-@using System.Timers
+﻿@using System.Timers
 
 @inherits InputText
+@implements IDisposable
 @inject ILogger<DebounceInputText> _logger;
 
 <input value="@InternalValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
@@ -80,6 +80,15 @@
 			await OnValueChanged.InvokeAsync(invokeValue);
 			StateHasChanged();
 		});
+	}
+
+	public void Dispose()
+	{
+		if (_timer is not null)
+		{
+			_timer.Elapsed -= OnElapsed;
+			_timer.Dispose();
+		}
 	}
 
 	private void WriteDiag(string message)
