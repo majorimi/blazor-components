@@ -1,0 +1,54 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - samples/Blazor.Components.TestApp/*
+
+name: 1.0.0.$(rev:r)
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  project: 'samples/Blazor.Components.TestApp/Blazor.Components.TestApp.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+jobs:
+  - job: BuildAndPublish
+    displayName: Publish sample App
+    steps:
+
+    - task: UseDotNet@2
+      displayName: Install .NET 5
+      inputs:
+       packageType: 'sdk'
+       version: '5.0.100-rc.1.20452.10' # replace this value with the version that you need for your project
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore packages'
+      inputs:
+        command: 'restore'
+        projects: $(project)
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet publish'
+      inputs:
+        command: 'publish'
+        projects: $(project)
+        arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'Blazor.Components.SampleApp'
