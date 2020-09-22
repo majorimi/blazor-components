@@ -23,16 +23,16 @@ namespace Blazor.Components.Debounce.Input
 
 		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
-		private Timer _timre;
+		private Timer _timer;
 		protected abstract ILogger BaseLogger { get; }
 
 		protected override void OnInitialized()
 		{
 			InternalValue = CurrentValue;
 
-			_timre = new Timer(Delay);
-			_timre.Elapsed += OnElapsed;
-			_timre.AutoReset = false;
+			_timer = new Timer(Delay);
+			_timer.Elapsed += OnElapsed;
+			_timer.AutoReset = false;
 
 			WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
 		}
@@ -41,8 +41,8 @@ namespace Blazor.Components.Debounce.Input
 		{
 			WriteDiag($"OnTextChange event: '{e.Value}'");
 
-			_timre.Stop(); //Stop previous timer
-			_timre.Start(); //Re-start timer
+			_timer.Stop(); //Stop previous timer
+			_timer.Start(); //Re-start timer
 
 			InternalValue = e.Value?.ToString();
 		}
