@@ -7,6 +7,8 @@ Blazor Timer Component
 
 Blazor component that can be used for scheduled and periodically repeated tasks to call custom code.
 
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
+
 ### Installation
 
 Blazor.Components.Timer is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/). 

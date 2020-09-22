@@ -7,6 +7,8 @@ Blazor Components Debounce Input controls
 
 Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange.
 
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
+
 ### Installation
 
 Blazor.Components.Debounce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/). 
