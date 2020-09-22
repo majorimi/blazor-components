@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.1-rc.1.20452.10" />
+		<PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.1-rc.1.20452.10" />
+		<PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.1-rc.1.20452.10" />
+		<PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.1-rc.1.20452.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.1.20451.17" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.1.20451.17" PrivateAssets="all" />
+		<PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.1.20451.14" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- extends watching group to include *.razor files -->
+		<Watch Include="**\*.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Watch Remove="Pages\Extensions.razor" />
+	  <Watch Remove="Pages\Loading.razor" />
+	  <Watch Remove="Pages\TimerComponent.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
+	</ItemGroup>
+
+</Project>
