@@ -35,51 +35,7 @@
 			_timer.Start();
 		}
 
-		WriteDiag($"Initialized Timer interval: '{IntervalInMilisec}' ms. Delay before start: {DelayInMilisec} ms. Max occurring: {Occurring.Count}, AutoStart: {AutoStart}");
-	}
-
-	private void OnDelay(object source, ElapsedEventArgs e)
-	{
-		_timer.Stop();
-		_timer.Elapsed -= OnDelay;
-		_timer.Elapsed += OnElapsed;
-
-		_timer.Interval = IntervalInMilisec;
-		_timer.AutoReset = Occurring.Count == 1 ? false : true;
-
-		_timer.Start();
-	}
-	private void OnElapsed(object source, ElapsedEventArgs e)
-	{
-		if (_eventCount == 0 && DelayInMilisec > 0)
-		{
-			WriteDiag($"Timer triggered first time and Delay: {DelayInMilisec} ms required. Stopping and resuming timer after delay exceeded.");
-			_timer.Stop();
-
-			_timer.Start();
-		}
-
-		_eventCount++;
-		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount}. Invoke OnCicleElapsed event");
-		InvokeAsync(async () =>
-		{
-			await OnIntervalElapsed.InvokeAsync(_eventCount);
-			StateHasChanged();
-		});
-
-		if (_eventCount >= Occurring.Count)
-		{
-			_timer.AutoReset = false;
-			_timer.Stop();
-
-			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the reqired occurrence: {Occurring.Count} Timer stopped.");
-			return;
-		}
-	}
-
-	private void WriteDiag(string message)
-	{
-		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
+		WriteDiag($"Initialized Timer with Interval: '{IntervalInMilisec}' ms. Delay before start: {DelayInMilisec} ms. Max occurring: {Occurring.Count}, AutoStart: {AutoStart}");
 	}
 
 	public bool IsEnabled => _timer?.Enabled ?? false;
@@ -88,6 +44,8 @@
 	public void Stop() => _timer?.Stop();
 	public void Reset()
 	{
+		WriteDiag($"Resetting Timer with Interval: '{IntervalInMilisec}' ms. Max occurring: {Occurring.Count}");
+
 		_timer?.Stop();
 		_eventCount = 0;
 		_timer?.Start();
@@ -100,5 +58,42 @@
 			_timer.Elapsed -= OnElapsed;
 			_timer.Dispose();
 		}
+	}
+
+	private void OnDelay(object source, ElapsedEventArgs e)
+	{
+		WriteDiag($"Timer required Delay: {DelayInMilisec} ms elapsed. Stopping timer to switch event handler.");
+
+		_timer.Stop();
+		_timer.Elapsed -= OnDelay;
+		_timer.Elapsed += OnElapsed;
+
+		_timer.Interval = IntervalInMilisec;
+		_timer.AutoReset = Occurring.Count == 1 ? false : true;
+
+		_timer.Start();
+	}
+	private void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		_eventCount++;
+		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount}, required occurrence: {Occurring.Count}. Invoke {nameof(OnIntervalElapsed)} event");
+		InvokeAsync(async () =>
+		{
+			await OnIntervalElapsed.InvokeAsync(_eventCount);
+			StateHasChanged();
+		});
+
+		if (_eventCount >= Occurring.Count)
+		{
+			_timer.Stop();
+
+			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the reqired occurrence: {Occurring.Count} Timer stopped.");
+			return;
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
 	}
 }
