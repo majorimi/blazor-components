@@ -28,4 +28,22 @@
 		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Pages\DebounceInputPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\ExtensionsPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\IndexPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\LoadingPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\TimerPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
 </Project>
