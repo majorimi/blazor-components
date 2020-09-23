@@ -14,7 +14,7 @@ namespace Blazor.Components.Debounce.Input
 
 		[Parameter] public string CurrentValue { get; set; }
 		[Parameter] public int MinLength { get; set; } = 0;
-		[Parameter] public int Delay { get; set; } = 200;
+		[Parameter] public int DebounceTime { get; set; } = 200;
 		[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 		[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
@@ -29,12 +29,12 @@ namespace Blazor.Components.Debounce.Input
 		protected override void OnInitialized()
 		{
 			InternalValue = CurrentValue;
-
-			_timer = new Timer(Delay);
+//TODO: disable debounce when DebounceTime <= 0;
+			_timer = new Timer(DebounceTime);
 			_timer.Elapsed += OnElapsed;
 			_timer.AutoReset = false;
 
-			WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
+			WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}'.");
 		}
 
 		protected void OnTextChange(ChangeEventArgs e)
@@ -69,7 +69,7 @@ namespace Blazor.Components.Debounce.Input
 
 		protected void OnElapsed(object source, ElapsedEventArgs e)
 		{
-			WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
+			WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, Value: '{InternalValue}'");
 
 			var invokeValue = InternalValue?.Length >= MinLength
 				? InternalValue
