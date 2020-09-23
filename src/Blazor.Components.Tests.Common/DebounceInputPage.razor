@@ -9,7 +9,7 @@
     <p>Wraps around <strong>HTML Input</strong> control and adds debounce (delay) with notification onChange.</p>
 
     <div>
-        <pre>Delay time: @DebounceMilisec ms</pre>
+        <pre>Debounce time: @DebounceMilisec ms</pre>
         <pre>Min required chars: @MinCharsLength</pre>
         <pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
         <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
@@ -19,7 +19,7 @@
         <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
             @ref="input1"
             CurrentValue="@DebounceInputValue" 
-            Delay="@DebounceMilisec" 
+            DebounceTime="@DebounceMilisec" 
             MinLength="@MinCharsLength"
             OnValueChanged="e => { DebounceInputValue = e; }" 
             ForceNotifyByEnter="@ForceNotifyByEnter"
@@ -36,7 +36,7 @@
     <p>Wraps around <strong>Blazor InputText</strong> component and adds debounce (delay) with notification onChange.</p>
 
     <div>
-        <pre>Delay time: @DebounceInputTextDebounceMilisec ms</pre>
+        <pre>Debounce time: @DebounceInputTextDebounceMilisec ms</pre>
         <pre>Min required chars: @DebounceInputTextMinCharsLength</pre>
         <pre>Force Notify by Enter: @ForceNotifyByEnter2</pre>
         <pre>Force Notify On Blur: @ForceNotifyOnBlur2</pre>
@@ -50,7 +50,7 @@
             @*<InputText @bind-Value="exampleModel.Name" />*@
             <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
                 @ref="inputText1"
-                Delay="@DebounceInputTextDebounceMilisec" 
+                DebounceTime="@DebounceInputTextDebounceMilisec" 
                 MinLength="@DebounceInputTextMinCharsLength"
                 OnValueChanged="e => { DebounceInputTextValue = e; }" 
                 ForceNotifyByEnter="@ForceNotifyByEnter2"
@@ -70,7 +70,7 @@
     <p>Wraps around <strong>HTML TextArea</strong> control and adds debounce (delay) with notification onChange.</p>
 
     <div>
-        <pre>Delay time: @DebounceTextAreaMilisec ms</pre>
+        <pre>Debounce time: @DebounceTextAreaMilisec ms</pre>
         <pre>Min required chars: @DebounceTextAreaMilisecMinCharsLength</pre>
         <pre>Force Notify by Enter: @ForceNotifyByEnter3</pre>
         <pre>Force Notify On Blur: @ForceNotifyOnBlur3</pre>
@@ -80,7 +80,7 @@
         <DebounceTextArea class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
             @ref="text1"
             CurrentValue="@DebounceTextAreaText" 
-            Delay="@DebounceTextAreaMilisec" 
+            DebounceTime="@DebounceTextAreaMilisec" 
             MinLength="@DebounceTextAreaMilisecMinCharsLength"
             OnValueChanged="e => { DebounceTextAreaText = e; }" 
             ForceNotifyByEnter="@ForceNotifyByEnter3"
@@ -96,7 +96,7 @@
     <p>Wraps around <strong>Blazor InputTextArea</strong> component and adds debounce (delay) with notification onChange.</p>
 
     <div>
-        <pre>Delay time: @DebounceInputTextAreaMilisec ms</pre>
+        <pre>Debounce time: @DebounceInputTextAreaMilisec ms</pre>
         <pre>Min required chars: @DebounceInputTextAreaMinCharsLength</pre>
         <pre>Force Notify by Enter: @ForceNotifyByEnter4</pre>
         <pre>Force Notify On Blur: @ForceNotifyOnBlur4</pre>
@@ -110,7 +110,7 @@
             @*<InputTextArea @bind-Value="exampleModel2.Name" />*@
             <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
                 @ref="inputTextArea1"
-                Delay="@DebounceInputTextAreaMilisec" 
+                DebounceTime="@DebounceInputTextAreaMilisec" 
                 MinLength="@DebounceInputTextAreaMinCharsLength"
                 OnValueChanged="e => { DebounceInputTextAreaValue = e; }" 
                 ForceNotifyByEnter="@ForceNotifyByEnter4"
