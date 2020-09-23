@@ -9,7 +9,7 @@ Blazor Components Debounce Input controls
 
 Blazor components that are rendering HTML `<input>`, `<textarea>` elements also extending `InputText` and `InputTextArea` Blazor provided components with debounced (delay) event for onChange. **All components work with WebAssembly and Server hosted models**. For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.Tests.Common/DebounceInputPage.razor).
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/debounceinput).
 
 # Features
 
@@ -22,15 +22,34 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## Options
 
-- **`OnValueChanged`: EventCallback\<string\> delegate ** <br />
+- **`OnValueChanged`: `EventCallback<string>` delegate Required** <br />
   Function called when value was changed (debounced) with field value passed into.
-- **`CurrentValue`: **
-- **`DebounceTimeout`: ** 
-- **`MinLength`: ** 
-- **`ForceNotifyByEnter`: ** 
-- **`ForceNotifyOnBlur`:  ** 
+- **`CurrentValue`: `string { get; set; }`** <br />
+  Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
+- **`DebounceTimeout`: `int { get; set; }` (default: 200)** <br />
+  Notification debounce timeout in ms. If set to `0 or less`, disables automatic notification completely. Notification will only happen by pressing Enter key.
+- **`MinLength`: `int { get; set; }` (default: 0)** <br />
+  Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+- **`ForceNotifyByEnter`: `bool { get; set; }` (default: true)** <br />
+  Notification of current value will be sent immediately by hitting Enter key. Enabled by-default. Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
+- **`ForceNotifyOnBlur`:  `bool { get; set; }` (default: true)** <br />
+  Same as `ForceNotifyByEnter` but notification triggered `onblur` event, when focus leaves the input field.
 
 **Arbitrary HTML attributes e.g.: `id="input1" class="form-control w-25"` will be passed to the corresponding rendered HTML element `<input>` or `<textarea>`**.
+
+```
+<DebounceInput 
+    id="in1"
+    class="form-control w-25" 
+    OnValueChanged="e => { DebounceInputValue = e; }" 
+    placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+    ... />
+```
+
+**Will be rendered to:**
+```
+<input id="in1" class="form-control w-25" placeholder="Please type in at least: 2 char(s)" ... />
+```
 
 # Configuration
 
@@ -45,6 +64,82 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 ## Usage
 
+Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Debounce.Input;
+@using Blazor.Components.Debounce.Input
+```
+
+Following code example showw how to use **`DebounceInput`** component in your Blazor App. **Note**: using **`DebounceTextArea`** component basically the same but it will render HTML `<textarea>`.
+
+```
+<div class="pb-2">
+    <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+        @ref="input1"
+        CurrentValue="@DebounceInputValue" 
+        Delay="@DebounceMilisec" 
+        MinLength="@MinCharsLength"
+        OnValueChanged="e => { DebounceInputValue = e; }" 
+        ForceNotifyByEnter="@ForceNotifyByEnter"
+        ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
+</div>
+
+<div>Notified value: @DebounceInputValue</div>
+<div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
+    
+@code {
+    //DebounceInput
+    private string DebounceInputValue = "";
+    private int DebounceMilisec = 1000;
+    private int MinCharsLength = 2;
+    private bool ForceNotifyByEnter = true;
+    private bool ForceNotifyOnBlur = true;
+    private DebounceInput input1;
+}
+    
+```
+
+Following code example showw how to use **`DebounceInputText`** component with model binding and form validation in your Blazor App. **Note**: using **`DebounceInputTextArea`** component basically the same but it will render HTML `<textarea>`.
+
+```
+<EditForm Model="@exampleModel">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="pb-2">
+        <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
+            @ref="inputText1"
+            Delay="@DebounceInputTextDebounceMilisec" 
+            MinLength="@DebounceInputTextMinCharsLength"
+            OnValueChanged="e => { DebounceInputTextValue = e; }" 
+            ForceNotifyByEnter="@ForceNotifyByEnter2"
+            ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
+    </div>
+    <div class="pb-2">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</EditForm>
+
+<div>Notified value: @DebounceInputTextValue</div>
+<div>Actual value: @(exampleModel.Name)</div>
+
+@code {
+    //DebounceInputText
+    private string DebounceInputTextValue = "";
+    private int DebounceInputTextDebounceMilisec = 1000;
+    private int DebounceInputTextMinCharsLength = 2;
+    private bool ForceNotifyByEnter2 = true;
+    private bool ForceNotifyOnBlur2 = true;
+    private DebounceInputText inputText1;
+    
+    //Form model
+    private ExampleModel exampleModel = new ExampleModel();
+    private ExampleModel exampleModel2 = new ExampleModel();
+    public class ExampleModel
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Name is too long.")]
+        public string Name { get; set; }
+    }
+}
+
 ```
