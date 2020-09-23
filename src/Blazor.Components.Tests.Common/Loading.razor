@@ -84,7 +84,7 @@
 		}
 		finally
 		{
-			_loadingPage.Reset(); //Reset layout to default state in FINALLY to handle any errors!
+			_loadingPage.Reset(); //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
 		}
 	}
 
@@ -105,7 +105,7 @@
 		}
 		finally
 		{
-			_loadingButton.Reset(); //Reset button to default state in FINALLY to handle any errors!
+			_loadingButton.Reset(); //Reset button to default state in FINALLY lock to avoid infinity loading state in case of any error!
 		}
 	}
 
