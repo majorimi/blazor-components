@@ -5,25 +5,29 @@ Blazor WebAssembly Hosted model console logging
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.WebAssembly.Logging.Console?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.WebAssembly.Logging.Console/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
-Blazor extension for logging to browser console. **Important NOTE**: this package only works for apps using WebAssemly Hosting Model!
+# About
+
+Blazor extension for logging to browser console. **Important NOTE**: this package only works for apps using **WebAssemly Hosting Model**!
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
 
-## About
+# Features
+
+## Logger
 
 This package implements [Microsoft Extensions Logging ](https://github.com/dotnet/extensions/tree/master/src/Logging) abstraction to 
 support using of `ILogger` and `ILogger<T>` interface for **WebAssemly Blazor** Console logging.
 
 When this package installed and configured all logs written by `ILogger` and `ILogger<T>` will reach
-Browser console logger and log messages will appear in the browser's developer tools console.
+Browser console logger and log messages will appear in the browser's developer tools Console tab.
 
-### Log levels
+## Log levels
 
 The logger supports the LogLevels defined by Microsoft [LogLevel enum](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loglevel?view=dotnet-plat-ext-3.1&viewFallbackFrom=netcore-3.1).
 
-## Configuration
+# Configuration
 
-### Installation
+## Installation
 
 Blazor.Components.Deboudnce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.WebAssembly.Logging.Console/). 
 
@@ -32,7 +36,7 @@ dotnet add package Majorsoft.Blazor.WebAssembly.Logging.Console
 ```
 Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.WebAssembly.Logging.Console/absoluteLatest) to install.
 
-### Setup
+## Setup
 
 Add the following code snippet to your WebAssembly hosted (client side) Blazor Application. 
 Into the `Program.cs` file 'Main' method.
@@ -46,9 +50,9 @@ builder.Logging.AddBrowserConsole()
 ```
 
 
-### Usage
+## Usage
 
-The following code snippet shows how to use logger in a Blazor component.
+After correct setup usage is very simple by logging with standard injected `ILogger` object. The following code snippet shows how to use logger in a Blazor component.
 ```
 @using Microsoft.Extensions.Logging
 
@@ -62,7 +66,7 @@ The following code snippet shows how to use logger in a Blazor component.
 ```
 
 
-The following code snippet shows how to use logger in .cs files.
+The following code snippet shows how to use logger in `.cs` files.
 ```
 using Microsoft.Extensions.Logging;
 
