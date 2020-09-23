@@ -22,10 +22,10 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## Options
 
-- **`OnValueChanged`: EventCallback\<string\> delegate **\
+- **`OnValueChanged`: EventCallback\<string\> delegate ** <br />
   Function called when value was changed (debounced) with field value passed into.
 - **`CurrentValue`: **
-- **`Delay`: ** 
+- **`DebounceTimeout`: ** 
 - **`MinLength`: ** 
 - **`ForceNotifyByEnter`: ** 
 - **`ForceNotifyOnBlur`:  ** 
