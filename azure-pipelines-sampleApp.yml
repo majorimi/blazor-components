@@ -46,7 +46,7 @@ jobs:
         command: 'publish'
         projects: $(project)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
-        zipAfterPublish: true
+        zipAfterPublish: false
 
     - task: PublishBuildArtifacts@1
       inputs:

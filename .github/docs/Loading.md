@@ -143,17 +143,17 @@ Following code example showw how to use **`LoadingPage`** component with 'manual
   <ValidationSummary />
 
   <div class="pb-2">
-    <InputText @bind-Value="exampleModel.Name" class="form-control w-25" />
+	<InputText @bind-Value="exampleModel.Name" class="form-control w-25" />
   </div>
   <div class="pb-2">
-    <LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
-      <Content>
-        Submit
-      </Content>
-      <LoadingContent>
-        <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
-      </LoadingContent>
-    </LoadingButton>
+	<LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
+	  <Content>
+		Submit
+	  </Content>
+	  <LoadingContent>
+		<i class="fa fa-circle-o-notch fa-spin"></i> Loading...
+	  </LoadingContent>
+	</LoadingButton>
   </div>
 </EditForm>
   

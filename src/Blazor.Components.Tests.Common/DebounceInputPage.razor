@@ -1,8 +1,10 @@
 ﻿@using System.ComponentModel.DataAnnotations;
 
 <h1>Deboudnce Input controls</h1>
-<p>Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. For usege see soruce code and docs on 
-<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.</p>
+<p>
+    Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. For usege see soruce code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.
+</p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
     <h3>DebounceInput component</h3>
@@ -15,19 +17,22 @@
         <pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
     </div>
 
-    <div class="pb-2">
-        <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-            @ref="input1"
-            CurrentValue="@DebounceInputValue" 
-            DebounceTime="@DebounceMilisec" 
-            MinLength="@MinCharsLength"
-            OnValueChanged="e => { DebounceInputValue = e; }" 
-            ForceNotifyByEnter="@ForceNotifyByEnter"
-            ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+                @ref="input1"
+                CurrentValue="@DebounceInputValue"
+                DebounceTime="@DebounceMilisec"
+                MinLength="@MinCharsLength"
+                OnValueChanged="e => { DebounceInputValue = e; }"
+                ForceNotifyByEnter="@ForceNotifyByEnter"
+                ForceNotifyOnBlur="@ForceNotifyOnBlur" />
+        </div>
     </div>
 
     <div>Notified value: @DebounceInputValue</div>
     <div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
+
 </div>
 
 
@@ -46,15 +51,17 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="pb-2">
-            @*<InputText @bind-Value="exampleModel.Name" />*@
-            <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
-                @ref="inputText1"
-                DebounceTime="@DebounceInputTextDebounceMilisec" 
-                MinLength="@DebounceInputTextMinCharsLength"
-                OnValueChanged="e => { DebounceInputTextValue = e; }" 
-                ForceNotifyByEnter="@ForceNotifyByEnter2"
-                ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
+        <div class="row pb-2">
+            <div class="col-12 col-lg-8 col-xl-5">
+                @*<InputText @bind-Value="exampleModel.Name" />*@
+                <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
+                    @ref="inputText1"
+                    DebounceTime="@DebounceInputTextDebounceMilisec"
+                    MinLength="@DebounceInputTextMinCharsLength"
+                    OnValueChanged="e => { DebounceInputTextValue = e; }"
+                    ForceNotifyByEnter="@ForceNotifyByEnter2"
+                    ForceNotifyOnBlur="@ForceNotifyOnBlur2" />
+            </div>
         </div>
         <div class="pb-2">
             <button class="btn btn-primary" type="submit">Submit</button>
@@ -76,15 +83,17 @@
         <pre>Force Notify On Blur: @ForceNotifyOnBlur3</pre>
     </div>
 
-    <div class="pb-2">
-        <DebounceTextArea class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
-            @ref="text1"
-            CurrentValue="@DebounceTextAreaText" 
-            DebounceTime="@DebounceTextAreaMilisec" 
-            MinLength="@DebounceTextAreaMilisecMinCharsLength"
-            OnValueChanged="e => { DebounceTextAreaText = e; }" 
-            ForceNotifyByEnter="@ForceNotifyByEnter3"
-            ForceNotifyOnBlur ="@ForceNotifyOnBlur3" />
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <DebounceTextArea class="form-control w-100" placeholder="@("Please type in at least: " + @DebounceTextAreaMilisecMinCharsLength + " char(s)")"
+                @ref="text1"
+                CurrentValue="@DebounceTextAreaText"
+                DebounceTime="@DebounceTextAreaMilisec"
+                MinLength="@DebounceTextAreaMilisecMinCharsLength"
+                OnValueChanged="e => { DebounceTextAreaText = e; }"
+                ForceNotifyByEnter="@ForceNotifyByEnter3"
+                ForceNotifyOnBlur="@ForceNotifyOnBlur3" />
+        </div>
     </div>
 
     <div>Notified value: @DebounceTextAreaText</div>
@@ -106,15 +115,17 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="pb-2">
-            @*<InputTextArea @bind-Value="exampleModel2.Name" />*@
-            <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
-                @ref="inputTextArea1"
-                DebounceTime="@DebounceInputTextAreaMilisec" 
-                MinLength="@DebounceInputTextAreaMinCharsLength"
-                OnValueChanged="e => { DebounceInputTextAreaValue = e; }" 
-                ForceNotifyByEnter="@ForceNotifyByEnter4"
-                ForceNotifyOnBlur ="@ForceNotifyOnBlur4" />
+        <div class="row pb-2">
+            <div class="col-12 col-lg-8 col-xl-5">
+                @*<InputTextArea @bind-Value="exampleModel2.Name" />*@
+                <DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-100" placeholder="@("Please type in at least: " + @DebounceInputTextAreaMinCharsLength + " char(s)")"
+                    @ref="inputTextArea1"
+                    DebounceTime="@DebounceInputTextAreaMilisec"
+                    MinLength="@DebounceInputTextAreaMinCharsLength"
+                    OnValueChanged="e => { DebounceInputTextAreaValue = e; }"
+                    ForceNotifyByEnter="@ForceNotifyByEnter4"
+                    ForceNotifyOnBlur="@ForceNotifyOnBlur4" />
+            </div>
         </div>
         <div class="pb-2">
             <button class="btn btn-primary" type="submit">Submit</button>
