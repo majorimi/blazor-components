@@ -26,7 +26,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
   Function called when value was changed (debounced) with field value passed into.
 - **`CurrentValue`: `string { get; set; }`** <br />
   Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
-- **`DebounceTimeout`: `int { get; set; }` (default: 200)** <br />
+- **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
   Notification debounce timeout in ms. If set to `0 or less`, disables automatic notification completely. Notification will only happen by pressing Enter key.
 - **`MinLength`: `int { get; set; }` (default: 0)** <br />
   Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
@@ -76,7 +76,7 @@ Following code example showw how to use **`DebounceInput`** component in your Bl
     <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
         @ref="input1"
         CurrentValue="@DebounceInputValue" 
-        Delay="@DebounceMilisec" 
+        DebounceTime="@DebounceMilisec" 
         MinLength="@MinCharsLength"
         OnValueChanged="e => { DebounceInputValue = e; }" 
         ForceNotifyByEnter="@ForceNotifyByEnter"
@@ -108,7 +108,7 @@ Following code example showw how to use **`DebounceInputText`** component with m
     <div class="pb-2">
         <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
             @ref="inputText1"
-            Delay="@DebounceInputTextDebounceMilisec" 
+            DebounceTime="@DebounceInputTextDebounceMilisec" 
             MinLength="@DebounceInputTextMinCharsLength"
             OnValueChanged="e => { DebounceInputTextValue = e; }" 
             ForceNotifyByEnter="@ForceNotifyByEnter2"
