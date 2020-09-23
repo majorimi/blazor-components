@@ -20,7 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`DebounceTextArea`**: wraps and renders HTML `<textarea>` field with debounced (delay) event for onChange.
 - **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validaion and `@bind-Value=`) and adds debounced value changed event notification.
 
-## Options
+## Properties
 
 - **`OnValueChanged`: `EventCallback<string>` delegate Required** <br />
   Function called when value was changed (debounced) with field value passed into.
