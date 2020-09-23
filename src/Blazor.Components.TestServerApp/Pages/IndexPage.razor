@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<Blazor.Components.Tests.Common.Index />
+
+@using Microsoft.Extensions.Logging
+
+@inject ILogger<IndexPage> logger
+@code {
+    protected override void OnInitialized()
+    {
+        logger.LogDebug("Index init");
+    }
+}

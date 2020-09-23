@@ -16,9 +16,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Watch Remove="Pages\Extensions.razor" />
-	  <Watch Remove="Pages\Loading.razor" />
-	  <Watch Remove="Pages\TimerComponent.razor" />
+	  <Watch Remove="Pages\ExtensionsPage.razor" />
+	  <Watch Remove="Pages\IndexPage.razor" />
+	  <Watch Remove="Pages\LoadingPage.razor" />
+	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
