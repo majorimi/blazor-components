@@ -17,16 +17,20 @@
 		<br />
 		For examle: <code>builder.Logging.SetMinimumLevel(LogLevel.Debug);</code>
 	</p>
-	<div class="pb-2">
-		Message: <input class="form-control w-25" @bind="_loggerText" />
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Message: <input class="form-control w-100" @bind="_loggerText" />
+		</div>
 	</div>
-	<div class="pb-2">
-		Log Level: <select class="form-control selectpicker w-25" @bind="_logLevel">
-			@foreach (var item in Enum.GetValues(typeof(LogLevel)))
-			{
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Log Level: <select class="form-control selectpicker w-100" @bind="_logLevel">
+				@foreach (var item in Enum.GetValues(typeof(LogLevel)))
+				{
 				<option value="@item">@item</option>
-			}
-		</select>
+				}
+			</select>
+		</div>
 	</div>
 	<div>
 		<button class="btn btn-primary" @onclick="LogToConsole">Log to Console</button>

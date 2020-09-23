@@ -20,13 +20,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Watch Remove="Pages\Extensions.razor" />
-	  <Watch Remove="Pages\Loading.razor" />
-	  <Watch Remove="Pages\TimerComponent.razor" />
+	  <Watch Remove="Pages\DebounceInputPage.razor" />
+	  <Watch Remove="Pages\ExtensionsPage.razor" />
+	  <Watch Remove="Pages\IndexPage.razor" />
+	  <Watch Remove="Pages\LoadingPage.razor" />
+	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
+	  <ProjectReference Include="..\..\src\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
 	</ItemGroup>
 
 </Project>

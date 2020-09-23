@@ -1,6 +1,6 @@
 ﻿@using System.Timers
 
-@inherits InputText
+@inherits InputTextArea
 @implements IDisposable
 @inject ILogger<DebounceInputText> _logger;
 
@@ -10,7 +10,7 @@
 	protected string InternalValue;
 
 	[Parameter] public int MinLength { get; set; } = 0;
-	[Parameter] public int Delay { get; set; } = 200;
+	[Parameter] public int DebounceTime { get; set; } = 200;
 	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
@@ -21,12 +21,12 @@
 	protected override void OnInitialized()
 	{
 		InternalValue = CurrentValue;
-
-		_timer = new Timer(Delay);
+//TODO: disable as well...
+		_timer = new Timer(DebounceTime);
 		_timer.Elapsed += OnElapsed;
 		_timer.AutoReset = false;
 
-		WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{Delay}' ms, Min sting Length: '{MinLength}'.");
+		WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}'.");
 
 		base.OnInitialized();
 	}
@@ -65,7 +65,7 @@
 
 	protected void OnElapsed(object source, ElapsedEventArgs e)
 	{
-		WriteDiag($"Timer triggered after: '{Delay}' ms delay, Value: '{InternalValue}'");
+		WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, Value: '{InternalValue}'");
 
 		var invokeValue = InternalValue?.Length >= MinLength
 			? InternalValue

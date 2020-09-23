@@ -6,8 +6,26 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
-    <ProjectReference Include="..\Blazor.Components.Tests.Common\Blazor.Components.Tests.Common.csproj" />
+    <ProjectReference Include="..\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
     <ProjectReference Include="..\Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\DebounceInputPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\ExtensionsPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\IndexPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\LoadingPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\TimerPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
 </Project>
