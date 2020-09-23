@@ -93,3 +93,21 @@ After correct setup usage is very simple by logging with standard injected `ILog
 	}
 }
 ```
+
+The following code snippet shows how to use logger in `.cs` files.
+```
+using Microsoft.Extensions.Logging;
+
+...
+
+public class CustomCode
+{
+	private readonly ILogger<CustomCode> _logger;
+	public CustomCode(ILogger<CustomCode> logger)
+	{
+		_logger = logger;
+		_logger.LogDebug("CustomCode init");
+	}
+}
+```
+
