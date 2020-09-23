@@ -3,13 +3,13 @@
 <h1>Loading Components</h1>
 
 <p>
-	Blazor components that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loaing... For usege see soruce code and docs on 
+	Blazor components that renders Overlay for page load. HTML `<button>` with customizable content for showing async operation in progress/loading state. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md" target="_blank">Github</a>.
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading page</h3>
-	<p>Renders and Overlay layer with customizable content for showing Page loaing...</p>
+	<p>Renders and Overlay layer with customizable content for showing Page loading...</p>
 
 	<LoadingPage OnLoading="@SendRequest">
 		<LoadingContent>
@@ -30,7 +30,7 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading button</h3>
-	<p>Renders <strong>HTML Button</strong> with customizable content for showing async operation in progress/loaing...</p>
+	<p>Renders <strong>HTML Button</strong> with customizable content for showing async operation in progress/loading...</p>
 
 	<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
 		<Content>
@@ -105,7 +105,7 @@
 		}
 		finally
 		{
-			_loadingButton.Reset(); //Reset button to default state in FINALLY lock to avoid infinity loading state in case of any error!
+			_loadingButton.Reset(); //Reset button to default state in FINALLY block to avoid infinity loading state in case of any error!
 		}
 	}
 
