@@ -1,4 +1,4 @@
-﻿<button @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@_isLoading @attributes=AllOtherAttributes>
+﻿<button @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@(_isLoading && DisabledWhenLoading) @attributes=AllOtherAttributes>
 	@(!_isLoading ? Content : LoadingContent)
 </button>
 
@@ -13,12 +13,15 @@
 	[Parameter]
 	public ButtonTypes Type { get; set; } = ButtonTypes.Button;
 
+	[Parameter]
+	public bool DisabledWhenLoading { get; set; } = true;
+
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	[Parameter] 
+	[Parameter]
 	public EventCallback OnClicked { get; set; }
-	
+
 	public void Set()
 	{
 		_isLoading = true;
@@ -33,20 +36,23 @@
 	private bool _isLoading = false;
 	private async Task ButtonClicked(MouseEventArgs e)
 	{
+		if (!OnClicked.HasDelegate)
+		{
+			WriteDiag($"Clicked but no event handler registered. Button won't go to loading state please use Set/Reset functions or register OnClicked event.");
+			return;
+		}
+
 		_isLoading = true;
-		WriteDiag($"Initialized currently IsLoading: '{_isLoading}'.");
+		WriteDiag($"Clicked async event handler will be called. Currently IsLoading: '{_isLoading}'.");
 
 		try
 		{
-			if(OnClicked.HasDelegate)
-			{
-				await OnClicked.InvokeAsync();
-			}
+			await OnClicked.InvokeAsync();
 		}
 		finally
 		{
 			_isLoading = false;
-			WriteDiag($"Async load finished IsLoading: '{_isLoading}'.");
+			WriteDiag($"Async event handler awaited. Load finished IsLoading: '{_isLoading}'.");
 		}
 	}
 

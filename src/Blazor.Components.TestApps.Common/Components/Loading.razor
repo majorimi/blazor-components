@@ -32,23 +32,31 @@
 	<h3>Loading button</h3>
 	<p>Renders <strong>HTML Button</strong> with customizable content for showing async operation in progress/loading...</p>
 
-	<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
-		<Content>
-			Fetch data
-		</Content>
-		<LoadingContent>
-			<i class="fa fa-spinner fa-spin"></i> Loading...
-		</LoadingContent>
-	</LoadingButton>
+	<div class="pb-2">
+		<div>Submit button with Click handler 'Auto' loading and DisabledWhenLoading="true"</div>
+		<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
+			<Content>
+				Fetch data
+			</Content>
+			<LoadingContent>
+				<i class="fa fa-spinner fa-spin"></i> Loading...
+			</LoadingContent>
+		</LoadingButton>
+	</div>
 
-	<LoadingButton class="btn btn-warning" OnClicked="@SendRequest">
-		<Content>
-			Save <i class="fa fa-save"></i>
-		</Content>
-		<LoadingContent>
-			<i class="fa fa-refresh fa-spin"></i> Loading...
-		</LoadingContent>
-	</LoadingButton>
+	<hr />
+	<div class="pb-2">
+		<div>Button with Click handler 'Auto' loading handler and DisabledWhenLoading="false"</div>
+		<LoadingButton class="btn btn-warning" DisabledWhenLoading="false" OnClicked="@SendRequest">
+			<Content>
+				Save
+				<i class="fa fa-save"></i>
+			</Content>
+			<LoadingContent>
+				<i class="fa fa-refresh fa-spin"></i> Loading...
+			</LoadingContent>
+		</LoadingButton>
+	</div>
 
 	<hr />
 	<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
@@ -56,11 +64,12 @@
 		<ValidationSummary />
 
 		<div class="row">
-		    <div class="col-12 col-lg-8 col-xl-5">
+			<div class="col-12 col-lg-8 col-xl-5">
 				<div class="pb-2">
 					<InputText @bind-Value="exampleModel.Name" class="form-control w-100" />
 				</div>
 				<div class="pb-2">
+					<div>Submit button without Click handler 'Manual' loading and DisabledWhenLoading="true"</div>
 					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
 						<Content>
 							Submit

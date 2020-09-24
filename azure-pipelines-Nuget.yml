@@ -3,11 +3,7 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-trigger:
-  batch: true
-  branches:
-    exclude:
-    - '*'
+trigger: none
 
 name: 0.9.$(rev:r)
 

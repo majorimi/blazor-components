@@ -13,9 +13,9 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	[Parameter] 
+	[Parameter]
 	public EventCallback OnLoading { get; set; }
-	
+
 	public void Set()
 	{
 		_isLoading = true;
@@ -30,20 +30,20 @@
 	private bool _isLoading = false;
 	protected override async Task OnInitializedAsync()
 	{
-		_isLoading = true;
-		WriteDiag($"Clicked currently IsLoading: '{_isLoading}'.");
-
-		try
+		if (OnLoading.HasDelegate)
 		{
-			if(OnLoading.HasDelegate)
+			_isLoading = true;
+			WriteDiag($"OnInitializedAsync currently IsLoading: '{_isLoading}'.");
+
+			try
 			{
 				await OnLoading.InvokeAsync();
 			}
-		}
-		finally
-		{
-			_isLoading = false;
-			WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
+			finally
+			{
+				_isLoading = false;
+				WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
+			}
 		}
 	}
 
