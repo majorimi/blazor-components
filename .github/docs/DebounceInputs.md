@@ -23,7 +23,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## Properties
 
-- **`OnValueChanged`: `EventCallback<string>` delegate Required** <br />
+- **`OnValueChanged`: `EventCallback<string>` delegate - Required** <br />
   Function called when value was changed (debounced) with field value passed into.
 - **`CurrentValue`: `string { get; set; }`** <br />
   Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
@@ -70,7 +70,10 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Blazor.Components.Debounce.Input
 ```
 
-Following code example showw how to use **`DebounceInput`** component in your Blazor App. **Note**: using **`DebounceTextArea`** component basically the same but it will render HTML `<textarea>`.
+### `DebounceInput` and `DebounceTextArea` usage
+
+Following code example shows how to use **`DebounceInput`** component in your Blazor App. 
+**Note**: using **`DebounceTextArea`** component basically the same but it will render HTML `<textarea>`.
 
 ```
 <div class="pb-2">
@@ -99,7 +102,10 @@ Following code example showw how to use **`DebounceInput`** component in your Bl
     
 ```
 
-Following code example showw how to use **`DebounceInputText`** component with model binding and form validation in your Blazor App. **Note**: using **`DebounceInputTextArea`** component basically the same but it will render HTML `<textarea>`.
+### `DebounceInputText` and `DebounceInputTextArea` usage
+
+Following code example shows how to use **`DebounceInputText`** component with model binding and form validation in your Blazor App.
+ **Note**: using **`DebounceInputTextArea`** component basically the same but it will render HTML `<textarea>`.
 
 ```
 <EditForm Model="@exampleModel">
@@ -142,5 +148,4 @@ Following code example showw how to use **`DebounceInputText`** component with m
         public string Name { get; set; }
     }
 }
-
 ```
