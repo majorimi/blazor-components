@@ -52,6 +52,11 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 <input id="in1" class="form-control w-25" placeholder="Please type in at least: 2 char(s)" ... />
 ```
 
+### Functions
+
+- **`Dispose()`: `@implements IDisposable` interface** <br />
+Component implements `` interface Blazor framework will call it when parent removed from render tree.
+
 # Configuration
 
 ## Installation

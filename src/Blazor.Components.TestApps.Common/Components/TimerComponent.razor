@@ -19,8 +19,11 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
+	<div>
+		<input type="range" min="100" max="2000" @bind="clockInterval" /> Clock interval: @clockInterval ms.
+	</div>
 	<span>Infinite clock (Manual Start): <strong>@_time</strong></span>
-	<AdvancedTimer @ref="_clock" IntervalInMilisec="250" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
+	<AdvancedTimer @ref="_clock" IntervalInMilisec="@clockInterval" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
 
 	<br />
 	<button class="btn btn-sm btn-primary" @onclick="StartStopClock">@_buttonText</button>
@@ -49,6 +52,7 @@
 	private void CounterReset() => _counter.Reset();
 
 	//Clock
+	private double clockInterval = 300;
 	private string _time = DateTime.Now.ToString("hh:mm:ss.f");
 	private AdvancedTimer _clock;
 	private string _buttonText = "Start";
