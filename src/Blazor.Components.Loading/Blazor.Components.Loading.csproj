@@ -19,6 +19,10 @@
     <PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
@@ -30,6 +34,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="bundleconfig.json" />
   </ItemGroup>
 
 </Project>

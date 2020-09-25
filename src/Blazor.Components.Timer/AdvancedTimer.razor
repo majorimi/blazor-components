@@ -5,10 +5,27 @@
 @inject ILogger<Timer> _logger;
 
 @code {
-		[Parameter] public double IntervalInMilisec { get; set; } = 200;
-		[Parameter] public int DelayInMilisec { get; set; } = 0;
-		[Parameter] public Times Occurring { get; set; } = Times.Once();
-		[Parameter] public bool AutoStart { get; set; } = true;
+	private double _intervalInMilisec = 200;
+	[Parameter] public double IntervalInMilisec 
+	{ 
+		get => _intervalInMilisec;
+		set
+		{
+			if(value == _intervalInMilisec)
+				return;
+
+			_intervalInMilisec = value > 0 ? value : 1;
+
+			if (_timer is not null)
+			{
+				_timer.Interval = _intervalInMilisec;
+			}
+		} 
+	}
+
+	[Parameter] public int DelayInMilisec { get; set; } = 0;
+	[Parameter] public Times Occurring { get; set; } = Times.Once();
+	[Parameter] public bool AutoStart { get; set; } = true;
 
 		[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
 
@@ -80,7 +97,7 @@
 		InvokeAsync(async () =>
 		{
 			await OnIntervalElapsed.InvokeAsync(_eventCount);
-			StateHasChanged();
+			@*StateHasChanged();*@
 		});
 
 		if (_eventCount >= Occurring.Count)
