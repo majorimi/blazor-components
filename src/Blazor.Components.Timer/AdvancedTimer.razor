@@ -15,7 +15,6 @@
 				return;
 
 			_intervalInMilisec = value > 0 ? value : 1;
-
 			if (_timer is not null)
 			{
 				_timer.Interval = _intervalInMilisec;
