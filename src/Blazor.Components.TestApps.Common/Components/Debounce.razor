@@ -12,10 +12,10 @@
 
 	<div>
 		<div>
-			<input type="range" min="0" max="2000" @bind="DebounceMilisec" /> <label>Debounce time: @DebounceMilisec ms.</label>
+			<input type="range" min="0" max="2000" @bind="DebounceMilisec" /> <pre style="display: inline;">Debounce time: @DebounceMilisec ms.</pre>
 		</div>
 		<div>
-			<input type="range" min="0" max="10" @bind="MinCharsLength" /> <label>Min required chars: @MinCharsLength</label>
+			<input type="range" min="0" max="10" @bind="MinCharsLength" /> <pre style="display: inline;">Min required chars: @MinCharsLength</pre>
 		</div>
 		<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
 		<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
