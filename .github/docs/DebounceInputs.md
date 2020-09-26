@@ -17,9 +17,9 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 ## Components
 
 - **`DebounceInput`**: wraps and renders HTML `<input>` field with debounced (delay) event for onChange.
-- **`DebounceInputText`**: extends `InputText` Blazor provided component (it supports form validaion and `@bind-Value=`) and adds debounced value changed event notification.
+- **`DebounceInputText`**: extends `InputText` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 - **`DebounceTextArea`**: wraps and renders HTML `<textarea>` field with debounced (delay) event for onChange.
-- **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validaion and `@bind-Value=`) and adds debounced value changed event notification.
+- **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 
 ## Properties
 

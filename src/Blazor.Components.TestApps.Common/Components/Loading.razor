@@ -18,7 +18,18 @@
 		</LoadingContent>
 	</LoadingPage>
 
-	<LoadingPage @ref="_loadingPage" OverlayBackgroundColor="lightblue">
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay color: <input class="form-control w-100" @bind="_overlayColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay opacity: @(_overlayOpacity/1000) <input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" />
+		</div>
+	</div>
+
+	<LoadingPage @ref="_loadingPage" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
 		<LoadingContent>
 			<i class="fa fa-refresh fa-3x fa-spin"></i> 
 			<h2 class="m-3">Refreshing...</h2>
@@ -85,6 +96,8 @@
 </div>
 
 @code {
+	private string _overlayColor = "lightblue";
+	private double _overlayOpacity = 500;
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
 	private LoadingPage _loadingPage;
 	private async Task LoadForm()
@@ -93,7 +106,7 @@
 		{
 			_loadingPage.Set(); //Set the layout to Loading state
 
-			await Task.Delay(1200); //write your code here...
+			await Task.Delay(1000); //write your code here...
 		}
 		finally
 		{
