@@ -82,8 +82,11 @@ namespace Blazor.Server.Logging.Console
 				{
 					if (_jsRuntime is { })
 					{
-						var module = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.js");
-						await ServerConsoleLogging.LogConsole(module, message);
+						await using (var module = await _jsRuntime.InvokeAsync<JSObjectReference>("import",
+							"./_content/Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.js"))
+						{
+							await ServerConsoleLogging.LogConsole(module, message);
+						}
 					}
 				}
 				catch (InvalidOperationException e)
