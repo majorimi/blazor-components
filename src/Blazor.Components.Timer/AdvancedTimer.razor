@@ -6,7 +6,8 @@
 
 @code {
 	private double _intervalInMilisec = 200;
-	[Parameter] public double IntervalInMilisec 
+	[Parameter] 
+	public double IntervalInMilisec 
 	{ 
 		get => _intervalInMilisec;
 		set
@@ -22,12 +23,13 @@
 		} 
 	}
 
-	[Parameter] public int DelayInMilisec { get; set; } = 0;
+	[Parameter] public double DelayInMilisec { get; set; } = 0;
 	[Parameter] public Times Occurring { get; set; } = Times.Once();
 	[Parameter] public bool AutoStart { get; set; } = true;
 
-		[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
+	[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
 
+	private bool _disposedValue;
 	private Timer _timer;
 	private ulong _eventCount = 0;
 
@@ -67,15 +69,6 @@
 		_timer?.Start();
 	}
 
-	public void Dispose()
-	{
-		if (_timer is not null)
-		{
-			_timer.Elapsed -= OnElapsed;
-			_timer.Dispose();
-		}
-	}
-
 	private void OnDelay(object source, ElapsedEventArgs e)
 	{
 		WriteDiag($"Timer required Delay: {DelayInMilisec} ms elapsed. Stopping timer to switch event handler.");
@@ -111,5 +104,27 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
+	}
+
+	
+	protected virtual void Dispose(bool disposing)
+	{
+		if (!_disposedValue)
+		{
+			if (disposing)
+			{
+				_timer.Elapsed -= OnElapsed;
+				_timer.Dispose();
+			}
+
+			_disposedValue = true;
+		}
+	}
+
+	public void Dispose()
+	{
+		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+		Dispose(disposing: true);
+		GC.SuppressFinalize(this);
 	}
 }
