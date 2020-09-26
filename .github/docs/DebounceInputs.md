@@ -17,9 +17,9 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 ## Components
 
 - **`DebounceInput`**: wraps and renders HTML `<input>` field with debounced (delay) event for onChange.
-- **`DebounceInputText`**: extends `InputText` Blazor provided component (it supports form validaion and `@bind-Value=`) and adds debounced value changed event notification.
+- **`DebounceInputText`**: extends `InputText` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 - **`DebounceTextArea`**: wraps and renders HTML `<textarea>` field with debounced (delay) event for onChange.
-- **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validaion and `@bind-Value=`) and adds debounced value changed event notification.
+- **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 
 ## Properties
 
@@ -28,7 +28,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`CurrentValue`: `string { get; set; }`** <br />
   Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
-  Notification debounce timeout in ms. If set to `0 or less`, disables automatic notification completely. Notification will only happen by pressing Enter key.
+  Notification debounce timeout in ms. If set to `0 or less`, disables automatic notification completely. Notification will only happen by pressing `Enter` key or `onblur`, if set.
 - **`MinLength`: `int { get; set; }` (default: 0)** <br />
   Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
 - **`ForceNotifyByEnter`: `bool { get; set; }` (default: true)** <br />
@@ -55,7 +55,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 ### Functions
 
 - **`Dispose()`: `@implements IDisposable` interface** <br />
-Component implements `` interface Blazor framework will call it when parent removed from render tree.
+Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 # Configuration
 
