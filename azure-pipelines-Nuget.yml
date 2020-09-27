@@ -4,6 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger: none
+pr: none
 
 name: 0.9.$(rev:r)
 
@@ -84,6 +85,13 @@ jobs:
         command: 'build'
         projects: '**/*.csproj'
         workingDirectory: src/
+
+    - task: DotNetCoreCLI@2
+      displayName: 'run tests'
+      inputs:
+       command: 'test'
+       projects: '**/*.Tests.csproj'
+       arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
