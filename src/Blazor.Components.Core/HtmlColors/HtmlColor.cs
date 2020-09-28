@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -20,10 +21,10 @@ namespace Blazor.Components.Core.HtmlColors
 		public HtmlColor(byte r, byte g, byte b)
 		{
 			RgbColor = new Rgb(r, g, b);
-			HexColor = $"#{r:X2}{g:X2}{b:X2}".ToUpper();
+			HexColor = RgbColor.ToHtmlHex();
 
 			ColorName = HtmlColorHelper.NamedHtmlColors
-				.SingleOrDefault(x => x.Value == HexColor.Trim('#')).Key;
+				.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
 		}
 
 		public HtmlColor(string value)
@@ -35,11 +36,10 @@ namespace Blazor.Components.Core.HtmlColors
 				return;
 			}
 
-			var key = value?.ToUpper();
-			if (HtmlColorHelper.NamedHtmlColors.ContainsKey(key)) //Named color
+			if (HtmlColorHelper.NamedHtmlColors.ContainsKey(value)) //Named color
 			{
-				ColorName = key;
-				HexColor = $"#{HtmlColorHelper.NamedHtmlColors[key]}";
+				ColorName = HtmlColorHelper.NamedHtmlColors.Keys.Single(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
+				HexColor = $"#{HtmlColorHelper.NamedHtmlColors[value]}";
 				RgbColor = HexToHtmlRgb(HexColor);
 				return;
 			}
@@ -47,16 +47,30 @@ namespace Blazor.Components.Core.HtmlColors
 			RgbColor = HexToHtmlRgb(value);
 			if(RgbColor is not null) //Hex color
 			{
-				HexColor = $"#{value.Trim().TrimStart('#').ToUpper()}";
+				HexColor = RgbColor.ToHtmlHex();
+				ColorName = HtmlColorHelper.NamedHtmlColors
+					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+
 				return;
 			}
+			
+			if(IsHtmlRgbColor(value))//RGB
+			{
+				var parts = value.Split(',')
+					.Select(s => byte.Parse(s.Trim()))
+					.ToArray();
 
-			//RGB
+				RgbColor = new Rgb(parts[0], parts[1], parts[2]);
+				HexColor = RgbColor.ToHtmlHex();
+
+				ColorName = HtmlColorHelper.NamedHtmlColors
+					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+			}
 		}
 
 		private Rgb HexToHtmlRgb(string value)
 		{
-			if (!IsHtmlHex(value))
+			if (!IsHtmlHexColor(value))
 			{
 				return null;
 			}
@@ -70,9 +84,17 @@ namespace Blazor.Components.Core.HtmlColors
 			return new Rgb(parts[0].Value, parts[1].Value, parts[2].Value);
 		}
 
-		private bool IsHtmlHex(string value)
+		private bool IsHtmlHexColor(string value)
 		{
 			var regex = new Regex("^#?[0-9a-fA-F]{6}$", RegexOptions.Compiled | RegexOptions.Singleline);
+			return regex.IsMatch(value?.Trim());
+		}
+
+		private bool IsHtmlRgbColor(string value)
+		{
+			const string numberPattern = @"(\d{1,2}|(0|1)\d{2}|2[0-5]{2})";
+			const string separatorPattern = @"(\s*,{1}\s*)";
+			var regex = new Regex($"^{numberPattern}{separatorPattern}{numberPattern}{separatorPattern}{numberPattern}$", RegexOptions.Compiled | RegexOptions.Singleline);
 			return regex.IsMatch(value?.Trim());
 		}
 
