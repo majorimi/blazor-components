@@ -1,9 +1,12 @@
-﻿namespace Blazor.Components.Core.HtmlColors
+﻿using System.Drawing;
+
+namespace Blazor.Components.Core.HtmlColors
 {
 	public record Rgb(byte R, byte G, byte B)
 	{
 		public string ToHtmlHex()
 		{
+			//Color.FromArgb() //TODO: check color class...
 			return $"#{ToHex()}";
 		}
 

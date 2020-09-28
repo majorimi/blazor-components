@@ -3,4 +3,9 @@
   <span class="picker-handler" tabindex="0" style="left: 270px; top: 84.66px;"></span>
 </div>
 
-<input id="hue" type="range" min="0" max="360" step="1" />
+<br /@ />
+<input id="hue" type="range" min="0" max="360" step="1" @bind="_hue" />
+
+@code {
+    private int _hue;
+}
