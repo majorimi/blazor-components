@@ -1,5 +1,6 @@
+<img align="left" width="110" height="110" src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" />
 
-Blazor Components <img src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" width="32px" />
+Blazor Components
 ============
 
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
