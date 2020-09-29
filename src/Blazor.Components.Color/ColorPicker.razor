@@ -1,11 +1,31 @@
-﻿<div class="picker-container" style="background-color: rgb(0, 0, 0);">
-  <div class="picker-color"></div>
-  <span class="picker-handler" tabindex="0" style="left: 270px; top: 84.66px;"></span>
+﻿<div class="picker-container" style="background-color: rgb(@_sliderColor.R, @_sliderColor.G, @_sliderColor.B);">
+	<div class="picker-color"></div>
+	<span class="picker-handler" tabindex="0" style="left:270px; top: 84.66px;"></span>
 </div>
 
-<br /@ />
-<input id="hue" type="range" min="0" max="360" step="1" @bind="_hue" />
+<br />
+<input id="_hue" class="@_sliderThumbClass" style="width:@(_sliderWidth)px; height:@(_sliderHeight)px;" type="range" min="0" max="360" step="1" @bind="_hue" @oninput="HueChanged" />
+<div>@_hue</div>
+
+@using System.Drawing;
+@using Blazor.Components.Core.HtmlColors;
 
 @code {
-    private int _hue;
+	private int _hue;
+	private int _sliderHeight = 12;
+	private int _sliderWidth = 400;
+	private string _sliderThumbClass = "";
+
+	private Color _sliderColor = Color.Red;
+
+	private void HueChanged(ChangeEventArgs e)
+	{
+		_hue = int.Parse(e.Value?.ToString());
+
+		// Hue: slider value , saturation: 100.0 (full), luminosity: 50.0 (normal)
+		var hslColor = new HslColor(_hue, 100, 50);
+		_sliderColor = (Color)hslColor;
+
+		_sliderThumbClass = "red";
+	}
 }
