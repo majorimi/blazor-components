@@ -1,0 +1,55 @@
+﻿input[type=range] {
+    outline: 0;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    background: linear-gradient(to right, hsl(0, 100%, 50%) 0%,
+        hsl(30, 100%, 50%) 8.3%, hsl(60, 100%, 50%) 16.6%, hsl(90, 100%, 50%) 25%,
+        hsl(120, 100%, 50%) 33.3%, hsl(150, 100%, 50%) 41.6%, hsl(180, 100%, 50%) 50%,
+        hsl(210, 100%, 50%) 58.3%, hsl(240, 100%, 50%) 66.6%, hsl(270, 100%, 50%) 75%,
+        hsl(300, 100%, 50%) 83.3%, hsl(330, 100%, 50%) 91.6%, hsl(360, 100%, 50%) 100%);
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* Color picker DIV */
+.picker-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+.picker-handler {
+    position: absolute;
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7), inset 0 0 2px rgba(0, 0, 0, 0.7);
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.picker-color {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 100%), linear-gradient(to right, #fff 0, rgba(255, 255, 255, 0) 100%);
+    height: 170px;
+}

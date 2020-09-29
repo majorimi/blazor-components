@@ -1,0 +1,64 @@
+﻿<div class="picker-container" style="width: @(HueSliderWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
+	<div class="picker-color"></div>
+	<span class="picker-handler" tabindex="0" style="left:270px; top: 84.66px;"></span>
+</div>
+
+<input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
+	   type="range" min="0" max="360" step="1" @bind="_hue" @oninput="HueChanged" />
+
+<style>
+	input[id=@($"_hue_{_componentId}")].hue::-webkit-slider-thumb {
+		background: @_sliderThumbHex;
+		width: @(_sliderThumbSize)px;
+		height: @(_sliderThumbSize)px;
+	}
+	input[id=@($"_hue_{_componentId}")]::-moz-range-thumb {
+		background: @_sliderThumbHex;
+		width: @(_sliderThumbSize)px;
+		height: @(_sliderThumbSize)px;
+	}
+	input[id=@($"_hue_{_componentId}")]::-ms-thumb {
+		background: @_sliderThumbHex;
+		width: @(_sliderThumbSize)px;
+		height: @(_sliderThumbSize)px;
+	}
+</style>
+
+@code {
+	string _componentId = Guid.NewGuid().ToString("n");
+
+	private double _hue;
+	private int _sliderThumbSize;
+	private string _sliderThumbHex = "";
+
+	[Parameter] public int HueSliderHeight { get; set; } = 12;
+	[Parameter] public int HueSliderWidth { get; set; } = 400;
+	[Parameter] public Color SelectedColor { get; set; } = Color.Blue;
+
+	[Parameter] public EventHandler<Color> OnColorChanged { get; set; }
+
+	protected override void OnInitialized()
+	{
+		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.2);
+		_hue = SelectedColor.GetHue();
+
+		SetSlider();
+	}
+
+	private void HueChanged(ChangeEventArgs e)
+	{
+		_hue = int.Parse(e.Value?.ToString());
+		SetSlider();
+	}
+
+	private void SetSlider()
+	{
+		// Hue: slider value , saturation: 100.0 (full), luminosity: 50.0 (normal)
+		var hslColor = new HslColor(_hue, 100, 50);
+		SelectedColor = (Color)hslColor;
+
+		_sliderThumbHex = ColorTranslator.ToHtml(SelectedColor);
+
+		//TODO: set the handler circle to the correct position of the color...
+	}
+}

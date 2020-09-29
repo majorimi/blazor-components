@@ -25,7 +25,8 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacity/1000) <input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" />
+			Overlay opacity: @(_overlayOpacity/1000) 
+			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 

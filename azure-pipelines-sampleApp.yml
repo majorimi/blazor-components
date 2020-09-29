@@ -12,6 +12,8 @@ trigger:
     include:
     - demo/Blazor.Components.DemoApp/*
 
+pr: none
+
 name: 1.0.0.$(rev:r)
 
 pool:
@@ -39,6 +41,13 @@ jobs:
         command: 'restore'
         projects: $(project)
         feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'run tests'
+      inputs:
+       command: 'test'
+       projects: '**/*.Tests.csproj'
+       arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet publish'

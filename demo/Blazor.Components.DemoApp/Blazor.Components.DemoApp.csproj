@@ -20,15 +20,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Watch Remove="Components\ColorComponent.razor" />
 	  <Watch Remove="Components\Debounce.razor" />
 	  <Watch Remove="Components\Extensions.razor" />
 	  <Watch Remove="Components\Index.razor" />
 	  <Watch Remove="Components\Loading.razor" />
+	  <Watch Remove="Components\ModalComponent.razor" />
 	  <Watch Remove="Components\TimerComponent.razor" />
+	  <Watch Remove="NavMenu.razor" />
+	  <Watch Remove="Pages\ColorPage.razor" />
 	  <Watch Remove="Pages\DebounceInputPage.razor" />
 	  <Watch Remove="Pages\ExtensionsPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
+	  <Watch Remove="Pages\ModalPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
