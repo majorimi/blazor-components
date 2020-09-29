@@ -31,12 +31,11 @@
 	private int _sliderThumbSize;
 	private string _sliderThumbHex = "";
 
-	[Parameter]
-	public int HueSliderHeight { get; set; } = 12;
-	[Parameter]
-	public int HueSliderWidth { get; set; } = 400;
-	[Parameter]
-	public Color SelectedColor { get; set; } = Color.Blue;
+	[Parameter] public int HueSliderHeight { get; set; } = 12;
+	[Parameter] public int HueSliderWidth { get; set; } = 400;
+	[Parameter] public Color SelectedColor { get; set; } = Color.Blue;
+
+	[Parameter] public EventHandler<Color> OnColorChanged { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -59,5 +58,7 @@
 		SelectedColor = (Color)hslColor;
 
 		_sliderThumbHex = ColorTranslator.ToHtml(SelectedColor);
+
+		//TODO: set the handler circle to the correct position of the color...
 	}
 }
