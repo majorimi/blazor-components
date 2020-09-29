@@ -9,16 +9,12 @@ namespace Blazor.Components.Core.HtmlColors
         public double Saturation { get; init; }
         public double Luminosity { get; init; }
 
-        private double CheckRange(double value, double max)
-        {
-            if (value < 0.0)
-                value = 0.0;
-            else if (value > max)
-                value = max;
-
-            return value;
-        }
-
+        /// <summary>
+        /// HSL stands for hue, saturation, and lightness.
+        /// </summary>
+        /// <param name="hue">Hue is a degree on the color wheel from 0 to 360. 0 is red, 120 is green, 240 is blue.</param>
+        /// <param name="saturation">Saturation is a percentage value; 0% means a shade of gray and 100% is the full color.</param>
+        /// <param name="luminosity">Luminosity/lightness is also a percentage; 0% is black, 100% is white, 50.0 (normal value)</param>
         public HslColor(double hue, double saturation, double luminosity)
         {
             Hue = CheckRange(hue, 360.0);
@@ -107,6 +103,16 @@ namespace Blazor.Components.Core.HtmlColors
             }
 
             return (v1);
+        }
+
+        private double CheckRange(double value, double max)
+        {
+            if (value < 0.0)
+                value = 0.0;
+            else if (value > max)
+                value = max;
+
+            return value;
         }
     }
 }
