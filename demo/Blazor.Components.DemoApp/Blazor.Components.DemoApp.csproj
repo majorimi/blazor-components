@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Watch Remove="Pages\ColorPage.razor" />
 	  <Watch Remove="Pages\DebounceInputPage.razor" />
 	  <Watch Remove="Pages\ExtensionsPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
@@ -26,6 +27,35 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="Pages\DebounceInputPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\ExtensionsPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\IndexPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\LoadingPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\ModalPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\TimerPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\ColorPage.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\ColorPage.razor" />
 	</ItemGroup>
 
 </Project>

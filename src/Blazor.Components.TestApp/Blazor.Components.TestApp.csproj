@@ -16,9 +16,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Watch Remove="Pages\ColorPage.razor" />
 	  <Watch Remove="Pages\ExtensionsPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
+	  <Watch Remove="Pages\ModalPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
@@ -39,6 +41,9 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\LoadingPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\ModalPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\TimerPage.razor">

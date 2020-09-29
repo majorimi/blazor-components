@@ -22,7 +22,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Dialog\Blazor.Components.Dialog.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Timer\Blazor.Components.Timer.csproj" />
   </ItemGroup>

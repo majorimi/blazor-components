@@ -37,4 +37,9 @@
     <None Include="bundleconfig.json" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
+  </ItemGroup>
+
 </Project>

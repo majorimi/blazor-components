@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/Blazor.Server.Logging.Console.min.js",
+    "inputFiles": [
+      "wwwroot/Blazor.Server.Logging.Console.js"
+    ]
+  }
+]

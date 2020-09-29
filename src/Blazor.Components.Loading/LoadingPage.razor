@@ -4,14 +4,16 @@
 	<div class="loading-content">@(LoadingContent)</div>	
 </div>
 
+@using Blazor.Components.Core.HtmlColors;
 @inject ILogger<LoadingPage> _logger;
+
 @code {
 	private string _overlayColor = "128,128,128";//gray
 	[Parameter] 
 	public string OverlayBackgroundColor
 	{
 		get => _overlayColor;
-		set => _overlayColor = HtmlColorHelper.GetRgbColorFromValue(value);
+		set => _overlayColor = new HtmlColor(value)?.RgbColor?.ToString();
 	}
 	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
 	[Parameter] public RenderFragment LoadingContent { get; set; }

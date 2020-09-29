@@ -23,7 +23,11 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 ## `AdvancedTimer` component
 
 This component does not render any HTML element. It is wrapped into a component for simpler usage. 
-Component will automatically switch to `async` operation call, and disposed by the framework, etc. 
+Component will allow you to call `async` operations, resources automatically disposed by the framework, etc.
+It is useful when you need to update UI periodically, e.g. refresh a dashboard in every 30 sec by calling an API endpoint.
+
+**NOTE: this technique called 'polling'. Which is not the most efficient way to notify client. Nowadays you can use 
+much more modern techniques. 'push' based communication like: SignalR or WebSecket, etc. Make sure you have no other options than 'polling'.**
 
 ### Properties
 - **`OnIntervalElapsed`: `EventCallback<ulong>` delegate - Required** <br />
