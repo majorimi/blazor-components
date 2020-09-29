@@ -44,8 +44,8 @@ input[type=range]::-ms-thumb {
     display: inline-block;
     border: 1px solid #FFFFFF;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.7), inset 0 0 2px rgba(0, 0, 0, 0.7);
-    height: 8px;
-    width: 8px;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
     cursor: pointer;
 }
