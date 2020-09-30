@@ -1,6 +1,6 @@
-﻿<div class="picker-container" style="width: @(HueSliderWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
+﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
 	<div class="picker-color"></div>
-	<span class="picker-handler" tabindex="0" style="left:270px; top: 84.66px;"></span>
+	<span class="picker-handler" tabindex="0" style="left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex"></span>
 </div>
 
 <input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
@@ -31,6 +31,13 @@
 	private int _sliderThumbSize;
 	private string _sliderThumbHex = "";
 
+	private int _selectorThumbSize = 15; //CSS
+	private double _selectorThumbLeft;
+	private double _selectorThumbTop;
+	private string _selectorThumbHex = "";
+
+	[Parameter] public int HueAreaHeight { get; set; } = 200;
+	[Parameter] public int HueAreaWidth { get; set; } = 400;
 	[Parameter] public int HueSliderHeight { get; set; } = 12;
 	[Parameter] public int HueSliderWidth { get; set; } = 400;
 	[Parameter] public Color SelectedColor { get; set; } = Color.Blue;
@@ -42,23 +49,28 @@
 		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.2);
 		_hue = SelectedColor.GetHue();
 
-		SetSlider();
+		SetSliderColor();
+
+		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
+		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
 	}
 
 	private void HueChanged(ChangeEventArgs e)
 	{
 		_hue = int.Parse(e.Value?.ToString());
-		SetSlider();
+		SetSliderColor();
 	}
 
-	private void SetSlider()
+	private void SetSliderColor()
 	{
 		// Hue: slider value , saturation: 100.0 (full), luminosity: 50.0 (normal)
 		var hslColor = new HslColor(_hue, 100, 50);
-		SelectedColor = (Color)hslColor;
+		var hueColor = (Color)hslColor;
 
-		_sliderThumbHex = ColorTranslator.ToHtml(SelectedColor);
+		_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
 
 		//TODO: set the handler circle to the correct position of the color...
+		SelectedColor = (Color)hslColor;
+		_selectorThumbHex = ColorTranslator.ToHtml(SelectedColor);
 	}
 }
