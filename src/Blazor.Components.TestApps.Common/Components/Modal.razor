@@ -1,0 +1,59 @@
+﻿<h1>Modal Component</h1>
+<p>
+	Blazor component that can be used . For usege see soruce code and docs on 
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md" target="_blank">Github</a>.
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Modal dialog</h3>
+	<p>Renders and Overlay layer with customizable content for showing dialog...</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay color: <input class="form-control w-100" @bind="_overlayColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay opacity: @(_overlayOpacity/1000) 
+			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Modal height: @(_modalHight) 
+			<input type="range" class="w-100" min="200" max="800" @bind="_modalHight" @oninput="(e => _modalHight = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Modal width: @(_modalWitdth) 
+			<input type="range" class="w-100" min="200" max="800" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<ModalDialog @ref="_dialog" 
+		OverlayBackgroundColor="@_overlayColor" 
+		OverlayOpacity="@(_overlayOpacity/1000)"
+		Height="@_modalHight"
+		Width="@_modalWitdth">
+		<Content>
+			Heeee..........
+		</Content>
+	</ModalDialog>
+
+	<button class="btn btn-primary" @onclick="ShowDialog">Prompt dialog</button>
+</div>
+
+@code {
+	private string _overlayColor = "gray";
+	private double _overlayOpacity = 500;
+	private double _modalHight = 400;
+	private double _modalWitdth = 500;
+
+	private ModalDialog _dialog;
+	private async Task ShowDialog()
+	{
+		await _dialog.Open();
+	}
+}

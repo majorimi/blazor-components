@@ -1,0 +1,80 @@
+﻿<div class="modal" @onclick="OverlayClicked" @onclick:stopPropagation="true"
+		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+		hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
+	<div class="modal-content" style="width:@(Width)px; height:@(Height)px" @onclick:stopPropagation="true">
+		@(Content)	
+	</div>	
+</div>
+
+@using System.Globalization;
+@using Blazor.Components.Core.HtmlColors;
+@inject ILogger<ModalDialog> _logger;
+
+@code {
+	private string _overlayColor = "128,128,128";//gray
+	[Parameter] 
+	public string OverlayBackgroundColor
+	{
+		get => _overlayColor;
+		set => _overlayColor = new HtmlColor(value)?.RgbColor?.ToString();
+	}
+	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
+	[Parameter] public bool CloseOnOverlayClick { get; set; } = true;
+
+	[Parameter] public double Height { get; set; } = 300;
+	[Parameter] public double Width { get; set; } = 400;
+
+	[Parameter] public RenderFragment Content { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] public EventCallback OnOpen { get; set; }
+	[Parameter] public EventCallback OnClose { get; set; }
+
+	private bool _isOpened = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
+	}
+
+	private async Task OverlayClicked(MouseEventArgs e)
+	{
+		if(CloseOnOverlayClick && _isOpened)
+		{
+			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
+			_isOpened = false;
+			if (OnClose.HasDelegate)
+			{
+				await OnClose.InvokeAsync();
+			}
+		}
+	}
+
+	public async Task Open()
+	{
+		_isOpened = true;
+		WriteDiag($"Opening dialog currently IsOpened: '{_isOpened}'.");
+
+		if (OnOpen.HasDelegate)
+		{
+			await OnOpen.InvokeAsync();
+		}
+	}
+	public async Task Close()
+	{
+		_isOpened = false;
+		WriteDiag($"Closing dialog currently IsOpened: '{_isOpened}'.");
+
+		if (OnClose.HasDelegate)
+		{
+			await OnClose.InvokeAsync();
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}
