@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.TestApp", "Blazor.Components.TestApp\Blazor.Components.TestApp.csproj", "{934AB071-80A7-4039-B1AB-AD0FC8F7F6B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApps", "TestApps", "{56071E1E-24A8-471A-880A-BD143853614E}"
+	ProjectSection(SolutionItems) = preProject
+		_copy.bat = _copy.bat
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Debounce.Input", "Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj", "{174ABFCA-B132-442D-B2F5-59EA121A574A}"
 EndProject
@@ -39,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Core", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Core.Tests", "Blazor.Components.Core.Tests\Blazor.Components.Core.Tests.csproj", "{2A41D509-83BF-4F00-8107-E3A5080A3B02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.Color", "Blazor.Components.Color\Blazor.Components.Color.csproj", "{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Color", "Blazor.Components.Color\Blazor.Components.Color.csproj", "{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
