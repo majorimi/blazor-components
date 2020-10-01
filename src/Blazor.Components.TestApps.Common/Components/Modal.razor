@@ -10,7 +10,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay color: <input class="form-control w-100" @bind="_overlayColor" />
+			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -21,14 +21,22 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Modal height: @(_modalHight) 
-			<input type="range" class="w-100" min="200" max="800" @bind="_modalHight" @oninput="(e => _modalHight = int.Parse(e.Value?.ToString()))" />
+			Modal height: @(_modalHight == 0 ? "auto" : $"{_modalHight}px") (Max height: @(_dialog?.MaxHeight)px)
+			<input type="range" class="w-100" min="0" max="1000" @bind="_modalHight" @oninput="(e => _modalHight = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Modal width: @(_modalWitdth) 
-			<input type="range" class="w-100" min="200" max="800" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+			Modal width: @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px") (Max width: @(_dialog?.MaxWidth)px)
+			<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Close on Overlay click: <input class="mr-3" type="checkbox" @bind="_modalCloseOnClick"/>
+			Animate: <input class="mr-3" type="checkbox" @bind="_modalAnimate"/>
+			Focus: <input class="mr-3" type="checkbox" @bind="_modalFocus"/>
+			Centered: <input class="mr-3" type="checkbox" @bind="_modalCentered"/>
 		</div>
 	</div>
 
@@ -36,9 +44,14 @@
 		OverlayBackgroundColor="@_overlayColor" 
 		OverlayOpacity="@(_overlayOpacity/1000)"
 		Height="@_modalHight"
-		Width="@_modalWitdth">
+		Width="@_modalWitdth"
+		CloseOnOverlayClick="_modalCloseOnClick"
+		Focus="_modalFocus"
+		Animate="_modalAnimate"
+		Centered="_modalCentered">
 		<Content>
 			Heeee..........
+			<input tabindex="0" type=""/>
 		</Content>
 	</ModalDialog>
 
@@ -46,10 +59,21 @@
 </div>
 
 @code {
-	private string _overlayColor = "gray";
+	private string _overlayColor = "128,128,128";
 	private double _overlayOpacity = 500;
 	private double _modalHight = 400;
 	private double _modalWitdth = 500;
+	private bool _modalAnimate = true;
+	private bool _modalCloseOnClick = true;
+	private bool _modalFocus = true;
+	private bool _modalCentered = true;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		var h = _dialog.Height;
+		_dialog.Height = 0;
+		_dialog.Height = h;
+	}
 
 	private ModalDialog _dialog;
 	private async Task ShowDialog()

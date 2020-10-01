@@ -1,16 +1,40 @@
-﻿<div class="modal" @onclick="OverlayClicked" @onclick:stopPropagation="true"
-		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
-		hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
-	<div class="modal-content" style="width:@(Width)px; height:@(Height)px" @onclick:stopPropagation="true">
-		@(Content)	
-	</div>	
+﻿@inject ILogger<ModalDialog> _logger;
+@inject IJSRuntime _jsRuntime;
+
+<div class="modal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true"
+		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
+	<div @ref="_modal" class="modal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
+		<div class="modal-header"></div>
+		<div class="modal-body">@(Content)</div>
+		<div class="modal-footer"></div>
+	</div>
 </div>
 
-@using System.Globalization;
-@using Blazor.Components.Core.HtmlColors;
-@inject ILogger<ModalDialog> _logger;
+<style>
+	.fade {
+		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
+	}
+	.dynamicStyle {
+		top: 50%;
+		left: 50%;
+		max-width:@(MaxWidth)px; 
+		max-height:@(MaxHeight)px; 
+		width:@(Width == 0 ? "auto": $"{Width}px"); 
+		height:@(Height == 0 ? "auto": $"{Height}px");
+		transition: height @(_animationDuration.ToString().Replace(",", "."))s ease-in-out;
+	}
+</style>
+
 
 @code {
+	private bool _isOpened = false;
+	private double _opacity = 0;
+	private double _animationDuration = 0.35;
+	private ElementReference _modal;
+	private ElementReference _previousFocusedElement;
+	private JSObjectReference _focusJs;
+
 	private string _overlayColor = "128,128,128";//gray
 	[Parameter] 
 	public string OverlayBackgroundColor
@@ -21,8 +45,15 @@
 	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
 	[Parameter] public bool CloseOnOverlayClick { get; set; } = true;
 
-	[Parameter] public double Height { get; set; } = 300;
-	[Parameter] public double Width { get; set; } = 400;
+	[Parameter] public double Height { get; set; } = 0;
+	[Parameter] public double Width { get; set; } = 0;
+	[Parameter] public double MaxHeight { get; set; } = 1000;
+	[Parameter] public double MaxWidth { get; set; } = 1000;
+
+	[Parameter] public bool Focus { get; set; } = true;
+	[Parameter] public bool Animate { get; set; } = true;
+	[Parameter] public bool Centered { get; set; } = true;
+
 
 	[Parameter] public RenderFragment Content { get; set; }
 
@@ -32,11 +63,11 @@
 	[Parameter] public EventCallback OnOpen { get; set; }
 	[Parameter] public EventCallback OnClose { get; set; }
 
-	private bool _isOpened = false;
-
 	protected override async Task OnInitializedAsync()
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
+		//TODO: dispose it
+		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Blazor.Components.Dialog/focus.js");
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -44,32 +75,62 @@
 		if(CloseOnOverlayClick && _isOpened)
 		{
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
-			_isOpened = false;
-			if (OnClose.HasDelegate)
-			{
-				await OnClose.InvokeAsync();
-			}
+			await Close();
 		}
 	}
 
 	public async Task Open()
 	{
+		if(Focus)
+		{
+			@*_previousFocusedElement = await _focusJs.InvokeAsync<ElementReference>("getFocusedElement");*@
+		}
+
 		_isOpened = true;
 		WriteDiag($"Opening dialog currently IsOpened: '{_isOpened}'.");
 
+		if(Animate)
+		{
+			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
+			await Task.Delay((int)(_animationDuration * 100)); //TODO: time is not exact, Render happens before but DIV is hidden!!
+		}
+		_opacity = 1.0;
+
 		if (OnOpen.HasDelegate)
 		{
+			WriteDiag($"Opening dialog calling {nameof(OnOpen)} event handlers IsOpened: '{_isOpened}'.");
 			await OnOpen.InvokeAsync();
+		}
+
+		if(Focus)
+		{
+			WriteDiag($"Opening dialog setting Focus to dialog IsOpened: '{_isOpened}'.");
+			await _focusJs.InvokeAsync<string>("focusElement", _modal);
+			@*await _modal.FocusAsync();*@
 		}
 	}
 	public async Task Close()
 	{
+		_opacity = 0;
+		if(Animate)
+		{
+			Height = 1;
+			WriteDiag($"Opening dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
+			await Task.Delay((int)(_animationDuration * 1000));
+		}
+
 		_isOpened = false;
 		WriteDiag($"Closing dialog currently IsOpened: '{_isOpened}'.");
 
 		if (OnClose.HasDelegate)
 		{
+			WriteDiag($"Opening dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
 			await OnClose.InvokeAsync();
+		}
+		
+		if(Focus)
+		{
+			await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);
 		}
 	}
 

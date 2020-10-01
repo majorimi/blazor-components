@@ -1,6 +1,7 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
 	<div class="picker-color"></div>
-	<span class="picker-handler" tabindex="0" style="left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex"></span>
+	<span class="picker-handler" tabindex="0" 
+		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex"></span>
 </div>
 
 <input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
@@ -31,7 +32,7 @@
 	private int _sliderThumbSize;
 	private string _sliderThumbHex = "";
 
-	private int _selectorThumbSize = 15; //CSS
+	private int _selectorThumbSize = 15;
 	private double _selectorThumbLeft;
 	private double _selectorThumbTop;
 	private string _selectorThumbHex = "";
