@@ -1,6 +1,8 @@
 ﻿@inject ILogger<ModalDialog> _logger;
 @inject IJSRuntime _jsRuntime;
 
+@implements IAsyncDisposable
+
 <div class="modal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true"
 		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
@@ -16,21 +18,22 @@
 		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
 	}
 	.dynamicStyle {
-		top: 50%;
+		top: @(Centered ? "50%;" : "33%;")
 		left: 50%;
 		max-width:@(MaxWidth)px; 
 		max-height:@(MaxHeight)px; 
 		width:@(Width == 0 ? "auto": $"{Width}px"); 
 		height:@(Height == 0 ? "auto": $"{Height}px");
-		transition: height @(_animationDuration.ToString().Replace(",", "."))s ease-in-out;
+		transition:@((_animationDuration * 2).ToString().Replace(',', '.'))s ease-in-out;
 	}
 </style>
 
 
 @code {
+	private bool _disposedValue;
 	private bool _isOpened = false;
 	private double _opacity = 0;
-	private double _animationDuration = 0.35;
+	private double _animationDuration = 0.2;
 	private ElementReference _modal;
 	private ElementReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
@@ -50,9 +53,9 @@
 	[Parameter] public double MaxHeight { get; set; } = 1000;
 	[Parameter] public double MaxWidth { get; set; } = 1000;
 
-	[Parameter] public bool Focus { get; set; } = true;
+	[Parameter] public bool Focus { get; set; } = true; //TODO: focusing the original element does not work...
 	[Parameter] public bool Animate { get; set; } = true;
-	[Parameter] public bool Centered { get; set; } = true;
+	[Parameter] public bool Centered { get; set; } = true; //TODO: Centered looks good but top required total CSS rework...
 
 
 	[Parameter] public RenderFragment Content { get; set; }
@@ -66,7 +69,6 @@
 	protected override async Task OnInitializedAsync()
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
-		//TODO: dispose it
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Blazor.Components.Dialog/focus.js");
 	}
 
@@ -83,6 +85,7 @@
 	{
 		if(Focus)
 		{
+			//TODO: call fails....
 			@*_previousFocusedElement = await _focusJs.InvokeAsync<ElementReference>("getFocusedElement");*@
 		}
 
@@ -137,5 +140,13 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_focusJs != null)
+		{
+			await _focusJs.DisposeAsync();
+		}
 	}
 }

@@ -14,9 +14,9 @@
 
 .modal-content {
     position: absolute;
-    margin: auto;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    margin: 1rem auto;
     z-index: 1001;
     box-shadow: 2px 2px 5px 1px #aaaaaa;
     border: 1px solid rgba(0,0,0,.2);
