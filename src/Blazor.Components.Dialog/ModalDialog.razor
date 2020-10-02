@@ -4,7 +4,7 @@
 @implements IAsyncDisposable
 
 <div class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true" @onkeyup="OverlayKeyPress"
-		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
 	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
 		
@@ -72,7 +72,7 @@
 
 	[Parameter] public bool Focus { get; set; } = true; //TODO: focusing the original element does not work...
 	[Parameter] public bool Animate { get; set; } = true;
-	[Parameter] public bool Centered { get; set; } = true; //TODO: Centered looks good but top required total CSS rework...
+	[Parameter] public bool Centered { get; set; } = true;
 
 	//Contents
 	[Parameter] public RenderFragment Header { get; set; }
@@ -83,6 +83,9 @@
 	//Events
 	[Parameter] public EventCallback OnOpen { get; set; }
 	[Parameter] public EventCallback OnClose { get; set; }
+	[Parameter] public EventCallback OnCloseButtonClicked { get; set; }
+	[Parameter] public EventCallback OnOverlayClicked { get; set; }
+	[Parameter] public EventCallback OnEscapeKeyPress { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -98,6 +101,11 @@
 		if(CloseOnOverlayClick && _isOpened)
 		{
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
+			if(OnOverlayClicked.HasDelegate)
+			{
+				await OnOverlayClicked.InvokeAsync();
+			}
+
 			await Close();
 		}
 	}
@@ -106,15 +114,26 @@
 		if(ShowCloseButton && _isOpened)
 		{
 			WriteDiag($"Close button clicked dialog closing, currently IsOpened: '{_isOpened}'.");
+
+			if(OnCloseButtonClicked.HasDelegate)
+			{
+				await OnCloseButtonClicked.InvokeAsync();
+			}
+
 			await Close();
 		}
 	}
 	private async Task OverlayKeyPress(KeyboardEventArgs e)
 	{
-		WriteDiag($"Overlay DIV key pressed event: '{e.Key}', CloseOnEscapeKey: {CloseOnEscapeKey}");
-
-		if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false))
+		if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false) && _isOpened)
 		{
+			WriteDiag($"Overlay DIV key pressed event: '{e.Key}' dialog closing, currently IsOpened: '{_isOpened}'.");
+
+			if(OnEscapeKeyPress.HasDelegate)
+			{
+				await OnEscapeKeyPress.InvokeAsync();
+			}
+
 			await Close();
 		}
 	}
