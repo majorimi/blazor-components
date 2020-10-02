@@ -35,6 +35,7 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Close on Overlay click: <input class="mr-3" type="checkbox" @bind="_modalCloseOnClick"/>
 			Close on Escape key: <input class="mr-3" type="checkbox" @bind="_modalCloseOnEsc"/>
+			Show Close button: <input class="mr-3" type="checkbox" @bind="_modalShowClose"/>
 			<br />
 			Animate: <input class="mr-3" type="checkbox" @bind="_modalAnimate"/>
 			Focus: <input class="mr-3" type="checkbox" @bind="_modalFocus"/>
@@ -51,17 +52,33 @@
 		CloseOnEscapeKey="_modalCloseOnEsc"
 		Focus="_modalFocus"
 		Animate="_modalAnimate"
-		Centered="_modalCentered">
+		Centered="_modalCentered"
+		ShowCloseButton="_modalShowClose">
 		<Header>
-			<h4>Title</h4>
+			<h4>Modal title</h4>
 		</Header>
 		<Content>
-			Heeee..........
-			<input tabindex="0" type=""/>
+			<div class="container">
+				<div class="row pb-2">
+					Congratulations on your first modal!
+				</div>
+				<div class="row pb-2">
+					Enter your name: <input class="form-control w-100" @bind="_yourName" />
+				</div>
+			</div>
 		</Content>
+		<Footer>
+			<button class="btn btn-warning ml-2" @onclick="CancelDialog">Cancel</button>
+			<button class="btn btn-primary ml-2" @onclick="AcceptDialog">Ok</button>
+		</Footer>
 	</ModalDialog>
 
-	<button class="btn btn-primary" @onclick="ShowDialog">Prompt dialog</button>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<button class="btn btn-primary mb-2" @onclick="OpenDialog">Prompt dialog</button>
+			<label class="form-control">Hello: @(_yourName)</label>
+		</div>
+	</div>
 </div>
 
 @code {
@@ -74,17 +91,30 @@
 	private bool _modalCloseOnEsc = true;
 	private bool _modalFocus = true;
 	private bool _modalCentered = true;
+	private bool _modalShowClose = true;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		var h = _dialog.Height;
-		_dialog.Height = 0;
-		_dialog.Height = h;
 	}
 
+	private string _yourName;
 	private ModalDialog _dialog;
-	private async Task ShowDialog()
+	private async Task OpenDialog()
 	{
 		await _dialog.Open();
+	}
+	private async Task AcceptDialog()
+	{
+		if(_dialog.IsOpen)
+		{
+			await _dialog.Close();
+
+			if(!string.IsNullOrWhiteSpace(_yourName))
+				_yourName += "!";
+		}
+	}
+	private async Task CancelDialog()
+	{
+		await _dialog.Close();
 	}
 }

@@ -31,13 +31,13 @@
 		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
 	}
 	.dynamicStyle {
-		top: @(Centered ? "50%;" : $"calc(1% + {(int)(Height/2)}px);")
+		top: @(Centered ? "50%;" : $"calc({(Height == 0 ? 12 : 2)}% + {(int)(Height/2)}px);")
 		left: 50%;
 		max-width:@(MaxWidth)px; 
 		max-height:@(MaxHeight)px; 
 		width:@(Width == 0 ? "auto": $"{Width}px"); 
 		height:@(Height == 0 ? "auto": $"{Height}px");
-		transition:@((_animationDuration * 2).ToString().Replace(',', '.'))s ease-in-out;
+		transition:@((_animationDuration * 3).ToString().Replace(',', '.'))s ease-in-out;
 	}
 </style>
 
@@ -89,6 +89,8 @@
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	public bool IsOpen => _isOpened;
 
 	protected override async Task OnInitializedAsync()
 	{
