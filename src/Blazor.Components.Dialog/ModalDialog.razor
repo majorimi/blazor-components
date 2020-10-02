@@ -3,7 +3,7 @@
 
 @implements IAsyncDisposable
 
-<div class="modal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true"
+<div class="modal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true" @onkeyup="OverlayKeyPress"
 		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
 	<div @ref="_modal" class="modal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
@@ -38,6 +38,7 @@
 	private ElementReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
 
+	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
 	[Parameter] 
 	public string OverlayBackgroundColor
@@ -46,8 +47,12 @@
 		set => _overlayColor = new HtmlColor(value)?.RgbColor?.ToString();
 	}
 	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
-	[Parameter] public bool CloseOnOverlayClick { get; set; } = true;
 
+	//Close settings
+	[Parameter] public bool CloseOnOverlayClick { get; set; } = true;
+	[Parameter] public bool CloseOnEscapeKey { get; set; } = true;
+
+	//Size
 	[Parameter] public double Height { get; set; } = 0;
 	[Parameter] public double Width { get; set; } = 0;
 	[Parameter] public double MaxHeight { get; set; } = 1000;
@@ -57,19 +62,20 @@
 	[Parameter] public bool Animate { get; set; } = true;
 	[Parameter] public bool Centered { get; set; } = true; //TODO: Centered looks good but top required total CSS rework...
 
-
+	//Contents
 	[Parameter] public RenderFragment Content { get; set; }
+
+	//Events
+	[Parameter] public EventCallback OnOpen { get; set; }
+	[Parameter] public EventCallback OnClose { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	[Parameter] public EventCallback OnOpen { get; set; }
-	[Parameter] public EventCallback OnClose { get; set; }
-
 	protected override async Task OnInitializedAsync()
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
-		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Blazor.Components.Dialog/focus.js");
+		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -77,6 +83,15 @@
 		if(CloseOnOverlayClick && _isOpened)
 		{
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
+			await Close();
+		}
+	}
+	private async Task OverlayKeyPress(KeyboardEventArgs e)
+	{
+		WriteDiag($"Overlay DIV key pressed event: '{e.Key}', CloseOnEscapeKey: {CloseOnEscapeKey}");
+
+		if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false))
+		{
 			await Close();
 		}
 	}

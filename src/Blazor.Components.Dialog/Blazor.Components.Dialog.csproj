@@ -1,26 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>Majorsoft.Blazor.Components.Dialog</PackageId>
+	<Version>1.0.0.0</Version>
+	<Authors>Imre Toth</Authors>
+	<Company>Imre Toth</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>Imre Toth 2020</Copyright>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Dialog.md</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryType>Git</RepositoryType>
+	<Description>Blazor component that renders Modal dialog window with customizable content and parameterized Overlay, etc.</Description>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+	<PackageTags>.Net5 Blazor Modal Dialog Window</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
-    <None Include="wwwroot\focus.js" />
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="bundleconfig.json" />
+	<None Include="wwwroot\focus.js" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
   </ItemGroup>
 
 </Project>
