@@ -3,13 +3,26 @@
 
 @implements IAsyncDisposable
 
-<div class="modal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true" @onkeyup="OverlayKeyPress"
+<div class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true" @onkeyup="OverlayKeyPress"
 		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
-	<div @ref="_modal" class="modal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
-		<div class="modal-header"></div>
-		<div class="modal-body">@(Content)</div>
-		<div class="modal-footer"></div>
+	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
+		
+		@if(Header != null || ShowCloseButton)
+		{
+			<div class="bmodal-header">
+				@Header
+				@if(ShowCloseButton)
+				{
+					<button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+				}
+			</div>
+		}
+		<div class="bmodal-body">@Content</div>
+		@if(Footer != null)
+		{
+			<div class="bmodal-footer">@Footer</div>
+		}
 	</div>
 </div>
 
@@ -18,7 +31,7 @@
 		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
 	}
 	.dynamicStyle {
-		top: @(Centered ? "50%;" : "33%;")
+		top: @(Centered ? "50%;" : $"calc(1% + {(int)(Height/2)}px);")
 		left: 50%;
 		max-width:@(MaxWidth)px; 
 		max-height:@(MaxHeight)px; 
@@ -27,7 +40,6 @@
 		transition:@((_animationDuration * 2).ToString().Replace(',', '.'))s ease-in-out;
 	}
 </style>
-
 
 @code {
 	private bool _disposedValue;
@@ -63,7 +75,10 @@
 	[Parameter] public bool Centered { get; set; } = true; //TODO: Centered looks good but top required total CSS rework...
 
 	//Contents
+	[Parameter] public RenderFragment Header { get; set; }
 	[Parameter] public RenderFragment Content { get; set; }
+	[Parameter] public RenderFragment Footer { get; set; }
+	[Parameter] public bool ShowCloseButton { get; set; } = true;
 
 	//Events
 	[Parameter] public EventCallback OnOpen { get; set; }
@@ -83,6 +98,14 @@
 		if(CloseOnOverlayClick && _isOpened)
 		{
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
+			await Close();
+		}
+	}
+	private async Task CloseClicked(MouseEventArgs e)
+	{
+		if(ShowCloseButton && _isOpened)
+		{
+			WriteDiag($"Close button clicked dialog closing, currently IsOpened: '{_isOpened}'.");
 			await Close();
 		}
 	}
