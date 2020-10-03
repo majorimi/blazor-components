@@ -31,13 +31,13 @@
 		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
 	}
 	.dynamicStyle {
-		top: @(Centered ? "50%;" : $"calc({(Height == 0 ? 12 : 2)}% + {(int)(Height/2)}px);")
+		top: @(_dialogTop) 
 		left: 50%;
 		max-width:@(MaxWidth)px; 
 		max-height:@(MaxHeight)px; 
 		width:@(Width == 0 ? "auto": $"{Width}px"); 
 		height:@(Height == 0 ? "auto": $"{Height}px");
-		transition:@((_animationDuration * 3).ToString().Replace(',', '.'))s ease-in-out;
+		transition: top @((_animationDuration).ToString().Replace(',', '.'))s ease-in-out;
 	}
 </style>
 
@@ -45,7 +45,7 @@
 	private bool _disposedValue;
 	private bool _isOpened = false;
 	private double _opacity = 0;
-	private double _animationDuration = 0.2;
+	private double _animationDuration = 0.25;
 	private ElementReference _modal;
 	private ElementReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
@@ -96,6 +96,8 @@
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
+
+		_dialogTop = GetDialogTop();
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -140,6 +142,12 @@
 		}
 	}
 
+	private string _dialogTop;
+	private string _dialogDefaultTop =>  Centered ? "25%;" : "5%;";
+	private string GetDialogTop()
+	{
+		return Centered ? "50%;" : $"calc({(Height == 0 ? 14 : 4)}% + {(int)(Height/2)}px);";
+	}
 	public async Task Open()
 	{
 		if(Focus)
@@ -152,7 +160,8 @@
 		WriteDiag($"Opening dialog currently IsOpened: '{_isOpened}'.");
 
 		if(Animate)
-		{
+		{			
+			_dialogTop = _dialogDefaultTop;
 			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
 			await Task.Delay((int)(_animationDuration * 100)); //TODO: time is not exact, Render happens before but DIV is hidden!!
 		}
@@ -170,13 +179,16 @@
 			await _focusJs.InvokeAsync<string>("focusElement", _modal);
 			@*await _modal.FocusAsync();*@
 		}
+
+		_dialogTop = GetDialogTop();
+
 	}
 	public async Task Close()
 	{
 		_opacity = 0;
 		if(Animate)
 		{
-			Height = 1;
+			_dialogTop = _dialogDefaultTop;
 			WriteDiag($"Opening dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
 			await Task.Delay((int)(_animationDuration * 1000));
 		}
@@ -194,6 +206,8 @@
 		{
 			await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);
 		}
+
+		_dialogTop = GetDialogTop();
 	}
 
 	private void WriteDiag(string message)
