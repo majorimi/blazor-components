@@ -3,10 +3,10 @@
 
 @implements IAsyncDisposable
 
-<div class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onclick:stopPropagation="true" @onkeyup="OverlayKeyPress"
+<div class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
 		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
-	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="0" @onclick:stopPropagation="true" >
+	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true" >
 		
 		@if(Header != null || ShowCloseButton)
 		{
@@ -142,28 +142,25 @@
 		}
 	}
 
+	//Dialog style animation params
 	private string _dialogTop;
 	private string _dialogDefaultTop =>  Centered ? "25%;" : "5%;";
 	private string GetDialogTop()
 	{
 		return Centered ? "50%;" : $"calc({(Height == 0 ? 14 : 4)}% + {(int)(Height/2)}px);";
 	}
+
+	private string _tempId; //TODO: remove when ElementReference bug fixed
 	public async Task Open()
 	{
-		if(Focus)
-		{
-			//TODO: call fails....
-			@*_previousFocusedElement = await _focusJs.InvokeAsync<ElementReference>("getFocusedElement");*@
-		}
-
 		_isOpened = true;
 		WriteDiag($"Opening dialog currently IsOpened: '{_isOpened}'.");
 
 		if(Animate)
-		{			
+		{
 			_dialogTop = _dialogDefaultTop;
 			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
-			await Task.Delay((int)(_animationDuration * 100)); //TODO: time is not exact, Render happens before but DIV is hidden!!
+			@*await Task.Delay((int)(_animationDuration * 100)); //TODO: time is not exact, Render happens before but DIV is hidden!!*@
 		}
 		_opacity = 1.0;
 
@@ -175,13 +172,18 @@
 
 		if(Focus)
 		{
-			WriteDiag($"Opening dialog setting Focus to dialog IsOpened: '{_isOpened}'.");
+			//Get previous element
+			_tempId = await _focusJs.InvokeAsync<string>("getFocusedElementId");
+			//TODO: ERROR call fails....
+			@*_previousFocusedElement = await _focusJs.InvokeAsync<ElementReference>("getFocusedElement");*@
+
+			//Set focus to DIV
+			WriteDiag($"Opening dialog setting Focus to dialog, previous elementId '{_tempId}', IsOpened: '{_isOpened}'.");
 			await _focusJs.InvokeAsync<string>("focusElement", _modal);
 			@*await _modal.FocusAsync();*@
 		}
 
 		_dialogTop = GetDialogTop();
-
 	}
 	public async Task Close()
 	{
@@ -189,7 +191,7 @@
 		if(Animate)
 		{
 			_dialogTop = _dialogDefaultTop;
-			WriteDiag($"Opening dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
+			WriteDiag($"Closing dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
 			await Task.Delay((int)(_animationDuration * 1000));
 		}
 
@@ -198,13 +200,16 @@
 
 		if (OnClose.HasDelegate)
 		{
-			WriteDiag($"Opening dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
+			WriteDiag($"Closing dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
 			await OnClose.InvokeAsync();
 		}
 		
 		if(Focus)
 		{
-			await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);
+			WriteDiag($"Closing dialog setting Focus to previous elementId '{_tempId}', IsOpened: '{_isOpened}'.");
+			await _focusJs.InvokeAsync<string>("focusElementById", _tempId);
+			//TODO: ERROR call fails....
+			@*await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);*@
 		}
 
 		_dialogTop = GetDialogTop();
