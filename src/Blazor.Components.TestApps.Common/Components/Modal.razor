@@ -53,14 +53,16 @@
 		Focus="_modalFocus"
 		Animate="_modalAnimate"
 		Centered="_modalCentered"
-		ShowCloseButton="_modalShowClose">
+		ShowCloseButton="_modalShowClose"
+		OnOpen="OnOpen"
+		OnClose="OnClose">
 		<Header>
 			<h4>Modal title</h4>
 		</Header>
 		<Content>
 			<div class="container">
 				<div class="row pb-2">
-					Congratulations on your first modal!
+					Congratulations to your first modal!!!
 				</div>
 				<div class="row pb-2">
 					Enter your name: <input class="form-control w-100" @bind="_yourName" />
@@ -84,7 +86,7 @@
 @code {
 	private string _overlayColor = "128,128,128";
 	private double _overlayOpacity = 500;
-	private double _modalHight = 400;
+	private double _modalHight = 300;
 	private double _modalWitdth = 500;
 	private bool _modalAnimate = true;
 	private bool _modalCloseOnClick = true;
@@ -92,6 +94,16 @@
 	private bool _modalFocus = true;
 	private bool _modalCentered = true;
 	private bool _modalShowClose = true;
+
+	//Dialog events
+	public async Task OnOpen()
+	{
+		await Task.Delay(500);
+	}
+	public async Task OnClose()
+	{
+		await Task.Delay(500);
+	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
