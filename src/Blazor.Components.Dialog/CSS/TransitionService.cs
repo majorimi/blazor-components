@@ -8,7 +8,15 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.Dialog.CSS
 {
-	public class TransitionEventsService : IAsyncDisposable
+	public interface ITransitionEventsService : IAsyncDisposable
+	{
+		Task RegisterTransitionEnded(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "");
+		Task RegisterTransitionsWhenAllEnded(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+		Task RemoveTransitionEnded(ElementReference elementRef, string transitionPropertyName = "");
+		Task RemoveTransitionsWhenAllEnded(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+	}
+
+	public class TransitionEventsService : ITransitionEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private JSObjectReference _transitionJs;
@@ -70,7 +78,7 @@ namespace Blazor.Components.Dialog.CSS
 
 		public async ValueTask DisposeAsync()
 		{
-			if(_transitionJs is not null)
+			if (_transitionJs is not null)
 			{
 				await _transitionJs.InvokeVoidAsync("dispose");
 
