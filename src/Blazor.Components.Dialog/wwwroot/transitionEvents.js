@@ -8,10 +8,10 @@
                 Composed: args.composed,
                 ElapsedTime: args.elapsedTime,
                 EventPhase: args.eventPhase,
-                //"Path": args.path,  //Throws serialization exception for Element
+                //Path: args.path.toString(),  //Throws serialization exception for Element
                 PropertyName: args.propertyName,
                 ReturnValue: args.returnValue,
-                //Target: args.target, //Throws serialization exception for Element
+                //Target: JSON.stringify(args.target), //Throws serialization exception for Element
                 Type: args.type
             }
 
@@ -53,6 +53,8 @@ export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
     element.addEventListener("webkitTransitionEnd", eventCallback);
     // Standard syntax
     element.addEventListener("transitionend", eventCallback);
+
+    return eventCallback;
 }
 
 export function removeTransitionEnd(element, transitionPropertyName) {

@@ -1,5 +1,6 @@
 ﻿@inject ILogger<ModalDialog> _logger;
 @inject IJSRuntime _jsRuntime;
+@*@inject ITransitionEventsService _transitionService;*@
 
 @implements IAsyncDisposable
 
@@ -91,7 +92,7 @@
 	[Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
 	[Parameter] public EventCallback<MouseEventArgs> OnOverlayClicked { get; set; }
 	[Parameter] public EventCallback<KeyboardEventArgs> OnEscapeKeyPress { get; set; }
-	[Parameter] public EventCallback<TransitionEndEventArgs> OnTransitionEnded { get; set; }
+	[Parameter] public EventCallback<TransitionEndEventArgs[]> OnTransitionEnded { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -107,7 +108,13 @@
 
 			//TODO Animations: INJECT it
 			_transitionService = new TransitionEventsService(_jsRuntime);
-		await _transitionService.RegisterTransitionEnded(_overlayDiv, TransitionEnded, "opacity");
+
+		KeyValuePair<ElementReference, string>[] args = 
+		{ 
+			new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"), 
+			new KeyValuePair<ElementReference, string>(_modal, "top") 
+		};
+		await _transitionService.RegisterTransitionsWhenAllEnded(TransitionEnded, args);
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -160,11 +167,11 @@
 		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height/2)}px);";
 	}
 
-	private async Task TransitionEnded(TransitionEndEventArgs args)
+	private async Task TransitionEnded(TransitionEndEventArgs[] args)
 	{
 		if(Animate)
 		{
-			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}'!! EventType: '{args.Type}', ReturnValue: '{args.ReturnValue}', PropertyName: '{args.PropertyName}'");
+			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEndEventArgs[] count: '{args.Length}'!!");
 			if(_opacity == 1)
 			{
 				await OpenInternal(); 
