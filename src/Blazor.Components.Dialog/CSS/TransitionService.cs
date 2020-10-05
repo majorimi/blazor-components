@@ -11,7 +11,6 @@ namespace Blazor.Components.Dialog.CSS
 	public class TransitionEventsService : IAsyncDisposable
 	{
 		private readonly IJSRuntime _jsRuntime;
-
 		private JSObjectReference _transitionJs;
 
 		public TransitionEventsService(IJSRuntime jsRuntime)

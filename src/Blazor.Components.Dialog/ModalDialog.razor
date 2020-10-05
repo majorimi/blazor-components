@@ -49,7 +49,8 @@
 	private double _animationDuration = 0.25;
 	private ElementReference _overlayDiv;
 	private ElementReference _modal;
-	private ElementReference _previousFocusedElement;
+
+	private JSObjectReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
 
 	private TransitionEventsService _transitionService;
@@ -180,7 +181,6 @@
 		}
 	}
 
-	private string _tempId; //TODO: remove when ElementReference bug fixed
 	public async Task Open()
 	{
 		_isOpened = true;
@@ -208,12 +208,10 @@
 		if(Focus)
 		{
 			//Get previous element
-			_tempId = await _focusJs.InvokeAsync<string>("getFocusedElementId");
-			//TODO: ERROR call fails....
-			@*_previousFocusedElement = await _focusJs.InvokeAsync<ElementReference>("getFocusedElement");*@
+			_previousFocusedElement = await _focusJs.InvokeAsync<JSObjectReference>("getFocusedElement");
 
 			//Set focus to DIV
-			WriteDiag($"Opening dialog setting Focus to dialog, previous elementId '{_tempId}', IsOpened: '{_isOpened}'.");
+			WriteDiag($"Opening dialog setting Focus to dialog, previous IsOpened: '{_isOpened}'.");
 			await _focusJs.InvokeAsync<string>("focusElement", _modal);
 			@*await _modal.FocusAsync();*@
 		}
@@ -246,10 +244,8 @@
 
 		if(Focus)
 		{
-			WriteDiag($"Closing dialog setting Focus to previous elementId '{_tempId}', IsOpened: '{_isOpened}'.");
-			await _focusJs.InvokeAsync<string>("focusElementById", _tempId);
-			//TODO: ERROR call fails....
-			@*await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);*@
+			WriteDiag($"Closing dialog setting Focus IsOpened: '{_isOpened}'.");
+			await _focusJs.InvokeVoidAsync("focusElement", _previousFocusedElement);
 		}
 		
 		if (OnClose.HasDelegate)
@@ -269,6 +265,10 @@
 		if(_focusJs is not null)
 		{
 			await _focusJs.DisposeAsync();
+		}
+		if(_previousFocusedElement is not null)
+		{
+			await _previousFocusedElement.DisposeAsync();
 		}
 		if(_transitionService is not null)
 		{
