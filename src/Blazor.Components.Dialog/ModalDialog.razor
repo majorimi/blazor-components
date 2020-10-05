@@ -3,7 +3,7 @@
 
 @implements IAsyncDisposable
 
-<div class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
+<div id="shit" @ref="_overlayDiv" class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
 		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
 		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
 	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true" >
@@ -41,14 +41,18 @@
 	}
 </style>
 
+@using Blazor.Components.Dialog.CSS;
 @code {
 	private bool _disposedValue;
 	private bool _isOpened = false;
 	private double _opacity = 0;
 	private double _animationDuration = 0.25;
+	private ElementReference _overlayDiv;
 	private ElementReference _modal;
 	private ElementReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
+
+	private TransitionEventsService _transitionService;
 
 	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
@@ -70,7 +74,7 @@
 	[Parameter] public double MaxHeight { get; set; } = 1000;
 	[Parameter] public double MaxWidth { get; set; } = 1000;
 
-	[Parameter] public bool Focus { get; set; } = true; //TODO: focusing the original element does not work...
+	[Parameter] public bool Focus { get; set; } = true;
 	[Parameter] public bool Animate { get; set; } = true;
 	[Parameter] public bool Centered { get; set; } = true;
 
@@ -83,9 +87,10 @@
 	//Events
 	[Parameter] public EventCallback OnOpen { get; set; }
 	[Parameter] public EventCallback OnClose { get; set; }
-	[Parameter] public EventCallback OnCloseButtonClicked { get; set; }
-	[Parameter] public EventCallback OnOverlayClicked { get; set; }
-	[Parameter] public EventCallback OnEscapeKeyPress { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> OnOverlayClicked { get; set; }
+	[Parameter] public EventCallback<KeyboardEventArgs> OnEscapeKeyPress { get; set; }
+	[Parameter] public EventCallback<TransitionEndEventArgs> OnTransitionEnded { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -96,8 +101,12 @@
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
+		
+		_dialogTop = _dialogDefaultTop;
 
-		_dialogTop = GetDialogTop();
+			//TODO Animations: INJECT it
+			_transitionService = new TransitionEventsService(_jsRuntime);
+		await _transitionService.RegisterTransitionEnded(_overlayDiv, TransitionEnded, "opacity");
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -107,7 +116,7 @@
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
 			if(OnOverlayClicked.HasDelegate)
 			{
-				await OnOverlayClicked.InvokeAsync();
+				await OnOverlayClicked.InvokeAsync(e);
 			}
 
 			await Close();
@@ -121,7 +130,7 @@
 
 			if(OnCloseButtonClicked.HasDelegate)
 			{
-				await OnCloseButtonClicked.InvokeAsync();
+				await OnCloseButtonClicked.InvokeAsync(e);
 			}
 
 			await Close();
@@ -135,7 +144,7 @@
 
 			if(OnEscapeKeyPress.HasDelegate)
 			{
-				await OnEscapeKeyPress.InvokeAsync();
+				await OnEscapeKeyPress.InvokeAsync(e);
 			}
 
 			await Close();
@@ -147,29 +156,55 @@
 	private string _dialogDefaultTop =>  Centered ? "25%;" : "5%;";
 	private string GetDialogTop()
 	{
-		return Centered ? "50%;" : $"calc({(Height == 0 ? 14 : 4)}% + {(int)(Height/2)}px);";
+		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height/2)}px);";
+	}
+
+	private async Task TransitionEnded(TransitionEndEventArgs args)
+	{
+		if(Animate)
+		{
+			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}'!! EventType: '{args.Type}', ReturnValue: '{args.ReturnValue}', PropertyName: '{args.PropertyName}'");
+			if(_opacity == 1)
+			{
+				await OpenInternal(); 
+			}
+			else
+			{
+				await CloseInternal();
+			}
+
+			if(OnTransitionEnded.HasDelegate)
+			{
+				await OnTransitionEnded.InvokeAsync(args);
+			}
+		}
 	}
 
 	private string _tempId; //TODO: remove when ElementReference bug fixed
 	public async Task Open()
 	{
 		_isOpened = true;
-		WriteDiag($"Opening dialog currently IsOpened: '{_isOpened}'.");
+		WriteDiag($"Opening dialog currently, Opacity: {_opacity}, IsOpened: '{_isOpened}'.");
 
 		if(Animate)
 		{
-			_dialogTop = _dialogDefaultTop;
 			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
-			@*await Task.Delay((int)(_animationDuration * 100)); //TODO: time is not exact, Render happens before but DIV is hidden!!*@
-		}
-		_opacity = 1.0;
+			await Task.Delay((int)(_animationDuration * 100)); //HACK: Must wait, time is not exact.. Render happens before but DIV is still not visible!!
 
-		if (OnOpen.HasDelegate)
+			_dialogTop = GetDialogTop();
+			_opacity = 1.0; //dialog must be visible
+
+			return;
+		}
+		else
 		{
-			WriteDiag($"Opening dialog calling {nameof(OnOpen)} event handlers IsOpened: '{_isOpened}'.");
-			await OnOpen.InvokeAsync();
+			_opacity = 1.0; //dialog must be visible
 		}
 
+		await OpenInternal();
+	}
+	private async Task OpenInternal()
+	{
 		if(Focus)
 		{
 			//Get previous element
@@ -183,27 +218,32 @@
 			@*await _modal.FocusAsync();*@
 		}
 
-		_dialogTop = GetDialogTop();
+		if (OnOpen.HasDelegate)
+		{
+			WriteDiag($"Opening dialog calling {nameof(OnOpen)} event handlers IsOpened: '{_isOpened}'.");
+			await OnOpen.InvokeAsync();
+		}
 	}
+
 	public async Task Close()
 	{
-		_opacity = 0;
+		_opacity = 0; //Dialog must be hidden
+
 		if(Animate)
 		{
-			_dialogTop = _dialogDefaultTop;
 			WriteDiag($"Closing dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
-			await Task.Delay((int)(_animationDuration * 1000));
+			_dialogTop = _dialogDefaultTop;
+
+			return;
 		}
 
+		await CloseInternal();
+	}
+	public async Task CloseInternal()
+	{
 		_isOpened = false;
 		WriteDiag($"Closing dialog currently IsOpened: '{_isOpened}'.");
 
-		if (OnClose.HasDelegate)
-		{
-			WriteDiag($"Closing dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
-			await OnClose.InvokeAsync();
-		}
-		
 		if(Focus)
 		{
 			WriteDiag($"Closing dialog setting Focus to previous elementId '{_tempId}', IsOpened: '{_isOpened}'.");
@@ -211,8 +251,12 @@
 			//TODO: ERROR call fails....
 			@*await _focusJs.InvokeAsync<string>("focusElement", _previousFocusedElement);*@
 		}
-
-		_dialogTop = GetDialogTop();
+		
+		if (OnClose.HasDelegate)
+		{
+			WriteDiag($"Closing dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
+			await OnClose.InvokeAsync();
+		}
 	}
 
 	private void WriteDiag(string message)
@@ -222,9 +266,13 @@
 
 	public async ValueTask DisposeAsync()
 	{
-		if(_focusJs != null)
+		if(_focusJs is not null)
 		{
 			await _focusJs.DisposeAsync();
+		}
+		if(_transitionService is not null)
+		{
+			await _transitionService.DisposeAsync();
 		}
 	}
 }
