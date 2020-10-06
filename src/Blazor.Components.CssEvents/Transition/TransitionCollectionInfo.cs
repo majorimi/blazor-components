@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +20,9 @@ namespace Blazor.Components.CssEvents.Transition
 		{
 			_finishedTransitions.Add(args);
 
-			if (this.Count == _finishedTransitions.Count)
+			if (Count == _finishedTransitions.Count
+				&& !_finishedTransitions.Select(s => s.PropertyName).Except(this.Select(s => s.TransitionPropertyName)).Any()
+				&& !_finishedTransitions.Select(s => s.Element).Except(this.Select(s => s.Element)).Any())
 			{
 				await _transitionEndedCallback(_finishedTransitions.ToArray());
 				_finishedTransitions.Clear();

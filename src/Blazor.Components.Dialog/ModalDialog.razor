@@ -99,8 +99,12 @@
 	protected override async Task OnInitializedAsync()
 	{
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
+
+#if DEBUG
+		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.js");
+#else
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
-		
+#endif		
 		_dialogTop = _dialogDefaultTop;
 
 		KeyValuePair<ElementReference, string>[] args = 
@@ -108,7 +112,7 @@
 			new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"), 
 			new KeyValuePair<ElementReference, string>(_modal, "top") 
 		};
-		await _transitionService.RegisterTransitionsWhenAllEnded(TransitionEnded, args);
+		await _transitionService.RegisterTransitionsWhenAllEndedAsync(TransitionEnded, args);
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)

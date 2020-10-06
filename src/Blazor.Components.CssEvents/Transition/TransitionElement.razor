@@ -4,7 +4,7 @@
 
 @implements IAsyncDisposable
 
-<div @ref="_transitionContainer">
+<div @ref="_transitionContainer" @attributes=AllOtherAttributes>
 	@Content
 </div>
 
@@ -20,17 +20,23 @@
 	[Parameter]
 	public EventCallback<TransitionEndEventArgs> OnTransitionEnded { get; set; }
 
-	protected override async Task OnInitializedAsync()
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		WriteDiag($"OnInitializedAsync currently TransitionPropertyName: '{TransitionPropertyName}'.");
-		
-		await _transitionService.RegisterTransitionEnded(_transitionContainer, async (args) => 
+		if (firstRender)
+		{
+			WriteDiag($"OnAfterRenderAsync currently TransitionPropertyName: '{TransitionPropertyName}'.");
+
+			await _transitionService.RegisterTransitionEndedAsync(_transitionContainer, async (args) => 
 			{ 
 				if(OnTransitionEnded.HasDelegate)
 				{
 					await OnTransitionEnded.InvokeAsync(args);
 				}
 			}, TransitionPropertyName);
+		}
 	}
 
 	private void WriteDiag(string message)

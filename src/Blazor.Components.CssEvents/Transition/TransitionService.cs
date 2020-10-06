@@ -20,9 +20,9 @@ namespace Blazor.Components.CssEvents.Transition
 			_jsRuntime = jsRuntime;
 		}
 
-		public async Task RegisterTransitionEnded(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
+		public async Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
 		{
-			await CheckJsObject();
+			await CheckJsObjectAsync();
 
 			var info = new TransitionInfo(elementRef, onEndedCallback, transitionPropertyName);
 			var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
@@ -30,16 +30,16 @@ namespace Blazor.Components.CssEvents.Transition
 			await _transitionJs.InvokeVoidAsync("addTransitionEnd", elementRef, dotnetRef, transitionPropertyName);
 		}
 
-		public async Task RemoveTransitionEnded(ElementReference elementRef, string transitionPropertyName = "")
+		public async Task RemoveTransitionEndedAsync(ElementReference elementRef, string transitionPropertyName = "")
 		{
-			await CheckJsObject();
+			await CheckJsObjectAsync();
 
 			await _transitionJs.InvokeVoidAsync("removeTransitionEnd", elementRef, transitionPropertyName);
 		}
 
-		public async Task RegisterTransitionsWhenAllEnded(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
+		public async Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
 		{
-			await CheckJsObject();
+			await CheckJsObjectAsync();
 
 			var collection = new TransitionCollectionInfo(onEndedCallback);
 			foreach (var item in elementRefsWithProperties)
@@ -52,9 +52,9 @@ namespace Blazor.Components.CssEvents.Transition
 			}
 		}
 
-		public async Task RemoveTransitionsWhenAllEnded(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
+		public async Task RemoveTransitionsWhenAllEndedAsync(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
 		{
-			await CheckJsObject();
+			await CheckJsObjectAsync();
 
 			foreach (var item in elementRefsWithProperties)
 			{
@@ -62,7 +62,7 @@ namespace Blazor.Components.CssEvents.Transition
 			}
 		}
 
-		private async Task CheckJsObject()
+		private async Task CheckJsObjectAsync()
 		{
 			if (_transitionJs is null)
 			{

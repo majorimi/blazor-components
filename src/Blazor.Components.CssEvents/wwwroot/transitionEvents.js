@@ -63,14 +63,13 @@ export function removeTransitionEnd(element, transitionPropertyName) {
     for (let i = 0; i < _transitionHandlerDict.length; i++) {
         if (_transitionHandlerDict[i].key === element) {
             let val = _transitionHandlerDict[i].value;
-            for (let j = 0; i < val.length; j++) {
+            for (let j = 0; j < val.length; j++) {
                 if (val[j].prop === transitionPropertyName) {
                     eventCallback = val[j].handler; //associate callback
                     _transitionHandlerDict[i].value.splice(j, 1); //remove handler
                     break;
                 }
             }
-
             break;
         }
     }
