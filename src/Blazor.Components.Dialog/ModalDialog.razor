@@ -252,8 +252,13 @@
 
 		if(Focus)
 		{
-			WriteDiag($"Closing dialog setting Focus IsOpened: '{_isOpened}'.");
-			await _focusJs.InvokeVoidAsync("focusElement", _previousFocusedElement);
+			if(_previousFocusedElement is not null)
+			{
+				WriteDiag($"Closing dialog setting Focus IsOpened: '{_isOpened}'.");
+				await _focusJs.InvokeVoidAsync("focusElement", _previousFocusedElement);
+				//dispose
+				await _previousFocusedElement.DisposeAsync();
+			}
 		}
 		
 		if (OnClose.HasDelegate)

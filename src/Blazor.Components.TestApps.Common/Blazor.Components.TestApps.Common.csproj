@@ -2,19 +2,20 @@
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+	<_ContentIncludedByDefault Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
+	<None Include="bundleconfig.json" />
   </ItemGroup>
 
 	<ItemGroup>

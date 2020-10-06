@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+	<None Include="bundleconfig.json" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+	<ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
   </ItemGroup>
 
 </Project>

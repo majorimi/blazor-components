@@ -8,11 +8,41 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.Dialog.CSS
 {
+	/// <summary>
+	/// Injectable service to handle CSS Transition events
+	/// </summary>
 	public interface ITransitionEventsService : IAsyncDisposable
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="elementRef"></param>
+		/// <param name="onEndedCallback"></param>
+		/// <param name="transitionPropertyName"></param>
+		/// <returns></returns>
 		Task RegisterTransitionEnded(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "");
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="onEndedCallback"></param>
+		/// <param name="elementRefsWithProperties"></param>
+		/// <returns></returns>
 		Task RegisterTransitionsWhenAllEnded(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="elementRef"></param>
+		/// <param name="transitionPropertyName"></param>
+		/// <returns></returns>
 		Task RemoveTransitionEnded(ElementReference elementRef, string transitionPropertyName = "");
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="elementRefsWithProperties"></param>
+		/// <returns></returns>
 		Task RemoveTransitionsWhenAllEnded(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
 	}
 
@@ -30,7 +60,7 @@ namespace Blazor.Components.Dialog.CSS
 		{
 			await CheckJsObject();
 
-			var info = new TransitionInfo(elementRef, onEndedCallback);
+			var info = new TransitionInfo(elementRef, onEndedCallback, transitionPropertyName);
 			var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
 
 			await _transitionJs.InvokeVoidAsync("addTransitionEnd", elementRef, dotnetRef, transitionPropertyName);
@@ -50,7 +80,7 @@ namespace Blazor.Components.Dialog.CSS
 			var collection = new TransitionCollectionInfo(onEndedCallback);
 			foreach (var item in elementRefsWithProperties)
 			{
-				var info = new TransitionInfo(item.Key, collection.WhenAllFinished);
+				var info = new TransitionInfo(item.Key, collection.WhenAllFinished, item.Value);
 				collection.Add(info);
 				var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
 
@@ -113,10 +143,12 @@ namespace Blazor.Components.Dialog.CSS
 	{
 		private readonly Func<TransitionEndEventArgs, Task> _transitionEndedCallback;
 		private readonly ElementReference _element;
+		private readonly string _transitionPropertyName;
 
-		public TransitionInfo(ElementReference element, Func<TransitionEndEventArgs, Task> transitionEndedCallback)
+		public TransitionInfo(ElementReference element, Func<TransitionEndEventArgs, Task> transitionEndedCallback, string transitionPropertyName)
 		{
 			_element = element;
+			_transitionPropertyName = transitionPropertyName;
 			_transitionEndedCallback = transitionEndedCallback;
 		}
 
@@ -124,22 +156,24 @@ namespace Blazor.Components.Dialog.CSS
 		public async Task TransitionEnded(TransitionEndEventArgs args)
 		{
 			args.Element = _element;
+			args.OriginalPropertyNameFilter = _transitionPropertyName;
 
 			await _transitionEndedCallback(args);
 		}
 	}
 
-	public class TransitionEndEventArgs
+	public class TransitionEndEventArgs : EventArgs
 	{
 		public ElementReference Element { get; set; }
+		public string OriginalPropertyNameFilter { get; set; }
 
 		public bool Composed { get; set; }
 		public double ElapsedTime { get; set; }
 		public int EventPhase { get; set; }
-		public string[] Path { get; set; }
+		//public string[] Path { get; set; } //Should be ElementReference[] but cannot serialize from JS
 		public string PropertyName { get; set; }
 		public bool ReturnValue { get; set; }
-		public string Target { get; set; }
+		//public string Target { get; set; } //Should be ElementReference but cannot serialize from JS
 		public string Type { get; set; }
 	}
 }
