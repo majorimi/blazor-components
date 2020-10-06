@@ -1,6 +1,6 @@
 ﻿@inject ILogger<ModalDialog> _logger;
 @inject IJSRuntime _jsRuntime;
-@*@inject ITransitionEventsService _transitionService;*@
+@inject ITransitionEventsService _transitionService;
 
 @implements IAsyncDisposable
 
@@ -42,7 +42,6 @@
 	}
 </style>
 
-@using Blazor.Components.Dialog.CSS;
 @code {
 	private bool _disposedValue;
 	private bool _isOpened = false;
@@ -53,8 +52,6 @@
 
 	private JSObjectReference _previousFocusedElement;
 	private JSObjectReference _focusJs;
-
-	private ITransitionEventsService _transitionService;
 
 	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
@@ -105,9 +102,6 @@
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
 		
 		_dialogTop = _dialogDefaultTop;
-
-			//TODO Animations: INJECT it
-			_transitionService = new TransitionEventsService(_jsRuntime);
 
 		KeyValuePair<ElementReference, string>[] args = 
 		{ 

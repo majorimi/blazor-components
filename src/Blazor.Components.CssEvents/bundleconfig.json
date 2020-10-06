@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/animationEvents.min.js",
+    "inputFiles": [
+      "wwwroot/animationEvents.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/transitionEvents.min.js",
+    "inputFiles": [
+      "wwwroot/transitionEvents.js"
+    ]
+  }
+]

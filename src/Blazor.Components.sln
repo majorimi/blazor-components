@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Core.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Color", "Blazor.Components.Color\Blazor.Components.Color.csproj", "{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.CssEvents", "Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj", "{202E6A8C-B681-4141-85FE-3B014E13CCC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{202E6A8C-B681-4141-85FE-3B014E13CCC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{202E6A8C-B681-4141-85FE-3B014E13CCC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{202E6A8C-B681-4141-85FE-3B014E13CCC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{202E6A8C-B681-4141-85FE-3B014E13CCC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +130,7 @@ Global
 		{E56E3F1E-251F-4ECC-A588-BA7830D0BED8} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
 		{2A41D509-83BF-4F00-8107-E3A5080A3B02} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
 		{1ED6F4DC-F1AE-454D-BEEA-3766E375C0F0} = {B6905E0B-759A-4928-B38A-9210B5CC8988}
+		{202E6A8C-B681-4141-85FE-3B014E13CCC1} = {B6905E0B-759A-4928-B38A-9210B5CC8988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3E8B7F7-3F7C-4D6C-8B7B-48F1AF4694B9}

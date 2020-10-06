@@ -1,5 +1,5 @@
 ﻿@inject ILogger<TransitionElement> _logger;
-@*@inject ITransitionEventsService _transitionService;*@
+@inject ITransitionEventsService _transitionService;
 @inject IJSRuntime _jsRuntime;
 
 @implements IAsyncDisposable
@@ -10,7 +10,6 @@
 
 @code {
 	private ElementReference _transitionContainer;
-	private ITransitionEventsService _transitionService;
 
 	[Parameter]
 	public RenderFragment Content { get; set; }
@@ -25,9 +24,6 @@
 	{
 		WriteDiag($"OnInitializedAsync currently TransitionPropertyName: '{TransitionPropertyName}'.");
 		
-			//TODO Animations: INJECT it
-			_transitionService = new TransitionEventsService(_jsRuntime);
-
 		await _transitionService.RegisterTransitionEnded(_transitionContainer, async (args) => 
 			{ 
 				if(OnTransitionEnded.HasDelegate)
