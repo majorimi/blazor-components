@@ -1,0 +1,36 @@
+﻿
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>CSS Animation events</h3>
+	<p>
+		Blazor <strong>Extension and Component wrapper</strong> to notify Blazor apps on CSS supported <strong>Animation</strong> events.
+	</p>
+</div>
+
+@implements IAsyncDisposable
+
+@inject ITransitionEventsService _transitionService1;
+@code {
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+
+		}
+	}
+
+
+	private string WriteLog(string log, TransitionEndEventArgs e, TimeSpan? eventTime = null)
+	{
+		return log 
+			+= $"{eventTime ?? DateTime.Now.TimeOfDay}: Transition ended filter: '{e.OriginalPropertyNameFilter}', Type: '{e.Type}', PropertyName: '{e.PropertyName}', ElapsedTime: '{e.ElapsedTime}', ReturnValue '{e.ReturnValue}'. \r\n";
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_transitionService1 is not null)
+		{
+			await _transitionService1.DisposeAsync();
+		}
+	}
+}

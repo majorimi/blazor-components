@@ -15,7 +15,7 @@
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
-	<Description>Blazor components that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loaing...</Description>
+	<Description>Blazor components that renders Overlay for page load. HTML Button with customizable content to show during async operation progress/loading state.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
   </PropertyGroup>
