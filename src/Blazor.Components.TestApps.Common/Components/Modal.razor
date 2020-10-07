@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
-		<h4><code>ModalDialog</code> hidden Header</h4>
+		<h4><code>ModalDialog</code> hidden Header and no Footer</h4>
 
 		<p>Dialog with default parameters Header hidden (by settig <code>ShowCloseButton="false"</code> and Header RenderFrangment must not present), only Content set</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog2.IsOpen ? _simpledialog2.Close() : _simpledialog2.Open())">No Header dialog</button>
@@ -204,7 +204,7 @@
 	//Fully customized dialog
 	private string _overlayColor = "128,128,128";
 	private double _overlayOpacity = 500;
-	private double _modalHeight = 300;
+	private double _modalHeight = 270;
 	private double _modalWitdth = 500;
 	private double _modalMinHeight = 100;
 	private double _modalMinWitdth = 100;
