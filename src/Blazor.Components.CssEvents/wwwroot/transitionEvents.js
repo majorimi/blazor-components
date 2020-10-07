@@ -1,4 +1,5 @@
-﻿function createEventHandler(dotnetRef, transitionPropertyName, invokeMethodName) {
+﻿//Create event handler
+function createEventHandler(dotnetRef, transitionPropertyName, invokeMethodName) {
     let eventCallback = function (args) {
         //console.log(args);
         let name = args['propertyName'];
@@ -21,20 +22,16 @@
 
     return eventCallback;
 }
-
-let _transitionHandlerDict = [];
-
-export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
-    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'TransitionEnded');
-
+//Store element with event
+function storeEventHandler(dict, element, transitionPropertyName, eventCallback) {
     let elementFound = false;
-    for (let i = 0; i < _transitionHandlerDict.length; i++) {
-        if (_transitionHandlerDict[i].key === element) {
-            if (_transitionHandlerDict[i].value) {
-                _transitionHandlerDict[i].value.push({ prop: transitionPropertyName, handler: eventCallback });
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === element) {
+            if (dict[i].value) {
+                dict[i].value.push({ prop: transitionPropertyName, handler: eventCallback });
             }
             else {
-                _transitionHandlerDict[i].value = [{ prop: transitionPropertyName, handler: eventCallback }];
+                dict[i].value = [{ prop: transitionPropertyName, handler: eventCallback }];
             }
 
             elementFound = true;
@@ -43,11 +40,42 @@ export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
     }
 
     if (!elementFound) {
-        _transitionHandlerDict.push({
+        dict.push({
             key: element,
             value: [{ prop: transitionPropertyName, handler: eventCallback }]
         });
     }
+}
+//Remove element with event
+function removeAndReturnEventHandler(dict, element, transitionPropertyName) {
+    let eventCallback;
+
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === element) {
+            let val = dict[i].value;
+            for (let j = 0; j < val.length; j++) {
+                if (val[j].prop === transitionPropertyName) {
+                    eventCallback = val[j].handler; //associate callback
+                    dict[i].value.splice(j, 1); //remove handler
+
+                    if (dict[i].value.length === 0) {
+                        dict.splice(i, 1);
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    return eventCallback;
+}
+
+let _transitionHandlerDict = [];
+
+export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
+    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'TransitionEnded');
+    storeEventHandler(_transitionHandlerDict, element, transitionPropertyName, eventCallback);
 
     // Code for Safari 3.1 to 6.0
     element.addEventListener("webkitTransitionEnd", eventCallback);
@@ -58,21 +86,7 @@ export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
 }
 
 export function removeTransitionEnd(element, transitionPropertyName) {
-    let eventCallback;
-
-    for (let i = 0; i < _transitionHandlerDict.length; i++) {
-        if (_transitionHandlerDict[i].key === element) {
-            let val = _transitionHandlerDict[i].value;
-            for (let j = 0; j < val.length; j++) {
-                if (val[j].prop === transitionPropertyName) {
-                    eventCallback = val[j].handler; //associate callback
-                    _transitionHandlerDict[i].value.splice(j, 1); //remove handler
-                    break;
-                }
-            }
-            break;
-        }
-    }
+    let eventCallback = removeAndReturnEventHandler(_transitionHandlerDict, element, transitionPropertyName);
 
     if (!eventCallback) {
         return; //No event handler found
@@ -84,8 +98,10 @@ export function removeTransitionEnd(element, transitionPropertyName) {
     element.removeEventListener("transitionend", eventCallback);
 }
 
-export function dispose() {
-    _transitionHandlerDict = [];
+export function dispose(elementsWithPropDictionary) {
+    for (var i = 0; i < elementsWithPropDictionary.length; i++) {
+        removeTransitionEnd(elementsWithPropDictionary[i].key, elementsWithPropDictionary[i].value);
+    }
 }
 
 //transitionend event args:

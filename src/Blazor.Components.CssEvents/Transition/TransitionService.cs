@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -13,11 +14,13 @@ namespace Blazor.Components.CssEvents.Transition
 	public class TransitionEventsService : ITransitionEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
+		private List<KeyValuePair<ElementReference, string>> _registeredElements;
 		private JSObjectReference _transitionJs;
 
 		public TransitionEventsService(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
+			_registeredElements = new List<KeyValuePair<ElementReference, string>>();
 		}
 
 		public async Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
@@ -28,6 +31,7 @@ namespace Blazor.Components.CssEvents.Transition
 			var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
 
 			await _transitionJs.InvokeVoidAsync("addTransitionEnd", elementRef, dotnetRef, transitionPropertyName);
+			_registeredElements.Add(new KeyValuePair<ElementReference, string>(elementRef, transitionPropertyName));
 		}
 
 		public async Task RemoveTransitionEndedAsync(ElementReference elementRef, string transitionPropertyName = "")
@@ -35,6 +39,7 @@ namespace Blazor.Components.CssEvents.Transition
 			await CheckJsObjectAsync();
 
 			await _transitionJs.InvokeVoidAsync("removeTransitionEnd", elementRef, transitionPropertyName);
+			RemoveElement(elementRef, transitionPropertyName);
 		}
 
 		public async Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
@@ -49,6 +54,7 @@ namespace Blazor.Components.CssEvents.Transition
 				var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
 
 				await _transitionJs.InvokeVoidAsync("addTransitionEnd", item.Key, dotnetRef, item.Value);
+				_registeredElements.Add(new KeyValuePair<ElementReference, string>(item.Key, item.Value));
 			}
 		}
 
@@ -59,7 +65,15 @@ namespace Blazor.Components.CssEvents.Transition
 			foreach (var item in elementRefsWithProperties)
 			{
 				await _transitionJs.InvokeVoidAsync("removeTransitionEnd", item.Key, item.Value);
+				RemoveElement(item.Key, item.Value);
 			}
+		}
+
+		private void RemoveElement(ElementReference elementRef, string transitionPropertyName)
+		{
+			var items = _registeredElements.Where(x => x.Key.Equals(elementRef) && x.Value == transitionPropertyName);
+
+			_registeredElements = _registeredElements.Except(items).ToList();
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -78,7 +92,7 @@ namespace Blazor.Components.CssEvents.Transition
 		{
 			if (_transitionJs is not null)
 			{
-				await _transitionJs.InvokeVoidAsync("dispose");
+				await _transitionJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
 
 				await _transitionJs.DisposeAsync();
 			}

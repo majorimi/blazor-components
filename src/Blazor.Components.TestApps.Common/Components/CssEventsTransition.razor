@@ -11,7 +11,7 @@
 	.divTransition:hover {
 		width: 400px;
 		height: 150px;
-		opacity: 0.5;
+		opacity: 0.7;
 	}
 
 	.lbTransition {
@@ -170,16 +170,14 @@
 
 @implements IAsyncDisposable
 
-@inject ITransitionEventsService _transitionService1;
-@inject ITransitionEventsService _transitionService2;
-@inject ITransitionEventsService _transitionService3;
+@inject ITransitionEventsService _transitionService;
 @code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			await _transitionService1.RegisterTransitionEndedAsync(_div3, OnTransitionEnded3);
-			await _transitionService2.RegisterTransitionEndedAsync(_div4, OnTransitionEnded4, "height");
+			await _transitionService.RegisterTransitionEndedAsync(_div3, OnTransitionEnded3);
+			await _transitionService.RegisterTransitionEndedAsync(_div4, OnTransitionEnded4, "height");
 
 			KeyValuePair<ElementReference, string>[] transElements = 
 			{ 
@@ -188,16 +186,16 @@
 				new KeyValuePair<ElementReference, string>(_div5, "width"),
 				new KeyValuePair<ElementReference, string>(_label5, "font-size")
 			};
-			await _transitionService3.RegisterTransitionsWhenAllEndedAsync(OnTransitionEnded5, transElements);
+			await _transitionService.RegisterTransitionsWhenAllEndedAsync(OnTransitionEnded5, transElements);
 		}
 	}
 	private async Task Unsubscribe1()
 	{
-		await _transitionService1.RemoveTransitionEndedAsync(_div3);
+		await _transitionService.RemoveTransitionEndedAsync(_div3);
 	}
 	private async Task Unsubscribe2()
 	{
-		await _transitionService2.RemoveTransitionEndedAsync(_div4, "height");
+		await _transitionService.RemoveTransitionEndedAsync(_div4, "height");
 	}
 	private async Task Unsubscribe3()
 	{
@@ -208,7 +206,7 @@
 			new KeyValuePair<ElementReference, string>(_div5, "width"),
 			new KeyValuePair<ElementReference, string>(_label5, "font-size")
 		};
-		await _transitionService3.RemoveTransitionsWhenAllEndedAsync(transElements);
+		await _transitionService.RemoveTransitionsWhenAllEndedAsync(transElements);
 	}
 
 	private string _div1Log;
@@ -261,17 +259,9 @@
 
 	public async ValueTask DisposeAsync()
 	{
-		if(_transitionService1 is not null)
+		if(_transitionService is not null)
 		{
-			await _transitionService1.DisposeAsync();
-		}
-		if(_transitionService2 is not null)
-		{
-			await _transitionService2.DisposeAsync();
-		}
-		if(_transitionService3 is not null)
-		{
-			await _transitionService3.DisposeAsync();
+			await _transitionService.DisposeAsync();
 		}
 	}
 }

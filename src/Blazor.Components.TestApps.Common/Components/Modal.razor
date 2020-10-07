@@ -21,16 +21,29 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Modal height: @(_modalHight == 0 ? "auto" : $"{_modalHight}px") (Max height: @(_dialog?.MaxHeight)px)
-			<input type="range" class="w-100" min="0" max="1000" @bind="_modalHight" @oninput="(e => _modalHight = int.Parse(e.Value?.ToString()))" />
+			Modal height (0 is auto): @(_modalHeight == 0 ? "auto" : $"{_modalHeight}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_modalHeight" @oninput="(e => _modalHeight = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Modal width: @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px") (Max width: @(_dialog?.MaxWidth)px)
+			Modal width (0 is auto): @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px")
 			<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Modal Max. height: @(_modalMaxHeight)px
+			<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxHeight" @oninput="(e => _modalMaxHeight = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Modal Max. width: @(_modalMaxWitdth)px
+			<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxWitdth" @oninput="(e => _modalMaxWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Close on Overlay click: <input class="mr-3" type="checkbox" @bind="_modalCloseOnClick"/>
@@ -46,8 +59,10 @@
 	<ModalDialog @ref="_dialog" 
 		OverlayBackgroundColor="@_overlayColor" 
 		OverlayOpacity="@(_overlayOpacity/1000)"
-		Height="@_modalHight"
+		Height="@_modalHeight"
 		Width="@_modalWitdth"
+		MaxHeight="@_modalMaxHeight"
+		MaxWidth="@_modalMaxWitdth"
 		CloseOnOverlayClick="_modalCloseOnClick"
 		CloseOnEscapeKey="_modalCloseOnEsc"
 		Focus="_modalFocus"
@@ -55,7 +70,11 @@
 		Centered="_modalCentered"
 		ShowCloseButton="_modalShowClose"
 		OnOpen="OnOpen"
-		OnClose="OnClose">
+		OnClose="OnClose"
+		OnCloseButtonClicked="OnCloseButtonClicked"
+		OnOverlayClicked="OnOverlayClicked"
+		OnEscapeKeyPress="OnEscapeKeyPress"
+		OnTransitionEnded="OnTransitionEnded">
 		<Header>
 			<h4>Modal title</h4>
 		</Header>
@@ -81,13 +100,23 @@
 			<label class="form-control">Hello: @(_yourName)</label>
 		</div>
 	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Event log</strong>:</label>
+			<textarea @bind="_modal1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+
 </div>
 
 @code {
 	private string _overlayColor = "128,128,128";
 	private double _overlayOpacity = 500;
-	private double _modalHight = 300;
+	private double _modalHeight = 300;
 	private double _modalWitdth = 500;
+	private double _modalMaxHeight = 800;
+	private double _modalMaxWitdth = 800;
 	private bool _modalAnimate = true;
 	private bool _modalCloseOnClick = true;
 	private bool _modalCloseOnEsc = true;
@@ -95,20 +124,7 @@
 	private bool _modalCentered = true;
 	private bool _modalShowClose = true;
 
-	//Dialog events
-	public async Task OnOpen()
-	{
-		await Task.Delay(500);
-	}
-	public async Task OnClose()
-	{
-		await Task.Delay(500);
-	}
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-	}
-
+	private string _modal1Log;
 	private string _yourName;
 	private ModalDialog _dialog;
 	private async Task OpenDialog()
@@ -128,5 +144,38 @@
 	private async Task CancelDialog()
 	{
 		await _dialog.Close();
+	}
+
+	//Dialog events
+	public async Task OnOpen()
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+		await Task.Delay(500);
+	}
+	public async Task OnClose()
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+		await Task.Delay(500);
+	}
+	private async Task OnCloseButtonClicked(MouseEventArgs e)
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+	}
+	private async Task OnOverlayClicked(MouseEventArgs e)
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+	}
+	private async Task OnEscapeKeyPress(KeyboardEventArgs e)
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+	}
+	private async Task OnTransitionEnded(TransitionEndEventArgs[] e)
+	{
+		_modal1Log = WriteLog(_modal1Log, "");
+	}
+
+	private string WriteLog(string log, string message)
+	{
+		return log += $"{DateTime.Now.TimeOfDay}: Modal dialog: '{message}'. \r\n";
 	}
 }
