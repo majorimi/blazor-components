@@ -2,115 +2,164 @@
 <p>
 	Blazor component that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md" target="_blank">Github</a>.
+	<br /><strong>Blazor.Components.Dialog</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog" target="_blank">Nuget</a>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Modal dialog</h3>
-	<p>Renders and Overlay layer with customizable content for showing dialog...</p>
+	<p>Renders a fully customizable Modal dialog with customizable Overlay layer and events to subscribe ...</p>
 
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacity/1000) 
-			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Modal height (0 is auto): @(_modalHeight == 0 ? "auto" : $"{_modalHeight}px")
-			<input type="range" class="w-100" min="0" max="1000" @bind="_modalHeight" @oninput="(e => _modalHeight = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Modal width (0 is auto): @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px")
-			<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Modal Max. height: @(_modalMaxHeight)px
-			<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxHeight" @oninput="(e => _modalMaxHeight = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Modal Max. width: @(_modalMaxWitdth)px
-			<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxWitdth" @oninput="(e => _modalMaxWitdth = int.Parse(e.Value?.ToString()))" />
-		</div>
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Default <code>ModalDialog</code></h4>
+
+		<p>Dialog with default parameters, only Content set</p>
+		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog1.IsOpen ? _simpledialog1.Close() : _simpledialog1.Open())">Default dialog</button>
+
+		<ModalDialog @ref="_simpledialog1">
+			<Content>
+				Welcome to Blazor default ModalDialog...
+			</Content>
+		</ModalDialog>
 	</div>
 
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Close on Overlay click: <input class="mr-3" type="checkbox" @bind="_modalCloseOnClick"/>
-			Close on Escape key: <input class="mr-3" type="checkbox" @bind="_modalCloseOnEsc"/>
-			Show Close button: <input class="mr-3" type="checkbox" @bind="_modalShowClose"/>
-			<br />
-			Animate: <input class="mr-3" type="checkbox" @bind="_modalAnimate"/>
-			Focus: <input class="mr-3" type="checkbox" @bind="_modalFocus"/>
-			Centered: <input class="mr-3" type="checkbox" @bind="_modalCentered"/>
-		</div>
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>ModalDialog</code> hidden title</h4>
+
+		<p>Dialog with default parameters Title hidden, only Content set</p>
+		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog2.IsOpen ? _simpledialog2.Close() : _simpledialog2.Open())">No Title dialog</button>
+
+		<ModalDialog @ref="_simpledialog2" ShowCloseButton="false">
+			<Content>
+				Welcome to Blazor no Title ModalDialog...
+			</Content>
+		</ModalDialog>
 	</div>
 
-	<ModalDialog @ref="_dialog" 
-		OverlayBackgroundColor="@_overlayColor" 
-		OverlayOpacity="@(_overlayOpacity/1000)"
-		Height="@_modalHeight"
-		Width="@_modalWitdth"
-		MaxHeight="@_modalMaxHeight"
-		MaxWidth="@_modalMaxWitdth"
-		CloseOnOverlayClick="_modalCloseOnClick"
-		CloseOnEscapeKey="_modalCloseOnEsc"
-		Focus="_modalFocus"
-		Animate="_modalAnimate"
-		Centered="_modalCentered"
-		ShowCloseButton="_modalShowClose"
-		OnOpen="OnOpen"
-		OnClose="OnClose"
-		OnCloseButtonClicked="OnCloseButtonClicked"
-		OnOverlayClicked="OnOverlayClicked"
-		OnEscapeKeyPress="OnEscapeKeyPress"
-		OnTransitionEnded="OnTransitionEnded">
-		<Header>
-			<h4>Modal title</h4>
-		</Header>
-		<Content>
-			<div class="container">
-				<div class="row pb-2">
-					Congratulations to your first modal!!!
-				</div>
-				<div class="row pb-2">
-					Enter your name: <input class="form-control w-100" @bind="_yourName" />
-				</div>
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Fully customizable <code>ModalDialog</code> with all events subscribed</h4>
+		<p>Dialog with all parameters customizable from UI (form is coded into Content property) and subscribed to all available events</p>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
 			</div>
-		</Content>
-		<Footer>
-			<button class="btn btn-warning ml-2" @onclick="CancelDialog">Cancel</button>
-			<button class="btn btn-primary ml-2" @onclick="AcceptDialog">Ok</button>
-		</Footer>
-	</ModalDialog>
-
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			<button id="_modalPrompt" class="btn btn-primary mb-2" @onclick="OpenDialog">Prompt dialog</button>
-			<label class="form-control">Hello: @(_yourName)</label>
 		</div>
-	</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay opacity: @(_overlayOpacity/1000) 
+				<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal height (0 is auto): @(_modalHeight == 0 ? "auto" : $"{_modalHeight}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalHeight" @oninput="(e => _modalHeight = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal width (0 is auto): @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal Max. height: @(_modalMaxHeight)px
+				<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxHeight" @oninput="(e => _modalMaxHeight = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal Max. width: @(_modalMaxWitdth)px
+				<input type="range" class="w-100" min="200" max="1000" @bind="_modalMaxWitdth" @oninput="(e => _modalMaxWitdth = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Close on Overlay click: <input class="mr-3" type="checkbox" @bind="_modalCloseOnClick"/>
+				Close on Escape key: <input class="mr-3" type="checkbox" @bind="_modalCloseOnEsc"/>
+				Show Close button: <input class="mr-3" type="checkbox" @bind="_modalShowClose"/>
+				<br />
+				Animate: <input class="mr-3" type="checkbox" @bind="_modalAnimate"/>
+				Focus: <input class="mr-3" type="checkbox" @bind="_modalFocus"/>
+				Centered: <input class="mr-3" type="checkbox" @bind="_modalCentered"/>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Title text (if empty and no Close button, then empty Header will be shown): <input class="form-control w-100" @bind="_modalTitle" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Content text (form is hardcoded): <input class="form-control w-100" @bind="_modalText" />
+			</div>
+		</div>
+
+		<ModalDialog @ref="_dialog"
+			OverlayBackgroundColor="@_overlayColor" 
+			OverlayOpacity="@(_overlayOpacity/1000)"
+			Height="@_modalHeight"
+			Width="@_modalWitdth"
+			MaxHeight="@_modalMaxHeight"
+			MaxWidth="@_modalMaxWitdth"
+			CloseOnOverlayClick="_modalCloseOnClick"
+			CloseOnEscapeKey="_modalCloseOnEsc"
+			Focus="_modalFocus"
+			Animate="_modalAnimate"
+			Centered="_modalCentered"
+			ShowCloseButton="_modalShowClose"
+			OnOpen="OnOpen"
+			OnClose="OnClose"
+			OnCloseButtonClicked="OnCloseButtonClicked"
+			OnOverlayClicked="OnOverlayClicked"
+			OnEscapeKeyPress="OnEscapeKeyPress"
+			OnTransitionEnded="OnTransitionEnded">
+			<Header>
+				<h4>@_modalTitle</h4>
+			</Header>
+			<Content>
+				<div class="container">
+					<div class="row pb-2">
+						@_modalText
+					</div>
+					<div class="row pb-2">
+						Enter your name: <input class="form-control w-100" @bind="_yourName" />
+					</div>
+				</div>
+			</Content>
+			<Footer>
+				<button class="btn btn-warning ml-2" @onclick="CancelDialog">Cancel</button>
+				<button class="btn btn-primary ml-2" @onclick="AcceptDialog">Ok</button>
+			</Footer>
+		</ModalDialog>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				<button id="_modalPrompt" class="btn btn-primary mb-2" @onclick="OpenDialog">Prompt dialog</button>
+				@if(!string.IsNullOrWhiteSpace(_yourName))
+				{
+					<label class="form-control">@_yourName</label>
+				}
+			</div>
+		</div>
 	
-	<div class="row pb-2">
-		<div class="col-12">
-			<label><strong>Event log</strong>:</label>
-			<textarea @bind="_modal1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_modal1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+			</div>
 		</div>
 	</div>
-
 </div>
 
 @code {
+	private ModalDialog _simpledialog1;
+	private ModalDialog _simpledialog2;
+
+	//Fully customized dialog
 	private string _overlayColor = "128,128,128";
 	private double _overlayOpacity = 500;
 	private double _modalHeight = 300;
@@ -123,6 +172,8 @@
 	private bool _modalFocus = true;
 	private bool _modalCentered = true;
 	private bool _modalShowClose = true;
+	private string _modalTitle = "Modal title";
+	private string _modalText = "Congratulations to your first modal!";
 
 	private string _modal1Log;
 	private string _yourName;
@@ -133,49 +184,57 @@
 	}
 	private async Task AcceptDialog()
 	{
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog custom content action: 'Ok' Button click: '{nameof(AcceptDialog)}'.");
+
 		if(_dialog.IsOpen)
 		{
 			await _dialog.Close();
 
 			if(!string.IsNullOrWhiteSpace(_yourName))
-				_yourName += "!";
+				_yourName = $"Hello {_yourName}!";
+			else
+				_yourName = "No name was entered...";
 		}
 	}
 	private async Task CancelDialog()
 	{
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog custom content action: 'Cancel' Button click: '{nameof(CancelDialog)}'.");
+		_yourName = "You have canceled the Dialog";
+
 		await _dialog.Close();
 	}
 
 	//Dialog events
 	public async Task OnOpen()
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_yourName = null;
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOpen)}' Dialog opened.");
 		await Task.Delay(500);
 	}
 	public async Task OnClose()
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnClose)}' Dialog closed.");
 		await Task.Delay(500);
 	}
 	private async Task OnCloseButtonClicked(MouseEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
 	}
 	private async Task OnOverlayClicked(MouseEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOverlayClicked)}', Event args: {e}.");
 	}
 	private async Task OnEscapeKeyPress(KeyboardEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnEscapeKeyPress)}', Event args: {e}.");
 	}
 	private async Task OnTransitionEnded(TransitionEndEventArgs[] e)
 	{
-		_modal1Log = WriteLog(_modal1Log, "");
+		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnTransitionEnded)}', Event args: {e}.");
 	}
 
 	private string WriteLog(string log, string message)
 	{
-		return log += $"{DateTime.Now.TimeOfDay}: Modal dialog: '{message}'. \r\n";
+		return log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
 	}
 }
