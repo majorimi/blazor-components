@@ -4,43 +4,46 @@
 
 @implements IAsyncDisposable
 
-<div id="shit" @ref="_overlayDiv" class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
-		style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
-		 hidden="@(!_isOpened)" @attributes=AllOtherAttributes>
-	<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true" >
+@if(_isOpened)
+{
+	<div @ref="_overlayDiv" class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
+			style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
+			@attributes=AllOtherAttributes>
+		<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true" >
 		
-		@if(Header != null || ShowCloseButton)
-		{
-			<div class="bmodal-header">
-				@Header
-				@if(ShowCloseButton)
-				{
-					<button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
-				}
-			</div>
-		}
-		<div class="bmodal-body">@Content</div>
-		@if(Footer != null)
-		{
-			<div class="bmodal-footer">@Footer</div>
-		}
+			@if(Header != null || ShowCloseButton)
+			{
+				<div class="bmodal-header">
+					@Header
+					@if(ShowCloseButton)
+					{
+						<button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+					}
+				</div>
+			}
+			<div class="bmodal-body">@Content</div>
+			@if(Footer != null)
+			{
+				<div class="bmodal-footer">@Footer</div>
+			}
+		</div>
 	</div>
-</div>
 
-<style>
-	.fade {
-		transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
-	}
-	.dynamicStyle {
-		top: @(_dialogTop) 
-		left: 50%;
-		max-width:@(MaxWidth)px; 
-		max-height:@(MaxHeight)px; 
-		width:@(Width == 0 ? "auto": $"{Width}px"); 
-		height:@(Height == 0 ? "auto": $"{Height}px");
-		transition: top @((_animationDuration).ToString().Replace(',', '.'))s ease-in-out;
-	}
-</style>
+	<style>
+		.fade {
+			transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
+		}
+		.dynamicStyle {
+			top: @(_dialogTop)
+			left: 50%;
+			min-width:@(MinWidth)px;
+			min-height:@(MinHeight)px;
+			width:@(Width == 0 ? "auto": $"{Width}px");
+			height:@(Height == 0 ? "auto": $"{Height}px");
+			transition: top @((_animationDuration).ToString().Replace(',', '.'))s ease-in-out;
+		}
+	</style>
+}
 
 @code {
 	private bool _disposedValue;
@@ -70,8 +73,8 @@
 	//Size
 	[Parameter] public double Height { get; set; } = 0;
 	[Parameter] public double Width { get; set; } = 0;
-	[Parameter] public double MaxHeight { get; set; } = 1000;
-	[Parameter] public double MaxWidth { get; set; } = 1000;
+	[Parameter] public double MinHeight { get; set; } = 200;
+	[Parameter] public double MinWidth { get; set; } = 100;
 
 	[Parameter] public bool Focus { get; set; } = true;
 	[Parameter] public bool Animate { get; set; } = true;
@@ -106,13 +109,6 @@
 		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
 #endif		
 		_dialogTop = _dialogDefaultTop;
-
-		KeyValuePair<ElementReference, string>[] args = 
-		{ 
-			new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"), 
-			new KeyValuePair<ElementReference, string>(_modal, "top") 
-		};
-		await _transitionService.RegisterTransitionsWhenAllEndedAsync(TransitionEnded, args);
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
@@ -169,25 +165,27 @@
 	{
 		if(Animate)
 		{
-			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEndEventArgs[] count: '{args.Length}'!!");
-			if(_opacity == 1) //Visible
-			{
-				await OpenInternal(); 
-			}
-			else //Hidden
-			{
-				await CloseInternal();
-			}
-
 			if(OnTransitionEnded.HasDelegate)
 			{
 				await OnTransitionEnded.InvokeAsync(args);
 			}
+
+			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEndEventArgs[] count: '{args.Length}'!!");
+			if (_opacity == 1) //Visible
+			{
+				await OpenInternal(); 
+			}
+			else if (_opacity == 0) //Hidden
+			{
+				await CloseInternal();
+			}
 		}
 	}
 
+	private KeyValuePair<ElementReference, string>[] _elementRefsWithProperties;
 	public async Task Open()
 	{
+		_dialogTop = _dialogDefaultTop;//Reset dialog to page top
 		_isOpened = true;
 		WriteDiag($"Opening dialog currently, Opacity: {_opacity}, IsOpened: '{_isOpened}'.");
 
@@ -195,6 +193,13 @@
 		{
 			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
 			await Task.Delay((int)(_animationDuration * 100)); //HACK: Must wait, time is not exact.. Render happens before but DIV is still not visible!!
+
+			_elementRefsWithProperties = new KeyValuePair<ElementReference, string>[]
+			{ 
+				new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"), 
+				new KeyValuePair<ElementReference, string>(_modal, "top") 
+			};
+			await _transitionService.RegisterTransitionsWhenAllEndedAsync(TransitionEnded, _elementRefsWithProperties);
 
 			_dialogTop = GetDialogTop();
 			_opacity = 1.0; //dialog must be visible
@@ -245,6 +250,12 @@
 	}
 	public async Task CloseInternal()
 	{
+		if(Animate)
+		{
+			await _transitionService.RemoveTransitionsWhenAllEndedAsync(_elementRefsWithProperties);
+			_elementRefsWithProperties = null;
+		}
+
 		_isOpened = false;
 		WriteDiag($"Closing dialog currently IsOpened: '{_isOpened}'.");
 
@@ -264,6 +275,8 @@
 			WriteDiag($"Closing dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
 			await OnClose.InvokeAsync();
 		}
+
+		StateHasChanged(); //Force UI to render
 	}
 
 	private void WriteDiag(string message)
@@ -273,6 +286,8 @@
 
 	public async ValueTask DisposeAsync()
 	{
+		WriteDiag($"Closing dialog running DisposeAsync() IsOpened: '{_isOpened}'.");
+
 		if(_focusJs is not null)
 		{
 			await _focusJs.DisposeAsync();
