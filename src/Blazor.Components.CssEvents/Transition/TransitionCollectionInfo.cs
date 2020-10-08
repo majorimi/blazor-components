@@ -8,15 +8,15 @@ namespace Blazor.Components.CssEvents.Transition
 {
 	public class TransitionCollectionInfo : Collection<TransitionInfo>
 	{
-		private readonly Func<TransitionEndEventArgs[], Task> _transitionEndedCallback;
+		private readonly Func<TransitionEventArgs[], Task> _transitionEndedCallback;
 
-		public TransitionCollectionInfo(Func<TransitionEndEventArgs[], Task> transitionEndedCallback)
+		public TransitionCollectionInfo(Func<TransitionEventArgs[], Task> transitionEndedCallback)
 		{
 			_transitionEndedCallback = transitionEndedCallback;
 		}
 
-		private List<TransitionEndEventArgs> _finishedTransitions = new List<TransitionEndEventArgs>();
-		public async Task WhenAllFinished(TransitionEndEventArgs args)
+		private List<TransitionEventArgs> _finishedTransitions = new List<TransitionEventArgs>();
+		public async Task WhenAllFinished(TransitionEventArgs args)
 		{
 			_finishedTransitions.Add(args);
 

@@ -8,12 +8,12 @@ namespace Blazor.Components.CssEvents.Animation
 {
 	public class AnimationInfo
 	{
-		private readonly Func<AnimationBaseEventArgs, Task> _animationEndedCallback;
+		private readonly Func<AnimationEventArgs, Task> _animationEndedCallback;
 
 		public ElementReference Element { get; init; }
 		public string AnimationName { get; init; }
 
-		public AnimationInfo(ElementReference element, Func<AnimationBaseEventArgs, Task> animationEndedCallback, string animationName)
+		public AnimationInfo(ElementReference element, Func<AnimationEventArgs, Task> animationEndedCallback, string animationName)
 		{
 			Element = element;
 			AnimationName = animationName;
@@ -22,7 +22,7 @@ namespace Blazor.Components.CssEvents.Animation
 		}
 
 		[JSInvokable("AnimationEnded")]
-		public async Task AnimationEnded(AnimationBaseEventArgs args)
+		public async Task AnimationEnded(AnimationEventArgs args)
 		{
 			args.Element = Element;
 			args.OriginalAnimationNameFilter = AnimationName;

@@ -92,7 +92,7 @@
 	[Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
 	[Parameter] public EventCallback<MouseEventArgs> OnOverlayClicked { get; set; }
 	[Parameter] public EventCallback<KeyboardEventArgs> OnEscapeKeyPress { get; set; }
-	[Parameter] public EventCallback<TransitionEndEventArgs[]> OnTransitionEnded { get; set; }
+	[Parameter] public EventCallback<TransitionEventArgs[]> OnTransitionEnded { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -161,7 +161,7 @@
 		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height/2)}px);";
 	}
 
-	private async Task TransitionEnded(TransitionEndEventArgs[] args)
+	private async Task TransitionEnded(TransitionEventArgs[] args)
 	{
 		if(Animate)
 		{
@@ -170,7 +170,7 @@
 				await OnTransitionEnded.InvokeAsync(args);
 			}
 
-			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEndEventArgs[] count: '{args.Length}'!!");
+			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEventArgs[] count: '{args.Length}'!!");
 			if (_opacity == 1) //Visible
 			{
 				await OpenInternal(); 

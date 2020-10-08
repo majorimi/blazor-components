@@ -8,12 +8,12 @@ namespace Blazor.Components.CssEvents.Transition
 {
 	public class TransitionInfo
 	{
-		private readonly Func<TransitionEndEventArgs, Task> _transitionEndedCallback;
+		private readonly Func<TransitionEventArgs, Task> _transitionEndedCallback;
 
 		public ElementReference Element { get; init; }
 		public string TransitionPropertyName { get; init; }
 
-		public TransitionInfo(ElementReference element, Func<TransitionEndEventArgs, Task> transitionEndedCallback, string transitionPropertyName)
+		public TransitionInfo(ElementReference element, Func<TransitionEventArgs, Task> transitionEndedCallback, string transitionPropertyName)
 		{
 			Element = element;
 			TransitionPropertyName = transitionPropertyName;
@@ -22,7 +22,7 @@ namespace Blazor.Components.CssEvents.Transition
 		}
 
 		[JSInvokable("TransitionEnded")]
-		public async Task TransitionEnded(TransitionEndEventArgs args)
+		public async Task TransitionEnded(TransitionEventArgs args)
 		{
 			args.Element = Element;
 			args.OriginalPropertyNameFilter = TransitionPropertyName;

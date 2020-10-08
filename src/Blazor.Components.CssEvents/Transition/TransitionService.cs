@@ -23,7 +23,7 @@ namespace Blazor.Components.CssEvents.Transition
 			_registeredElements = new List<KeyValuePair<ElementReference, string>>();
 		}
 
-		public async Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
+		public async Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
 		{
 			await CheckJsObjectAsync();
 
@@ -42,7 +42,7 @@ namespace Blazor.Components.CssEvents.Transition
 			RemoveElement(elementRef, transitionPropertyName);
 		}
 
-		public async Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
+		public async Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
 		{
 			await CheckJsObjectAsync();
 

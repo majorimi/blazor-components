@@ -2,7 +2,7 @@
 function createEventHandler(dotnetRef, animationName, invokeMethodName) {
     let eventCallback = function (args) {
         //console.log(args);
-        let name = args['propertyName'];
+        let name = args['animationName'];
 
         if (!animationName || name === animationName) {
             let props = {
@@ -10,7 +10,7 @@ function createEventHandler(dotnetRef, animationName, invokeMethodName) {
                 ElapsedTime: args.elapsedTime,
                 EventPhase: args.eventPhase,
                 //Path: args.path.toString(),  //Throws serialization exception for Element
-                PropertyName: args.propertyName,
+                AnimationName: args.animationName,
                 ReturnValue: args.returnValue,
                 //Target: JSON.stringify(args.target), //Throws serialization exception for Element
                 Type: args.type

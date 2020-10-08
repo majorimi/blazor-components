@@ -272,7 +272,7 @@
 	{
 		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnEscapeKeyPress)}', Event args: {e}.");
 	}
-	private async Task OnTransitionEnded(TransitionEndEventArgs[] e)
+	private async Task OnTransitionEnded(TransitionEventArgs[] e)
 	{
 		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnTransitionEnded)}', Event args: {e}.");
 	}

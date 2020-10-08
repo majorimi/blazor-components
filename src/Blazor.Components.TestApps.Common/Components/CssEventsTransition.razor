@@ -214,19 +214,19 @@
 	}
 
 	private string _div1Log;
-	private void OnTransitionEnded1(TransitionEndEventArgs e)
+	private void OnTransitionEnded1(TransitionEventArgs e)
 	{
 		_div1Log = WriteLog(_div1Log, e);
 	}
 	private string _div2Log;
-	private void OnTransitionEnded2(TransitionEndEventArgs e)
+	private void OnTransitionEnded2(TransitionEventArgs e)
 	{
 		_div2Log = WriteLog(_div2Log, e);
 	}
 
 	private ElementReference _div3;
 	private string _div3Log;
-	private async Task OnTransitionEnded3(TransitionEndEventArgs e)
+	private async Task OnTransitionEnded3(TransitionEventArgs e)
 	{
 		_div3Log = WriteLog(_div3Log, e);
 		StateHasChanged();
@@ -234,7 +234,7 @@
 
 	private ElementReference _div4;
 	private string _div4Log;
-	private async Task OnTransitionEnded4(TransitionEndEventArgs e)
+	private async Task OnTransitionEnded4(TransitionEventArgs e)
 	{
 		_div4Log = WriteLog(_div4Log, e);
 		StateHasChanged();
@@ -243,7 +243,7 @@
 	private ElementReference _div5;
 	private ElementReference _label5;
 	private string _div5Log;
-	private async Task OnTransitionEnded5(TransitionEndEventArgs[] args)
+	private async Task OnTransitionEnded5(TransitionEventArgs[] args)
 	{
 		var time = DateTime.Now.TimeOfDay;
 		_div5Log += $"{time}: Aggregated Transitions ended: total number of events: '{args.Length}'.  \r\n";
@@ -255,7 +255,7 @@
 		StateHasChanged();
 	}
 
-	private string WriteLog(string log, TransitionEndEventArgs e, TimeSpan? eventTime = null)
+	private string WriteLog(string log, TransitionEventArgs e, TimeSpan? eventTime = null)
 	{
 		return log 
 			+= $"{eventTime ?? DateTime.Now.TimeOfDay}: Transition ended filter: '{e.OriginalPropertyNameFilter}', Element Id: '{e.Element.Id}', Type: '{e.Type}', PropertyName: '{e.PropertyName}', ElapsedTime: '{e.ElapsedTime}', ReturnValue '{e.ReturnValue}'. \r\n";

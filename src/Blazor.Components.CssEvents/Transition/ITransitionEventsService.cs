@@ -18,7 +18,7 @@ namespace Blazor.Components.CssEvents.Transition
 		/// <param name="onEndedCallback">Func to call when Transition event has finished</param>
 		/// <param name="transitionPropertyName">Transition property name for filter event</param>
 		/// <returns>Async Task</returns>
-		Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEndEventArgs, Task> onEndedCallback, string transitionPropertyName = "");
+		Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEventArgs, Task> onEndedCallback, string transitionPropertyName = "");
 
 		/// <summary>
 		/// Adds event listeners for 'transitionend' HTML event for the given elements with property filters.
@@ -26,7 +26,7 @@ namespace Blazor.Components.CssEvents.Transition
 		/// <param name="onEndedCallback">Func to call when all Transition events has finished</param>
 		/// <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and property name for filter event</param>
 		/// <returns>Async Task</returns>
-		Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEndEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+		Task RegisterTransitionsWhenAllEndedAsync(Func<TransitionEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
 
 		/// <summary>
 		/// Removes event listener for 'transitionend' HTML event for the given element with property filter.
