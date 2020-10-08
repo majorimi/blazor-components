@@ -2,7 +2,7 @@
 <p>
 	Blazor component that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md" target="_blank">Github</a>.
-	<br /><strong>Blazor.Components.Dialog</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog" target="_blank">Nuget</a>
+	<br /><strong>Majorsoft.Blazor.Components.Dialog</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog" target="_blank">Nuget</a>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -15,7 +15,7 @@
 		<p>Dialog with default parameters, only Content set Header will show Close button</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog1.IsOpen ? _simpledialog1.Close() : _simpledialog1.Open())">Default dialog</button>
 
-		<ModalDialog @ref="_simpledialog1">
+		<ModalDialog @ref="_simpledialog1" MinHeight="50">
 			<Content>
 				Welcome to Blazor default ModalDialog...
 			</Content>
@@ -28,7 +28,7 @@
 		<p>Dialog with default parameters Header hidden (by settig <code>ShowCloseButton="false"</code> and Header RenderFrangment must not present), only Content set</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog2.IsOpen ? _simpledialog2.Close() : _simpledialog2.Open())">No Header dialog</button>
 
-		<ModalDialog @ref="_simpledialog2" ShowCloseButton="false">
+		<ModalDialog @ref="_simpledialog2" MinHeight="50" ShowCloseButton="false">
 			<Content>
 				Welcome to Blazor ModalDialog with no Header...
 			</Content>
@@ -41,7 +41,7 @@
 		<p>Dialog with default parameters with custom HTML Header Close button hidden</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog3.IsOpen ? _simpledialog3.Close() : _simpledialog3.Open())">Custom Header dialog</button>
 
-		<ModalDialog @ref="_simpledialog3" ShowCloseButton="false">
+		<ModalDialog @ref="_simpledialog3" MinHeight="50" ShowCloseButton="false">
 			<Header>
 				<div>
 					Your title <i class="fa fa-home"></i>
@@ -60,14 +60,14 @@
 		<p>Dialog with Header and Accept button in Fotter which must be accepted. Dialog cannot be closed other way!</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog4.IsOpen ? _simpledialog4.Close() : _simpledialog4.Open())">Must accept dialog</button>
 
-		<ModalDialog @ref="_simpledialog4" ShowCloseButton="false" CloseOnOverlayClick="false" CloseOnEscapeKey="false">
+		<ModalDialog @ref="_simpledialog4" MinHeight="50" ShowCloseButton="false" CloseOnOverlayClick="false" CloseOnEscapeKey="false">
 			<Header>
 				<div>
 					Dialog title
 				</div>
 			</Header>
 			<Content>
-				Welcome to Blazor You must accept to close it...
+				Welcome to Blazor angry ModalDialog You must accept to close it...
 			</Content>
 			<Footer>
 				<button class="btn btn-primary ml-2" @onclick="@(() => _simpledialog4.Close())">Accept</button>
