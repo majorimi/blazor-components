@@ -74,7 +74,7 @@ function removeAndReturnEventHandler(dict, element, transitionPropertyName) {
 let _transitionHandlerDict = [];
 
 export function addTransitionEnd(element, dotnetRef, transitionPropertyName) {
-    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'TransitionEnded');
+    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'TransitionEvent');
     storeEventHandler(_transitionHandlerDict, element, transitionPropertyName, eventCallback);
 
     // Code for Safari 3.1 to 6.0
@@ -99,8 +99,10 @@ export function removeTransitionEnd(element, transitionPropertyName) {
 }
 
 export function dispose(elementsWithPropDictionary) {
-    for (var i = 0; i < elementsWithPropDictionary.length; i++) {
-        removeTransitionEnd(elementsWithPropDictionary[i].key, elementsWithPropDictionary[i].value);
+    if (elementsWithPropDictionary) {
+        for (var i = 0; i < elementsWithPropDictionary.length; i++) {
+            removeTransitionEnd(elementsWithPropDictionary[i].key, elementsWithPropDictionary[i].value);
+        }
     }
 }
 

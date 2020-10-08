@@ -75,6 +75,104 @@ let _animationStartDict = [];
 let _animationIterationDict = [];
 let _animationEndDict = [];
 
+export function addAnimationStart(element, dotnetRef, transitionPropertyName) {
+    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'AnimationEvent');
+    storeEventHandler(_animationStartDict, element, transitionPropertyName, eventCallback);
+
+    // Code for Chrome, Safari and Opera
+    element.addEventListener("webkitAnimationStart", eventCallback);
+    // Standard syntax
+    element.addEventListener("animationstart", eventCallback);
+
+    return eventCallback;
+}
+
+export function removeAnimationStart(element, transitionPropertyName) {
+    let eventCallback = removeAndReturnEventHandler(_animationStartDict, element, transitionPropertyName);
+
+    if (!eventCallback) {
+        return; //No event handler found
+    }
+
+    // Code for Chrome, Safari and Opera
+    element.removeEventListener("webkitAnimationStart", eventCallback);
+    // Standard syntax
+    element.removeEventListener("animationstart", eventCallback);
+}
+
+export function addAnimationIteration(element, dotnetRef, transitionPropertyName) {
+    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'AnimationEvent');
+    storeEventHandler(_animationIterationDict, element, transitionPropertyName, eventCallback);
+
+    // Code for Chrome, Safari and Opera
+    element.addEventListener("webkitAnimationIteration", eventCallback);
+    // Standard syntax
+    element.addEventListener("animationiteration", eventCallback);
+
+    return eventCallback;
+}
+
+export function removeAnimationIteration(element, transitionPropertyName) {
+    let eventCallback = removeAndReturnEventHandler(_animationIterationDict, element, transitionPropertyName);
+
+    if (!eventCallback) {
+        return; //No event handler found
+    }
+
+    // Code for Chrome, Safari and Opera
+    element.removeEventListener("webkitAnimationIteration", eventCallback);
+    // Standard syntax
+    element.removeEventListener("animationiteration", eventCallback);
+}
+
+export function addAnimationEnd(element, dotnetRef, transitionPropertyName) {
+    let eventCallback = createEventHandler(dotnetRef, transitionPropertyName, 'AnimationEvent');
+    storeEventHandler(_animationEndDict, element, transitionPropertyName, eventCallback);
+
+    // Code for Chrome, Safari and Opera
+    element.addEventListener("webkitAnimationEnd", eventCallback);
+    // Standard syntax
+    element.addEventListener("animationend", eventCallback);
+
+    return eventCallback;
+}
+
+export function removeAnimationEnd(element, transitionPropertyName) {
+    let eventCallback = removeAndReturnEventHandler(_animationEndDict, element, transitionPropertyName);
+
+    if (!eventCallback) {
+        return; //No event handler found
+    }
+
+    // Code for Chrome, Safari and Opera
+    element.removeEventListener("webkitAnimationEnd", eventCallback);
+    // Standard syntax
+    element.removeEventListener("animationend", eventCallback);
+}
+
+export function dispose(elementsStartWithNameDictionary, elementsIterationWithNameDictionary, elementsEndWithNameDictionary) {
+    //remove start events
+    if (elementsStartWithNameDictionary) {
+        for (var i = 0; i < elementsStartWithNameDictionary.length; i++) {
+            removeAnimationStart(elementsStartWithNameDictionary[i].key, elementsStartWithNameDictionary[i].value);
+        }
+    }
+
+    //remove iteration events
+    if (elementsIterationWithNameDictionary) {
+        for (var i = 0; i < elementsIterationWithNameDictionary.length; i++) {
+            removeAnimationIteration(elementsIterationWithNameDictionary[i].key, elementsIterationWithNameDictionary[i].value);
+        }
+    }
+
+    //remove end events
+    if (elementsEndWithNameDictionary) {
+        for (var i = 0; i < elementsEndWithNameDictionary.length; i++) {
+            removeAnimationEnd(elementsEndWithNameDictionary[i].key, elementsEndWithNameDictionary[i].value);
+        }
+    }
+}
+
 
 //animationstart event args:
 //////////////////////////////////////

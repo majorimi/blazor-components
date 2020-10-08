@@ -6,7 +6,10 @@ using System.Collections.ObjectModel;
 
 namespace Blazor.Components.CssEvents.Transition
 {
-	public class TransitionCollectionInfo : Collection<TransitionInfo>
+	/// <summary>
+	/// Collection of <see cref="TransitionEventInfo"/> to aggregate Transition events
+	/// </summary>
+	public class TransitionCollectionInfo : Collection<TransitionEventInfo>
 	{
 		private readonly Func<TransitionEventArgs[], Task> _transitionEndedCallback;
 

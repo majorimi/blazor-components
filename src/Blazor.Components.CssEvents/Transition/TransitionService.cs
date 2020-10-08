@@ -27,8 +27,8 @@ namespace Blazor.Components.CssEvents.Transition
 		{
 			await CheckJsObjectAsync();
 
-			var info = new TransitionInfo(elementRef, onEndedCallback, transitionPropertyName);
-			var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
+			var info = new TransitionEventInfo(elementRef, onEndedCallback, transitionPropertyName);
+			var dotnetRef = DotNetObjectReference.Create<TransitionEventInfo>(info);
 
 			await _transitionJs.InvokeVoidAsync("addTransitionEnd", elementRef, dotnetRef, transitionPropertyName);
 			_registeredElements.Add(new KeyValuePair<ElementReference, string>(elementRef, transitionPropertyName));
@@ -49,9 +49,9 @@ namespace Blazor.Components.CssEvents.Transition
 			var collection = new TransitionCollectionInfo(onEndedCallback);
 			foreach (var item in elementRefsWithProperties)
 			{
-				var info = new TransitionInfo(item.Key, collection.WhenAllFinished, item.Value);
+				var info = new TransitionEventInfo(item.Key, collection.WhenAllFinished, item.Value);
 				collection.Add(info);
-				var dotnetRef = DotNetObjectReference.Create<TransitionInfo>(info);
+				var dotnetRef = DotNetObjectReference.Create<TransitionEventInfo>(info);
 
 				await _transitionJs.InvokeVoidAsync("addTransitionEnd", item.Key, dotnetRef, item.Value);
 				_registeredElements.Add(new KeyValuePair<ElementReference, string>(item.Key, item.Value));

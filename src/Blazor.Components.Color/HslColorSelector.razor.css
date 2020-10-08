@@ -46,6 +46,7 @@ input[type=range]::-ms-thumb {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.7), inset 0 0 2px rgba(0, 0, 0, 0.7);
     border-radius: 50%;
     cursor: pointer;
+    outline: none;
 }
 .picker-color {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 100%), linear-gradient(to right, #fff 0, rgba(255, 255, 255, 0) 100%);
