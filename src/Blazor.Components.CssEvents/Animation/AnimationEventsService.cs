@@ -46,7 +46,7 @@ namespace Blazor.Components.CssEvents.Animation
 
 		public async Task RegisterAnimationStartedAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onStartedCallback, string animationName = "")
 		{
-			await RegisterEventAsync("addAnimationStart", _registeredIterationEvents, elementRef, onStartedCallback, animationName);
+			await RegisterEventAsync("addAnimationStart", _registeredStartEvents, elementRef, onStartedCallback, animationName);
 		}
 		public async Task RemoveAnimationStartedAsync(ElementReference elementRef, string animationName = "")
 		{
