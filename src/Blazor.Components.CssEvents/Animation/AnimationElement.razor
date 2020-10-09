@@ -1,0 +1,73 @@
+﻿@inject ILogger<TransitionElement> _logger;
+@inject IAnimationEventsService _animationService;
+@inject IJSRuntime _jsRuntime;
+
+@implements IAsyncDisposable
+
+<div @ref="_animationContainer" @attributes=AllOtherAttributes>
+	@Content
+</div>
+
+@code {
+	private ElementReference _animationContainer;
+
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public string AnimationName { get; set; } = "";
+
+	[Parameter]
+	public EventCallback<AnimationEventArgs> OnAnimationStart { get; set; }
+	[Parameter]
+	public EventCallback<AnimationEventArgs> OnAnimationIteration { get; set; }
+	[Parameter]
+	public EventCallback<AnimationEventArgs> OnAnimationEnded { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			WriteDiag($"OnAfterRenderAsync currently AnimationName: '{AnimationName}'.");
+
+			await _animationService.RegisterAllAnimationEventsAsync(_animationContainer, 
+			async (args) => 
+			{ 
+				if(OnAnimationStart.HasDelegate)
+				{
+					await OnAnimationStart.InvokeAsync(args);
+				}
+			}, 
+			async (args) => 
+			{ 
+				if(OnAnimationIteration.HasDelegate)
+				{
+					await OnAnimationIteration.InvokeAsync(args);
+				}
+			},
+			async (args) => 
+			{ 
+				if(OnAnimationEnded.HasDelegate)
+				{
+					await OnAnimationEnded.InvokeAsync(args);
+				}
+			}, AnimationName);
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_animationService is not null)
+		{
+			await _animationService.DisposeAsync();
+		}
+	}
+}

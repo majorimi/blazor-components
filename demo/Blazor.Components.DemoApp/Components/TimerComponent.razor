@@ -2,6 +2,7 @@
 <p>
 	Blazor component that can be used as a simple scheduler or performing periodically repeated tasks by calling custom async code. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Timer</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer" target="_blank">Nuget</a>
 </p>
 
 
@@ -20,10 +21,10 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<div>
-		<input type="range" min="100" max="2000" @bind="clockInterval" /> Clock interval: @clockInterval ms.
+		<input type="range" min="10" max="2000" @bind="_clockInterval" @oninput="(e => _clockInterval = int.Parse(e.Value?.ToString()))"/> Clock interval: @_clockInterval ms.
 	</div>
 	<span>Infinite clock (Manual Start): <strong>@_time</strong></span>
-	<AdvancedTimer @ref="_clock" IntervalInMilisec="@clockInterval" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
+	<AdvancedTimer @ref="_clock" IntervalInMilisec="@_clockInterval" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
 
 	<br />
 	<button class="btn btn-sm btn-primary" @onclick="StartStopClock">@_buttonText</button>
@@ -52,7 +53,7 @@
 	private void CounterReset() => _counter.Reset();
 
 	//Clock
-	private double clockInterval = 300;
+	private double _clockInterval = 200;
 	private string _time = DateTime.Now.ToString("hh:mm:ss.f");
 	private AdvancedTimer _clock;
 	private string _buttonText = "Start";

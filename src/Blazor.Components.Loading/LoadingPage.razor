@@ -1,9 +1,10 @@
 ﻿<div class="loading" 
-		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" 
+		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
 		hidden="@(!_isLoading)" @attributes=AllOtherAttributes>
 	<div class="loading-content">@(LoadingContent)</div>	
 </div>
 
+@using System.Globalization;
 @using Blazor.Components.Core.HtmlColors;
 @inject ILogger<LoadingPage> _logger;
 

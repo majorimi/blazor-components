@@ -5,6 +5,7 @@
 <p>
 	Blazor components that renders Overlay for page load. HTML @("<button>") with customizable content for showing async operation in progress/loading state. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Loading</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading" target="_blank">Nuget</a>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -20,7 +21,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay color: <input class="form-control w-100" @bind="_overlayColor" />
+			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -42,7 +43,7 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading button</h3>
-	<p>Renders <strong>HTML Button</strong> with customizable content for showing async operation in progress/loading...</p>
+	<p>Renders <strong>HTML Button</strong> with customizable content to show during async operation progress/loading...</p>
 
 	<div class="pb-2">
 		<div>Submit button with Click handler 'Auto' loading and DisabledWhenLoading="true"</div>
@@ -65,7 +66,7 @@
 				<i class="fa fa-save"></i>
 			</Content>
 			<LoadingContent>
-				<i class="fa fa-refresh fa-spin"></i> Loading...
+				<i class="fa fa-refresh fa-spin"></i> Sending data...
 			</LoadingContent>
 		</LoadingButton>
 	</div>
@@ -87,7 +88,7 @@
 							Submit
 						</Content>
 						<LoadingContent>
-							<i class="fa fa-circle-o-notch fa-spin"></i> Loading...
+							<i class="fa fa-circle-o-notch fa-spin"></i> Post...
 						</LoadingContent>
 					</LoadingButton>
 				</div>

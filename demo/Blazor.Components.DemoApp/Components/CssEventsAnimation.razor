@@ -1,0 +1,403 @@
+﻿<style>
+	.divAnimation {
+		width: 160px;
+		height: 100px;
+		background: dodgerblue;
+	}
+	.divAnimation.animateInfinite {
+		animation: spin 2s infinite linear, scale 2s infinite linear;
+	}
+	.divAnimation.animate {
+		animation: spin 2s 2 linear, scale 2s 3 linear;
+	}
+
+	.lbAnimation {
+		width: 100%;
+		height: 100%;
+		font-size: 16px;
+		font-weight: bold;
+		margin: 3px;
+	}
+	.lbAnimation.animateInfinite {
+		animation: slidein 2s infinite ease-in;
+	}
+	.lbAnimation.animate {
+		animation: slidein 2s 1 ease-in;
+	}
+	/* Chrome, Safari, Opera */
+	@@-webkit-keyframes spin {
+		100% { transform: rotate(360deg); } 
+	}
+	@@keyframes spin { 
+		100% { transform: rotate(360deg); } 
+	}
+
+	/* Chrome, Safari, Opera */
+	@@-webkit-keyframes scale {
+		100% { transform: scaleX(.7) scaleY(.7); } 
+	}
+	@@keyframes scale { 
+		100% { transform: scaleX(.7) scaleY(.7); } 
+	}
+
+	/* Chrome, Safari, Opera */
+	@@-webkit-keyframes slidein {
+		from {margin-left: 100%;}
+		to {margin-left: 0%;}
+	}
+	@@keyframes slidein {
+		from {margin-left: 100%;}
+		to {margin-left: 0%;}
+	}
+</style>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>CSS Animation events</h3>
+	<p>
+		Blazor <strong>Extension and Component wrapper</strong> to notify Blazor apps on CSS supported <strong>Animation</strong> events: <code>animationstart</code>, <code>animationiteration</code>, <code>animationend</code>.
+		This is useful when you want to wait for a CSS Animations to finish/restart, etc. and then continue run C# code, e.g.: hide the element, etc. 
+		<ul>
+			<li><code>AnimationElement</code>: Convinient Blazor component which uses IAnimationEventsService to wrap around the given Content can listen for all or one animation Name.</li>
+			<li><code>IAnimationEventsService</code>: Low level injectable service which has more features can aggregate events but must be DisposeAsync() manually.</li>
+		</ul>
+	</p>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>AnimationElement</code> component with no filter and infinite automatic animation</h4>
+		<p>
+			<strong>AnimationElement</strong> wraps around standard HTML elements: DIV which has 2 and LABEL with one CSS <strong>Animation</strong> applied on page load: 
+			DIV <code>spin 2s infinite linear</code>, <code>scale 2s infinite linear</code> and LABEL <code>slidein 2s infinite easy-in</code> Animation names.
+			<br />No Animation Name filter applied all 3 events will fire and bubble up to <strong>AnimationElement</strong> in order of occurrence.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-1">
+				<AnimationElement OnAnimationStart="OnAnimationEvent1" OnAnimationIteration="OnAnimationEvent1" OnAnimationEnded="OnAnimationEvent1">
+					<Content>
+						<div id="divTransition1" class="divAnimation animateInfinite">
+							<label id="lbTransition1" class="lbAnimation animateInfinite">Infinite Animation will never end...</label>
+						</div>
+					</Content>
+				</AnimationElement>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div1Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>AnimationElement</code> component with no filter</h4>
+		<p>
+			<strong>AnimationElement</strong> wraps around standard HTML elements: DIV which has 2 and LABEL with one CSS <strong>Animation</strong> for on click: 
+			DIV <code>spin 2s x2 linear</code>, <code>scale 2s x3 linear</code> and LABEL <code>slidein 2s x1 easy-in</code> Animation names.
+			<br />No Animation Name filter applied all 3 events will fire and bubble up to <strong>AnimationElement</strong> in order of occurrence.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-1">
+				<AnimationElement @onclick="StartAnimation1"
+					OnAnimationStart="OnAnimationEvent2" OnAnimationIteration="OnAnimationEvent2" OnAnimationEnded="OnAnimationEvent2">
+					<Content>
+						<div id="divTransition2" class="divAnimation @(_animateDiv2 ? _animateCss : "")">
+							<label id="lbTransition2" class="lbAnimation @(_animateDiv2 ? _animateCss : "")">Click me to start Animation</label>
+						</div>
+					</Content>
+				</AnimationElement>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div2Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>AnimationElement</code> component with Animation Name filter</h4>
+		<p>
+			<strong>AnimationElement</strong> wraps around standard HTML elements: DIV which has 2 and LABEL with one CSS <strong>Animation</strong> for on click: 
+			DIV <code>spin 2s x2 linear</code>, <code>scale 2s x3 linear</code> and LABEL <code>slidein 2s x1 easy-in</code> Animation names.
+			<br /> Animation Name filter applied on <code>scale 2s x3 linear</code> keyframe event will fire only for this property.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-1">
+				<AnimationElement @onclick="StartAnimation2" AnimationName="scale"
+					OnAnimationStart="OnAnimationEvent3" OnAnimationIteration="OnAnimationEvent3" OnAnimationEnded="OnAnimationEvent3">
+					<Content>
+						<div id="divTransition3" class="divAnimation @(_animateDiv3 ? _animateCss : "")">
+							<label id="lbTransition3" class="lbAnimation @(_animateDiv3 ? _animateCss : "")">Click me to start Animation</label>
+						</div>
+					</Content>
+				</AnimationElement>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div3Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Injected <code>IAnimationEventsService</code> extension with no filter</h4>
+		<p>
+			Injected <strong>IAnimationEventsService</strong> registered event listener with <strong>RegisterAllAnimationEventsAsync</strong> @@ref DIV which has 2 and LABEL with one CSS <strong>Animation</strong> for on click: 
+			DIV <code>spin 2s x2 linear</code>, <code>scale 2s x3 linear</code> and LABEL <code>slidein 2s x1 easy-in</code> Animation names.
+			<br />No Animation Name filter applied all 3 events will fire and bubble up to <strong>outer DIV</strong> in order of occurrence.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-2">
+				<div id="divTransition4" @ref="_div4" @onclick="StartAnimation3" class="divAnimation @(_animateDiv4 ? _animateCss : "")">
+					<label id="lbTransition4" class="lbAnimation @(_animateDiv4 ? _animateCss : "")">Click me to start Animation</label>
+				</div>
+				<button class="btn btn-primary mt-3" @onclick="HandleEvent3">@_eventsText1</button>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div4Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Injected <code>IAnimationEventsService</code> extension with <code>slidein</code> animation Name filter</h4>
+		<p>
+			Injected <strong>IAnimationEventsService</strong> registered event listener with <strong>RegisterAllAnimationEventsAsync</strong> @@ref DIV which has 2 and LABEL with one CSS <strong>Animation</strong> for on click: 
+			DIV <code>spin 2s x2 linear</code>, <code>scale 2s x3 linear</code> and LABEL <code>slidein 2s x1 easy-in</code> Animation names.
+			<br /> Animation Name filter applied on <code>slidein 2s x1 easy-in</code> keyframe event will fire only for this property.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-2">
+				<div id="divTransition5" @ref="_div5" @onclick="StartAnimation4" class="divAnimation @(_animateDiv5 ? _animateCss : "")">
+					<label id="lbTransition5" class="lbAnimation @(_animateDiv5 ? _animateCss : "")">Click me to start Animation</label>
+				</div>
+				<button class="btn btn-primary mt-3" @onclick="HandleEvent4">@_eventsText2</button>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div5Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Injected <code>IAnimationEventsService</code> extension with aggregated <code>animationend</code> animation filter</h4>
+		<p>
+			Injected <strong>IAnimationEventsService</strong> registered event listener with <strong>RegisterAllAnimationEventsAsync</strong> @@ref DIV which has 2 and LABEL with one CSS <strong>Animation</strong> for on click: 
+			DIV <code>spin 2s x2 linear</code>, <code>scale 2s x3 linear</code> and LABEL <code>slidein 2s x1 easy-in</code> Animation names.
+			<br /> Animation Name filter applied on each registered <code>animationend</code> events. Notification will fire when <strong>ALL</strong> Animation events have finished for all the HTML elemets.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-2">
+				<div id="divTransition5" @ref="_div6" @onclick="StartAnimation5" class="divAnimation @(_animateDiv6 ? _animateCss : "")">
+					<label id="lbTransition6" @ref="_label6" class="lbAnimation @(_animateDiv6 ? _animateCss : "")">Click me to start Animation</label>
+				</div>
+				<button class="btn btn-primary mt-3" @onclick="HandleEvent5">@_eventsText3</button>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Event log</strong>:</label>
+				<textarea @bind="_div6Log" class="form-control w-100" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@implements IAsyncDisposable
+
+@inject IAnimationEventsService _animationService;
+@code {
+	private const string _animateCss = "animate";
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await _animationService.RegisterAllAnimationEventsAsync(_div4, OnAnimationEvent4);
+
+			await _animationService.RegisterAnimationStartedAsync(_div5, OnAnimationEvent5, "slidein");
+			await _animationService.RegisterAnimationIterationAsync(_div5, OnAnimationEvent5, "slidein");
+			await _animationService.RegisterAnimationEndedAsync(_div5, OnAnimationEvent5, "slidein");
+
+			KeyValuePair<ElementReference, string>[] animElements = 
+			{ 
+				new KeyValuePair<ElementReference, string>(_div6, "spin"),
+				new KeyValuePair<ElementReference, string>(_div6, "scale"),
+				new KeyValuePair<ElementReference, string>(_label6, "slidein")
+			};
+			await _animationService.RegisterAnimationsWhenAllEndedAsync(OnAnimationEvent6, animElements);
+		}
+	}
+
+	private string _div1Log;
+	private void OnAnimationEvent1(AnimationEventArgs e)
+	{
+		_div1Log = WriteLog(_div1Log, e);
+	}
+
+	private string _div2Log;
+	private void OnAnimationEvent2(AnimationEventArgs e)
+	{
+		_div2Log = WriteLog(_div2Log, e);
+	}
+	private bool _animateDiv2 = false;
+	private async Task StartAnimation1()
+	{
+		_animateDiv2 = !_animateDiv2;
+	}
+
+	private string _div3Log;
+	private void OnAnimationEvent3(AnimationEventArgs e)
+	{
+		_div3Log = WriteLog(_div3Log, e);
+	}
+	private bool _animateDiv3 = false;
+	private async Task StartAnimation2()
+	{
+		_animateDiv3 = !_animateDiv3;
+	}
+
+
+	private ElementReference _div4;
+	private bool _eventsSubscribed1 = true;
+	private string _eventsText1 = "Unsubscribe events";
+	private async Task HandleEvent3()
+	{
+		if(_eventsSubscribed1)
+		{
+			await _animationService.RemoveAllAnimationEventsAsync(_div4);
+			_eventsText1 = "Subscribe to events";
+		}
+		else
+		{
+			await _animationService.RegisterAllAnimationEventsAsync(_div4, OnAnimationEvent4);
+			_eventsText1 = "Unsubscribe events";
+		}
+
+		_eventsSubscribed1 = !_eventsSubscribed1;
+	}
+	private bool _animateDiv4 = false;
+	private async Task StartAnimation3()
+	{
+		_animateDiv4 = !_animateDiv4;
+	}
+	private string _div4Log;
+	private async Task OnAnimationEvent4(AnimationEventArgs e)
+	{
+		_div4Log = WriteLog(_div4Log, e);
+	}
+
+	
+	private ElementReference _div5;
+	private bool _eventsSubscribed2 = true;
+	private string _eventsText2 = "Unsubscribe events";
+	private async Task HandleEvent4()
+	{
+		if(_eventsSubscribed2)
+		{
+			await _animationService.RemoveAnimationStartedAsync(_div5, "slidein");
+			await _animationService.RemoveAnimationIterationAsync(_div5, "slidein");
+			await _animationService.RemoveAnimationEndedAsync(_div5, "slidein");
+			_eventsText2 = "Subscribe to events";
+		}
+		else
+		{
+			await _animationService.RegisterAnimationStartedAsync(_div5, OnAnimationEvent5, "slidein");
+			await _animationService.RegisterAnimationIterationAsync(_div5, OnAnimationEvent5, "slidein");
+			await _animationService.RegisterAnimationEndedAsync(_div5, OnAnimationEvent5, "slidein");
+			_eventsText2 = "Unsubscribe events";
+		}
+
+		_eventsSubscribed2 = !_eventsSubscribed2;
+	}
+	private bool _animateDiv5 = false;
+	private async Task StartAnimation4()
+	{
+		_animateDiv5 = !_animateDiv5;
+	}
+	private string _div5Log;
+	private async Task OnAnimationEvent5(AnimationEventArgs e)
+	{
+		_div5Log = WriteLog(_div5Log, e);
+	}
+	
+
+	private ElementReference _div6;
+	private ElementReference _label6;
+	private bool _eventsSubscribed3 = true;
+	private string _eventsText3 = "Unsubscribe events";
+	private async Task HandleEvent5()
+	{
+		KeyValuePair<ElementReference, string>[] animElements = 
+		{ 
+			new KeyValuePair<ElementReference, string>(_div6, "spin"),
+			new KeyValuePair<ElementReference, string>(_div6, "scale"),
+			new KeyValuePair<ElementReference, string>(_label6, "slidein")
+		};
+
+		if(_eventsSubscribed3)
+		{
+			await _animationService.RemoveAnimationsWhenAllEndedAsync(animElements);
+			_eventsText3 = "Subscribe to events";
+		}
+		else
+		{
+			await _animationService.RegisterAnimationsWhenAllEndedAsync(OnAnimationEvent6, animElements);
+			_eventsText3 = "Unsubscribe events";
+		}
+
+		_eventsSubscribed3 = !_eventsSubscribed3;
+	}
+	private bool _animateDiv6 = false;
+	private async Task StartAnimation5()
+	{
+		_animateDiv6 = !_animateDiv6;
+	}
+	private string _div6Log;
+	private async Task OnAnimationEvent6(AnimationEventArgs[] args)
+	{
+		var time = DateTime.Now.TimeOfDay;
+		_div6Log += $"{time}: Aggregated Animation ended: total number of events: '{args.Length}'.  \r\n";
+
+		foreach(var item in args)
+		{
+			_div6Log = WriteLog(_div6Log, item, time);
+		}
+	}
+
+
+	private string WriteLog(string log, AnimationEventArgs e, TimeSpan? eventTime = null)
+	{
+		return log 
+			+= $"{eventTime ?? DateTime.Now.TimeOfDay}: Animation event Name filter: '{e.OriginalAnimationNameFilter}', Element Id: '{e.Element.Id}', Type: '{e.Type}', AnimationName: '{e.AnimationName}', ElapsedTime: '{e.ElapsedTime}', EventPhase: '{e.EventPhase}', ReturnValue '{e.ReturnValue}'. \r\n";
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_animationService is not null)
+		{
+			await _animationService.DisposeAsync();
+		}
+	}
+}
