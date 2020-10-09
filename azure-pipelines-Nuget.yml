@@ -84,6 +84,7 @@ jobs:
       inputs:
         command: 'build'
         projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
         workingDirectory: src/
 
     - task: DotNetCoreCLI@2
