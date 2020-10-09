@@ -2,19 +2,20 @@
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+	<_ContentIncludedByDefault Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
+	<None Include="bundleconfig.json" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -23,6 +24,7 @@
 
 	<ItemGroup>
 	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+	<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Dialog\Blazor.Components.Dialog.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />

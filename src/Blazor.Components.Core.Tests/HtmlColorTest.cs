@@ -134,7 +134,7 @@ namespace Blazor.Components.Core.Tests
 		}
 
 		[TestMethod]
-		public void HtmlColor_should_handle_valid_rgbColor()
+		public void HtmlColor_should_handle_valid_spaced_rgbColor()
 		{
 			var color = new HtmlColor(" 200,55,     27");
 
@@ -161,6 +161,21 @@ namespace Blazor.Components.Core.Tests
 			Assert.IsNotNull(color.RgbColor);
 			Assert.AreEqual("#0000FF", color.RgbColor.ToHtmlHex());
 			Assert.AreEqual("#0000FF", color.HexColor);
+		}
+
+		[TestMethod]
+		public void HtmlColor_should_handle_valid_rgbColor()
+		{
+			var color = new HtmlColor("128,128,128");
+
+			Assert.IsNotNull(color);
+			Assert.AreEqual("128,128,128", color.OriginalValue);
+			Assert.AreEqual("Gray", color.ColorName);
+			Assert.AreEqual(true, color.IsNamedColor);
+			Assert.AreEqual(true, color.IsValid);
+			Assert.IsNotNull(color.RgbColor);
+			Assert.AreEqual("#808080", color.RgbColor.ToHtmlHex());
+			Assert.AreEqual("#808080", color.HexColor);
 		}
 	}
 }

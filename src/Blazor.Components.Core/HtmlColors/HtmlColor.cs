@@ -64,7 +64,7 @@ namespace Blazor.Components.Core.HtmlColors
 				HexColor = RgbColor.ToHtmlHex();
 
 				ColorName = HtmlColorHelper.NamedHtmlColors
-					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+					.FirstOrDefault(x => x.Value == RgbColor.ToHex()).Key;
 			}
 		}
 

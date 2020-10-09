@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,6 +32,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Update="Pages\ColorPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>

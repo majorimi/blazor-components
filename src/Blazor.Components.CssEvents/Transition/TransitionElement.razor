@@ -1,0 +1,54 @@
+﻿@inject ILogger<TransitionElement> _logger;
+@inject ITransitionEventsService _transitionService;
+@inject IJSRuntime _jsRuntime;
+
+@implements IAsyncDisposable
+
+<div @ref="_transitionContainer" @attributes=AllOtherAttributes>
+	@Content
+</div>
+
+@code {
+	private ElementReference _transitionContainer;
+
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public string TransitionPropertyName { get; set; } = "";
+
+	[Parameter]
+	public EventCallback<TransitionEventArgs> OnTransitionEnded { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			WriteDiag($"OnAfterRenderAsync currently TransitionPropertyName: '{TransitionPropertyName}'.");
+
+			await _transitionService.RegisterTransitionEndedAsync(_transitionContainer, async (args) => 
+			{ 
+				if(OnTransitionEnded.HasDelegate)
+				{
+					await OnTransitionEnded.InvokeAsync(args);
+				}
+			}, TransitionPropertyName);
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_transitionService is not null)
+		{
+			await _transitionService.DisposeAsync();
+		}
+	}
+}

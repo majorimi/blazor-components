@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,10 +27,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\src\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
 	  <ProjectReference Include="..\..\src\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Update="Pages\ColorPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
