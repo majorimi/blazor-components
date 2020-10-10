@@ -100,11 +100,12 @@ jobs:
       displayName: 'dotnet pack'
       inputs:
         command: 'pack'
-        packagesToPack: '**/*.csproj'
+        packagesToPack: 'src/**/*.csproj'
         packDirectory: '$(Build.ArtifactStagingDirectory)/nupkgs'
         nobuild: true
         includesymbols: true
-        arguments: '--configuration $(buildConfiguration) -p:PackageVersion=$(AssemblyVersion)$(PreviewPackageVersion)'
+        versioningScheme: 'byEnvVar'
+        versionEnvVar: '$(AssemblyVersion)$(PreviewPackageVersion)'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
