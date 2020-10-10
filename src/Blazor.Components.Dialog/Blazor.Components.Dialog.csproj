@@ -40,12 +40,12 @@
   </ItemGroup>
 
 
-	<!--Include project dll output to Nuget package-->
+	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
-		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Color.dll">
+		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
 			<PackagePath>lib\net5.0\</PackagePath>
 		</_PackageFiles>
