@@ -63,31 +63,40 @@ jobs:
         projects: 'src/Blazor.Components.sln'
         feedsToUse: 'select'
 
-    - task: PowerShell@2
-      displayName: Update Nuget package vesion
-      inputs:
-        targetType: 'inline'
-        script: |
-          $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
-          Write-Host $version
-          $newVersion = "<Version>" + $version + "<`/Version>"
-          Write-Host $newVersion
-          $verRegex = '<Version>.*'
-          $nugetRegex = '(<PackageReference\s+Include="Majorsoft\.Blazor\..* Version=")([rc0-9\.-]*)(".*)'
-          Get-ChildItem -Path src/**/*.csproj | % {
-            $file = $_.FullName
-            Write-Host $file
-            (Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
-            (Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
-          }
+    # - task: PowerShell@2
+    #   displayName: Update Nuget package vesion
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
+    #       Write-Host $version
+    #       $newVersion = "<Version>" + $version + "<`/Version>"
+    #       Write-Host $newVersion
+    #       $verRegex = '<Version>.*'
+    #       $nugetRegex = '(<PackageReference\s+Include="Majorsoft\.Blazor\..* Version=")([rc0-9\.-]*)(".*)'
+    #       Get-ChildItem -Path src/**/*.csproj | % {
+    #         $file = $_.FullName
+    #         Write-Host $file
+    #         (Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
+    #         (Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
+    #       }
 
     - task: DotNetCoreCLI@2
-      displayName: 'dotnet build'
+      displayName: 'dotnet pack'
       inputs:
-        command: 'build'
-        projects: '**/*.csproj'
-        arguments: '--configuration $(buildConfiguration)'
-        workingDirectory: src/
+        command: 'pack'
+        packagesToPack: '**/*.csproj'
+        nobuild: true
+        includesymbols: true
+        arguments: '--configuration $(buildConfiguration) -p:PackageVersion=$(AssemblyVersion)$(PreviewPackageVersion)'
+
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'dotnet build'
+    #   inputs:
+    #     command: 'build'
+    #     projects: '**/*.csproj'
+    #     arguments: '--configuration $(buildConfiguration)'
+    #     workingDirectory: src/
 
     - task: DotNetCoreCLI@2
       displayName: 'run tests'
