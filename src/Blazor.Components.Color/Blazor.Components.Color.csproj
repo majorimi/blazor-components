@@ -3,6 +3,7 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
+	<Version>1.0.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,8 +20,15 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
-  </ItemGroup>
+	<!--Include project DLL output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0\</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
 
 </Project>

@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	<PackageId>Majorsoft.Blazor.Components.Dialog</PackageId>
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
@@ -39,9 +39,16 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
-	<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
-  </ItemGroup>
+	<!--Include project DLL output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
+		<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0\</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
 
 </Project>
