@@ -35,7 +35,7 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.33-rc.1.20452.10" />
+	<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.36-rc.1.20452.10" />
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
   </ItemGroup>
 
