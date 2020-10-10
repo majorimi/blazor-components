@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -40,8 +40,15 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
-  </ItemGroup>
+	<!--Include project dll output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Color.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0\</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
 
 </Project>
