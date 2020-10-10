@@ -9,7 +9,7 @@ Blazor WebAssembly Hosted model console logging
 
 Blazor extension for logging to browser console. **Important NOTE**: this package only works for apps using **WebAssemly Hosting Model**!
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/).
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/extensions).
 
 # Features
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -35,13 +35,20 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.33-rc.1.20452.10" />
+	<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.36-rc.1.20452.10" />
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
   </ItemGroup>
 
 
-  <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
-  </ItemGroup>
+	<!--Include project dll output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Color.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0\</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
 
 </Project>
