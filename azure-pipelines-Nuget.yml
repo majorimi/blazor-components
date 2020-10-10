@@ -82,6 +82,14 @@ jobs:
     #       }
 
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+        workingDirectory: src/
+
+    - task: DotNetCoreCLI@2
       displayName: 'run tests'
       inputs:
        command: 'test'
@@ -95,14 +103,6 @@ jobs:
         packagesToPack: '**/*.csproj'
         includesymbols: true
         arguments: '--configuration $(buildConfiguration) -p:PackageVersion=$(AssemblyVersion)$(PreviewPackageVersion)'
-
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'dotnet build'
-    #   inputs:
-    #     command: 'build'
-    #     projects: '**/*.csproj'
-    #     arguments: '--configuration $(buildConfiguration)'
-    #     workingDirectory: src/
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
