@@ -72,11 +72,13 @@ jobs:
           Write-Host $version
           $newVersion = "<Version>" + $version + "<`/Version>"
           Write-Host $newVersion
-          $regex = '<Version>.*'
+          $verRegex = '<Version>.*'
+          $nugetRegex = '(<PackageReference\s+Include="Majorsoft\.Blazor\..* Version=")([rc0-9\.-]*)(".*)'
           Get-ChildItem -Path src/**/*.csproj | % {
             $file = $_.FullName
             Write-Host $file
-            (Get-Content -path $file -Raw) -replace $regex, $newVersion | Set-Content -Path $file
+            (Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
+            (Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
           }
 
     - task: DotNetCoreCLI@2
