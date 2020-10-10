@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.36-rc.1.20452.10" />
 		<PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.30-rc.1.20452.10" />
 		<PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.30-rc.1.20452.10" />
 		<PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.30-rc.1.20452.10" />
