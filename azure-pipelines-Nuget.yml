@@ -101,14 +101,15 @@ jobs:
       inputs:
         command: 'pack'
         packagesToPack: '**/*.csproj'
-        includesymbols: true
+        packDirectory: '$(Build.ArtifactStagingDirectory)/nupkgs'
         nobuild: true
+        includesymbols: true
         arguments: '--configuration $(buildConfiguration) -p:PackageVersion=$(AssemblyVersion)$(PreviewPackageVersion)'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
       inputs:
         command: 'push'
-        packagesToPush: '**/*.nupkg'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/nupkgs/*.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '06db9479-0904-487a-9688-bfd150241ec7/70fe8fb2-40b5-4afd-acc9-66ba1c22bfb0'
