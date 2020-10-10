@@ -21,11 +21,11 @@
 
   <ItemGroup>
 	<Content Remove="bundleconfig.json" />
-	<Content Remove="wwwroot\transitionEvents.min.js" />
   </ItemGroup>
 
   <ItemGroup>
-	<_ContentIncludedByDefault Remove="wwwroot\transitionEvents.min.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\transitionEvents.min.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\animationEvents.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +35,7 @@
 	</None>
 	<None Include="bundleconfig.json" />
 	<None Include="wwwroot\transitionEvents.min.js" />
+	<None Include="wwwroot\animationEvents.min.js" />
   </ItemGroup>
 
 
