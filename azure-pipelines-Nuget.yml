@@ -102,6 +102,7 @@ jobs:
         command: 'pack'
         packagesToPack: '**/*.csproj'
         includesymbols: true
+        nobuild: true
         arguments: '--configuration $(buildConfiguration) -p:PackageVersion=$(AssemblyVersion)$(PreviewPackageVersion)'
 
     - task: DotNetCoreCLI@2
