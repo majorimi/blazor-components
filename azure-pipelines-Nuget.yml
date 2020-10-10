@@ -63,24 +63,6 @@ jobs:
         projects: 'src/Blazor.Components.sln'
         feedsToUse: 'select'
 
-    - task: PowerShell@2
-      displayName: Update Nuget package vesion
-      inputs:
-        targetType: 'inline'
-        script: |
-          $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
-          Write-Host $version
-          $newVersion = "<Version>" + $version + "<`/Version>"
-          Write-Host $newVersion
-          $verRegex = '<Version>.*'
-          $nugetRegex = '(<PackageReference\s+Include="Majorsoft\.Blazor\..* Version=")([rc0-9\.-]*)(".*)'
-          Get-ChildItem -Path src/**/*.csproj | % {
-            $file = $_.FullName
-            Write-Host $file
-            (Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
-            (Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
-          }
-
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
       inputs:
@@ -96,10 +78,44 @@ jobs:
        projects: '**/*.Tests.csproj'
        arguments: '--configuration $(buildConfiguration)'
 
+#    - task: DotNetCoreCLI@2
+#      displayName: 'dotnet pack'
+#      inputs:
+#        command: 'pack'
+#        packagesToPack: 'src/**/*.csproj'
+#        packDirectory: '$(Build.ArtifactStagingDirectory)/nupkgs'
+#        nobuild: true
+#        includesymbols: true
+#        versioningScheme: 'byEnvVar'
+#        versionEnvVar: '$(AssemblyVersion)$(PreviewPackageVersion)'
+
+    - task: PowerShell@2
+      displayName: Create Nuget packages
+      inputs:
+        targetType: 'inline'
+        script: |
+          $version = '$(AssemblyVersion)' + '$(PreviewPackageVersion)'
+          $config = '$(buildConfiguration)'
+          $out = '$(Build.ArtifactStagingDirectory)/nupkgs'
+          Write-Host $version
+          #$newVersion = "<Version>" + $version + "<`/Version>"
+          #Write-Host $newVersion
+          $verRegex = '<Version>.*'
+          # $nugetRegex = '(<PackageReference\s+Include="Majorsoft\.Blazor\..* Version=")([rc0-9\.-]*)(".*)'
+          Get-ChildItem -Path src/**/*.csproj | % {
+            $file = $_.FullName
+            Write-Host $file
+            if( (Get-Content -path $file -Raw) -match $verRegex) {
+                dotnet pack $file --configuration $config --output $out -p:PackageVersion=$version
+            }
+            #(Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
+            #(Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
+          }
+
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
       inputs:
         command: 'push'
-        packagesToPush: '**/*.nupkg'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/nupkgs/*.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '06db9479-0904-487a-9688-bfd150241ec7/70fe8fb2-40b5-4afd-acc9-66ba1c22bfb0'

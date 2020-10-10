@@ -3,7 +3,7 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	<PackageId>Majorsoft.Blazor.Components.CssEvents</PackageId>
 	<Authors>Imre Toth</Authors>
 	<Company>Imre Toth</Company>
