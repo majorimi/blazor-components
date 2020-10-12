@@ -74,7 +74,7 @@
 	[Parameter] public double Height { get; set; } = 0;
 	[Parameter] public double Width { get; set; } = 0;
 	[Parameter] public double MinHeight { get; set; } = 200;
-	[Parameter] public double MinWidth { get; set; } = 100;
+	[Parameter] public double MinWidth { get; set; } = 200;
 
 	[Parameter] public bool Focus { get; set; } = true;
 	[Parameter] public bool Animate { get; set; } = true;
@@ -248,7 +248,7 @@
 
 		await CloseInternal();
 	}
-	public async Task CloseInternal()
+	private async Task CloseInternal()
 	{
 		if(Animate)
 		{

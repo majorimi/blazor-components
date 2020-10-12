@@ -46,7 +46,7 @@
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0\</PackagePath>
+			<PackagePath>lib\net5.0</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
 
