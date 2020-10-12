@@ -7,8 +7,16 @@ Blazor Server Hosted model console logging
 
 # About
 
-Blazor component that can be used to render Modal dialog window with customizable **Header**, **Content** and **Footer** parameterized Overlay, etc..
+Blazor Extensions and Components wrapper to notify on CSS **Transition** and **Animation** events.
+This is useful when you want to wait for a CSS **Transition** or **Animation** to finish and then continue run C# code, e.g.: hide the element, etc.
+ **All components work with WebAssembly and Server hosted models**. 
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/dialog).
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents).
 
-# Features
+# Components
+
+
+
+### `TransitionEventArgs` event arguments
+`TransitionEventArgs` is a new EventA
+

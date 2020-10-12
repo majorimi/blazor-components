@@ -14,9 +14,7 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/timer).
 
-# Features
-
-## Components
+# Components
 
 - **`AdvancedTimer`**: Timer object wrapped into a Blazor component to perform async operations on  elapsed event.
 
@@ -30,8 +28,6 @@ It is useful when you need to update UI periodically, e.g. refresh a dashboard i
 much more modern techniques. 'push' based communication like: SignalR or WebSecket, etc. Make sure you have no other options than 'polling'.**
 
 ### Properties
-- **`OnIntervalElapsed`: `EventCallback<ulong>` delegate - Required** <br />
-  Function called when specified timeout elapsed.
 - **`IntervalInMilisec`: `double { get; set; }` (default: 200)** <br />
   Notification timeout in ms. If set to `0 or less` it set to 1 ms.
 - **`DelayInMilisec`: `double { get; set; }` (default: 0)** <br />
@@ -43,6 +39,12 @@ much more modern techniques. 'push' based communication like: SignalR or WebSeck
 - **`IsEnabled`: `bool { get; }`** <br />
 Returns the inner state of the timer. `True` if timer is running otherwise `false`.
 
+**Arbitrary HTML attributes e.g.: `id="load1"` can be applied but won't result in HTLM DOM**.
+
+### Events
+- **`OnIntervalElapsed`: `EventCallback<ulong>` delegate - Required** <br />
+  Timer event this Function called when specified timeout elapsed, parameter is the iteration count.
+
 ### Functions
 - **`Start()`: `void Start()`** <br />
 Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
@@ -50,7 +52,7 @@ Starts the internal timer which will start after the set delay and fire event fo
 Stops the internal timer and no more event will be fired.
 - **`Reset()`: `void Reset()`** <br />
 Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
-- **`Dispose()`: `@implements IDisposable` interface** <br />
+- **`Dispose()`: `implements IDisposable` interface** <br />
 Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 ### Times record
