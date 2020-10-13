@@ -57,8 +57,8 @@
 		Blazor <strong>Extension and Component wrapper</strong> to notify Blazor apps on CSS supported <strong>Animation</strong> events: <code>animationstart</code>, <code>animationiteration</code>, <code>animationend</code>.
 		This is useful when you want to wait for a CSS Animations to finish/restart, etc. and then continue run C# code, e.g.: hide the element, etc. 
 		<ul>
-			<li><code>AnimationElement</code>: Convinient Blazor component which uses IAnimationEventsService to wrap around the given Content can listen for all or one animation Name.</li>
-			<li><code>IAnimationEventsService</code>: Low level injectable service which has more features can aggregate events but must be DisposeAsync() manually.</li>
+			<li><code>AnimationElement</code>: Convinient Blazor component which uses <code>IAnimationEventsService</code> to wrap around the given Content and listens for all or one animation Name.</li>
+			<li><code>IAnimationEventsService</code>: Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be DisposeAsync() manually.</li>
 		</ul>
 	</p>
 
