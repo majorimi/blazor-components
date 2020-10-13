@@ -68,7 +68,7 @@ namespace Blazor.Components.CssEvents.Animation
 		//Composits
 
 		/// <summary>
-		/// Adds event listener for all supported HTML event for the given element with Animation name filter.
+		/// Adds event listeners with single callback for all supported HTML events for the given element with Animation name filter.
 		/// </summary>
 		/// <param name="elementRef">Blazor reference to an HTML element</param>
 		/// <param name="onEventCallback">Func to call when any Animation event fired</param>
@@ -77,7 +77,7 @@ namespace Blazor.Components.CssEvents.Animation
 		Task RegisterAllAnimationEventsAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onEventCallback, string animationName = "");
 
 		/// <summary>
-		/// Adds event listener for all supported HTML event for the given element with Animation name filter.
+		/// Adds event listeners with different callbacks for all supported HTML events for the given element with Animation name filter.
 		/// </summary>
 		/// <param name="elementRef">Blazor reference to an HTML element</param>
 		/// <param name="onStartedCallback">Func to call when Animation event has started fired</param>

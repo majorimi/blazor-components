@@ -9,7 +9,7 @@ namespace Blazor.Components.CssEvents.Transition
 	/// <summary>
 	/// Collection of <see cref="TransitionEventInfo"/> to aggregate Transition events
 	/// </summary>
-	public class TransitionCollectionInfo : Collection<TransitionEventInfo>
+	internal sealed class TransitionCollectionInfo : Collection<TransitionEventInfo>
 	{
 		private readonly Func<TransitionEventArgs[], Task> _transitionEndedCallback;
 

@@ -1,6 +1,6 @@
 ﻿namespace Blazor.Components.CssEvents.Transition
 {
-	public class TransitionEventArgs : CssBaseEventArgs
+	public sealed class TransitionEventArgs : CssBaseEventArgs
 	{
 		public string OriginalPropertyNameFilter { get; set; }
 

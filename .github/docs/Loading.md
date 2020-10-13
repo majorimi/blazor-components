@@ -26,15 +26,17 @@ It is useful when you want to show
 ### Properties
 - **`LoadingContent`: `RenderFragment` HTML content - Required** <br />
 Required HTML content to show on top of the overlay `<div>`.
-- **`OnLoading`: `EventCallback` delegate** <br />
-Function called when component `OnInitializedAsync` Blazor event triggered. 
 Subscribe to this event and place your page initializer code to the event handler when using **'automatic'** mode. Otherwise can be omitted.
 - **`OverlayBackgroundColor`: `string { get; set; }` (default: "gray")** <br />
 Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: **Color Names**, **RGB** or with **HEX** values.
-- **`OverlayOpacity`: `double OverlayOpacity { get; set; }` (default: 0.9)** <br />
+- **`OverlayOpacity`: `double { get; set; }` (default: 0.9)** <br />
 Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means the overlay layer is not visible.
 
 **Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML element `<div>`**.
+
+### Events
+- **`OnLoading`: `EventCallback` delegate** <br />
+Callback function called when component `OnInitializedAsync` Blazor event triggered. 
 
 ### Functions
 - **`Set()`: `void Set()`** <br />

@@ -6,7 +6,10 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.CssEvents.Animation
 {
-	public class AnimationEventInfo
+	/// <summary>
+	/// Animation event <see cref="DotNetObjectReference"/> info to handle JS callback
+	/// </summary>
+	internal sealed class AnimationEventInfo
 	{
 		private readonly Func<AnimationEventArgs, Task> _animationCallback;
 
