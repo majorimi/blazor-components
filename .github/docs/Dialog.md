@@ -59,7 +59,7 @@ When `true` Modal dialog will be vertically centered, otherwise shown near to th
 - **`IsOpen`: `bool { get; }`** <br />
  Returns `true` if the Modal dialog is opened, otherwise `false`.
 
-**Arbitrary HTML attributes e.g.: `id="diag1"` will be passed to the corresponding rendered HTML element Overlay `<div>`**.
+**Arbitrary HTML attributes e.g.: `id="diag1"` will be passed to the corresponding rendered root HTML element Overlay `<div>`**.
 
 ### Events
 - **`OnOpen`: `EventCallback`** <br />
@@ -106,11 +106,148 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 **Majorsoft.Blazor.Components.Dialog** package depends on [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
 which handles CSS Transition and Animation events for the dialog animation.
 
+**In case of WebAssembly project register CSS events services in your `Program.cs` file:**
 ```
 using Blazor.Components.CssEvents;
 ...
-builder.Services.AddCssEvents();
+public static async Task Main(string[] args)
+{
+	var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+	builder.Services.AddCssEvents();
+}
+```
+
+**In case of Server hosted project register CSS events services in your `Startup.cs` file:**
+```
+using Blazor.Components.CssEvents;
+...
+
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddCssEvents();
+}
 ```
 
 ### `ModalDialog` usage
-Following code example shows how to use **`ModalDialog`** component.
+Following code example shows how to use **`ModalDialog`** component. Most important is you have to **add `@ref=""` Blazor tag** to the component in order to access it in your code.
+
+This example shows a simple dialog with Content message. **Blazor does not support empty content check.** Which means if you want to skip, remove **Header** and **Footer** 
+you should not define it. **To achieve this do not place Header or Footer into the HTML markup.**
+```
+<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog1.Open())">Default dialog</button>
+
+<ModalDialog @ref="_simpledialog1" MinHeight="50">
+	<Content>
+		Welcome to Blazor default ModalDialog...
+	</Content>
+</ModalDialog>
+
+@code {
+	private ModalDialog _simpledialog1;
+}
+```
+
+
+This example shows a fully customized dialog with **Header**, **Content** and **Footer** sections.
+
+```
+<ModalDialog @ref="_dialog"
+	OverlayBackgroundColor="@_overlayColor" 
+	OverlayOpacity="@(_overlayOpacity/1000)"
+	Height="@_modalHeight"
+	Width="@_modalWitdth"
+	MinHeight="@_modalMinHeight"
+	MinWidth="@_modalMinWitdth"
+	CloseOnOverlayClick="_modalCloseOnClick"
+	CloseOnEscapeKey="_modalCloseOnEsc"
+	Focus="_modalFocus"
+	Animate="_modalAnimate"
+	Centered="_modalCentered"
+	ShowCloseButton="_modalShowClose"
+	OnOpen="OnOpen"
+	OnClose="OnClose"
+	OnCloseButtonClicked="OnCloseButtonClicked"
+	OnOverlayClicked="OnOverlayClicked"
+	OnEscapeKeyPress="OnEscapeKeyPress"
+	OnTransitionEnded="OnTransitionEnded">
+	<Header>
+		@*If you want to hide Header remove the whole Header definition and set ShowCloseButton="false"*@
+		<h4>@_modalTitle</h4>
+	</Header>
+	<Content>
+		<div class="container">
+			<div class="row pb-2">
+				@_modalText
+			</div>
+		</div>
+	</Content>
+	<Footer>
+		@*If you want to hide Header remove the whole Footer definition"*@
+		<button class="btn btn-warning ml-2" @onclick="CancelDialog">Cancel</button>
+		<button class="btn btn-primary ml-2" @onclick="AcceptDialog">Ok</button>
+	</Footer>
+</ModalDialog>
+
+
+@code {
+	//Fully customized dialog
+	private string _overlayColor = "128,128,128"; //gray
+	private double _overlayOpacity = 0.5;
+	private double _modalHeight = 270;
+	private double _modalWitdth = 500;
+	private double _modalMinHeight = 100;
+	private double _modalMinWitdth = 100;
+	private bool _modalAnimate = true;
+	private bool _modalCloseOnClick = true;
+	private bool _modalCloseOnEsc = true;
+	private bool _modalFocus = true;
+	private bool _modalCentered = true;
+	private bool _modalShowClose = true;
+	private string _modalTitle = "Modal title";
+	private string _modalText = "Congratulations to your first modal!";
+
+	private ModalDialog _dialog;
+	private async Task OpenDialog()
+	{
+		await _dialog.Open();
+	}
+
+	private async Task AcceptDialog()
+	{
+		//Dialog accepted code
+		await _dialog.Close();
+	}
+	private async Task CancelDialog()
+	{
+		//Dialog cancelled code
+		await _dialog.Close();
+	}
+
+	//Dialog events
+	public async Task OnOpen()
+	{
+		//Write your event handling code here...
+	}
+	public async Task OnClose()
+	{
+		//Write your event handling code here...
+	}
+	private async Task OnCloseButtonClicked(MouseEventArgs e)
+	{
+		//Write your event handling code here...
+	}
+	private async Task OnOverlayClicked(MouseEventArgs e)
+	{
+		//Write your event handling code here...
+	}
+	private async Task OnEscapeKeyPress(KeyboardEventArgs e)
+	{
+		//Write your event handling code here...
+	}
+	private async Task OnTransitionEnded(TransitionEventArgs[] e)
+	{
+		//Write your event handling code here...
+	}
+}
+```
