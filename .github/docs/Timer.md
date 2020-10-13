@@ -80,7 +80,7 @@ dotnet add package Majorsoft.Blazor.Components.Timer
 ```
 Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/absoluteLatest) to install.
 
-### Usage
+## Usage
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 

@@ -9,7 +9,7 @@ namespace Blazor.Components.CssEvents.Animation
 	/// <summary>
 	/// Collection of <see cref="AnimationEventInfo"/> to aggregate Animation events
 	/// </summary>
-	public class AnimationCollectionInfo : Collection<AnimationEventInfo>
+	internal sealed class AnimationCollectionInfo : Collection<AnimationEventInfo>
 	{
 		private readonly Func<AnimationEventArgs[], Task> _transitionEndedCallback;
 

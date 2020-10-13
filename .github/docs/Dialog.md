@@ -76,11 +76,11 @@ Callback function called when **Esc** key was pressed.
 Callback function called when CSS transitions are ended. It will be triggered when dialog opened or closed.
 
 ### Functions
-- **`Open()`: `async Task Open()`** <br />
+- **`Open()`: `Task Open()`** <br />
 When method called Modal dialog will be opened. It should be `await`-ed.
-- **`Close()`: `async Task Close()`** <br />
+- **`Close()`: `Task Close()`** <br />
 When method called Modal dialog will be closed. It should be `await`-ed.
-- **`DisposeAsync()`: `async Task DisposeAsync()`** <br />
+- **`DisposeAsync()`: `Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 # Configuration
@@ -94,7 +94,7 @@ dotnet add package Majorsoft.Blazor.Components.Dialog
 ```
 Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog/absoluteLatest) to install.
 
-### Usage
+## Usage
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 

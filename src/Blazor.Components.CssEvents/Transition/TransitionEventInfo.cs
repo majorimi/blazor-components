@@ -9,7 +9,7 @@ namespace Blazor.Components.CssEvents.Transition
 	/// <summary>
 	/// Transition event <see cref="DotNetObjectReference"/> info to handle JS callback
 	/// </summary>
-	public class TransitionEventInfo
+	internal sealed class TransitionEventInfo
 	{
 		private readonly Func<TransitionEventArgs, Task> _transitionEventCallback;
 
