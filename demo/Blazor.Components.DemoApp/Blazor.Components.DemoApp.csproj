@@ -23,21 +23,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Watch Remove="Components\ColorComponent.razor" />
-	  <Watch Remove="Components\Debounce.razor" />
-	  <Watch Remove="Components\Extensions.razor" />
-	  <Watch Remove="Components\Index.razor" />
-	  <Watch Remove="Components\Loading.razor" />
-	  <Watch Remove="Components\ModalComponent.razor" />
-	  <Watch Remove="Components\TimerComponent.razor" />
+	  <Content Remove="C:\Users\Major\.nuget\packages\majorsoft.blazor.components.dialog\0.9.45-rc.1.20452.10\contentFiles\any\net5.0\ModalDialog.razor.css" />
+	  <Content Remove="C:\Users\Major\.nuget\packages\majorsoft.blazor.components.loading\0.9.30-rc.1.20452.10\contentFiles\any\net5.0\LoadingPage.razor.css" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Watch Remove="NavMenu.razor" />
-	  <Watch Remove="Pages\ColorPage.razor" />
-	  <Watch Remove="Pages\DebounceInputPage.razor" />
-	  <Watch Remove="Pages\ExtensionsPage.razor" />
-	  <Watch Remove="Pages\IndexPage.razor" />
-	  <Watch Remove="Pages\LoadingPage.razor" />
-	  <Watch Remove="Pages\ModalPage.razor" />
-	  <Watch Remove="Pages\TimerPage.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Components\" />
+	  <Folder Include="Pages\" />
 	</ItemGroup>
 
 </Project>
