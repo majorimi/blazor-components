@@ -56,7 +56,7 @@ jobs:
         projects: $(project)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/Output'
         zipAfterPublish: false
-        #workingDirectory: src/
+        workingDirectory: demo/Blazor.Components.DemoApp/
 
     - task: PublishBuildArtifacts@1
       inputs:
