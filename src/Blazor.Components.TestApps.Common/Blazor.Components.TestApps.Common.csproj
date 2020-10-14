@@ -25,7 +25,7 @@
 	<ItemGroup>
 	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
 	<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
-	<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Debounce\Blazor.Components.Debounce.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Modal\Blazor.Components.Modal.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Timer\Blazor.Components.Timer.csproj" />

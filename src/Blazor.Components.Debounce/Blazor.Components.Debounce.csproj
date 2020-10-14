@@ -13,7 +13,7 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea</PackageTags>
 	<PackageIcon>blazor.components.png</PackageIcon>
-	<PackageId>Majorsoft.Blazor.Components.Debounce.Input</PackageId>
+	<PackageId>Majorsoft.Blazor.Components.Debounce</PackageId>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Copyright>Imre Toth 2020</Copyright>

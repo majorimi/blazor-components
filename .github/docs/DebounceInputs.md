@@ -1,8 +1,8 @@
 Blazor Components Debounce Input controls
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Debounce.Input?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Debounce.Input?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/)
+[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Debounce?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Debounce?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
 # About
@@ -74,18 +74,18 @@ Component implements `IDisposable` interface Blazor framework will call it when 
 
 ## Installation
 
-Blazor.Components.Debounce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/). 
+Blazor.Components.Debounce is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Debounce.Input
+dotnet add package Majorsoft.Blazor.Components.Debounce
 ```
-Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input/absoluteLatest) to install.
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/absoluteLatest) to install.
 
 ## Usage
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Debounce.Input
+@using Blazor.Components.Debounce
 ```
 
 ### `DebounceInput` and `DebounceTextArea` usage
