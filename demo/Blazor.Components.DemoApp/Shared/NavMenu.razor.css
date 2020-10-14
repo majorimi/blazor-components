@@ -1,78 +1,62 @@
-﻿/*
-    This CSS should be used for NAV menu but does not work...
-    Some styles applied but NOTHING works with multiple class selector
-*/
-
-.sidebar {
-    background-image: linear-gradient(180deg, rgb(8, 69, 183) 0%, #116ff2 70%);
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.sidebar .top-row {
+.top-row {
+    height: 3.5rem;
     background-color: rgba(0,0,0,0.4);
 }
 
-.sidebar .navbar-brand {
+.navbar-brand {
     font-size: 1.1rem;
 }
 
-.sidebar .oi {
+.oi {
     width: 2rem;
     font-size: 1.1rem;
     vertical-align: text-top;
     top: -2px;
 }
 
-.sidebar .nav-item {
+.nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
 }
 
-.sidebar .nav-item:first-of-type {
-    padding-top: 1rem;
-}
+    .nav-item:first-of-type {
+        padding-top: 1rem;
+    }
 
-.sidebar .nav-item:last-of-type {
-    padding-bottom: 1rem;
-}
+    .nav-item:last-of-type {
+        padding-bottom: 1rem;
+    }
 
-.sidebar .nav-item a {
-    color: #d7d7d7;
-    border-radius: 4px;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    line-height: 3rem;
-}
+    .nav-item ::deep a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
 
-.sidebar .nav-item a.active {
+.nav-item ::deep a.active {
     background-color: rgba(255,255,255,0.25);
     color: white;
 }
 
-.sidebar .nav-item a:hover {
+.nav-item ::deep a:hover {
     background-color: rgba(255,255,255,0.1);
     color: white;
 }
 
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-
-@media (min-width: 768px) {
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .sidebar .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
-
+@media (min-width: 641px) {
     .navbar-toggler {
         display: none;
+    }
+
+    .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
     }
 }

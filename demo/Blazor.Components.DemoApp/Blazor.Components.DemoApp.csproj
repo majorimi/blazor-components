@@ -1,36 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<nullable>enable</nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.48-rc.2.20479.15" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
-		<PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<!-- extends watching group to include *.razor files -->
-		<Watch Include="**\*.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Watch Remove="App.razor" />
-	  <!--<Watch Remove="NavMenu.razor" />
-	  <Watch Remove="Shared\MainLayout.razor" />-->
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Components\" />
-	  <Folder Include="Pages\" />
-	</ItemGroup>
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
 
 </Project>
