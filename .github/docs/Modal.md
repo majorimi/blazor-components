@@ -1,8 +1,8 @@
 Blazor Server Hosted model console logging
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Dialog?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Dialog?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog/)
+[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Modal?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Modal?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
 # About
@@ -10,7 +10,7 @@ Blazor Server Hosted model console logging
 Blazor component that can be used for prompting Modal dialog window for lightboxes, user notifications or with fully customizable **Header**, **Content** and **Footer** parameterized Overlay, etc..
  **All components work with WebAssembly and Server hosted models**. 
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/dialog).
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/modal).
 
 # Components
 
@@ -87,23 +87,23 @@ Component implements `IAsyncDisposable` interface Blazor framework will call it 
 
 ## Installation
 
-Blazor.Components.Dialog is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog). 
+Blazor.Components.Modal is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Dialog
+dotnet add package Majorsoft.Blazor.Components.Modal
 ```
-Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog/absoluteLatest) to install.
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/absoluteLatest) to install.
 
 ## Usage
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 
 ```
-@using Blazor.Components.Dialog
+@using Blazor.Components.Modal
 ```
 
 ### Dependences
-**Majorsoft.Blazor.Components.Dialog** package depends on [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
+**Majorsoft.Blazor.Components.Modal** package depends on [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
 which handles CSS Transition and Animation events for the dialog animation.
 
 **In case of WebAssembly project register CSS events services in your `Program.cs` file:**
