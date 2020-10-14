@@ -14,7 +14,7 @@ namespace Blazor.Components.CssEvents.Animation
 		private List<KeyValuePair<ElementReference, string>> _registeredStartEvents;
 		private List<KeyValuePair<ElementReference, string>> _registeredIterationEvents;
 		private List<KeyValuePair<ElementReference, string>> _registeredEndEvents;
-		private JSObjectReference _animationJs;
+		private IJSObjectReference _animationJs;
 
 		public AnimationEventsService(IJSRuntime jsRuntime)
 		{
@@ -131,9 +131,9 @@ namespace Blazor.Components.CssEvents.Animation
 			if (_animationJs is null)
 			{
 #if DEBUG
-				_animationJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/animationEvents.js");
+				_animationJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/animationEvents.js");
 #else
-				_animationJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/animationEvents.min.js");
+				_animationJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/animationEvents.min.js");
 #endif
 			}
 		}

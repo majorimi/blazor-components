@@ -15,7 +15,7 @@ namespace Blazor.Components.CssEvents.Transition
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<KeyValuePair<ElementReference, string>> _registeredElements;
-		private JSObjectReference _transitionJs;
+		private IJSObjectReference _transitionJs;
 
 		public TransitionEventsService(IJSRuntime jsRuntime)
 		{
@@ -81,9 +81,9 @@ namespace Blazor.Components.CssEvents.Transition
 			if (_transitionJs is null)
 			{
 #if DEBUG
-				_transitionJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/transitionEvents.js");
+				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/transitionEvents.js");
 #else
-				_transitionJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/transitionEvents.min.js");
+				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.CssEvents/transitionEvents.min.js");
 #endif
 			}
 		}
