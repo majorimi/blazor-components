@@ -53,10 +53,12 @@ jobs:
       displayName: 'dotnet publish'
       inputs:
         command: 'publish'
-        projects: $(project)
+        publishWebProjects: false
+        projects: 'Blazor.Components.DemoApp.csproj'
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/DemoApp'
         zipAfterPublish: false
-        workingDirectory: demo/Blazor.Components.DemoApp/
+        modifyOutputPath: false
+        workingDirectory: 'demo/Blazor.Components.DemoApp/'
 
     - task: PublishBuildArtifacts@1
       inputs:
