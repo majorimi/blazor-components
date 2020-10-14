@@ -56,7 +56,7 @@ jobs:
         publishWebProjects: false
         projects: $(project)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/DemoApp'
-        zipAfterPublish: false
+        zipAfterPublish: true
         modifyOutputPath: false
         # workingDirectory: 'demo/Blazor.Components.DemoApp/'
 
