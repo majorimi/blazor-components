@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "Shared/MainLayout.razor.min.css",
+    "inputFiles": [
+      "Shared/MainLayout.razor.css"
+    ]
+  }
+]

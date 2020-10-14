@@ -11,6 +11,17 @@
     font-size: 1.1rem;
 }
 
+.sidebar {
+    background-image: linear-gradient(180deg, rgb(8, 54, 183) 0%, #1168f2 70%);
+}
+
+.fa {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
 .oi {
     width: 2rem;
     font-size: 1.1rem;
