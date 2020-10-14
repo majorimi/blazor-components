@@ -3,7 +3,6 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
-	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<Version>1.0.0.0</Version>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md</PackageProjectUrl>
@@ -11,7 +10,7 @@
 	<Product>Blazor Components</Product>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
-	<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea</PackageTags>
+	<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea Debounce</PackageTags>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<PackageId>Majorsoft.Blazor.Components.Debounce</PackageId>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
