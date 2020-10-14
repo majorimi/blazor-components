@@ -54,11 +54,11 @@ jobs:
       inputs:
         command: 'publish'
         publishWebProjects: false
-        projects: 'Blazor.Components.DemoApp.csproj'
+        projects: $(project)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/DemoApp'
         zipAfterPublish: false
         modifyOutputPath: false
-        workingDirectory: 'demo/Blazor.Components.DemoApp/'
+        # workingDirectory: 'demo/Blazor.Components.DemoApp/'
 
     - task: PublishBuildArtifacts@1
       inputs:
