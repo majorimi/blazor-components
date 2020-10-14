@@ -17,12 +17,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Remove="bundleconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Watch Remove="Pages\ColorPage.razor" />
 	  <Watch Remove="Pages\ExtensionsPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="bundleconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,6 +60,10 @@
 	  </Content>
 	  <Content Update="Pages\TimerPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="wwwroot\css\app.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
 	</ItemGroup>
 

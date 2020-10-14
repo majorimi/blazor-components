@@ -1,66 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<nullable>enable</nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.30-rc.1.20452.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
-		<PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<!-- extends watching group to include *.razor files -->
-		<Watch Include="**\*.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Watch Remove="Pages\ColorPage.razor" />
-	  <Watch Remove="Pages\DebounceInputPage.razor" />
-	  <Watch Remove="Pages\ExtensionsPage.razor" />
-	  <Watch Remove="Pages\IndexPage.razor" />
-	  <Watch Remove="Pages\LoadingPage.razor" />
-	  <Watch Remove="Pages\TimerPage.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
-	  <ProjectReference Include="..\..\src\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Update="Pages\ColorPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\DebounceInputPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\ExtensionsPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\IndexPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\LoadingPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\ModalPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\TimerPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\ColorPage.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Pages\ColorPage.razor" />
-	</ItemGroup>
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
 
 </Project>

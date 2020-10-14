@@ -1,0 +1,147 @@
+﻿@using System.ComponentModel.DataAnnotations;
+
+<h1>Loading Components</h1>
+
+<p>
+	Blazor components that renders Overlay for page load. HTML @("<button>") with customizable content for showing async operation in progress/loading state. For usege see soruce code and docs on 
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Loading</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Loading page</h3>
+	<p>Renders and Overlay layer with customizable content for showing Page loading...</p>
+
+	<LoadingPage OnLoading="@SendRequest">
+		<LoadingContent>
+			<i class="fa fa-spinner fa-3x fa-spin"></i> 
+			<h2 class="m-3">Loading...</h2>
+		</LoadingContent>
+	</LoadingPage>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay opacity: @(_overlayOpacity/1000) 
+			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<LoadingPage @ref="_loadingPage" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
+		<LoadingContent>
+			<i class="fa fa-refresh fa-3x fa-spin"></i> 
+			<h2 class="m-3">Refreshing...</h2>
+		</LoadingContent>
+	</LoadingPage>
+
+	<button class="btn btn-primary" @onclick="LoadForm">Prompt loader...</button>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Loading button</h3>
+	<p>Renders <strong>HTML Button</strong> with customizable content to show during async operation progress/loading...</p>
+
+	<div class="pb-2">
+		<div>Submit button with Click handler 'Auto' loading and DisabledWhenLoading="true"</div>
+		<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
+			<Content>
+				Fetch data
+			</Content>
+			<LoadingContent>
+				<i class="fa fa-spinner fa-spin"></i> Loading...
+			</LoadingContent>
+		</LoadingButton>
+	</div>
+
+	<hr />
+	<div class="pb-2">
+		<div>Button with Click handler 'Auto' loading handler and DisabledWhenLoading="false"</div>
+		<LoadingButton class="btn btn-warning" DisabledWhenLoading="false" OnClicked="@SendRequest">
+			<Content>
+				Save
+				<i class="fa fa-save"></i>
+			</Content>
+			<LoadingContent>
+				<i class="fa fa-refresh fa-spin"></i> Sending data...
+			</LoadingContent>
+		</LoadingButton>
+	</div>
+
+	<hr />
+	<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="row">
+			<div class="col-12 col-lg-8 col-xl-5">
+				<div class="pb-2">
+					<InputText @bind-Value="exampleModel.Name" class="form-control w-100" />
+				</div>
+				<div class="pb-2">
+					<div>Submit button without Click handler 'Manual' loading and DisabledWhenLoading="true"</div>
+					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
+						<Content>
+							Submit
+						</Content>
+						<LoadingContent>
+							<i class="fa fa-circle-o-notch fa-spin"></i> Post...
+						</LoadingContent>
+					</LoadingButton>
+				</div>
+			</div>
+		</div>
+	</EditForm>
+</div>
+
+@code {
+	private string _overlayColor = "lightblue";
+	private double _overlayOpacity = 500;
+	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
+	private LoadingPage _loadingPage;
+	private async Task LoadForm()
+	{
+		try
+		{
+			_loadingPage.Set(); //Set the layout to Loading state
+
+			await Task.Delay(1000); //write your code here...
+		}
+		finally
+		{
+			_loadingPage.Reset(); //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
+		}
+	}
+
+	private async Task SendRequest()
+	{
+		await Task.Delay(1500); //write your code here...
+	}
+
+	//Use it with EditForm otherwise use LoadingButton.OnClicked event.
+	private LoadingButton _loadingButton;
+	private async Task FormOnValidSubmit()
+	{
+		try
+		{
+			_loadingButton.Set(); //Set the button to Loading state
+
+			await Task.Delay(1500); //write your code here...
+		}
+		finally
+		{
+			_loadingButton.Reset(); //Reset button to default state in FINALLY block to avoid infinity loading state in case of any error!
+		}
+	}
+
+	//Form model
+	private ExampleModel exampleModel = new ExampleModel();
+	public class ExampleModel
+	{
+		[Required]
+		public string Name { get; set; }
+	}
+}

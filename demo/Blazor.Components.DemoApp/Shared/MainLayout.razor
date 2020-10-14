@@ -1,15 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<div>
-    <NavMenu AppName="Blazor Components (WA)" />
-</div>
-
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://github.com/majorimi/blazor-components" target="_blank" class="ml-md-auto">About</a>
+<div class="page">
+    <div class="sidebar">
+        <NavMenu AppName="Blazor Components Demo" />
     </div>
 
-    <div class="content px-4">
-        @Body
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="https://github.com/majorimi/blazor-components" target="_blank" class="ml-md-auto">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
 </div>
