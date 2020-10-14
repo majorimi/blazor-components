@@ -1,6 +1,6 @@
 ﻿namespace Blazor.Components.CssEvents.Animation
 {
-	public class AnimationEventArgs : CssBaseEventArgs
+	public sealed class AnimationEventArgs : CssBaseEventArgs
 	{
 		public string OriginalAnimationNameFilter { get; set; }
 

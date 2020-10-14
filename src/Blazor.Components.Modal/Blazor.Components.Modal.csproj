@@ -3,15 +3,15 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.Dialog</PackageId>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>Majorsoft.Blazor.Components.Modal</PackageId>
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
 	<Company>Imre Toth</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Dialog.md</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
@@ -35,7 +35,7 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
 
@@ -47,7 +47,7 @@
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0\</PackagePath>
+			<PackagePath>lib\net5.0</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
 

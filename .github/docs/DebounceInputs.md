@@ -12,19 +12,28 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/debounceinput).
 
-# Features
-
-## Components
+# Components
 
 - **`DebounceInput`**: wraps and renders HTML `<input>` field with debounced (delay) event for onChange.
 - **`DebounceInputText`**: extends `InputText` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 - **`DebounceTextArea`**: wraps and renders HTML `<textarea>` field with debounced (delay) event for onChange.
 - **`DebounceInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validation and `@bind-Value=`) and adds debounced value changed event notification.
 
-## Properties
+## `DebounceInput` and `DebounceTextArea` components
 
-- **`OnValueChanged`: `EventCallback<string>` delegate - Required** <br />
-  Function called when value was changed (debounced) with field value passed into.
+Blazor components that are wrapping around standard  HTML `<input>`, `<textarea>` elements and provide debounced (delay) notification functionality.
+Can fit for any Blazor app e.g. when making async server calls on user input (search) but you don't want to waste resources by sending requests on each key pressed. 
+
+## `DebounceTextArea` and `DebounceInputTextArea` components
+
+Blazor components that are wrapping around standard exiting Blazor components. Rendered HTML result will be standard `<input>`, `<textarea>` as well.
+Can fit for any Blazor app but use this only when you need Blazor provided FROM validation as well.
+
+### Properties
+
+All components have exactly the same features only rendering different HTML elements, hence 
+they have the same **properties**, **events** and **functions** as well.
+
 - **`CurrentValue`: `string { get; set; }`** <br />
   Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
@@ -51,6 +60,10 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 ```
 <input id="in1" class="form-control w-25" placeholder="Please type in at least: 2 char(s)" ... />
 ```
+
+### Events
+- **`OnValueChanged`: `EventCallback<string>` delegate - Required** <br />
+  Callback function called when value was changed (debounced) with field value passed into.
 
 ### Functions
 

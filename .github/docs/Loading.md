@@ -14,9 +14,7 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/loading).
 
-# Features
-
-## Components
+# Components
 
 - **`LoadingPage`**: Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
 - **`LoadingButton`**: Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
@@ -28,15 +26,17 @@ It is useful when you want to show
 ### Properties
 - **`LoadingContent`: `RenderFragment` HTML content - Required** <br />
 Required HTML content to show on top of the overlay `<div>`.
-- **`OnLoading`: `EventCallback` delegate** <br />
-Function called when component `OnInitializedAsync` Blazor event triggered. 
 Subscribe to this event and place your page initializer code to the event handler when using **'automatic'** mode. Otherwise can be omitted.
 - **`OverlayBackgroundColor`: `string { get; set; }` (default: "gray")** <br />
-Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: color names, or with RGB or HEX values.
-- **`OverlayOpacity`: `double OverlayOpacity { get; set; }` (default: 0.9)** <br />
-Opacity of the overlay `<div>`. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: **Color Names**, **RGB** or with **HEX** values.
+- **`OverlayOpacity`: `double { get; set; }` (default: 0.9)** <br />
+Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means the overlay layer is not visible.
 
 **Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML element `<div>`**.
+
+### Events
+- **`OnLoading`: `EventCallback` delegate** <br />
+Callback function called when component `OnInitializedAsync` Blazor event triggered. 
 
 ### Functions
 - **`Set()`: `void Set()`** <br />

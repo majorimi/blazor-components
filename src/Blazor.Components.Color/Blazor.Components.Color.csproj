@@ -16,7 +16,7 @@
 
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.1.20451.17" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
 
@@ -27,7 +27,7 @@
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0\</PackagePath>
+			<PackagePath>lib\net5.0</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
 

@@ -53,8 +53,8 @@
 	private ElementReference _overlayDiv;
 	private ElementReference _modal;
 
-	private JSObjectReference _previousFocusedElement;
-	private JSObjectReference _focusJs;
+	private IJSObjectReference _previousFocusedElement;
+	private IJSObjectReference _focusJs;
 
 	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
@@ -74,7 +74,7 @@
 	[Parameter] public double Height { get; set; } = 0;
 	[Parameter] public double Width { get; set; } = 0;
 	[Parameter] public double MinHeight { get; set; } = 200;
-	[Parameter] public double MinWidth { get; set; } = 100;
+	[Parameter] public double MinWidth { get; set; } = 200;
 
 	[Parameter] public bool Focus { get; set; } = true;
 	[Parameter] public bool Animate { get; set; } = true;
@@ -104,9 +104,9 @@
 		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
 
 #if DEBUG
-		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.js");
+		_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Modal/focus.js");
 #else
-		_focusJs = await _jsRuntime.InvokeAsync<JSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Dialog/focus.min.js");
+		_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Modal/focus.min.js");
 #endif		
 		_dialogTop = _dialogDefaultTop;
 	}
@@ -219,7 +219,7 @@
 		if(Focus)
 		{
 			//Get previous element
-			_previousFocusedElement = await _focusJs.InvokeAsync<JSObjectReference>("getFocusedElement");
+			_previousFocusedElement = await _focusJs.InvokeAsync<IJSObjectReference>("getFocusedElement");
 
 			//Set focus to DIV
 			WriteDiag($"Opening dialog setting Focus to dialog, previous IsOpened: '{_isOpened}'.");
@@ -248,7 +248,7 @@
 
 		await CloseInternal();
 	}
-	public async Task CloseInternal()
+	private async Task CloseInternal()
 	{
 		if(Animate)
 		{

@@ -33,7 +33,7 @@ jobs:
       displayName: Install .NET 5
       inputs:
        packageType: 'sdk'
-       version: '5.0.100-rc.1.20452.10' # replace this value with the version that you need for your project
+       version: '5.0.100-rc.2.20479.15' # replace this value with the version that you need for your project
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore packages'

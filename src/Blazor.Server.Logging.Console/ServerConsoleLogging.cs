@@ -6,7 +6,7 @@ namespace Blazor.Server.Logging.Console
 {
 	internal class ServerConsoleLogging
 	{
-		public static ValueTask<string> LogConsole(JSObjectReference jSObjectReference, string message)
+		public static ValueTask<string> LogConsole(IJSObjectReference jSObjectReference, string message)
 		{
 			if (jSObjectReference != null)
 			{

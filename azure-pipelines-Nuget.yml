@@ -20,7 +20,7 @@ variables:
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
   #AssemblyVersion: '$(Build.BuildNumber)'
-  #PreviewPackageVersion: '-rc.1.20452.10'
+  #PreviewPackageVersion: '-rc.2.20479.15'
 
 jobs:
   - job: BuildAndPublish
@@ -31,7 +31,7 @@ jobs:
       displayName: Install .NET 5
       inputs:
        packageType: 'sdk'
-       version: '5.0.100-rc.1.20452.10' # replace this value with the version that you need for your project
+       version: '5.0.100-rc.2.20479.15' # replace this value with the version that you need for your project
 
     - task: Assembly-Info-NetCore@2
       displayName: 'Update Web Assembly Info'
@@ -105,7 +105,7 @@ jobs:
           Get-ChildItem -Path src/**/*.csproj | % {
             $file = $_.FullName
             Write-Host $file
-            if( (Get-Content -path $file -Raw) -match $verRegex) {
+            if((Get-Content -path $file -Raw) -match $verRegex) {
                 dotnet pack $file --configuration $config --output $out -p:PackageVersion=$version
             }
             #(Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file

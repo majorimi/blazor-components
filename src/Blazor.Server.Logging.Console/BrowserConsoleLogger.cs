@@ -82,8 +82,14 @@ namespace Blazor.Server.Logging.Console
 				{
 					if (_jsRuntime is { })
 					{
-						await using (var module = await _jsRuntime.InvokeAsync<JSObjectReference>("import",
-							"./_content/Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.js"))
+
+#if DEBUG
+						var jsName = "Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.js";
+#else
+						var jsName = "Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.min.js";
+#endif
+						await using (var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
+							$"./_content/{jsName}"))
 						{
 							await ServerConsoleLogging.LogConsole(module, message);
 						}
