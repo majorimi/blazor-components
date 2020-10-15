@@ -1,0 +1,62 @@
+﻿
+Name: 
+<DebounceInput style="display: block;"
+	CurrentValue="@CurrentValue"
+	DebounceTime="@DebounceTime"
+	MinLength="@MinLength"
+	OnValueChanged="e => OnTextChanged(e)"
+	ForceNotifyByEnter="@ForceNotifyByEnter"
+	ForceNotifyOnBlur="@ForceNotifyOnBlur"
+	@attributes=AdditionalAttributes />
+
+<div class="tdiv">
+</div>
+<input type="button" style="margin-bottom:500px;" value="heeeeeeeee" />
+
+<style>
+	.tdiv {
+		width:100px;
+		height:100px;
+		background:white;
+		border: solid 1px gray;
+
+		border-radius: .25rem;
+		box-shadow: 3px 3px 5px 2px #bdbdbd;
+
+		float: left;
+		padding: .5rem 0;
+		margin: .125rem 0 0;
+		display: block;
+		z-index: 500;
+		position: absolute;
+
+		@*transform: translate(280px, 145px);
+		top: 0px;
+		left: 0px;*@
+		top: auto;
+		left: auto;
+	}
+</style>
+
+@code {
+	[Parameter] public string CurrentValue { get; set; }
+
+	[Parameter] public double DebounceTime { get; set; } = 0;
+	[Parameter] public int MinLength { get; set; } = 0;
+	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
+	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AdditionalAttributes { get; set; }
+
+	[Parameter] public EventCallback<string> OnValueChanged { get; set; }
+
+	private async Task OnTextChanged(string value)
+	{
+		CurrentValue = value;
+		if(OnValueChanged.HasDelegate)
+		{
+			await OnValueChanged.InvokeAsync(value);
+		}
+	}
+}

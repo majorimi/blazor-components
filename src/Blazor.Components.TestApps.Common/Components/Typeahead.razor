@@ -1,5 +1,49 @@
-﻿<h3>Typeahead</h3>
+﻿<h1>Typeahead Input controls</h1>
+<p>
+	Blazor component that renders an Input, InputText,. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Typeahead</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead component</h3>
+	<p>Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.</p>
+
+	<div>
+		<div>
+			<input type="range" min="10" max="1000" @bind="DebounceMilisec" @oninput="(e => DebounceMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @DebounceMilisec ms.</pre>
+		</div>
+		<div>
+			<input type="range" min="0" max="5" @bind="MinCharsLength" @oninput="(e => MinCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @MinCharsLength</pre>
+		</div>
+		<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
+		<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+				@ref="input1"
+				CurrentValue="@DebounceInputValue"
+				DebounceTime="@DebounceMilisec"
+				MinLength="@MinCharsLength"
+				OnValueChanged="e => { DebounceInputValue = e; }"
+				ForceNotifyByEnter="@ForceNotifyByEnter"
+				ForceNotifyOnBlur="@ForceNotifyOnBlur" />
+		</div>
+	</div>
+
+	<div>Notified value: @DebounceInputValue</div>
+	<div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
+
+</div>
 
 @code {
-
+	//DebounceInput
+	private string DebounceInputValue = "";
+	private int DebounceMilisec = 0;
+	private int MinCharsLength = 0;
+	private bool ForceNotifyByEnter = true;
+	private bool ForceNotifyOnBlur = true;
+	private TypeaheadInput input1;
 }

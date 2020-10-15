@@ -4,7 +4,7 @@
 <p>
 	Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.
-	<br /><strong>Majorsoft.Blazor.Components.Debounce.Input</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce.Input" target="_blank">Nuget</a>
+	<br /><strong>Majorsoft.Blazor.Components.Debounce</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce" target="_blank">Nuget</a>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -18,8 +18,8 @@
 		<div>
 			<input type="range" min="0" max="10" @bind="MinCharsLength" @oninput="(e => MinCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @MinCharsLength</pre>
 		</div>
-		<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-		<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+		<pre>Force Notify by Enter: <input class="mr-3" type="checkbox" @bind="ForceNotifyByEnter"/> @ForceNotifyByEnter</pre>
+		<pre>Force Notify On Blur: <input class="mr-3" type="checkbox" @bind="ForceNotifyOnBlur"/>@ForceNotifyOnBlur</pre>
 	</div>
 
 	<div class="row pb-2">

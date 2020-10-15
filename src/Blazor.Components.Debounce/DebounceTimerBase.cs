@@ -26,7 +26,11 @@ namespace Blazor.Components.Debounce
 				if (value <= 0)
 				{
 					_debounceEnabled = false;
-					_timer.Stop();
+					if (_timer is not null)
+					{
+						_timer.Stop();
+					}
+					
 					return;
 				}
 
