@@ -26,29 +26,7 @@ namespace Blazor.Components.Debounce
 					return;
 				}
 
-				if (_timer is not null)
-				{
-					_timer.Stop();
-				}
-
-				_intervalInMilisec = value;
-				if (value <= -1)
-				{
-					_debounceEnabled = false;
-					return;
-				}
-				if (value == 0) //Timer cannot handle 0
-				{
-					_debounceEnabled = true;
-					return;
-				}
-
-				_debounceEnabled = true;
-				if (_timer is not null)
-				{
-					_timer.Interval = _intervalInMilisec;
-					_timer.AutoReset = false;
-				}
+				SetTimer(value);
 			}
 		}
 
@@ -67,8 +45,8 @@ namespace Blazor.Components.Debounce
 
 		protected override void OnInitialized()
 		{
-			//_timer = DebounceTime > 0 ? new Timer(DebounceTime) : new Timer();
-			_timer = new Timer(DebounceTime);
+			_timer = new Timer();
+			SetTimer(DebounceTime);
 			_timer.Elapsed += OnElapsed;
 			_timer.AutoReset = false;
 
@@ -144,6 +122,33 @@ namespace Blazor.Components.Debounce
 				_notifiedLastChange = true;
 				await OnValueChanged.InvokeAsync(invokeValue);
 			});
+		}
+
+		private void SetTimer(double value)
+		{
+			if (_timer is not null)
+			{
+				_timer.Stop();
+			}
+
+			_intervalInMilisec = value;
+			if (value <= -1)
+			{
+				_debounceEnabled = false;
+				return;
+			}
+			if (value == 0) //Timer cannot handle 0
+			{
+				_debounceEnabled = true;
+				return;
+			}
+
+			_debounceEnabled = true;
+			if (_timer is not null)
+			{
+				_timer.Interval = _intervalInMilisec;
+				_timer.AutoReset = false;
+			}
 		}
 
 		private void WriteDiag(string message)
