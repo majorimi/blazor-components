@@ -67,6 +67,7 @@ namespace Blazor.Components.Debounce
 
 		protected override void OnInitialized()
 		{
+			//_timer = DebounceTime > 0 ? new Timer(DebounceTime) : new Timer();
 			_timer = new Timer(DebounceTime);
 			_timer.Elapsed += OnElapsed;
 			_timer.AutoReset = false;

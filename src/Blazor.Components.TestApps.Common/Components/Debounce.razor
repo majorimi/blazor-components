@@ -158,9 +158,9 @@
 
 
 @code {
-		//DebounceInput
+	//DebounceInput
 	private string _debounceInputValue = "";
-	private string _notifiedInputValue;
+	private string? _notifiedInputValue;
 	private int _debounceMilisec = 1000;
 	private int _minCharsLength = 2;
 	private bool _forceNotifyByEnter = true;
@@ -177,7 +177,7 @@
 
 	//DebounceTextArea
 	private string _debounceTextAreaText = "";
-	private string _notifiedTextAreaValue = "";
+	private string? _notifiedTextAreaValue;
 	private int _debounceTextAreaMilisec = 1000;
 	private int _debounceTextAreaMinCharsLength = 5;
 	private bool _forceNotifyByEnter3 = true;

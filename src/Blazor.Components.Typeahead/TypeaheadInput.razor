@@ -1,7 +1,7 @@
 ﻿
 Name: 
 <DebounceInput style="display: block;"
-	CurrentValue="@CurrentValue"
+	Value="@Value"
 	DebounceTime="@DebounceTime"
 	MinLength="@MinLength"
 	OnValueChanged="e => OnTextChanged(e)"
@@ -39,10 +39,11 @@ Name:
 </style>
 
 @code {
-	[Parameter] public string CurrentValue { get; set; }
+	[Parameter] public string Value { get; set; }
 
 	[Parameter] public double DebounceTime { get; set; } = 0;
 	[Parameter] public int MinLength { get; set; } = 0;
+	//TODO: check if it is needed?
 	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
@@ -53,7 +54,7 @@ Name:
 
 	private async Task OnTextChanged(string value)
 	{
-		CurrentValue = value;
+		Value = value;
 		if(OnValueChanged.HasDelegate)
 		{
 			await OnValueChanged.InvokeAsync(value);

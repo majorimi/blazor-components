@@ -11,39 +11,40 @@
 
 	<div>
 		<div>
-			<input type="range" min="10" max="1000" @bind="DebounceMilisec" @oninput="(e => DebounceMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @DebounceMilisec ms.</pre>
+			<input type="range" min="0" max="2000" @bind="_debounceMilisec" @oninput="(e => _debounceMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceMilisec ms.</pre>
 		</div>
 		<div>
-			<input type="range" min="0" max="5" @bind="MinCharsLength" @oninput="(e => MinCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @MinCharsLength</pre>
+			<input type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength</pre>
 		</div>
-		<pre>Force Notify by Enter: @ForceNotifyByEnter</pre>
-		<pre>Force Notify On Blur: @ForceNotifyOnBlur</pre>
+		<pre>Force Notify by Enter: <input class="mr-3" type="checkbox" @bind="_forceNotifyByEnter" /> @_forceNotifyByEnter</pre>
+		<pre>Force Notify On Blur: <input class="mr-3" type="checkbox" @bind="_forceNotifyOnBlur" />@_forceNotifyOnBlur</pre>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-				@ref="input1"
-				CurrentValue="@DebounceInputValue"
-				DebounceTime="@DebounceMilisec"
-				MinLength="@MinCharsLength"
-				OnValueChanged="e => { DebounceInputValue = e; }"
-				ForceNotifyByEnter="@ForceNotifyByEnter"
-				ForceNotifyOnBlur="@ForceNotifyOnBlur" />
+			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
+							@ref="input1"
+							Value="@_debounceInputValue"
+							DebounceTime="@_debounceMilisec"
+							MinLength="@_minCharsLength"
+							OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
+							ForceNotifyByEnter="@_forceNotifyByEnter"
+							ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 		</div>
 	</div>
 
-	<div>Notified value: @DebounceInputValue</div>
-	<div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
+	<div>Last Notified value: @_notifiedInputValue</div>
+	<div>Actual value: @_debounceInputValue</div>
 
 </div>
 
 @code {
 	//DebounceInput
-	private string DebounceInputValue = "";
-	private int DebounceMilisec = 0;
-	private int MinCharsLength = 0;
-	private bool ForceNotifyByEnter = true;
-	private bool ForceNotifyOnBlur = true;
+	private string _debounceInputValue = "";
+	private string? _notifiedInputValue;
+	private int _debounceMilisec = 0;
+	private int _minCharsLength = 0;
+	private bool _forceNotifyByEnter = true;
+	private bool _forceNotifyOnBlur = true;
 	private TypeaheadInput input1;
 }
