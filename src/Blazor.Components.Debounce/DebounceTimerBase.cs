@@ -31,6 +31,7 @@ namespace Blazor.Components.Debounce
 					_timer.Stop();
 				}
 
+				_intervalInMilisec = value;
 				if (value <= -1)
 				{
 					_debounceEnabled = false;
@@ -42,9 +43,7 @@ namespace Blazor.Components.Debounce
 					return;
 				}
 
-				_intervalInMilisec = value;
 				_debounceEnabled = true;
-
 				if (_timer is not null)
 				{
 					_timer.Interval = _intervalInMilisec;
@@ -53,7 +52,7 @@ namespace Blazor.Components.Debounce
 			}
 		}
 
-		[Parameter] public string CurrentValue { get; set; }
+		[Parameter] public string? Value { get; set; }
 		[Parameter] public int MinLength { get; set; } = 0;
 		[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
 		[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
@@ -72,15 +71,16 @@ namespace Blazor.Components.Debounce
 			_timer.Elapsed += OnElapsed;
 			_timer.AutoReset = false;
 
-			WriteDiag($"Initialized with Value: '{CurrentValue}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: {_debounceEnabled}.");
+			WriteDiag($"Initialized with Value: '{Value}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: {_debounceEnabled}.");
 			base.OnInitialized();
 		}
 
 		protected void OnTextChange(ChangeEventArgs e)
 		{
-			WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}");
+			WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}, timer interval: {_intervalInMilisec}");
+			_timer.Stop(); //Stop previous timer
 
-			CurrentValue = e.Value?.ToString();
+			Value = e.Value?.ToString();
 			_notifiedLastChange = false;
 
 			if(_intervalInMilisec == 0) //Notify immediatelly
@@ -90,11 +90,9 @@ namespace Blazor.Components.Debounce
 
 			if (!_debounceEnabled) //Do not notify
 			{
-				_timer.Stop();
 				return;
 			}
 
-			_timer.Stop(); //Stop previous timer
 			_timer.Start(); //Re-start timer
 		}
 		protected void OnBlur(FocusEventArgs e)
@@ -120,7 +118,7 @@ namespace Blazor.Components.Debounce
 
 		protected void OnElapsed(object source, ElapsedEventArgs e)
 		{
-			WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: {_debounceEnabled}, Value: '{CurrentValue}'");
+			WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: {_debounceEnabled}, Value: '{Value}'");
 
 			Notify();
 		}
@@ -133,9 +131,9 @@ namespace Blazor.Components.Debounce
 				return;
 			}
 
-			WriteDiag($"Start ValueChanged notification with length check. CurrentValue: '{CurrentValue}' length is {CurrentValue?.Length}, required MinLength: {MinLength} ");
-			var invokeValue = CurrentValue?.Length >= MinLength
-				? CurrentValue
+			WriteDiag($"Start ValueChanged notification with length check. Value: '{Value}' length is {Value?.Length}, required MinLength: {MinLength} ");
+			var invokeValue = Value?.Length >= MinLength
+				? Value
 				: string.Empty;
 
 			InvokeAsync(async () =>

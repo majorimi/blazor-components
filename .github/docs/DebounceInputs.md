@@ -34,7 +34,7 @@ Can fit for any Blazor app but use this only when you need Blazor provided FROM 
 All components have exactly the same features only rendering different HTML elements, hence 
 they have the same **properties**, **events** and **functions** as well.
 
-- **`CurrentValue`: `string { get; set; }`** <br />
+- **`Value`: `string? { get; set; }`** <br />
   Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
   Also control actual value can be read out (_useful when MinLenght not reached_).
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
@@ -97,16 +97,16 @@ Following code example shows how to use **`DebounceInput`** component in your Bl
 ```
 <DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
   @ref="input1"
-  CurrentValue="@_debounceInputValue"
+  Value="@_debounceInputValue"
   DebounceTime="@_debounceMilisec"
   MinLength="@_minCharsLength"
-  OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.CurrentValue; }"
+  OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
   ForceNotifyByEnter="@_forceNotifyByEnter"
   ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 
 <div>Notified value: @_notifiedInputValue</div>
 <div>Actual value: @_debounceInputValue</div>
-<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.CurrentValue; })" />
+<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.Value; })" />
     
 @code {
 	//DebounceInput

@@ -4,11 +4,17 @@
 @implements IDisposable
 @inject ILogger<DebounceInputText> _logger;
 
-<textarea value="@InternalValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
+<textarea value="@CurrentValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
+
+@*
+	Diffs with DebounceTimerBase:
+	- value="@CurrentValue"
+	- remove: [Parameter] public string? Value { get; set; }
+	- remove: public Dictionary<string, object> AdditionalAttributes { get; set; }
+	- OnTextChange(): CurrentValue = e.Value?.ToString();
+*@
 
 @code {
-	protected string InternalValue;
-
 	private bool _notifiedLastChange = false;
 	private bool _disposedValue;
 	private bool _debounceEnabled = true;
@@ -20,21 +26,29 @@
 		get => _intervalInMilisec;
 		set
 		{
-			if (value <= 0)
-			{
-				_debounceEnabled = false;
-				_timer.Stop();
-				return;
-			}
-
 			if (value == _intervalInMilisec)
 			{
 				return;
 			}
 
-			_intervalInMilisec = value;
-			_debounceEnabled = true;
+			if (_timer is not null)
+			{
+				_timer.Stop();
+			}
 
+			_intervalInMilisec = value;
+			if (value <= -1)
+			{
+				_debounceEnabled = false;
+				return;
+			}
+			if (value == 0) //Timer cannot handle 0
+			{
+				_debounceEnabled = true;
+				return;
+			}
+
+			_debounceEnabled = true;
 			if (_timer is not null)
 			{
 				_timer.Interval = _intervalInMilisec;
@@ -52,30 +66,33 @@
 	private Timer _timer;
 	protected override void OnInitialized()
 	{
-		InternalValue = CurrentValue;
 		_timer = new Timer(DebounceTime);
 		_timer.Elapsed += OnElapsed;
 		_timer.AutoReset = false;
 
-		WriteDiag($"Initialized with Value: '{InternalValue}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: {_debounceEnabled}.");
+		WriteDiag($"Initialized with Value: '{CurrentValue}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: {_debounceEnabled}.");
 		base.OnInitialized();
 	}
 
 	protected void OnTextChange(ChangeEventArgs e)
 	{
-		WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}");
+		WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}, timer interval: {_intervalInMilisec}");
+		_timer.Stop(); //Stop previous timer
 
-		InternalValue = e.Value?.ToString();
+		_notifiedLastChange = false;
+		CurrentValue = e.Value?.ToString();
+
+		if (_intervalInMilisec == 0) //Notify immediatelly
+		{
+			Notify();
+		}
 
 		if (!_debounceEnabled) //Do not notify
 		{
-			_timer.Stop();
 			return;
 		}
 
-		_timer.Stop(); //Stop previous timer
 		_timer.Start(); //Re-start timer
-		_notifiedLastChange = false;
 	}
 	protected void OnBlur(FocusEventArgs e)
 	{
@@ -100,22 +117,22 @@
 
 	protected void OnElapsed(object source, ElapsedEventArgs e)
 	{
-		WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: {_debounceEnabled}, Value: '{InternalValue}'");
+		WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: {_debounceEnabled}, Value: '{CurrentValue}'");
 
 		Notify();
 	}
 
 	private void Notify()
 	{
-		if(_notifiedLastChange)
+		if (_notifiedLastChange)
 		{
 			WriteDiag($"Notify event was already sent NotifiedLastChange: {_notifiedLastChange}");
 			return;
 		}
 
-		WriteDiag($"Start ValueChanged notification with length check. CurrentValue: '{InternalValue}' length is {InternalValue?.Length}, required MinLength: {MinLength} ");
-		var invokeValue = InternalValue?.Length >= MinLength
-			? InternalValue
+		WriteDiag($"Start ValueChanged notification with length check. CurrentValue: '{CurrentValue}' length is {CurrentValue?.Length}, required MinLength: {MinLength} ");
+		var invokeValue = CurrentValue?.Length >= MinLength
+			? CurrentValue
 			: string.Empty;
 
 		InvokeAsync(async () =>
@@ -123,11 +140,7 @@
 			WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
 
 			_notifiedLastChange = true;
-			CurrentValue = InternalValue;
-			//await ValueChanged.InvokeAsync(invokeValue);  //Base class event...
 			await OnValueChanged.InvokeAsync(invokeValue);
-
-			StateHasChanged();
 		});
 	}
 
@@ -135,6 +148,7 @@
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
+
 
 	protected virtual void Dispose(bool disposing)
 	{

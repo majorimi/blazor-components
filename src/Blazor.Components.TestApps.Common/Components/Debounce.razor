@@ -26,10 +26,10 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
 						   @ref="input1"
-						   CurrentValue="@_debounceInputValue"
+						   Value="@_debounceInputValue"
 						   DebounceTime="@_debounceMilisec"
 						   MinLength="@_minCharsLength"
-						   OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.CurrentValue; }"
+						   OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
 						   ForceNotifyByEnter="@_forceNotifyByEnter"
 						   ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 		</div>
@@ -37,7 +37,7 @@
 
 	<div>Last Notified value: @_notifiedInputValue</div>
 	<div>Actual value: @_debounceInputValue</div>
-	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.CurrentValue; })" />
+	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.Value; })" />
 </div>
 
 
@@ -79,7 +79,7 @@
 
 	<div>Last Notified value: @_debounceInputTextValue</div>
 	<div>Actual value: @(exampleModel.Name)</div>
-	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { exampleModel.Name = inputText1.Value; })" />
+	@*<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { exampleModel.Name = inputText1.Value; })" />*@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -87,20 +87,24 @@
 	<p>Wraps around <strong>HTML TextArea</strong> control and adds debounce (delay) with notification onChange.</p>
 
 	<div>
-		<pre>Debounce time: @_debounceTextAreaMilisec ms</pre>
-		<pre>Min required chars: @_debounceTextAreaMinCharsLength</pre>
-		<pre>Force Notify by Enter: @_forceNotifyByEnter3</pre>
-		<pre>Force Notify On Blur: @_forceNotifyOnBlur3</pre>
+		<div>
+			<input type="range" min="-1" max="2000" @bind="_debounceTextAreaMilisec" @oninput="(e => _debounceTextAreaMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceTextAreaMilisec ms.</pre>
+		</div>
+		<div>
+			<input type="range" min="0" max="10" @bind="_debounceTextAreaMinCharsLength" @oninput="(e => _debounceTextAreaMinCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_debounceTextAreaMinCharsLength</pre>
+		</div>
+		<pre>Force Notify by Enter: <input class="mr-3" type="checkbox" @bind="_forceNotifyByEnter3" /> @_forceNotifyByEnter3</pre>
+		<pre>Force Notify On Blur: <input class="mr-3" type="checkbox" @bind="_forceNotifyOnBlur3" />@_forceNotifyOnBlur3</pre>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			<DebounceTextArea class="form-control w-100" placeholder="@("Please type in at least: " + _debounceTextAreaMinCharsLength + " char(s)")"
 							  @ref="text1"
-							  CurrentValue="@_debounceTextAreaText"
+							  Value="@_debounceTextAreaText"
 							  DebounceTime="@_debounceTextAreaMilisec"
 							  MinLength="@_debounceTextAreaMinCharsLength"
-							  OnValueChanged="e => { _notifiedTextAreaValue = e; _debounceTextAreaText = text1.CurrentValue;}"
+							  OnValueChanged="e => { _notifiedTextAreaValue = e; _debounceTextAreaText = text1.Value;}"
 							  ForceNotifyByEnter="@_forceNotifyByEnter3"
 							  ForceNotifyOnBlur="@_forceNotifyOnBlur3" />
 		</div>
@@ -108,7 +112,7 @@
 
 	<div>Last Notified value: @_notifiedTextAreaValue</div>
 	<div>Actual value: @_debounceTextAreaText</div>
-	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceTextAreaText = text1.CurrentValue; })" />
+	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceTextAreaText = text1.Value; })" />
 
 </div>
 
@@ -117,10 +121,14 @@
 	<p>Wraps around <strong>Blazor InputTextArea</strong> component and adds debounce (delay) with notification onChange.</p>
 
 	<div>
-		<pre>Debounce time: @_debounceInputTextAreaMilisec ms</pre>
-		<pre>Min required chars: @_debounceInputTextAreaMinCharsLength</pre>
-		<pre>Force Notify by Enter: @_forceNotifyByEnter4</pre>
-		<pre>Force Notify On Blur: @_forceNotifyOnBlur4</pre>
+		<div>
+			<input type="range" min="-1" max="2000" @bind="_debounceInputTextAreaMilisec" @oninput="(e => _debounceInputTextAreaMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceInputTextAreaMilisec ms.</pre>
+		</div>
+		<div>
+			<input type="range" min="0" max="10" @bind="_debounceInputTextAreaMinCharsLength" @oninput="(e => _debounceInputTextAreaMinCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_debounceInputTextAreaMinCharsLength</pre>
+		</div>
+		<pre>Force Notify by Enter: <input class="mr-3" type="checkbox" @bind="_forceNotifyByEnter4" /> @_forceNotifyByEnter4</pre>
+		<pre>Force Notify On Blur: <input class="mr-3" type="checkbox" @bind="_forceNotifyOnBlur4" />@_forceNotifyOnBlur4</pre>
 	</div>
 
 	<EditForm Model="@exampleModel2">
@@ -171,7 +179,7 @@
 	private string _debounceTextAreaText = "";
 	private string _notifiedTextAreaValue = "";
 	private int _debounceTextAreaMilisec = 1000;
-	private int _debounceTextAreaMinCharsLength = 10;
+	private int _debounceTextAreaMinCharsLength = 5;
 	private bool _forceNotifyByEnter3 = true;
 	private bool _forceNotifyOnBlur3 = true;
 	private DebounceTextArea text1;
