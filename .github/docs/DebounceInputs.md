@@ -35,11 +35,12 @@ All components have exactly the same features only rendering different HTML elem
 they have the same **properties**, **events** and **functions** as well.
 
 - **`CurrentValue`: `string { get; set; }`** <br />
-  Value of the rendered HTML element. Initial value can be set, with `@ref=""` (_useful when MinLenght not reached_) control value can be read out or can be omitted.
+  Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
+  Also control actual value can be read out (_useful when MinLenght not reached_).
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
-  Notification debounce timeout in ms. If set to `0 or less`, disables automatic notification completely. Notification will only happen by pressing `Enter` key or `onblur`, if set.
+  Notification debounce timeout in ms. If set to `0` notifications happens immediately. `-1` disables automatic notification completely. Notification will only happen by pressing `Enter` key or `onblur`, if set.
 - **`MinLength`: `int { get; set; }` (default: 0)** <br />
-  Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+  Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value `""`.
 - **`ForceNotifyByEnter`: `bool { get; set; }` (default: true)** <br />
   Notification of current value will be sent immediately by hitting Enter key. Enabled by-default. Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
 - **`ForceNotifyOnBlur`:  `bool { get; set; }` (default: true)** <br />
@@ -94,28 +95,28 @@ Following code example shows how to use **`DebounceInput`** component in your Bl
 **Note**: using **`DebounceTextArea`** component basically the same but it will render HTML `<textarea>`.
 
 ```
-<div class="pb-2">
-    <DebounceInput id="in1" class="form-control w-25" placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-        @ref="input1"
-        CurrentValue="@DebounceInputValue" 
-        DebounceTime="@DebounceMilisec" 
-        MinLength="@MinCharsLength"
-        OnValueChanged="e => { DebounceInputValue = e; }" 
-        ForceNotifyByEnter="@ForceNotifyByEnter"
-        ForceNotifyOnBlur ="@ForceNotifyOnBlur" />
-</div>
+<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
+  @ref="input1"
+  CurrentValue="@_debounceInputValue"
+  DebounceTime="@_debounceMilisec"
+  MinLength="@_minCharsLength"
+  OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.CurrentValue; }"
+  ForceNotifyByEnter="@_forceNotifyByEnter"
+  ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 
-<div>Notified value: @DebounceInputValue</div>
-<div>Actual value: @(input1?.CurrentValue ?? DebounceInputValue)</div>
+<div>Notified value: @_notifiedInputValue</div>
+<div>Actual value: @_debounceInputValue</div>
+<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.CurrentValue; })" />
     
 @code {
-    //DebounceInput
-    private string DebounceInputValue = "";
-    private int DebounceMilisec = 1000;
-    private int MinCharsLength = 2;
-    private bool ForceNotifyByEnter = true;
-    private bool ForceNotifyOnBlur = true;
-    private DebounceInput input1;
+	//DebounceInput
+	private string _debounceInputValue = "";
+	private string _notifiedInputValue = "";
+	private int _debounceMilisec = 1000;
+	private int _minCharsLength = 2;
+	private bool _forceNotifyByEnter = true;
+	private bool _forceNotifyOnBlur = true;
+	private DebounceInput input1;
 }
     
 ```
@@ -127,38 +128,39 @@ Following code example shows how to use **`DebounceInputText`** component with m
 
 ```
 <EditForm Model="@exampleModel">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="pb-2">
-        <DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-25" placeholder="@("Please type in at least: " + @DebounceInputTextMinCharsLength + " char(s)")"
-            @ref="inputText1"
-            DebounceTime="@DebounceInputTextDebounceMilisec" 
-            MinLength="@DebounceInputTextMinCharsLength"
-            OnValueChanged="e => { DebounceInputTextValue = e; }" 
-            ForceNotifyByEnter="@ForceNotifyByEnter2"
-            ForceNotifyOnBlur ="@ForceNotifyOnBlur2" />
-    </div>
-    <div class="pb-2">
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </div>
+ <DataAnnotationsValidator />
+ <ValidationSummary />
+ 
+ <div class="row pb-2">
+ 	<div class="col-12 col-lg-8 col-xl-5">
+ 		<DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
+ 			@ref="inputText1"
+ 			DebounceTime="@_debounceInputTextDebounceMilisec"
+ 			MinLength="@_debounceInputTextMinCharsLength"
+ 			OnValueChanged="e => { _debounceInputTextValue = e; }"
+ 			ForceNotifyByEnter="@_forceNotifyByEnter2"
+ 			ForceNotifyOnBlur="@_forceNotifyOnBlur2" />
+ 	</div>
+ </div>
+ <div class="pb-2">
+ 	<button class="btn btn-primary" type="submit">Submit</button>
+ </div>
 </EditForm>
 
-<div>Notified value: @DebounceInputTextValue</div>
+<div>Notified value: @_debounceInputTextValue</div>
 <div>Actual value: @(exampleModel.Name)</div>
 
 @code {
-    //DebounceInputText
-    private string DebounceInputTextValue = "";
-    private int DebounceInputTextDebounceMilisec = 1000;
-    private int DebounceInputTextMinCharsLength = 2;
-    private bool ForceNotifyByEnter2 = true;
-    private bool ForceNotifyOnBlur2 = true;
-    private DebounceInputText inputText1;
+	//DebounceInputText
+	private string _debounceInputTextValue = "";
+	private int _debounceInputTextDebounceMilisec = 1000;
+	private int _debounceInputTextMinCharsLength = 2;
+	private bool _forceNotifyByEnter2 = true;
+	private bool _forceNotifyOnBlur2 = true;
+	private DebounceInputText inputText1;
     
     //Form model
     private ExampleModel exampleModel = new ExampleModel();
-    private ExampleModel exampleModel2 = new ExampleModel();
     public class ExampleModel
     {
         [Required]

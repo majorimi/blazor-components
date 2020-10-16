@@ -1,4 +1,4 @@
 ﻿@inherits DebounceTimerBase
 @inject ILogger<DebounceInput> _logger;
 
-<input value="@InternalValue" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AdditionalAttributes />
+<input value="@CurrentValue" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AdditionalAttributes />
