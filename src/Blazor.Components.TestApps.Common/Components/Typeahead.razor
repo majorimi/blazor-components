@@ -16,8 +16,6 @@
 		<div>
 			<input type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength</pre>
 		</div>
-		<pre>Force Notify by Enter: <input class="mr-3" type="checkbox" @bind="_forceNotifyByEnter" /> @_forceNotifyByEnter</pre>
-		<pre>Force Notify On Blur: <input class="mr-3" type="checkbox" @bind="_forceNotifyOnBlur" />@_forceNotifyOnBlur</pre>
 	</div>
 
 	<div class="row pb-2">
@@ -27,9 +25,7 @@
 							Value="@_debounceInputValue"
 							DebounceTime="@_debounceMilisec"
 							MinLength="@_minCharsLength"
-							OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
-							ForceNotifyByEnter="@_forceNotifyByEnter"
-							ForceNotifyOnBlur="@_forceNotifyOnBlur" />
+							OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }" />
 		</div>
 	</div>
 
@@ -39,12 +35,10 @@
 </div>
 
 @code {
-	//DebounceInput
+	//TypeaheadInput
 	private string _debounceInputValue = "";
 	private string? _notifiedInputValue;
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
-	private bool _forceNotifyByEnter = true;
-	private bool _forceNotifyOnBlur = true;
 	private TypeaheadInput input1;
 }

@@ -37,6 +37,8 @@ they have the same **properties**, **events** and **functions** as well.
 - **`Value`: `string? { get; set; }`** <br />
   Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
   Also control actual value can be read out (_useful when MinLenght not reached_).
+  <br />\* **Note**: in case of `DebounceInputText` and `DebounceInputTextArea` this property is inherited from Blazor
+  component and has different behavior, see usage example differences.
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
   Notification debounce timeout in ms. If set to `0` notifications happens immediately. `-1` disables automatic notification completely. Notification will only happen by pressing `Enter` key or `onblur`, if set.
 - **`MinLength`: `int { get; set; }` (default: 0)** <br />
@@ -50,11 +52,11 @@ they have the same **properties**, **events** and **functions** as well.
 
 ```
 <DebounceInput 
-    id="in1"
-    class="form-control w-25" 
-    OnValueChanged="e => { DebounceInputValue = e; }" 
-    placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
-    ... />
+	id="in1"
+	class="form-control w-25" 
+	OnValueChanged="e => { DebounceInputValue = e; }" 
+	placeholder="@("Please type in at least: " + @MinCharsLength + " char(s)")"
+	... />
 ```
 
 **Will be rendered to:**
@@ -107,7 +109,7 @@ Following code example shows how to use **`DebounceInput`** component in your Bl
 <div>Notified value: @_notifiedInputValue</div>
 <div>Actual value: @_debounceInputValue</div>
 <input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.Value; })" />
-    
+	
 @code {
 	//DebounceInput
 	private string _debounceInputValue = "";
@@ -118,7 +120,7 @@ Following code example shows how to use **`DebounceInput`** component in your Bl
 	private bool _forceNotifyOnBlur = true;
 	private DebounceInput input1;
 }
-    
+	
 ```
 
 ### `DebounceInputText` and `DebounceInputTextArea` usage
@@ -132,18 +134,18 @@ Following code example shows how to use **`DebounceInputText`** component with m
  <ValidationSummary />
  
  <div class="row pb-2">
- 	<div class="col-12 col-lg-8 col-xl-5">
- 		<DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
- 			@ref="inputText1"
- 			DebounceTime="@_debounceInputTextDebounceMilisec"
- 			MinLength="@_debounceInputTextMinCharsLength"
- 			OnValueChanged="e => { _debounceInputTextValue = e; }"
- 			ForceNotifyByEnter="@_forceNotifyByEnter2"
- 			ForceNotifyOnBlur="@_forceNotifyOnBlur2" />
- 	</div>
+	<div class="col-12 col-lg-8 col-xl-5">
+		<DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
+			@ref="inputText1"
+			DebounceTime="@_debounceInputTextDebounceMilisec"
+			MinLength="@_debounceInputTextMinCharsLength"
+			OnValueChanged="e => { _debounceInputTextValue = e; }"
+			ForceNotifyByEnter="@_forceNotifyByEnter2"
+			ForceNotifyOnBlur="@_forceNotifyOnBlur2" />
+	</div>
  </div>
  <div class="pb-2">
- 	<button class="btn btn-primary" type="submit">Submit</button>
+	<button class="btn btn-primary" type="submit">Submit</button>
  </div>
 </EditForm>
 
@@ -158,14 +160,14 @@ Following code example shows how to use **`DebounceInputText`** component with m
 	private bool _forceNotifyByEnter2 = true;
 	private bool _forceNotifyOnBlur2 = true;
 	private DebounceInputText inputText1;
-    
-    //Form model
-    private ExampleModel exampleModel = new ExampleModel();
-    public class ExampleModel
-    {
-        [Required]
-        [StringLength(10, ErrorMessage = "Name is too long.")]
-        public string Name { get; set; }
-    }
+	
+	//Form model
+	private ExampleModel exampleModel = new ExampleModel();
+	public class ExampleModel
+	{
+		[Required]
+		[StringLength(10, ErrorMessage = "Name is too long.")]
+		public string Name { get; set; }
+	}
 }
 ```

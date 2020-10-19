@@ -22,7 +22,6 @@
 
 	<ItemGroup>
 	  <Watch Remove="Pages\ColorPage.razor" />
-	  <Watch Remove="Pages\ExtensionsPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
@@ -43,9 +42,6 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\ExtensionsPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\IndexPage.razor">

@@ -5,8 +5,8 @@ Name:
 	DebounceTime="@DebounceTime"
 	MinLength="@MinLength"
 	OnValueChanged="e => OnTextChanged(e)"
-	ForceNotifyByEnter="@ForceNotifyByEnter"
-	ForceNotifyOnBlur="@ForceNotifyOnBlur"
+	ForceNotifyByEnter="false"
+	ForceNotifyOnBlur="false"
 	@attributes=AdditionalAttributes />
 
 <div class="tdiv">
@@ -43,9 +43,6 @@ Name:
 
 	[Parameter] public double DebounceTime { get; set; } = 0;
 	[Parameter] public int MinLength { get; set; } = 0;
-	//TODO: check if it is needed?
-	[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
-	[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
@@ -54,7 +51,7 @@ Name:
 
 	private async Task OnTextChanged(string value)
 	{
-		Value = value;
+		@*Value = value;*@
 		if(OnValueChanged.HasDelegate)
 		{
 			await OnValueChanged.InvokeAsync(value);
