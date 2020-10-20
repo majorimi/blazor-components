@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using System.Text.RegularExpressions
 
 @typeparam TItem;
 @inject ILogger<TypeaheadInput<TItem>> _logger;
@@ -35,7 +36,7 @@
 	</div>
 }
 
-@if(!_hasResult && NoResultContent is not null && !_isSearching && !_isOpen && !string.IsNullOrEmpty(_typeahead?.Value)) 
+@if(!_hasResult && NoResultContent is not null && !string.IsNullOrEmpty(_typeahead?.Value) && _typeahead.Value.Length >= MinLength) 
 {
 	<div class="no-result">@NoResultContent</div>
 }
@@ -97,13 +98,16 @@
 </style>
 
 @code {
-
 	protected override void OnAfterRender(bool firstRender)
 	{
+		if(!AdditionalAttributes.ContainsKey("autocomplete"))
+		{
+			AdditionalAttributes.Add("autocomplete", "off");
+		}
+
 		if(firstRender)
 		{
 			CheckRequiredPropertySelector();
-			AdditionalAttributes.Add("autocomplete", "off");
 		}
 	}
 
@@ -208,7 +212,7 @@
 			_isOpen = false;
 		}
 	}
-	private void OnBlur(FocusEventArgs e)
+	private void OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
 	{
 		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
 		if(SelectOnBlur)
@@ -261,15 +265,12 @@
 	{
 		if(IsDefaultSearchUsed() && !string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(Value))
 		{
-			var index = text.IndexOf(Value, 0, text.Length, StringComparison.InvariantCultureIgnoreCase);
-			@*var list = new List<int>();
-			while (index > 0)
-			{
-				list.Add(index);
-				index = text.IndexOf(Value, index, text.Length-1, StringComparison.InvariantCultureIgnoreCase);
-			}*@
+			var pattern = $"({Value})";
+			var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			var replacement = "<strong>$0</strong>";
 
-			return ((MarkupString)text.Replace(Value, $"<strong>{Value}</strong>"));
+			var result = regex.Replace(text, replacement);
+			return ((MarkupString)result);
 		}
 		
 		return (MarkupString)(text ?? string.Empty);

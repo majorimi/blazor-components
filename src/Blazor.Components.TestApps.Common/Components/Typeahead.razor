@@ -9,12 +9,22 @@
 	<h3>Typeahead component</h3>
 	<p>Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.</p>
 
-	<div>
-		<div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
 			<input type="range" min="0" max="2000" @bind="_debounceMilisec" @oninput="(e => _debounceMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceMilisec ms.</pre>
 		</div>
-		<div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
 			<input type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength</pre>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
+			<br/>
+			Show all Data on empty input (<strong>DOES NOT works only with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput"/>
 		</div>
 	</div>
 
@@ -31,6 +41,8 @@
 							@ref="_input1"
 							Data="_testData.Select(x => x.Name)"
 							Value="@_debounceInputValue"
+							SelectOnBlur="_selectOnBlur"
+							ShowAllOnEmptyInput="_showAllOnEmptyInput"
 							DebounceTime="@_debounceMilisec"
 							MinLength="@_minCharsLength" >
 				<NoResultContent>
@@ -57,6 +69,8 @@
 	private string _debounceInputValue = "";
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
+	private bool _selectOnBlur = true;
+	private bool _showAllOnEmptyInput = true;
 	private TypeaheadInput<string> _input1;
 
 	private async Task<IEnumerable<string>> Search(string query)

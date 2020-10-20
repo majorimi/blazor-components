@@ -24,7 +24,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
+			<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")" autocomplete="off"
 						   @ref="input1"
 						   Value="@_debounceInputValue"
 						   DebounceTime="@_debounceMilisec"
