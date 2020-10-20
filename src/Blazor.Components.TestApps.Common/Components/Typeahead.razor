@@ -7,7 +7,11 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead component</h3>
-	<p>Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.</p>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -24,13 +28,13 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
 			<br/>
-			Show all Data on empty input (<strong>DOES NOT works only with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput"/>
+			Show all Data on empty input (<strong>DOES NOT work only with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput"/>
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Model: @_debounceInputValue
+			Model: "@(_selectedItem ?? _typeaheadInputValue)"
 		</div>
 	</div>
 	
@@ -38,9 +42,11 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 		@*DataSource="query => Search(query)"*@
 			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
-							@ref="_input1"
+							@ref="_input"
 							Data="_testData.Select(x => x.Name)"
-							Value="@_debounceInputValue"
+							@bind-Value="@_typeaheadInputValue" @bind-Value:event="OnInput"
+							TItem="string"
+							OnSelectedItemChanged="@(text => _selectedItem = text)"
 							SelectOnBlur="_selectOnBlur"
 							ShowAllOnEmptyInput="_showAllOnEmptyInput"
 							DebounceTime="@_debounceMilisec"
@@ -56,39 +62,99 @@
 	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead component</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<input type="range" min="0" max="2000" @bind="_debounceMilisec2" @oninput="(e => _debounceMilisec2 = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceMilisec2 ms.</pre>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<input type="range" min="0" max="10" @bind="_minCharsLength2" @oninput="(e => _minCharsLength2 = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength2</pre>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur2"/>
+			<br/>
+			Show all Data on empty input (<strong>DOES NOT work only with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput2"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "@(JsonSerializer.Serialize(_selectedItem2) ?? _typeaheadInputValue2)"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength2 + " char(s)")"
+							@ref="_input2"
+							Data="_testData"
+							LabelPropertySelector="x => x.Name"
+							@bind-Value="@_typeaheadInputValue2" @bind-Value:event="OnInput"
+							TItem="StatesWithFlags"
+							OnSelectedItemChanged="@(data => _selectedItem2 = data)"
+							SelectOnBlur="_selectOnBlur2"
+							ShowAllOnEmptyInput="_showAllOnEmptyInput2"
+							DebounceTime="@_debounceMilisec2"
+							MinLength="@_minCharsLength2" >
+				<NoResultContent>
+					<i class="fa fa-remove"></i> No Results Found
+				</NoResultContent>
+				<InProgressContent>
+					<i class="fa fa-lg fa-ellipsis-h @*fa-pulse*@"></i> Searching...
+				</InProgressContent>
+			</TypeaheadInput>
+		</div>
+	</div>
+</div>
+
 @using System.Linq
+@using System.Text.Json
 
 @code {
 	private StatesWithFlags[] _testData = null;
 	protected override void OnInitialized()
 	{
-		_testData = System.Text.Json.JsonSerializer.Deserialize<StatesWithFlags[]>(jsonData);
+		_testData = JsonSerializer.Deserialize<StatesWithFlags[]>(jsonData);
 	}
 	
 	//TypeaheadInput
-	private string _debounceInputValue = "";
+	private string _typeaheadInputValue = "";
+	private string _selectedItem;
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
 	private bool _selectOnBlur = true;
 	private bool _showAllOnEmptyInput = true;
-	private TypeaheadInput<string> _input1;
+	private TypeaheadInput<string> _input;
+
+	//TypeaheadInput
+	private string _typeaheadInputValue2 = "";
+	private StatesWithFlags _selectedItem2;
+	private int _debounceMilisec2 = 0;
+	private int _minCharsLength2 = 0;
+	private bool _selectOnBlur2 = true;
+	private bool _showAllOnEmptyInput2 = true;
+	private TypeaheadInput<StatesWithFlags> _input2;
 
 	private async Task<IEnumerable<string>> Search(string query)
 	{
-		_debounceInputValue = query;
-
 		return _testData.Select(s => s.Name).Where(x => x.ToLower().Contains(query.ToLower()));
 	}
 	private async Task<IEnumerable<StatesWithFlags>> Search2(string query)
 	{
-		_debounceInputValue = query;
-
 		return _testData.Where(x => x?.Name?.ToLower().Contains(query.ToLower()) ?? false);
 	}
-
-	//TypeaheadInput
-	private TypeaheadInput<StatesWithFlags> _input2;
-
 
 	private class StatesWithFlags
 	{

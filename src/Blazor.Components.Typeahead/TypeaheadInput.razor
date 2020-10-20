@@ -6,7 +6,7 @@
 
 <DebounceInput class="typeahead"
 	@ref="_typeahead"
-	Value="@Value"
+	@bind-Value="@Value" @bind-Value:event="OnInput"
 	DebounceTime="@DebounceTime"
 	MinLength="@MinLength"
 	OnValueChanged="e => OnValueChanged(e)"
@@ -36,7 +36,10 @@
 	</div>
 }
 
-@if(!_hasResult && NoResultContent is not null && !string.IsNullOrEmpty(_typeahead?.Value) && _typeahead.Value.Length >= MinLength) 
+@if(!_hasResult && 
+	NoResultContent is not null && 
+	!string.IsNullOrEmpty(_typeahead?.Value) && 
+	_typeahead.Value.Length >= MinLength) 
 {
 	<div class="no-result">@NoResultContent</div>
 }
@@ -98,7 +101,7 @@
 </style>
 
 @code {
-	protected override void OnAfterRender(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
 	{
 		if(!AdditionalAttributes.ContainsKey("autocomplete"))
 		{
@@ -120,8 +123,49 @@
 	private TItem _activeItem = default(TItem);
 	private Dictionary<string, ElementReference> dropDownItems = new Dictionary<string, ElementReference>();
 
-	[Parameter] public string Value { get; set; }
-	[Parameter] public TItem SelectedItem { get; set; }
+	private string _value;
+	[Parameter] public string Value 
+	{
+		get => _value;
+		set
+		{
+			if(value == _value)
+			{
+				return;
+			}
+
+			_value = value;
+			if (OnInput.HasDelegate) //Immediately notify listeners of text change e.g. @bind
+			{
+				InvokeAsync(async () =>
+				{
+					await OnInput.InvokeAsync(_value);
+				});
+			}
+		}
+	}
+    private TItem _selectedItem;
+	[Parameter] public TItem SelectedItem 
+	{
+		get => _selectedItem;
+		set
+		{
+			if(_selectedItem?.Equals(value) ?? false)
+			{
+                return;
+			}
+
+            _selectedItem = value;
+            Value = GetItemText(_selectedItem);
+			if (OnSelectedItemChanged.HasDelegate) //Immediately notify listeners for model selected
+			{
+				InvokeAsync(async () =>
+				{
+					await OnSelectedItemChanged.InvokeAsync(_selectedItem);
+				});
+			}
+		}
+	}
 
 	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
 	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
@@ -130,12 +174,15 @@
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
 
-	[Parameter] public RenderFragment CustomTemplate { get; set; }
+	[Parameter] public RenderFragment<TItem> CustomTemplate { get; set; }
 	[Parameter] public RenderFragment NoResultContent { get; set; }
 	[Parameter] public RenderFragment InProgressContent { get; set; }
 
 	[Parameter] public double DebounceTime { get; set; } = 0;
 	[Parameter] public int MinLength { get; set; } = 0;
+
+	[Parameter] public EventCallback<string> OnInput { get; set; }
+	[Parameter] public EventCallback<TItem> OnSelectedItemChanged { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
@@ -144,7 +191,6 @@
 	{
 		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}, ShowAllOnEmptyInput: {ShowAllOnEmptyInput}'");
 
-		Value = _typeahead.Value;
 		dropDownItems.Clear();
 
 		if(string.IsNullOrEmpty(value))
@@ -212,12 +258,12 @@
 			_isOpen = false;
 		}
 	}
-	private void OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
+	private async Task OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
 	{
 		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
 		if(SelectOnBlur)
 		{
-			ItemSelect(_activeItem);
+			await ItemSelect(_activeItem);
 		}
 	}
 	private void OnFocus(FocusEventArgs e)
@@ -237,18 +283,26 @@
 		WriteDiag($"{nameof(ItemHover)} event refName: {refName}, item: {item}.");
 		_activeItem = item;
 	}
-	private void ItemClicked(string refName, TItem item)
+	private async Task ItemClicked(string refName, TItem item)
 	{
 		WriteDiag($"{nameof(ItemClicked)} event refName: {refName}, item: {item}.");
 		_activeItem = item;
-		ItemSelect(_activeItem);
+		await ItemSelect(_activeItem);
 	}
 
-	private void ItemSelect(TItem item)
+	private async Task ItemSelect(TItem item) //TODO: should select on Enter and active change with Arrow Keys
 	{
 		SelectedItem = item;
 		Value = GetItemText(item);
 		_isOpen = false;
+		try
+		{
+			if(OnSelectedItemChanged.HasDelegate)
+			{
+				await OnSelectedItemChanged.InvokeAsync(item);
+			}
+		}
+		finally {}
 	}
 
 	private bool IsLabelSelectorRequired() => typeof(TItem) != typeof(string);
