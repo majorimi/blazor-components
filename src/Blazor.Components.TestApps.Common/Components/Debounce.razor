@@ -26,10 +26,10 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")" autocomplete="off"
 						   @ref="input1"
-						   Value="@_debounceInputValue"
+						   @bind-Value="@_debounceInputValue" @bind-Value:event="OnInput"
 						   DebounceTime="@_debounceMilisec"
 						   MinLength="@_minCharsLength"
-						   OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
+						   OnValueChanged="e => { _notifiedInputValue = e; }"
 						   ForceNotifyByEnter="@_forceNotifyByEnter"
 						   ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 		</div>
@@ -37,7 +37,6 @@
 
 	<div>Last Notified value: @_notifiedInputValue</div>
 	<div>Actual value: @_debounceInputValue</div>
-	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceInputValue = input1.Value; })" />
 </div>
 
 
@@ -63,8 +62,9 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-5">
 				@*<InputText @bind-Value="exampleModel.Name" />*@
-				<DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
+				<DebounceInputText class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
 								   @ref="inputText1"
+								   @bind-Value="exampleModel.Name"
 								   DebounceTime="@_debounceInputTextDebounceMilisec"
 								   MinLength="@_debounceInputTextMinCharsLength"
 								   OnValueChanged="e => { _debounceInputTextValue = e; }"
@@ -101,10 +101,10 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			<DebounceTextArea class="form-control w-100" placeholder="@("Please type in at least: " + _debounceTextAreaMinCharsLength + " char(s)")"
 							  @ref="text1"
-							  Value="@_debounceTextAreaText"
+							  @bind-Value="@_debounceTextAreaText" @bind-Value:event="OnInput"
 							  DebounceTime="@_debounceTextAreaMilisec"
 							  MinLength="@_debounceTextAreaMinCharsLength"
-							  OnValueChanged="e => { _notifiedTextAreaValue = e; _debounceTextAreaText = text1.Value;}"
+							  OnValueChanged="e => { _notifiedTextAreaValue = e; }"
 							  ForceNotifyByEnter="@_forceNotifyByEnter3"
 							  ForceNotifyOnBlur="@_forceNotifyOnBlur3" />
 		</div>
@@ -112,8 +112,6 @@
 
 	<div>Last Notified value: @_notifiedTextAreaValue</div>
 	<div>Actual value: @_debounceTextAreaText</div>
-	<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { _debounceTextAreaText = text1.Value; })" />
-
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -138,8 +136,9 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-5">
 				@*<InputTextArea @bind-Value="exampleModel2.Name" />*@
-				<DebounceInputTextArea @bind-Value="exampleModel2.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextAreaMinCharsLength + " char(s)")"
+				<DebounceInputTextArea class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextAreaMinCharsLength + " char(s)")"
 									   @ref="inputTextArea1"
+									   @bind-Value="exampleModel2.Name"
 									   DebounceTime="@_debounceInputTextAreaMilisec"
 									   MinLength="@_debounceInputTextAreaMinCharsLength"
 									   OnValueChanged="e => { _debounceInputTextAreaValue = e; }"

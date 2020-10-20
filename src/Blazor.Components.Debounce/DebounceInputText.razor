@@ -11,6 +11,7 @@
 	- value="@CurrentValue"
 	- remove: [Parameter] public string? Value { get; set; }
 	- remove: public Dictionary<string, object> AdditionalAttributes { get; set; }
+	- remove: [Parameter] public EventCallback<string> OnInput { get; set; }
 	- OnTextChange(): CurrentValue = e.Value?.ToString();
 *@
 

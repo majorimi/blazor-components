@@ -125,7 +125,7 @@
 
 	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
 	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
-	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; }
+	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; } //When TItem is not string
 
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;

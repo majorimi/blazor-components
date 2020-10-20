@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 
 using Microsoft.AspNetCore.Components;
@@ -38,6 +39,7 @@ namespace Blazor.Components.Debounce
 		[Parameter(CaptureUnmatchedValues = true)]
 		public Dictionary<string, object> AdditionalAttributes { get; set; }
 
+		[Parameter] public EventCallback<string> OnInput { get; set; }
 		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
 		private Timer _timer;
@@ -54,15 +56,20 @@ namespace Blazor.Components.Debounce
 			base.OnInitialized();
 		}
 
-		protected void OnTextChange(ChangeEventArgs e)
+		protected async Task OnTextChange(ChangeEventArgs e)
 		{
 			WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}, timer interval: {_intervalInMilisec}");
 			_timer.Stop(); //Stop previous timer
 
+			if(OnInput.HasDelegate) //Immediately notify listeners of text change e.g. @bind
+			{
+				await OnInput.InvokeAsync(e.Value?.ToString());
+			}
+
 			Value = e.Value?.ToString();
 			_notifiedLastChange = false;
 
-			if(_intervalInMilisec == 0) //Notify immediatelly
+			if(_intervalInMilisec == 0) //Notify immediately
 			{
 				Notify();
 			}

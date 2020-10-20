@@ -37,8 +37,8 @@ they have the same **properties**, **events** and **functions** as well.
 - **`Value`: `string? { get; set; }`** <br />
   Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
   Also control actual value can be read out (_useful when MinLenght not reached_).
-  <br />\* **Note**: in case of `DebounceInputText` and `DebounceInputTextArea` this property is inherited from Blazor
-  component and has different behavior, see usage example differences.
+  <br />**\* Note**: in case of `DebounceInputText` and `DebounceInputTextArea` this property is inherited from Blazor
+  component and requires slightly different code with `@bind`, see usage example differences.
 - **`DebounceTime`: `int { get; set; }` (default: 200)** <br />
   Notification debounce timeout in ms. If set to `0` notifications happens immediately. `-1` disables automatic notification completely. Notification will only happen by pressing `Enter` key or `onblur`, if set.
 - **`MinLength`: `int { get; set; }` (default: 0)** <br />
@@ -93,18 +93,20 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 
 ### `DebounceInput` and `DebounceTextArea` usage
 
-Following code example shows how to use **`DebounceInput`** component in your Blazor App. 
+Following code example shows how to use **`DebounceInput`** component in your Blazor App with model binding
+on specific `OnInput` event. So it will enable two way binding between components. You can omit it and use `Value` directly for one way binding.
+
 **Note**: using **`DebounceTextArea`** component basically the same but it will render HTML `<textarea>`.
 
 ```
-<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
-  @ref="input1"
-  Value="@_debounceInputValue"
-  DebounceTime="@_debounceMilisec"
-  MinLength="@_minCharsLength"
-  OnValueChanged="e => { _notifiedInputValue = e;  _debounceInputValue = input1.Value; }"
-  ForceNotifyByEnter="@_forceNotifyByEnter"
-  ForceNotifyOnBlur="@_forceNotifyOnBlur" />
+<DebounceInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")" autocomplete="off"
+	@ref="input1"
+	@bind-Value="@_debounceInputValue" @bind-Value:event="OnInput"
+	DebounceTime="@_debounceMilisec"
+	MinLength="@_minCharsLength"
+	OnValueChanged="e => { _notifiedInputValue = e; }"
+	ForceNotifyByEnter="@_forceNotifyByEnter"
+	ForceNotifyOnBlur="@_forceNotifyOnBlur" />
 
 <div>Notified value: @_notifiedInputValue</div>
 <div>Actual value: @_debounceInputValue</div>
@@ -126,7 +128,8 @@ Following code example shows how to use **`DebounceInput`** component in your Bl
 ### `DebounceInputText` and `DebounceInputTextArea` usage
 
 Following code example shows how to use **`DebounceInputText`** component with model binding and form validation in your Blazor App.
- **Note**: using **`DebounceInputTextArea`** component basically the same but it will render HTML `<textarea>`.
+
+**Note**: using **`DebounceInputTextArea`** component basically the same but it will render HTML `<textarea>`.
 
 ```
 <EditForm Model="@exampleModel">
@@ -135,8 +138,9 @@ Following code example shows how to use **`DebounceInputText`** component with m
  
  <div class="row pb-2">
 	<div class="col-12 col-lg-8 col-xl-5">
-		<DebounceInputText @bind-Value="exampleModel.Name" class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
+		<DebounceInputText class="form-control w-100" placeholder="@("Please type in at least: " + _debounceInputTextMinCharsLength + " char(s)")"
 			@ref="inputText1"
+			@bind-Value="exampleModel.Name"
 			DebounceTime="@_debounceInputTextDebounceMilisec"
 			MinLength="@_debounceInputTextMinCharsLength"
 			OnValueChanged="e => { _debounceInputTextValue = e; }"
