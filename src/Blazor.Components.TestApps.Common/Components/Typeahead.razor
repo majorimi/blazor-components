@@ -20,6 +20,12 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
+			Model: @_debounceInputValue
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
 		@*DataSource="query => Search(query)"*@
 			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
 							@ref="_input1"
@@ -36,9 +42,6 @@
 			</TypeaheadInput>
 		</div>
 	</div>
-
-	<div>Last Notified value: @_notifiedInputValue</div>
-	<div>Actual value: @_debounceInputValue</div>
 </div>
 
 @using System.Linq
@@ -52,20 +55,19 @@
 	
 	//TypeaheadInput
 	private string _debounceInputValue = "";
-	private string? _notifiedInputValue;
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
 	private TypeaheadInput<string> _input1;
 
 	private async Task<IEnumerable<string>> Search(string query)
 	{
-		_notifiedInputValue = query;
+		_debounceInputValue = query;
 
 		return _testData.Select(s => s.Name).Where(x => x.ToLower().Contains(query.ToLower()));
 	}
 	private async Task<IEnumerable<StatesWithFlags>> Search2(string query)
 	{
-		_notifiedInputValue = query;
+		_debounceInputValue = query;
 
 		return _testData.Where(x => x?.Name?.ToLower().Contains(query.ToLower()) ?? false);
 	}
