@@ -1,45 +1,124 @@
-﻿
-Name: 
-<DebounceInput style="display: block;"
+﻿@using System.Linq
+
+@typeparam TItem;
+@inject ILogger<TypeaheadInput<TItem>> _logger;
+
+<DebounceInput class="typeahead"
+	@ref="_typeahead"
 	Value="@Value"
 	DebounceTime="@DebounceTime"
 	MinLength="@MinLength"
 	OnValueChanged="e => OnTextChanged(e)"
-	ForceNotifyByEnter="false"
+	ForceNotifyByEnter="true"
 	ForceNotifyOnBlur="false"
+	@onblur="OnBlur" @onkeyup="OnKeyUp"
 	@attributes=AdditionalAttributes />
 
-<div class="tdiv">
-</div>
-<input type="button" style="margin-bottom:500px;" value="heeeeeeeee" />
+@if(_isOpen && _data is not null) 
+{
+	dropDownItems.Clear();
+	int i = 0;
+	<div class="dropdown-menu">
+		<ul class="list">
+			@foreach(var item in _data)
+			{
+				string text = GetItemText(item);
+				string refName = $"item{i++}";
+
+				<li @ref="dropDownItems[refName]" class="list-item @(item.Equals(_activeItem) ? "active" : "")" 
+					@onmouseover="_ => ItemHover(refName, item)"
+					@onclick="_ => ItemClicked(refName, item)">
+						@HighlightItems(text)
+				</li>
+			}
+		</ul>
+	</div>
+}
+
+@if(!_hasResult && NoResultContent is not null && !_isSearching && !_isOpen && !string.IsNullOrEmpty(_typeahead?.Value)) 
+{
+	<div class="no-result">@NoResultContent</div>
+}
+
+@if(_isSearching && InProgressContent is not null && !_isOpen) 
+{
+	<div class="no-result">@InProgressContent</div>
+}
 
 <style>
-	.tdiv {
-		width:100px;
-		height:100px;
-		background:white;
+	.typeahead {
+		display: block;
+	}
+	.dropdown-menu {
+		width: auto; //param
+		height: auto;
+		max-height: 300px; //param
+
+		background: white;
 		border: solid 1px gray;
-
 		border-radius: .25rem;
-		box-shadow: 3px 3px 5px 2px #bdbdbd;
-
+		box-shadow: 2px 2px 5px 2px #bdbdbd;
 		float: left;
 		padding: .5rem 0;
-		margin: .125rem 0 0;
+		margin: .175rem 0 0;
 		display: block;
 		z-index: 500;
 		position: absolute;
+		overflow: auto;
 
-		@*transform: translate(280px, 145px);
-		top: 0px;
-		left: 0px;*@
 		top: auto;
 		left: auto;
+	}
+	.dropdown-menu .list {
+		list-style: none; 
+		list-style-type: none;
+		margin: 0; 
+		padding: 5px 0;
+	}
+	.dropdown-menu .list-item {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		cursor: pointer;
+
+		display: block;
+		width: 100%;
+		padding: .25rem 1.5rem;
+		clear: both;
+		font-weight: 400;
+		color: #212529;
+		text-align: inherit;
+		white-space: nowrap;
+		background-color: transparent;
+		border: 0;
+	}
+	.list-item.active {
+		background-color: #f2f2f2;
 	}
 </style>
 
 @code {
+	private bool _isOpen = false;
+	private bool _hasResult = false;
+	private bool _isSearching = false;
+	private DebounceInput _typeahead;
+	private IEnumerable<TItem> _data;
+
+	private TItem _activeItem = default(TItem);
+	private Dictionary<string, ElementReference> dropDownItems = new Dictionary<string, ElementReference>();
+
 	[Parameter] public string Value { get; set; }
+	[Parameter] public TItem SelectedItem { get; set; }
+
+	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
+	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
+	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; }
+
+	[Parameter] public bool SelectOnBlur { get; set; } = false;
+	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = false;
+
+	[Parameter] public RenderFragment CustomTemplate { get; set; }
+	[Parameter] public RenderFragment NoResultContent { get; set; }
+	[Parameter] public RenderFragment InProgressContent { get; set; }
 
 	[Parameter] public double DebounceTime { get; set; } = 0;
 	[Parameter] public int MinLength { get; set; } = 0;
@@ -47,14 +126,134 @@ Name:
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
 
-	[Parameter] public EventCallback<string> OnValueChanged { get; set; }
-
 	private async Task OnTextChanged(string value)
 	{
-		@*Value = value;*@
-		if(OnValueChanged.HasDelegate)
+		WriteDiag($"{nameof(OnTextChanged)} event new Value: '{value}'");
+
+		Value = _typeahead.Value;
+		dropDownItems.Clear();
+
+		if(string.IsNullOrEmpty(value))
 		{
-			await OnValueChanged.InvokeAsync(value);
+			WriteDiag($"{nameof(OnTextChanged)} event closing dropdown.");
+			_isOpen = false;
 		}
+		else
+		{
+			try
+			{
+				_isSearching = true;
+				@*await Task.Delay(500);*@
+				if (DataSource is not null)
+				{
+					_data = await DataSource(value);
+				}
+				else if(typeof(TItem) == typeof(string))
+				{
+					_data = Data?
+						.Cast<string>()
+						.Where(x => x?.ToLower().Contains(value.ToLower()) ?? false)
+						.Cast<TItem>();
+				}
+				else
+				{
+					_data = Data?.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value.ToLower()) ?? false);
+				}
+
+				WriteDiag($"{nameof(OnTextChanged)} event filtered data count: '{_data?.Count()}' opening dropdown.");
+				if(_data?.Count() > 0)
+				{
+					_isOpen = true;
+					_hasResult = true;
+				}
+				else
+				{
+					_isOpen = false;
+					_hasResult = false;
+				}
+			}
+			finally
+			{
+				_isSearching = false;
+			}
+		}
+	}
+	
+	private void OnKeyUp(KeyboardEventArgs e)
+	{
+		WriteDiag($"OnKeyUp event: '{e.Key}'");
+		if (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false)
+		{
+			_isOpen = false;
+		}
+	}
+
+	private void OnBlur(FocusEventArgs e)
+	{
+		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
+		if(SelectOnBlur)
+		{
+			ItemSelect(_activeItem);
+		}
+	}
+
+	private void ItemHover(string refName, TItem item)
+	{
+		WriteDiag($"{nameof(ItemHover)} event refName: {refName}, item: {item}.");
+		_activeItem = item;
+	}
+	private void ItemClicked(string refName, TItem item)
+	{
+		WriteDiag($"{nameof(ItemClicked)} event refName: {refName}, item: {item}.");
+		_activeItem = item;
+		ItemSelect(_activeItem);
+	}
+
+	private void ItemSelect(TItem item)
+	{
+		SelectedItem = item;
+		Value = GetItemText(item);
+		_isOpen = false;
+	}
+
+	private bool IsLabelSelectorRequired() => typeof(TItem) != typeof(string);
+	private bool IsDefaultSearchUsed() => Data is not null && DataSource is null;
+
+	private void CheckRequiredPropertySelector()
+	{
+		if(IsLabelSelectorRequired() && LabelPropertySelector == null)
+		{
+			throw new Exception($"Data type: {typeof(TItem)} is not Sytem.String. You must provide a string property selector use {nameof(LabelPropertySelector)}");
+		}
+	}
+	private MarkupString HighlightItems(string text)
+	{
+		if(IsDefaultSearchUsed() && !string.IsNullOrWhiteSpace(text))
+		{
+			var index = text.IndexOf(Value, 0, text.Length, StringComparison.InvariantCultureIgnoreCase);
+			@*var list = new List<int>();
+			while (index > 0)
+			{
+				list.Add(index);
+				index = text.IndexOf(Value, index, text.Length-1, StringComparison.InvariantCultureIgnoreCase);
+			}*@
+
+			return ((MarkupString)text.Replace(Value, $"<strong>{Value}</strong>"));
+		}
+		
+		return (MarkupString)text;
+	}
+	private string GetItemText(TItem item)
+	{
+		string text = IsLabelSelectorRequired() && LabelPropertySelector is not null
+			? LabelPropertySelector(item)
+			: item.ToString();
+
+		return text;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 }
