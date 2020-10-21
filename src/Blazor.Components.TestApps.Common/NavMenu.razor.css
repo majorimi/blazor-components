@@ -23,6 +23,14 @@
     line-height: initial;
 }
 
+.fab {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+    line-height: initial;
+}
+
 .oi {
     width: 2rem;
     font-size: 1.1rem;
@@ -40,11 +48,11 @@ nav-item .nav-link {
 }
 
     .nav-item:first-of-type {
-        padding-top: 1rem;
+        padding-top: .25rem;
     }
 
     .nav-item:last-of-type {
-        padding-bottom: 1rem;
+        padding-bottom: .1rem;
     }
 
     .nav-item ::deep a {
