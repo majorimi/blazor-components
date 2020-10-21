@@ -10,14 +10,14 @@
 	DebounceTime="@DebounceTime"
 	MinLength="@MinLength"
 	OnValueChanged="e => OnValueChanged(e)"
-	ForceNotifyByEnter="true"
+	ForceNotifyByEnter="false"
 	ForceNotifyOnBlur="false"
 	@onblur="OnBlur" @onkeyup="OnKeyUp" @onfocus="OnFocus"
 	@attributes=AdditionalAttributes />
 
 @if(_isOpen && _data is not null) 
 {
-	dropDownItems.Clear();
+	_dropDownItems.Clear();
 	int i = 0;
 	<div class="dropdown-menu">
 		<ul class="list">
@@ -26,9 +26,15 @@
 				string text = GetItemText(item);
 				string refName = $"item{i++}";
 
-				<li @ref="dropDownItems[refName]" class="list-item @(item.Equals(_activeItem) ? "active" : "")" 
+				<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(_activeItem) ? "active" : "")" 
 					@onmouseover="_ => ItemHover(refName, item)"
 					@onclick="_ => ItemClicked(refName, item)">
+						@*@{
+							if (CustomTemplate is not null)
+								CustomTemplate(item);
+							else
+								HighlightItems(text);
+						}*@
 						@HighlightItems(text)
 				</li>
 			}
@@ -36,10 +42,7 @@
 	</div>
 }
 
-@if(!_hasResult && 
-	NoResultContent is not null && 
-	!string.IsNullOrEmpty(_typeahead?.Value) && 
-	_typeahead.Value.Length >= MinLength) 
+@if(_hasNoResult) 
 {
 	<div class="no-result">@NoResultContent</div>
 }
@@ -101,7 +104,7 @@
 </style>
 
 @code {
-    protected override void OnAfterRender(bool firstRender)
+	protected override void OnAfterRender(bool firstRender)
 	{
 		if(!AdditionalAttributes.ContainsKey("autocomplete"))
 		{
@@ -115,13 +118,13 @@
 	}
 
 	private bool _isOpen = false;
-	private bool _hasResult = false;
+	private bool _hasNoResult = false;
 	private bool _isSearching = false;
 	private DebounceInput _typeahead;
 	private IEnumerable<TItem> _data;
 
 	private TItem _activeItem = default(TItem);
-	private Dictionary<string, ElementReference> dropDownItems = new Dictionary<string, ElementReference>();
+	private Dictionary<string, ElementReference> _dropDownItems = new Dictionary<string, ElementReference>();
 
 	private string _value;
 	[Parameter] public string Value 
@@ -144,7 +147,7 @@
 			}
 		}
 	}
-    private TItem _selectedItem;
+	private TItem _selectedItem;
 	[Parameter] public TItem SelectedItem 
 	{
 		get => _selectedItem;
@@ -152,11 +155,11 @@
 		{
 			if(_selectedItem?.Equals(value) ?? false)
 			{
-                return;
+				return;
 			}
 
-            _selectedItem = value;
-            Value = GetItemText(_selectedItem);
+			_selectedItem = value;
+			Value = GetItemText(_selectedItem);
 			if (OnSelectedItemChanged.HasDelegate) //Immediately notify listeners for model selected
 			{
 				InvokeAsync(async () =>
@@ -191,7 +194,7 @@
 	{
 		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}, ShowAllOnEmptyInput: {ShowAllOnEmptyInput}'");
 
-		dropDownItems.Clear();
+		_dropDownItems.Clear();
 
 		if(string.IsNullOrEmpty(value))
 		{
@@ -234,13 +237,13 @@
 				if(_data?.Count() > 0)
 				{
 					_isOpen = true;
-					_hasResult = true;
+					_hasNoResult = false;
 					_activeItem = _data.First();
 				}
 				else
 				{
 					_isOpen = false;
-					_hasResult = false;
+					_hasNoResult = true;
 				}
 			}
 			finally
@@ -250,12 +253,51 @@
 		}
 	}
 	
-	private void OnKeyUp(KeyboardEventArgs e)
+	private async Task OnKeyUp(KeyboardEventArgs e)
 	{
 		WriteDiag($"OnKeyUp event: '{e.Key}'");
 		if (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
 			_isOpen = false;
+		}
+		else if (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false)
+		{
+			if (_isOpen)
+			{
+				await ItemSelect(_activeItem);
+			}
+		}
+		else if (e.Key?.Equals("ArrowDown", StringComparison.OrdinalIgnoreCase) ?? false)
+		{
+			if(_data is null || !_isOpen)
+			{
+				return;
+			}
+
+			var index = Array.IndexOf(_data.ToArray(), _activeItem);
+			index++;
+			if(index >= _data.Count())
+			{
+				index = 0;
+			}
+
+			_activeItem = _data.ElementAt(index);
+		}
+		else if (e.Key?.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase) ?? false)
+		{
+			if(_data is null || !_isOpen)
+			{
+				return;
+			}
+
+			var index = Array.IndexOf(_data.ToArray(), _activeItem);
+			index--;
+			if(index < 0)
+			{
+				index = _data.Count() -1;
+			}
+
+			_activeItem = _data.ElementAt(index);
 		}
 	}
 	private async Task OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
@@ -266,15 +308,22 @@
 			await ItemSelect(_activeItem);
 		}
 	}
-	private void OnFocus(FocusEventArgs e)
+	private async Task OnFocus(FocusEventArgs e)
 	{
 		WriteDiag($"{nameof(OnFocus)} event: '{e.Type}'.");
 		if(DataSource is null && ShowAllOnEmptyInput)
 		{
 			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
-			_data = Data;
-			_isOpen = true;
-			_activeItem = _data.First();
+			if (string.IsNullOrWhiteSpace(Value))
+			{
+				_data = Data;
+				_isOpen = true;
+				_activeItem = _data.First();
+			}
+			else
+			{
+				await OnValueChanged(Value);
+			}
 		}
 	}
 

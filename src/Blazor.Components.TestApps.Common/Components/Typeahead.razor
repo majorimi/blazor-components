@@ -6,7 +6,7 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead component</h3>
+	<h3>Typeahead (pre-loaded) data with <code>@("IEnumerable<string>") Data</code></h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
@@ -34,7 +34,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Model: "@(_selectedItem ?? _typeaheadInputValue)"
+			Model: "<strong>@(_selectedItem ?? _typeaheadInputValue)</strong>"
 		</div>
 	</div>
 	
@@ -44,7 +44,8 @@
 			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
 							@ref="_input"
 							Data="_testData.Select(x => x.Name)"
-							@bind-Value="@_typeaheadInputValue" @bind-Value:event="OnInput"
+							@bind-Value="@_typeaheadInputValue"
+							OnInput="@(text => {_selectedItem = null; _typeaheadInputValue = text;})"
 							TItem="string"
 							OnSelectedItemChanged="@(text => _selectedItem = text)"
 							SelectOnBlur="_selectOnBlur"
@@ -63,7 +64,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead component</h3>
+	<h3>Typeahead  (pre-loaded) data with <code>@("IEnumerable<StatesWithFlags>") Data</code></h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. 
@@ -91,7 +92,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Model: "@(JsonSerializer.Serialize(_selectedItem2) ?? _typeaheadInputValue2)"
+			Model: "<strong>@(_selectedItem2 != null ? JsonSerializer.Serialize(_selectedItem2) : _typeaheadInputValue2)</strong>"
 		</div>
 	</div>
 	
@@ -101,7 +102,8 @@
 							@ref="_input2"
 							Data="_testData"
 							LabelPropertySelector="x => x.Name"
-							@bind-Value="@_typeaheadInputValue2" @bind-Value:event="OnInput"
+							@bind-Value="@_typeaheadInputValue2"
+							OnInput="@(text => {_selectedItem2 = null; _typeaheadInputValue2 = text;})"
 							TItem="StatesWithFlags"
 							OnSelectedItemChanged="@(data => _selectedItem2 = data)"
 							SelectOnBlur="_selectOnBlur2"
