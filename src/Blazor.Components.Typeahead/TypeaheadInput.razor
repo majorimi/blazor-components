@@ -25,18 +25,22 @@
 			{
 				string text = GetItemText(item);
 				string refName = $"item{i++}";
-
-				<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(_activeItem) ? "active" : "")" 
-					@onmouseover="_ => ItemHover(refName, item)"
-					@onclick="_ => ItemClicked(refName, item)">
-						@*@{ //TODO: fix rendered data issues...
-							if (CustomTemplate is not null)
-								CustomTemplate(item);
-							else
-								HighlightItems(text);
-						}*@
-						@HighlightItems(text)
-				</li>
+				if (ItemTemplate is not null) //using if/else inside <li> does not work so markup duplicated...
+				{
+					<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+						@onmouseover="_ => ItemHover(refName, item)"
+						@onclick="_ => ItemClicked(refName, item)">
+							@ItemTemplate(item)
+					</li>
+				}
+				else
+				{
+					<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+						@onmouseover="_ => ItemHover(refName, item)"
+						@onclick="_ => ItemClicked(refName, item)">
+							@HighlightItems(text)
+					</li>
+				}
 			}
 		</ul>
 	</div>
@@ -106,7 +110,15 @@
 	private DebounceInput _typeahead;
 	private IEnumerable<TItem> _data;
 
-	private TItem _activeItem = default(TItem); //TODO: should scroll to active item...
+	private TItem _activeItem = default(TItem);
+	private TItem ActiveItem 
+	{ 
+		get => _activeItem;
+		set
+		{
+			_activeItem = value; //TODO: should scroll to active item...
+		}
+	}
 	private Dictionary<string, ElementReference> _dropDownItems = new Dictionary<string, ElementReference>();
 
 	//Values
@@ -183,7 +195,7 @@
 	}
 
 	//Templates
-	[Parameter] public RenderFragment<TItem> CustomTemplate { get; set; }
+	[Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
 	[Parameter] public RenderFragment NoResultContent { get; set; }
 	[Parameter] public RenderFragment InProgressContent { get; set; }
 
@@ -213,7 +225,7 @@
 				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
 				_data = Data;
 				IsOpen = true;
-				_activeItem = _data.First();
+				ActiveItem = _data.First();
 
 				return;
 			}
@@ -248,7 +260,7 @@
 				{
 					IsOpen = true;
 					_hasNoResult = false;
-					_activeItem = _data.First();
+					ActiveItem = _data.First();
 				}
 				else
 				{
@@ -274,7 +286,7 @@
 		{
 			if (IsOpen)
 			{
-				await ItemSelect(_activeItem);
+				await ItemSelect(ActiveItem);
 			}
 		}
 		else if (e.Key?.Equals("ArrowDown", StringComparison.OrdinalIgnoreCase) ?? false)
@@ -284,14 +296,14 @@
 				return;
 			}
 
-			var index = Array.IndexOf(_data.ToArray(), _activeItem);
+			var index = Array.IndexOf(_data.ToArray(), ActiveItem);
 			index++;
 			if(index >= _data.Count())
 			{
 				index = 0;
 			}
 
-			_activeItem = _data.ElementAt(index);
+			ActiveItem = _data.ElementAt(index);
 		}
 		else if (e.Key?.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
@@ -300,14 +312,14 @@
 				return;
 			}
 
-			var index = Array.IndexOf(_data.ToArray(), _activeItem);
+			var index = Array.IndexOf(_data.ToArray(), ActiveItem);
 			index--;
 			if(index < 0)
 			{
 				index = _data.Count() -1;
 			}
 
-			_activeItem = _data.ElementAt(index);
+			ActiveItem = _data.ElementAt(index);
 		}
 	}
 	private async Task OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
@@ -315,7 +327,7 @@
 		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
 		if(SelectOnBlur)
 		{
-			await ItemSelect(_activeItem);
+			await ItemSelect(ActiveItem);
 		}
 	}
 	private async Task OnFocus(FocusEventArgs e)
@@ -328,7 +340,7 @@
 			{
 				_data = Data;
 				IsOpen = true;
-				_activeItem = _data.First();
+				ActiveItem = _data.First();
 			}
 			else
 			{
@@ -340,13 +352,13 @@
 	private void ItemHover(string refName, TItem item)
 	{
 		WriteDiag($"{nameof(ItemHover)} event refName: {refName}, item: {item}.");
-		_activeItem = item;
+		ActiveItem = item;
 	}
 	private async Task ItemClicked(string refName, TItem item)
 	{
 		WriteDiag($"{nameof(ItemClicked)} event refName: {refName}, item: {item}.");
-		_activeItem = item;
-		await ItemSelect(_activeItem);
+		ActiveItem = item;
+		await ItemSelect(ActiveItem);
 	}
 
 	private async Task ItemSelect(TItem item)

@@ -6,7 +6,7 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead (pre-loaded) data with <code>@("IEnumerable<string>") Data</code></h3>
+	<h3>Typeahead static <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
@@ -66,16 +66,16 @@
 		@*DataSource="query => Search(query)"*@
 			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
 							@ref="_input"
-							Data="_testData.Select(x => x.Name)"
+							Data="@_testData.Select(x => x.Name)"
 							@bind-Value="@_typeaheadInputValue"
 							OnInput="@(text => {_selectedItem = null; _typeaheadInputValue = text;})"
 							TItem="string"
 							OnSelectedItemChanged="@(text => _selectedItem = text)"
-							SelectOnBlur="_selectOnBlur"
-							ShowAllOnEmptyInput="_showAllOnEmptyInput"
-							DropdownHeight="_dropdownHeight"
-							DropdownWidth="_dropdownWitdth"
-							FitDropdownWidth="_fitDropdownWidth"
+							SelectOnBlur="@_selectOnBlur"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput"
+							DropdownHeight="@_dropdownHeight"
+							DropdownWidth="@_dropdownWitdth"
+							FitDropdownWidth="@_fitDropdownWidth"
 							DebounceTime="@_debounceMilisec"
 							MinLength="@_minCharsLength" 
 							AccentColor="@_accentColor" >
@@ -91,7 +91,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead  (pre-loaded) data with <code>@("IEnumerable<StatesWithFlags>") Data</code></h3>
+	<h3>Typeahead static <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property</h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. 
@@ -148,19 +148,19 @@
 	
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength2 + " char(s)")"
+			<TypeaheadInput id="in2" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength2 + " char(s)")"
 							@ref="_input2"
-							Data="_testData"
+							Data="@_testData"
 							LabelPropertySelector="x => x.Name"
 							@bind-Value="@_typeaheadInputValue2"
 							OnInput="@(text => {_selectedItem2 = null; _typeaheadInputValue2 = text;})"
 							TItem="StatesWithFlags"
 							OnSelectedItemChanged="@(text => _selectedItem2 = text)"
-							SelectOnBlur="_selectOnBlur2"
-							ShowAllOnEmptyInput="_showAllOnEmptyInput2"
-							DropdownHeight="_dropdownHeight2"
-							DropdownWidth="_dropdownWitdth2"
-							FitDropdownWidth="_fitDropdownWidth2"
+							SelectOnBlur="@_selectOnBlur2"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput2"
+							DropdownHeight="@_dropdownHeight2"
+							DropdownWidth="@_dropdownWitdth2"
+							FitDropdownWidth="@_fitDropdownWidth2"
 							DebounceTime="@_debounceMilisec2"
 							MinLength="@_minCharsLength2" 
 							AccentColor="@_accentColor2" >
@@ -170,6 +170,94 @@
 				<InProgressContent>
 					<i class="fa fa-lg fa-ellipsis-h @*fa-pulse*@"></i> Searching...
 				</InProgressContent>
+			</TypeaheadInput>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead static <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property and custom template</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property with custom item template. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is known but Item disploy content overridden matched text will not be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec3 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec3" @oninput="(e => _debounceMilisec3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength3
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength3" @oninput="(e => _minCharsLength3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth3"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth3 == 0 ? "auto" : $"{_dropdownWitdth3}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth3" disabled="@(_fitDropdownWidth3)" @oninput="(e => _dropdownWitdth3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight3 == 0 ? "auto" : $"{_dropdownHeight3}px")
+			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight3" @oninput="(e => _dropdownHeight3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor3" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur3"/>
+			<br/>
+			Show all Data on empty input (<strong>DOES NOT work only with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput3"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem3 != null ? JsonSerializer.Serialize(_selectedItem3) : _typeaheadInputValue3)</strong>"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in3" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength3 + " char(s)")"
+							@ref="_input3"
+							Data="@_testData"
+							LabelPropertySelector="x => x.Name"
+							@bind-Value="@_typeaheadInputValue3"
+							OnInput="@(text => {_selectedItem3 = null; _typeaheadInputValue3 = text;})"
+							TItem="StatesWithFlags"
+							OnSelectedItemChanged="@(text => _selectedItem3 = text)"
+							SelectOnBlur="@_selectOnBlur3"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput3"
+							DropdownHeight="@_dropdownHeight3"
+							DropdownWidth="@_dropdownWitdth3"
+							FitDropdownWidth="@_fitDropdownWidth3"
+							DebounceTime="@_debounceMilisec3"
+							MinLength="@_minCharsLength3" 
+							AccentColor="@_accentColor3" >
+				<NoResultContent>
+					<i class="fa fa-times"></i> No Results Found
+				</NoResultContent>
+				<ItemTemplate>
+					<div>
+						<img src="@($"http://upload.wikimedia.org/wikipedia/commons/thumb/{context.Flag}")" class="mb-1 mr-2" width="16"/> 
+						<label>@context.Name</label> 
+					</div>
+				</ItemTemplate>
 			</TypeaheadInput>
 		</div>
 	</div>
@@ -198,7 +286,7 @@
 	private string _accentColor = "lightgray";
 	private TypeaheadInput<string> _input;
 
-	//TypeaheadInput
+	//TypeaheadInput2
 	private string _typeaheadInputValue2 = "";
 	private StatesWithFlags _selectedItem2;
 	private int _debounceMilisec2 = 0;
@@ -210,6 +298,19 @@
 	private bool _showAllOnEmptyInput2 = true;
 	private string _accentColor2 = "#72acf2";
 	private TypeaheadInput<StatesWithFlags> _input2;
+
+	//TypeaheadInput3
+	private string _typeaheadInputValue3 = "";
+	private StatesWithFlags _selectedItem3;
+	private int _debounceMilisec3 = 0;
+	private int _minCharsLength3 = 0;
+	private bool _fitDropdownWidth3 = true;
+	private int _dropdownHeight3 = 150;
+	private int _dropdownWitdth3 = 0;
+	private bool _selectOnBlur3 = true;
+	private bool _showAllOnEmptyInput3 = true;
+	private string _accentColor3 = "LightYellow";
+	private TypeaheadInput<StatesWithFlags> _input3;
 
 	private async Task<IEnumerable<string>> Search(string query)
 	{
