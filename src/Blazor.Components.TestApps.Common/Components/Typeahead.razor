@@ -27,14 +27,24 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth == 0 ? "auto" : $"{_dropdownWitdth}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth" disabled="@(_fitDropdownWidth)" @oninput="(e => _dropdownWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
 			Typeahead dropdown height (0 is auto): @(_dropdownHeight == 0 ? "auto" : $"{_dropdownHeight}px")
 			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight" @oninput="(e => _dropdownHeight = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Typeahead dropdown width (0 is auto): @(_dropdownWitdth == 0 ? "auto" : $"{_dropdownWitdth}px")
-			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth" @oninput="(e => _dropdownWitdth = int.Parse(e.Value?.ToString()))" />
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -63,8 +73,12 @@
 							OnSelectedItemChanged="@(text => _selectedItem = text)"
 							SelectOnBlur="_selectOnBlur"
 							ShowAllOnEmptyInput="_showAllOnEmptyInput"
+							DropdownHeight="_dropdownHeight"
+							DropdownWidth="_dropdownWitdth"
+							FitDropdownWidth="_fitDropdownWidth"
 							DebounceTime="@_debounceMilisec"
-							MinLength="@_minCharsLength" >
+							MinLength="@_minCharsLength" 
+							AccentColor="@_accentColor" >
 				<NoResultContent>
 					<i class="fa fa-times"></i> No Results Found
 				</NoResultContent>
@@ -86,15 +100,38 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<input type="range" min="0" max="2000" @bind="_debounceMilisec2" @oninput="(e => _debounceMilisec2 = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceMilisec2 ms.</pre>
+			Debounce time: @_debounceMilisec2 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec2" @oninput="(e => _debounceMilisec2 = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<input type="range" min="0" max="10" @bind="_minCharsLength2" @oninput="(e => _minCharsLength2 = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength2</pre>
+			Min required chars: @_minCharsLength2
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength2" @oninput="(e => _minCharsLength2 = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
-
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth2"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth2 == 0 ? "auto" : $"{_dropdownWitdth2}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth2" disabled="@(_fitDropdownWidth2)" @oninput="(e => _dropdownWitdth2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight2 == 0 ? "auto" : $"{_dropdownHeight2}px")
+			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight2" @oninput="(e => _dropdownHeight2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor2" />
+		</div>
+	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur2"/>
@@ -118,11 +155,15 @@
 							@bind-Value="@_typeaheadInputValue2"
 							OnInput="@(text => {_selectedItem2 = null; _typeaheadInputValue2 = text;})"
 							TItem="StatesWithFlags"
-							OnSelectedItemChanged="@(data => _selectedItem2 = data)"
+							OnSelectedItemChanged="@(text => _selectedItem2 = text)"
 							SelectOnBlur="_selectOnBlur2"
 							ShowAllOnEmptyInput="_showAllOnEmptyInput2"
+							DropdownHeight="_dropdownHeight2"
+							DropdownWidth="_dropdownWitdth2"
+							FitDropdownWidth="_fitDropdownWidth2"
 							DebounceTime="@_debounceMilisec2"
-							MinLength="@_minCharsLength2" >
+							MinLength="@_minCharsLength2" 
+							AccentColor="@_accentColor2" >
 				<NoResultContent>
 					<i class="fa fa-times"></i> No Results Found
 				</NoResultContent>
@@ -149,10 +190,12 @@
 	private string _selectedItem;
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
+	private bool _fitDropdownWidth = true;
 	private int _dropdownHeight = 150;
 	private int _dropdownWitdth = 0;
 	private bool _selectOnBlur = true;
 	private bool _showAllOnEmptyInput = true;
+	private string _accentColor = "lightgray";
 	private TypeaheadInput<string> _input;
 
 	//TypeaheadInput
@@ -160,8 +203,12 @@
 	private StatesWithFlags _selectedItem2;
 	private int _debounceMilisec2 = 0;
 	private int _minCharsLength2 = 0;
+	private bool _fitDropdownWidth2 = true;
+	private int _dropdownHeight2 = 150;
+	private int _dropdownWitdth2 = 0;
 	private bool _selectOnBlur2 = true;
 	private bool _showAllOnEmptyInput2 = true;
+	private string _accentColor2 = "#72acf2";
 	private TypeaheadInput<StatesWithFlags> _input2;
 
 	private async Task<IEnumerable<string>> Search(string query)

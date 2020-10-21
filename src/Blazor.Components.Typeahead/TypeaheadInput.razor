@@ -15,12 +15,12 @@
 	@onblur="OnBlur" @onkeyup="OnKeyUp" @onfocus="OnFocus"
 	@attributes=AdditionalAttributes />
 
-@if(_isOpen && _data is not null) 
+@if(IsOpen && _data is not null) 
 {
 	_dropDownItems.Clear();
 	int i = 0;
-	<div class="dropdown-menu">
-		<ul class="list">
+	<div class="dropdown-menu" style="width: @GetDropdownWidth(); max-height: @(DropdownHeight == 0 ? "auto" : $"{DropdownHeight}px");">
+		<ul id="@($"_typeahead_{_componentId}")" class="list">
 			@foreach(var item in _data)
 			{
 				string text = GetItemText(item);
@@ -29,7 +29,7 @@
 				<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(_activeItem) ? "active" : "")" 
 					@onmouseover="_ => ItemHover(refName, item)"
 					@onclick="_ => ItemClicked(refName, item)">
-						@*@{
+						@*@{ //TODO: fix rendered data issues...
 							if (CustomTemplate is not null)
 								CustomTemplate(item);
 							else
@@ -41,16 +41,20 @@
 		</ul>
 	</div>
 }
-
 @if(_hasNoResult) 
 {
 	<div class="no-result">@NoResultContent</div>
 }
-
-@if(_isSearching && InProgressContent is not null && !_isOpen) 
+@if(_isSearching && InProgressContent is not null && !IsOpen) 
 {
 	<div class="no-result">@InProgressContent</div>
 }
+
+<style>
+.list[id=@($"_typeahead_{_componentId}")] .list-item.active {
+	background-color: rgb(@AccentColor) !important;
+}
+</style>
 
 @code {
 	protected override void OnAfterRender(bool firstRender)
@@ -65,14 +69,44 @@
 			CheckRequiredPropertySelector();
 		}
 	}
+	string _componentId = Guid.NewGuid().ToString("n");
 
 	private bool _isOpen = false;
+	private bool IsOpen 
+	{ 
+		get => _isOpen; 
+		set
+		{
+			_isOpen = value;
+			if(_isOpen)
+			{
+				if (OnDropdownOpen.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnDropdownOpen.InvokeAsync();
+					});
+				}
+			}
+			else
+			{
+				if (OnDropdownClose.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnDropdownClose.InvokeAsync();
+					});
+				}
+			}
+		}
+	}
+
 	private bool _hasNoResult = false;
 	private bool _isSearching = false;
 	private DebounceInput _typeahead;
 	private IEnumerable<TItem> _data;
 
-	private TItem _activeItem = default(TItem);
+	private TItem _activeItem = default(TItem); //TODO: should scroll to active item...
 	private Dictionary<string, ElementReference> _dropDownItems = new Dictionary<string, ElementReference>();
 
 	//Values
@@ -128,9 +162,25 @@
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
 
+	private string _accentColor = "230, 230, 230";//gray
+	[Parameter] 
+	public string AccentColor
+	{
+		get => _accentColor;
+		set => _accentColor = new HtmlColor(value)?.RgbColor?.ToString();
+	}
+
 	//Size
-	[Parameter] public double Height { get; set; } = 0;
-	[Parameter] public double Width { get; set; } = 0;
+	[Parameter] public double DropdownHeight { get; set; } = 150;
+	[Parameter] public double DropdownWidth { get; set; } = 0; //auto
+	[Parameter] public bool FitDropdownWidth { get; set; } = false;
+
+	private string GetDropdownWidth()
+	{
+		return FitDropdownWidth 
+			? "100%" //TODO: get element width and set it..
+			: DropdownWidth == 0 ? "auto" : $"{DropdownWidth}px";
+	}
 
 	//Templates
 	[Parameter] public RenderFragment<TItem> CustomTemplate { get; set; }
@@ -144,6 +194,8 @@
 	//Events
 	[Parameter] public EventCallback<string> OnInput { get; set; }
 	[Parameter] public EventCallback<TItem> OnSelectedItemChanged { get; set; }
+	[Parameter] public EventCallback OnDropdownOpen { get; set; }
+	[Parameter] public EventCallback OnDropdownClose { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
@@ -160,14 +212,14 @@
 			{
 				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
 				_data = Data;
-				_isOpen = true;
+				IsOpen = true;
 				_activeItem = _data.First();
 
 				return;
 			}
 
 			WriteDiag($"{nameof(OnValueChanged)} event closing dropdown.");
-			_isOpen = false;
+			IsOpen = false;
 		}
 		else
 		{
@@ -194,13 +246,13 @@
 				WriteDiag($"{nameof(OnValueChanged)} event filtered data count: '{_data?.Count()}' opening dropdown.");
 				if(_data?.Count() > 0)
 				{
-					_isOpen = true;
+					IsOpen = true;
 					_hasNoResult = false;
 					_activeItem = _data.First();
 				}
 				else
 				{
-					_isOpen = false;
+					IsOpen = false;
 					_hasNoResult = true;
 				}
 			}
@@ -216,18 +268,18 @@
 		WriteDiag($"OnKeyUp event: '{e.Key}'");
 		if (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
-			_isOpen = false;
+			IsOpen = false;
 		}
 		else if (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
-			if (_isOpen)
+			if (IsOpen)
 			{
 				await ItemSelect(_activeItem);
 			}
 		}
 		else if (e.Key?.Equals("ArrowDown", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
-			if(_data is null || !_isOpen)
+			if(_data is null || !IsOpen)
 			{
 				return;
 			}
@@ -243,7 +295,7 @@
 		}
 		else if (e.Key?.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
-			if(_data is null || !_isOpen)
+			if(_data is null || !IsOpen)
 			{
 				return;
 			}
@@ -275,7 +327,7 @@
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;
-				_isOpen = true;
+				IsOpen = true;
 				_activeItem = _data.First();
 			}
 			else
@@ -297,11 +349,11 @@
 		await ItemSelect(_activeItem);
 	}
 
-	private async Task ItemSelect(TItem item) //TODO: should select on Enter and active change with Arrow Keys
+	private async Task ItemSelect(TItem item)
 	{
 		SelectedItem = item;
 		Value = GetItemText(item);
-		_isOpen = false;
+		IsOpen = false;
 		try
 		{
 			if(OnSelectedItemChanged.HasDelegate)
