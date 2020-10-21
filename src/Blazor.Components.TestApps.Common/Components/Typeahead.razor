@@ -15,15 +15,28 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<input type="range" min="0" max="2000" @bind="_debounceMilisec" @oninput="(e => _debounceMilisec = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Debounce time: @_debounceMilisec ms.</pre>
+			Debounce time: @_debounceMilisec ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec" @oninput="(e => _debounceMilisec = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			<input type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Min required chars: @_minCharsLength</pre>
+			Min required chars: @_minCharsLength
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
-
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight == 0 ? "auto" : $"{_dropdownHeight}px")
+			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight" @oninput="(e => _dropdownHeight = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth == 0 ? "auto" : $"{_dropdownWitdth}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth" @oninput="(e => _dropdownWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
@@ -136,6 +149,8 @@
 	private string _selectedItem;
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
+	private int _dropdownHeight = 150;
+	private int _dropdownWitdth = 0;
 	private bool _selectOnBlur = true;
 	private bool _showAllOnEmptyInput = true;
 	private TypeaheadInput<string> _input;

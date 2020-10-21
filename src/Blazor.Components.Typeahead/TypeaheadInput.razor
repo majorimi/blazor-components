@@ -52,57 +52,6 @@
 	<div class="no-result">@InProgressContent</div>
 }
 
-<style>
-	.typeahead {
-		display: block;
-	}
-	.dropdown-menu {
-		width: auto; //param
-		height: auto;
-		max-height: 300px; //param
-
-		background: white;
-		border: solid 1px gray;
-		border-radius: .25rem;
-		box-shadow: 2px 2px 5px 2px #bdbdbd;
-		float: left;
-		padding: .5rem 0;
-		margin: .175rem 0 0;
-		display: block;
-		z-index: 500;
-		position: absolute;
-		overflow: auto;
-
-		top: auto;
-		left: auto;
-	}
-	.dropdown-menu .list {
-		list-style: none; 
-		list-style-type: none;
-		margin: 0; 
-		padding: 5px 0;
-	}
-	.dropdown-menu .list-item {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		cursor: pointer;
-
-		display: block;
-		width: 100%;
-		padding: .25rem 1.5rem;
-		clear: both;
-		font-weight: 400;
-		color: #212529;
-		text-align: inherit;
-		white-space: nowrap;
-		background-color: transparent;
-		border: 0;
-	}
-	.list-item.active {
-		background-color: #f2f2f2;
-	}
-</style>
-
 @code {
 	protected override void OnAfterRender(bool firstRender)
 	{
@@ -126,6 +75,7 @@
 	private TItem _activeItem = default(TItem);
 	private Dictionary<string, ElementReference> _dropDownItems = new Dictionary<string, ElementReference>();
 
+	//Values
 	private string _value;
 	[Parameter] public string Value 
 	{
@@ -170,6 +120,7 @@
 		}
 	}
 
+	//Data
 	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
 	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
 	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; } //When TItem is not string
@@ -177,13 +128,20 @@
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
 
+	//Size
+	[Parameter] public double Height { get; set; } = 0;
+	[Parameter] public double Width { get; set; } = 0;
+
+	//Templates
 	[Parameter] public RenderFragment<TItem> CustomTemplate { get; set; }
 	[Parameter] public RenderFragment NoResultContent { get; set; }
 	[Parameter] public RenderFragment InProgressContent { get; set; }
 
+	//Debounce
 	[Parameter] public double DebounceTime { get; set; } = 0;
 	[Parameter] public int MinLength { get; set; } = 0;
 
+	//Events
 	[Parameter] public EventCallback<string> OnInput { get; set; }
 	[Parameter] public EventCallback<TItem> OnSelectedItemChanged { get; set; }
 
