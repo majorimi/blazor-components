@@ -214,65 +214,61 @@
 
 	private async Task OnValueChanged(string value)
 	{
-		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}, ShowAllOnEmptyInput: {ShowAllOnEmptyInput}'");
+		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'");
 
 		_dropDownItems.Clear();
 		_hasNoResult = false;
 
-		if(string.IsNullOrEmpty(value))
+		if(string.IsNullOrEmpty(value) && DataSource is null && ShowAllOnEmptyInput && (Data?.Any() ?? false)) //ShowAllOnEmptyInput
 		{
-			if(DataSource is null && ShowAllOnEmptyInput && (Data?.Any() ?? false))
-			{
-				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
-				_data = Data;
-				IsOpen = true;
-				ActiveItem = _data.First();
+			WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'.");
+			_data = Data;
+			IsOpen = true;
+			ActiveItem = _data.First();
 
-				return;
-			}
-
-			WriteDiag($"{nameof(OnValueChanged)} event closing dropdown.");
-			IsOpen = false;
+			return;
 		}
-		else
+
+		try
 		{
-			try
-			{
-				_isSearching = true;
+			_isSearching = true;
 
-				if (DataSource is not null) //Priority is async search
-				{
-					_data = await DataSource(value);
-				}
-				else if(Data is not null && typeof(TItem) == typeof(string))
-				{
-					_data = Data?
-						.Cast<string>()
-						.Where(x => x?.ToLower().Contains(value?.ToLower()) ?? false)
-						.Cast<TItem>();
-				}
-				else
-				{
-					_data = Data?.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value?.ToLower()) ?? false);
-				}
-
-				WriteDiag($"{nameof(OnValueChanged)} event filtered data count: '{_data?.Count()}' handling dropdown.");
-				if(_data?.Count() > 0)
-				{
-					IsOpen = true;
-					_hasNoResult = false;
-					ActiveItem = _data.First();
-				}
-				else
-				{
-					IsOpen = false;
-					_hasNoResult = true;
-				}
-			}
-			finally
+			if (DataSource is not null) //Priority is async search
 			{
-				_isSearching = false;
+				WriteDiag($"{nameof(OnValueChanged)} DataSource is defined, async search Func will be called search Value: '{value}'.");
+				IsOpen = false;
+				_data = await DataSource(value);
 			}
+			else if((Data?.Any() ?? false) && !string.IsNullOrEmpty(value)) //Search in data with given query value
+			{
+				WriteDiag($"{nameof(OnValueChanged)} DataSource NOT is defined, filtering static data Type: '{typeof(TItem)}', LabelPropertySelector: '{LabelPropertySelector}'  search Value: '{value}'.");
+				if(typeof(TItem) == typeof(string)) //Data is string
+					_data = Data.Cast<string>().Where(x => x?.ToLower().Contains(value.ToLower()) ?? false).Cast<TItem>();
+				else
+					_data = Data.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value.ToLower()) ?? false);
+			}
+			else
+			{
+				WriteDiag($"{nameof(OnValueChanged)} no search term met data set to NULL search Value: '{value}'.");
+				_data = null;
+			}
+
+			WriteDiag($"{nameof(OnValueChanged)} event data filtered result Count: '{_data?.Count()}' handling dropdown.");
+			if(_data?.Count() > 0)
+			{
+				IsOpen = true;
+				_hasNoResult = false;
+				ActiveItem = _data.First();
+			}
+			else
+			{
+				IsOpen = false;
+				_hasNoResult = true;
+			}
+		}
+		finally
+		{
+			_isSearching = false;
 		}
 	}
 	
@@ -336,7 +332,7 @@
 		WriteDiag($"{nameof(OnFocus)} event: '{e.Type}'.");
 		if(DataSource is null && ShowAllOnEmptyInput)
 		{
-			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
+			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'.");
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;
@@ -352,12 +348,12 @@
 
 	private void ItemHover(string refName, TItem item)
 	{
-		WriteDiag($"{nameof(ItemHover)} event refName: {refName}, item: {item}.");
+		WriteDiag($"{nameof(ItemHover)} event refName: '{refName}', item: '{item}'.");
 		ActiveItem = item;
 	}
 	private async Task ItemClicked(string refName, TItem item)
 	{
-		WriteDiag($"{nameof(ItemClicked)} event refName: {refName}, item: {item}.");
+		WriteDiag($"{nameof(ItemClicked)} event refName: '{refName}', item: '{item}'.");
 		ActiveItem = item;
 		await ItemSelect(ActiveItem);
 	}
@@ -384,7 +380,7 @@
 	{
 		if(IsLabelSelectorRequired() && LabelPropertySelector == null)
 		{
-			throw new Exception($"Data type: {typeof(TItem)} is not Sytem.String. You must provide a string property selector use {nameof(LabelPropertySelector)}");
+			throw new Exception($"Data type: {typeof(TItem)} is not Sytem.String. You must provide a string property selector use '{LabelPropertySelector}'");
 		}
 	}
 	private MarkupString HighlightItems(string text)

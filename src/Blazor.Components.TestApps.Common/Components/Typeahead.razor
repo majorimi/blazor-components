@@ -307,6 +307,17 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
+			Custom Search type: <select class="form-control selectpicker w-100" @bind="_searchType">
+				@foreach (var item in Enum.GetValues(typeof(SearchTypes)))
+				{
+				<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
 			Model: "<strong>@(_selectedItem4 != null ? JsonSerializer.Serialize(_selectedItem4) : _typeaheadInputValue4)</strong>"
 		</div>
 	</div>
@@ -395,7 +406,7 @@
 	//TypeaheadInput4
 	private string _typeaheadInputValue4 = "";
 	private StatesWithFlags _selectedItem4;
-	private int _debounceMilisec4 = 0;
+	private int _debounceMilisec4 = 400;
 	private int _minCharsLength4 = 0;
 	private bool _fitDropdownWidth4 = true;
 	private int _dropdownHeight4 = 150;
@@ -404,6 +415,13 @@
 	private bool _showAllOnEmptyInput4 = true;
 	private string _accentColor4 = "224, 122, 114";
 	private TypeaheadInput<StatesWithFlags> _input4;
+	private SearchTypes _searchType = SearchTypes.Contains;
+
+	private enum SearchTypes
+	{
+		Contains,
+		StartsWith
+	}
 
 	private async Task<IEnumerable<StatesWithFlags>> Search(string query)
 	{
@@ -412,12 +430,17 @@
 			return null; //Can be returned all data but be careful might be too much..
 		}
 
-		await Task.Delay(1000); //Async server call here...
+		await Task.Delay(700); //Async server call here...
 
-		return _testData.Where(x => x.Name?.ToLower().Contains(query.ToLower()) ?? false);
-
-		return _testData.Where(x => x?.Name?.ToLower().Contains(query.ToLower()) ?? false);
-
+		switch(_searchType)
+		{
+			case SearchTypes.Contains:
+				return _testData.Where(x => x.Name?.ToLower().Contains(query.ToLower()) ?? false);
+			case SearchTypes.StartsWith:
+				return _testData.Where(x => x?.Name?.ToLower().StartsWith(query.ToLower()) ?? false);
+			default:
+				return null;
+		}
 	}
 
 	private class StatesWithFlags
