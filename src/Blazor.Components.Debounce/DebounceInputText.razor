@@ -4,7 +4,7 @@
 @implements IDisposable
 @inject ILogger<DebounceInputText> _logger;
 
-<input value="@CurrentValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
+<input @ref="_inputRef" value="@CurrentValue" class="@CssClass" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes="AdditionalAttributes" />
 
 @*
 	Diffs with DebounceTimerBase:
@@ -19,6 +19,9 @@
 	private bool _notifiedLastChange = false;
 	private bool _disposedValue;
 	private bool _debounceEnabled = true;
+	private ElementReference _inputRef;
+
+	public ElementReference InnerElementReference => _inputRef;
 
 	private double _intervalInMilisec = 200;
 	[Parameter]

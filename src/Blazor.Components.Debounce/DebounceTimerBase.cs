@@ -14,6 +14,9 @@ namespace Blazor.Components.Debounce
 		private bool _notifiedLastChange = false;
 		private bool _disposedValue;
 		private bool _debounceEnabled = true;
+		protected ElementReference _inputRef;
+
+		public ElementReference InnerElementReference => _inputRef;
 
 		private double _intervalInMilisec = 200;
 		[Parameter]
