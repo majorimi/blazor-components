@@ -1,53 +1,46 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.Loading</PackageId>
+	<PackageId>Majorsoft.Blazor.Components.Common.JsInterop</PackageId>
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
-	<Description>Blazor components that renders Overlay for page load. HTML Button with customizable content to show during async operation progress/loading state.</Description>
+	<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
+	<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
   </PropertyGroup>
 
+  
   <ItemGroup>
-	<Content Remove="bundleconfig.json" />
+	<SupportedPlatform Include="browser" />
   </ItemGroup>
-
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Folder Include="ElementInfo\" />
+	<Folder Include="Focus\" />
+	<Folder Include="Click\" />
+	<Folder Include="Scroll\" />
+  </ItemGroup>
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
-	<None Include="bundleconfig.json" />
   </ItemGroup>
-
-
-	<!--Include project DLL output to Nuget package-->
-	<ItemGroup>
-		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
-			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0</PackagePath>
-		</_PackageFiles>
-	</ItemGroup>
 
 </Project>
