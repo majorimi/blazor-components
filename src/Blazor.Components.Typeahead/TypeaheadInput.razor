@@ -217,10 +217,11 @@
 		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}, ShowAllOnEmptyInput: {ShowAllOnEmptyInput}'");
 
 		_dropDownItems.Clear();
+		_hasNoResult = false;
 
 		if(string.IsNullOrEmpty(value))
 		{
-			if(DataSource is null && ShowAllOnEmptyInput)
+			if(DataSource is null && ShowAllOnEmptyInput && (Data?.Any() ?? false))
 			{
 				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: {ShowAllOnEmptyInput}.");
 				_data = Data;
@@ -247,15 +248,15 @@
 				{
 					_data = Data?
 						.Cast<string>()
-						.Where(x => x?.ToLower().Contains(value.ToLower()) ?? false)
+						.Where(x => x?.ToLower().Contains(value?.ToLower()) ?? false)
 						.Cast<TItem>();
 				}
 				else
 				{
-					_data = Data?.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value.ToLower()) ?? false);
+					_data = Data?.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value?.ToLower()) ?? false);
 				}
 
-				WriteDiag($"{nameof(OnValueChanged)} event filtered data count: '{_data?.Count()}' opening dropdown.");
+				WriteDiag($"{nameof(OnValueChanged)} event filtered data count: '{_data?.Count()}' handling dropdown.");
 				if(_data?.Count() > 0)
 				{
 					IsOpen = true;
@@ -325,7 +326,7 @@
 	private async Task OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
 	{
 		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
-		if(SelectOnBlur)
+		if(SelectOnBlur && IsOpen)
 		{
 			await ItemSelect(ActiveItem);
 		}
