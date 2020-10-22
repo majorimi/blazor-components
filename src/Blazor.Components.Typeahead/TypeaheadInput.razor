@@ -61,19 +61,22 @@
 </style>
 
 @code {
-	protected override void OnAfterRender(bool firstRender)
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(!AdditionalAttributes.ContainsKey("autocomplete"))
 		{
 			AdditionalAttributes.Add("autocomplete", "off");
 		}
 
+		_rect = await _typeahead.InnerElementReference.GetClientRectAsync();
+
 		if(firstRender)
 		{
 			CheckRequiredPropertySelector();
 		}
 	}
-	string _componentId = Guid.NewGuid().ToString("n");
+	private string _componentId = Guid.NewGuid().ToString("n");
+	private DomRect _rect;
 
 	private bool _isOpen = false;
 	private bool IsOpen 
@@ -189,9 +192,12 @@
 
 	private string GetDropdownWidth()
 	{
-		return FitDropdownWidth 
-			? "100%" //TODO: get element width and set it..
-			: DropdownWidth == 0 ? "auto" : $"{DropdownWidth}px";
+		if(FitDropdownWidth)
+		{
+			return $"{_rect?.Width.ToString("0.00", CultureInfo.InvariantCulture)}px";
+		}
+
+		return DropdownWidth == 0 ? "auto" : $"{DropdownWidth}px";
 	}
 
 	//Templates

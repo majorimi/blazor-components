@@ -23,12 +23,7 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
   </ItemGroup>
-
-  
-  <ItemGroup>
-	<SupportedPlatform Include="browser" />
-  </ItemGroup>
-
+	
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
