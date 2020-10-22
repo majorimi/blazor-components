@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Typeahead
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Debounce", "Blazor.Components.Debounce\Blazor.Components.Debounce.csproj", "{8C405A8C-2A8E-4990-A6DE-F1637D04CC32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.Common.JsInterop", "Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj", "{9CD59D7A-0211-401F-99A1-C646CCD2546E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Common.JsInterop", "Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj", "{9CD59D7A-0211-401F-99A1-C646CCD2546E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

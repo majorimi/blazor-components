@@ -20,6 +20,10 @@
 	<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
   
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
@@ -30,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="ElementInfo\" />
 	<Folder Include="Focus\" />
 	<Folder Include="Click\" />
 	<Folder Include="Scroll\" />
@@ -41,6 +44,7 @@
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
+	<None Include="bundleconfig.json" />
   </ItemGroup>
 
 </Project>

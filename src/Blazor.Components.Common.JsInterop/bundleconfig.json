@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/elementInfo.min.js",
+    "inputFiles": [
+      "wwwroot/elementInfo.js"
+    ]
+  }
+]
