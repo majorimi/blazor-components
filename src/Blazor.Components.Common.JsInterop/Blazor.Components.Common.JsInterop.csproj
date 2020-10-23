@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -30,7 +30,6 @@
 
   <ItemGroup>
 	<Folder Include="Focus\" />
-	<Folder Include="Click\" />
 	<Folder Include="Scroll\" />
   </ItemGroup>
 

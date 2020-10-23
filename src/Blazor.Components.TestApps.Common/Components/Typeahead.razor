@@ -51,7 +51,8 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
 			<br/>
-			Show all Data on empty input (<strong>Ignored with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput"/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput" disabled="@(_minCharsLength > 0 ? true : false)"/>
 		</div>
 	</div>
 
@@ -129,7 +130,8 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur2"/>
 			<br/>
-			Show all Data on empty input (<strong>Ignored with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput2"/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput2" disabled="@(_minCharsLength2 > 0 ? true : false)"/>
 		</div>
 	</div>
 
@@ -211,7 +213,8 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur3"/>
 			<br/>
-			Show all Data on empty input (<strong>Ignored with async DataSource</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput3"/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput3" disabled="@(_minCharsLength3 > 0 ? true : false)"/>
 		</div>
 	</div>
 
@@ -301,7 +304,8 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur4"/>
 			<br/>
-			Show all Data on empty input (<strong>Ignored in this example but empty string notification can be used to return all data</strong>): <input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput4"/>
+			Show all Data on empty input (<strong>Ignored in this example but empty string notification can be used to return all data</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput4" disabled="disabled"/>
 		</div>
 	</div>
 

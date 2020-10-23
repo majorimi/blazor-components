@@ -194,7 +194,9 @@
 	{
 		if(FitDropdownWidth)
 		{
-			return $"{_rect?.Width.ToString("0.00", CultureInfo.InvariantCulture)}px";
+			return _rect is null
+				? "100%"
+				: $"{_rect?.Width.ToString("0.00", CultureInfo.InvariantCulture)}px";
 		}
 
 		return DropdownWidth == 0 ? "auto" : $"{DropdownWidth}px";
@@ -220,18 +222,21 @@
 
 	private async Task OnValueChanged(string value)
 	{
-		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'");
+		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
 
 		_dropDownItems.Clear();
 		_hasNoResult = false;
+		IsOpen = false;
 
 		if(string.IsNullOrEmpty(value) && DataSource is null && ShowAllOnEmptyInput && (Data?.Any() ?? false)) //ShowAllOnEmptyInput
 		{
-			WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'.");
-			_data = Data;
-			IsOpen = true;
-			ActiveItem = _data.First();
-
+			if (MinLength == 0)
+			{
+				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
+				_data = Data;
+				IsOpen = true;
+				ActiveItem = _data.First();
+			}
 			return;
 		}
 
@@ -336,9 +341,11 @@
 	private async Task OnFocus(FocusEventArgs e)
 	{
 		WriteDiag($"{nameof(OnFocus)} event: '{e.Type}'.");
-		if(DataSource is null && ShowAllOnEmptyInput)
+		_hasNoResult = false;
+
+		if(DataSource is null && ShowAllOnEmptyInput && MinLength == 0)
 		{
-			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}'.");
+			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;

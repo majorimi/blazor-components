@@ -4,5 +4,11 @@
     "inputFiles": [
       "wwwroot/elementInfo.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/click.min.js",
+    "inputFiles": [
+      "wwwroot/click.js"
+    ]
   }
 ]

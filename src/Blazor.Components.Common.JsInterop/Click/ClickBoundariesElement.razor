@@ -1,0 +1,60 @@
+﻿@inject ILogger<ClickBoundariesElement> _logger;
+@inject IClickBoundariesHandler _clickHandler;
+
+@implements IAsyncDisposable
+
+<div @ref="_clickContainer" @attributes=AllOtherAttributes>
+	@Content
+</div>
+
+@code {
+	private ElementReference _clickContainer;
+
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> OnOutsideClick { get; set; }
+	[Parameter]
+	public EventCallback<MouseEventArgs> OnInsideClick { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			WriteDiag($"OnAfterRenderAsync  component rendered, registering click events.");
+
+			await _clickHandler.RegisterClickBoundariesAsync(_clickContainer, 
+			async (args) => 
+			{ 
+				if(OnOutsideClick.HasDelegate)
+				{
+					await OnOutsideClick.InvokeAsync(args);
+				}
+			},
+			async (args) => 
+			{ 
+				if(OnInsideClick.HasDelegate)
+				{
+					await OnInsideClick.InvokeAsync(args);
+				}
+			});
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_clickHandler is not null)
+		{
+			await _clickHandler.DisposeAsync();
+		}
+	}
+}

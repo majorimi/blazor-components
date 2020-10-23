@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.CssEvents.Animation
 {
-	public class AnimationEventsService  : IAnimationEventsService
+	public sealed class AnimationEventsService  : IAnimationEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<KeyValuePair<ElementReference, string>> _registeredStartEvents;

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Blazor.Components.Common.JsInterop.Click;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazor.Components.Common.JsInterop
@@ -19,6 +21,8 @@ namespace Blazor.Components.Common.JsInterop
 			{
 				throw new ArgumentNullException(nameof(services));
 			}
+
+			services.AddTransient<IClickBoundariesHandler, ClickBoundariesHandler>();
 
 			return services;
 		}
