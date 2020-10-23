@@ -20,30 +20,31 @@
 
 @if(IsOpen && _data is not null) 
 {
-	_dropDownItems.Clear();
 	int i = 0;
-	<div class="dropdown-menu" style="width: @GetDropdownWidth(); max-height: @(DropdownHeight == 0 ? "auto" : $"{DropdownHeight}px");">
+	<div @ref="_dropDown" class="dropdown-menu" style="width: @GetDropdownWidth(); max-height: @(DropdownHeight == 0 ? "auto" : $"{DropdownHeight}px");">
 		<ul id="@($"_typeahead_{_componentId}")" class="list">
 			@foreach(var item in _data)
 			{
 				string text = GetItemText(item);
-				string refName = $"item{i++}";
+
 				if (ItemTemplate is not null) //using if/else inside <li> does not work so markup duplicated...
 				{
-					<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
-						@onmouseover="_ => ItemHover(refName, item)"
-						@onclick="_ => ItemClicked(refName, item)">
+					<li @ref="component" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+						@onmouseover="_ => ItemHover(i, item)"
+						@onclick="_ => ItemClicked(i, item)">
 							@ItemTemplate(item)
 					</li>
 				}
 				else
 				{
-					<li @ref="_dropDownItems[refName]" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
-						@onmouseover="_ => ItemHover(refName, item)"
-						@onclick="_ => ItemClicked(refName, item)">
+					<li @ref="component" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+						@onmouseover="_ => ItemHover(i, item)"
+						@onclick="_ => ItemClicked(i, item)">
 							@HighlightItems(text)
 					</li>
 				}
+
+				i++;
 			}
 		</ul>
 	</div>
@@ -91,10 +92,9 @@
 				return;
 
 			_isOpen = value;
-			StateHasChanged();
-
 			if(_isOpen)
 			{
+				_dropDownItems.Clear();
 				if (OnDropdownOpen.HasDelegate)
 				{
 					InvokeAsync(async () =>
@@ -127,10 +127,16 @@
 		get => _activeItem;
 		set
 		{
-			_activeItem = value; //TODO: should scroll to active item...
+			_activeItem = value;
 		}
 	}
-	private Dictionary<string, ElementReference> _dropDownItems = new Dictionary<string, ElementReference>();
+
+	private ElementReference _dropDown;
+	private ElementReference component 
+	{ 
+		set => _dropDownItems.Add(value); 
+	}
+	private List<ElementReference> _dropDownItems = new List<ElementReference>();
 
 	//Values
 	private string _value;
@@ -317,9 +323,21 @@
 			if(index >= _data.Count())
 			{
 				index = 0;
+				await _dropDown.ScrollToTopAsync();
+			}
+			else
+			{
+				var pos = await _dropDown.GetScrollPositionAsync();
+				await _dropDown.ScrollToAsync(pos + 20); //TODO: fix scrolling only on boundary
 			}
 
 			ActiveItem = _data.ElementAt(index);
+
+			@*if(_dropDownItems.Count() >= index)
+			{
+				var elementRef = _dropDownItems[index];
+				await elementRef.ScrollToElementAsync();
+			}*@
 		}
 		else if (e.Key?.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
@@ -333,6 +351,7 @@
 			if(index < 0)
 			{
 				index = _data.Count() -1;
+				await _dropDown.ScrollToEndAsync();
 			}
 
 			ActiveItem = _data.ElementAt(index);
@@ -351,8 +370,12 @@
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;
-				IsOpen = true;
-				ActiveItem = _data.First();
+
+				if(!IsOpen)
+				{
+					IsOpen = true;
+					ActiveItem = _data.First();
+				}
 			}
 			else
 			{
@@ -372,16 +395,17 @@
 		}
 
 		IsOpen = false;
+		StateHasChanged();
 	}
 
-	private void ItemHover(string refName, TItem item)
+	private void ItemHover(int index, TItem item)
 	{
-		WriteDiag($"{nameof(ItemHover)} event refName: '{refName}', item: '{item}'.");
+		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}'.");
 		ActiveItem = item;
 	}
-	private async Task ItemClicked(string refName, TItem item)
+	private async Task ItemClicked(int index, TItem item)
 	{
-		WriteDiag($"{nameof(ItemClicked)} event refName: '{refName}', item: '{item}'.");
+		WriteDiag($"{nameof(ItemClicked)} event index: '{index}', item: '{item}'.");
 		ActiveItem = item;
 		await ItemSelect(ActiveItem);
 	}
