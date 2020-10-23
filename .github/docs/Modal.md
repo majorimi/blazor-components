@@ -103,10 +103,13 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 ```
 
 ### Dependences
-**Majorsoft.Blazor.Components.Modal** package depends on [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
+**Majorsoft.Blazor.Components.Modal** package depends on other Majorsoft Nuget packages:
+- [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
 which handles CSS Transition and Animation events for the dialog animation.
+- [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
+which handles JS Interop for focusing previous elements.
 
-**In case of WebAssembly project register CSS events services in your `Program.cs` file:**
+**In case of WebAssembly project register services in your `Program.cs` file:**
 ```
 using Blazor.Components.CssEvents;
 ...
@@ -114,18 +117,22 @@ public static async Task Main(string[] args)
 {
 	var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+	//Register dependencies
 	builder.Services.AddCssEvents();
+	builder.Services.AddJsInteropExtensions();
 }
 ```
 
-**In case of Server hosted project register CSS events services in your `Startup.cs` file:**
+**In case of Server hosted project register services in your `Startup.cs` file:**
 ```
 using Blazor.Components.CssEvents;
 ...
 
 public void ConfigureServices(IServiceCollection services)
 {
+	//Register dependencies
 	services.AddCssEvents();
+	services.AddJsInteropExtensions();
 }
 ```
 
