@@ -30,7 +30,6 @@
 	  <PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
-	<None Include="wwwroot\focus.js" />
   </ItemGroup>
 
 

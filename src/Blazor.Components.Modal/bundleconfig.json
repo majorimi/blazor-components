@@ -4,11 +4,5 @@
     "inputFiles": [
       "ModalDialog.razor.css"
     ]
-  },
-  {
-    "outputFileName": "wwwroot/focus.min.js",
-    "inputFiles": [
-      "wwwroot/focus.js"
-    ]
   }
 ]
