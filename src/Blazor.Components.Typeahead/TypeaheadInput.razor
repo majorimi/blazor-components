@@ -3,6 +3,9 @@
 
 @typeparam TItem;
 @inject ILogger<TypeaheadInput<TItem>> _logger;
+@inject IClickBoundariesHandler _clickHandler;
+
+@implements IAsyncDisposable
 
 <DebounceInput class="typeahead"
 	@ref="_typeahead"
@@ -12,7 +15,7 @@
 	OnValueChanged="e => OnValueChanged(e)"
 	ForceNotifyByEnter="false"
 	ForceNotifyOnBlur="false"
-	@onblur="OnBlur" @onkeyup="OnKeyUp" @onfocus="OnFocus"
+	@onkeyup="OnKeyUp" @onfocus="OnFocus"
 	@attributes=AdditionalAttributes />
 
 @if(IsOpen && _data is not null) 
@@ -84,7 +87,12 @@
 		get => _isOpen; 
 		set
 		{
+			if(_isOpen == value)
+				return;
+
 			_isOpen = value;
+			StateHasChanged();
+
 			if(_isOpen)
 			{
 				if (OnDropdownOpen.HasDelegate)
@@ -330,18 +338,12 @@
 			ActiveItem = _data.ElementAt(index);
 		}
 	}
-	private async Task OnBlur(FocusEventArgs e) //TODO: Should be replaced with ClickOutsideCheck
-	{
-		WriteDiag($"{nameof(OnBlur)} event: '{e.Type}'.");
-		if(SelectOnBlur && IsOpen)
-		{
-			await ItemSelect(ActiveItem);
-		}
-	}
 	private async Task OnFocus(FocusEventArgs e)
 	{
 		WriteDiag($"{nameof(OnFocus)} event: '{e.Type}'.");
 		_hasNoResult = false;
+
+		await _clickHandler.RegisterClickBoundariesAsync(_typeahead.InnerElementReference, OnOutsideClick);
 
 		if(DataSource is null && ShowAllOnEmptyInput && MinLength == 0)
 		{
@@ -357,6 +359,19 @@
 				await OnValueChanged(Value);
 			}
 		}
+	}
+	private async Task OnOutsideClick(MouseEventArgs e)
+	{
+		WriteDiag($"{nameof(OnOutsideClick)} event button: '{e.Button}'.");
+
+		await _clickHandler.RemoveClickBoundariesAsync(_typeahead.InnerElementReference);
+		if(SelectOnBlur && IsOpen)
+		{
+			await ItemSelect(ActiveItem);
+			return;
+		}
+
+		IsOpen = false;
 	}
 
 	private void ItemHover(string refName, TItem item)
@@ -422,5 +437,13 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_clickHandler is not null)
+		{
+			await _clickHandler.DisposeAsync();
+		}
 	}
 }
