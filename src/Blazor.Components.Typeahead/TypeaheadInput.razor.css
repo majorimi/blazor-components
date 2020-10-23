@@ -14,9 +14,15 @@
     z-index: 500;
     position: absolute;
     overflow: auto;
+    /*Might be set to 0 and use Translate by input position*/
     top: auto;
     left: auto;
+    /*-ms-overflow-style: none;*/ /* Internet Explorer 10+ */
+    /*scrollbar-width: none;*/ /* Firefox */
 }
+/*.dropdown-menu::-webkit-scrollbar {
+    display: none;*/ /* Safari and Chrome */
+/*}*/
 
 .dropdown-menu .list {
     list-style: none;

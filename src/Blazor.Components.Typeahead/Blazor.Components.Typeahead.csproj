@@ -38,10 +38,6 @@
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
-  <ItemGroup>
-	<Folder Include="wwwroot\" />
-  </ItemGroup>
-
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
 			<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />

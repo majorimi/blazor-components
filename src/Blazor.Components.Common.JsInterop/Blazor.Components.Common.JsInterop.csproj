@@ -22,6 +22,7 @@
 
   <ItemGroup>
 	<Content Remove="bundleconfig.json" />
+	<Content Remove="wwwroot\focus.js" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -29,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Focus\" />
 	<Folder Include="Scroll\" />
   </ItemGroup>
 
@@ -39,6 +39,7 @@
 	  <PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
+	<None Include="wwwroot\focus.js" />
   </ItemGroup>
 
 </Project>

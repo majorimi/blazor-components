@@ -10,5 +10,11 @@
     "inputFiles": [
       "wwwroot/click.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/focus.min.js",
+    "inputFiles": [
+      "wwwroot/focus.js"
+    ]
   }
 ]

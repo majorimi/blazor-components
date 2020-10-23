@@ -16,7 +16,7 @@ namespace Blazor.Components.Common.JsInterop.Click
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<ElementReference> _registeredElements;
-		private IJSObjectReference _transitionJs;
+		private IJSObjectReference _clickJs;
 
 		public ClickBoundariesHandler(IJSRuntime jsRuntime)
 		{
@@ -33,7 +33,7 @@ namespace Blazor.Components.Common.JsInterop.Click
 			var info = new ClickBoundariesEventInfo(outsideClickCallback, insideClickCallback);
 			var dotnetRef = DotNetObjectReference.Create<ClickBoundariesEventInfo>(info);
 
-			await _transitionJs.InvokeVoidAsync("addClickBoundariesHandler", elementRef, dotnetRef);
+			await _clickJs.InvokeVoidAsync("addClickBoundariesHandler", elementRef, dotnetRef);
 			_registeredElements.Add(elementRef);
 		}
 
@@ -41,7 +41,7 @@ namespace Blazor.Components.Common.JsInterop.Click
 		{
 			await CheckJsObjectAsync();
 
-			await _transitionJs.InvokeVoidAsync("removeClickBoundariesHandler", elementRef);
+			await _clickJs.InvokeVoidAsync("removeClickBoundariesHandler", elementRef);
 			RemoveElement(elementRef);
 		}
 
@@ -54,10 +54,10 @@ namespace Blazor.Components.Common.JsInterop.Click
 
 		private async Task CheckJsObjectAsync()
 		{
-			if (_transitionJs is null)
+			if (_clickJs is null)
 			{
 #if DEBUG
-				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.js");
+				_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.js");
 #else
 				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.min.js");
 #endif
@@ -66,11 +66,11 @@ namespace Blazor.Components.Common.JsInterop.Click
 
 		public async ValueTask DisposeAsync()
 		{
-			if (_transitionJs is not null)
+			if (_clickJs is not null)
 			{
-				await _transitionJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
+				await _clickJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
 
-				await _transitionJs.DisposeAsync();
+				await _clickJs.DisposeAsync();
 			}
 		}
 	}

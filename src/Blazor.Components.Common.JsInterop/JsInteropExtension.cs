@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Blazor.Components.Common.JsInterop.Click;
+using Blazor.Components.Common.JsInterop.Focus;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +24,8 @@ namespace Blazor.Components.Common.JsInterop
 			}
 
 			services.AddTransient<IClickBoundariesHandler, ClickBoundariesHandler>();
-
+			services.AddTransient<IFocusHandler, FocusHandler>();
+			
 			return services;
 		}
 	}
