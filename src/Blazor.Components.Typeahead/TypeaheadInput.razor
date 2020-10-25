@@ -15,7 +15,7 @@
 	OnValueChanged="e => OnValueChanged(e)"
 	ForceNotifyByEnter="false"
 	ForceNotifyOnBlur="false"
-	@onkeyup="OnKeyUp" @onfocus="OnFocus"
+	@onkeydown="OnKeyDown" @onfocus="OnFocus"
 	@attributes=AdditionalAttributes />
 
 @if(IsOpen && _data is not null) 
@@ -29,7 +29,7 @@
 
 				if (ItemTemplate is not null) //using if/else inside <li> does not work so markup duplicated...
 				{
-					<li @ref="component" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+					<li class="list-item@(item.Equals(ActiveItem) ? " active" : "")" 
 						@onmouseover="_ => ItemHover(i, item)"
 						@onclick="_ => ItemClicked(i, item)">
 							@ItemTemplate(item)
@@ -37,7 +37,7 @@
 				}
 				else
 				{
-					<li @ref="component" class="list-item @(item.Equals(ActiveItem) ? "active" : "")" 
+					<li class="list-item@(item.Equals(ActiveItem) ? " active" : "")" 
 						@onmouseover="_ => ItemHover(i, item)"
 						@onclick="_ => ItemClicked(i, item)">
 							@HighlightItems(text)
@@ -94,7 +94,6 @@
 			_isOpen = value;
 			if(_isOpen)
 			{
-				_dropDownItems.Clear();
 				if (OnDropdownOpen.HasDelegate)
 				{
 					InvokeAsync(async () =>
@@ -132,11 +131,6 @@
 	}
 
 	private ElementReference _dropDown;
-	private ElementReference component 
-	{ 
-		set => _dropDownItems.Add(value); 
-	}
-	private List<ElementReference> _dropDownItems = new List<ElementReference>();
 
 	//Values
 	private string _value;
@@ -238,7 +232,6 @@
 	{
 		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
 
-		_dropDownItems.Clear();
 		_hasNoResult = false;
 		IsOpen = false;
 
@@ -297,9 +290,10 @@
 		}
 	}
 	
-	private async Task OnKeyUp(KeyboardEventArgs e)
+	private async Task OnKeyDown(KeyboardEventArgs e)
 	{
-		WriteDiag($"OnKeyUp event: '{e.Key}'");
+		WriteDiag($"OnKeyDown event: '{e.Key}'");
+
 		if (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
 			IsOpen = false;
@@ -325,19 +319,13 @@
 				index = 0;
 				await _dropDown.ScrollToTopAsync();
 			}
-			else
-			{
-				var pos = await _dropDown.GetScrollPositionAsync();
-				await _dropDown.ScrollToAsync(pos + 20); //TODO: fix scrolling only on boundary
-			}
 
 			ActiveItem = _data.ElementAt(index);
 
-			@*if(_dropDownItems.Count() >= index)
+			if(index != 0)
 			{
-				var elementRef = _dropDownItems[index];
-				await elementRef.ScrollToElementAsync();
-			}*@
+				await _dropDown.ScrollInParentByClassAsync("list-item active");
+			}
 		}
 		else if (e.Key?.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase) ?? false)
 		{
@@ -355,6 +343,11 @@
 			}
 
 			ActiveItem = _data.ElementAt(index);
+
+			if(index != _data.Count() -1)
+			{
+				await _dropDown.ScrollInParentByClassAsync("list-item active");
+			}
 		}
 	}
 	private async Task OnFocus(FocusEventArgs e)
@@ -362,11 +355,49 @@
 		WriteDiag($"{nameof(OnFocus)} event: '{e.Type}'.");
 		_hasNoResult = false;
 
-		await _clickHandler.RegisterClickBoundariesAsync(_typeahead.InnerElementReference, OnOutsideClick);
+		await _clickHandler.RegisterClickBoundariesAsync(_typeahead.InnerElementReference, OnOutsideClick, OnInsideClick);
 
-		if(DataSource is null && ShowAllOnEmptyInput && MinLength == 0)
+		await Activate();
+	}
+	private async Task OnOutsideClick(MouseEventArgs e)
+	{
+		WriteDiag($"{nameof(OnOutsideClick)} event button: '{e.Button}'.");
+
+		await _clickHandler.RemoveClickBoundariesAsync(_typeahead.InnerElementReference);
+		if(SelectOnBlur && IsOpen)
 		{
-			WriteDiag($"{nameof(OnFocus)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
+			await ItemSelect(ActiveItem);
+			return;
+		}
+
+		IsOpen = false;
+		StateHasChanged(); //textbox re-rendered but dropdown not
+	}
+	private async Task OnInsideClick(MouseEventArgs e)
+	{
+		WriteDiag($"{nameof(OnInsideClick)} event button: '{e.Button}'.");
+
+		await Activate();
+		StateHasChanged(); //textbox re-rendered but dropdown not
+	}
+
+	private void ItemHover(int index, TItem item)
+	{
+		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}'.");
+		ActiveItem = item;
+	}
+	private async Task ItemClicked(int index, TItem item)
+	{
+		WriteDiag($"{nameof(ItemClicked)} event index: '{index}', item: '{item}'.");
+		ActiveItem = item;
+		await ItemSelect(ActiveItem);
+	}
+
+	private async Task Activate()
+	{
+		if(!IsOpen && DataSource is null && ShowAllOnEmptyInput && MinLength == 0)
+		{
+			WriteDiag($"{nameof(Activate)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}', IsOpen: '{IsOpen}'.");
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;
@@ -383,33 +414,6 @@
 			}
 		}
 	}
-	private async Task OnOutsideClick(MouseEventArgs e)
-	{
-		WriteDiag($"{nameof(OnOutsideClick)} event button: '{e.Button}'.");
-
-		await _clickHandler.RemoveClickBoundariesAsync(_typeahead.InnerElementReference);
-		if(SelectOnBlur && IsOpen)
-		{
-			await ItemSelect(ActiveItem);
-			return;
-		}
-
-		IsOpen = false;
-		StateHasChanged();
-	}
-
-	private void ItemHover(int index, TItem item)
-	{
-		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}'.");
-		ActiveItem = item;
-	}
-	private async Task ItemClicked(int index, TItem item)
-	{
-		WriteDiag($"{nameof(ItemClicked)} event index: '{index}', item: '{item}'.");
-		ActiveItem = item;
-		await ItemSelect(ActiveItem);
-	}
-
 	private async Task ItemSelect(TItem item)
 	{
 		SelectedItem = item;
