@@ -65,6 +65,76 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			return 0;
 		}
 
+		public static async Task<bool> IsElementHiddenAsync(this ElementReference elementReference)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					return await module.InvokeAsync<bool>("isElementHidden", elementReference);
+				}
+			}
+
+			return false;
+		}
+		public static async Task<bool> IsElementHiddenBelowAsync(this ElementReference elementReference)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					return await module.InvokeAsync<bool>("isElementHiddenBelow", elementReference);
+				}
+			}
+
+			return false;
+		}
+		public static async Task<bool> IsElementHiddenAboveAsync(this ElementReference elementReference)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					return await module.InvokeAsync<bool>("isElementHiddenAbove", elementReference);
+				}
+			}
+
+			return false;
+		}
+
+		public static async Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)
+		{
+			await using (var module = await parent.GetJsObject())
+			{
+				if (module is not null)
+				{
+					await module.InvokeVoidAsync("scrollToElementInParent", parent, innerElement);
+				}
+			}
+		}
+
+		public static async Task ScrollInParentByIdAsync(this ElementReference parent, string id)
+		{
+			await using (var module = await parent.GetJsObject())
+			{
+				if (module is not null)
+				{
+					await module.InvokeVoidAsync("scrollInParentById", parent, id);
+				}
+			}
+		}
+
+		public static async Task ScrollInParentByClassAsync(this ElementReference parent, string className)
+		{
+			await using (var module = await parent.GetJsObject())
+			{
+				if (module is not null)
+				{
+					await module.InvokeVoidAsync("scrollInParentByClass", parent, className);
+				}
+			}
+		}
+
 		private static async Task<IJSObjectReference?> GetJsObject(this ElementReference elementReference)
 		{
 			var jsRuntime = elementReference.GetJSRuntime();

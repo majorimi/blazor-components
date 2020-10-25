@@ -350,7 +350,6 @@
 		_div5Log = WriteLog(_div5Log, e);
 		await _log5.ScrollToEndAsync();
 	}
-	
 
 	private ElementReference _div6;
 	private ElementReference _label6;
@@ -394,6 +393,8 @@
 		{
 			_div6Log = WriteLog(_div6Log, item, time);
 		}
+		StateHasChanged();
+		
 		await _log6.ScrollToEndAsync();
 	}
 
