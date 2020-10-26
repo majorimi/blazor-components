@@ -1,4 +1,10 @@
-﻿<h1>Typeahead Input controls</h1>
+﻿<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<h1>Typeahead Input controls</h1>
 <p>
 	Blazor component that renders an HTML Input or InputText with Typeahead panel. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md" target="_blank">Github</a>.
@@ -71,7 +77,6 @@
 							@bind-Value="@_typeaheadInputValue"
 							OnInput="@(text => {_selectedItem = null; _typeaheadInputValue = text;})"
 							TItem="string"
-							OnSelectedItemChanged="@(text => _selectedItem = text)"
 							SelectOnBlur="@_selectOnBlur"
 							ShowAllOnEmptyInput="@_showAllOnEmptyInput"
 							ChangeActiveItemOnHover="@_activeItemOnHover"
@@ -80,8 +85,18 @@
 							FitDropdownWidth="@_fitDropdownWidth"
 							DebounceTime="@_debounceMilisec"
 							MinLength="@_minCharsLength" 
-							AccentColor="@_accentColor" >
+							AccentColor="@_accentColor" 
+							OnSelectedItemChanged="@(text => SelectedItemChanged(text))"
+							OnDropdownOpen="@(() => WriteEventLog("TypeaheadInput: dropdown opened"))"
+							OnDropdownClose="@(() => WriteEventLog("TypeaheadInput: dropdown closed"))">
 			</TypeaheadInput>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Event log</strong>:</label>
+			<textarea @ref="_log1" @bind="_div1Log" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -389,6 +404,20 @@
 	private bool _showAllOnEmptyInput = true;
 	private string _accentColor = "lightgray";
 	private TypeaheadInput<string> _input;
+
+	private ElementReference _log1;
+	private string _div1Log;
+
+	private async Task SelectedItemChanged(string text)
+	{
+		_selectedItem = text;
+		await WriteEventLog("TypeaheadInput: Selected item changed");
+	}
+	private async Task WriteEventLog(string message)
+	{
+		_div1Log += $"{message}{Environment.NewLine}";
+		await _log1.ScrollToEndAsync();
+	}
 
 	//TypeaheadInput2
 	private string _typeaheadInputValue2 = "";
