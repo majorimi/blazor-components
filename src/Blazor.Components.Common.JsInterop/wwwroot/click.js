@@ -1,13 +1,30 @@
 ﻿//Create event handler
 function createEventHandler(dotnetRef, element) {
     let eventCallback = function (e) {
+        let args = {
+            Detail: e.detail,
+            ScreenX: e.screenX,
+            ScreenY: e.screenY,
+            ClientX: e.clientX,
+            ClientY: e.clientY,
+            OffsetX: e.offsetX,
+            OffsetY: e.offsetY,
+            Button: e.button,
+            Buttons: e.buttons,
+            CtrlKey: e.ctrlKey,
+            ShiftKey: e.shiftKey,
+            AltKey: e.altKey,
+            MetaKey: e.metaKey,
+            Type: e.type,
+        };
+
         if (!element.contains(e.target)) {
             //console.log('outside');
-            dotnetRef.invokeMethodAsync("ClickOutside", e);
+            dotnetRef.invokeMethodAsync("ClickOutside", args);
         }
         else {
             //console.log('inside');
-            dotnetRef.invokeMethodAsync("ClickInside", e);
+            dotnetRef.invokeMethodAsync("ClickInside", args);
         }
     }
 
@@ -66,7 +83,7 @@ export function addClickBoundariesHandler(element, dotnetRef) {
 }
 
 export function removeClickBoundariesHandler(element) {
-    if (!element || !dotnetRef) {
+    if (!element) {
         return;
     }
 

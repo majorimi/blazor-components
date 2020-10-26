@@ -1,5 +1,5 @@
 ﻿<style>
-textarea {
+.logText {
 	height: 150px !important;
 }
 </style>
@@ -16,29 +16,93 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Click JS</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> 
+		<strong>Click JS</strong> is a convinient Blazor component which wraps the given ccontent to a DIV and <strong>subscribes</strong> to all 
+		click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources. 
+		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
+		<br />
+		<strong>
+			Blazor supoorts <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when wem need to detect if click
+			happened outside of the component with <code>OnOutsideClick</code>.
+		</strong>
 	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<div class="text-center" @ref="_clickDiv" style="margin-right:auto; margin-left:auto; width:150px; height:80px; background:lightgray;">
+				Inside A
+				<div class="text-center" style="width:150px; height:50px; background:gray;">
+					Inside B
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>click</code></p>
+			<button class="btn btn-primary" @onclick="ClickEventHandler">@(_clickSubscribed ? "Unsubscribe from click" : "Subscribe to click")</button>
+			<br />
+
+			<label><strong>Click boundaries log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Focus JS</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> 
+		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supoorts <code>FocusAsync()</code>
+		which can be used in case <code>ElementReference</code> is available. 
+		<br />
+		<strong>Focus JS is able to identify and restore focus on ANY DOM element without using Blazor <code>@@ref=""</code> tag.</strong> It is useful when focus should be
+		restored on a parent component but element reference not stored or it's on a different component.
 	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-primary">Click to focus</button>
+			<button class="btn btn-primary">Click to focus</button>
+			<button class="btn btn-primary">Click to focus</button>
+
+			<div @onmouseover="StoreFocus" class="w-100 mt-2 text-center font-weight-bold" style="background:red; height:40px;">
+				<h3>Click on ANY focusable elemenet and Hover over to store actul focused element</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-warning" @onclick="RestoreFocus">Restore focus</button>
+			<label class="ml-3 font-weight-bold">@_focusMsg</label>
+		</div>
+	</div>
 </div>
 
-<div class="container-fluid p-3 mb-3 border rounded">
+<div class="container-fluid p-3 mb-3 border rounded" @ref="_infoDiv" @onclick="InfoDivClick">
 	<h3>Element info JS</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> 
+		<strong>Element info JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
 	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>Click on different elments to read out HTML DomRect:</label>
+			<button class="btn btn-primary" @ref="_info1" @onclick="GetInfo1" @onclick:stopPropagation="true">Get element Client rect</button>
+			<button class="btn btn-primary" style="width:300px;" @ref="_info2" @onclick="GetInfo2" @onclick:stopPropagation="true">Get very  <br /> large element <br />Client rect</button>
+
+			<br />
+			<label><strong>Element info</strong>:</label>
+			<textarea @ref="_infoMsg" @onclick="InfoMsgClick" @bind="_infoMessage" @onclick:stopPropagation="true" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Scroll JS</h3>
 	<p>
-		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. Also and injectable <code>IScrollHandler</code> service for non elment level
-		functions and callback event handlers.
+		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
+		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non elment level functions and callback event handlers.
 	</p>
 
 	<div class="row pb-2">
@@ -51,14 +115,13 @@ textarea {
 
 	<hr />
 
-	<p>
-
-	</p>
-
 	<div class="row pb-2">
 		<div class="col-12">
+			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>scroll</code></p>
+			<button class="btn btn-primary" @onclick="ScrollEventHandler">@(_scrollSubscribed ? "Unsubscribe from scroll" : "Subscribe to scroll")</button>
+			<br />
 			<label><strong>Scroll Events log</strong>:</label>
-			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100" readonly></textarea>
+			<textarea @ref="_log2" @bind="_logMessage2" class="form-control w-100 logText" readonly></textarea>
 		</div>
 	</div>
 
@@ -66,7 +129,7 @@ textarea {
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (ttextarea) to element top and bottom</strong>:</label>
+			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (textarea) to element top and bottom</strong>:</label>
 			<br />
 			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToTopAsync())">Scroll to textbox Top</button>
 			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToEndAsync())">Scroll to textbox Bottom</button>
@@ -78,31 +141,119 @@ textarea {
 	<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 </div>
 
+@using System.Text.Json
 @implements IAsyncDisposable
 
 @inject IScrollHandler _scrollHandler
+@inject IFocusHandler _focusHandler
+@inject IClickBoundariesHandler _clichHandler;
 
 @code {
 	private string _scrollEventId = null;
 	protected override async Task OnInitializedAsync()
 	{
-		_scrollEventId = await _scrollHandler.RegisterPageScrollAsync(PageScrolled);
+		await ScrollEventHandler();
+		await ClickEventHandler();
 	}
 
+	//Click examples
+	private ElementReference _log;
+	private ElementReference _clickDiv;
+	private string _logMessage;
+	private bool _clickSubscribed;
+	private async Task ClickEventHandler()
+	{
+		if (_clickSubscribed)
+		{
+			await _clichHandler.RemoveClickBoundariesAsync(_clickDiv);
+		}
+		else
+		{
+			await _clichHandler.RegisterClickBoundariesAsync(_clickDiv,
+			 async (args) => await PageClick(args, "OUSIDE of registered element"),
+			 async (args) => await PageClick(args, "INSIDE of registered element"));
+		}
+
+		_clickSubscribed = !_clickSubscribed;
+	}
+	private async Task PageClick(MouseEventArgs args, string message)
+	{
+		_logMessage += $"Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log.ScrollToEndAsync();
+	}
+
+	//Focus examples
+	private string _focusMsg;
+	private async Task StoreFocus()
+	{
+		await _focusHandler.StoreFocusedElementAsync();
+		_focusMsg = "Focused element stored, click somewhere else and do not hover on RED area.";
+	}	
+	private async Task RestoreFocus()
+	{
+		await _focusHandler.RestoreStoredElementFocusAsync();
+		_focusMsg = "Focus restored to previous element.";
+	}
+
+	//Element info examples
+	private string _infoMessage;
+	private ElementReference _info1;
+	private ElementReference _info2;
+	private ElementReference _infoMsg;
+	private ElementReference _infoDiv;
+	private async Task GetInfo1()
+	{
+		var info = await _info1.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task GetInfo2()
+	{
+		var info = await _info2.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task InfoMsgClick()
+	{
+		var info = await _infoMsg.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task InfoDivClick()
+	{
+		var info = await _infoDiv.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+
+	//Scroll examples
 	private ElementReference _scrollToView;
 	private async Task ScrollToView()
 	{
 		await _scrollToView.ScrollToElementAsync();
 	}
 
-	private ElementReference _log;
-	private string _logMessage;
+	private ElementReference _log2;
+	private string _logMessage2;
 	private async Task PageScrolled(ScrollEventArgs args)
 	{
-		_logMessage += $"Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
+		_logMessage2 += $"Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
 		StateHasChanged();
 
-		await _log.ScrollToEndAsync();
+		await _log2.ScrollToEndAsync();
+	}
+
+	private bool _scrollSubscribed = false;
+	private async Task ScrollEventHandler()
+	{
+		if (_scrollSubscribed)
+		{
+			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
+		}
+		else
+		{
+			_scrollEventId = await _scrollHandler.RegisterPageScrollAsync(PageScrolled);
+		}
+
+		_scrollSubscribed = !_scrollSubscribed;
 	}
 
 	public async ValueTask DisposeAsync()
@@ -111,6 +262,16 @@ textarea {
 		{
 			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
 			await _scrollHandler.DisposeAsync();
+		}
+
+		if(_focusHandler is not null)
+		{
+			await _focusHandler.DisposeAsync();
+		}
+
+		if(_clichHandler is not null)
+		{
+			await _clichHandler.DisposeAsync();
 		}
 	}
 }
