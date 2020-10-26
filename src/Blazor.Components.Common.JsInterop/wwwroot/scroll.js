@@ -70,12 +70,17 @@ export function scrollToTop(element) {
         element.scrollTop = 0;
     }
 }
-export function scrollTo(element, x) {
+export function scrollToX(element, x) {
     if (element && typeof element.hasOwnProperty("scrollTop")) {
         element.scrollTop = x;
     }
 }
-export function getScrollPosition(element, x) {
+export function scrollToY(element, y) {
+    if (element && typeof element.hasOwnProperty("scrollLeft")) {
+        element.scrollLeft = y;
+    }
+}
+export function getScrollPosition(element) {
     if (element && typeof element.hasOwnProperty("scrollHeight")) {
         return element.scrollTop;
     }
@@ -95,41 +100,102 @@ export function scrollToPageX(x) {
     document.body.scrollTop = x;
     document.documentElement.scrollTop = x;
 }
-export function getPageScrollXPosition() {
-    return document.documentElement.scrollTop;
+export function scrollToPageY(y) {
+    document.body.scrollLeft = y;
+    document.documentElement.scrollLeft = y;
+}
+export function getPageScrollPosition() {
+    let top = window.pageYOffset || document.documentElement.scrollTop;
+    let left = window.pageXOffset || document.documentElement.scrollLeft;
+
+    let args = {
+        X: top,
+        Y: left
+    };
+
+    return args;
 }
 
-let _eventSubscribedCount = 0;
-let _pageScrollEventHandler = null;
-export function addScrollEvent(dotnetRef) {
-    //window.addEventListener("scroll", function (event) {
-    //    var top = this.scrollY,
-    //        left = this.scrollX;
-    //}, false);
-
-    _eventSubscribedCount++;
-    if (_pageScrollEventHandler) {
-        return; //Already subscribed
-    }
-
-    createScrollEventHandler(dotnetRef);
-    window.addEventListener("scroll", _pageScrollEventHandler, false);
-}
-export function removeScrollEvent() {
-    _eventSubscribedCount--;
-
-    if (_eventSubscribedCount <= 0) {
-        window.removeEventListener("scroll", _pageScrollEventHandler, false);
-        _pageScrollEventHandler = null;
-    }
-}
+//HTLM page scroll events
 function createScrollEventHandler(dotnetRef) {
-    _pageScrollEventHandler = function (event) {
-        let e = {
-            X: this.scrollX,
-            Y: this.scrollY
+    let eventHandler = function (event) {
+        let top = window.pageYOffset || document.documentElement.scrollTop;
+        let left = window.pageXOffset || document.documentElement.scrollLeft;
+
+        let args = {
+            X: top,
+            Y: left
         };
 
-        dotnetRef.invokeMethodAsync("PageScroll", e);
+        dotnetRef.invokeMethodAsync("PageScroll", args);
+    }
+
+    return eventHandler;
+}
+
+//Store eventId with event
+function storeEventHandler(dict, eventId, eventCallback) {
+    let elementFound = false;
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === eventId) {
+            elementFound = true;
+            break;
+        }
+    }
+
+    if (!elementFound) {
+        dict.push({
+            key: eventId,
+            handler: eventCallback
+        });
+    }
+}
+//Remove eventId with event
+function removeAndReturnEventHandler(dict, eventId) {
+    let eventCallback;
+
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === eventId) {
+            eventCallback = dict[i].handler; //associate callback
+            dict.splice(i, 1);
+            break;
+        }
+    }
+
+    return eventCallback;
+}
+
+let _scrollkHandlerDict = [];
+
+export function addScrollEvent(dotnetRef, eventId) {
+    if (!dotnetRef || !eventId ) {
+        return;
+    }
+
+    let scrollHandler = createScrollEventHandler(dotnetRef);
+    storeEventHandler(_scrollkHandlerDict, eventId, scrollHandler);
+
+    window.addEventListener("scroll", scrollHandler, false);
+}
+
+export function removeScrollEvent(eventId) {
+    if (!eventId) {
+        return;
+    }
+
+    let eventCallback = removeAndReturnEventHandler(_scrollkHandlerDict, eventId);
+
+    if (!eventCallback) {
+        return; //No event handler found
+    }
+
+    window.removeEventListener("scroll", eventCallback, false);
+}
+
+export function dispose(eventIdArray) {
+    if (eventIdArray) {
+        for (var i = 0; i < eventIdArray.length; i++) {
+            removeScrollEvent(eventIdArray[i]);
+        }
     }
 }

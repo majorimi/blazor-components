@@ -1,10 +1,116 @@
-﻿<h1>Js Interop controls and extensions</h1>
+﻿<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<h1>Js Interop controls and extensions</h1>
 <p>
-	Blazor component that provides useful functionality which can be achieved only with Js Interop. For usege see soruce code and docs on
+	Blazor components and extensions that provide useful functionality which can be achieved only with Js Interop. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
 
-@code {
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Click JS</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> 
+	</p>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Focus JS</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> 
+	</p>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Element info JS</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> 
+	</p>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Scroll JS</h3>
+	<p>
+		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. Also and injectable <code>IScrollHandler</code> service for non elment level
+		functions and callback event handlers.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong><code>ScrollToElementAsync()</code> will scroll the given <code>ElementReference</code> (Button) to the visible aarea</strong>:</label>
+			<br />
+			<button class="btn btn-primary" @ref="_scrollToView" @onclick="ScrollToView">Scroll to view</button>
+		</div>
+	</div>
+
+	<hr />
+
+	<p>
+
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Scroll Events log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (ttextarea) to element top and bottom</strong>:</label>
+			<br />
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToTopAsync())">Scroll to textbox Top</button>
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToEndAsync())">Scroll to textbox Bottom</button>
+		</div>
+	</div>
+	
+	<hr />
+
+	<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+</div>
+
+@implements IAsyncDisposable
+
+@inject IScrollHandler _scrollHandler
+
+@code {
+	private string _scrollEventId = null;
+	protected override async Task OnInitializedAsync()
+	{
+		_scrollEventId = await _scrollHandler.RegisterPageScrollAsync(PageScrolled);
+	}
+
+	private ElementReference _scrollToView;
+	private async Task ScrollToView()
+	{
+		await _scrollToView.ScrollToElementAsync();
+	}
+
+	private ElementReference _log;
+	private string _logMessage;
+	private async Task PageScrolled(ScrollEventArgs args)
+	{
+		_logMessage += $"Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log.ScrollToEndAsync();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_scrollHandler is not null)
+		{
+			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
+			await _scrollHandler.DisposeAsync();
+		}
+	}
 }

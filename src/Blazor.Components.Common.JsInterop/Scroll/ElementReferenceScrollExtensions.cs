@@ -41,13 +41,24 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
-		public static async Task ScrollToAsync(this ElementReference elementReference, double xPos)
+		public static async Task ScrollToXAsync(this ElementReference elementReference, double xPos)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollTo", elementReference, xPos);
+					await module.InvokeVoidAsync("scrollToX", elementReference, xPos);
+				}
+			}
+		}
+
+		public static async Task ScrollToYAsync(this ElementReference elementReference, double yPos)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					await module.InvokeVoidAsync("scrollToY", elementReference, yPos);
 				}
 			}
 		}

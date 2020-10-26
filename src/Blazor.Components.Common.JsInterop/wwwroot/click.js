@@ -49,6 +49,10 @@ function removeAndReturnEventHandler(dict, element) {
 let _clickHandlerDict = [];
 
 export function addClickBoundariesHandler(element, dotnetRef) {
+    if (!element || !dotnetRef) {
+        return;
+    }
+
     for (let i = 0; i < _clickHandlerDict.length; i++) {
         if (_clickHandlerDict[i].key === element) {
             return; //Click already registered for this element..
@@ -62,6 +66,10 @@ export function addClickBoundariesHandler(element, dotnetRef) {
 }
 
 export function removeClickBoundariesHandler(element) {
+    if (!element || !dotnetRef) {
+        return;
+    }
+
     let eventCallback = removeAndReturnEventHandler(_clickHandlerDict, element);
 
     if (!eventCallback) {
