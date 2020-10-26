@@ -59,6 +59,9 @@
 }
 
 <style>
+.list[id=@($"_typeahead_{_componentId}")] .list-item:hover {
+	background-color: rgba(@AccentColor, 0.33);
+}
 .list[id=@($"_typeahead_{_componentId}")] .list-item.active {
 	background-color: rgb(@AccentColor) !important;
 }
@@ -182,8 +185,10 @@
 	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
 	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; } //When TItem is not string
 
+	//Behaviors
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
+	[Parameter] public bool ChangeActiveItemOnHover { get; set; } = true;
 
 	private string _accentColor = "230, 230, 230";//gray
 	[Parameter] 
@@ -383,8 +388,11 @@
 
 	private void ItemHover(int index, TItem item)
 	{
-		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}'.");
-		ActiveItem = item;
+		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}', ChangeActiveItemOnHover: {ChangeActiveItemOnHover}.");
+		if(ChangeActiveItemOnHover)
+		{
+			ActiveItem = item;
+		}
 	}
 	private async Task ItemClicked(int index, TItem item)
 	{

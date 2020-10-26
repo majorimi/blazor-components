@@ -39,7 +39,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Typeahead dropdown height (0 is auto): @(_dropdownHeight == 0 ? "auto" : $"{_dropdownHeight}px")
-			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight" @oninput="(e => _dropdownHeight = int.Parse(e.Value?.ToString()))" />
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight" @oninput="(e => _dropdownHeight = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -50,6 +50,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover"/>
 			<br/>
 			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
 			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput" disabled="@(_minCharsLength > 0 ? true : false)"/>
@@ -73,6 +74,7 @@
 							OnSelectedItemChanged="@(text => _selectedItem = text)"
 							SelectOnBlur="@_selectOnBlur"
 							ShowAllOnEmptyInput="@_showAllOnEmptyInput"
+							ChangeActiveItemOnHover="@_activeItemOnHover"
 							DropdownHeight="@_dropdownHeight"
 							DropdownWidth="@_dropdownWitdth"
 							FitDropdownWidth="@_fitDropdownWidth"
@@ -118,7 +120,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Typeahead dropdown height (0 is auto): @(_dropdownHeight2 == 0 ? "auto" : $"{_dropdownHeight2}px")
-			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight2" @oninput="(e => _dropdownHeight2 = int.Parse(e.Value?.ToString()))" />
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight2" @oninput="(e => _dropdownHeight2 = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -129,6 +131,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur2"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover2"/>
 			<br/>
 			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
 			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput2" disabled="@(_minCharsLength2 > 0 ? true : false)"/>
@@ -153,6 +156,7 @@
 							OnSelectedItemChanged="@(text => _selectedItem2 = text)"
 							SelectOnBlur="@_selectOnBlur2"
 							ShowAllOnEmptyInput="@_showAllOnEmptyInput2"
+							ChangeActiveItemOnHover="@_activeItemOnHover2"
 							DropdownHeight="@_dropdownHeight2"
 							DropdownWidth="@_dropdownWitdth2"
 							FitDropdownWidth="@_fitDropdownWidth2"
@@ -201,7 +205,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Typeahead dropdown height (0 is auto): @(_dropdownHeight3 == 0 ? "auto" : $"{_dropdownHeight3}px")
-			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight3" @oninput="(e => _dropdownHeight3 = int.Parse(e.Value?.ToString()))" />
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight3" @oninput="(e => _dropdownHeight3 = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -212,6 +216,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur3"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover3"/>
 			<br/>
 			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
 			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput3" disabled="@(_minCharsLength3 > 0 ? true : false)"/>
@@ -236,6 +241,7 @@
 							OnSelectedItemChanged="@(text => _selectedItem3 = text)"
 							SelectOnBlur="@_selectOnBlur3"
 							ShowAllOnEmptyInput="@_showAllOnEmptyInput3"
+							ChangeActiveItemOnHover="@_activeItemOnHover3"
 							DropdownHeight="@_dropdownHeight3"
 							DropdownWidth="@_dropdownWitdth3"
 							FitDropdownWidth="@_fitDropdownWidth3"
@@ -292,7 +298,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Typeahead dropdown height (0 is auto): @(_dropdownHeight4 == 0 ? "auto" : $"{_dropdownHeight4}px")
-			<input type="range" class="w-100" min="0" max="300" @bind="_dropdownHeight4" @oninput="(e => _dropdownHeight4 = int.Parse(e.Value?.ToString()))" />
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight4" @oninput="(e => _dropdownHeight4 = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -303,6 +309,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur4"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover4"/>
 			<br/>
 			Show all Data on empty input (<strong>Ignored in this example but empty string notification can be used to return all data</strong>): 
 			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput4" disabled="disabled"/>
@@ -338,6 +345,7 @@
 							OnSelectedItemChanged="@(text => _selectedItem4 = text)"
 							SelectOnBlur="@_selectOnBlur4"
 							ShowAllOnEmptyInput="@_showAllOnEmptyInput4"
+							ChangeActiveItemOnHover="@_activeItemOnHover4"
 							DropdownHeight="@_dropdownHeight4"
 							DropdownWidth="@_dropdownWitdth4"
 							FitDropdownWidth="@_fitDropdownWidth4"
@@ -374,9 +382,10 @@
 	private int _debounceMilisec = 0;
 	private int _minCharsLength = 0;
 	private bool _fitDropdownWidth = true;
-	private int _dropdownHeight = 150;
+	private int _dropdownHeight = 200;
 	private int _dropdownWitdth = 0;
 	private bool _selectOnBlur = true;
+	private bool _activeItemOnHover = true;
 	private bool _showAllOnEmptyInput = true;
 	private string _accentColor = "lightgray";
 	private TypeaheadInput<string> _input;
@@ -387,9 +396,10 @@
 	private int _debounceMilisec2 = 0;
 	private int _minCharsLength2 = 0;
 	private bool _fitDropdownWidth2 = true;
-	private int _dropdownHeight2 = 150;
+	private int _dropdownHeight2 = 200;
 	private int _dropdownWitdth2 = 0;
 	private bool _selectOnBlur2 = true;
+	private bool _activeItemOnHover2 = true;
 	private bool _showAllOnEmptyInput2 = true;
 	private string _accentColor2 = "#72acf2";
 	private TypeaheadInput<StatesWithFlags> _input2;
@@ -400,9 +410,10 @@
 	private int _debounceMilisec3 = 0;
 	private int _minCharsLength3 = 0;
 	private bool _fitDropdownWidth3 = true;
-	private int _dropdownHeight3 = 150;
+	private int _dropdownHeight3 = 200;
 	private int _dropdownWitdth3 = 0;
 	private bool _selectOnBlur3 = true;
+	private bool _activeItemOnHover3 = true;
 	private bool _showAllOnEmptyInput3 = true;
 	private string _accentColor3 = "LightYellow";
 	private TypeaheadInput<StatesWithFlags> _input3;
@@ -413,9 +424,10 @@
 	private int _debounceMilisec4 = 400;
 	private int _minCharsLength4 = 0;
 	private bool _fitDropdownWidth4 = true;
-	private int _dropdownHeight4 = 150;
+	private int _dropdownHeight4 = 200;
 	private int _dropdownWitdth4 = 0;
 	private bool _selectOnBlur4 = true;
+	private bool _activeItemOnHover4 = true;
 	private bool _showAllOnEmptyInput4 = true;
 	private string _accentColor4 = "224, 122, 114";
 	private TypeaheadInput<StatesWithFlags> _input4;
