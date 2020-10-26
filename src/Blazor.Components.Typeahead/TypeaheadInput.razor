@@ -118,6 +118,7 @@
 		}
 	}
 
+	private ElementReference _dropDown;
 	private bool _hasNoResult = false;
 	private bool _isSearching = false;
 	private DebounceInput _typeahead;
@@ -132,8 +133,6 @@
 			_activeItem = value;
 		}
 	}
-
-	private ElementReference _dropDown;
 
 	//Values
 	private string _value;
@@ -179,6 +178,7 @@
 			}
 		}
 	}
+	//[Parameter] public IEnumerable<TItem> SelectedItems {get; set; }
 
 	//Data
 	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
@@ -189,6 +189,7 @@
 	[Parameter] public bool SelectOnBlur { get; set; } = true;
 	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
 	[Parameter] public bool ChangeActiveItemOnHover { get; set; } = true;
+	//[Parameter] public bool MultiSelect { get; set; } = false;
 
 	private string _accentColor = "230, 230, 230";//gray
 	[Parameter] 
@@ -307,7 +308,7 @@
 		{
 			if (IsOpen)
 			{
-				await ItemSelect(ActiveItem);
+				await SelectItem(ActiveItem);
 			}
 		}
 		else if (e.Key?.Equals("ArrowDown", StringComparison.OrdinalIgnoreCase) ?? false)
@@ -371,7 +372,7 @@
 		await _clickHandler.RemoveClickBoundariesAsync(_typeahead.InnerElementReference);
 		if(SelectOnBlur && IsOpen)
 		{
-			await ItemSelect(ActiveItem);
+			await SelectItem(ActiveItem);
 			return;
 		}
 
@@ -398,7 +399,7 @@
 	{
 		WriteDiag($"{nameof(ItemClicked)} event index: '{index}', item: '{item}'.");
 		ActiveItem = item;
-		await ItemSelect(ActiveItem);
+		await SelectItem(ActiveItem);
 	}
 
 	private async Task Activate()
@@ -422,7 +423,7 @@
 			}
 		}
 	}
-	private async Task ItemSelect(TItem item)
+	private async Task SelectItem(TItem item)
 	{
 		SelectedItem = item;
 		Value = GetItemText(item);
