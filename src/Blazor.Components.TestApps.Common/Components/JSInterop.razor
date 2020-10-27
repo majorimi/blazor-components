@@ -16,12 +16,13 @@
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Click JS</h3>
 	<p>
-		<strong>Click JS</strong> is a convinient Blazor component which wraps the given ccontent to a DIV and <strong>subscribes</strong> to all 
+		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
+		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
 		click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources. 
 		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
 		<br />
 		<strong>
-			Blazor supoorts <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when wem need to detect if click
+			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when wem need to detect if click
 			happened outside of the component with <code>OnOutsideClick</code>.
 		</strong>
 	</p>
@@ -52,7 +53,7 @@
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Focus JS</h3>
 	<p>
-		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supoorts <code>FocusAsync()</code>
+		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
 		which can be used in case of <code>ElementReference</code> is available. 
 		<br />
 		<strong>Focus JS is able to identify and restore focus on ANY DOM element without using Blazor <code>@@ref=""</code> tag.</strong> It is useful when focus should be
@@ -87,7 +88,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<label>Click on different elments to read out HTML DomRect:</label>
+			<label>Click on different elements to read out HTML DomRect:</label>
 			<button class="btn btn-primary" @ref="_info1" @onclick="GetInfo1" @onclick:stopPropagation="true">Get element Client rect</button>
 			<button class="btn btn-primary" style="width:300px;" @ref="_info2" @onclick="GetInfo2" @onclick:stopPropagation="true">Get very  <br /> large element <br />Client rect</button>
 
@@ -102,7 +103,7 @@
 	<h3>Scroll JS</h3>
 	<p>
 		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
-		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non elment level functions and callback event handlers.
+		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
 	</p>
 
 	<div class="row pb-2">

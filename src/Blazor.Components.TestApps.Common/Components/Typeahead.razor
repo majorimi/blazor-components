@@ -14,7 +14,7 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
 		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
 	</p>
@@ -104,7 +104,7 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. <code>NoResultContent</code> template was provided. 
 		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
 	</p>
@@ -189,7 +189,7 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property and custom template</h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property with custom item template. 
 		Typeahead will use default case insesitive string contains search. Since search algorithm is known but Item disploy content overridden matched text will not be highlighted.
 	</p>
@@ -280,7 +280,7 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead async custom search method set to <code>DataSource</code> property as <code>@("Func<string, Task<IEnumerable<StatesWithFlags>>>")</code></h3>
 	<p>
-		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
 		This example uses async (real time loaded data e.g. HTTP request result) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>DataSource</code> property. 
 		<code>NoResultContent</code> and <code>InProgressContent</code> templates were provided. 
 		Typeahead will call defined async Func with the user inputted. Since search algorithm defined in <code>DataSource</code> matched strings won't be highlighted.
@@ -381,7 +381,7 @@ textarea {
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Typeahead Blazor ImputText with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
 	<p>
-		Wraps around <strong>Blazor InputText</strong> control which enabled form validation and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		Wraps around <strong>Blazor InputText</strong> control which enabled form validation and adds Typeahead control with optional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
 		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
 	</p>
