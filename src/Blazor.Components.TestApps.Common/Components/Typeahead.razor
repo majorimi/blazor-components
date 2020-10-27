@@ -12,7 +12,7 @@ textarea {
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead static <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
@@ -102,7 +102,7 @@ textarea {
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead static <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property</h3>
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property</h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. <code>NoResultContent</code> template was provided. 
@@ -187,7 +187,7 @@ textarea {
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Typeahead static <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property and custom template</h3>
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property and custom template</h3>
 	<p>
 		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with potentional debounce (delay) and minimal required chars.
 		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property with custom item template. 
@@ -378,6 +378,101 @@ textarea {
 	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead Blazor ImputText with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
+	<p>
+		Wraps around <strong>Blazor InputText</strong> control which enabled form validation and adds Typeahead control with potentional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec5 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec5" @oninput="(e => _debounceMilisec5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength5
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength5" @oninput="(e => _minCharsLength5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth5"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth5 == 0 ? "auto" : $"{_dropdownWitdth5}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth5" disabled="@(_fitDropdownWidth5)" @oninput="(e => _dropdownWitdth5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight5 == 0 ? "auto" : $"{_dropdownHeight5}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight5" @oninput="(e => _dropdownHeight5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor5" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur5"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover5"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput5" disabled="@(_minCharsLength5 > 0 ? true : false)"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem5 != null ? _selectedItem5 : exampleModel.State)</strong>"
+		</div>
+	</div>
+	<hr />
+
+	<EditForm Model="@exampleModel">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Name: <InputText class="form-control w-100" @bind-Value="exampleModel.Name" />
+				State: <TypeaheadInputText id="in5" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength5 + " char(s)")"
+								@ref="_input5"
+								Data="@_testData.Select(x => x.Name)"
+								@bind-Value="@exampleModel.State"
+								OnInput="@(text => {_selectedItem = null; exampleModel.State = text;})"
+								TItem="string"
+								OnSelectedItemChanged="@(text => _selectedItem5 = text)"
+								SelectOnBlur="@_selectOnBlur5"
+								ShowAllOnEmptyInput="@_showAllOnEmptyInput5"
+								ChangeActiveItemOnHover="@_activeItemOnHover5"
+								DropdownHeight="@_dropdownHeight5"
+								DropdownWidth="@_dropdownWitdth5"
+								FitDropdownWidth="@_fitDropdownWidth5"
+								DebounceTime="@_debounceMilisec5"
+								MinLength="@_minCharsLength5" 
+								AccentColor="@_accentColor5" >
+					<NoResultContent>
+						<i class="fa fa-times"></i> No Results Found
+					</NoResultContent>
+				</TypeaheadInputText>
+			</div>
+		</div>
+
+		<div class="pb-2">
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</div>
+	</EditForm>
+
+</div>
+
 @*Placeholder*@
 <div style="margin:250px;"></div>
 
@@ -488,6 +583,32 @@ textarea {
 		}
 	}
 
+	//TypeaheadInputText
+	private string _selectedItem5;
+	private int _debounceMilisec5 = 0;
+	private int _minCharsLength5 = 0;
+	private bool _fitDropdownWidth5 = true;
+	private int _dropdownHeight5 = 200;
+	private int _dropdownWitdth5 = 0;
+	private bool _selectOnBlur5 = true;
+	private bool _activeItemOnHover5 = true;
+	private bool _showAllOnEmptyInput5 = true;
+	private string _accentColor5 = "MediumSeaGreen";
+	private TypeaheadInputText<string> _input5;
+
+	//Form model
+	private ExampleModel exampleModel = new ExampleModel() { Name = "" };
+	public class ExampleModel
+	{
+		[Required]
+		[StringLength(20, ErrorMessage = "Name is too long.")]
+		public string Name { get; set; }
+
+		[Required]
+		public string State { get; set; }
+	}
+
+	//Common Data
 	private class StatesWithFlags
 	{
 		public string Name { get; set; }

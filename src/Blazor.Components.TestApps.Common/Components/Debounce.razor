@@ -1,6 +1,4 @@
-﻿@using System.ComponentModel.DataAnnotations;
-
-<h1>Deboudnce Input controls</h1>
+﻿<h1>Deboudnce Input controls</h1>
 <p>
 	Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md" target="_blank">Github</a>.
@@ -79,7 +77,6 @@
 
 	<div>Last Notified value: @_debounceInputTextValue</div>
 	<div>Actual value: @(exampleModel.Name)</div>
-	@*<input type="button" class="btn btn-primary" value="Read out actual value" @onclick="(_ => { exampleModel.Name = inputText1.Value; })" />*@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">

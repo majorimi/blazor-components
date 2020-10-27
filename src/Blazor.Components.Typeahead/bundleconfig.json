@@ -4,5 +4,11 @@
     "inputFiles": [
       "TypeaheadInput.razor.css"
     ]
+  },
+  {
+    "outputFileName": "TypeaheadInputText.razor.min.css",
+    "inputFiles": [
+      "TypeaheadInputText.razor.css"
+    ]
   }
 ]
