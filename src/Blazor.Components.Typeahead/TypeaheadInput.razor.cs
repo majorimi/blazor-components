@@ -21,11 +21,6 @@ namespace Blazor.Components.Typeahead
 	{
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
-			if (!AdditionalAttributes.ContainsKey("autocomplete"))
-			{
-				AdditionalAttributes.Add("autocomplete", "off");
-			}
-
 			_rect = await _typeahead.InnerElementReference.GetClientRectAsync();
 
 			if (firstRender)
