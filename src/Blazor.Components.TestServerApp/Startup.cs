@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Blazor.Components.CssEvents;
+using Blazor.Components.Common.JsInterop;
 
 namespace Blazor.Components.TestServerApp
 {
@@ -27,6 +28,7 @@ namespace Blazor.Components.TestServerApp
 			services.AddServerSideBlazor();
 
 			services.AddCssEvents();
+			services.AddJsInteropExtensions();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

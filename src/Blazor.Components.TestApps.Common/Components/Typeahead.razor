@@ -1,0 +1,618 @@
+﻿<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<h1>Typeahead Input controls</h1>
+<p>
+	Blazor component that renders an HTML Input or InputText with Typeahead panel. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Typeahead</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec" @oninput="(e => _debounceMilisec = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength" @oninput="(e => _minCharsLength = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth == 0 ? "auto" : $"{_dropdownWitdth}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth" disabled="@(_fitDropdownWidth)" @oninput="(e => _dropdownWitdth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight == 0 ? "auto" : $"{_dropdownHeight}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight" @oninput="(e => _dropdownHeight = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput" disabled="@(_minCharsLength > 0 ? true : false)"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem ?? _typeaheadInputValue)</strong>"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in1" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength + " char(s)")"
+							@ref="_input"
+							Data="@_testData.Select(x => x.Name)"
+							@bind-Value="@_typeaheadInputValue"
+							OnInput="@(text => {_selectedItem = null; _typeaheadInputValue = text;})"
+							TItem="string"
+							SelectOnBlur="@_selectOnBlur"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput"
+							ChangeActiveItemOnHover="@_activeItemOnHover"
+							DropdownHeight="@_dropdownHeight"
+							DropdownWidth="@_dropdownWitdth"
+							FitDropdownWidth="@_fitDropdownWidth"
+							DebounceTime="@_debounceMilisec"
+							MinLength="@_minCharsLength" 
+							AccentColor="@_accentColor" 
+							OnSelectedItemChanged="@(text => SelectedItemChanged(text))"
+							OnDropdownOpen="@(() => WriteEventLog("TypeaheadInput: dropdown opened"))"
+							OnDropdownClose="@(() => WriteEventLog("TypeaheadInput: dropdown closed"))">
+			</TypeaheadInput>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Event log</strong>:</label>
+			<textarea @ref="_log1" @bind="_div1Log" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property. <code>NoResultContent</code> template was provided. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec2 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec2" @oninput="(e => _debounceMilisec2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength2
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength2" @oninput="(e => _minCharsLength2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth2"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth2 == 0 ? "auto" : $"{_dropdownWitdth2}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth2" disabled="@(_fitDropdownWidth2)" @oninput="(e => _dropdownWitdth2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight2 == 0 ? "auto" : $"{_dropdownHeight2}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight2" @oninput="(e => _dropdownHeight2 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor2" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur2"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover2"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput2" disabled="@(_minCharsLength2 > 0 ? true : false)"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem2 != null ? JsonSerializer.Serialize(_selectedItem2) : _typeaheadInputValue2)</strong>"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in2" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength2 + " char(s)")"
+							@ref="_input2"
+							Data="@_testData"
+							LabelPropertySelector="x => x.Name"
+							@bind-Value="@_typeaheadInputValue2"
+							OnInput="@(text => {_selectedItem2 = null; _typeaheadInputValue2 = text;})"
+							TItem="StatesWithFlags"
+							OnSelectedItemChanged="@(text => _selectedItem2 = text)"
+							SelectOnBlur="@_selectOnBlur2"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput2"
+							ChangeActiveItemOnHover="@_activeItemOnHover2"
+							DropdownHeight="@_dropdownHeight2"
+							DropdownWidth="@_dropdownWitdth2"
+							FitDropdownWidth="@_fitDropdownWidth2"
+							DebounceTime="@_debounceMilisec2"
+							MinLength="@_minCharsLength2" 
+							AccentColor="@_accentColor2" >
+				<NoResultContent>
+					<i class="fa fa-times"></i> No Results Found
+				</NoResultContent>
+			</TypeaheadInput>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead with pre-loaded <code>@("IEnumerable<StatesWithFlags>")</code> data set to <code>Data</code> property and custom template</h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>Data</code> property with custom item template. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is known but Item disploy content overridden matched text will not be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec3 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec3" @oninput="(e => _debounceMilisec3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength3
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength3" @oninput="(e => _minCharsLength3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth3"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth3 == 0 ? "auto" : $"{_dropdownWitdth3}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth3" disabled="@(_fitDropdownWidth3)" @oninput="(e => _dropdownWitdth3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight3 == 0 ? "auto" : $"{_dropdownHeight3}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight3" @oninput="(e => _dropdownHeight3 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor3" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur3"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover3"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput3" disabled="@(_minCharsLength3 > 0 ? true : false)"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem3 != null ? JsonSerializer.Serialize(_selectedItem3) : _typeaheadInputValue3)</strong>"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in3" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength3 + " char(s)")"
+							@ref="_input3"
+							Data="@_testData"
+							LabelPropertySelector="x => x.Name"
+							@bind-Value="@_typeaheadInputValue3"
+							OnInput="@(text => {_selectedItem3 = null; _typeaheadInputValue3 = text;})"
+							TItem="StatesWithFlags"
+							OnSelectedItemChanged="@(text => _selectedItem3 = text)"
+							SelectOnBlur="@_selectOnBlur3"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput3"
+							ChangeActiveItemOnHover="@_activeItemOnHover3"
+							DropdownHeight="@_dropdownHeight3"
+							DropdownWidth="@_dropdownWitdth3"
+							FitDropdownWidth="@_fitDropdownWidth3"
+							DebounceTime="@_debounceMilisec3"
+							MinLength="@_minCharsLength3" 
+							AccentColor="@_accentColor3" >
+				<NoResultContent>
+					<i class="fa fa-times"></i> No Results Found
+				</NoResultContent>
+				<ItemTemplate>
+					<div>
+						<img src="@($"http://upload.wikimedia.org/wikipedia/commons/thumb/{context.Flag}")" class="mb-1 mr-2" width="16"/> 
+						<label>@context.Name</label> 
+					</div>
+				</ItemTemplate>
+			</TypeaheadInput>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead async custom search method set to <code>DataSource</code> property as <code>@("Func<string, Task<IEnumerable<StatesWithFlags>>>")</code></h3>
+	<p>
+		Wraps around <strong>HTML Input</strong> control and adds Typeahead control with optional debounce (delay) and minimal required chars.
+		This example uses async (real time loaded data e.g. HTTP request result) data as <code>@("IEnumerable<StatesWithFlags>")</code> passed into <code>DataSource</code> property. 
+		<code>NoResultContent</code> and <code>InProgressContent</code> templates were provided. 
+		Typeahead will call defined async Func with the user inputted. Since search algorithm defined in <code>DataSource</code> matched strings won't be highlighted.
+		<strong><code>Data</code> and <code>ShowAllOnEmptyInput</code> will be ignored!</strong>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec4 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec4" @oninput="(e => _debounceMilisec4 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength4
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength4" @oninput="(e => _minCharsLength4 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth4"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth4 == 0 ? "auto" : $"{_dropdownWitdth4}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth4" disabled="@(_fitDropdownWidth4)" @oninput="(e => _dropdownWitdth4 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight4 == 0 ? "auto" : $"{_dropdownHeight4}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight4" @oninput="(e => _dropdownHeight4 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor4" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur4"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover4"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored in this example but empty string notification can be used to return all data</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput4" disabled="disabled"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Custom Search type: <select class="form-control selectpicker w-100" @bind="_searchType">
+				@foreach (var item in Enum.GetValues(typeof(SearchTypes)))
+				{
+				<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem4 != null ? JsonSerializer.Serialize(_selectedItem4) : _typeaheadInputValue4)</strong>"
+		</div>
+	</div>
+	
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<TypeaheadInput id="in4" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength4 + " char(s)")"
+							@ref="_input4"
+							DataSource="query => Search(query)"
+							LabelPropertySelector="x => x.Name"
+							@bind-Value="@_typeaheadInputValue4"
+							OnInput="@(text => {_selectedItem4 = null; _typeaheadInputValue4 = text;})"
+							TItem="StatesWithFlags"
+							OnSelectedItemChanged="@(text => _selectedItem4 = text)"
+							SelectOnBlur="@_selectOnBlur4"
+							ShowAllOnEmptyInput="@_showAllOnEmptyInput4"
+							ChangeActiveItemOnHover="@_activeItemOnHover4"
+							DropdownHeight="@_dropdownHeight4"
+							DropdownWidth="@_dropdownWitdth4"
+							FitDropdownWidth="@_fitDropdownWidth4"
+							DebounceTime="@_debounceMilisec4"
+							MinLength="@_minCharsLength4" 
+							AccentColor="@_accentColor4" >
+				<NoResultContent>
+					<i class="fa fa-times"></i> No Results Found
+				</NoResultContent>
+				<InProgressContent>
+					<i class="fa fa-spinner fa-pulse"></i> Searching...
+				</InProgressContent>
+			</TypeaheadInput>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Typeahead Blazor ImputText with pre-loaded <code>@("IEnumerable<string>")</code> data set to <code>Data</code> property</h3>
+	<p>
+		Wraps around <strong>Blazor InputText</strong> control which enabled form validation and adds Typeahead control with optional debounce (delay) and minimal required chars.
+		This example uses sync (pre-loaded) data as <code>@("IEnumerable<string>")</code> passed into <code>Data</code> property. 
+		Typeahead will use default case insesitive string contains search. Since search algorithm is well known results matched strings will be highlighted.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Debounce time: @_debounceMilisec5 ms.
+			<input class="w-100" type="range" min="0" max="2000" @bind="_debounceMilisec5" @oninput="(e => _debounceMilisec5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Min required chars: @_minCharsLength5
+			<input class="w-100" type="range" min="0" max="10" @bind="_minCharsLength5" @oninput="(e => _minCharsLength5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Fit dropdown with to input: <input class="mr-3" type="checkbox" @bind="_fitDropdownWidth5"/>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown width (0 is auto): @(_dropdownWitdth5 == 0 ? "auto" : $"{_dropdownWitdth5}px")
+			<input type="range" class="w-100" min="0" max="1000" @bind="_dropdownWitdth5" disabled="@(_fitDropdownWidth5)" @oninput="(e => _dropdownWitdth5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Typeahead dropdown height (0 is auto): @(_dropdownHeight5 == 0 ? "auto" : $"{_dropdownHeight5}px")
+			<input type="range" class="w-100" min="0" max="600" @bind="_dropdownHeight5" @oninput="(e => _dropdownHeight5 = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Accent color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accentColor5" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Select active item on blur: <input class="mr-3" type="checkbox" @bind="_selectOnBlur5"/>
+			Change active item mouse hover: <input class="mr-3" type="checkbox" @bind="_activeItemOnHover5"/>
+			<br/>
+			Show all Data on empty input (<strong>Ignored with async DataSource or Min chars > 0</strong>): 
+			<input class="mr-3" type="checkbox" @bind="_showAllOnEmptyInput5" disabled="@(_minCharsLength5 > 0 ? true : false)"/>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Model: "<strong>@(_selectedItem5 != null ? _selectedItem5 : exampleModel.State)</strong>"
+		</div>
+	</div>
+	<hr />
+
+	<EditForm Model="@exampleModel">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Name: <InputText class="form-control w-100" @bind-Value="exampleModel.Name" />
+				State: <TypeaheadInputText id="in5" class="form-control w-100" placeholder="@("Please type in at least: " + _minCharsLength5 + " char(s)")"
+								@ref="_input5"
+								Data="@_testData.Select(x => x.Name)"
+								@bind-Value="@exampleModel.State"
+								OnInput="@(text => {_selectedItem = null; exampleModel.State = text;})"
+								TItem="string"
+								OnSelectedItemChanged="@(text => _selectedItem5 = text)"
+								SelectOnBlur="@_selectOnBlur5"
+								ShowAllOnEmptyInput="@_showAllOnEmptyInput5"
+								ChangeActiveItemOnHover="@_activeItemOnHover5"
+								DropdownHeight="@_dropdownHeight5"
+								DropdownWidth="@_dropdownWitdth5"
+								FitDropdownWidth="@_fitDropdownWidth5"
+								DebounceTime="@_debounceMilisec5"
+								MinLength="@_minCharsLength5" 
+								AccentColor="@_accentColor5" >
+					<NoResultContent>
+						<i class="fa fa-times"></i> No Results Found
+					</NoResultContent>
+				</TypeaheadInputText>
+			</div>
+		</div>
+
+		<div class="pb-2">
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</div>
+	</EditForm>
+
+</div>
+
+@*Placeholder*@
+<div style="margin:250px;"></div>
+
+@using System.Linq
+@using System.Text.Json
+
+@code {
+	private StatesWithFlags[] _testData = null;
+	protected override void OnInitialized()
+	{
+		_testData = JsonSerializer.Deserialize<StatesWithFlags[]>(jsonData);
+	}
+	
+	//TypeaheadInput
+	private string _typeaheadInputValue = "";
+	private string _selectedItem;
+	private int _debounceMilisec = 0;
+	private int _minCharsLength = 0;
+	private bool _fitDropdownWidth = true;
+	private int _dropdownHeight = 200;
+	private int _dropdownWitdth = 0;
+	private bool _selectOnBlur = true;
+	private bool _activeItemOnHover = true;
+	private bool _showAllOnEmptyInput = true;
+	private string _accentColor = "lightgray";
+	private TypeaheadInput<string> _input;
+
+	private ElementReference _log1;
+	private string _div1Log;
+
+	private async Task SelectedItemChanged(string text)
+	{
+		_selectedItem = text;
+		await WriteEventLog("TypeaheadInput: Selected item changed");
+	}
+	private async Task WriteEventLog(string message)
+	{
+		_div1Log += $"{message}{Environment.NewLine}";
+		await _log1.ScrollToEndAsync();
+	}
+
+	//TypeaheadInput2
+	private string _typeaheadInputValue2 = "";
+	private StatesWithFlags _selectedItem2;
+	private int _debounceMilisec2 = 0;
+	private int _minCharsLength2 = 0;
+	private bool _fitDropdownWidth2 = true;
+	private int _dropdownHeight2 = 200;
+	private int _dropdownWitdth2 = 0;
+	private bool _selectOnBlur2 = true;
+	private bool _activeItemOnHover2 = true;
+	private bool _showAllOnEmptyInput2 = true;
+	private string _accentColor2 = "#72acf2";
+	private TypeaheadInput<StatesWithFlags> _input2;
+
+	//TypeaheadInput3
+	private string _typeaheadInputValue3 = "";
+	private StatesWithFlags _selectedItem3;
+	private int _debounceMilisec3 = 0;
+	private int _minCharsLength3 = 0;
+	private bool _fitDropdownWidth3 = true;
+	private int _dropdownHeight3 = 200;
+	private int _dropdownWitdth3 = 0;
+	private bool _selectOnBlur3 = true;
+	private bool _activeItemOnHover3 = true;
+	private bool _showAllOnEmptyInput3 = true;
+	private string _accentColor3 = "LightYellow";
+	private TypeaheadInput<StatesWithFlags> _input3;
+
+	//TypeaheadInput4
+	private string _typeaheadInputValue4 = "";
+	private StatesWithFlags _selectedItem4;
+	private int _debounceMilisec4 = 400;
+	private int _minCharsLength4 = 0;
+	private bool _fitDropdownWidth4 = true;
+	private int _dropdownHeight4 = 200;
+	private int _dropdownWitdth4 = 0;
+	private bool _selectOnBlur4 = true;
+	private bool _activeItemOnHover4 = true;
+	private bool _showAllOnEmptyInput4 = true;
+	private string _accentColor4 = "224, 122, 114";
+	private TypeaheadInput<StatesWithFlags> _input4;
+	private SearchTypes _searchType = SearchTypes.Contains;
+
+	private enum SearchTypes
+	{
+		Contains,
+		StartsWith
+	}
+
+	private async Task<IEnumerable<StatesWithFlags>> Search(string query)
+	{
+		if(string.IsNullOrEmpty(query))
+		{
+			return null; //Can be returned all data but be careful might be too much..
+		}
+
+		await Task.Delay(700); //Async server call here...
+
+		switch(_searchType)
+		{
+			case SearchTypes.Contains:
+				return _testData.Where(x => x.Name?.ToLower().Contains(query.ToLower()) ?? false);
+			case SearchTypes.StartsWith:
+				return _testData.Where(x => x?.Name?.ToLower().StartsWith(query.ToLower()) ?? false);
+			default:
+				return null;
+		}
+	}
+
+	//TypeaheadInputText
+	private string _selectedItem5;
+	private int _debounceMilisec5 = 0;
+	private int _minCharsLength5 = 0;
+	private bool _fitDropdownWidth5 = true;
+	private int _dropdownHeight5 = 200;
+	private int _dropdownWitdth5 = 0;
+	private bool _selectOnBlur5 = true;
+	private bool _activeItemOnHover5 = true;
+	private bool _showAllOnEmptyInput5 = true;
+	private string _accentColor5 = "MediumSeaGreen";
+	private TypeaheadInputText<string> _input5;
+
+	//Form model
+	private ExampleModel exampleModel = new ExampleModel() { Name = "" };
+	public class ExampleModel
+	{
+		[Required]
+		[StringLength(20, ErrorMessage = "Name is too long.")]
+		public string Name { get; set; }
+
+		[Required]
+		public string State { get; set; }
+	}
+
+	//Common Data
+	private class StatesWithFlags
+	{
+		public string Name { get; set; }
+		public string Flag { get; set; }
+	}
+	private const string jsonData = "[{\"Name\":\"Alabama\",\"Flag\":\"5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png\"},{\"Name\":\"Alaska\",\"Flag\":\"e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png\"},{\"Name\":\"Arizona\",\"Flag\":\"9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png\"},{\"Name\":\"Arkansas\",\"Flag\":\"9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png\"},{\"Name\":\"California\",\"Flag\":\"0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png\"},{\"Name\":\"Colorado\",\"Flag\":\"4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png\"},{\"Name\":\"Connecticut\",\"Flag\":\"9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png\"},{\"Name\":\"Delaware\",\"Flag\":\"c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png\"},{\"Name\":\"Florida\",\"Flag\":\"f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png\"},{\"Name\":\"Georgia\",\"Flag\":\"5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png\"},{\"Name\":\"Hawaii\",\"Flag\":\"e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png\"},{\"Name\":\"Idaho\",\"Flag\":\"a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png\"},{\"Name\":\"Illinois\",\"Flag\":\"0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png\"},{\"Name\":\"Indiana\",\"Flag\":\"a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png\"},{\"Name\":\"Iowa\",\"Flag\":\"a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png\"},{\"Name\":\"Kansas\",\"Flag\":\"d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png\"},{\"Name\":\"Kentucky\",\"Flag\":\"8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png\"},{\"Name\":\"Louisiana\",\"Flag\":\"e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png\"},{\"Name\":\"Maine\",\"Flag\":\"3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png\"},{\"Name\":\"Maryland\",\"Flag\":\"a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png\"},{\"Name\":\"Massachusetts\",\"Flag\":\"f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png\"},{\"Name\":\"Michigan\",\"Flag\":\"b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png\"},{\"Name\":\"Minnesota\",\"Flag\":\"b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png\"},{\"Name\":\"Mississippi\",\"Flag\":\"4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png\"},{\"Name\":\"Missouri\",\"Flag\":\"5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png\"},{\"Name\":\"Montana\",\"Flag\":\"c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png\"},{\"Name\":\"Nebraska\",\"Flag\":\"4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png\"},{\"Name\":\"Nevada\",\"Flag\":\"f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png\"},{\"Name\":\"New Hampshire\",\"Flag\":\"2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png\"},{\"Name\":\"New Jersey\",\"Flag\":\"9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png\"},{\"Name\":\"New Mexico\",\"Flag\":\"c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png\"},{\"Name\":\"New York\",\"Flag\":\"1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png\"},{\"Name\":\"North Carolina\",\"Flag\":\"b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png\"},{\"Name\":\"North Dakota\",\"Flag\":\"e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png\"},{\"Name\":\"Ohio\",\"Flag\":\"4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png\"},{\"Name\":\"Oklahoma\",\"Flag\":\"6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png\"},{\"Name\":\"Oregon\",\"Flag\":\"b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png\"},{\"Name\":\"Pennsylvania\",\"Flag\":\"f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png\"},{\"Name\":\"Rhode Island\",\"Flag\":\"f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png\"},{\"Name\":\"South Carolina\",\"Flag\":\"6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png\"},{\"Name\":\"South Dakota\",\"Flag\":\"1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png\"},{\"Name\":\"Tennessee\",\"Flag\":\"9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png\"},{\"Name\":\"Texas\",\"Flag\":\"f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png\"},{\"Name\":\"Utah\",\"Flag\":\"f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png\"},{\"Name\":\"Vermont\",\"Flag\":\"4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png\"},{\"Name\":\"Virginia\",\"Flag\":\"4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png\"},{\"Name\":\"Washington\",\"Flag\":\"5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png\"},{\"Name\":\"West Virginia\",\"Flag\":\"2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png\"},{\"Name\":\"Wisconsin\",\"Flag\":\"2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png\"},{\"Name\":\"Wyoming\",\"Flag\":\"b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png\"}]";
+}

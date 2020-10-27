@@ -1,5 +1,5 @@
 ﻿@inject ILogger<ModalDialog> _logger;
-@inject IJSRuntime _jsRuntime;
+@inject IFocusHandler _focusHandler;
 @inject ITransitionEventsService _transitionService;
 
 @implements IAsyncDisposable
@@ -53,9 +53,6 @@
 	private ElementReference _overlayDiv;
 	private ElementReference _modal;
 
-	private IJSObjectReference _previousFocusedElement;
-	private IJSObjectReference _focusJs;
-
 	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
 	[Parameter] 
@@ -101,13 +98,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
-
-#if DEBUG
-		_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Modal/focus.js");
-#else
-		_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Modal/focus.min.js");
-#endif		
+		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");	
 		_dialogTop = _dialogDefaultTop;
 	}
 
@@ -218,13 +209,12 @@
 	{
 		if(Focus)
 		{
-			//Get previous element
-			_previousFocusedElement = await _focusJs.InvokeAsync<IJSObjectReference>("getFocusedElement");
+			//Store previous focused element
+			await _focusHandler.StoreFocusedElementAsync();
 
 			//Set focus to DIV
 			WriteDiag($"Opening dialog setting Focus to dialog, previous IsOpened: '{_isOpened}'.");
-			await _focusJs.InvokeAsync<string>("focusElement", _modal);
-			@*await _modal.FocusAsync();*@
+			await _modal.FocusAsync();
 		}
 
 		if (OnOpen.HasDelegate)
@@ -261,13 +251,7 @@
 
 		if(Focus)
 		{
-			if(_previousFocusedElement is not null)
-			{
-				WriteDiag($"Closing dialog setting Focus IsOpened: '{_isOpened}'.");
-				await _focusJs.InvokeVoidAsync("focusElement", _previousFocusedElement);
-				//dispose
-				await _previousFocusedElement.DisposeAsync();
-			}
+			await _focusHandler.RestoreStoredElementFocusAsync();
 		}
 		
 		if (OnClose.HasDelegate)
@@ -288,13 +272,9 @@
 	{
 		WriteDiag($"Closing dialog running DisposeAsync() IsOpened: '{_isOpened}'.");
 
-		if(_focusJs is not null)
+		if(_focusHandler is not null)
 		{
-			await _focusJs.DisposeAsync();
-		}
-		if(_previousFocusedElement is not null)
-		{
-			await _previousFocusedElement.DisposeAsync();
+			await _focusHandler.DisposeAsync();
 		}
 		if(_transitionService is not null)
 		{

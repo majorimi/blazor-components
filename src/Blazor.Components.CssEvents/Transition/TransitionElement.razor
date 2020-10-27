@@ -1,6 +1,5 @@
 ﻿@inject ILogger<TransitionElement> _logger;
 @inject ITransitionEventsService _transitionService;
-@inject IJSRuntime _jsRuntime;
 
 @implements IAsyncDisposable
 
@@ -27,7 +26,7 @@
 	{
 		if (firstRender)
 		{
-			WriteDiag($"OnAfterRenderAsync currently TransitionPropertyName: '{TransitionPropertyName}'.");
+			WriteDiag($"OnAfterRenderAsync component rendered, registering transition event TransitionPropertyName: '{TransitionPropertyName}'.");
 
 			await _transitionService.RegisterTransitionEndedAsync(_transitionContainer, async (args) => 
 			{ 

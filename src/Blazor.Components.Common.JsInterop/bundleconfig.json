@@ -1,0 +1,26 @@
+[
+  {
+    "outputFileName": "wwwroot/elementInfo.min.js",
+    "inputFiles": [
+      "wwwroot/elementInfo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/click.min.js",
+    "inputFiles": [
+      "wwwroot/click.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/focus.min.js",
+    "inputFiles": [
+      "wwwroot/focus.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/scroll.min.js",
+    "inputFiles": [
+      "wwwroot/scroll.js"
+    ]
+  }
+]

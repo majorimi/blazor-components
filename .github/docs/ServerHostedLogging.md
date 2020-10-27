@@ -9,8 +9,6 @@ Blazor Server Hosted model console logging
 
 Blazor extension for logging to browser console. **Important NOTE**: this package only works for apps using **Server Hosting Model**!
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/extensions).
-
 # Features
 
 ## Logger

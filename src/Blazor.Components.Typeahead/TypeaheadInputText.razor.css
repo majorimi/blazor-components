@@ -1,0 +1,48 @@
+﻿.typeahead {
+    display: block;
+}
+
+.dropdown-menu {
+    background: white;
+    border: solid 1px gray;
+    border-radius: .2rem;
+    box-shadow: 2px 2px 5px 2px #bdbdbd;
+    float: left;
+    padding: .5rem 0;
+    margin: .175rem 0 0;
+    display: block;
+    z-index: 500;
+    position: absolute;
+    overflow: auto;
+    /*Might be set to 0 and use Translate by input position*/
+    top: auto;
+    left: auto;
+    /*-ms-overflow-style: none;*/ /* Internet Explorer 10+ */
+    /*scrollbar-width: none;*/ /* Firefox */
+}
+    /*.dropdown-menu::-webkit-scrollbar {
+    display: none;*/ /* Safari and Chrome */
+    /*}*/
+
+.dropdown-menu .list {
+    list-style: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.dropdown-menu .list-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}

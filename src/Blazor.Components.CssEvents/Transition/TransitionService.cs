@@ -11,7 +11,7 @@ namespace Blazor.Components.CssEvents.Transition
 	/// <summary>
 	/// Implementation of <see cref="ITransitionEventsService"/>
 	/// </summary>
-	public class TransitionEventsService : ITransitionEventsService
+	public sealed class TransitionEventsService : ITransitionEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<KeyValuePair<ElementReference, string>> _registeredElements;

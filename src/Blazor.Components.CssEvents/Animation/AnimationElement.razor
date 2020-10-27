@@ -1,6 +1,5 @@
 ﻿@inject ILogger<TransitionElement> _logger;
 @inject IAnimationEventsService _animationService;
-@inject IJSRuntime _jsRuntime;
 
 @implements IAsyncDisposable
 
@@ -31,7 +30,7 @@
 	{
 		if (firstRender)
 		{
-			WriteDiag($"OnAfterRenderAsync currently AnimationName: '{AnimationName}'.");
+			WriteDiag($"OnAfterRenderAsync component rendered, registering animation events AnimationName: '{AnimationName}'.");
 
 			await _animationService.RegisterAllAnimationEventsAsync(_animationContainer, 
 			async (args) => 

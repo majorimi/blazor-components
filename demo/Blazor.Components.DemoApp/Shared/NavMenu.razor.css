@@ -20,6 +20,7 @@
     font-size: 1.1rem;
     vertical-align: text-top;
     top: -2px;
+    line-height: initial;
 }
 
 .oi {
@@ -30,8 +31,12 @@
 }
 
 .nav-item {
-    font-size: 0.9rem;
+    font-size: 1rem;
     padding-bottom: 0.5rem;
+}
+
+nav-item .nav-link {
+    padding: .2rem 1rem !important;
 }
 
     .nav-item:first-of-type {
@@ -45,7 +50,7 @@
     .nav-item ::deep a {
         color: #d7d7d7;
         border-radius: 4px;
-        height: 3rem;
+        height: 2.5rem;
         display: flex;
         align-items: center;
         line-height: 3rem;
@@ -60,6 +65,33 @@
     background-color: rgba(255,255,255,0.1);
     color: white;
 }
+
+.nav-group {
+    font-size: 1rem;
+    padding-bottom: 0.1rem;
+    color: #d7d7d7;
+    padding: .1rem 1rem;
+}
+    .nav-group:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+    }
+    .nav-group ::deep a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 1.75rem;
+        display: flex;
+        align-items: center;
+        line-height: 2rem;
+        margin-left: 1.5rem;
+        font-size: .9rem;
+    }
+    .nav-group .nav-item:first-of-type {
+        padding-top: .1rem;
+    }
+    .nav-group .nav-item:last-of-type {
+        padding-bottom: .1rem;
+    }
 
 @media (min-width: 641px) {
     .navbar-toggler {

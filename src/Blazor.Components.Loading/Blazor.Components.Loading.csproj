@@ -7,7 +7,7 @@
 	<PackageId>Majorsoft.Blazor.Components.Loading</PackageId>
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
-	<Company>Imre Toth</Company>
+	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>

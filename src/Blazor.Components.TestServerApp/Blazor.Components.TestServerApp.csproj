@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Debounce.Input\Blazor.Components.Debounce.Input.csproj" />
 	<ProjectReference Include="..\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
 	<ProjectReference Include="..\Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj" />
   </ItemGroup>
@@ -16,9 +15,6 @@
 	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</Content>
 	<Content Update="Pages\DebounceInputPage.razor">
-	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	</Content>
-	<Content Update="Pages\ExtensionsPage.razor">
 	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</Content>
 	<Content Update="Pages\IndexPage.razor">

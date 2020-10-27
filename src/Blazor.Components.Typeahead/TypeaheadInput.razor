@@ -1,0 +1,65 @@
+﻿@typeparam TItem;
+
+@inject ILogger<TypeaheadInput<TItem>> _logger;
+@inject IClickBoundariesHandler _clickHandler;
+
+<DebounceInput class="typeahead"
+	@ref="_typeahead"
+	@bind-Value="@Value" @bind-Value:event="OnInput"
+	DebounceTime="@DebounceTime"
+	MinLength="@MinLength"
+	OnValueChanged="e => OnValueChanged(e)"
+	ForceNotifyByEnter="false"
+	ForceNotifyOnBlur="false"
+	@onkeydown="OnKeyDown" @onfocus="OnFocus"
+	autocomplete="off"
+	@attributes=AdditionalAttributes />
+
+@if(IsOpen && _data is not null) 
+{
+	int i = 0;
+	<div @ref="_dropDown" class="dropdown-menu" style="width: @GetDropdownWidth(); max-height: @(DropdownHeight == 0 ? "auto" : $"{DropdownHeight}px");">
+		<ul id="@($"_typeahead_{_componentId}")" class="list">
+			@foreach(var item in _data)
+			{
+				string text = GetItemText(item);
+
+				if (ItemTemplate is not null) //using if/else inside <li> does not work so markup duplicated...
+				{
+					<li class="list-item@(item.Equals(ActiveItem) ? " active" : "")" 
+						@onmouseover="_ => ItemHover(i, item)"
+						@onclick="_ => ItemClicked(i, item)">
+							@ItemTemplate(item)
+					</li>
+				}
+				else
+				{
+					<li class="list-item@(item.Equals(ActiveItem) ? " active" : "")" 
+						@onmouseover="_ => ItemHover(i, item)"
+						@onclick="_ => ItemClicked(i, item)">
+							@HighlightItems(text)
+					</li>
+				}
+
+				i++;
+			}
+		</ul>
+	</div>
+}
+@if(_hasNoResult) 
+{
+	<div class="no-result">@NoResultContent</div>
+}
+@if(_isSearching && InProgressContent is not null && !IsOpen) 
+{
+	<div class="no-result">@InProgressContent</div>
+}
+
+<style>
+.list[id=@($"_typeahead_{_componentId}")] .list-item:hover {
+	background-color: rgba(@AccentColor, 0.33);
+}
+.list[id=@($"_typeahead_{_componentId}")] .list-item.active {
+	background-color: rgb(@AccentColor) !important;
+}
+</style>

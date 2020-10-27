@@ -7,7 +7,7 @@
 	<PackageId>Majorsoft.Blazor.Components.Modal</PackageId>
 	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
-	<Company>Imre Toth</Company>
+	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -30,7 +30,6 @@
 	  <PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
-	<None Include="wwwroot\focus.js" />
   </ItemGroup>
 
 
@@ -41,6 +40,7 @@
 
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
+		<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
 		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
 		<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
 	</ItemGroup>
