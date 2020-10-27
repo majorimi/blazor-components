@@ -85,7 +85,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div1Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log1" @bind="_div1Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -114,7 +114,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div2Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log2" @bind="_div2Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -143,7 +143,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div3Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log3" @bind="_div3Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -168,7 +168,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div4Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log4" @bind="_div4Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -193,7 +193,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div5Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log5" @bind="_div5Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -218,7 +218,7 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Event log</strong>:</label>
-				<textarea @bind="_div6Log" class="form-control w-100" readonly></textarea>
+				<textarea @ref="_log6" @bind="_div6Log" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -251,15 +251,19 @@
 	}
 
 	private string _div1Log;
-	private void OnAnimationEvent1(AnimationEventArgs e)
+	private ElementReference _log1;
+	private async Task OnAnimationEvent1(AnimationEventArgs e)
 	{
 		_div1Log = WriteLog(_div1Log, e);
+		await _log1.ScrollToEndAsync();
 	}
 
 	private string _div2Log;
-	private void OnAnimationEvent2(AnimationEventArgs e)
+	private ElementReference _log2;
+	private async Task OnAnimationEvent2(AnimationEventArgs e)
 	{
 		_div2Log = WriteLog(_div2Log, e);
+		await _log2.ScrollToEndAsync();
 	}
 	private bool _animateDiv2 = false;
 	private async Task StartAnimation1()
@@ -268,9 +272,11 @@
 	}
 
 	private string _div3Log;
-	private void OnAnimationEvent3(AnimationEventArgs e)
+	private ElementReference _log3;
+	private async Task OnAnimationEvent3(AnimationEventArgs e)
 	{
 		_div3Log = WriteLog(_div3Log, e);
+		await _log3.ScrollToEndAsync();
 	}
 	private bool _animateDiv3 = false;
 	private async Task StartAnimation2()
@@ -280,6 +286,7 @@
 
 
 	private ElementReference _div4;
+	private ElementReference _log4;
 	private bool _eventsSubscribed1 = true;
 	private string _eventsText1 = "Unsubscribe events";
 	private async Task HandleEvent3()
@@ -306,10 +313,11 @@
 	private async Task OnAnimationEvent4(AnimationEventArgs e)
 	{
 		_div4Log = WriteLog(_div4Log, e);
+		await _log4.ScrollToEndAsync();
 	}
-
 	
 	private ElementReference _div5;
+	private ElementReference _log5;
 	private bool _eventsSubscribed2 = true;
 	private string _eventsText2 = "Unsubscribe events";
 	private async Task HandleEvent4()
@@ -340,11 +348,12 @@
 	private async Task OnAnimationEvent5(AnimationEventArgs e)
 	{
 		_div5Log = WriteLog(_div5Log, e);
+		await _log5.ScrollToEndAsync();
 	}
-	
 
 	private ElementReference _div6;
 	private ElementReference _label6;
+	private ElementReference _log6;
 	private bool _eventsSubscribed3 = true;
 	private string _eventsText3 = "Unsubscribe events";
 	private async Task HandleEvent5()
@@ -384,8 +393,10 @@
 		{
 			_div6Log = WriteLog(_div6Log, item, time);
 		}
+		StateHasChanged();
+		
+		await _log6.ScrollToEndAsync();
 	}
-
 
 	private string WriteLog(string log, AnimationEventArgs e, TimeSpan? eventTime = null)
 	{

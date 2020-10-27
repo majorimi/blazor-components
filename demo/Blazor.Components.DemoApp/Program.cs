@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Blazor.WebAssembly.Logging.Console;
 using Blazor.Components.CssEvents;
+using Blazor.Components.Common.JsInterop;
 
 namespace Blazor.Components.DemoApp
 {
@@ -24,6 +25,7 @@ namespace Blazor.Components.DemoApp
 			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 			builder.Services.AddCssEvents();
+			builder.Services.AddJsInteropExtensions();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug);

@@ -6,12 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.48-rc.2.20479.15" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Debounce.Input" Version="0.9.48-rc.2.20479.15" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.48-rc.2.20479.15" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="0.9.48-rc.2.20479.15" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.48-rc.2.20479.15" />
-    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.48-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Common.JsInterop" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Debounce" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Typeahead" Version="0.9.50-rc.2.20479.15" />
+    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="0.9.50-rc.2.20479.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
