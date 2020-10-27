@@ -55,6 +55,9 @@
 	  <Content Update="Pages\ModalPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
+	  <Content Update="Pages\PermaLinkPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	  <Content Update="Pages\TimerPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
