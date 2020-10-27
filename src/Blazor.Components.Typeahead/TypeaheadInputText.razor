@@ -55,10 +55,15 @@
 	<div class="no-result">@InProgressContent</div>
 }
 
+@if(!ChangeActiveItemOnHover) {
 <style>
-.list[id=@($"_typeahead_{_componentId}")] .list-item:hover {
-	background-color: rgba(@AccentColor, 0.33);
+	.list[id=@($"_typeahead_{_componentId}")] .list-item:hover {
+		background-color: rgba(@AccentColor, 0.33);
+	}
+</style>
 }
+
+<style>
 .list[id=@($"_typeahead_{_componentId}")] .list-item.active {
 	background-color: rgb(@AccentColor) !important;
 }
