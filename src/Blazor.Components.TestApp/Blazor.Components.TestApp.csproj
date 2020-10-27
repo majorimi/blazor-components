@@ -26,6 +26,7 @@
 	  <Watch Remove="Pages\JSInteropPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
+	  <Watch Remove="Pages\PermaLinkPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 

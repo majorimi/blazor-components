@@ -14,7 +14,7 @@
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Click JS</h3>
+	<a name="clickjs"></a><h3>Click JS</h3>
 	<p>
 		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
 		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
@@ -51,7 +51,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Focus JS</h3>
+	<a name="focusjs"></a><h3>Focus JS</h3>
 	<p>
 		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
 		which can be used in case of <code>ElementReference</code> is available. 
@@ -81,7 +81,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded" @ref="_infoDiv" @onclick="InfoDivClick">
-	<h3>Element info JS</h3>
+	<a name="infojs"></a><h3>Element info JS</h3>
 	<p>
 		<strong>Element info JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
 	</p>
@@ -100,7 +100,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Scroll JS</h3>
+	<a name="scrolljs"></a><h3>Scroll JS</h3>
 	<p>
 		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
 		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
