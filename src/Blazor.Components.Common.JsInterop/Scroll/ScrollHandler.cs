@@ -15,7 +15,7 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<string> _registeredEvents;
-		private IJSObjectReference _clickJs;
+		private IJSObjectReference _scrollJs;
 
 		public ScrollHandler(IJSRuntime jsRuntime)
 		{
@@ -26,33 +26,33 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 		public async Task ScrollToPageEndAsync()
 		{
 			await CheckJsObjectAsync();
-			await _clickJs.InvokeVoidAsync("scrollToPageEnd");
+			await _scrollJs.InvokeVoidAsync("scrollToPageEnd");
 		}
 		public async Task ScrollToPageTopAsync()
 		{
 			await CheckJsObjectAsync();
-			await _clickJs.InvokeVoidAsync("scrollToPageTop");
+			await _scrollJs.InvokeVoidAsync("scrollToPageTop");
 		}
 		public async Task ScrollToPageXAsync(double x)
 		{
 			await CheckJsObjectAsync();
-			await _clickJs.InvokeVoidAsync("scrollToPageX", x);
+			await _scrollJs.InvokeVoidAsync("scrollToPageX", x);
 		}
 		public async Task ScrollToPageYAsync(double y)
 		{
 			await CheckJsObjectAsync();
-			await _clickJs.InvokeVoidAsync("scrollToPageY", y);
+			await _scrollJs.InvokeVoidAsync("scrollToPageY", y);
 		}
 		public async Task<ScrollEventArgs> GetPageScrollPosAsync()
 		{
 			await CheckJsObjectAsync();
-			return await _clickJs.InvokeAsync<ScrollEventArgs>("getPageScrollPosition");
+			return await _scrollJs.InvokeAsync<ScrollEventArgs>("getPageScrollPosition");
 		}
 
 		public async Task ScrollToElementAsync(ElementReference elementReference)
 		{
 			await CheckJsObjectAsync();
-			await _clickJs.InvokeVoidAsync("scrollToElement", elementReference);
+			await _scrollJs.InvokeVoidAsync("scrollToElement", elementReference);
 		}
 
 		public async Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)
@@ -63,7 +63,7 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			var info = new PageScrollEventInfo(scrollCallback, id);
 			var dotnetRef = DotNetObjectReference.Create<PageScrollEventInfo>(info);
 
-			await _clickJs.InvokeVoidAsync("addScrollEvent", dotnetRef, id);
+			await _scrollJs.InvokeVoidAsync("addScrollEvent", dotnetRef, id);
 			_registeredEvents.Add(id);
 
 			return id;
@@ -73,7 +73,7 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 		{
 			await CheckJsObjectAsync();
 
-			await _clickJs.InvokeVoidAsync("removeScrollEvent", eventId);
+			await _scrollJs.InvokeVoidAsync("removeScrollEvent", eventId);
 			RemoveElement(eventId);
 		}
 
@@ -85,23 +85,23 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 
 		private async Task CheckJsObjectAsync()
 		{
-			if (_clickJs is null)
+			if (_scrollJs is null)
 			{
 #if DEBUG
-				_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.js");
+				_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.js");
 #else
-				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.min.js");
+				_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.min.js");
 #endif
 			}
 		}
 
 		public async ValueTask DisposeAsync()
 		{
-			if (_clickJs is not null)
+			if (_scrollJs is not null)
 			{
-				await _clickJs.InvokeVoidAsync("dispose", _registeredEvents.ToArray());
+				await _scrollJs.InvokeVoidAsync("dispose", _registeredEvents.ToArray());
 
-				await _clickJs.DisposeAsync();
+				await _scrollJs.DisposeAsync();
 			}
 		}
 	}

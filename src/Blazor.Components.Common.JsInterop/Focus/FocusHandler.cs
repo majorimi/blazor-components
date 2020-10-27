@@ -53,7 +53,7 @@ namespace Blazor.Components.Common.JsInterop.Focus
 #if DEBUG
 				_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.js");
 #else
-				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.min.js");
+				_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.min.js");
 #endif
 			}
 		}
