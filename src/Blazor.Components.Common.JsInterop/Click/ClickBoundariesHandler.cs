@@ -59,7 +59,7 @@ namespace Blazor.Components.Common.JsInterop.Click
 #if DEBUG
 				_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.js");
 #else
-				_transitionJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.min.js");
+				_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.min.js");
 #endif
 			}
 		}
