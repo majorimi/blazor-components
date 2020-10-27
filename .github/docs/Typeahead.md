@@ -14,4 +14,55 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Components
 - **`DebounceInput`**: Wraps around HTML `<input>` control and adds Typeahead control with optional debounce (delay) and minimal required chars. 
-- **`DebounceInput`**: Wraps around **Blazor InputText** control which enabled form validation and adds Typeahead control with optional debounce (delay) and minimal required chars.
+- **`DebounceInput`**: Wraps around **Blazor InputText** control which enables form validation and adds Typeahead control with optional debounce (delay) and minimal required chars.
+
+
+# Configuration
+
+## Installation
+
+Blazor.Components.Typeahead is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead/). 
+
+```sh
+dotnet add package Majorsoft.Blazor.Components.Typeahead
+```
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead/absoluteLatest) to install.
+
+## Usage
+
+Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
+```
+@using Blazor.Components.Typeahead
+```
+
+### Dependences
+**Majorsoft.Blazor.Components.Typeahead** package depends on other Majorsoft Nuget packages:
+- [Majorsoft.Blazor.Components.Debounce](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce)
+which provides the base input control with Debounce feature.
+- [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
+which handles JS Interop for many features e.g. scrolling, etc.
+
+**In case of WebAssembly project register services in your `Program.cs` file:**
+```
+using Blazor.Components.CssEvents;
+...
+public static async Task Main(string[] args)
+{
+	var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+	//Register dependencies
+	builder.Services.AddJsInteropExtensions();
+}
+```
+
+**In case of Server hosted project register services in your `Startup.cs` file:**
+```
+using Blazor.Components.CssEvents;
+...
+
+public void ConfigureServices(IServiceCollection services)
+{
+	//Register dependencies
+	services.AddJsInteropExtensions();
+}
+```
