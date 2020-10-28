@@ -3,7 +3,7 @@
 <a name="@_permaLinkName"></a> @Content
 
 @if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) {
-	<img style="@_iconStyle" width="16" height="16" class="permaLink" src="@GetIconUrl()" @onclick="ImgClick" />
+	<img style="@_iconStyle" width="@IconSize" height="@IconSize" class="permaLink" src="@GetIconUrl()" @onclick="ImgClick" />
 }
 </div>
 
@@ -74,6 +74,7 @@
 		}
 	}
 	[Parameter] public double IconMarginTop { get; set; } = 0;
+	[Parameter] public int IconSize { get; set; } = 16;
 	[Parameter] public PermaLinkStyle IconStyle { get; set; } = PermaLinkStyle.Normal;
 	[Parameter] public PermaLinkIconActions IconActions { get; set; } = PermaLinkIconActions.Copy;
 
@@ -143,7 +144,7 @@
 			? "link2"
 			: "link";
 
-		return $"_content/Blazor.Components.PermaLink/{img}.svg";
+		return $"_content/Majorsoft.Blazor.Components.PermaLink/{img}.svg";
 	}
 
 	private void WriteDiag(string message)

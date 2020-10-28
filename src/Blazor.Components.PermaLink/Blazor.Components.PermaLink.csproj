@@ -1,20 +1,43 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>Majorsoft.Blazor.Components.PermaLink</PackageId>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>Imre Toth 2020</Copyright>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md</PackageProjectUrl>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageTags>.Net5 Blazor URL URI Navigation PermaLink Link</PackageTags>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+	<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink).</Description>
+	<Title>Blazor Components PermaLink navigation</Title>
   </PropertyGroup>
 
   
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+	<SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
   </ItemGroup>
 
 </Project>
