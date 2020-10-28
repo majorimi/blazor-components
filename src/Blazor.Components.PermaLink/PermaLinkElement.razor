@@ -1,12 +1,10 @@
-﻿<div @ref="_permaDiv" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" @onmouseover="MouseHover" @onmouseout="MouseLeave">
+﻿<div @ref="_permaDiv" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" @onmouseenter="MouseHover" @onmouseleave="MouseLeave">
 
 <a name="@_permaLinkName"></a> @Content
 
 @if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) {
-	<img style="@_iconStyle" width="16" height="16"
-		class="permaLink" src="@GetIconUrl()" @onclick="CopyUrl" @onmouseover:stopPropagation="true" @onmouseout:stopPropagation="true"/>
+	<img style="@_iconStyle" width="16" height="16" class="permaLink" src="@GetIconUrl()" @onclick="CopyUrl" />
 }
-
 </div>
 
 <style>
@@ -22,8 +20,8 @@
 		display: block;
 		margin-right: 3px;
 		margin-left: 3px;
-		z-index: -1;
 		cursor: pointer;
+		/*pointer-events:none;*/
 	}
 </style>
 
@@ -75,8 +73,8 @@
 			}
 		}
 	}
-	[Parameter] public double IconMarginTop { get; set; }
-	[Parameter] public PermaLinkStyle IconStyle { get; set; }
+	[Parameter] public double IconMarginTop { get; set; } = 0;
+	[Parameter] public PermaLinkStyle IconStyle { get; set; } = PermaLinkStyle.Normal;
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
