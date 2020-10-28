@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Blazor.Components.Common.JsInterop.Click;
+using Blazor.Components.Common.JsInterop.Clipboard;
 using Blazor.Components.Common.JsInterop.Focus;
 using Blazor.Components.Common.JsInterop.Scroll;
 
@@ -27,6 +28,7 @@ namespace Blazor.Components.Common.JsInterop
 			services.AddTransient<IClickBoundariesHandler, ClickBoundariesHandler>();
 			services.AddTransient<IFocusHandler, FocusHandler>();
 			services.AddTransient<IScrollHandler, ScrollHandler>();
+			services.AddTransient<IClipboardHandler, ClipboardHandler>();
 			
 			return services;
 		}

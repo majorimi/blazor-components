@@ -7,26 +7,11 @@
 }
 </div>
 
-<style>
-	.permaDivLeft {
-		display: flex;
-		padding-left: 20px;
-	}
-	.permaDivRight {
-		display: flex;
-		padding-right: 20px;
-	}
-	.permaLink {
-		display: block;
-		margin-right: 3px;
-		margin-left: 3px;
-		cursor: pointer;
-		/*pointer-events:none;*/
-	}
-</style>
+@implements IAsyncDisposable
 
 @inject ILogger<PermaLinkElement> _logger;
 @inject NavigationManager _navigationManager;
+@inject IClipboardHandler _clipboardHandler;
 
 @code {
 	private ElementReference _permaDiv;
@@ -115,7 +100,7 @@
 
 		if ((IconActions & PermaLinkIconActions.Copy) == PermaLinkIconActions.Copy)
 		{
-			//TODO: copy to clipboard
+			var ret = await _clipboardHandler.CopyTextToClipboardAsync(uri);
 
 			if (OnPermaLinkCopied.HasDelegate)
 			{
@@ -150,5 +135,13 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_clipboardHandler is not null)
+		{
+			await _clipboardHandler.DisposeAsync();
+		}
 	}
 }
