@@ -3,7 +3,7 @@
 <a name="@_permaLinkName"></a> @Content
 
 @if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) {
-	<img style="@_iconStyle" width="16" height="16" class="permaLink" src="@GetIconUrl()" @onclick="CopyUrl" />
+	<img style="@_iconStyle" width="16" height="16" class="permaLink" src="@GetIconUrl()" @onclick="ImgClick" />
 }
 </div>
 
@@ -75,6 +75,7 @@
 	}
 	[Parameter] public double IconMarginTop { get; set; } = 0;
 	[Parameter] public PermaLinkStyle IconStyle { get; set; } = PermaLinkStyle.Normal;
+	[Parameter] public PermaLinkIconActions IconActions { get; set; } = PermaLinkIconActions.Copy;
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -99,16 +100,30 @@
 
 		_showIcon = false;
 	}
-	private async Task CopyUrl()
+	private async Task ImgClick()
 	{
-		var uri = _navigationManager.Uri + $"#{_permaLinkName}";
-		WriteDiag("Link was clicked copy URL: {uri}");
-
-		//TODO: copy to clipboard
-
-		if(OnPermaLinkCopied.HasDelegate)
+		var uri = _navigationManager.Uri;
+		var index = uri.IndexOf("#");
+		if(index > 0)
 		{
-			await OnPermaLinkCopied.InvokeAsync(uri);
+			uri = uri.Substring(0, index);
+		}
+
+		uri += $"#{_permaLinkName}";
+		WriteDiag($"{nameof(ImgClick)} Link icon was clicked IconActions: {IconActions} URL: {uri}");
+
+		if ((IconActions & PermaLinkIconActions.Copy) == PermaLinkIconActions.Copy)
+		{
+			//TODO: copy to clipboard
+
+			if (OnPermaLinkCopied.HasDelegate)
+			{
+				await OnPermaLinkCopied.InvokeAsync(uri);
+			}
+		}
+		if ((IconActions & PermaLinkIconActions.Navigate) == PermaLinkIconActions.Navigate)
+		{
+			_navigationManager.NavigateTo(uri, true);
 		}
 	}
 

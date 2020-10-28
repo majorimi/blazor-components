@@ -7,8 +7,8 @@ textarea {
 <h1>Permalink (#link) extension and component</h1>
 
 <p>
-	Blazor <strong>injectable <code>IPermaLinkWatcherService</code> service</strong> and componet wrapping. For usege see soruce code and docs on
-	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md" target="_blank">Github</a>.
+	Blazor <strong>injectable <code>IPermaLinkWatcherService</code> service</strong> and <code>PermaLinkElement</code> wrapper component which allows navigation inside Blazor pages. 
+	For usege see soruce code and docs on <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.PermaLink</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink" target="_blank">Nuget</a>
 </p>
 
@@ -60,11 +60,12 @@ textarea {
 	<a name="standard-a-tag"></a> <h3>Standard <code>&lt;a&gt;</code> tag</h3>
 </div>
 
-<div class="container-fluid p-3 mb-3 border rounded">
+<div style="margin-bottom:300px;" class="container-fluid p-3 pb-5 border rounded">
 	<PermaLinkElement 
 		PermaLinkName="PermaLink-Element-wrapper" 
 		ShowIcon="@_showIcon"
 		IconPosition="@_iconPosition"
+		IconActions="@((PermaLinkIconActions)_action)"
 		IconStyle="_iconStyle"
 		IconMarginTop="8"
 		OnPermaLinkCopied="@LinkCopied">
@@ -107,6 +108,18 @@ textarea {
 	</div>
 
 	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			PermaLink Icon Actions: <select class="form-control selectpicker w-100" @bind="_action">
+				@foreach (var item in Enum.GetValues(typeof(PermaLinkIconActions)))
+				{
+					<option value="@((int)item)">@item</option>
+				}
+				<option value="@((int)PermaLinkIconActions.Copy|(int)PermaLinkIconActions.Navigate)">Copy and Navigate</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
 		<div class="col-12">
 			<label><strong>Event log</strong>:</label>
 			<textarea @ref="_divLog" @bind="_log" class="form-control w-100" readonly></textarea>
@@ -116,8 +129,9 @@ textarea {
 
 @code{
 	private ShowPermaLinkIcon _showIcon = ShowPermaLinkIcon.OnHover;
-	private PermaLinkIconPosition _iconPosition;
+	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
 	private PermaLinkStyle _iconStyle;
+	private int _action = (int)PermaLinkIconActions.Copy;
 
 	private string _log;
 	private ElementReference _divLog;
