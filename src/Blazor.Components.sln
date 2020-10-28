@@ -50,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Debounce"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Common.JsInterop", "Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj", "{9CD59D7A-0211-401F-99A1-C646CCD2546E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.PermaLink", "Blazor.Components.PermaLink\Blazor.Components.PermaLink.csproj", "{3A6EF172-56A5-4F5F-8C01-AF773F95F803}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.PermaLink", "Blazor.Components.PermaLink\Blazor.Components.PermaLink.csproj", "{3A6EF172-56A5-4F5F-8C01-AF773F95F803}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
