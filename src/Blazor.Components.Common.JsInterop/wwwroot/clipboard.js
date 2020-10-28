@@ -39,10 +39,21 @@ function fallbackCopyTextToClipboard(text) {
 }
 
 export function copyElementTextToClipboard(element) {
-    /* Select the text field */
+    if (!element) {
+        return false;
+    }
+
+    // Select the text field
     element.select();
     element.setSelectionRange(0, 99999); /*For mobile devices*/
 
-    /* Copy the text inside the text field */
-    return document.execCommand("copy");
+    // Copy the text inside the text field
+    let result = document.execCommand("copy");
+
+    //Deselect
+    if ('selectionStart' in element) {
+        element.selectionEnd = element.selectionStart;
+    }
+
+    return result;
 }

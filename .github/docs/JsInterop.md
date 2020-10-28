@@ -20,6 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
 - **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+- **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 
 
 # Configuration
@@ -46,6 +47,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Blazor.Components.Common.JsInterop.Click
 @*Only if you want to use ElementInfo*@
 @using Blazor.Components.Common.JsInterop.ElementInfo
+@*Only if you want to use Clipboard*@
+@using Blazor.Components.Common.JsInterop.Clipboard
 ```
 
 
