@@ -30,7 +30,7 @@
 	}
 
 	private bool _showIcon = false;
-	private string _permaLinkName;
+	private string? _permaLinkName;
 	[Parameter] public string PermaLinkName
 	{ 
 		get => _permaLinkName; 
@@ -125,9 +125,7 @@
 	}	
 	private string GetIconUrl()
 	{
-		var img = IconStyle == PermaLinkStyle.Normal
-			? "link2"
-			: "link";
+		var img = IconStyle == PermaLinkStyle.Normal ? "link2" : "link";
 
 		return $"_content/Majorsoft.Blazor.Components.PermaLink/{img}.svg";
 	}

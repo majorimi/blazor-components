@@ -295,7 +295,8 @@
 	private string _codedString = "Copy string value form C# code...";
 	private async Task CopyToClipboard()
 	{
-		await _clipboardHandler.CopyElementTextToClipboardAsync(_copyInput);
+		await _copyInput.CopyElementTextToClipboardAsync();
+		@*await _clipboardHandler.CopyElementTextToClipboardAsync(_copyInput);*@
 	}
 	private async Task CopyTextToClipboard()
 	{

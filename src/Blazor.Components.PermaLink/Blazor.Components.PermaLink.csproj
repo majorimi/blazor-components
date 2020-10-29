@@ -14,17 +14,16 @@
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
-	<PackageTags>.Net5 Blazor URL URI Navigation PermaLink Link</PackageTags>
+	<PackageTags>.Net5 Blazor URL URI Routing Navigation PermaLink Link</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink).</Description>
 	<Title>Blazor Components PermaLink navigation</Title>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
-  
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
   </ItemGroup>

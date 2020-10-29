@@ -13,7 +13,7 @@ This is useful when you want to wait for a CSS **Transition** or **Animation** t
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents).
 
-# Components
+# Components and Services
 
 - **`AnimationElement`**: Convenient Blazor component which uses `IAnimationEventsService` to wrap around the given Content and listens for all or one animation Name.
 - **`IAnimationEventsService`**: : Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be Disposed manually.

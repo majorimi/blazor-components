@@ -7,13 +7,18 @@ Blazor Components PermaLink control and extension
 
 # About
 
- **All components work with WebAssembly and Server hosted models**. 
+Blazor **injectable `IPermaLinkWatcherService` service** and `PermaLinkElement` wrapper component which allows navigation inside Blazor pages (#permalink). 
+**All components work with WebAssembly and Server hosted models** (Blazor server side configuration is different). 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/PermaLink.razor).
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/PermaLink).
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/permalink#main).
 
-# Components
+# Components and Services
 
+- **`PermaLinkElement`**: is a wrapper component it renders the given content with `<a>` tag and will add anchor icon with on hover activated Link copy function. 
+Hover over the top Header item to copy or navigate to URL as well.
+- **`IPermaLinkWatcherService`**: . It is registered as Singleton and should be injected only once for the whole application. 
+Best way to use `MainLayout.razor`.
 
 # Configuration
 
@@ -52,7 +57,9 @@ public static async Task Main(string[] args)
 }
 ```
 
-**In case of Server hosted project register services in your `Startup.cs` file:**
+**In case of Server hosted project register dependency services in your `Startup.cs` file:**
+
+**NOTE: PermaLinkWatcher cannot be added here!**
 ```
 using Blazor.Components.Common.JsInterop;
 ...
