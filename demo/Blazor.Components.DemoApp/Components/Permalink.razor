@@ -1,0 +1,150 @@
+﻿<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<h1>Permalink (#link) extension and component</h1>
+
+<p>
+	Blazor <strong>injectable <code>IPermaLinkWatcherService</code> service</strong> and <code>PermaLinkElement</code> wrapper component which allows navigation inside Blazor pages (#permalink). 
+	For usege see soruce code and docs on <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.PermaLink</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="main"IconSize="18" IconMarginTop="7">
+		<Content>
+			<h3>External Pages with permalinks:</h3>
+		</Content>
+	</PermaLinkElement>
+
+	Clink on any of the links below to navigate Blazor pages with Permalinks. Page will be scrolled to the given element. Elements can be marked to permalink with standard 
+	<strong>HTML anchor tags</strong>: <code>&lt;a name="link-name-here"&gt;&lt;/a&gt;</code> or use <code>PermaLinkElement</code> wrapper component. 
+	<strong>It renders the given content with anchor tag and will add anchor icon with on hover activated Link copy or navigate to URL function.</strong> Hover over the top Header item to copy or navigate to URL as well.
+	<ul>
+		<li>
+			<NavLink href="jsinterop">Js Interop controls and extensions</NavLink>
+			<ul>
+				<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+				<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
+				<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
+				<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+				<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+			</ul>
+		</li>
+		<li>
+			<NavLink href="cssevents">CSS Events</NavLink>
+			 <ul>
+				<li><NavLink href="cssevents#transition">CSS Transition</NavLink></li>
+				<li><NavLink href="cssevents#animation">CSS Animation</NavLink></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Internal page Permalink examles:</h3>
+	<ul>
+		<li><NavLink href="permalink">No permalink</NavLink></li>
+		<li><NavLink href="permalink#does-not_exists">Non existing permalink</NavLink></li>
+		<li><NavLink href="permalink#standard-a-tag">Standard &lt;a&gt; tag</NavLink></li>
+		<li><NavLink href="permalink#PermaLink-Element-wrapper">Customizable PermaLinkElement</NavLink></li>
+	</ul>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>No permalink</h3>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Non existing permalink</h3>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<a name="standard-a-tag"></a> <h3>Standard <code>&lt;a&gt;</code> tag</h3>
+</div>
+
+<div style="margin-bottom:300px;" class="container-fluid p-3 pb-5 border rounded">
+	<PermaLinkElement 
+		PermaLinkName="PermaLink-Element-wrapper" 
+		ShowIcon="@_showIcon"
+		IconPosition="@_iconPosition"
+		IconActions="@((PermaLinkIconActions)_action)"
+		IconStyle="_iconStyle"
+		IconSize="18"
+		IconMarginTop="7"
+		OnPermaLinkCopied="@LinkCopied">
+		<Content>
+			<h3>Customizable <code>PermaLinkElement</code> wrapper component</h3>
+		</Content>
+	</PermaLinkElement>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Show PermaLink icon: <select class="form-control selectpicker w-100" @bind="_showIcon">
+				@foreach (var item in Enum.GetValues(typeof(ShowPermaLinkIcon)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Show PermaLink icon: <select class="form-control selectpicker w-100" @bind="_iconPosition">
+				@foreach (var item in Enum.GetValues(typeof(PermaLinkIconPosition)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			PermaLink icon style: <select class="form-control selectpicker w-100" @bind="_iconStyle">
+				@foreach (var item in Enum.GetValues(typeof(PermaLinkStyle)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			PermaLink Icon Actions: <select class="form-control selectpicker w-100" @bind="_action">
+				@foreach (var item in Enum.GetValues(typeof(PermaLinkIconActions)))
+				{
+					<option value="@((int)item)">@item</option>
+				}
+				<option value="@((int)PermaLinkIconActions.Copy|(int)PermaLinkIconActions.Navigate)">Copy and Navigate</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Event log</strong>:</label>
+			<textarea @ref="_divLog" @bind="_log" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@code{
+	private ShowPermaLinkIcon _showIcon = ShowPermaLinkIcon.OnHover;
+	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
+	private PermaLinkStyle _iconStyle;
+	private int _action = (int)PermaLinkIconActions.Copy;
+
+	private string _log;
+	private ElementReference _divLog;
+
+	private async Task LinkCopied(string uri)
+	{
+		_log += $"Link copied URL: {uri} {Environment.NewLine}";
+		await _divLog.ScrollToEndAsync();
+	}
+}

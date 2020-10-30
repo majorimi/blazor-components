@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Blazor.WebAssembly.Logging.Console;
 using Blazor.Components.CssEvents;
 using Blazor.Components.Common.JsInterop;
+using Blazor.Components.PermaLink;
 
 namespace Blazor.Components.DemoApp
 {
@@ -26,6 +27,7 @@ namespace Blazor.Components.DemoApp
 
 			builder.Services.AddCssEvents();
 			builder.Services.AddJsInteropExtensions();
+			builder.Services.AddPermaLinkWatcher();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug);
