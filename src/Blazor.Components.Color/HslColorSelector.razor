@@ -25,6 +25,8 @@
 	}
 </style>
 
+@inject ILogger<HslColorSelector> _logger;
+
 @code {
 	string _componentId = Guid.NewGuid().ToString("n");
 
@@ -79,5 +81,10 @@
 	{
 		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
 		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 }

@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 	  <Watch Remove="Pages\ColorPage.razor" />
+	  <Watch Remove="Pages\DragAndDropPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\JSInteropPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
@@ -44,6 +45,9 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\DragAndDropPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\IndexPage.razor">
