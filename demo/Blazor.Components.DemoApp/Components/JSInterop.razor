@@ -13,8 +13,21 @@
 
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
+<div>
+	<h3>JS Interop features:</h3>
+	<ul>
+		<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
+		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
+		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+	</ul>
+</div>
+
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Click JS</h3>
+	<PermaLinkElement PermaLinkName="click-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Click JS</h3></Content>
+	</PermaLinkElement>
 	<p>
 		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
 		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
@@ -22,7 +35,7 @@
 		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
 		<br />
 		<strong>
-			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when wem need to detect if click
+			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when need to detect if click
 			happened outside of the component with <code>OnOutsideClick</code>.
 		</strong>
 	</p>
@@ -51,7 +64,9 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Focus JS</h3>
+	<PermaLinkElement PermaLinkName="focus-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Focus JS</h3></Content>
+	</PermaLinkElement>
 	<p>
 		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
 		which can be used in case of <code>ElementReference</code> is available. 
@@ -81,7 +96,9 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded" @ref="_infoDiv" @onclick="InfoDivClick">
-	<h3>Element info JS</h3>
+	<PermaLinkElement PermaLinkName="info-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Element info  JS</h3></Content>
+	</PermaLinkElement>
 	<p>
 		<strong>Element info JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
 	</p>
@@ -100,7 +117,9 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Scroll JS</h3>
+	<PermaLinkElement PermaLinkName="scroll-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Scroll JS</h3></Content>
+	</PermaLinkElement>
 	<p>
 		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
 		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
@@ -138,9 +157,33 @@
 	</div>
 	
 	<hr />
-
-	<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 </div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="clipboard-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Clipboard JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Clipboard JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for accessing computer Clipboard from Blazor Application.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<input type="text" value="Hello World" @ref="_copyInput">
+			<button class="btn btn-primary" @onclick="CopyToClipboard">Copy input value to Clipboard</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>@_codedString</label>
+			<button class="btn btn-primary" @onclick="CopyTextToClipboard">Copy coded text to Clipboard</button>
+		</div>
+	</div>
+</div>
+
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+
 
 @using System.Text.Json
 @implements IAsyncDisposable
@@ -148,6 +191,7 @@
 @inject IScrollHandler _scrollHandler
 @inject IFocusHandler _focusHandler
 @inject IClickBoundariesHandler _clichHandler;
+@inject IClipboardHandler _clipboardHandler;
 
 @code {
 	private string _scrollEventId = null;
@@ -257,6 +301,19 @@
 		_scrollSubscribed = !_scrollSubscribed;
 	}
 
+	//Clipboard JS
+	private ElementReference _copyInput;
+	private string _codedString = "Copy string value form C# code...";
+	private async Task CopyToClipboard()
+	{
+		await _copyInput.CopyElementTextToClipboardAsync();
+		@*await _clipboardHandler.CopyElementTextToClipboardAsync(_copyInput);*@
+	}
+	private async Task CopyTextToClipboard()
+	{
+		await _clipboardHandler.CopyTextToClipboardAsync(_codedString);
+	}
+
 	public async ValueTask DisposeAsync()
 	{
 		if(_scrollHandler is not null)
@@ -273,6 +330,11 @@
 		if(_clichHandler is not null)
 		{
 			await _clichHandler.DisposeAsync();
+		}
+
+		if(_clipboardHandler is not null)
+		{
+			await _clipboardHandler.DisposeAsync();
 		}
 	}
 }

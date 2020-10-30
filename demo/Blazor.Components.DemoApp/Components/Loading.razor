@@ -46,8 +46,9 @@
 	<p>Renders <strong>HTML Button</strong> with customizable content to show during async operation progress/loading...</p>
 
 	<div class="pb-2">
-		<div>Submit button with Click handler 'Auto' loading and DisabledWhenLoading="true"</div>
-		<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" OnClicked="@SendRequest">
+		<div>Submit button will switch state automatically when clicked and registered callback finished executing. </div>
+		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading1"/></div>
+		<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" DisabledWhenLoading="_disabledWhenLoading1" OnClicked="@SendRequest">
 			<Content>
 				Fetch data
 			</Content>
@@ -59,8 +60,9 @@
 
 	<hr />
 	<div class="pb-2">
-		<div>Button with Click handler 'Auto' loading handler and DisabledWhenLoading="false"</div>
-		<LoadingButton class="btn btn-warning" DisabledWhenLoading="false" OnClicked="@SendRequest">
+		<div>Simple button will switch state automatically when clicked and registered callback finished executing. </div>
+		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading2"/></div>
+		<LoadingButton class="btn btn-warning" DisabledWhenLoading="_disabledWhenLoading2" OnClicked="@SendRequest">
 			<Content>
 				Save
 				<i class="fa fa-save"></i>
@@ -73,17 +75,19 @@
 
 	<hr />
 	<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
+		<div>Form Submit button without Click handler states has to be switched 'Manualy' by acquiring @@ref="" and call Set()/Reset() functions.</div>
+		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading3"/></div>
+
 		<DataAnnotationsValidator />
 		<ValidationSummary />
 
 		<div class="row">
 			<div class="col-12 col-lg-8 col-xl-5">
-				<div class="pb-2">
+				<div class="pb-2 pt-3">
 					<InputText @bind-Value="exampleModel.Name" class="form-control w-100" />
 				</div>
 				<div class="pb-2">
-					<div>Submit button without Click handler 'Manual' loading and DisabledWhenLoading="true"</div>
-					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" Type="ButtonTypes.Submit">
+					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" DisabledWhenLoading="_disabledWhenLoading3" Type="ButtonTypes.Submit">
 						<Content>
 							Submit
 						</Content>
@@ -120,6 +124,10 @@
 	{
 		await Task.Delay(1500); //write your code here...
 	}
+
+	private bool _disabledWhenLoading1 = true;
+	private bool _disabledWhenLoading2 = true;
+	private bool _disabledWhenLoading3 = true;
 
 	//Use it with EditForm otherwise use LoadingButton.OnClicked event.
 	private LoadingButton _loadingButton;

@@ -15,3 +15,19 @@
         </div>
     </div>
 </div>
+
+@using Blazor.Components.PermaLink
+@inject IPermaLinkWatcherService _permalinkWatcher
+@implements IDisposable
+
+@code {
+    protected override void OnInitialized()
+    {
+        _permalinkWatcher.WatchPermaLinks();
+    }
+
+    public void Dispose()
+    {
+        _permalinkWatcher.Dispose();
+    }
+}
