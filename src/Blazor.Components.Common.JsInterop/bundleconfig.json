@@ -22,5 +22,11 @@
     "inputFiles": [
       "wwwroot/scroll.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/clipboard.min.js",
+    "inputFiles": [
+      "wwwroot/clipboard.js"
+    ]
   }
 ]

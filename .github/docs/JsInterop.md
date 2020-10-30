@@ -20,7 +20,59 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
 - **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+- **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 
+## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
+
+Injectable service to handle JS 'click' events for the whole document. 
+**NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
+This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
+
+### Functions
+- **`RegisterClickBoundariesAsync`**: **`Task RegisterClickBoundariesAsync(ElementReference elementRef, Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null)`** <br />
+ Adds event listener for 'click' HTML event for the given element with property filter.
+- **`RemoveClickBoundariesAsync`**: **`Task RemoveClickBoundariesAsync(ElementReference elementRef)`** <br />
+Removes event listener for 'click' HTML event for the given element.
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+## Focus JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#focus-js))
+Injectable service to handle JS 'focus' Interops.
+**Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.** 
+It is useful when **focus should be restored on a parent component but element reference not stored or it's on a different component**.
+
+### Functions
+- **`GetFocusedElementAsync`**: **`Task<IJSObjectReference> GetFocusedElementAsync()`** <br />
+Returns the actually focused HTML DOM element reference. It works with outside element of a Blazor component.
+**Note: `IJSObjectReference` object is disposable.**
+- **`FocusElementAsync`**: **`Task FocusElementAsync(IJSObjectReference objectReference)`** <br />
+Sets focus on the given HTML DOM element reference. **Note: `IJSObjectReference` object is disposable.**
+- **`StoreFocusedElementAsync`**: **`Task StoreFocusedElementAsync()`** <br />
+Stores the actually focused HTML DOM element reference into a JS variable. This can be restored by calling `RestoreStoredElementFocusAsync` method.
+- **`RestoreStoredElementFocusAsync`**: **`Task RestoreStoredElementFocusAsync(bool clearElementRef = true)`** <br />
+Restores the HTML DOM element reference stored by calling `StoreFocusedElementAsync` method.
+
+## Element info JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#info-js))
+**Element info JS is a set of Extension methods for `ElementReference` objects.**
+
+### Functions
+- **`GetClientRectAsync`**: **`Task<DomRect> GetClientRectAsync(this ElementReference elementReference)`** <br />
+Returns the given HTML element ClintBoundRect data as `DomRect`.
+
+## Scroll JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#scroll-js))
+**Scroll JS**is a set of **Extension methods** for `ElementReference` objects. 
+Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+
+### Functions
+
+## Clipboard JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#clipboard-js))
+Injectable service to handle JS 'copy' to clipboard Interop for accessing computer Clipboard from Blazor Application.
+
+### Functions
+- **`CopyElementTextToClipboardAsync`**: **`Task<bool> CopyElementTextToClipboardAsync(ElementReference elementReference)`** <br />
+Copies the given element text content to clipboard.
+- **`CopyTextToClipboardAsync`**: **`Task<bool> CopyTextToClipboardAsync(string text)`** <br />
+Copies the given text content to clipboard.
 
 # Configuration
 
@@ -46,6 +98,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Blazor.Components.Common.JsInterop.Click
 @*Only if you want to use ElementInfo*@
 @using Blazor.Components.Common.JsInterop.ElementInfo
+@*Only if you want to use Clipboard*@
+@using Blazor.Components.Common.JsInterop.Clipboard
 ```
 
 
@@ -71,3 +125,8 @@ public void ConfigureServices(IServiceCollection services)
 	services.AddJsInteropExtensions();
 }
 ```
+
+### Examples
+**Majorsoft.Blazor.Components.Common.JsInterop** package is a very big set of useful small JS Interop functionalities. Which generates a huge sample code base.
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/JSInterop.razor).
+Also you can understand the behavior by trying out the [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop).

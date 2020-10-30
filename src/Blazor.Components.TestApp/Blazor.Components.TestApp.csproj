@@ -26,6 +26,7 @@
 	  <Watch Remove="Pages\JSInteropPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
+	  <Watch Remove="Pages\PermaLinkPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
@@ -52,6 +53,9 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\ModalPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\PermaLinkPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\TimerPage.razor">

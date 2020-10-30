@@ -55,6 +55,18 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			await _scrollJs.InvokeVoidAsync("scrollToElement", elementReference);
 		}
 
+		public async Task ScrollToElementByIdAsync(string id)
+		{
+			await CheckJsObjectAsync();
+			await _scrollJs.InvokeVoidAsync("scrollToElementById", id);
+		}
+
+		public async Task ScrollToElementByNameAsync(string name)
+		{
+			await CheckJsObjectAsync();
+			await _scrollJs.InvokeVoidAsync("scrollToElementByName", name);
+		}
+
 		public async Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)
 		{
 			await CheckJsObjectAsync();

@@ -5,6 +5,20 @@ export function scrollToElement(element) {
         element.scrollIntoView();
     }
 }
+export function scrollToElementById(id) {
+    if (id) {
+        scrollToElement(document.getElementById(id));
+    }
+}
+export function scrollToElementByName(name) {
+    if (name) {
+        let elements = document.getElementsByName(name)
+        if (elements && elements.length > 0) {
+            scrollToElement(elements[0]);
+        }
+    }
+}
+
 //Element scrolled inside another element
 export function scrollToElementInParent(parent, element) {
     if (parent && element && typeof parent.hasOwnProperty("scrollTop") && isElementHidden(element)) {

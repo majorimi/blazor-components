@@ -16,6 +16,18 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
 		/// <returns>Async Task</returns>
 		Task ScrollToElementAsync(ElementReference elementReference);
+		/// <summary>
+		/// Finds element by Id and scrolls the given element into the page view area.
+		/// </summary>
+		/// <param name="name">DOM element id</param>
+		/// <returns>Async Task</returns>
+		Task ScrollToElementByIdAsync(string id);
+		/// <summary>
+		/// Finds element by name and scrolls the given element into the page view area.
+		/// </summary>
+		/// <param name="name">DOM element name</param>
+		/// <returns>Async Task</returns>
+		Task ScrollToElementByNameAsync(string name);
 
 		/// <summary>
 		/// Scrolls to end of the page (X bottom).

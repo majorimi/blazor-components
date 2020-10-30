@@ -44,7 +44,7 @@ which handles JS Interop for many features e.g. scrolling, etc.
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Blazor.Components.Common.JsInterop;
 ...
 public static async Task Main(string[] args)
 {
@@ -57,7 +57,7 @@ public static async Task Main(string[] args)
 
 **In case of Server hosted project register services in your `Startup.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Blazor.Components.Common.JsInterop;
 ...
 
 public void ConfigureServices(IServiceCollection services)

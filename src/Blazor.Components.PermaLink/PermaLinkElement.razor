@@ -1,0 +1,145 @@
+﻿<div @ref="_permaDiv" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" @onmouseenter="MouseHover" @onmouseleave="MouseLeave">
+
+<a name="@_permaLinkName"></a> @Content
+
+@if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) {
+	<img style="@_iconStyle" width="@IconSize" height="@IconSize" class="permaLink" src="@GetIconUrl()" @onclick="ImgClick" />
+}
+</div>
+
+@implements IAsyncDisposable
+
+@inject ILogger<PermaLinkElement> _logger;
+@inject NavigationManager _navigationManager;
+@inject IClipboardHandler _clipboardHandler;
+
+@code {
+	private ElementReference _permaDiv;
+	private DomRect _rect;
+	private string _iconStyle;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		_rect = await _permaDiv.GetClientRectAsync();
+		
+		var tmp = GetIconStyle();
+		if(_iconStyle != tmp)
+		{
+			_iconStyle = tmp;
+			StateHasChanged();
+		}
+	}
+
+	private bool _showIcon = false;
+	private string? _permaLinkName;
+	[Parameter] public string PermaLinkName
+	{ 
+		get => _permaLinkName; 
+		set
+		{
+			_permaLinkName = value?.Trim()?.Replace(" ", "-");
+		}
+	}
+
+	[Parameter] public RenderFragment Content { get; set; }
+
+	//Icon visibility, style...
+	[Parameter] public ShowPermaLinkIcon ShowIcon { get; set; } = ShowPermaLinkIcon.OnHover;
+	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
+	[Parameter] public PermaLinkIconPosition IconPosition 
+	{ 
+		get => _iconPosition;
+		set
+		{
+			if (value != _iconPosition)
+			{
+				_iconPosition = value;
+				_iconStyle = GetIconStyle();
+				StateHasChanged();
+			}
+		}
+	}
+	[Parameter] public double IconMarginTop { get; set; } = 0;
+	[Parameter] public int IconSize { get; set; } = 16;
+	[Parameter] public PermaLinkStyle IconStyle { get; set; } = PermaLinkStyle.Normal;
+	[Parameter] public PermaLinkIconActions IconActions { get; set; } = PermaLinkIconActions.Copy;
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] public EventCallback<string> OnPermaLinkCopied { get; set; }
+
+	private void MouseHover()
+	{
+		if (_showIcon || ShowIcon != ShowPermaLinkIcon.OnHover)
+			return;
+			
+		WriteDiag("------------ DIV Hovered! ---------");
+
+		_showIcon = true;
+	}
+	private void MouseLeave()
+	{
+		if (!_showIcon || ShowIcon != ShowPermaLinkIcon.OnHover)
+			return;
+
+		WriteDiag("------------ DIV mouse LEAVE! ---------");
+
+		_showIcon = false;
+	}
+	private async Task ImgClick()
+	{
+		var uri = _navigationManager.Uri;
+		var index = uri.IndexOf("#");
+		if(index > 0)
+		{
+			uri = uri.Substring(0, index);
+		}
+
+		uri += $"#{_permaLinkName}";
+		WriteDiag($"{nameof(ImgClick)} Link icon was clicked IconActions: {IconActions} URL: {uri}");
+
+		if ((IconActions & PermaLinkIconActions.Copy) == PermaLinkIconActions.Copy)
+		{
+			var ret = await _clipboardHandler.CopyTextToClipboardAsync(uri);
+
+			if (OnPermaLinkCopied.HasDelegate)
+			{
+				await OnPermaLinkCopied.InvokeAsync(uri);
+			}
+		}
+		if ((IconActions & PermaLinkIconActions.Navigate) == PermaLinkIconActions.Navigate)
+		{
+			_navigationManager.NavigateTo(uri, true);
+		}
+	}
+
+	private string GetIconStyle()
+	{
+		var res = "";
+		if (IconPosition == PermaLinkIconPosition.Left)
+		{
+			res = $"left: {_rect?.Left}px; position: absolute;";
+		}
+
+		return $"{res} margin-top: {IconMarginTop}px;";
+	}	
+	private string GetIconUrl()
+	{
+		var img = IconStyle == PermaLinkStyle.Normal ? "link2" : "link";
+
+		return $"_content/Majorsoft.Blazor.Components.PermaLink/{img}.svg";
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_clipboardHandler is not null)
+		{
+			await _clipboardHandler.DisposeAsync();
+		}
+	}
+}

@@ -1,5 +1,5 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
-	<div class="picker-color"></div>
+	<div class="picker-color" @onclick="ClickInColor"></div>
 	<span class="picker-handler" tabindex="0" 
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex"></span>
 </div>
@@ -32,22 +32,22 @@
 	private int _sliderThumbSize;
 	private string _sliderThumbHex = "";
 
-	private int _selectorThumbSize = 15;
+	private int _selectorThumbSize = 21;
 	private double _selectorThumbLeft;
 	private double _selectorThumbTop;
 	private string _selectorThumbHex = "";
 
-	[Parameter] public int HueAreaHeight { get; set; } = 200;
-	[Parameter] public int HueAreaWidth { get; set; } = 400;
-	[Parameter] public int HueSliderHeight { get; set; } = 12;
-	[Parameter] public int HueSliderWidth { get; set; } = 400;
+	[Parameter] public int HueAreaHeight { get; set; } = 250;
+	[Parameter] public int HueAreaWidth { get; set; } = 450;
+	[Parameter] public int HueSliderHeight { get; set; } = 10;
+	[Parameter] public int HueSliderWidth { get; set; } = 450;
 	[Parameter] public Color SelectedColor { get; set; } = Color.Blue;
 
 	[Parameter] public EventHandler<Color> OnColorChanged { get; set; }
 
 	protected override void OnInitialized()
 	{
-		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.2);
+		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
 		_hue = SelectedColor.GetHue();
 
 		SetSliderColor();
@@ -73,5 +73,11 @@
 		//TODO: set the handler circle to the correct position of the color...
 		SelectedColor = (Color)hslColor;
 		_selectorThumbHex = ColorTranslator.ToHtml(SelectedColor);
+	}
+
+	private void ClickInColor(MouseEventArgs args)
+	{
+		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
+		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
 	}
 }

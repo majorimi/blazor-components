@@ -29,6 +29,7 @@
 	<ProjectReference Include="..\Blazor.Components.Debounce\Blazor.Components.Debounce.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Modal\Blazor.Components.Modal.csproj" />
+	<ProjectReference Include="..\Blazor.Components.PermaLink\Blazor.Components.PermaLink.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Timer\Blazor.Components.Timer.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Typeahead\Blazor.Components.Typeahead.csproj" />
   </ItemGroup>
