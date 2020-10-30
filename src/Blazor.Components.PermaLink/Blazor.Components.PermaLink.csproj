@@ -5,6 +5,7 @@
 	<nullable>enable</nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>Majorsoft.Blazor.Components.PermaLink</PackageId>
+	<Version>1.0.0.0</Version>
 	<Authors>Imre Toth</Authors>
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>

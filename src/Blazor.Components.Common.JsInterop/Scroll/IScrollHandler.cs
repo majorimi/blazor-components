@@ -52,7 +52,7 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 		/// <returns>Async Task</returns>
 		Task ScrollToPageYAsync(double y);
 		/// <summary>
-		/// Returns page X scroll position.
+		/// Returns page X,Y scroll position as <see cref="ScrollEventArgs"/>.
 		/// </summary>
 		/// <returns>Async Task</returns>
 		Task<ScrollEventArgs> GetPageScrollPosAsync();
@@ -60,13 +60,13 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 		/// <summary>
 		/// Adds event listener for 'scroll' HTML event for the whole document/window.
 		/// </summary>
-		/// <param name="scrollCallback"></param>
+		/// <param name="scrollCallback">Func to call when scroll happened</param>
 		/// <returns>Async Task with event id to unsubscribe from event</returns>
 		Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback);
 		/// <summary>
 		/// Removes event listener for 'scroll' HTML event for the whole document/window by the given event Id.
 		/// </summary>
-		/// <param name="eventId"></param>
+		/// <param name="eventId">Event id from <see cref="RegisterPageScrollAsync"/></param>
 		/// <returns>Async Task</returns>
 		Task RemovePageScrollAsync(string eventId);
 	}

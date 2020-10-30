@@ -8,6 +8,11 @@ namespace Blazor.Components.Common.JsInterop.Clipboard
 {
 	public static class ClipboardExtensions
 	{
+		/// <summary>
+		/// Copies the given element text content to clipboard.
+		/// </summary>
+		/// <param name="elementReference">ElementReference to get text</param>
+		/// <returns>Async Task</returns>
 		public static async Task<bool> CopyElementTextToClipboardAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
