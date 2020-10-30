@@ -21,16 +21,40 @@ Hover over the top Header item to copy or navigate to URL as well.
 Best way to use `MainLayout.razor`.
 
 ## `IPermaLinkWatcherService` extension
-This is the main service which makes Permalink navigation possible. Should be used as a Singleton only in `MainLayout.razor` file.
+This is the main service which makes Permalink navigation possible. **Should be used as a Singleton** only in `MainLayout.razor` file.
 For more details see Usage section.
 
 ### Functions
+- **`WatchPermaLinks()`**: **`void WatchPermaLinks()`** <br />
+Starts a navigation watcher which will check for Permalinks in the URLs.
+- **`Dispose()`: `@implements IDisposable` interface** <br />
+Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 ## `PermaLinkElement` component
 
 ### Properties
+- **`Content`**: **`RenderFragment` HTML content - Required**  <br />
+Required HTML content to render with mouse enter/leave events to show Permalink icon. **NOTE: it can be any arbitrary HTML elemnt but should be just a header text e.g. `<h1> - <h6>` element.**
+- **`PermaLinkName`**: **`string PermaLinkName { get; set; }` - Required**  <br />
+Value of the rendered `<a>` HTML tag. **NOTE: it is required and will be part of the URL, do not add `#` use non URL friendly characters!**
+- **`ShowIcon`**: **`ShowPermaLinkIcon ShowIcon { get; set; }` - (default: enum `ShowPermaLinkIcon.OnHover`)**  <br />
+Enum value which sets how to show clickable permalink the icon: `No`, `OnHover`, `Always`.
+- **`IconPosition`**: **`PermaLinkIconPosition IconPosition { get; set; }` - (default: enum `PermaLinkIconPosition.Right`)**  <br />
+Enum value which sets where to show the icon: `Left`, `Right`.
+- **`IconMarginTop`**: **`double IconMarginTop { get; set; }` - (default: 0)**  <br />
+Sets the icon `margin-top` CSS property in `px`. With this icon can be centered.
+- **`IconSize`**: **`int IconSize { get; set; }` - (default: 16)**  <br />
+Sets the icon `<img width="" height="" />` values.
+- **`IconStyle`**: **`PermaLinkStyle IconStyle { get; set; }` - (default: enum `PermaLinkStyle.Normal`)**  <br />
+Enum value which sets the  displayed icon type: `Normal`, `Bold`.
+- **`IconActions`**: **`PermaLinkIconActions IconActions { get; set; }` - (default: FLAG enum `PermaLinkIconActions.Copy`)**  <br />
+FLAG Enum value which sets the behaviour of the icon click: `Copy`, `Navigate`. Flag values can be combined: `PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate`.
+
+**Arbitrary HTML attributes e.g.: id="btn1" will be passed to the corresponding rendered <div> HTML element wrapper.**
 
 ### Events
+- **`OnLoading`**: **`EventCallback` delegate**  <br />
+Callback function called when Permalink icon clicked and **`PermaLinkIconActions.Copy`** feature was set.
 
 # Configuration
 

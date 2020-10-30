@@ -8,6 +8,11 @@ namespace Blazor.Components.Common.JsInterop.ElementInfo
 {
 	public static class ElementReferenceInfoExtensions
 	{
+		/// <summary>
+		/// Returns the given HTML element ClintBoundRect data.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task with <see cref="DomRect"/> value</returns>
 		public static async Task<DomRect> GetClientRectAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())

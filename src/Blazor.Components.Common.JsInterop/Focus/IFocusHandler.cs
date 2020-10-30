@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 namespace Blazor.Components.Common.JsInterop.Focus
 {
 	/// <summary>
-	/// Injectable service to handle JS 'focus' interops.
+	/// Injectable service to handle JS 'focus' Interops.
 	/// </summary>
 	public interface IFocusHandler : IAsyncDisposable
 	{

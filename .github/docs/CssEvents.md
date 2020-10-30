@@ -20,7 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`TransitionElement`**:  Convenient Blazor component which uses `ITransitionEventsService` to wrap around the given Content and listens for all or one event property.
 - **`ITransitionEventsService`**: Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be Disposed manually.
 
-## CSS Animation events
+## CSS Animation events (See [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents#animation))
 Blazor Extension and Component wrapper to notify Blazor apps on CSS supported Animation events: `animationstart`, `animationiteration`, `animationend`. 
 This is useful when you want to wait for a CSS Animations to finish/restart, etc. and then continue run C# code, e.g.: hide the element, etc.
 
@@ -102,7 +102,7 @@ public sealed class AnimationEventArgs : EventArgs
 }
 ```
 
-## CSS Transition events
+## CSS Transition events (See [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents#transition))
 Blazor Extension and Component wrapper to notify Blazor apps on CSS supported Transition event: `transitionend`. 
 This is useful when you want to wait for a CSS Transition to finish and then continue run C# code, e.g.: hide the element, etc.
 

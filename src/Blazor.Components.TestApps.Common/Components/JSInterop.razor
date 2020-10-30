@@ -13,6 +13,17 @@
 
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
+<div>
+	<h3>JS Interop features:</h3>
+	<ul>
+		<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
+		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
+		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+	</ul>
+</div>
+
 <div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="click-js" IconMarginTop="8" IconSize="18">
 		<Content><h3>Click JS</h3></Content>
@@ -24,7 +35,7 @@
 		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
 		<br />
 		<strong>
-			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when wem need to detect if click
+			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when need to detect if click
 			happened outside of the component with <code>OnOutsideClick</code>.
 		</strong>
 	</p>
