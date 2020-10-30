@@ -24,7 +24,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 
-Injectable service to handle JS 'click' events for the whole document. 
+Injectable `IClickBoundariesHandler` service to handle JS 'click' events for the whole document. 
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
 This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
 
@@ -37,7 +37,7 @@ Removes event listener for 'click' HTML event for the given element.
 Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
 ## Focus JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#focus-js))
-Injectable service to handle JS 'focus' Interops.
+Injectable `IFocusHandler` service to handle JS 'focus' Interops.
 **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.** 
 It is useful when **focus should be restored on a parent component but element reference not stored or it's on a different component**.
 
@@ -63,16 +63,55 @@ Returns the given HTML element ClintBoundRect data as `DomRect`.
 **Scroll JS**is a set of **Extension methods** for `ElementReference` objects. 
 Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
 
-### Functions
+### `IScrollHandler` Functions
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference)`**<br />
+Scrolls the given element into the page view area.
+- **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id)`**<br />
+Finds element by Id and scrolls the given element into the page view area.
+- **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name)`**<br />
+Finds element by name and scrolls the given element into the page view area.
+- **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync()`**<br />
+Scrolls to end of the page (X bottom).
+- **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync()`**<br />
+Scrolls to top of the page (X top).
+- **`ScrollToPageXAsync`**: **`Task ScrollToPageXAsync(double x)`**<br />
+Scrolls to X position on the page.
+- **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y)`**<br />
+Scrolls to Y position on the page.
+- **`GetPageScrollPosAsync`**: **`Task<ScrollEventArgs> GetPageScrollPosAsync()`**<br />
+Returns page X,Y scroll position as `ScrollEventArgs`.
+- **`RegisterPageScrollAsync`**: **`Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)`**<br />
+Adds event listener for 'scroll' HTML event for the whole document/window. **Also returns with Event Id event id to unsubscribe from event.**
+- **`RemovePageScrollAsync`**: **`Task RemovePageScrollAsync(string eventId)`**<br />
+Removes event listener for 'scroll' HTML event for the whole document/window by the given event Id.
+
+### `ElementReference` extensions
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToEndAsync`**: **`Task ScrollToEndAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToTopAsync`**: **`Task ScrollToTopAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToXAsync`**: **`Task ScrollToXAsync(this ElementReference elementReference, double xPos)`**<br />
+- **`ScrollToYAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double yPos)`**<br />
+- **`GetScrollPositionAsync`**: **`Task<double> GetScrollPositionAsync(this ElementReference elementReference)`**<br />
+- **`IsElementHiddenAsync`**: **`Task<bool> IsElementHiddenAsync(this ElementReference elementReference)`**<br />
+- **`IsElementHiddenBelowAsync`**: **`Task<bool> IsElementHiddenBelowAsync(this ElementReference elementReference)`**<br />
+- **`IsElementHiddenAboveAsync`**: **`Task<bool> IsElementHiddenAboveAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToElementInParentAsync`**: **`Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)`**<br />
+- **`ScrollInParentByIdAsync`**: **`Task ScrollInParentByIdAsync(this ElementReference parent, string id)`**<br />
+- **`ScrollInParentByClassAsync`**: **`Task ScrollInParentByClassAsync(this ElementReference parent, string className)`**<br />
+
 
 ## Clipboard JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#clipboard-js))
-Injectable service to handle JS 'copy' to clipboard Interop for accessing computer Clipboard from Blazor Application.
+Injectable `IClipboardHandler` service to handle JS 'copy' to clipboard Interop for accessing computer Clipboard from Blazor Application.
 
-### Functions
+### `IClipboardHandler` Functions
 - **`CopyElementTextToClipboardAsync`**: **`Task<bool> CopyElementTextToClipboardAsync(ElementReference elementReference)`** <br />
 Copies the given element text content to clipboard.
 - **`CopyTextToClipboardAsync`**: **`Task<bool> CopyTextToClipboardAsync(string text)`** <br />
 Copies the given text content to clipboard.
+
+### `ElementReference` extensions
+- **`CopyElementTextToClipboardAsync`**: **`Task<bool> CopyElementTextToClipboardAsync(this ElementReference elementReference)`** <br />
+Copies the given element text content to clipboard.
 
 # Configuration
 
