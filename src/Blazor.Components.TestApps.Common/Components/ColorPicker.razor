@@ -1,7 +1,11 @@
 ﻿<h3>Color Picker</h3>
 
-<HslColorSelector></HslColorSelector>
+<HslColorSelector
+    SelectedColor="@_selectedColor">
+</HslColorSelector>
+
+@using System.Drawing
 
 @code {
-
+    private Color _selectedColor = Color.FromArgb(77, 55, 20);
 }

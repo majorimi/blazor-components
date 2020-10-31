@@ -67,9 +67,9 @@ namespace Blazor.Components.Core.HtmlColors
 
 				var var1 = 2.0 * l - var2;
 
-				red = hue2Rgb(var1, var2, h + (1.0 / 3.0));
-				green = hue2Rgb(var1, var2, h);
-				blue = hue2Rgb(var1, var2, h - (1.0 / 3.0));
+				red = Hue2Rgb(var1, var2, h + (1.0 / 3.0));
+				green = Hue2Rgb(var1, var2, h);
+				blue = Hue2Rgb(var1, var2, h - (1.0 / 3.0));
 			}
 
 			var nRed = (int)Math.Round(red * 255.0);
@@ -79,7 +79,7 @@ namespace Blazor.Components.Core.HtmlColors
 			return Color.FromArgb(nRed, nGreen, nBlue);
 		}
 
-		private static double hue2Rgb(double v1, double v2, double vH)
+		private static double Hue2Rgb(double v1, double v2, double vH)
 		{
 			if (vH < 0.0)
 			{
@@ -113,6 +113,64 @@ namespace Blazor.Components.Core.HtmlColors
 				value = max;
 
 			return value;
+		}
+
+		public static HslColor FromRgb(Color rgb)
+		{
+			double r = rgb.R / 255.0;
+			double g = rgb.G / 255.0;
+			double b = rgb.B / 255.0;
+			double v;
+			double m;
+			double vm;
+			double r2, g2, b2;
+
+			var h = 0.0;
+			var s = 0.0;
+			var l = 0.0;
+
+			v = Math.Max(r, g);
+			v = Math.Max(v, b);
+			m = Math.Min(r, g);
+			m = Math.Min(m, b);
+			l = (m + v) / 2.0;
+
+			if (l <= 0.0)
+			{
+				return new HslColor(0, 0, 0);
+			}
+
+			vm = v - m;
+			s = vm;
+			if (s > 0.0)
+			{
+				s /= (l <= 0.5) ? (v + m) : (2.0 - v - m);
+			}
+			else
+			{
+				return new HslColor(0, 0, 0);
+			}
+
+			r2 = (v - r) / vm;
+			g2 = (v - g) / vm;
+			b2 = (v - b) / vm;
+
+			if (r == v)
+			{
+				h = (g == m ? 5.0 + b2 : 1.0 - g2);
+			}
+			else if (g == v)
+			{
+				h = (b == m ? 1.0 + r2 : 3.0 - b2);
+			}
+			else
+			{
+				h = (r == m ? 3.0 + g2 : 5.0 - r2);
+			}
+
+			h /= 6.0;
+
+			return new HslColor(h * 360, s * 100, l * 100);
 		}
 	}
 }
