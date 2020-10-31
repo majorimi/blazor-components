@@ -47,7 +47,7 @@
 
 	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
 		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
 		_hue = SelectedColor.GetHue();
@@ -55,37 +55,39 @@
 		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
 		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
 
-		SetSliderColor();
+		await SetSliderColorAsync();
 	}
 
-	private void HueChanged(ChangeEventArgs e)
+	private async Task HueChanged(ChangeEventArgs e)
 	{
-		_hue = int.Parse(e.Value?.ToString());
-		SetSliderColor();
+		_hue = double.Parse(e?.Value?.ToString());
+		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: {_hue}.");
+
+		await SetSliderColorAsync();
 	}
 
-	private void SetSliderColor()
+	private async Task SetSliderColorAsync()
 	{
-		// Hue: slider value , saturation: 100.0 (full), luminosity: 50.0 (normal)
+		// Hue: slider value, saturation: 100.0 (full), luminosity: 50.0 (normal)
 		var hslColor = new HslColor(_hue, 100, 50);
 		var hueColor = (Color)hslColor;
 
 		_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
 
-		GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
+		await GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
 	}
 
-	private void ClickInColor(MouseEventArgs args)
+	private async Task ClickInColor(MouseEventArgs args)
 	{
 		WriteDiag($"{nameof(ClickInColor)} Color selector area clicked X: {args.OffsetX}, Y: {args.OffsetY}.");
 
 		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
 		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
 
-		GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
+		await GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
 	}
 
-	private void GetBilinearColor(double x, double y, Color mainColor)
+	private async Task GetBilinearColor(double x, double y, Color mainColor)
 	{
 		var r = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.R);
 		var g = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.G);
@@ -98,7 +100,7 @@
 		
 		if(OnColorChanged.HasDelegate)
 		{
-			OnColorChanged.InvokeAsync(bilinearColor);
+			await OnColorChanged.InvokeAsync(bilinearColor);
 		}
 	}
 	private int BilinearInterpolationCalculator(double x, double y, int q21)
@@ -120,9 +122,7 @@
 		return (int)p;
 
 		//blue: (167, 14) = 151.38, 151.38, 240.72
-		// ~162, 162, 242
 	}
-
 
 	private void WriteDiag(string message)
 	{
