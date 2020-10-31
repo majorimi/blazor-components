@@ -105,7 +105,7 @@
 	}
 	private int BilinearInterpolationCalculator(double x, double y, int q21)
 	{
-		var p = MathExtension.BilinearInterpolationCalculator(
+		var p = MathExtensions.BilinearInterpolationCalculator(
 		0, 0, HueAreaWidth, HueAreaHeight, //0,0 to DIV height/width
 		x, y,	//Click pos
 		255,	//Top-R = white
@@ -127,22 +127,5 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
-	}
-
-	public static class MathExtension
-	{
-		public static double BilinearInterpolationCalculator(
-			int x1, int y1, int x2, int y2, //corner point coordinates
-			double x, double y,					//click coordinates
-			int q11, int q12, int q21, int q22) //corner values (R,G,B)
-		{
-			double ret =
-			((((x2 - x) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q11) +
-			((((x - x1) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q21) +
-			((((x2 - x) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q12) +
-			((((x - x1) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q22);
-
-			return ret;
-		}
 	}
 }
