@@ -23,7 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Color\Blazor.Components.Color.csproj" />
+	<ProjectReference Include="..\Blazor.Components.ColorPicker\Blazor.Components.ColorPicker.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
 	<ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Debounce\Blazor.Components.Debounce.csproj" />
