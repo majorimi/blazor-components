@@ -79,8 +79,38 @@
 
 	private void ClickInColor(MouseEventArgs args)
 	{
+		WriteDiag($"{nameof(ClickInColor)} Color selector area clicked X: {args.OffsetX}, Y: {args.OffsetY}.");
+
 		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
 		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
+	}
+
+	private int BilinearInterpolationCalculator(int x, int y, int q21)
+	{
+		return BilinearInterpolationCalculator(
+		0, 0, HueAreaWidth, HueAreaHeight, //0,0 to DIV height/width
+		x, y,	//Click pos
+		255,	//Top-R = white
+		0,		//Bottom-R = black
+		q21,	//Top-L = Q21, Hue value 
+		0);		//Bottom-L = black
+
+		//blue: (167, 14) = 151.38, 151.38, 240.72
+		// ~162, 162, 242
+	}
+
+	private int BilinearInterpolationCalculator(
+		int x1, int y1, int x2, int y2, //corner point coordinates
+		int x, int y,					//click coordinates
+		int q11, int q12, int q21, int q22) //corner values (R,G,B)
+	{
+		var ret =
+		(((x2 - x) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q11 +
+		(((x - x1) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q21 +
+		(((x2 - x) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q12 +
+		(((x - x1) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q22;
+
+		return ret;
 	}
 
 	private void WriteDiag(string message)
