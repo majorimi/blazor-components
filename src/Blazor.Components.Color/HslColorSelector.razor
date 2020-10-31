@@ -1,4 +1,4 @@
-﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: rgb(@SelectedColor.R, @SelectedColor.G, @SelectedColor.B);">
+﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
 	<div class="picker-color" @onclick="ClickInColor"></div>
 	<span class="picker-handler" tabindex="0" 
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex"></span>
@@ -45,17 +45,17 @@
 	[Parameter] public int HueSliderWidth { get; set; } = 450;
 	[Parameter] public Color SelectedColor { get; set; } = Color.Blue;
 
-	[Parameter] public EventHandler<Color> OnColorChanged { get; set; }
+	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
 
 	protected override void OnInitialized()
 	{
 		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
 		_hue = SelectedColor.GetHue();
 
-		SetSliderColor();
-
 		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
 		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
+
+		SetSliderColor();
 	}
 
 	private void HueChanged(ChangeEventArgs e)
@@ -72,9 +72,7 @@
 
 		_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
 
-		//TODO: set the handler circle to the correct position of the color...
-		SelectedColor = (Color)hslColor;
-		_selectorThumbHex = ColorTranslator.ToHtml(SelectedColor);
+		GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
 	}
 
 	private void ClickInColor(MouseEventArgs args)
@@ -83,38 +81,68 @@
 
 		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
 		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
+
+		GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
 	}
 
-	private int BilinearInterpolationCalculator(int x, int y, int q21)
+	private void GetBilinearColor(double x, double y, Color mainColor)
 	{
-		return BilinearInterpolationCalculator(
+		var r = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.R);
+		var g = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.G);
+		var b = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.B);
+
+		var bilinearColor = Color.FromArgb(r, g, b);
+		_selectorThumbHex = ColorTranslator.ToHtml(bilinearColor);
+
+		SelectedColor = bilinearColor;
+		
+		if(OnColorChanged.HasDelegate)
+		{
+			OnColorChanged.InvokeAsync(bilinearColor);
+		}
+	}
+	private int BilinearInterpolationCalculator(double x, double y, int q21)
+	{
+		var p = MathExtension.BilinearInterpolationCalculator(
 		0, 0, HueAreaWidth, HueAreaHeight, //0,0 to DIV height/width
 		x, y,	//Click pos
 		255,	//Top-R = white
 		0,		//Bottom-R = black
 		q21,	//Top-L = Q21, Hue value 
-		0);		//Bottom-L = black
+		0);     //Bottom-L = black
+
+		if (p < 0)
+			return 0;
+
+		if (p > 255)
+			return 255;
+
+		return (int)p;
 
 		//blue: (167, 14) = 151.38, 151.38, 240.72
 		// ~162, 162, 242
 	}
 
-	private int BilinearInterpolationCalculator(
-		int x1, int y1, int x2, int y2, //corner point coordinates
-		int x, int y,					//click coordinates
-		int q11, int q12, int q21, int q22) //corner values (R,G,B)
-	{
-		var ret =
-		(((x2 - x) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q11 +
-		(((x - x1) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q21 +
-		(((x2 - x) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q12 +
-		(((x - x1) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q22;
-
-		return ret;
-	}
 
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public static class MathExtension
+	{
+		public static double BilinearInterpolationCalculator(
+			int x1, int y1, int x2, int y2, //corner point coordinates
+			double x, double y,					//click coordinates
+			int q11, int q12, int q21, int q22) //corner values (R,G,B)
+		{
+			double ret =
+			((((x2 - x) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q11) +
+			((((x - x1) * (y2 - y)) / ((x2 - x1) * (y2 - y1))) * q21) +
+			((((x2 - x) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q12) +
+			((((x - x1) * (y - y1)) / ((x2 - x1) * (y2 - y1))) * q22);
+
+			return ret;
+		}
 	}
 }
