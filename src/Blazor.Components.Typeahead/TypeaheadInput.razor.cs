@@ -140,7 +140,6 @@ namespace Blazor.Components.Typeahead
 		//[Parameter] public bool MultiSelect { get; set; } = false;
 
 		private string _accentColor = "230, 230, 230";//gray
-
 		[Parameter]
 		public string AccentColor
 		{

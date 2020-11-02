@@ -57,10 +57,10 @@
 				var hsl = HslColor.FromRgb(value);
 				_hue = (int)Math.Round(hsl.Hue);
 
-				//Position is not correct not all color is at the corner if saturation!=100 or luminosity!=50.0
-				_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
+				//TODO: Position is not correct not all color is at the corner if saturation!=100 or luminosity!=50.0
+				@*_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
 				_selectorThumbTop = 0 - (_selectorThumbSize / 2);
-				@*SetSliderColorAsync();*@
+				SetSliderColorAsync();*@
 			}
 		}
 	}
@@ -129,7 +129,7 @@
 		var bilinearColor = Color.FromArgb(r, g, b);
 		_selectorThumbHex = ColorTranslator.ToHtml(bilinearColor);
 
-		SelectedColor = bilinearColor;
+		_selectedColor = bilinearColor;
 		
 		if(OnColorChanged.HasDelegate)
 		{
