@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Content Update="Pages\ColorPage.razor">
+	<Content Update="Pages\DebounceInputPage.razor">
 	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</Content>
-	<Content Update="Pages\DebounceInputPage.razor">
+	<Content Update="Pages\DragAndDropPage.razor">
 	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</Content>
 	<Content Update="Pages\IndexPage.razor">

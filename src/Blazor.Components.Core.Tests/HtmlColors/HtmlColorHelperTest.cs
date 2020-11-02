@@ -2,7 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blazor.Components.Core.Tests
+namespace Blazor.Components.Core.Tests.HtmlColors
 {
 	[TestClass]
 	public class HtmlColorHelperTest
