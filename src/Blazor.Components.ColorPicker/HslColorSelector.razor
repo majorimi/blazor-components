@@ -1,6 +1,6 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
-	<div class="picker-color" @onclick="ClickInColor" @onmousemove="DraggingSelectorHandler"></div>
-	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@(() => _handlerDraggable = true)" @onmouseup="@(() => _handlerDraggable = false)"
+	<div class="picker-color" @onclick="ClickInColor" @onmousemove="DraggingInColor"></div>
+	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousemove="DraggingInHandler" @onmousedown="@(() => _handlerDraggable = true)" @onmouseup="@(() => _handlerDraggable = false)"
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex">
 	</span>
 </div>
@@ -105,9 +105,10 @@
 		await GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
 	}
 
+	//Click
 	private async Task ClickInColor(MouseEventArgs args)
 	{
-		WriteDiag($"{nameof(ClickInColor)} Color selector area clicked X: {args.OffsetX}, Y: {args.OffsetY}.");
+		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: {args.OffsetX}, Y: {args.OffsetY}.");
 
 		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
 		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
@@ -121,13 +122,26 @@
 
 		await ClickInColor(args);
 	}
-	private async Task DraggingSelectorHandler(MouseEventArgs args)
+	//Drag
+	private async Task DraggingInColor(MouseEventArgs args)
 	{
 		if(_handlerDraggable)
 		{
-			WriteDiag($"{nameof(DraggingSelectorHandler)} Color picker dragging allowed: {_handlerDraggable} X: {args.OffsetX}, Y: {args.OffsetY}.");
+			WriteDiag($"{nameof(DraggingInColor)} Color picker dragging allowed: {_handlerDraggable} X: {args.OffsetX}, Y: {args.OffsetY}.");
 			await ClickInColor(args);
 		}
+	}
+	private async Task DraggingInHandler(MouseEventArgs args)
+	{
+		if(_selectorThumbLeft < 0 || _selectorThumbTop < 0 )
+		{
+			return;
+		}
+
+		args.OffsetX += _selectorThumbLeft;
+		args.OffsetY += _selectorThumbTop;
+
+		await DraggingInColor(args);
 	}
 
 	private async Task GetBilinearColor(double x, double y, Color mainColor)
