@@ -1,6 +1,6 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
-	<div class="picker-color" @onclick="ClickInColor"></div>
-	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler"
+	<div class="picker-color" @onclick="ClickInColor" @onmousemove="DraggingSelectorHandler"></div>
+	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@(() => _handlerDraggable = true)" @onmouseup="@(() => _handlerDraggable = false)"
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex">
 	</span>
 </div>
@@ -39,6 +39,8 @@
 	private double _selectorThumbLeft;
 	private double _selectorThumbTop;
 	private string _selectorThumbHex = "";
+
+	private bool _handlerDraggable = false;
 
 	[Parameter] public int HueAreaHeight { get; set; } = 250;
 	[Parameter] public int HueAreaWidth { get; set; } = 450;
@@ -118,6 +120,14 @@
 		args.OffsetY += _selectorThumbTop;
 
 		await ClickInColor(args);
+	}
+	private async Task DraggingSelectorHandler(MouseEventArgs args)
+	{
+		if(_handlerDraggable)
+		{
+			WriteDiag($"{nameof(DraggingSelectorHandler)} Color picker dragging allowed: {_handlerDraggable} X: {args.OffsetX}, Y: {args.OffsetY}.");
+			await ClickInColor(args);
+		}
 	}
 
 	private async Task GetBilinearColor(double x, double y, Color mainColor)
