@@ -1,22 +1,7 @@
 ﻿//Create event handler
-function createEventHandler(dotnetRef, element) {
+function createClickEventHandler(dotnetRef, element) {
     let eventCallback = function (e) {
-        let args = {
-            Detail: e.detail,
-            ScreenX: e.screenX,
-            ScreenY: e.screenY,
-            ClientX: e.clientX,
-            ClientY: e.clientY,
-            OffsetX: e.offsetX,
-            OffsetY: e.offsetY,
-            Button: e.button,
-            Buttons: e.buttons,
-            CtrlKey: e.ctrlKey,
-            ShiftKey: e.shiftKey,
-            AltKey: e.altKey,
-            MetaKey: e.metaKey,
-            Type: e.type,
-        };
+        let args = convertMouseEventArgs(e);
 
         if (!element.contains(e.target)) {
             //console.log('outside');
@@ -29,6 +14,26 @@ function createEventHandler(dotnetRef, element) {
     }
 
     return eventCallback;
+}
+function convertMouseEventArgs(e) {
+    let args = {
+        Detail: e.detail,
+        ScreenX: e.screenX,
+        ScreenY: e.screenY,
+        ClientX: e.clientX,
+        ClientY: e.clientY,
+        OffsetX: e.offsetX,
+        OffsetY: e.offsetY,
+        Button: e.button,
+        Buttons: e.buttons,
+        CtrlKey: e.ctrlKey,
+        ShiftKey: e.shiftKey,
+        AltKey: e.altKey,
+        MetaKey: e.metaKey,
+        Type: e.type,
+    };
+
+    return args;
 }
 
 //Store element with event
@@ -65,6 +70,7 @@ function removeAndReturnEventHandler(dict, element) {
 
 let _clickHandlerDict = [];
 
+//Click Boundaries
 export function addClickBoundariesHandler(element, dotnetRef) {
     if (!element || !dotnetRef) {
         return;
@@ -76,12 +82,11 @@ export function addClickBoundariesHandler(element, dotnetRef) {
         }
     }
 
-    let clickHandler = createEventHandler(dotnetRef, element);
+    let clickHandler = createClickEventHandler(dotnetRef, element);
     storeEventHandler(_clickHandlerDict, element, clickHandler);
 
     document.addEventListener("click", clickHandler);
 }
-
 export function removeClickBoundariesHandler(element) {
     if (!element) {
         return;

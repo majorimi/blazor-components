@@ -1,6 +1,6 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
-	<div class="picker-color" @onclick="ClickInColor" @onmousemove="DraggingInColor"></div>
-	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousemove="DraggingInHandler" @onmousedown="@(() => _handlerDraggable = true)" @onmouseup="@(() => _handlerDraggable = false)"
+	<div @ref="_colorPicker" class="picker-color" @onclick="ClickInColor"></div>
+	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@DragStart"
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex">
 	</span>
 </div>
@@ -27,9 +27,18 @@
 </style>
 
 @inject ILogger<HslColorSelector> _logger;
+@inject IGlobalMouseEventHandler _globalMouseEventHandler;
+
+@implements IAsyncDisposable
 
 @code {
 	string _componentId = Guid.NewGuid().ToString("n");
+	private ElementReference _colorPicker;
+	private DomRect _colorPickerRect;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		_colorPickerRect = await _colorPicker.GetClientRectAsync();
+	}
 
 	private int _hue;
 	private int _sliderThumbSize;
@@ -89,7 +98,7 @@
 		}
 
 		_hue = val;
-		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: {_hue}.");
+		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: '{_hue}'.");
 
 		await SetSliderColorAsync();
 	}
@@ -108,10 +117,10 @@
 	//Click
 	private async Task ClickInColor(MouseEventArgs args)
 	{
-		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: {args.OffsetX}, Y: {args.OffsetY}.");
+		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}'.");
 
-		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
-		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
+		_selectorThumbLeft = (int)(args.OffsetX - (_selectorThumbSize / 2));
+		_selectorThumbTop = (int)(args.OffsetY - (_selectorThumbSize / 2));
 
 		await GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
 	}
@@ -122,26 +131,43 @@
 
 		await ClickInColor(args);
 	}
+
 	//Drag
-	private async Task DraggingInColor(MouseEventArgs args)
+	private string _moveEventId;
+	private string _mouseUpEventId;
+	private async Task DragStart(MouseEventArgs args)
+	{
+		_handlerDraggable = true;
+		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDraggable}'.");
+
+		_moveEventId = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(Dragging);
+		_mouseUpEventId = await _globalMouseEventHandler.RegisterPageMouseUpAsync(DragEnd);
+	}
+	private async Task Dragging(MouseEventArgs args)
 	{
 		if(_handlerDraggable)
 		{
-			WriteDiag($"{nameof(DraggingInColor)} Color picker dragging allowed: {_handlerDraggable} X: {args.OffsetX}, Y: {args.OffsetY}.");
+			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDraggable}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
+
+			args.OffsetX = args.ClientX - _colorPickerRect.Left; //x position within the element.
+			args.OffsetY = args.ClientY - _colorPickerRect.Top;  //y position within the element.
+			
+			if(args.OffsetX <= 0 - (_selectorThumbSize / 2) || args.OffsetX >= HueAreaWidth + (_selectorThumbSize / 2))
+			{
+				return;
+			}
+
 			await ClickInColor(args);
+			StateHasChanged(); //External event listener..
 		}
 	}
-	private async Task DraggingInHandler(MouseEventArgs args)
+	private async Task DragEnd(MouseEventArgs args)
 	{
-		if(_selectorThumbLeft < 0 || _selectorThumbTop < 0 )
-		{
-			return;
-		}
+		_handlerDraggable = false;
+		WriteDiag($"{nameof(DragStart)} Color picker dragging ended allowed: '{_handlerDraggable}'.");
 
-		args.OffsetX += _selectorThumbLeft;
-		args.OffsetY += _selectorThumbTop;
-
-		await DraggingInColor(args);
+		await _globalMouseEventHandler.RemovePageMouseMoveAsync(_moveEventId);
+		await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUpEventId);
 	}
 
 	private async Task GetBilinearColor(double x, double y, Color mainColor)
@@ -182,5 +208,13 @@
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_globalMouseEventHandler is not null)
+		{
+			await _globalMouseEventHandler.DisposeAsync();
+		}
 	}
 }

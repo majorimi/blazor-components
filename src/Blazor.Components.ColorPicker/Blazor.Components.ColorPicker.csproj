@@ -41,6 +41,7 @@
 
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
+		<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
 		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
