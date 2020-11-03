@@ -119,8 +119,16 @@
 	{
 		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}'.");
 
-		_selectorThumbLeft = (int)(args.OffsetX - (_selectorThumbSize / 2));
-		_selectorThumbTop = (int)(args.OffsetY - (_selectorThumbSize / 2));
+		var left = (int)(args.OffsetX - (_selectorThumbSize / 2));
+		var top = (int)(args.OffsetY - (_selectorThumbSize / 2));
+
+		if(left == _selectorThumbLeft && top == _selectorThumbTop)
+		{
+			return;
+		}		
+
+		_selectorThumbLeft = left;
+		_selectorThumbTop = top;
 
 		await GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
 	}
@@ -152,10 +160,14 @@
 			args.OffsetX = args.ClientX - _colorPickerRect.Left; //x position within the element.
 			args.OffsetY = args.ClientY - _colorPickerRect.Top;  //y position within the element.
 			
-			if(args.OffsetX <= 0 - (_selectorThumbSize / 2) || args.OffsetX >= HueAreaWidth + (_selectorThumbSize / 2))
-			{
-				return;
-			}
+			if(args.OffsetX < 0)
+				args.OffsetX = 0;
+			if(args.OffsetX > HueAreaWidth)
+				args.OffsetX = HueAreaWidth;
+			if(args.OffsetY < 0)
+				args.OffsetY = 0;
+			if(args.OffsetY > HueAreaHeight)
+				args.OffsetY = HueAreaHeight;
 
 			await ClickInColor(args);
 			StateHasChanged(); //External event listener..

@@ -1,6 +1,7 @@
 ﻿input[type=range] {
     outline: 0;
     border-radius: 5px;
+    margin-top: .9rem;
     -webkit-appearance: none;
     background: linear-gradient(to right, hsl(0, 100%, 50%) 0%,
         hsl(30, 100%, 50%) 8.3%, hsl(60, 100%, 50%) 16.6%, hsl(90, 100%, 50%) 25%,
