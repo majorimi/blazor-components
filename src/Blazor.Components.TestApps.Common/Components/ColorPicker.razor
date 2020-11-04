@@ -1,11 +1,28 @@
-﻿<h3>Color Picker</h3>
+﻿<h1>Html Color Picker control</h1>
+<p>
+	Blazor components that renders a Blazor Color Picker control with color info. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/ColorPicker.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.ColorPicker</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.ColorPicker" target="_blank">Nuget</a>
+</p>
 
-<HslColorSelector
-    SelectedColor="@_selectedColor">
-</HslColorSelector>
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Html Color Picker panel</h3>
+	<p>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<HslColorSelector
+				SelectedColor="@_selectedColor">
+			</HslColorSelector>
+		</div>
+	</div>
+</div>
+
+
 
 @using System.Drawing
 
 @code {
-    private Color _selectedColor = Color.FromArgb(77, 55, 20);
+	private Color _selectedColor = Color.FromArgb(77, 55, 20);
 }

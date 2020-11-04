@@ -17,7 +17,7 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Color Picker, RGB, HEX, HSL</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<Description>Blazor component that renders a Blazor Color Picker.</Description>
+	<Description>Blazor component that renders a Blazor Color Picker control with color info.</Description>
 	<Title>Blazor Components Typeahead Input</Title>
   </PropertyGroup>
 

@@ -145,6 +145,11 @@
 	private string _mouseUpEventId;
 	private async Task DragStart(MouseEventArgs args)
 	{
+		if(args.Buttons != 1)
+		{
+			return;
+		}
+
 		_handlerDraggable = true;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDraggable}'.");
 
@@ -153,7 +158,7 @@
 	}
 	private async Task Dragging(MouseEventArgs args)
 	{
-		if(_handlerDraggable)
+		if(_handlerDraggable && args.Buttons == 1)
 		{
 			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDraggable}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
 
@@ -175,6 +180,11 @@
 	}
 	private async Task DragEnd(MouseEventArgs args)
 	{
+		if(args.Buttons != 1)
+		{
+			return;
+		}
+
 		_handlerDraggable = false;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging ended allowed: '{_handlerDraggable}'.");
 
