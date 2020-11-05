@@ -8,13 +8,23 @@
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Html Color Picker panel</h3>
 	<p>
+	 Raw Color picker panel: 
 	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Show info area: <input class="mr-3" type="checkbox" @bind="_showInfo"/>
+		</div>
+	</div>
 
 	<div class="row pb-2">
 		<div class="col-12">
 			<HslColorSelector
 				SelectedColor="@_selectedColor"
-				ShowInfoArea="true">
+				ShowInfoArea="_showInfo"
+				HueSliderWidth="_sliderlWidth"
+				HueAreaHeight="_panelHeight"
+				HueAreaWidth="_panelWidth">
 			</HslColorSelector>
 		</div>
 	</div>
@@ -25,5 +35,10 @@
 @using System.Drawing
 
 @code {
+	private int _panelHeight = 250;
+	private int _panelWidth = 450;
+	private int _sliderlWidth = 450;
+	private bool _showInfo = true;
+
 	private Color _selectedColor = Color.FromArgb(255, 0, 0);
 }

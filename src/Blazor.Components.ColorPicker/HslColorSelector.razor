@@ -47,46 +47,6 @@
 }
 
 <style>
-.colorInfoWrapper {
-	position: relative;
-	display: inline-block;
-	border: 1px solid #dadce0;
-	border-radius: 5px;
-	height: 38px;
-	margin: 5px auto 5px auto;
-	width: 32%;
-}
-.colorInfoWrapperLabel {
-	position: absolute;
-	background: #fff;
-	text-align: center;
-	color: #3c4043;
-	left: 10%;
-	transform: translate(-10%,-56%);
-	font-size: 14px;
-	padding: 0 3px;
-}
-.colorInfoData {
-	text-align: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	width: 90%;
-	height: 50%;
-}
-.colorInfoDataInput {
-	border: none;
-	width: 100%;
-	height: 100%;
-	display: block;
-	text-align: center;
-	font-size: 14px;
-}
-.colorInfoDataInput:focus {
-	outline: none;
-}
-
 	input[id=@($"_hue_{_componentId}")].hue::-webkit-slider-thumb {
 		background: @_sliderThumbHex;
 		width: @(_sliderThumbSize)px;
@@ -128,11 +88,52 @@
 	private string _selectorThumbHex = "";
 
 	private bool _handlerDraggable = false;
+	
+	private int _divsMinWidth= 300;
+	private int _divsMinHeight = 150;
+	private int _hueAreaHeight = 300;
+	[Parameter] public int HueAreaHeight 
+	{ 
+		get => _hueAreaHeight;
+		set
+		{
+			if(value < _divsMinHeight)
+			{
+				value = _divsMinHeight;
+			}
 
-	[Parameter] public int HueAreaHeight { get; set; } = 250;
-	[Parameter] public int HueAreaWidth { get; set; } = 450;
+			_hueAreaHeight = value;
+		}
+	}
+	private int _hueAreaWidth = 450;
+	[Parameter] public int HueAreaWidth
+	{ 
+		get => _hueAreaWidth;
+		set
+		{
+			if(value < _divsMinWidth)
+			{
+				value = _divsMinWidth;
+			}
+
+			_hueAreaWidth = value;
+		}
+	}
 	[Parameter] public int HueSliderHeight { get; set; } = 10;
-	[Parameter] public int HueSliderWidth { get; set; } = 450;
+	private int _hueSliderWidth = 450;
+	[Parameter] public int HueSliderWidth
+	{ 
+		get => _hueSliderWidth;
+		set
+		{
+			if(value < _divsMinWidth)
+			{
+				value = _divsMinWidth;
+			}
+
+			_hueSliderWidth = value;
+		}
+	}
 	[Parameter] public bool ShowInfoArea { get; set; } = true;
 	private Color _selectedColor = Color.Blue;
 	[Parameter] public Color SelectedColor 
