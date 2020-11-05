@@ -1,14 +1,92 @@
 ﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
 	<div @ref="_colorPicker" class="picker-color" @onclick="ClickInColor"></div>
 	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@DragStart"
-		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex">
+		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex;">
 	</span>
 </div>
 
 <input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
 	   type="range" min="0" max="360" step="1" @bind="_hue" @oninput="HueChanged" />
 
+@if(ShowInfoArea) {
+	<div style="width:@(HueSliderWidth)px; margin-top:1rem;">
+		<div>
+			<div class="colorInfoWrapper" style="width: 49%">
+				<div class="colorInfoData" style="background:@_selectorThumbHex; border: lightgray solid 0.5px;"></div>
+				<div class="colorInfoWrapperLabel">Sample</div>
+			</div>
+			<div class="colorInfoWrapper" style="width: 49%">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@(SelectedColor.IsKnownColor ? SelectedColor.Name : "-")" />
+				</div>
+				<div class="colorInfoWrapperLabel">Name</div>		
+			</div>
+		</div>
+
+		<div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@($"{SelectedColor.R}, {SelectedColor.G}, {SelectedColor.B}")" />
+				</div>
+				<div class="colorInfoWrapperLabel">RGB</div>
+			</div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@(ColorTranslator.ToHtml(SelectedColor))" />
+				</div>
+				<div class="colorInfoWrapperLabel">HEX</div>		
+			</div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@("")" />
+				</div>
+				<div class="colorInfoWrapperLabel">HSL</div>		
+			</div>
+		</div>
+	</div>
+}
+
 <style>
+.colorInfoWrapper {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #dadce0;
+	border-radius: 5px;
+	height: 38px;
+	margin: 5px auto 5px auto;
+	width: 32%;
+}
+.colorInfoWrapperLabel {
+	position: absolute;
+	background: #fff;
+	text-align: center;
+	color: #3c4043;
+	left: 10%;
+	transform: translate(-10%,-56%);
+	font-size: 14px;
+	padding: 0 3px;
+}
+.colorInfoData {
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 90%;
+	height: 50%;
+}
+.colorInfoDataInput {
+	border: none;
+	width: 100%;
+	height: 100%;
+	display: block;
+	text-align: center;
+	font-size: 14px;
+}
+.colorInfoDataInput:focus {
+	outline: none;
+}
+
 	input[id=@($"_hue_{_componentId}")].hue::-webkit-slider-thumb {
 		background: @_sliderThumbHex;
 		width: @(_sliderThumbSize)px;
@@ -55,6 +133,7 @@
 	[Parameter] public int HueAreaWidth { get; set; } = 450;
 	[Parameter] public int HueSliderHeight { get; set; } = 10;
 	[Parameter] public int HueSliderWidth { get; set; } = 450;
+	[Parameter] public bool ShowInfoArea { get; set; } = true;
 	private Color _selectedColor = Color.Blue;
 	[Parameter] public Color SelectedColor 
 	{ 
@@ -67,6 +146,8 @@
 				//RGB to HSL
 				var hsl = HslColor.FromRgb(value);
 				_hue = (int)Math.Round(hsl.Hue);
+
+				WriteDiag($"SelectedColor.Set() changed Hue: '{_hue}', Saturation: '{hsl.Luminosity}', Luminosity: '{hsl.Saturation}' HEX: '{ColorTranslator.ToHtml(SelectedColor)}'.");
 
 				//TODO: Position is not correct not all color is at the corner if saturation!=100 or luminosity!=50.0
 				@*_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
@@ -145,10 +226,10 @@
 	private string _mouseUpEventId;
 	private async Task DragStart(MouseEventArgs args)
 	{
-		if(args.Buttons != 1)
+@*		if(args.Buttons != 1)
 		{
 			return;
-		}
+		}*@
 
 		_handlerDraggable = true;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDraggable}'.");
@@ -158,7 +239,7 @@
 	}
 	private async Task Dragging(MouseEventArgs args)
 	{
-		if(_handlerDraggable && args.Buttons == 1)
+		if(_handlerDraggable /* && args.Buttons == 1*/)
 		{
 			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDraggable}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
 
@@ -180,10 +261,10 @@
 	}
 	private async Task DragEnd(MouseEventArgs args)
 	{
-		if(args.Buttons != 1)
+@*		if(args.Buttons != 1)
 		{
 			return;
-		}
+		}*@
 
 		_handlerDraggable = false;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging ended allowed: '{_handlerDraggable}'.");

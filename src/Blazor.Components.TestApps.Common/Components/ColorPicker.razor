@@ -13,7 +13,8 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<HslColorSelector
-				SelectedColor="@_selectedColor">
+				SelectedColor="@_selectedColor"
+				ShowInfoArea="true">
 			</HslColorSelector>
 		</div>
 	</div>
@@ -24,5 +25,5 @@
 @using System.Drawing
 
 @code {
-	private Color _selectedColor = Color.FromArgb(77, 55, 20);
+	private Color _selectedColor = Color.FromArgb(255, 0, 0);
 }
