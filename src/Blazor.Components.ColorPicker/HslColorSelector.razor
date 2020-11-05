@@ -198,10 +198,10 @@
 	//Click
 	private async Task ClickInColor(MouseEventArgs args)
 	{
-		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}'.");
+		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}', Hue: '{_hue}', HueColor: '{_sliderThumbHex}'.");
 
-		var left = (int)(args.OffsetX - (_selectorThumbSize / 2));
-		var top = (int)(args.OffsetY - (_selectorThumbSize / 2));
+		var left = (int)Math.Round(args.OffsetX - (_selectorThumbSize / 2));
+		var top = (int)Math.Round(args.OffsetY - (_selectorThumbSize / 2));
 
 		if(left == _selectorThumbLeft && top == _selectorThumbTop)
 		{
@@ -226,11 +226,6 @@
 	private string _mouseUpEventId;
 	private async Task DragStart(MouseEventArgs args)
 	{
-@*		if(args.Buttons != 1)
-		{
-			return;
-		}*@
-
 		_handlerDraggable = true;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDraggable}'.");
 
@@ -239,7 +234,7 @@
 	}
 	private async Task Dragging(MouseEventArgs args)
 	{
-		if(_handlerDraggable /* && args.Buttons == 1*/)
+		if(_handlerDraggable)
 		{
 			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDraggable}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
 
@@ -261,11 +256,6 @@
 	}
 	private async Task DragEnd(MouseEventArgs args)
 	{
-@*		if(args.Buttons != 1)
-		{
-			return;
-		}*@
-
 		_handlerDraggable = false;
 		WriteDiag($"{nameof(DragStart)} Color picker dragging ended allowed: '{_handlerDraggable}'.");
 
@@ -275,15 +265,17 @@
 
 	private async Task GetBilinearColor(double x, double y, Color mainColor)
 	{
-		var r = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.R);
-		var g = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.G);
-		var b = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.B);
+		var r = BilinearInterpolationCalculator(x, y, mainColor.R);
+		var g = BilinearInterpolationCalculator(x, y, mainColor.G);
+		var b = BilinearInterpolationCalculator(x, y, mainColor.B);
 
 		var bilinearColor = Color.FromArgb(r, g, b);
 		_selectorThumbHex = ColorTranslator.ToHtml(bilinearColor);
 
 		_selectedColor = bilinearColor;
 		
+		WriteDiag($"{nameof(GetBilinearColor)}: calculated values R: '{r}', G: '{g}', B: '{b}', selected Color HEX: '{_selectorThumbHex}'.");
+
 		if(OnColorChanged.HasDelegate)
 		{
 			await OnColorChanged.InvokeAsync(bilinearColor);
@@ -305,7 +297,7 @@
 		if (p > 255)
 			return 255;
 
-		return (int)p;
+		return (int)Math.Round(p);
 	}
 
 	private void WriteDiag(string message)
