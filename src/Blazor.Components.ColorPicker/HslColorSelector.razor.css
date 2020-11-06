@@ -96,7 +96,6 @@ input[type=range]::-ms-thumb {
     text-align: center;
     font-size: 12px;
 }
-
-    .colorInfoDataInput:focus {
-        outline: none;
-    }
+.colorInfoDataInput:focus {
+    outline: none;
+}
