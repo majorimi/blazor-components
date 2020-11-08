@@ -165,6 +165,13 @@
 				@*_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
 				_selectorThumbTop = 0 - (_selectorThumbSize / 2);
 				SetSliderColorAsync();*@
+
+				var hslColor = new HslColor(_hue, 100, 50);
+				var hueColor = (Color)hslColor;
+				_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
+
+				_selectorThumbLeft = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, _hueAreaWidth, hueColor.B, _selectedColor.B) - (_selectorThumbSize / 2);
+				_selectorThumbTop = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.B, _hueAreaHeight, 0, _selectedColor.B) - (_selectorThumbSize / 2);
 			}
 		}
 	}

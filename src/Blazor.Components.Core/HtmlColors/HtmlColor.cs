@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,18 +10,30 @@ namespace Blazor.Components.Core.HtmlColors
 	{
 		public string OriginalValue { get; init; }
 
-		public Rgb RgbColor { get; init; }
+		public Color RgbColor { get; init; }
+		public HslColor HslColor { get; init; }
 		public string ColorName { get; init; }
 		public string HexColor { get; init; }
 
-		public bool IsValid => RgbColor is not null 
+		public bool IsValid => RgbColor != default 
 			&& (!string.IsNullOrWhiteSpace(ColorName) || !string.IsNullOrWhiteSpace(HexColor));
 
 		public bool IsNamedColor => !string.IsNullOrWhiteSpace(ColorName);
 
 		public HtmlColor(byte r, byte g, byte b)
 		{
-			RgbColor = new Rgb(r, g, b);
+			RgbColor = Color.FromArgb(r, g, b);
+			HslColor = HslColor.FromRgb(RgbColor);
+			HexColor = RgbColor.ToHtmlHex();
+
+			ColorName = HtmlColorHelper.NamedHtmlColors
+				.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+		}
+
+		public HtmlColor(int h, int s, int l)
+		{
+			HslColor = new HslColor(h, s, l);
+			RgbColor = (Color)HslColor;
 			HexColor = RgbColor.ToHtmlHex();
 
 			ColorName = HtmlColorHelper.NamedHtmlColors
@@ -41,38 +54,62 @@ namespace Blazor.Components.Core.HtmlColors
 				ColorName = HtmlColorHelper.NamedHtmlColors.Keys.Single(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
 				HexColor = $"#{HtmlColorHelper.NamedHtmlColors[value]}";
 				RgbColor = HexToHtmlRgb(HexColor);
+				HslColor = HslColor.FromRgb(RgbColor);
+
 				return;
 			}
 
 			RgbColor = HexToHtmlRgb(value);
-			if(RgbColor is not null) //Hex color
+			if(RgbColor != default) //Hex color
 			{
 				HexColor = RgbColor.ToHtmlHex();
+				HslColor = HslColor.FromRgb(RgbColor);
 				ColorName = HtmlColorHelper.NamedHtmlColors
 					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
 
 				return;
 			}
 			
-			if(IsHtmlRgbColor(value))//RGB
+			if(IsRgbColor(value)) //RGB
 			{
-				var parts = value.Split(',')
+				value = value.Replace(' ', ',');
+				var parts = value.Split(',').Where(s => !string.IsNullOrEmpty(s) && s != ",")
 					.Select(s => byte.Parse(s.Trim()))
 					.ToArray();
 
-				RgbColor = new Rgb(parts[0], parts[1], parts[2]);
+				RgbColor = Color.FromArgb(parts[0], parts[1], parts[2]);
 				HexColor = RgbColor.ToHtmlHex();
+				HslColor = HslColor.FromRgb(RgbColor);
 
 				ColorName = HtmlColorHelper.NamedHtmlColors
 					.FirstOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+
+				return;
+			}
+
+			var match = IsHslColor(value);
+			if (match.Success) //HSL
+			{
+				var parts = match.Groups.Values.Skip(1)
+					.Select(s => s.Value?.Trim())
+					.Where(x => !string.IsNullOrWhiteSpace(x) && x != "," && x != "%" && x != "°")
+					.Select(s => int.Parse(s.Trim()))
+					.ToArray();
+
+				HslColor = new HslColor(parts[0], parts[1], parts[2]);
+				RgbColor = (Color)HslColor;
+				HexColor = RgbColor.ToHtmlHex();
+
+				ColorName = HtmlColorHelper.NamedHtmlColors
+					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
 			}
 		}
 
-		private Rgb HexToHtmlRgb(string value)
+		private Color HexToHtmlRgb(string value)
 		{
 			if (!IsHtmlHexColor(value))
 			{
-				return null;
+				return default;
 			}
 
 			var chunkSize = 2;
@@ -81,7 +118,7 @@ namespace Blazor.Components.Core.HtmlColors
 				.Select(i => HexToByte(hex.Substring(i * chunkSize, chunkSize)))
 				.ToArray();
 
-			return new Rgb(parts[0].Value, parts[1].Value, parts[2].Value);
+			return Color.FromArgb(parts[0].Value, parts[1].Value, parts[2].Value);
 		}
 
 		private bool IsHtmlHexColor(string value)
@@ -90,12 +127,24 @@ namespace Blazor.Components.Core.HtmlColors
 			return regex.IsMatch(value?.Trim());
 		}
 
-		private bool IsHtmlRgbColor(string value)
+		private bool IsRgbColor(string value)
 		{
-			const string numberPattern = @"(\d{1,2}|(0|1)\d{2}|2[0-5]{2})";
-			const string separatorPattern = @"(\s*,{1}\s*)";
+			const string numberPattern = @"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+			const string separatorPattern = @"(\s*|\s*,{1}\s*)";
+			
 			var regex = new Regex($"^{numberPattern}{separatorPattern}{numberPattern}{separatorPattern}{numberPattern}$", RegexOptions.Compiled | RegexOptions.Singleline);
 			return regex.IsMatch(value?.Trim());
+		}
+
+
+		private Match IsHslColor(string value)
+		{
+			const string huePattern = @"(360|3[0-5][0-9]|[012]?[0-9][0-9]?)(\s*°)?";
+			const string percentagePattern = @"(100|[0]?[0-9][0-9]?)(\s*%)?";
+			const string separatorPattern = @"(\s*|\s*,{1}\s*)";
+
+			var regex = new Regex($"^{huePattern}{separatorPattern}{percentagePattern}{separatorPattern}{percentagePattern}$", RegexOptions.Compiled | RegexOptions.Singleline);
+			return regex.Match(value?.Trim());
 		}
 
 		private int? HexToInt(string hex)

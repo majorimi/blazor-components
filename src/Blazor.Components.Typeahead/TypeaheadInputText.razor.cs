@@ -145,7 +145,7 @@ namespace Blazor.Components.Typeahead
 		public string AccentColor
 		{
 			get => _accentColor;
-			set => _accentColor = new HtmlColor(value)?.RgbColor?.ToString();
+			set => _accentColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 		}
 
 		//Size
