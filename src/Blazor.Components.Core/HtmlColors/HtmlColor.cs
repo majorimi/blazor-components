@@ -105,6 +105,32 @@ namespace Blazor.Components.Core.HtmlColors
 			}
 		}
 
+		public HtmlColor(string value, bool forceHsl)
+			: this(value)
+		{
+			if(!forceHsl)
+			{
+				return;
+			}
+
+			var match = IsHslColor(value);
+			if (match.Success) //HSL
+			{
+				var parts = match.Groups.Values.Skip(1)
+					.Select(s => s.Value?.Trim())
+					.Where(x => !string.IsNullOrWhiteSpace(x) && x != "," && x != "%" && x != "°")
+					.Select(s => int.Parse(s.Trim()))
+					.ToArray();
+
+				HslColor = new HslColor(parts[0], parts[1], parts[2]);
+				RgbColor = (Color)HslColor;
+				HexColor = RgbColor.ToHtmlHex();
+
+				ColorName = HtmlColorHelper.NamedHtmlColors
+					.SingleOrDefault(x => x.Value == RgbColor.ToHex()).Key;
+			}
+		}
+
 		private Color HexToHtmlRgb(string value)
 		{
 			if (!IsHtmlHexColor(value))

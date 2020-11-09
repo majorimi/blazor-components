@@ -1,4 +1,4 @@
-﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
+﻿<div class="picker-container" style="height:@(HueAreaHeight + 2)px; width: @(HueAreaWidth + 2)px; background-color: @_sliderThumbHex;">
 	<div @ref="_colorPicker" class="picker-color" @onclick="ClickInColor"></div>
 	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@DragStart"
 		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex;">
@@ -270,7 +270,7 @@
 	}
 	private async Task DragEnd(MouseEventArgs args)
 	{
-		await Task.Delay(50); //MouseUp triggers click in handler Wait to 'ClickInHandler' run! Also events can be removed added during drag...
+		await Task.Delay(50); //Hack: MouseUp triggers click in handler Wait to 'ClickInHandler' run! Also events can be removed added during drag...
 
 		_handlerDragging = false;
 		WriteDiag($"{nameof(DragEnd)} Color picker dragging ended allowed: '{_handlerDragging}'.");
