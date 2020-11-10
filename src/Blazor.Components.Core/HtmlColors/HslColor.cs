@@ -27,6 +27,11 @@ namespace Blazor.Components.Core.HtmlColors
 			return $"H: {Hue:#0.##} S: {Saturation:#0.##} L: {Luminosity:#0.##}";
 		}
 
+		public string ToHslString()
+		{
+			return $"{Math.Round(Hue)}°, {Math.Round(Saturation)}%, {Math.Round(Luminosity)}%";
+		}
+
 		public string ToRGBString()
 		{
 			var color = (Color)this;
@@ -78,7 +83,6 @@ namespace Blazor.Components.Core.HtmlColors
 
 			return Color.FromArgb(nRed, nGreen, nBlue);
 		}
-
 		private static double Hue2Rgb(double v1, double v2, double vH)
 		{
 			if (vH < 0.0)

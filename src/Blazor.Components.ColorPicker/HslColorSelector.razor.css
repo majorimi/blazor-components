@@ -1,6 +1,7 @@
 ﻿input[type=range] {
     outline: 0;
     border-radius: 5px;
+    margin-top: .8rem;
     -webkit-appearance: none;
     background: linear-gradient(to right, hsl(0, 100%, 50%) 0%,
         hsl(30, 100%, 50%) 8.3%, hsl(60, 100%, 50%) 16.6%, hsl(90, 100%, 50%) 25%,
@@ -51,5 +52,50 @@ input[type=range]::-ms-thumb {
 .picker-color {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px, #000 100%), linear-gradient(to right, #fff 0px, rgba(255, 255, 255, 0) 100%);
     height: 100%;
-    border: lightgray solid 0.5px;
+    width: 100%;
+    border: lightgray solid 1px;
+}
+
+/*Color info*/
+.colorInfoWrapper {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #dadce0;
+    border-radius: 5px;
+    height: 38px;
+    margin: 5px auto 5px auto;
+    width: 32%;
+}
+
+.colorInfoWrapperLabel {
+    position: absolute;
+    background: #fff;
+    text-align: center;
+    color: #3c4043;
+    left: 10%;
+    transform: translate(-10%,-50%);
+    font-size: 12px;
+    padding: 0 3px;
+}
+
+.colorInfoData {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    height: 50%;
+}
+
+.colorInfoDataInput {
+    border: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    text-align: center;
+    font-size: 12px;
+}
+.colorInfoDataInput:focus {
+    outline: none;
 }

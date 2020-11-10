@@ -59,7 +59,7 @@
 	public string OverlayBackgroundColor
 	{
 		get => _overlayColor;
-		set => _overlayColor = new HtmlColor(value)?.RgbColor?.ToString();
+		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
 	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
 

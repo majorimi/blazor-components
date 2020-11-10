@@ -17,6 +17,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **Click JS**: is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
  Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
+- **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
 - **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
@@ -24,7 +25,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 
-Injectable `IClickBoundariesHandler` service to handle JS 'click' events for the whole document. 
+**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
 This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
 
@@ -35,6 +36,26 @@ This component useful when need to detect if click happened outside (anywhere in
 Removes event listener for 'click' HTML event for the given element.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
 Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+## Global Mouse JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#mouse-js))
+**Injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
+Blazor supports `@onclick`, `@onmousemove`, etc. events but only for Blazor rendered elements. **With this service you can get similar event notifications for the whole document/window.**
+
+**NOTE: this is similar to `Click JS` which can detect global mouse `click` events as well but usage is different, 
+events are registered to a given Blazor `ElementReference`.**
+
+### Functions
+- **`RegisterPageMouseMoveAsync`**: **`Task<string> RegisterPageMouseMoveAsync(Func<MouseEventArgs, Task> mouseMoveCallback)`** <br />
+Adds event listener for mouse 'move' HTML event for the whole document/window.
+- **`RemovePageMouseMoveAsync`**: **`Task RemovePageMouseMoveAsync(string eventId)`** <br />
+Removes event listener for mouse 'move' HTML event for the whole document/window by the given event Id.
+- **`RegisterPageMouseDownAsync`**: **`Task<string> RegisterPageMouseDownAsync(Func<MouseEventArgs, Task> mouseDownCallback)`** <br />
+Adds event listener for mouse 'down' HTML event for the whole document/window.
+- **`RemovePageMouseDownAsync`**: **`Task RemovePageMouseDownAsync(string eventId)`** <br />
+- **`RegisterPageMouseUpAsync`**: **`Task<string> RegisterPageMouseUpAsync(Func<MouseEventArgs, Task> mouseUpCallback)`** <br />
+Adds event listener for mouse 'up' HTML event for the whole document/window.
+- **`RemovePageMouseUpAsync`**: **`Task RemovePageMouseUpAsync(string eventId)`** <br />
+Removes event listener for mouse 'up' HTML event for the whole document/window by the given event Id.
 
 ## Focus JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#focus-js))
 Injectable `IFocusHandler` service to handle JS 'focus' Interops.

@@ -1,12 +1,50 @@
-﻿<div class="picker-container" style="height:@(HueAreaHeight)px; width: @(HueAreaWidth)px; background-color: @_sliderThumbHex;">
-	<div class="picker-color" @onclick="ClickInColor"></div>
-	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler"
-		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex">
+﻿<div class="picker-container" style="height:@(HueAreaHeight + 2)px; width: @(HueAreaWidth + 2)px; background-color: @_sliderThumbHex;">
+	<div @ref="_colorPicker" class="picker-color" @onclick="ClickInColor"></div>
+	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@DragStart"
+		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex;">
 	</span>
 </div>
 
 <input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
 	   type="range" min="0" max="360" step="1" @bind="_hue" @oninput="HueChanged" />
+
+@if(ShowInfoArea) {
+	<div style="width:@(HueSliderWidth)px; margin-top:1rem;">
+		<div>
+			<div class="colorInfoWrapper" style="width: 49%">
+				<div class="colorInfoData" style="background:@_selectorThumbHex; border: lightgray solid 0.5px;"></div>
+				<div class="colorInfoWrapperLabel">Sample</div>
+			</div>
+			<div class="colorInfoWrapper" style="width: 49%">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@(SelectedColor.IsKnownColor ? SelectedColor.Name : "-")" />
+				</div>
+				<div class="colorInfoWrapperLabel">Name</div>		
+			</div>
+		</div>
+
+		<div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@($"{SelectedColor.R}, {SelectedColor.G}, {SelectedColor.B}")" />
+				</div>
+				<div class="colorInfoWrapperLabel">RGB</div>
+			</div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@(ColorTranslator.ToHtml(SelectedColor))" />
+				</div>
+				<div class="colorInfoWrapperLabel">HEX</div>		
+			</div>
+			<div class="colorInfoWrapper">
+				<div class="colorInfoData">
+					<input class="colorInfoDataInput" value="@("")" />
+				</div>
+				<div class="colorInfoWrapperLabel">HSL</div>		
+			</div>
+		</div>
+	</div>
+}
 
 <style>
 	input[id=@($"_hue_{_componentId}")].hue::-webkit-slider-thumb {
@@ -27,9 +65,28 @@
 </style>
 
 @inject ILogger<HslColorSelector> _logger;
+@inject IGlobalMouseEventHandler _globalMouseEventHandler;
+
+@implements IAsyncDisposable
 
 @code {
 	string _componentId = Guid.NewGuid().ToString("n");
+	private ElementReference _colorPicker;
+	private DomRect _colorPickerRect;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		_colorPickerRect = await _colorPicker.GetClientRectAsync();
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
+		_hue = (int)Math.Round(SelectedColor.GetHue());
+
+		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
+		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
+
+		await SetSliderColorAsync();
+	}
 
 	private int _hue;
 	private int _sliderThumbSize;
@@ -40,10 +97,55 @@
 	private double _selectorThumbTop;
 	private string _selectorThumbHex = "";
 
-	[Parameter] public int HueAreaHeight { get; set; } = 250;
-	[Parameter] public int HueAreaWidth { get; set; } = 450;
+	private bool _handlerDragging = false;
+	
+	private int _divsMinWidth= 300;
+	private int _divsMinHeight = 150;
+	private int _hueAreaHeight = 300;
+	[Parameter] public int HueAreaHeight 
+	{ 
+		get => _hueAreaHeight;
+		set
+		{
+			if(value < _divsMinHeight)
+			{
+				value = _divsMinHeight;
+			}
+
+			_hueAreaHeight = value;
+		}
+	}
+	private int _hueAreaWidth = 450;
+	[Parameter] public int HueAreaWidth
+	{ 
+		get => _hueAreaWidth;
+		set
+		{
+			if(value < _divsMinWidth)
+			{
+				value = _divsMinWidth;
+			}
+
+			_hueAreaWidth = value;
+		}
+	}
 	[Parameter] public int HueSliderHeight { get; set; } = 10;
-	[Parameter] public int HueSliderWidth { get; set; } = 450;
+	private int _hueSliderWidth = 450;
+	[Parameter] public int HueSliderWidth
+	{ 
+		get => _hueSliderWidth;
+		set
+		{
+			if(value < _divsMinWidth)
+			{
+				value = _divsMinWidth;
+			}
+
+			_hueSliderWidth = value;
+		}
+	}
+	[Parameter] public bool ShowInfoArea { get; set; } = true;
+
 	private Color _selectedColor = Color.Blue;
 	[Parameter] public Color SelectedColor 
 	{ 
@@ -57,27 +159,26 @@
 				var hsl = HslColor.FromRgb(value);
 				_hue = (int)Math.Round(hsl.Hue);
 
+				WriteDiag($"SelectedColor.Set() changed Hue: '{_hue}', Saturation: '{hsl.Luminosity}', Luminosity: '{hsl.Saturation}' HEX: '{ColorTranslator.ToHtml(SelectedColor)}'.");
+
 				//TODO: Position is not correct not all color is at the corner if saturation!=100 or luminosity!=50.0
 				@*_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
 				_selectorThumbTop = 0 - (_selectorThumbSize / 2);
 				SetSliderColorAsync();*@
+
+				var hslColor = new HslColor(_hue, 100, 50);
+				var hueColor = (Color)hslColor;
+				_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
+
+				_selectorThumbLeft = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, _hueAreaWidth, hueColor.B, _selectedColor.B) - (_selectorThumbSize / 2);
+				_selectorThumbTop = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.B, _hueAreaHeight, 0, _selectedColor.B) - (_selectorThumbSize / 2);
 			}
 		}
 	}
 
 	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
 
-	protected override async Task OnInitializedAsync()
-	{
-		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
-		_hue = (int)Math.Round(SelectedColor.GetHue());
-
-		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
-		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
-
-		await SetSliderColorAsync();
-	}
-
+	//Slider event
 	private async Task HueChanged(ChangeEventArgs e)
 	{
 		var val = int.Parse(e?.Value?.ToString());
@@ -87,7 +188,7 @@
 		}
 
 		_hue = val;
-		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: {_hue}.");
+		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: '{_hue}'.");
 
 		await SetSliderColorAsync();
 	}
@@ -103,34 +204,95 @@
 		await GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
 	}
 
+	//Click
 	private async Task ClickInColor(MouseEventArgs args)
 	{
-		WriteDiag($"{nameof(ClickInColor)} Color selector area clicked X: {args.OffsetX}, Y: {args.OffsetY}.");
+		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}', Hue: '{_hue}', HueColor: '{_sliderThumbHex}'.");
 
-		_selectorThumbLeft = args.OffsetX - (_selectorThumbSize / 2);
-		_selectorThumbTop = args.OffsetY - (_selectorThumbSize / 2);
+		var left = (int)Math.Round(args.OffsetX - (_selectorThumbSize / 2));
+		var top = (int)Math.Round(args.OffsetY - (_selectorThumbSize / 2));
+
+		if(left == _selectorThumbLeft && top == _selectorThumbTop)
+		{
+			return;
+		}		
+
+		_selectorThumbLeft = left;
+		_selectorThumbTop = top;
 
 		await GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
 	}
 	private async Task ClickInHandler(MouseEventArgs args)
 	{
+		if(_handlerDragging)
+		{
+			return;
+		}
+
 		args.OffsetX += _selectorThumbLeft;
 		args.OffsetY += _selectorThumbTop;
 
 		await ClickInColor(args);
 	}
 
+	//Drag
+	private string _moveEventId;
+	private string _mouseUpEventId;
+	private async Task DragStart(MouseEventArgs args)
+	{
+		_handlerDragging = true;
+		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDragging}'.");
+
+		_moveEventId = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(Dragging);
+		_mouseUpEventId = await _globalMouseEventHandler.RegisterPageMouseUpAsync(DragEnd);
+	}
+	private async Task Dragging(MouseEventArgs args)
+	{
+		if(_handlerDragging)
+		{
+			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDragging}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
+
+			args.OffsetX = args.ClientX - _colorPickerRect.Left; //x position within the element.
+			args.OffsetY = args.ClientY - _colorPickerRect.Top;  //y position within the element.
+			
+			if(args.OffsetX < 0)
+				args.OffsetX = 0;
+			if(args.OffsetX > HueAreaWidth)
+				args.OffsetX = HueAreaWidth;
+			if(args.OffsetY < 0)
+				args.OffsetY = 0;
+			if(args.OffsetY > HueAreaHeight)
+				args.OffsetY = HueAreaHeight;
+
+			await ClickInColor(args);
+			StateHasChanged(); //External event listener..
+		}
+	}
+	private async Task DragEnd(MouseEventArgs args)
+	{
+		await Task.Delay(50); //Hack: MouseUp triggers click in handler Wait to 'ClickInHandler' run! Also events can be removed added during drag...
+
+		_handlerDragging = false;
+		WriteDiag($"{nameof(DragEnd)} Color picker dragging ended allowed: '{_handlerDragging}'.");
+
+		await _globalMouseEventHandler.RemovePageMouseMoveAsync(_moveEventId);
+		await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUpEventId);
+	}
+
+	//Calculations
 	private async Task GetBilinearColor(double x, double y, Color mainColor)
 	{
-		var r = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.R);
-		var g = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.G);
-		var b = BilinearInterpolationCalculator((int)_selectorThumbLeft, (int)_selectorThumbTop, mainColor.B);
+		var r = BilinearInterpolationCalculator(x, y, mainColor.R);
+		var g = BilinearInterpolationCalculator(x, y, mainColor.G);
+		var b = BilinearInterpolationCalculator(x, y, mainColor.B);
 
 		var bilinearColor = Color.FromArgb(r, g, b);
 		_selectorThumbHex = ColorTranslator.ToHtml(bilinearColor);
 
 		_selectedColor = bilinearColor;
 		
+		WriteDiag($"{nameof(GetBilinearColor)}: calculated values R: '{r}', G: '{g}', B: '{b}', selected Color HEX: '{_selectorThumbHex}'.");
+
 		if(OnColorChanged.HasDelegate)
 		{
 			await OnColorChanged.InvokeAsync(bilinearColor);
@@ -152,11 +314,19 @@
 		if (p > 255)
 			return 255;
 
-		return (int)p;
+		return (int)Math.Round(p);
 	}
 
 	private void WriteDiag(string message)
 	{
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_globalMouseEventHandler is not null)
+		{
+			await _globalMouseEventHandler.DisposeAsync();
+		}
 	}
 }

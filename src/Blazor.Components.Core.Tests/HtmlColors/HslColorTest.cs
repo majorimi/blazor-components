@@ -78,6 +78,17 @@ namespace Blazor.Components.Core.Tests.HtmlColors
 		}
 
 		[TestMethod]
+		public void Should_Hsl_ToHslString_formatted()
+		{
+			var hsl = new HslColor(77, 100, 50);
+
+			Assert.AreEqual(77, hsl.Hue);
+			Assert.AreEqual(100, hsl.Saturation);
+			Assert.AreEqual(50, hsl.Luminosity);
+			Assert.AreEqual("77°, 100%, 50%", hsl.ToHslString());
+		}
+
+		[TestMethod]
 		public void Should_Hsl_ToRGBString_formatted()
 		{
 			var hsl = new HslColor(77, 100, 50);

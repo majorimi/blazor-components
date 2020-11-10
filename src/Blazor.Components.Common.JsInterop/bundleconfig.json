@@ -28,5 +28,11 @@
     "inputFiles": [
       "wwwroot/clipboard.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/globalMouseEvents.min.js",
+    "inputFiles": [
+      "wwwroot/globalMouseEvents.js"
+    ]
   }
 ]

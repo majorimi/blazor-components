@@ -1,30 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.Common.JsInterop</PackageId>
 	<Version>1.0.0.0</Version>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<PackageId>Majorsoft.Blazor.Components.DragAndDrop</PackageId>
 	<Authors>Imre Toth</Authors>
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
+	<Description>Blazor component that renders wrapper components to enables Drag and Drop in Blazor Apps.</Description>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
-	<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
+	<PackageTags>.Net5 Blazor Drag&amp;Drop Drag Drop</PackageTags>
+	<Title>Blazor Components Typeahead Input</Title>
   </PropertyGroup>
 
+  
   <ItemGroup>
-	<Content Remove="bundleconfig.json" />
-	<Content Remove="wwwroot\focus.js" />
+	<SupportedPlatform Include="browser" />
   </ItemGroup>
-	
+
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
   </ItemGroup>
@@ -34,8 +35,6 @@
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
-	<None Include="bundleconfig.json" />
-	<None Include="wwwroot\focus.js" />
   </ItemGroup>
 
 </Project>
