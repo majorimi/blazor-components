@@ -1,4 +1,10 @@
-﻿<h1>Html Color Picker control</h1>
+﻿<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<h1>Html Color Picker control</h1>
 <p>
 	Blazor components that renders a Blazor Color Picker control with color info. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/ColorPicker.md" target="_blank">Github</a>.
@@ -6,9 +12,9 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Html Color Picker panel</h3>
+	<h3>Html Color Picker raw container alone</h3>
 	<p>
-	 Raw Color picker panel: 
+	 This example shows the <strong>raw</strong> Color Picker container alone: HSL color slider and bilinear interpolated color selector area with optional Info section.
 	</p>
 
 	<div class="row pb-2">
@@ -24,13 +30,19 @@
 				ShowInfoArea="_showInfo"
 				HueSliderWidth="_sliderlWidth"
 				HueAreaHeight="_panelHeight"
-				HueAreaWidth="_panelWidth">
+				HueAreaWidth="_panelWidth"
+				OnColorChanged="ColorSelected">
 			</HslColorSelector>
 		</div>
 	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Events log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
 </div>
-
-
 
 @using System.Drawing
 
@@ -41,4 +53,13 @@
 	private bool _showInfo = true;
 
 	private Color _selectedColor = Color.FromArgb(66, 135, 245);
+
+	private ElementReference _log;
+	private string _logMessage;
+
+	private async Task ColorSelected(Color color)
+	{
+		_logMessage += $"Color Selected: {color} {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
+	}
 }

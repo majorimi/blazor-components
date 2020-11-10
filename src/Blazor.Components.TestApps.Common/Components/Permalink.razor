@@ -129,7 +129,7 @@ textarea {
 	<div class="row pb-2">
 		<div class="col-12">
 			<label><strong>Event log</strong>:</label>
-			<textarea @ref="_divLog" @bind="_log" class="form-control w-100" readonly></textarea>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -140,12 +140,12 @@ textarea {
 	private PermaLinkStyle _iconStyle;
 	private int _action = (int)PermaLinkIconActions.Copy;
 
-	private string _log;
-	private ElementReference _divLog;
+	private string _logMessage;
+	private ElementReference _log;
 
 	private async Task LinkCopied(string uri)
 	{
-		_log += $"Link copied URL: {uri} {Environment.NewLine}";
-		await _divLog.ScrollToEndAsync();
+		_logMessage += $"Link copied URL: {uri} {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
 	}
 }
