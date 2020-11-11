@@ -25,7 +25,7 @@ namespace Blazor.Components.TestApp
 			builder.Services.AddPermaLinkWatcher();
 
 			builder.Logging.AddBrowserConsole()
-				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Warning);
+				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
 
 			await builder.Build().RunAsync();
 		}
