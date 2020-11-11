@@ -1,22 +1,24 @@
 ﻿using System;
 
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 
 namespace Blazor.Server.Logging.Console
 {
 	internal class BrowserConsoleLogger<T> : BrowserConsoleLogger, ILogger<T>
 	{
-		public BrowserConsoleLogger(IJSRuntime runtime, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
-			: base(runtime, name, filter, scopeProvider)
+		public BrowserConsoleLogger(IServiceProvider serviceProvider, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
+			: base(serviceProvider, name, filter, scopeProvider)
 		{
 		}
 	}
 
 	internal class BrowserConsoleLogger : ILogger
 	{
-		private IJSRuntime _jsRuntime;
 		private Func<string, LogLevel, bool> _filter;
+		private readonly IServiceProvider _serviceProvider;
+
 		private IExternalScopeProvider ScopeProvider { get; set; }
 
 		public string Name { get; }
@@ -34,22 +36,21 @@ namespace Blazor.Server.Logging.Console
 			}
 		}
 
-		public BrowserConsoleLogger(IJSRuntime runtime, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
+		public BrowserConsoleLogger(IServiceProvider serviceProvider, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
 		{
-			if (name == null)
+			if (serviceProvider is null)
+			{
+				throw new ArgumentNullException(nameof(serviceProvider));
+			}
+			if (name is null)
 			{
 				throw new ArgumentNullException(nameof(name));
 			}
 
-			_jsRuntime = runtime;
+			_serviceProvider = serviceProvider;
 			Name = name;
 			Filter = filter ?? ((category, logLevel) => true);
 			ScopeProvider = scopeProvider;
-		}
-
-		public void SetIJSRuntime(IJSRuntime runtime) //HACK: This is a hack IJSRuntime should be injected but cannot be done...
-		{
-			_jsRuntime = runtime;
 		}
 
 		public bool IsEnabled(LogLevel logLevel)
@@ -80,24 +81,12 @@ namespace Blazor.Server.Logging.Console
 			{
 				try
 				{
-					if (_jsRuntime is { })
-					{
-
-#if DEBUG
-						var jsName = "Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.js";
-#else
-						var jsName = "Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.min.js";
-#endif
-						await using (var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
-							$"./_content/{jsName}"))
-						{
-							await ServerConsoleLogging.LogConsole(module, message);
-						}
-					}
+					var hub = _serviceProvider.GetService(typeof(IHubContext<BlazorServerConsoleLoggingHub>)) as IHubContext<BlazorServerConsoleLoggingHub>;
+					hub?.Clients.All.SendAsync("WriteConsoleLogAsync", message, logLevel);
 				}
-				catch (InvalidOperationException e)
+				catch (Exception ex)
 				{
-					//hack
+					//hack, cannot log error...
 				}
 			}
 		}

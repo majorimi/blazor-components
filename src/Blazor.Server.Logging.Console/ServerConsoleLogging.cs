@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 using System.Threading.Tasks;
@@ -6,14 +7,14 @@ namespace Blazor.Server.Logging.Console
 {
 	internal class ServerConsoleLogging
 	{
-		public static ValueTask<string> LogConsole(IJSObjectReference jSObjectReference, string message)
+		public static ValueTask LogConsole(IJSObjectReference jSObjectReference, string message, LogLevel logLevel)
 		{
 			if (jSObjectReference != null)
 			{
-				return jSObjectReference.InvokeAsync<string>("consoleLogger", message);
+				return jSObjectReference.InvokeVoidAsync("consoleLogger", message, logLevel);
 			}
 
-			return ValueTask.FromResult<string>(null);
+			return ValueTask.CompletedTask;
 		}
 	}
 }

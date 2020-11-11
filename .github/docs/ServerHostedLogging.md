@@ -36,8 +36,14 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 ## Setup
 
-Add the following code snippet to your WebAssembly hosted (client side) Blazor Application. 
-Into the `Program.cs` file 'CreateHostBuilder' method.
+**Blazor Server hosted model requires more complicated setup. Since your code runs on the Sever and logs has to be transfered to the Browser.**
+
+**Follow the next 3 required steps to make it work.**
+
+#### Step 1. Register service and LoggerProvider
+
+Add the following code snippet to your Server hosted Blazor Application. 
+Into the **`Program.cs`** file 'CreateHostBuilder' method.
 ```
 using Blazor.Server.Logging.Console;
 
@@ -49,29 +55,59 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 		{
 			webBuilder.ConfigureLogging(logger =>
 			{
-				logger.SetMinimumLevel(LogLevel.Debug); //Setting LogLevel is optional
-				logger.AddBrowserConsole();
+				logger.AddBrowserConsole()
+					.SetMinimumLevel(LogLevel.Trace) //Setting LogLevel is optional
+					.AddFilter("Microsoft", LogLevel.Information); //System logs can be filtered.
 			});
 			webBuilder.UseStartup<Startup>();
 		});
 ```
 
-**Hack solution in v0.9 package!!!**
+#### Step 2. Register SignalR Hub
 
-Currently Blazor.Server.Logging.Console package using 'IJSRuntime'. However 'ILogger' created during startup before any JS runtime created.
-So the current solution is to 're-inject' a valid instans of `IJSRuntime` when it is ready. Best place to do it is in `MainLayout.razor` file.
+All SignalR Hubs must be registered with `MapHub` method in the **`Startup.cs`** file `Configure` method.
 
 ```
-@using Blazor.Server.Logging.Console;
-@inject IJSRuntime _runtime;
+public void Configure(IApplicationBuilder app)
+{
+	...
+	app.UseEndpoints(endpoints =>
+	{
+		//Blazor server code
+		endpoints.MapBlazorHub();
+		endpoints.MapFallbackToPage("/_Host");
+		//Logging setup
+		endpoints.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HubUrl);
+	});
+}
+```
+
+
+#### Step 3. Start SignalR connection
+
+Initialize and start SignalR connection with Sever. It should be executed only once.
+Best place to do it is in **`MainLayout.razor`** file.
+```
+@using Blazor.Server.Logging.Console
+@inject IBrowserConsoleLoggerService _browserConsoleLogger
+
+@implements IAsyncDisposable
 
 @code{
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(firstRender)
 		{
-			//setup logger
-			BrowserConsoleLoggerProvider.SetLogger(_runtime);
+			//setup console log
+			await _browserConsoleLogger.StartLoggerAsync();
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_browserConsoleLogger is not null)
+		{
+			await _browserConsoleLogger.DisposeAsync();
 		}
 	}
 }
@@ -79,7 +115,8 @@ So the current solution is to 're-inject' a valid instans of `IJSRuntime` when i
 
 ## Usage
 
-After correct setup usage is very simple by logging with standard injected `ILogger` object. The following code snippet shows how to use logger in a Blazor component.
+After setup usage is very simple. Just use by standard logging with injected `ILogger` object. The following code snippet shows how to use logger in a Blazor component.
+
 ```
 @using Microsoft.Extensions.Logging
 

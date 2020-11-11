@@ -14,36 +14,49 @@
 	</div>
 </div>
 
-@using Blazor.Server.Logging.Console;
-@inject IJSRuntime _runtime;
-
+@*Permalink*@
 @using Blazor.Components.PermaLink
 @using Microsoft.Extensions.Logging
 @using Blazor.Components.Common.JsInterop.Scroll
-@using Microsoft.AspNetCore.Components.Routing
+
 @inject IScrollHandler _scrollHandler
 @inject NavigationManager _navigationManager
 @inject ILogger<IPermaLinkWatcherService> _logger
 
-@implements IDisposable
+@*Server hoster Blazor console log*@
+@using Blazor.Server.Logging.Console
+@inject IBrowserConsoleLoggerService _browserConsoleLogger
 
-@code{
+@implements IDisposable
+@implements IAsyncDisposable
+
+@code {
 	private IPermaLinkWatcherService _permalinkWatcher;
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if(firstRender)
+		if (firstRender)
 		{
-			//setup logger
-			BrowserConsoleLoggerProvider.SetLogger(_runtime);
-
 			//setup permalink
 			_permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger);
 			_permalinkWatcher.WatchPermaLinks();
+
+			//setup console log
+			await _browserConsoleLogger.StartLoggerAsync();
 		}
 	}
 
 	public void Dispose()
 	{
 		_permalinkWatcher?.Dispose();
+		_browserConsoleLogger?.DisposeAsync();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_browserConsoleLogger is not null)
+		{
+			await _browserConsoleLogger.DisposeAsync();
+		}
 	}
 }

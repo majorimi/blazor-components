@@ -30,6 +30,8 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+	<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 
