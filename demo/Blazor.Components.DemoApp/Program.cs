@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +27,7 @@ namespace Blazor.Components.DemoApp
 			builder.Services.AddPermaLinkWatcher();
 
 			builder.Logging.AddBrowserConsole()
-				.SetMinimumLevel(LogLevel.Debug);
+				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
 
 			await builder.Build().RunAsync();
 		}
