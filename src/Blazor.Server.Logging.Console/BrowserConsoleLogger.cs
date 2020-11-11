@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 
 namespace Blazor.Server.Logging.Console
 {
@@ -87,7 +86,7 @@ namespace Blazor.Server.Logging.Console
 				}
 				catch (Exception ex)
 				{
-					//hack
+					//hack, cannot log error...
 				}
 			}
 		}

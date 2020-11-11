@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 
 namespace Blazor.Server.Logging.Console

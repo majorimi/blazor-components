@@ -39,20 +39,22 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 ## Setup
 
 Add the following code snippet to your WebAssembly hosted (client side) Blazor Application. 
-Into the `Program.cs` file 'Main' method.
+Into the `**Program.cs`** file 'Main' method.
 ```
 using Blazor.WebAssembly.Logging.Console;
 
 ...
 
 builder.Logging.AddBrowserConsole()
-	.SetMinimumLevel(LogLevel.Debug); //Setting LogLevel is optional
+	.SetMinimumLevel(LogLevel.Debug) //Setting LogLevel is optional
+	.AddFilter("Microsoft", LogLevel.Information); //System logs can be filtered.
 ```
 
 
 ## Usage
 
-After correct setup usage is very simple by logging with standard injected `ILogger` object. The following code snippet shows how to use logger in a Blazor component.
+After setup usage is very simple. Just use by standard logging with injected `ILogger` object. The following code snippet shows how to use logger in a Blazor component.
+
 ```
 @using Microsoft.Extensions.Logging
 

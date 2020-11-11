@@ -55,7 +55,7 @@ namespace Blazor.Components.TestServerApp
 			{
 				endpoints.MapBlazorHub();
 				endpoints.MapFallbackToPage("/_Host");
-				endpoints.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HUB_URL);
+				endpoints.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HubUrl);
 			});
 		}
 	}
