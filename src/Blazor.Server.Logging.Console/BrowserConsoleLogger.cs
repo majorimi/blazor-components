@@ -90,7 +90,7 @@ namespace Blazor.Server.Logging.Console
 #endif
 						await using (var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{jsName}"))
 						{
-							await ServerConsoleLogging.LogConsole(module, message);
+							await ServerConsoleLogging.LogConsole(module, message, logLevel);
 						}
 					}
 				}
