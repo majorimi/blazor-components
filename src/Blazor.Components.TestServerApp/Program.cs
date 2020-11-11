@@ -34,7 +34,7 @@ namespace Blazor.Components.TestServerApp
 
 					webBuilder.ConfigureLogging(logger =>
 					{
-						logger.SetMinimumLevel(LogLevel.Debug);
+						logger.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Warning);
 						logger.AddBrowserConsole();
 					});
 					webBuilder.UseStartup<Startup>();

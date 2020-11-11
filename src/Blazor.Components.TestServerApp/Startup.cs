@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 using Blazor.Components.CssEvents;
 using Blazor.Components.Common.JsInterop;
+using Blazor.Server.Logging.Console;
 
 namespace Blazor.Components.TestServerApp
 {
@@ -54,6 +55,7 @@ namespace Blazor.Components.TestServerApp
 			{
 				endpoints.MapBlazorHub();
 				endpoints.MapFallbackToPage("/_Host");
+				endpoints.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HUB_URL);
 			});
 		}
 	}

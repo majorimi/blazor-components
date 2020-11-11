@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Server.Logging.Console
 {
-	internal class ServerConsoleLogging
+	/*internal*/ public class ServerConsoleLogging
 	{
 		public static ValueTask<string> LogConsole(IJSObjectReference jSObjectReference, string message)
 		{
