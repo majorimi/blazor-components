@@ -17,6 +17,7 @@
 	<h3>JS Interop features:</h3>
 	<ul>
 		<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+		<li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
 		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
 		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
 		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
@@ -29,7 +30,6 @@
 		<Content><h3>Click JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
 		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
 		click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources. 
 		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
@@ -59,6 +59,29 @@
 
 			<label><strong>Click boundaries log</strong>:</label>
 			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="mouse-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Global Mouse JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Global Mouse JS</strong> is an <strong>injectable <code>IGlobalMouseEventHandler</code> service</strong> for global mouse callback event handlers.
+		<br />
+			Blazor supports <code>@@onclick</code>, <code>@@onmousemove</code>, etc. events but only for Blazor rendered elements. With this service you can get similar event notifications
+			for the whole <strong>document/window</strong>.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<p><code>RegisterPageMouseDownAsync()</code>, <code>RegisterPageMouseUpAsync()</code>, <code>RegisterPageMouseMoveAsync()</code> will add event listeners to HTML document/window <code>mouse</code> events.</p>
+			<button class="btn btn-primary" @onclick="GlobalClickEventHandler">@(_clickSubscribed ? "Unsubscribe from all event" : "Subscribe to all event")</button>
+			<br />
+
+			<label><strong>Global Mouse events log</strong>:</label>
+			<textarea @ref="_log3" @bind="_logMessage3" class="form-control w-100 logText" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -192,6 +215,7 @@
 @inject IFocusHandler _focusHandler
 @inject IClickBoundariesHandler _clichHandler;
 @inject IClipboardHandler _clipboardHandler;
+@inject IGlobalMouseEventHandler _globalMouseEventHandler;
 
 @code {
 	private string _scrollEventId = null;
@@ -199,6 +223,7 @@
 	{
 		await ScrollEventHandler();
 		await ClickEventHandler();
+		await GlobalClickEventHandler();
 	}
 
 	//Click examples
@@ -227,6 +252,36 @@
 		StateHasChanged();
 
 		await _log.ScrollToEndAsync();
+	}
+
+	//Mouse examples
+	private ElementReference _log3;
+	private string _logMessage3;
+	private bool _clickSubscribed3;
+	private string _mouseDown, _mouseUp, _mouseMove;
+	private async Task GlobalClickEventHandler()
+	{
+		if (_clickSubscribed3)
+		{
+			await _globalMouseEventHandler.RemovePageMouseDownAsync(_mouseDown);
+			await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUp);
+			await _globalMouseEventHandler.RemovePageMouseMoveAsync(_mouseMove);
+		}
+		else
+		{
+			_mouseDown = await _globalMouseEventHandler.RegisterPageMouseDownAsync(async (args) => await PageMouseEvents(args, "Document Mouse DOWN"));
+			_mouseUp = await _globalMouseEventHandler.RegisterPageMouseUpAsync(async (args) => await PageMouseEvents(args, "Document Mouse UP"));
+			_mouseMove = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(async (args) => await PageMouseEvents(args, "Document Mouse MOVE"));
+		}
+
+		_clickSubscribed3 = !_clickSubscribed3;
+	}
+	private async Task PageMouseEvents(MouseEventArgs args, string message)
+	{
+		_logMessage3 += $"Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}, Buttons: {args.Buttons}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log3.ScrollToEndAsync();
 	}
 
 	//Focus examples

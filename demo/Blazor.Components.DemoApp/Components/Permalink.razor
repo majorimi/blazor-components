@@ -27,6 +27,7 @@ textarea {
 			<NavLink href="jsinterop">Js Interop controls and extensions</NavLink>
 			<ul>
 				<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+				<li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
 				<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
 				<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
 				<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
@@ -128,7 +129,7 @@ textarea {
 	<div class="row pb-2">
 		<div class="col-12">
 			<label><strong>Event log</strong>:</label>
-			<textarea @ref="_divLog" @bind="_log" class="form-control w-100" readonly></textarea>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -139,12 +140,12 @@ textarea {
 	private PermaLinkStyle _iconStyle;
 	private int _action = (int)PermaLinkIconActions.Copy;
 
-	private string _log;
-	private ElementReference _divLog;
+	private string _logMessage;
+	private ElementReference _log;
 
 	private async Task LinkCopied(string uri)
 	{
-		_log += $"Link copied URL: {uri} {Environment.NewLine}";
-		await _divLog.ScrollToEndAsync();
+		_logMessage += $"Link copied URL: {uri} {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
 	}
 }
