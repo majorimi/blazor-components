@@ -14,6 +14,8 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/timer).
 
+![Timer demo](https://github.com/majorimi/blazor-components/tree/master/.github/docs/gifs/timer.gif)
+
 # Components
 
 - **`AdvancedTimer`**: Timer object wrapped into a Blazor component to perform async operations on  elapsed event.
