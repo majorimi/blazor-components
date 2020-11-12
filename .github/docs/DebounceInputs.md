@@ -12,6 +12,8 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/debounceinput).
 
+![Debounce demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/debounce.gif)
+
 # Components
 
 - **`DebounceInput`**: wraps and renders HTML `<input>` field with debounced (delay) event for onChange.

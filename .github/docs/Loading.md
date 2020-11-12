@@ -14,6 +14,8 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/loading).
 
+![Loading demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/loading.gif)
+
 # Components
 
 - **`LoadingPage`**: Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...

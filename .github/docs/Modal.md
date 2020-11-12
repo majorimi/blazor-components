@@ -12,6 +12,8 @@ Blazor component that can be used for prompting Modal dialog window for lightbox
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/modal).
 
+![Modal demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/modal.gif)
+
 # Components
 
 - **`ModalDialog`**: renders Modal dialog window with fully customizable **Header**, **Content** and **Footer** and parameterized Overlay, etc...

@@ -12,6 +12,9 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/typeahead).
 
+![Typeahead demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/typeahead.gif)
+![Typeahead csutom demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/typeahead.gif)
+
 # Components
 - **`TypeaheadInput`**: Wraps around HTML `<input>` control and adds Typeahead control with optional debounce (delay) and minimal required chars. 
 - **`TypeaheadInputText`**: Wraps around Blazor `InputText` control which enables form validation and adds Typeahead control with optional debounce (delay) and minimal required chars.
