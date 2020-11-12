@@ -1,6 +1,6 @@
 {
-  "name": "Blazor.Components.DemoApp",
-  "short_name": "Blazor.Components.DemoApp",
+  "name": "Majorsoft Blazor Components Demo App",
+  "short_name": "Majorsoft Blazor Demo",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
