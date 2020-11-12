@@ -80,6 +80,8 @@ namespace Blazor.Components.Typeahead
 			}
 		}
 
+		public ElementReference InnerElementReference => _typeahead.InnerElementReference;
+
 		//Values
 		private string _value;
 		[Parameter]

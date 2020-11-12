@@ -154,6 +154,14 @@
 
 
 @code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await input1.InnerElementReference.FocusAsync();
+		}
+	}
+
 	//DebounceInput
 	private string _debounceInputValue = "";
 	private string? _notifiedInputValue;

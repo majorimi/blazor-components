@@ -1,9 +1,12 @@
-﻿<button @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@(_isLoading && DisabledWhenLoading) @attributes=AllOtherAttributes>
+﻿<button @ref="_inputRef" @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@(_isLoading && DisabledWhenLoading) @attributes=AllOtherAttributes>
 	@(!_isLoading ? Content : LoadingContent)
 </button>
 
 @inject ILogger<LoadingButton> _logger;
 @code {
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
+
 	[Parameter]
 	public RenderFragment Content { get; set; }
 

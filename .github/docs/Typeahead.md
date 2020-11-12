@@ -76,6 +76,8 @@ Optional HTML content which overrides the default Item template. Your code will 
 Optional HTML content to show when **Search** has no result.
 - **`InProgressContent`: `RenderFragment InProgressContent { get; set; }`** <br />
 Optional HTML content to show when **Search** is in progress.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+  Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: `id="input1" class="form-control w-25"` will be passed to the corresponding rendered HTML element `<input>`**.
 
