@@ -13,6 +13,8 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/permalink#main).
 
+![Modal demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/permaLink.gif)
+
 # Components and Services
 
 - **`PermaLinkElement`**: is a wrapper component it renders the given content with `<a>` tag and will add anchor icon with on hover activated Link copy function. 
