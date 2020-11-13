@@ -1,4 +1,4 @@
-Blazor Server Hosted model console logging
+Blazor CSS Animation and Transition components and extensions
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.CssEvents?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents/)

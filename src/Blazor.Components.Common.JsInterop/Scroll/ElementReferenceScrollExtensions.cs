@@ -6,8 +6,16 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.Common.JsInterop.Scroll
 {
+	/// <summary>
+	/// Extensions for <see cref="ElementReference"/> HTML elements.
+	/// </summary>
 	public static class ElementReferenceScrollExtensions
 	{
+		/// <summary>
+		/// Scrolls HTML page to given element
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToElementAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -19,6 +27,11 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given element to the bottom (end).
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToEndAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -30,6 +43,11 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given element to the beginning (top).
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToTopAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -41,6 +59,12 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given element to the given X position.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="xPos">Scroll X position</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToXAsync(this ElementReference elementReference, double xPos)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -52,6 +76,12 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given element to the given Y position.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="yPos">Scroll Y position</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToYAsync(this ElementReference elementReference, double yPos)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -63,19 +93,29 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
-		public static async Task<double> GetScrollPositionAsync(this ElementReference elementReference)
+		/// <summary>
+		/// Returns given element scroll X position.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task with X pos</returns>
+		public static async Task<double> GetScrollXPositionAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					return await module.InvokeAsync<double>("getScrollPosition", elementReference);
+					return await module.InvokeAsync<double>("getScrollXPosition", elementReference);
 				}
 			}
 
 			return 0;
 		}
 
+		/// <summary>
+		/// Returns given element is visible on HTML document or not.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task<bool> IsElementHiddenAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -88,6 +128,11 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 
 			return false;
 		}
+		/// <summary>
+		/// Returns given element is below of the view port.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task<bool> IsElementHiddenBelowAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -100,6 +145,11 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 
 			return false;
 		}
+		/// <summary>
+		/// Returns given element is above of the view port.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task</returns>
 		public static async Task<bool> IsElementHiddenAboveAsync(this ElementReference elementReference)
 		{
 			await using (var module = await elementReference.GetJsObject())
@@ -113,6 +163,12 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			return false;
 		}
 
+		/// <summary>
+		/// Scrolls inside the given parent element to the given inner element.
+		/// </summary>
+		/// <param name="parent">Blazor reference to an HTML (outer/wrapper) element</param>
+		/// <param name="innerElement">Blazor reference to an inner HTML element to scroll to</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)
 		{
 			await using (var module = await parent.GetJsObject())
@@ -124,6 +180,12 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given parent element to the given inner element by Id.
+		/// </summary>
+		/// <param name="parent">Blazor reference to an HTML (outer/wrapper) element</param>
+		/// <param name="id">Inner element Id to scroll to</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollInParentByIdAsync(this ElementReference parent, string id)
 		{
 			await using (var module = await parent.GetJsObject())
@@ -135,6 +197,12 @@ namespace Blazor.Components.Common.JsInterop.Scroll
 			}
 		}
 
+		/// <summary>
+		/// Scrolls inside the given parent element to the given first found inner element by class name.
+		/// </summary>
+		/// <param name="parent">Blazor reference to an HTML (outer/wrapper) element</param>
+		/// <param name="className">Inner element CSS class to scroll to</param>
+		/// <returns>Async Task</returns>
 		public static async Task ScrollInParentByClassAsync(this ElementReference parent, string className)
 		{
 			await using (var module = await parent.GetJsObject())

@@ -11,7 +11,7 @@
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<Description>Blazor component that renders wrapper components to enables Drag and Drop in Blazor Apps.</Description>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
@@ -19,6 +19,11 @@
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<PackageTags>.Net5 Blazor Drag&amp;Drop Drag Drop</PackageTags>
 	<Title>Blazor Components Typeahead Input</Title>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.DragAndDrop\Blazor.Components.DragAndDrop.xml</DocumentationFile>
   </PropertyGroup>
 
   
@@ -32,6 +37,10 @@
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

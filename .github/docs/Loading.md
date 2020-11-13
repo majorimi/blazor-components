@@ -61,6 +61,8 @@ Subscribe to this event and place your code to the event handler when using **'a
 Determines whether the button should be disabled during loading state or not.
 - **`Type`: `ButtonTypes { get; set; }` enum (default: ButtonTypes.Button)** <br />
 Intelisense supported type safe values to render HTML `<button>` `type=""` attribute.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+  Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: `id="btn1" class="btn btn-primary"` will be passed to the corresponding rendered HTML element `<button>`**.
 

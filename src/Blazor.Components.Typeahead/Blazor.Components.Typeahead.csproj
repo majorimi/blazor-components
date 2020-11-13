@@ -14,11 +14,16 @@
 	<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea Typeahead</PackageTags>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<PackageId>Majorsoft.Blazor.Components.Typeahead</PackageId>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Copyright>Imre Toth 2020</Copyright>
 	<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel.</Description>
 	<Title>Blazor Components Typeahead Input</Title>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Typeahead\Blazor.Components.Typeahead.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,6 +58,10 @@
 	
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

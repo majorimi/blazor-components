@@ -51,6 +51,8 @@ Sets the icon `<img width="" height="" />` values.
 Enum value which sets the  displayed icon type: `Normal`, `Bold`.
 - **`IconActions`**: **`PermaLinkIconActions IconActions { get; set; }` - (default: FLAG enum `PermaLinkIconActions.Copy`)**  <br />
 FLAG Enum value which sets the behaviour of the icon click: `Copy`, `Navigate`. Flag values can be combined: `PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate`.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+  Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: id="btn1" will be passed to the corresponding rendered <div> HTML element wrapper.**
 
