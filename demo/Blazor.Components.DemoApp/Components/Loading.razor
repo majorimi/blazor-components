@@ -102,6 +102,11 @@
 </div>
 
 @code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		@*await _loadingButton.InnerElementReference.FocusAsync();*@
+	}
+
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 500;
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
