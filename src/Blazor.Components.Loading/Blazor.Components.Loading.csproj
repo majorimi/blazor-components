@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -10,7 +10,7 @@
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
@@ -18,6 +18,11 @@
 	<Description>Blazor components that renders Overlay for page load. HTML Button with customizable content to show during async operation progress/loading state.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Loading\Blazor.Components.Loading.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +37,10 @@
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

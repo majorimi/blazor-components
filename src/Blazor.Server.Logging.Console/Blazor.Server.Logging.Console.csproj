@@ -10,7 +10,7 @@
 	<Product>Majorsoft Blazor Components</Product>
 	<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using Server Hosting Model!</Description>
 	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
@@ -18,6 +18,12 @@
 	<PackageTags>.Net5 Blazor Server ConsoleLog</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Title>Blazor Server Logging Console</Title>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<Company>Majorsoft</Company>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +44,10 @@
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

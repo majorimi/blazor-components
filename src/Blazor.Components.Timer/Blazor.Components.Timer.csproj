@@ -10,13 +10,19 @@
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md</PackageProjectUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Timer</PackageTags>
 	<Description>Blazor component that can be used for scheduled and periodically repeated tasks to call custom code.</Description>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Timer\Blazor.Components.Timer.xml</DocumentationFile>
   </PropertyGroup>
 
 
@@ -27,6 +33,10 @@
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

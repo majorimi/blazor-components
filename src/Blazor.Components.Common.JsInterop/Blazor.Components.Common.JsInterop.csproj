@@ -10,7 +10,7 @@
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
@@ -18,6 +18,11 @@
 	<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +36,10 @@
 
   <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>

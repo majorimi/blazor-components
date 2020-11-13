@@ -75,7 +75,7 @@ export function isElementHiddenAbove(element) {
 
 //Scrolling inside an element use it for e.g. Textarea
 export function scrollToEnd(element) {
-    if (element && typeof element.hasOwnProperty("scrollTop")) {
+    if (element && typeof element.hasOwnProperty("scrollTop") && element.hasOwnProperty("scrollHeight")) {
         element.scrollTop = element.scrollHeight;
     }
 }
@@ -94,8 +94,8 @@ export function scrollToY(element, y) {
         element.scrollLeft = y;
     }
 }
-export function getScrollPosition(element) {
-    if (element && typeof element.hasOwnProperty("scrollHeight")) {
+export function getScrollXPosition(element) {
+    if (element && typeof element.hasOwnProperty("scrollTop")) {
         return element.scrollTop;
     }
 }
