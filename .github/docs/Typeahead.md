@@ -13,10 +13,10 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/typeahead).
 
 #### Typeahead with pre-loaded string model
-![Typeahead demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/typeahead.gif)
+![Typeahead demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/typeahead.gif)
 
 #### Typeahead with async custom model
-![Typeahead csutom demo](https://github.com/majorimi/blazor-components/blob/master/.github/docs/gifs/typeahead2.gif)
+![Typeahead csutom demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/typeahead2.gif)
 
 # Components
 - **`TypeaheadInput`**: Wraps around HTML `<input>` control and adds Typeahead control with optional debounce (delay) and minimal required chars. 
