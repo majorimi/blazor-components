@@ -54,8 +54,8 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 		.ConfigureLogging(logger =>
 		{
 			logger.AddBrowserConsole()
-				.AddDebug()
-				.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
+			  .SetMinimumLevel(LogLevel.Trace) //Setting LogLevel is optional NOTE: appsettings.json config overrides this
+			  .AddFilter("Microsoft", LogLevel.Information); //System logs can be filtered
 		})
 		.ConfigureWebHostDefaults(webBuilder =>
 		{

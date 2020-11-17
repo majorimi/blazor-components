@@ -18,7 +18,6 @@ namespace Blazor.Components.TestServerApp
 				.ConfigureLogging(logger =>
 				{
 					logger.AddBrowserConsole()
-						.AddDebug()
 						.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
 				})
 				.ConfigureWebHostDefaults(webBuilder =>
