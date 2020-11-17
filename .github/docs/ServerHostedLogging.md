@@ -51,14 +51,14 @@ using Blazor.Server.Logging.Console;
 
 public static IHostBuilder CreateHostBuilder(string[] args) =>
 	Host.CreateDefaultBuilder(args)
+		.ConfigureLogging(logger =>
+		{
+			logger.AddBrowserConsole()
+				.AddDebug()
+				.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
+		})
 		.ConfigureWebHostDefaults(webBuilder =>
 		{
-			webBuilder.ConfigureLogging(logger =>
-			{
-				logger.AddBrowserConsole()
-					.SetMinimumLevel(LogLevel.Trace) //Setting LogLevel is optional
-					.AddFilter("Microsoft", LogLevel.Information); //System logs can be filtered.
-			});
 			webBuilder.UseStartup<Startup>();
 		});
 ```

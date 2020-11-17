@@ -15,18 +15,14 @@ namespace Blazor.Components.TestServerApp
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.ConfigureLogging(logger =>
+				{
+					logger.AddBrowserConsole()
+						.AddDebug()
+						.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
+				})
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
-					webBuilder.ConfigureServices(config =>
-					{
-						//config.AddSingleton<Microsoft.JSInterop.JSRuntime>();
-					});
-
-					webBuilder.ConfigureLogging(logger =>
-					{
-						logger.AddBrowserConsole()
-							.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
-					});
 					webBuilder.UseStartup<Startup>();
 				});
 	}
