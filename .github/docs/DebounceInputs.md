@@ -50,7 +50,7 @@ they have the same **properties**, **events** and **functions** as well.
 - **`ForceNotifyOnBlur`:  `bool { get; set; }` (default: true)** <br />
   Same as `ForceNotifyByEnter` but notification triggered `onblur` event, when focus leaves the input field.
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
-  Exposes a `Blazor ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+  Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: `id="input1" class="form-control w-25"` will be passed to the corresponding rendered HTML element `<input>` or `<textarea>`**.
 
