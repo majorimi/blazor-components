@@ -82,6 +82,10 @@ namespace Blazor.Components.Debounce.Tests
 			await Task.Delay(debounceTime * 2); //wait for debounce
 			rendered.WaitForAssertion(() => 
 			{
+				Console.WriteLine($"-------------- Elapsed: {valueEventTime - inputTime} debounceTime: {debounceTime} -------------");
+				System.Diagnostics.Trace.WriteLine($"-------------- Elapsed: {valueEventTime - inputTime} debounceTime: {debounceTime} -------------");
+				System.Diagnostics.Debug.WriteLine($"-------------- Elapsed: {valueEventTime - inputTime} debounceTime: {debounceTime} -------------");
+
 				Assert.AreEqual("c", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
 				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
