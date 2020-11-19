@@ -72,7 +72,7 @@ namespace Blazor.Components.Loading.Tests
 		}
 
 		[TestMethod]
-		public void LoadingButton_should_rendered_correctly_loading_state()
+		public async Task LoadingButton_should_rendered_correctly_loading_state()
 		{
 			var clicked = false;
 			IRenderedComponent<LoadingButton> rendered = null;
