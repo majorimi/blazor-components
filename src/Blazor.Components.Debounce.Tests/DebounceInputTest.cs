@@ -84,7 +84,7 @@ namespace Blazor.Components.Debounce.Tests
 			{
 				Assert.AreEqual("c", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
-				Assert.IsTrue(valueEventTime - inputTime >= TimeSpan.FromMilliseconds(debounceTime));
+				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
 			}, timeout: TimeSpan.FromSeconds(1));
 		}
 
@@ -116,7 +116,7 @@ namespace Blazor.Components.Debounce.Tests
 			{
 				Assert.AreEqual("", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
-				Assert.IsTrue(valueEventTime - inputTime >= TimeSpan.FromMilliseconds(debounceTime));
+				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
 			}, timeout: TimeSpan.FromSeconds(1));
 		}
 
@@ -149,7 +149,7 @@ namespace Blazor.Components.Debounce.Tests
 			{
 				Assert.AreEqual("cat", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
-				Assert.IsTrue(valueEventTime - inputTime >= TimeSpan.FromMilliseconds(debounceTime));
+				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
 			}, timeout: TimeSpan.FromSeconds(1));
 		}
 
@@ -247,7 +247,7 @@ namespace Blazor.Components.Debounce.Tests
 			{
 				Assert.AreEqual("c", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
-				Assert.IsTrue(valueEventTime - inputTime >= TimeSpan.FromMilliseconds(debounceTime));
+				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
 			}, timeout: TimeSpan.FromSeconds(1));
 		}
 
@@ -347,7 +347,7 @@ namespace Blazor.Components.Debounce.Tests
 			{
 				Assert.AreEqual("c", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
-				Assert.IsTrue(valueEventTime - inputTime >= TimeSpan.FromMilliseconds(debounceTime));
+				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.95));
 			}, timeout: TimeSpan.FromSeconds(1));
 		}
 	}
