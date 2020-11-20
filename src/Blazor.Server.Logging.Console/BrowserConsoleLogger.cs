@@ -86,7 +86,7 @@ namespace Blazor.Server.Logging.Console
 				}
 				catch (Exception ex)
 				{
-					//hack, cannot log error...
+					//HACK: cannot log error in logger...
 				}
 			}
 		}

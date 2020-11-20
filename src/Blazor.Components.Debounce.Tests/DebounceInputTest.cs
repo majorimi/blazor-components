@@ -79,7 +79,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<input value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() => 
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -111,7 +111,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<input value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("", notifiedValue);
@@ -144,7 +144,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<input value=""cat""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("cat", notifiedValue);
@@ -242,7 +242,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<input value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -342,7 +342,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<input value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);

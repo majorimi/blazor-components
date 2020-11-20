@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Bunit;
 
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -82,7 +81,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -114,7 +113,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("", notifiedValue);
@@ -147,7 +146,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""cat""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("cat", notifiedValue);
@@ -245,7 +244,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -345,7 +344,7 @@ namespace Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 2); //wait for debounce
+			await Task.Delay(debounceTime * 3); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
