@@ -2,7 +2,7 @@
 @using System.Timers
 
 @implements IDisposable
-@inject ILogger<Timer> _logger;
+@inject ILogger<AdvancedTimer> _logger;
 
 @code {
 	private double _intervalInMilisec = 200;
@@ -89,14 +89,13 @@
 		InvokeAsync(async () =>
 		{
 			await OnIntervalElapsed.InvokeAsync(_eventCount);
-			@*StateHasChanged();*@
 		});
 
 		if (_eventCount >= Occurring.Count)
 		{
 			_timer.Stop();
 
-			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the reqired occurrence: {Occurring.Count} Timer stopped.");
+			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the required occurrence: {Occurring.Count} Timer stopped.");
 			return;
 		}
 	}

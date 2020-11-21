@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
 
-	  <IsPackable>false</IsPackable>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Timer\Blazor.Components.Timer.csproj" />
   </ItemGroup>
 
 </Project>

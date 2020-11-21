@@ -4,6 +4,12 @@
         <name>Blazor.Components.PermaLink</name>
     </assembly>
     <members>
+        <member name="T:Blazor.Components.PermaLink.EventHandlers">
+            <summary>
+            Event handler to fix blinking icon
+            https://stackoverflow.com/questions/63265941/blazor-3-1-nested-onmouseover-events
+            </summary>
+        </member>
         <member name="T:Blazor.Components.PermaLink.IPermaLinkWatcherService">
             <summary>
             Injectable service to handle Permalink navigation for the whole application. It is registered as Singleton
