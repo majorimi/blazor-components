@@ -1,4 +1,4 @@
-﻿<div @ref="_permaDiv" tabindex="1000" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" @onmouseenter="MouseHover" @onmouseleave="MouseLeave">
+﻿<div @ref="_permaDiv" id="@($"_link_{_componentId}")" tabindex="1000" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" @onmouseenter="MouseHover" @onmouseleave="MouseLeave">
 
 <a name="@_permaLinkName"></a> @Content
 
@@ -7,6 +7,18 @@
 }
 </div>
 
+<style>
+	.permaDivLeft[id=@($"_link_{_componentId}")] {
+		display: flex;
+		padding-left: @(IconSize + 4)px;
+	}
+
+	.permaDivRight[id=@($"_link_{_componentId}")]  {
+		display: flex;
+		padding-right: @(IconSize + 4)px;
+	}
+</style>
+
 @implements IAsyncDisposable
 
 @inject ILogger<PermaLinkElement> _logger;
@@ -14,6 +26,7 @@
 @inject IClipboardHandler _clipboardHandler;
 
 @code {
+	private string _componentId = Guid.NewGuid().ToString("n");
 	private ElementReference _permaDiv;
 	public ElementReference InnerElementReference => _permaDiv;
 

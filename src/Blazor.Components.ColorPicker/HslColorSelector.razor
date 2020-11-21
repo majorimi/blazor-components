@@ -70,7 +70,7 @@
 @implements IAsyncDisposable
 
 @code {
-	string _componentId = Guid.NewGuid().ToString("n");
+	private string _componentId = Guid.NewGuid().ToString("n");
 	private ElementReference _colorPicker;
 	private DomRect _colorPickerRect;
 	protected override async Task OnAfterRenderAsync(bool firstRender)

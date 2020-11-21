@@ -73,8 +73,8 @@ textarea {
 		IconPosition="@_iconPosition"
 		IconActions="@((PermaLinkIconActions)_action)"
 		IconStyle="_iconStyle"
-		IconSize="18"
-		IconMarginTop="7"
+		IconSize="_iconSize"
+		IconMarginTop="_iconMarginTop"
 		OnPermaLinkCopied="@LinkCopied">
 		<Content>
 			<h3>Customizable <code>PermaLinkElement</code> wrapper component</h3>
@@ -89,6 +89,17 @@ textarea {
 					<option value="@item">@item</option>
 				}
 			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<input type="range" min="10" max="22" @bind="_iconSize" @oninput="(e => _iconSize = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">PermaLink icon size: @(_iconSize)px</pre>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<input type="range" min="0" max="14" @bind="_iconMarginTop" @oninput="(e => _iconMarginTop = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">PermaLink icon Margin top: @(_iconMarginTop)px</pre>
 		</div>
 	</div>
 
@@ -140,6 +151,8 @@ textarea {
 	private PermaLinkStyle _iconStyle;
 	private int _action = (int)PermaLinkIconActions.Copy;
 
+	private int _iconSize = 18;
+	private int _iconMarginTop = 7;
 	private string _logMessage;
 	private ElementReference _log;
 
