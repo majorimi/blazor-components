@@ -11,6 +11,9 @@ Blazor extension for logging to browser console. **Important NOTE**: this packag
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/logger).
 
+**NOTE: in .NET 5 WebAssembly Apps will log to browser's console automatically. This package uses `Console.WriteLine()` 
+non JS based logging. So all log level messages will shown regardless of browser log filter.**
+
 # Features
 
 ## Logger
