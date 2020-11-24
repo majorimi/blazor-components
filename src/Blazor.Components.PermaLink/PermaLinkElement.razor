@@ -3,22 +3,32 @@
 
 <a name="@_permaLinkName"></a> @Content
 
-@if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) {
-	<img style="@_iconStyle" width="@IconSize" height="@IconSize" class="permaLink" src="@GetIconUrl()" @onclick="ImgClick" />
+@if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) 
+{
+	<img style="@_iconStyle" width="@IconSize" height="@IconSize" class="permaLinkIcon" src="@GetIconUrl()" @onclick="ImgClick" />
 }
 </div>
 
-<style>
-	.permaDivLeft[id=@($"_link_{_componentId}")] {
-		display: flex;
-		padding-left: @(IconSize + 4)px;
-	}
-
-	.permaDivRight[id=@($"_link_{_componentId}")]  {
-		display: flex;
-		padding-right: @(IconSize + 4)px;
-	}
-</style>
+@if (IconPosition == PermaLinkIconPosition.Right)
+{
+	<style>
+		.permaDivRight[id=@($"_link_{_componentId}")]  {
+			display: flex;
+			outline: none;
+			padding-right: @(IconSize + 4)px;
+		}
+	</style>
+}
+else if(IconPosition == PermaLinkIconPosition.Left) 
+{
+	<style>
+		.permaDivLeft[id=@($"_link_{_componentId}")] {
+			display: flex;
+			outline: none;
+			padding-left: @(IconSize + 4)px;
+		}
+	</style>
+}
 
 @implements IAsyncDisposable
 
