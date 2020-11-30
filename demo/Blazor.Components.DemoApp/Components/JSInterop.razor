@@ -77,7 +77,7 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<p><code>RegisterPageMouseDownAsync()</code>, <code>RegisterPageMouseUpAsync()</code>, <code>RegisterPageMouseMoveAsync()</code> will add event listeners to HTML document/window <code>mouse</code> events.</p>
-			<button class="btn btn-primary" @onclick="GlobalClickEventHandler">@(_clickSubscribed ? "Unsubscribe from all event" : "Subscribe to all event")</button>
+			<button class="btn btn-primary" @onclick="GlobalClickEventHandler">@(_clickSubscribed2 ? "Unsubscribe from all event" : "Subscribe to all event")</button>
 			<br />
 
 			<label><strong>Global Mouse events log</strong>:</label>
@@ -257,11 +257,11 @@
 	//Mouse examples
 	private ElementReference _log3;
 	private string _logMessage3;
-	private bool _clickSubscribed3;
+	private bool _clickSubscribed2;
 	private string _mouseDown, _mouseUp, _mouseMove;
 	private async Task GlobalClickEventHandler()
 	{
-		if (_clickSubscribed3)
+		if (_clickSubscribed2)
 		{
 			await _globalMouseEventHandler.RemovePageMouseDownAsync(_mouseDown);
 			await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUp);
@@ -274,7 +274,7 @@
 			_mouseMove = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(async (args) => await PageMouseEvents(args, "Document Mouse MOVE"));
 		}
 
-		_clickSubscribed3 = !_clickSubscribed3;
+		_clickSubscribed2 = !_clickSubscribed2;
 	}
 	private async Task PageMouseEvents(MouseEventArgs args, string message)
 	{
