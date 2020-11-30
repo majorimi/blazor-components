@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -16,7 +16,7 @@
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor Timer</PackageTags>
-	<Description>Blazor component that can be used for scheduled and periodically repeated tasks to call custom code.</Description>
+	<Description>Blazor component that can be used for scheduled and periodically repeated tasks to call custom code. Part of Majorsoft Blazor library.</Description>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
   </PropertyGroup>

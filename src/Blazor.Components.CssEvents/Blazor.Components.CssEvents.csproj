@@ -11,7 +11,7 @@
 	<Product>Blazor Components</Product>
 	<Copyright>Imre Toth 2020</Copyright>
 	<PackageLicenseExpression></PackageLicenseExpression>
-	<Description>Blazor Extensions and Components wrapper to notify on CSS Transition and Animation events.</Description>
+	<Description>Blazor Extensions and Components wrapper to notify on CSS Transition and Animation events. Part of Majorsoft Blazor library.</Description>
 	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>

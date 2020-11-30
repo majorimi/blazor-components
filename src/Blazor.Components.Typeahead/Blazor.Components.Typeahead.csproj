@@ -17,7 +17,7 @@
 	<PackageLicenseExpression></PackageLicenseExpression>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
 	<Copyright>Imre Toth 2020</Copyright>
-	<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel.</Description>
+	<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel. Part of Majorsoft Blazor library.</Description>
 	<Title>Blazor Components Typeahead Input</Title>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
