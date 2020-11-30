@@ -15,7 +15,7 @@
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<RepositoryType>Git</RepositoryType>
-	<Description>Blazor component that renders Modal dialog window with customizable content and parameterized Overlay, etc.</Description>
+	<Description>Blazor component that renders Modal dialog window with customizable content and parameterized Overlay, etc. Part of Majorsoft Blazor library.</Description>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	<PackageTags>.Net5 Blazor Modal Dialog Window</PackageTags>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>

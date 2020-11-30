@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -17,7 +17,7 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor URL URI Routing Navigation PermaLink Link</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink).</Description>
+	<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink). Part of Majorsoft Blazor library.</Description>
 	<Title>Blazor Components PermaLink navigation</Title>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>

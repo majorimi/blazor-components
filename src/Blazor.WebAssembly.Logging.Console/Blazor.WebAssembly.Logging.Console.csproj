@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
@@ -16,7 +16,7 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor WebAssemly ConsoleLog</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
-	<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using WebAssemly Hosting Model!</Description>
+	<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using WebAssemly Hosting Model! Part of Majorsoft Blazor library.</Description>
 	<Title>Blazor WebAssembly Logging Console</Title>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
 	<Company>Majorsoft</Company>

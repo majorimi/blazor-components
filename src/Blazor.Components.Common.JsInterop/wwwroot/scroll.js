@@ -19,14 +19,15 @@ export function scrollToElementByName(name) {
     }
 }
 
+let undef = "undefined";
 //Element scrolled inside another element
 export function scrollToElementInParent(parent, element) {
-    if (parent && element && typeof parent.hasOwnProperty("scrollTop") && isElementHidden(element)) {
+    if (parent && element && typeof parent.scrollTop !== undef && isElementHidden(element)) {
         parent.scrollTop = element.offsetHeight;
     }
 }
 export function scrollInParentById(parent, elementId) {
-    if (parent && elementId && typeof parent.hasOwnProperty("scrollTop")) {
+    if (parent && elementId && typeof parent.scrollTop !== undef) {
         let element = document.getElementById(elementId);
 
         if (element && isElementHidden(element)) {
@@ -35,7 +36,7 @@ export function scrollInParentById(parent, elementId) {
     }
 }
 export function scrollInParentByClass(parent, elementClass) {
-    if (parent && elementClass && typeof parent.hasOwnProperty("scrollTop")) {
+    if (parent && elementClass && typeof parent.scrollTop !== undef) {
         let elements = document.getElementsByClassName(elementClass);
 
         if (elements && elements[0]) {
@@ -75,27 +76,27 @@ export function isElementHiddenAbove(element) {
 
 //Scrolling inside an element use it for e.g. Textarea
 export function scrollToEnd(element) {
-    if (element && typeof element.hasOwnProperty("scrollTop") && element.hasOwnProperty("scrollHeight")) {
+    if (element && typeof element.scrollTop !== undef && typeof element.scrollHeight !== undef) {
         element.scrollTop = element.scrollHeight;
     }
 }
 export function scrollToTop(element) {
-    if (element && typeof element.hasOwnProperty("scrollTop")) {
+    if (element && typeof element.scrollTop !== undef) {
         element.scrollTop = 0;
     }
 }
 export function scrollToX(element, x) {
-    if (element && typeof element.hasOwnProperty("scrollTop")) {
+    if (element && typeof element.scrollTop !== undef) {
         element.scrollTop = x;
     }
 }
 export function scrollToY(element, y) {
-    if (element && typeof element.hasOwnProperty("scrollLeft")) {
+    if (element && typeof element.scrollLeft !== undef) {
         element.scrollLeft = y;
     }
 }
 export function getScrollXPosition(element) {
-    if (element && typeof element.hasOwnProperty("scrollTop")) {
+    if (element && typeof element.scrollTop !== undef) {
         return element.scrollTop;
     }
 }
