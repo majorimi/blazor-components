@@ -4,8 +4,11 @@ Blazor Components
 ============
 
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-Nuget?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=7&branchName=master)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
+![GitHub last commit](https://img.shields.io/github/last-commit/majorimi/blazor-components)
+![GitHub Release Date](https://img.shields.io/github/release-date/majorimi/blazor-components)
+![GitHub Repo stars](https://img.shields.io/github/stars/majorimi/blazor-components)
+[![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-Nuget?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=7&branchName=master)
 
 Majorsoft Blazor Components is a set of UI Components and other useful Extensions for [Blazor](https://blazor.net) applications.
 All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 

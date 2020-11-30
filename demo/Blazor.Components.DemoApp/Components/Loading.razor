@@ -104,7 +104,7 @@
 @code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		@*await _loadingButton.InnerElementReference.FocusAsync();*@
+		await _loadingButton.InnerElementReference.FocusAsync();
 	}
 
 	private string _overlayColor = "lightblue";
