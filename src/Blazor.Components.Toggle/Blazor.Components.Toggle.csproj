@@ -1,20 +1,52 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>Majorsoft.Blazor.Components.Toggle</PackageId>
+	<Version>1.0.0.0</Version>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>Imre Toth 2020</Copyright>
+	<PackageLicenseExpression></PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md</PackageProjectUrl>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageTags>.Net5 Blazor Toggle Switch Button</PackageTags>
+	<Description>Blazor component that renders customizable Toggle switch and Toggle button components. Part of Majorsoft Blazor library.</Description>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Toggle\Blazor.Components.Toggle.xml</DocumentationFile>
   </PropertyGroup>
 
   
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+	<SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+	<Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
   </ItemGroup>
 
 </Project>
