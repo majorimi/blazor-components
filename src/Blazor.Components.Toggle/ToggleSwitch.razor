@@ -1,5 +1,75 @@
-﻿<h3>ToggleSwitch</h3>
+﻿<input id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched"
+	style="width:@(Width)px; height:@(Height)px; cursor: pointer;" />
+
+<style>
+	input[id=@($"_toggleSwitch_{_componentId}")] {
+		border-radius: @(Height / 2)px;
+		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 0.55);
+	}
+
+	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
+		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+		@GetThumbStyle()
+	}
+	input[id=@($"_toggleSwitch_{_componentId}")]::-moz-range-thumb {
+		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+	}
+	input[id=@($"_toggleSwitch_{_componentId}")]::-ms-thumb {
+		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+	}
+</style>
+
+@inject ILogger<ToggleSwitch> _logger;
+@using Blazor.Components.Core.HtmlColors;
 
 @code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	private int _sliderThumbSize = 40;
 
+	private string _onColor = "0, 0, 255";//blue
+	[Parameter] 
+	public string OnColor
+	{
+		get => _onColor;
+		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _offColor = "230, 230, 230";//gray
+	[Parameter] 
+	public string offColor
+	{
+		get => _offColor;
+		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private int _value = 1;
+	[Parameter] 
+	public bool Value 
+	{
+		get { return Convert.ToBoolean(_value); }
+		set { _value = Convert.ToInt32(value); }
+	}
+
+	[Parameter] public int Height { get; set; } = 30;
+	[Parameter] public int Width { get; set; } = 80;
+
+	[Parameter] public ToggleSwitchStyle HandleStyle { get; set; } = ToggleSwitchStyle.Circle;
+
+	private string GetThumbStyle()
+	{
+		var radius = HandleStyle == ToggleSwitchStyle.Square ? 0 : 50;
+		int height = (int)(Height * 1.25);
+		int width = HandleStyle == ToggleSwitchStyle.Ellipse ? (int)(height * 1.25) : height;
+
+		return $"border-radius: {radius}%; height: {height}px; width: {width}px;";
+	}
+
+	private void Switched()
+	{
+
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
 }

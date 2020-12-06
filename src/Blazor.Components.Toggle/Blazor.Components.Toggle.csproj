@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
@@ -47,6 +43,10 @@
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
   </ItemGroup>
 
 </Project>
