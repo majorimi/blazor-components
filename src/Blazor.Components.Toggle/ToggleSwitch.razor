@@ -1,30 +1,28 @@
-﻿<input id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched"
-	style="width:@(Width)px; height:@(Height)px; cursor: pointer;" />
+﻿<input id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
+	style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.55)" />
 
 <style>
-	input[id=@($"_toggleSwitch_{_componentId}")] {
-		border-radius: @(Height / 2)px;
-		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 0.55);
-	}
-
 	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
-		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+		@GetColor()
 		@GetThumbStyle()
 	}
 	input[id=@($"_toggleSwitch_{_componentId}")]::-moz-range-thumb {
-		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+		@GetColor()
+		@GetThumbStyle()
 	}
 	input[id=@($"_toggleSwitch_{_componentId}")]::-ms-thumb {
-		background-color: rgba(@(_value == 1 ? _onColor : _offColor), 1);
+		@GetColor()
+		@GetThumbStyle()
 	}
 </style>
 
-@inject ILogger<ToggleSwitch> _logger;
+@using System.Globalization;
 @using Blazor.Components.Core.HtmlColors;
+
+@inject ILogger<ToggleSwitch> _logger;
 
 @code {
 	private string _componentId = Guid.NewGuid().ToString("n");
-	private int _sliderThumbSize = 40;
 
 	private string _onColor = "0, 0, 255";//blue
 	[Parameter] 
@@ -33,7 +31,7 @@
 		get => _onColor;
 		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
-	private string _offColor = "230, 230, 230";//gray
+	private string _offColor = "169, 169, 169";//darkgray
 	[Parameter] 
 	public string offColor
 	{
@@ -41,7 +39,7 @@
 		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
 
-	private int _value = 1;
+	private int _value = 1; //true
 	[Parameter] 
 	public bool Value 
 	{
@@ -51,9 +49,22 @@
 
 	[Parameter] public int Height { get; set; } = 30;
 	[Parameter] public int Width { get; set; } = 80;
+	[Parameter] public bool Disabled { get; set; } = false;
 
 	[Parameter] public ToggleSwitchStyle HandleStyle { get; set; } = ToggleSwitchStyle.Circle;
 
+	[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
+
+	private string GetColor(double alpha = 1)
+	{
+		var color = _value == 1 ? _onColor : _offColor;
+		if(Disabled)
+		{
+			color = "230, 230, 230";//gray
+		}
+
+		return $"background-color: rgba({color}, {alpha.ToString("0.0", CultureInfo.InvariantCulture)}); ";
+	}
 	private string GetThumbStyle()
 	{
 		var radius = HandleStyle == ToggleSwitchStyle.Square ? 0 : 50;
@@ -63,9 +74,14 @@
 		return $"border-radius: {radius}%; height: {height}px; width: {width}px;";
 	}
 
-	private void Switched()
+	private async Task Switched(ChangeEventArgs e)
 	{
+		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Value}'.");
 
+		if(OnValueChanged.HasDelegate)
+		{
+			await OnValueChanged.InvokeAsync(!Value);
+		}
 	}
 
 	private void WriteDiag(string message)
