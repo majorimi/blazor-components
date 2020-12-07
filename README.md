@@ -37,14 +37,14 @@ Please follow the link provided on each bullet points. Also you can try out all 
 
 Check out our planned components and extensions on the project [Wiki page](https://github.com/majorimi/blazor-components/wiki).
 
-### Blazor Extensions
+### **Blazor Extensions**
 
 Blazor Extensions are providing useful features to develop Balazor applications:
 
 - **Blazor.Server.Logging.Console**: Enables [browser conole logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
 - **Blazor.WebAssembly.Logging.Console**: Enables [browser conole logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
 
-### Blazor Components
+### **Blazor Components**
 
 Blazor Components are providing custom UI components to develop Balazor applications:
 
@@ -56,4 +56,5 @@ Blazor Components are providing custom UI components to develop Balazor applicat
 - **Blazor.Components.CssEvents**: [CSS Transition and Animation events](https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md) Extensions and Components wrapper to notify on CSS Transition and Animation events.
 - **Blazor.Components.Modal**: [Modal dialog component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md) that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.
 - **Blazor.Components.PermaLink**: [PermaLink component and extension](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md) that can be used to create navigation element inside Blazor pages (#permalink).
+- **Blazor.Components.Toggle**: [Toggle component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md) that can be used to render customizable Toggle switch and Toggle button components.
 
