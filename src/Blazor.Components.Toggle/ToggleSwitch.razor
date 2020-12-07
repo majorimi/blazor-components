@@ -1,5 +1,5 @@
-﻿<input id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
-	style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.55)" />
+﻿<input @ref="_inputRef" id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
+	style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.5)" />
 
 <style>
 	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
@@ -23,6 +23,8 @@
 
 @code {
 	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
 
 	private string _onColor = "0, 0, 255";//blue
 	[Parameter] 
@@ -33,7 +35,7 @@
 	}
 	private string _offColor = "169, 169, 169";//darkgray
 	[Parameter] 
-	public string offColor
+	public string OffColor
 	{
 		get => _offColor;
 		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
