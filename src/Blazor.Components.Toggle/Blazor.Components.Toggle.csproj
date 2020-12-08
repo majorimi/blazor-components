@@ -25,6 +25,14 @@
 	<DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Toggle\Blazor.Components.Toggle.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+  </ItemGroup>
+
   
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
@@ -43,6 +51,7 @@
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
+	<None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **`ToggleSwitch`**: Renders **HTML `<input>` styled as Toggle switch** with customizable size and color, etc.
 - **`ToggleButton`**: 
+- **`ToggleButtonGroup`**: 
 
 ## `ToggleSwitch` component
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
@@ -49,6 +50,14 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
 
 ## `ToggleButton` component
+
+### Properties
+
+
+**Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
+
+
+## `ToggleButtonGroup` component
 
 ### Properties
 

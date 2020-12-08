@@ -1,0 +1,4 @@
+﻿input[type=checkbox] {
+    outline: 0;
+    cursor: pointer;
+}
