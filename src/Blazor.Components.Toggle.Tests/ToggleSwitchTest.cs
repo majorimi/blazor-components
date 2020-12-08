@@ -46,7 +46,7 @@ namespace Blazor.Components.Toggle.Tests
 		public void ToggleSwitch_should_rendered_correctly_value_true()
 		{
 			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
-					.Add(p => p.Value, true));
+					.Add(p => p.Checked, true));
 
 			var input = rendered.Find("input");
 
@@ -63,7 +63,7 @@ namespace Blazor.Components.Toggle.Tests
 		public void ToggleSwitch_should_rendered_correctly_value_false()
 		{
 			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
-					.Add(p => p.Value, false));
+					.Add(p => p.Checked, false));
 
 			var input = rendered.Find("input");
 
@@ -129,7 +129,7 @@ namespace Blazor.Components.Toggle.Tests
 		{
 			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
 					.Add(p => p.OffColor, "240,240,240")
-					.Add(p => p.Value, false));
+					.Add(p => p.Checked, false));
 
 			var input = rendered.Find("input");
 			Assert.IsNotNull(input);
@@ -142,13 +142,13 @@ namespace Blazor.Components.Toggle.Tests
 		public void ToggleSwitch_should_rendered_correctly_when_toggled()
 		{
 			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
-					.Add(p => p.Value, false));
+					.Add(p => p.Checked, false));
 
 			var input = rendered.Find("input");
 
 			Assert.IsNotNull(input);
 
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Value, true));
+			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Checked, true));
 			rendered.WaitForAssertion(() =>
 			{
 				var value = input.GetAttribute("value");

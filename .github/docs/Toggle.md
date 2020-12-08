@@ -25,7 +25,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
 
 ### Properties
-- **`Value`: `bool { get; set; }` (default: true) - Required** <br />
+- **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
 Represents Toggle switch value: **ON**: `true`, **OFF**: `false`.
 - **`OnColor`: `string { get; set; }` (default: "blue") - Required** <br />
 Sets the `style` of the HTML `<input>` `background-color` when switch is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
@@ -45,7 +45,7 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
 ### Events
-- **`OnValueChanged`: `EventCallback<bool>` delegate** <br />
+- **`OnToggleChanged`: `EventCallback<bool>` delegate** <br />
 Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
 
 ## `ToggleButton` component

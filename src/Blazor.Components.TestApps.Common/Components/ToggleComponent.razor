@@ -35,7 +35,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Disabled: <input class="mr-3" type="checkbox" @bind="_disabled"/>
-			Value: <input class="mr-3" type="checkbox" @bind="_value"/>
+			Is Checked: <input class="mr-3" type="checkbox" @bind="_isChecked"/>
 		</div>
 	</div>
 
@@ -54,14 +54,14 @@
 		<div class="col-12">
 			<ToggleSwitch
 				@ref="_toggleSwitch"
-				Value="_value"
+				Checked="_isChecked"
 				OnColor="@_onColor"
 				OffColor="@_offColor"
 				Width="_widht"
 				Height="_height"
 				HandleStyle="_styleType"
 				Disabled="_disabled"
-				OnValueChanged="OnToggleSwitched">
+				OnToggleChanged="OnToggleSwitched">
 			</ToggleSwitch>
 		</div>
 	</div>
@@ -78,6 +78,7 @@
 	<h3>Toggle button</h3>
 	<p>Renders <strong>HTML input styled as Toggle button</strong> with customizable size and color, etc.</p>
 
+	<ToggleButton></ToggleButton>
 </div>
 
 @code {
@@ -94,7 +95,7 @@
 	private string _offColor = "DarkGray";
 	private int _widht = 50;
 	private int _height = 22;
-	private bool _value = true;
+	private bool _isChecked = true;
 	private bool _disabled = false;
 	private ToggleSwitchStyle _styleType = ToggleSwitchStyle.Circle;
 
@@ -103,8 +104,8 @@
 
 	private async Task OnToggleSwitched(bool val)
 	{
-		_value = val;
-		_swithch1Log = WriteLog(_swithch1Log, $"Toggle Switched event current value: {val}");
+		_isChecked = val;
+		_swithch1Log = WriteLog(_swithch1Log, $"Toggle Switched event currently Checked: {val}");
 	}
 
 

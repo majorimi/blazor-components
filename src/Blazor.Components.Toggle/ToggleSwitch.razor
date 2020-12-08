@@ -43,7 +43,7 @@
 
 	private int _value = 1; //true
 	[Parameter] 
-	public bool Value 
+	public bool Checked 
 	{
 		get { return Convert.ToBoolean(_value); }
 		set { _value = Convert.ToInt32(value); }
@@ -55,7 +55,7 @@
 
 	[Parameter] public ToggleSwitchStyle HandleStyle { get; set; } = ToggleSwitchStyle.Circle;
 
-	[Parameter] public EventCallback<bool> OnValueChanged { get; set; }
+	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -81,11 +81,11 @@
 
 	private async Task Switched(ChangeEventArgs e)
 	{
-		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Value}'.");
+		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Checked}'.");
 
-		if(OnValueChanged.HasDelegate)
+		if(OnToggleChanged.HasDelegate)
 		{
-			await OnValueChanged.InvokeAsync(!Value);
+			await OnToggleChanged.InvokeAsync(!Checked);
 		}
 	}
 
