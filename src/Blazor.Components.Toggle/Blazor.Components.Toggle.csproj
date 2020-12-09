@@ -26,11 +26,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+	<Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="bundleconfig.json" />
+	<_ContentIncludedByDefault Remove="bundleconfig.json" />
   </ItemGroup>
 
   
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
   </ItemGroup>
 
 </Project>
