@@ -1,5 +1,8 @@
-﻿<input @ref="_inputRef" type="checkbox" @bind="Checked" @oninput="Switched" disabled="@Disabled" @attributes=AllOtherAttributes
-	style="width: @(Width)px; height: @(Height)px;" />
+﻿<span style="over">
+	<input @ref="_inputRef" type="checkbox" @bind="Checked" @oninput="Switched" disabled="@Disabled" @attributes=AllOtherAttributes
+		style="width: @(Width)px; height: @(Height)px; background-color: red;" />
+<label>Bold button</label>
+</span>
 
 @using Blazor.Components.Core.HtmlColors;
 
