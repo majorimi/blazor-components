@@ -1,6 +1,6 @@
-﻿<span style="over">
+﻿<span style="max-width: @(Width)px; max-height: @(Height)px; background-color: gray;">
 	<input @ref="_inputRef" type="checkbox" @bind="Checked" @oninput="Switched" disabled="@Disabled" @attributes=AllOtherAttributes
-		style="width: @(Width)px; height: @(Height)px; background-color: red;" />
+		style="width: @(Width)px; height: @(Height)px;" />
 <label>Bold button</label>
 </span>
 
