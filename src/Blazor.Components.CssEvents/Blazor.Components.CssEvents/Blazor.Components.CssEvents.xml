@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blazor.Components.CssEvents</name>
+    </assembly>
+    <members>
+        <member name="T:Blazor.Components.CssEvents.Animation.AnimationCollectionInfo">
+            <summary>
+            Collection of <see cref="T:Blazor.Components.CssEvents.Animation.AnimationEventInfo"/> to aggregate Animation events
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Animation.AnimationEventInfo">
+            <summary>
+            Animation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Animation.IAnimationEventsService">
+            <summary>
+            Injectable service to handle CSS Animation events
+            </summary>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAnimationStartedAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listener for 'animationstart' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onStartedCallback">Func to call when Animation event has started fired</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RemoveAnimationStartedAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Removes event listener for 'animationstart' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAnimationIterationAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listener for 'animationiteration' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onIterationCallback">Func to call when Animation event has started new iteration fired</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RemoveAnimationIterationAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Removes event listener for 'animationiteration' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAnimationEndedAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listener for 'animationend' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onEndedCallback">Func to call when Animation event has finished fired</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RemoveAnimationEndedAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Removes event listener for 'animationend' HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAllAnimationEventsAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listeners with single callback for all supported HTML events for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onEventCallback">Func to call when any Animation event fired</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAllAnimationEventsAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listeners with different callbacks for all supported HTML events for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onStartedCallback">Func to call when Animation event has started fired</param>
+            <param name="onIterationCallback">Func to call when Animation event has started new iteration fired</param>
+            <param name="onEndedCallback">Func to call when Animation event has finished fired</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RemoveAllAnimationEventsAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Removes event listener for all supported HTML event for the given element with Animation name filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="animationName">Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RegisterAnimationsWhenAllEndedAsync(System.Func{Blazor.Components.CssEvents.Animation.AnimationEventArgs[],System.Threading.Tasks.Task},System.Collections.Generic.KeyValuePair{Microsoft.AspNetCore.Components.ElementReference,System.String}[])">
+            <summary>
+            Adds event listeners for 'animationend' HTML event for the given elements with Animation names filters.
+            </summary>
+            <param name="onEndedCallback">Func to call when ALL Animation events has finished</param>
+            <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Animation.IAnimationEventsService.RemoveAnimationsWhenAllEndedAsync(System.Collections.Generic.KeyValuePair{Microsoft.AspNetCore.Components.ElementReference,System.String}[])">
+            <summary>
+            Removes event listeners for 'animationend' HTML event for the given elements with Animation names filters.
+            </summary>
+            <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and Animation name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.CssBaseEventArgs">
+            <summary>
+            Common properties of CSS Animation and Transition events.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.CssEvents.CssBaseEventArgs.Element">
+            <summary>
+            Original element Ref
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.CssEventsExtension">
+            <summary>
+            Extension methods to register <see cref="T:Blazor.Components.CssEvents.Transition.ITransitionEventsService"/> and <see cref="T:Blazor.Components.CssEvents.Animation.IAnimationEventsService"/> into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.CssEventsExtension.AddCssEvents(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers <see cref="T:Blazor.Components.CssEvents.Transition.ITransitionEventsService"/> and <see cref="T:Blazor.Components.CssEvents.Animation.IAnimationEventsService"/> as Transient
+            to IServiceCollection in order to be able to inject CSS events...
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Transition.ITransitionEventsService">
+            <summary>
+            Injectable service to handle CSS Transition events
+            </summary>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Transition.ITransitionEventsService.RegisterTransitionEndedAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.CssEvents.Transition.TransitionEventArgs,System.Threading.Tasks.Task},System.String)">
+            <summary>
+            Adds event listener for 'transitionend' HTML event for the given element with property filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="onEndedCallback">Func to call when Transition event has finished</param>
+            <param name="transitionPropertyName">Transition property name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Transition.ITransitionEventsService.RegisterTransitionsWhenAllEndedAsync(System.Func{Blazor.Components.CssEvents.Transition.TransitionEventArgs[],System.Threading.Tasks.Task},System.Collections.Generic.KeyValuePair{Microsoft.AspNetCore.Components.ElementReference,System.String}[])">
+            <summary>
+            Adds event listeners for 'transitionend' HTML event for the given elements with property filters.
+            </summary>
+            <param name="onEndedCallback">Func to call when all Transition events has finished</param>
+            <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and property name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Transition.ITransitionEventsService.RemoveTransitionEndedAsync(Microsoft.AspNetCore.Components.ElementReference,System.String)">
+            <summary>
+            Removes event listener for 'transitionend' HTML event for the given element with property filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="transitionPropertyName">Transition property name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.CssEvents.Transition.ITransitionEventsService.RemoveTransitionsWhenAllEndedAsync(System.Collections.Generic.KeyValuePair{Microsoft.AspNetCore.Components.ElementReference,System.String}[])">
+            <summary>
+            Removes event listeners for 'transitionend' HTML event for the given elements with property filters.
+            </summary>
+            <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and property name for filter event</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Transition.TransitionCollectionInfo">
+            <summary>
+            Collection of <see cref="T:Blazor.Components.CssEvents.Transition.TransitionEventInfo"/> to aggregate Transition events
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Transition.TransitionEventInfo">
+            <summary>
+            Transition event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.CssEvents.Transition.TransitionEventsService">
+            <summary>
+            Implementation of <see cref="T:Blazor.Components.CssEvents.Transition.ITransitionEventsService"/>
+            </summary>
+        </member>
+    </members>
+</doc>

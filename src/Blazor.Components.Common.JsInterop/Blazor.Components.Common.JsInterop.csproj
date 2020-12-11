@@ -1,50 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.Common.JsInterop</PackageId>
-	<Version>1.0.0.0</Version>
-	<Authors>Imre Toth</Authors>
-	<Company>Majorsoft</Company>
-	<Product>Blazor Components</Product>
-	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression></PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-	<PackageIcon>blazor.components.png</PackageIcon>
-	<RepositoryType>Git</RepositoryType>
-	<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop. Part of Majorsoft Blazor library.</Description>
-	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
-	<PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Majorsoft.Blazor.Components.Common.JsInterop</PackageId>
+		<Version>1.0.0.0</Version>
+		<Authors>Imre Toth</Authors>
+		<Company>Majorsoft</Company>
+		<Product>Blazor Components</Product>
+		<Copyright>Imre Toth 2020</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<RepositoryType>Git</RepositoryType>
+		<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop. Part of Majorsoft Blazor library.</Description>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<Content Remove="bundleconfig.json" />
-	<Content Remove="wwwroot\focus.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+		<Content Remove="wwwroot\focus.js" />
+	</ItemGroup>
 	
-  <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-	<None Include="..\..\.github\Images\blazor.components.png">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
-	</None>
-	<None Include="..\..\.github\License.txt">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
-	</None>
-	<None Include="bundleconfig.json" />
-	<None Include="wwwroot\focus.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\.github\Images\blazor.components.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\.github\License.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="bundleconfig.json" />
+		<None Include="wwwroot\focus.js" />
+	</ItemGroup>
 
 </Project>

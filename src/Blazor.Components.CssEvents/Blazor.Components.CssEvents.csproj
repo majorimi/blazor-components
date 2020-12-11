@@ -1,56 +1,56 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.CssEvents</PackageId>
-	<Authors>Imre Toth</Authors>
-	<Company>Majorsoft</Company>
-	<Version>1.0.0.0</Version>
-	<Product>Blazor Components</Product>
-	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression></PackageLicenseExpression>
-	<Description>Blazor Extensions and Components wrapper to notify on CSS Transition and Animation events. Part of Majorsoft Blazor library.</Description>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-	<RepositoryType>Git</RepositoryType>
-	<PackageTags>.Net5 Blazor CSS Animation Transition Events</PackageTags>
-	<PackageIcon>blazor.components.png</PackageIcon>
-	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Majorsoft.Blazor.Components.CssEvents</PackageId>
+		<Authors>Imre Toth</Authors>
+		<Company>Majorsoft</Company>
+		<Version>1.0.0.0</Version>
+		<Product>Blazor Components</Product>
+		<Copyright>Imre Toth 2020</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<Description>Blazor Extensions and Components wrapper to notify on CSS Transition and Animation events. Part of Majorsoft Blazor library.</Description>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>.Net5 Blazor CSS Animation Transition Events</PackageTags>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.CssEvents\Blazor.Components.CssEvents.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Blazor.Components.CssEvents\Blazor.Components.CssEvents.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<Content Remove="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\transitionEvents.min.js" />
-	  <_ContentIncludedByDefault Remove="wwwroot\animationEvents.min.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="wwwroot\transitionEvents.min.js" />
+		<_ContentIncludedByDefault Remove="wwwroot\animationEvents.min.js" />
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="..\..\.github\License.txt">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
 	<None Include="wwwroot\transitionEvents.min.js" />
 	<None Include="wwwroot\animationEvents.min.js" />
-  </ItemGroup>
+	</ItemGroup>
 
 
-  <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+	</ItemGroup>
 
 </Project>

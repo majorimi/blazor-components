@@ -1,47 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<Version>1.0.0.0</Version>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md</PackageProjectUrl>
-	<Authors>Imre Toth</Authors>
-	<Company>Majorsoft</Company>
-	<Product>Blazor Components</Product>
-	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-	<RepositoryType>Git</RepositoryType>
-	<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea Typeahead</PackageTags>
-	<PackageIcon>blazor.components.png</PackageIcon>
-	<PackageId>Majorsoft.Blazor.Components.Typeahead</PackageId>
-	<PackageLicenseExpression></PackageLicenseExpression>
-	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
-	<Copyright>Imre Toth 2020</Copyright>
-	<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel. Part of Majorsoft Blazor library.</Description>
-	<Title>Blazor Components Typeahead Input</Title>
-	<PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.0.0</Version>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md</PackageProjectUrl>
+		<Authors>Imre Toth</Authors>
+		<Company>Majorsoft</Company>
+		<Product>Blazor Components</Product>
+		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>.Net5 Blazor Htlm.Input Html.Textarea Typeahead</PackageTags>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<PackageId>Majorsoft.Blazor.Components.Typeahead</PackageId>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
+		<Copyright>Imre Toth 2020</Copyright>
+		<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel. Part of Majorsoft Blazor library.</Description>
+		<Title>Blazor Components Typeahead Input</Title>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.Typeahead\Blazor.Components.Typeahead.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Blazor.Components.Typeahead\Blazor.Components.Typeahead.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<Content Remove="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="bundleconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-	<_ContentIncludedByDefault Remove="bundleconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="bundleconfig.json" />
+	</ItemGroup>
 
-  
-  <ItemGroup>
-	<SupportedPlatform Include="browser" />
-  </ItemGroup>
+	
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+	</ItemGroup>
 
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
@@ -56,16 +56,16 @@
 		</_PackageFiles>
 	</ItemGroup>
 	
-  <ItemGroup>
+	<ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="..\..\.github\License.txt">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
-  </ItemGroup>
+	</ItemGroup>
 
 </Project>
