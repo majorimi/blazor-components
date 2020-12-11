@@ -248,7 +248,7 @@
 	}
 	private async Task PageClick(MouseEventArgs args, string message)
 	{
-		_logMessage += $"Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		_logMessage += $"{DateTime.Now.TimeOfDay}: Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
 		StateHasChanged();
 
 		await _log.ScrollToEndAsync();
@@ -269,16 +269,16 @@
 		}
 		else
 		{
-			_mouseDown = await _globalMouseEventHandler.RegisterPageMouseDownAsync(async (args) => await PageMouseEvents(args, "Document Mouse DOWN"));
-			_mouseUp = await _globalMouseEventHandler.RegisterPageMouseUpAsync(async (args) => await PageMouseEvents(args, "Document Mouse UP"));
-			_mouseMove = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(async (args) => await PageMouseEvents(args, "Document Mouse MOVE"));
+			_mouseDown = await _globalMouseEventHandler.RegisterPageMouseDownAsync(async (args) => await PageMouseEvents(args, "Mouse DOWN"));
+			_mouseUp = await _globalMouseEventHandler.RegisterPageMouseUpAsync(async (args) => await PageMouseEvents(args, "Mouse UP"));
+			_mouseMove = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(async (args) => await PageMouseEvents(args, "Mouse MOVE"));
 		}
 
 		_clickSubscribed2 = !_clickSubscribed2;
 	}
 	private async Task PageMouseEvents(MouseEventArgs args, string message)
 	{
-		_logMessage3 += $"Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}, Buttons: {args.Buttons}{Environment.NewLine}";
+		_logMessage3 += $"{DateTime.Now.TimeOfDay}: Global Mouse event: {message} X pos: {args.ClientX}, Y pos: {args.ClientY}, Buttons: {args.Buttons}{Environment.NewLine}";
 		StateHasChanged();
 
 		await _log3.ScrollToEndAsync();
@@ -335,7 +335,7 @@
 	private string _logMessage2;
 	private async Task PageScrolled(ScrollEventArgs args)
 	{
-		_logMessage2 += $"Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
+		_logMessage2 += $"{DateTime.Now.TimeOfDay}: Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
 		StateHasChanged();
 
 		await _log2.ScrollToEndAsync();
