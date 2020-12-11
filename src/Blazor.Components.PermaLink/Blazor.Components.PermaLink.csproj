@@ -1,57 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<nullable>enable</nullable>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>Majorsoft.Blazor.Components.PermaLink</PackageId>
-	<Version>1.0.0.0</Version>
-	<Authors>Imre Toth</Authors>
-	<Company>Majorsoft</Company>
-	<Product>Blazor Components</Product>
-	<Copyright>Imre Toth 2020</Copyright>
-	<PackageLicenseExpression></PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md</PackageProjectUrl>
-	<PackageIcon>blazor.components.png</PackageIcon>
-	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-	<RepositoryType>Git</RepositoryType>
-	<PackageTags>.Net5 Blazor URL URI Routing Navigation PermaLink Link</PackageTags>
-	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink). Part of Majorsoft Blazor library.</Description>
-	<Title>Blazor Components PermaLink navigation</Title>
-	<PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Majorsoft.Blazor.Components.PermaLink</PackageId>
+		<Version>1.0.0.0</Version>
+		<Authors>Imre Toth</Authors>
+		<Company>Majorsoft</Company>
+		<Product>Blazor Components</Product>
+		<Copyright>Imre Toth 2020</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md</PackageProjectUrl>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>.Net5 Blazor URL URI Routing Navigation PermaLink Link</PackageTags>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<Description>Blazor PermaLink component and extension that can be used to create navigation element inside Blazor pages (#permalink). Part of Majorsoft Blazor library.</Description>
+		<Title>Blazor Components PermaLink navigation</Title>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Projects\GitHub\blazor-components\src\Blazor.Components.PermaLink\Blazor.Components.PermaLink.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Blazor.Components.PermaLink\Blazor.Components.PermaLink.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<Content Remove="bundleconfig.json" />
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<SupportedPlatform Include="browser" />
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="..\..\.github\License.txt">
-	  <Pack>True</Pack>
-	  <PackagePath></PackagePath>
+		<Pack>True</Pack>
+		<PackagePath></PackagePath>
 	</None>
 	<None Include="bundleconfig.json" />
-  </ItemGroup>
+	</ItemGroup>
 
 </Project>
