@@ -21,6 +21,7 @@
 		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
 		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
 		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+		<li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
 		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
 	</ul>
 </div>
@@ -183,11 +184,35 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="resize-js" IconMarginTop="8" IconSize="18">
+		<Content><h3>Resize JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Resize JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for Window (global) and HTML Elements resize event callback handlers.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<p><code>RegisterPageResizeAsync()</code> will add event listener to HTML document/window <code>resize events.</code></p>
+			<p><code>RegisterResizeAsync()</code> will add event listener to the given HTML Element <code>resize events.</code></p>
+			<textarea @ref="_resizeElement" readonly>Use right bottom corner to resize element...</textarea>
+			
+			<br />
+			<button class="btn btn-primary" @onclick="ResizeEventHandler">@(_resizeSubscribed ? "Unsubscribe from resize" : "Subscribe to resize")</button>
+			<br />
+			<label><strong>Resize Events log</strong>:</label>
+			<textarea @ref="_log4" @bind="_logMessage4" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="clipboard-js" IconMarginTop="8" IconSize="18">
 		<Content><h3>Clipboard JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Clipboard JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for accessing computer Clipboard from Blazor Application.
+		<strong>Resize JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for accessing computer Clipboard from Blazor Application.
 	</p>
 
 	<div class="row pb-2">
@@ -213,6 +238,7 @@
 
 @inject IScrollHandler _scrollHandler
 @inject IFocusHandler _focusHandler
+@inject IResizeHandler _resizeHandler
 @inject IClickBoundariesHandler _clichHandler;
 @inject IClipboardHandler _clipboardHandler;
 @inject IGlobalMouseEventHandler _globalMouseEventHandler;
@@ -224,6 +250,7 @@
 		await ScrollEventHandler();
 		await ClickEventHandler();
 		await GlobalClickEventHandler();
+		await ResizeEventHandler();
 	}
 
 	//Click examples
@@ -290,7 +317,7 @@
 	{
 		await _focusHandler.StoreFocusedElementAsync();
 		_focusMsg = "Focused element stored, click somewhere else and do not hover on RED area.";
-	}	
+	}
 	private async Task RestoreFocus()
 	{
 		await _focusHandler.RestoreStoredElementFocusAsync();
@@ -354,6 +381,35 @@
 		}
 
 		_scrollSubscribed = !_scrollSubscribed;
+	}
+
+	//Resize JS
+	private bool _resizeSubscribed;
+	private async Task ResizeEventHandler()
+	{
+		if (_resizeSubscribed)
+		{
+			await _resizeHandler.RemovePageResizeAsync(_scrollEventId);
+			await _resizeHandler.RemoveResizeAsync(_resizeElement);
+		}
+		else
+		{
+			_scrollEventId = await _resizeHandler.RegisterPageResizeAsync(arg => Resized(arg, "Window resized"));
+			await _resizeHandler.RegisterResizeAsync(_resizeElement, arg => Resized(arg, "Textarea resized"));
+		}
+
+		_resizeSubscribed = !_resizeSubscribed;
+	}
+
+	private ElementReference _resizeElement;
+	private ElementReference _log4;
+	private string _logMessage4;
+	private async Task Resized(ResizeEventArgs args, string message)
+	{
+		_logMessage4 += $"{DateTime.Now.TimeOfDay}: {message} - Width: {args.Width}, Height: {args.Height}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log4.ScrollToEndAsync();
 	}
 
 	//Clipboard JS

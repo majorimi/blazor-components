@@ -27,7 +27,7 @@ namespace Blazor.Components.Common.JsInterop.Resize
 			_registeredEvents = new List<string>();
 		}
 
-		public async Task<string> RegisterPageMouseMoveAsync(Func<ResizeEventArgs, Task> resizeCallback)
+		public async Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)
 		{
 			await CheckJsObjectAsync();
 
@@ -41,7 +41,7 @@ namespace Blazor.Components.Common.JsInterop.Resize
 			return id;
 		}
 
-		public async Task RemovePageMouseMoveAsync(string eventId)
+		public async Task RemovePageResizeAsync(string eventId)
 		{
 			await CheckJsObjectAsync();
 

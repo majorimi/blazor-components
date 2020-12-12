@@ -17,13 +17,13 @@ namespace Blazor.Components.Common.JsInterop.Resize
 		/// </summary>
 		/// <param name="resizeCallback">Func to call when page resize happened</param>
 		/// <returns>Async Task with event id to unsubscribe from event</returns>
-		Task<string> RegisterPageMouseMoveAsync(Func<ResizeEventArgs, Task> resizeCallback);
+		Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback);
 		/// <summary>
 		/// Removes event listener for 'resize' HTML event for the whole document/window by the given event Id.
 		/// </summary>
-		/// <param name="eventId">Event id from <see cref="RegisterPageMouseMoveAsync"/></param>
+		/// <param name="eventId">Event id from <see cref="RegisterPageResizeAsync"/></param>
 		/// <returns>Async Task</returns>
-		Task RemovePageMouseMoveAsync(string eventId);
+		Task RemovePageResizeAsync(string eventId);
 
 		/// <summary>
 		/// Adds event listener for 'resize' HTML event for the given element with property filter.

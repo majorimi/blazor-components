@@ -1,16 +1,13 @@
 ﻿//Create event handler
-function createClickEventHandler(dotnetRef, element) {
-    let eventCallback = function (e) {
-        //let args = convertMouseEventArgs(e);
+function createResizeEventHandler(dotnetRef, element) {
+    let eventCallback = function () {
+        var rect = element.getBoundingClientRect();
+        let args = {
+            Height: rect.height,
+            Width: rect.width
+        };
 
-        //if (!element.contains(e.target)) {
-        //    //console.log('outside');
-        //    dotnetRef.invokeMethodAsync("ClickOutside", args);
-        //}
-        //else {
-        //    //console.log('inside');
-        //    dotnetRef.invokeMethodAsync("ClickInside", args);
-        //}
+        dotnetRef.invokeMethodAsync("ResizeEvent", args);
     }
 
     return eventCallback;
@@ -62,7 +59,7 @@ export function addResizeEventHandler(element, dotnetRef) {
         }
     }
 
-    let resizeHandler = createClickEventHandler(dotnetRef, element);
+    let resizeHandler = createResizeEventHandler(dotnetRef, element);
     storeEventHandler(_resizeEventDict, element, resizeHandler);
 
     document.addEventListener("onresize", resizeHandler);
@@ -91,21 +88,21 @@ export function dispose(elementsWithPropArray) {
 
 
 //HTLM page resize events
-function createResizeEventHandler(dotnetRef) {
+function createWindowResizeEventHandler(dotnetRef) {
     let eventHandler = function () {
         let args = {
             Height: window.innerHeight,
             Width: window.innerWidth
         };
 
-        dotnetRef.invokeMethodAsync("PageResize", args);
+        dotnetRef.invokeMethodAsync("ResizeEvent", args);
     }
 
     return eventHandler;
 }
 
 //Store eventId with event
-function storeEventHandler(dict, eventId, eventCallback) {
+function storeWindowEventHandler(dict, eventId, eventCallback) {
     let elementFound = false;
     for (let i = 0; i < dict.length; i++) {
         if (dict[i].key === eventId) {
@@ -122,7 +119,7 @@ function storeEventHandler(dict, eventId, eventCallback) {
     }
 }
 //Remove eventId with event
-function removeAndReturnEventHandler(dict, eventId) {
+function removeAndReturnWindowEventHandler(dict, eventId) {
     let eventCallback;
 
     for (let i = 0; i < dict.length; i++) {
@@ -143,8 +140,8 @@ export function addGlobalResizeEvent(dotnetRef, eventId) {
         return;
     }
 
-    let resizeHandler = createResizeEventHandler(dotnetRef);
-    storeEventHandler(_resizekHandlerDict, eventId, resizeHandler);
+    let resizeHandler = createWindowResizeEventHandler(dotnetRef);
+    storeWindowEventHandler(_resizekHandlerDict, eventId, resizeHandler);
 
     window.addEventListener("resize", resizeHandler);
 }
@@ -154,7 +151,7 @@ export function removeGlobalResizeEvent(eventId) {
         return;
     }
 
-    let eventCallback = removeAndReturnEventHandler(_resizekHandlerDict, eventId);
+    let eventCallback = removeAndReturnWindowEventHandler(_resizekHandlerDict, eventId);
 
     if (!eventCallback) {
         return; //No event handler found

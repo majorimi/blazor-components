@@ -19,8 +19,8 @@ namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
 			_eventId = eventId;
 		}
 
-		[JSInvokable("GlobalMouseMove")]
-		public async Task GlobalMouseMove(ResizeEventArgs args)
+		[JSInvokable("ResizeEvent")]
+		public async Task ResizeEvent(ResizeEventArgs args)
 		{
 			if (_resizeEventCallback is not null)
 			{
