@@ -8,12 +8,12 @@ namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
 	/// <summary>
 	/// PageResizeEventInfo event <see cref="DotNetObjectReference"/> info to handle JS callback
 	/// </summary>
-	internal sealed class PageResizeEventInfo
+	internal sealed class ResizeEventInfo
 	{
 		private readonly Func<ResizeEventArgs, Task> _resizeEventCallback;
 		private readonly string _eventId;
 
-		public PageResizeEventInfo(Func<ResizeEventArgs, Task> resizeEventCallback, string eventId)
+		public ResizeEventInfo(Func<ResizeEventArgs, Task> resizeEventCallback, string eventId)
 		{
 			_resizeEventCallback = resizeEventCallback;
 			_eventId = eventId;

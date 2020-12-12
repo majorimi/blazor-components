@@ -1,4 +1,95 @@
-﻿
+﻿//Create event handler
+function createClickEventHandler(dotnetRef, element) {
+    let eventCallback = function (e) {
+        //let args = convertMouseEventArgs(e);
+
+        //if (!element.contains(e.target)) {
+        //    //console.log('outside');
+        //    dotnetRef.invokeMethodAsync("ClickOutside", args);
+        //}
+        //else {
+        //    //console.log('inside');
+        //    dotnetRef.invokeMethodAsync("ClickInside", args);
+        //}
+    }
+
+    return eventCallback;
+}
+
+//Store element with event
+function storeEventHandler(dict, element, eventCallback) {
+    let elementFound = false;
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === element) {
+            elementFound = true;
+            break;
+        }
+    }
+
+    if (!elementFound) {
+        dict.push({
+            key: element,
+            handler: eventCallback
+        });
+    }
+}
+//Remove element with event
+function removeAndReturnEventHandler(dict, element) {
+    let eventCallback;
+
+    for (let i = 0; i < dict.length; i++) {
+        if (dict[i].key === element) {
+            eventCallback = dict[i].handler; //associate callback
+            dict.splice(i, 1);
+            break;
+        }
+    }
+
+    return eventCallback;
+}
+
+let _resizeEventDict = [];
+
+//Element resize
+export function addResizeEventHandler(element, dotnetRef) {
+    if (!element || !dotnetRef) {
+        return;
+    }
+
+    for (let i = 0; i < _resizeEventDict.length; i++) {
+        if (_resizeEventDict[i].key === element) {
+            return; //Click already registered for this element..
+        }
+    }
+
+    let resizeHandler = createClickEventHandler(dotnetRef, element);
+    storeEventHandler(_resizeEventDict, element, resizeHandler);
+
+    document.addEventListener("onresize", resizeHandler);
+}
+export function removeResizeEventHandler(element) {
+    if (!element) {
+        return;
+    }
+
+    let eventCallback = removeAndReturnEventHandler(_resizeEventDict, element);
+
+    if (!eventCallback) {
+        return; //No event handler found
+    }
+
+    document.removeEventListener("onresize", eventCallback);
+}
+
+export function dispose(elementsWithPropArray) {
+    if (elementsWithPropArray) {
+        for (var i = 0; i < elementsWithPropArray.length; i++) {
+            removeClickBoundariesHandler(elementsWithPropArray[i]);
+        }
+    }
+}
+
+
 //HTLM page resize events
 function createResizeEventHandler(dotnetRef) {
     let eventHandler = function () {
@@ -47,7 +138,7 @@ function removeAndReturnEventHandler(dict, eventId) {
 
 let _resizekHandlerDict = [];
 
-export function addResizeEvent(dotnetRef, eventId) {
+export function addGlobalResizeEvent(dotnetRef, eventId) {
     if (!dotnetRef || !eventId) {
         return;
     }
@@ -58,7 +149,7 @@ export function addResizeEvent(dotnetRef, eventId) {
     window.addEventListener("resize", resizeHandler);
 }
 
-export function removeResizeEvent(eventId) {
+export function removeGlobalResizeEvent(eventId) {
     if (!eventId) {
         return;
     }

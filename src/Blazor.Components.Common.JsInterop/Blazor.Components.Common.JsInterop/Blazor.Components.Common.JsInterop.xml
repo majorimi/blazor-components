@@ -35,6 +35,11 @@
             <param name="elementRef">Blazor reference to an HTML element</param>
             <returns>Async Task</returns>
         </member>
+        <member name="T:Blazor.Components.Common.JsInterop.Clipboard.ClipboardExtensions">
+            <summary>
+            Static class for extension methods
+            </summary>
+        </member>
         <member name="M:Blazor.Components.Common.JsInterop.Clipboard.ClipboardExtensions.CopyElementTextToClipboardAsync(Microsoft.AspNetCore.Components.ElementReference)">
             <summary>
             Copies the given element text content to clipboard.
@@ -174,11 +179,6 @@
             PageMouseEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
-        <member name="T:Blazor.Components.Common.JsInterop.GlobalMouseEvents.PageResizeEventInfo">
-            <summary>
-            PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
-            </summary>
-        </member>
         <member name="T:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs">
             <summary>
             Custom defined event args for Resize events
@@ -199,6 +199,11 @@
             Registered event id
             </summary>
         </member>
+        <member name="T:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventInfo">
+            <summary>
+            PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
         <member name="T:Blazor.Components.Common.JsInterop.JsInteropExtension">
             <summary>
             Extension methods to register required JS Interop services into IServiceCollection
@@ -215,12 +220,26 @@
             Injectable service to handle JS 'resize' events for HTML element or the whole document.
             </summary>
         </member>
+        <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterPageMouseMoveAsync(System.Func{Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})">
+            <summary>
+            Adds event listener for 'resize' HTML event for the whole document/window.
+            </summary>
+            <param name="resizeCallback">Func to call when page resize happened</param>
+            <returns>Async Task with event id to unsubscribe from event</returns>
+        </member>
+        <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RemovePageMouseMoveAsync(System.String)">
+            <summary>
+            Removes event listener for 'resize' HTML event for the whole document/window by the given event Id.
+            </summary>
+            <param name="eventId">Event id from <see cref="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterPageMouseMoveAsync(System.Func{Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})"/></param>
+            <returns>Async Task</returns>
+        </member>
         <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterResizeAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})">
             <summary>
             Adds event listener for 'resize' HTML event for the given element with property filter.
             </summary>
             <param name="elementRef">Blazor reference to an HTML element</param>
-            <param name="resizeCallback">Func to call when clicked outside of the given element</param>
+            <param name="resizeCallback">Func to call when the given element was resized</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RemoveResizeAsync(Microsoft.AspNetCore.Components.ElementReference)">
