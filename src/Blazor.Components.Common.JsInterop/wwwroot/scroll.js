@@ -133,7 +133,7 @@ export function getPageScrollPosition() {
 
 //HTLM page scroll events
 function createScrollEventHandler(dotnetRef) {
-    let eventHandler = function (event) {
+    let eventHandler = function () {
         let top = window.pageYOffset || document.documentElement.scrollTop;
         let left = window.pageXOffset || document.documentElement.scrollLeft;
 

@@ -174,6 +174,31 @@
             PageMouseEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Blazor.Components.Common.JsInterop.GlobalMouseEvents.PageResizeEventInfo">
+            <summary>
+            PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs">
+            <summary>
+            Custom defined event args for Resize events
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs.Height">
+            <summary>
+            Element or Window height
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs.Width">
+            <summary>
+            Element or Window width
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs.EventId">
+            <summary>
+            Registered event id
+            </summary>
+        </member>
         <member name="T:Blazor.Components.Common.JsInterop.JsInteropExtension">
             <summary>
             Extension methods to register required JS Interop services into IServiceCollection
@@ -184,6 +209,31 @@
             Registers required JS Interop services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Blazor.Components.Common.JsInterop.Resize.IResizeHandler">
+            <summary>
+            Injectable service to handle JS 'resize' events for HTML element or the whole document.
+            </summary>
+        </member>
+        <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterResizeAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})">
+            <summary>
+            Adds event listener for 'resize' HTML event for the given element with property filter.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <param name="resizeCallback">Func to call when clicked outside of the given element</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RemoveResizeAsync(Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Removes event listener for 'resize' HTML event for the given element.
+            </summary>
+            <param name="elementRef">Blazor reference to an HTML element</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Blazor.Components.Common.JsInterop.Resize.ResizeHandler">
+            <summary>
+            Implementation of <see cref="T:Blazor.Components.Common.JsInterop.Resize.IResizeHandler"/>
+            </summary>
         </member>
         <member name="T:Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions">
             <summary>

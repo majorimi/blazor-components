@@ -6,6 +6,9 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Components.Common.JsInterop.Clipboard
 {
+	/// <summary>
+	/// Static class for extension methods
+	/// </summary>
 	public static class ClipboardExtensions
 	{
 		/// <summary>
