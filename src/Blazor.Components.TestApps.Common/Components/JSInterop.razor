@@ -195,8 +195,8 @@
 		<div class="col-12">
 			<p><code>RegisterPageResizeAsync()</code> will add event listener to HTML document/window <code>resize events.</code></p>
 			<p><code>RegisterResizeAsync()</code> will add event listener to the given HTML Element <code>resize events.</code></p>
-			<textarea @ref="_resizeElement" readonly>Use right bottom corner to resize element...</textarea>
-			
+			<textarea @ref="_resizeElement" readonly>Grabb right bottom corner to resize element...</textarea>
+
 			<br />
 			<button class="btn btn-primary" @onclick="ResizeEventHandler">@(_resizeSubscribed ? "Unsubscribe from resize" : "Subscribe to resize")</button>
 			<br />

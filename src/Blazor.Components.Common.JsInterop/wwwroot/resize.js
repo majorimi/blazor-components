@@ -14,7 +14,7 @@ function createResizeEventHandler(dotnetRef, element) {
 }
 
 //Store element with event
-function storeEventHandler(dict, element, eventCallback) {
+function storeObserver(dict, element, observer) {
     let elementFound = false;
     for (let i = 0; i < dict.length; i++) {
         if (dict[i].key === element) {
@@ -26,23 +26,23 @@ function storeEventHandler(dict, element, eventCallback) {
     if (!elementFound) {
         dict.push({
             key: element,
-            handler: eventCallback
+            handler: observer
         });
     }
 }
 //Remove element with event
-function removeAndReturnEventHandler(dict, element) {
-    let eventCallback;
+function removeAndReturnObserver(dict, element) {
+    let observer;
 
     for (let i = 0; i < dict.length; i++) {
         if (dict[i].key === element) {
-            eventCallback = dict[i].handler; //associate callback
+            observer = dict[i].handler; //associate callback
             dict.splice(i, 1);
             break;
         }
     }
 
-    return eventCallback;
+    return observer;
 }
 
 let _resizeEventDict = [];
@@ -60,22 +60,25 @@ export function addResizeEventHandler(element, dotnetRef) {
     }
 
     let resizeHandler = createResizeEventHandler(dotnetRef, element);
-    storeEventHandler(_resizeEventDict, element, resizeHandler);
 
-    document.addEventListener("onresize", resizeHandler);
+    let observer = new ResizeObserver(resizeHandler);
+    observer.observe(element);
+
+    storeObserver(_resizeEventDict, element, observer);
 }
+
 export function removeResizeEventHandler(element) {
     if (!element) {
         return;
     }
 
-    let eventCallback = removeAndReturnEventHandler(_resizeEventDict, element);
+    let observer = removeAndReturnObserver(_resizeEventDict, element);
 
-    if (!eventCallback) {
+    if (!observer) {
         return; //No event handler found
     }
 
-    document.removeEventListener("onresize", eventCallback);
+    observer.unobserve(element);
 }
 
 export function dispose(elementsWithPropArray) {
