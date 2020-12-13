@@ -79,6 +79,7 @@ export function removeResizeEventHandler(element) {
     }
 
     observer.unobserve(element);
+    observer.disconnect();
 }
 
 export function dispose(elementsWithPropArray) {

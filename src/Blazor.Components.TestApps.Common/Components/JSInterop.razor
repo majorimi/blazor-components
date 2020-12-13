@@ -188,14 +188,17 @@
 		<Content><h3>Resize JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Resize JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for Window (global) and HTML Elements resize event callback handlers.
+		<strong>Resize JS</strong> is an <strong>injectable <code>IResizeHandler</code> service</strong> for Window (global) and HTML Elements resize event callback handlers.
 	</p>
 
 	<div class="row pb-2">
 		<div class="col-12">
 			<p><code>RegisterPageResizeAsync()</code> will add event listener to HTML document/window <code>resize events.</code></p>
 			<p><code>RegisterResizeAsync()</code> will add event listener to the given HTML Element <code>resize events.</code></p>
-			<textarea @ref="_resizeElement" readonly>Grabb right bottom corner to resize element...</textarea>
+			
+			<label>Resizabel Textarea with event listener:</label>
+			<br />
+			<textarea @ref="_resizeElement" style="resize:both;" readonly>Grab right bottom corner to resize element...</textarea>
 
 			<br />
 			<button class="btn btn-primary" @onclick="ResizeEventHandler">@(_resizeSubscribed ? "Unsubscribe from resize" : "Subscribe to resize")</button>
