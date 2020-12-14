@@ -127,7 +127,9 @@
 						  Height="@_buttonHeight"
 						  Disabled="@_buttonDisabled"
 						  OnToggleChanged="OnToggleClicked">
-				<Content><img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth)px" height="@(_buttonHeight)px" /></Content>
+				<Content>
+					<img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px"/>
+				</Content>
 			</ToggleButton>
 		</div>
 	</div>
@@ -141,7 +143,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			Other examples: 
+			Other Toggle button examples:
 			<ToggleButton>
 				<Content><strong>B</strong></Content>
 			</ToggleButton>
@@ -154,7 +156,6 @@
 		</div>
 	</div>
 </div>
-
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="toggle-buttongroup" IconMarginTop="8" IconSize="18">

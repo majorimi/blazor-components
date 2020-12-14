@@ -52,10 +52,30 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 ## `ToggleButton` component
 
 ### Properties
+- **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
+Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
+- **`OnColor`: `string { get; set; }` (default: "white") - Required** <br />
+Sets the `style` of the HTML `<button>` `background-color` when button is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+- **`OffColor`: `string { get; set; }` (default: "lightgray") - Required** <br />
+Sets the `style` of the HTML `<button>` `background-color` when button is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+- **`HoverColor`: `string { get; set; }` (default: "whitesmoke") - Required** <br />
+Sets the `style` of the HTML `<button>` `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+- **`Content`: `RenderFragment` HTML content - Required**
+Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
+- **`Height`: `int { get; set; }` (default: 30) - Required** <br />
+HTML `<button>` element height in `px`.
+- **`Width`: `int { get; set; }` (default: 80) - Required** <br />
+HTML `<button>` element width in `px`.
+- **`Disabled`: `bool { get; set; }` (default: false)** <br />
+Determines whether the rendered HTML `<button>` element should be disabled or not.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
+### Events
+- **`OnToggleChanged`: `EventCallback<bool>` delegate** <br />
+Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
 
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
-
 
 ## `ToggleButtonGroup` component
 
