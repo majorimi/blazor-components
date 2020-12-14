@@ -1,11 +1,16 @@
-﻿input[type=checkbox] {
-    outline: 0;
+﻿.toggleButton {
+    overflow: hidden;
     cursor: pointer;
-    opacity: 0;
-    z-index: 10;
-    position: absolute;
-    /*display: none;*/
+    outline: 0;
+    border: none;
+    text-align: center;
+    padding: 0px;
 }
-input:checked ~ label {
-    color: red;
+
+.toggleButton.toggled {
+    overflow: hidden;
+    cursor: pointer;
+    outline: 0;
+    border: solid 1px lightgray;
+    text-align: center;
 }

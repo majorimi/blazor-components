@@ -1,1 +1,1 @@
-input[type=checkbox]{outline:0;cursor:pointer;opacity:0;z-index:10;position:absolute}input:checked~label{color:#f00}
+.toggleButton{overflow:hidden;cursor:pointer;outline:0;border:none;text-align:center;padding:0}.toggleButton.toggled{overflow:hidden;cursor:pointer;outline:0;border:solid 1px #d3d3d3;text-align:center}

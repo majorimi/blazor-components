@@ -6,36 +6,38 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Toggle switch</h3>
+	<PermaLinkElement PermaLinkName="toggle-switch" IconMarginTop="8" IconSize="18">
+		<Content><h3>Toggle switch</h3></Content>
+	</PermaLinkElement>
 	<p>Renders <strong>HTML input styled as Toggle switch</strong> with customizable size and color, etc.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			On color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_onColor" />
+			Toggle switch On color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_onColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Off color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_offColor" />
+			Toggle switch Off color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_offColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Widht: @(_widht)px
-			<input type="range" class="w-100" min="30" max="100" @bind="_widht" @oninput="(e => _widht = int.Parse(e.Value?.ToString()))" />
+			Toggle switch Width: @(_width)px
+			<input type="range" class="w-100" min="30" max="100" @bind="_width" @oninput="(e => _width = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Height: @(_height)px
+			Toggle switch Height: @(_height)px
 			<input type="range" class="w-100" min="15" max="50" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Disabled: <input class="mr-3" type="checkbox" @bind="_disabled"/>
-			Is Checked: <input class="mr-3" type="checkbox" @bind="_isChecked"/>
+			Disabled: <input class="mr-3" type="checkbox" @bind="_disabled" />
+			Is Checked: <input class="mr-3" type="checkbox" @bind="_isChecked" />
 		</div>
 	</div>
 
@@ -52,44 +54,119 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<ToggleSwitch
-				@ref="_toggleSwitch"
-				Checked="_isChecked"
-				OnColor="@_onColor"
-				OffColor="@_offColor"
-				Width="_widht"
-				Height="_height"
-				HandleStyle="_styleType"
-				Disabled="_disabled"
-				OnToggleChanged="OnToggleSwitched">
+			<ToggleSwitch @ref="_toggleSwitch"
+						  Checked="_isChecked"
+						  OnColor="@_onColor"
+						  OffColor="@_offColor"
+						  Width="_width"
+						  Height="_height"
+						  HandleStyle="_styleType"
+						  Disabled="_disabled"
+						  OnToggleChanged="OnToggleSwitched">
 			</ToggleSwitch>
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<label><strong>Event log</strong>:</label>
+			<label><strong>Toggle switch Event log</strong>:</label>
 			<textarea @ref="log1" @bind="_swithch1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Toggle button</h3>
+	<PermaLinkElement PermaLinkName="toggle-button" IconMarginTop="8" IconSize="18">
+		<Content><h3>Toggle button</h3></Content>
+	</PermaLinkElement>
 	<p>Renders <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc.</p>
 
-	<ToggleButton></ToggleButton>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toggle button On color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_buttonOnColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toggle button Off color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_buttonOffColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toggle button Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_buttonHoverColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toggle button Width: @(_buttonWidth)px
+			<input type="range" class="w-100" min="16" max="50" @bind="_buttonWidth" @oninput="(e => _buttonWidth = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toggle button Height: @(_buttonHeight)px
+			<input type="range" class="w-100" min="16" max="50" @bind="_buttonHeight" @oninput="(e => _buttonHeight = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Disabled: <input class="mr-3" type="checkbox" @bind="_buttonDisabled" />
+			Is Checked: <input class="mr-3" type="checkbox" @bind="_isButtonChecked" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<ToggleButton @ref="_toggleButton"
+						  Checked="@_isButtonChecked"
+						  OnColor="@_buttonOnColor"
+						  OffColor="@_buttonOffColor"
+						  HoverColor="@_buttonHoverColor"
+						  Width="@_buttonWidth"
+						  Height="@_buttonHeight"
+						  Disabled="@_buttonDisabled"
+						  OnToggleChanged="OnToggleClicked">
+				<Content><img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth)px" height="@(_buttonHeight)px" /></Content>
+			</ToggleButton>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Toggle button Event log</strong>:</label>
+			<textarea @ref="log2" @bind="_button1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			Other examples: 
+			<ToggleButton>
+				<Content><strong>B</strong></Content>
+			</ToggleButton>
+			<ToggleButton>
+				<Content><i>I</i></Content>
+			</ToggleButton>
+			<ToggleButton>
+				<Content><u>U</u></Content>
+			</ToggleButton>
+		</div>
+	</div>
 </div>
 
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Toggle button group</h3>
+	<PermaLinkElement PermaLinkName="toggle-buttongroup" IconMarginTop="8" IconSize="18">
+		<Content><h3>Toggle button group</h3></Content>
+	</PermaLinkElement>
 	<p>Renders a container for <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
 
 	<ToggleButton></ToggleButton>
 </div>
 
 @code {
+	//Switch
 	private ToggleSwitch _toggleSwitch;
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -101,7 +178,7 @@
 
 	private string _onColor = "DodgerBlue";
 	private string _offColor = "DarkGray";
-	private int _widht = 50;
+	private int _width = 50;
 	private int _height = 22;
 	private bool _isChecked = true;
 	private bool _disabled = false;
@@ -113,14 +190,36 @@
 	private async Task OnToggleSwitched(bool val)
 	{
 		_isChecked = val;
-		_swithch1Log = WriteLog(_swithch1Log, $"Toggle Switched event currently Checked: {val}");
+		_swithch1Log = await WriteLog(_swithch1Log, $"Toggle Switched event currently Checked: {val}");
+	}
+
+	//Button
+	private ToggleButton _toggleButton;
+
+	private string _buttonOnColor = "lightGray";
+	private string _buttonOffColor = "white";
+	private string _buttonHoverColor = "WhiteSmoke";
+	private int _buttonWidth = 30;
+	private int _buttonHeight = 30;
+	private bool _isButtonChecked = true;
+	private bool _buttonDisabled = false;
+
+	private ElementReference log2;
+	private string _button1Log;
+
+	private async Task OnToggleClicked(bool val)
+	{
+		_isButtonChecked = val;
+		_button1Log = await WriteLog(_button1Log, $"Toggle Button event currently Checked: {val}");
 	}
 
 
-	private string WriteLog(string log, string message)
+
+	private async Task<string> WriteLog(string log, string message)
 	{
 		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		log1.ScrollToEndAsync();
+		await log1.ScrollToEndAsync();
+		await log2.ScrollToEndAsync();
 
 		return log;
 	}

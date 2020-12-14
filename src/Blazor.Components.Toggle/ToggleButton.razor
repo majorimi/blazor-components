@@ -1,34 +1,53 @@
-﻿<span style="max-width: @(Width)px; max-height: @(Height)px; background-color: gray;">
-	<input @ref="_inputRef" type="checkbox" @bind="Checked" @oninput="Switched" disabled="@Disabled" @attributes=AllOtherAttributes
-		style="width: @(Width)px; height: @(Height)px;" />
-<label>Bold button</label>
-</span>
+﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
+		@onclick="Switched" disabled="@Disabled" @attributes=AllOtherAttributes>
+	@Content
+</button>
+
+<style>
+	.toggleButton[id=@($"toggleButton_{_componentId}")] {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
+		opacity: @(Disabled ? 0.7 : 1);
+	}
+	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
+	}
+</style>
 
 @using Blazor.Components.Core.HtmlColors;
 
 @inject ILogger<ToggleButton> _logger;
 
 @code {
-	@*private string _componentId = Guid.NewGuid().ToString("n");*@
+	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	public ElementReference InnerElementReference => _inputRef;
 
-	private string _onColor = "0, 0, 255";//blue
-	[Parameter] 
+	private string _onColor = "211,211,211";//lightGray
+	[Parameter]
 	public string OnColor
 	{
 		get => _onColor;
 		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
-	private string _offColor = "169, 169, 169";//darkgray
-	[Parameter] 
+	private string _offColor = "255, 255, 255";//white
+	[Parameter]
 	public string OffColor
 	{
 		get => _offColor;
 		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
+	private string _hoverColor = "245, 245, 245";//WhiteSmoke
+	[Parameter]
+	public string HoverColor
+	{
+		get => _hoverColor;
+		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
 
-	[Parameter] 
+	[Parameter]
+	public RenderFragment Content { get; set; }
+
+	[Parameter]
 	public bool Checked { get; set; } = false;
 
 	[Parameter] public int Height { get; set; } = 30;
@@ -40,13 +59,14 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	private async Task Switched(ChangeEventArgs e)
+	private async Task Switched()
 	{
-		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Checked}'.");
+		Checked = !Checked;
+		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{Checked}'.");
 
 		if(OnToggleChanged.HasDelegate)
 		{
-			await OnToggleChanged.InvokeAsync(!Checked);
+			await OnToggleChanged.InvokeAsync(Checked);
 		}
 	}
 
