@@ -163,7 +163,24 @@
 	</PermaLinkElement>
 	<p>Renders a container for <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
 
-	<ToggleButton></ToggleButton>
+	<ToggleButtonGroup>
+		<Item>
+			<ToggleButton>
+				<Content><u>U</u></Content>
+			</ToggleButton>
+		</Item>
+		@*<Items>
+			<ToggleButton>
+				<Content><strong>B</strong></Content>
+			</ToggleButton>
+			<ToggleButton>
+				<Content><i>I</i></Content>
+			</ToggleButton>
+			<ToggleButton>
+				<Content><u>U</u></Content>
+			</ToggleButton>
+		</Items>*@
+	</ToggleButtonGroup>
 </div>
 
 @code {
@@ -214,7 +231,7 @@
 		_button1Log = await WriteLog(_button1Log, $"Toggle Button event currently Checked: {val}");
 	}
 
-
+	//Button group
 
 	private async Task<string> WriteLog(string log, string message)
 	{

@@ -1,0 +1,28 @@
+﻿<div id="@($"toggleButton_{_componentId}")" @ref="_inputRef" disabled="@Disabled" @attributes=AllOtherAttributes>
+	@*@foreach (var item in Items)
+		{
+			@item;
+		}*@
+	@Item
+</div>
+
+@inject ILogger<ToggleButtonGroup> _logger;
+
+@code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
+
+	[Parameter] public ToggleButton Item { get; set; }
+	[Parameter] public IEnumerable<RenderFragment> Items { get; set; }
+
+	//[Parameter] public IEnumerable<ToggleButton> Items { get; set; }
+	//[Parameter] public IEnumerable<RenderFragment<ToggleButton>> Items { get; set; }
+
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+}
