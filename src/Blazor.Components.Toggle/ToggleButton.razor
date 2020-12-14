@@ -18,6 +18,13 @@
 @inject ILogger<ToggleButton> _logger;
 
 @code {
+		[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Parent?.AddButton(this);
+	}
+
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	public ElementReference InnerElementReference => _inputRef;
@@ -47,8 +54,7 @@
 	[Parameter]
 	public RenderFragment Content { get; set; }
 
-	[Parameter]
-	public bool Checked { get; set; } = false;
+	[Parameter]public bool Checked { get; set; } = false;
 
 	[Parameter] public int Height { get; set; } = 30;
 	[Parameter] public int Width { get; set; } = 30;
@@ -62,11 +68,16 @@
 	private async Task Switched()
 	{
 		Checked = !Checked;
-		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{Checked}'.");
+		WriteDiag($"{nameof(Switched)} Toggle button value changed: '{Checked}'.");
 
-		if(OnToggleChanged.HasDelegate)
+		if (OnToggleChanged.HasDelegate)
 		{
 			await OnToggleChanged.InvokeAsync(Checked);
+		}
+
+		if (Parent is not null)
+		{
+			await Parent.ButtonToggled(this);
 		}
 	}
 

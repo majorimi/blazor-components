@@ -163,23 +163,24 @@
 	</PermaLinkElement>
 	<p>Renders a container for <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
 
-	<ToggleButtonGroup>
-		<Item>
-			<ToggleButton>
-				<Content><u>U</u></Content>
-			</ToggleButton>
-		</Item>
-		@*<Items>
-			<ToggleButton>
-				<Content><strong>B</strong></Content>
+	<ToggleButtonGroup ActiveButton="_activeButton">
+		<ToggleButtons>
+			<ToggleButton @ref="_activeButton">
+				<Content><strong>1</strong></Content>
 			</ToggleButton>
 			<ToggleButton>
-				<Content><i>I</i></Content>
+				<Content><strong>2</strong></Content>
 			</ToggleButton>
 			<ToggleButton>
-				<Content><u>U</u></Content>
+				<Content><strong>3</strong></Content>
 			</ToggleButton>
-		</Items>*@
+			<ToggleButton>
+				<Content><strong>4</strong></Content>
+			</ToggleButton>
+			<ToggleButton>
+				<Content><strong>5</strong></Content>
+			</ToggleButton>
+		</ToggleButtons>
 	</ToggleButtonGroup>
 </div>
 
@@ -232,6 +233,7 @@
 	}
 
 	//Button group
+	private ToggleButton _activeButton;
 
 	private async Task<string> WriteLog(string log, string message)
 	{
