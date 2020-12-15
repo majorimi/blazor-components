@@ -1,6 +1,6 @@
 ﻿<h1>Toggler Components</h1>
 <p>
-	Blazor component that renders customizable Toggle Switch and Toggle Button components. For usege see soruce code and docs on 
+	Blazor component that renders customizable Toggle Switch and Toggle Button components. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Toggle</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Toggle" target="_blank">Nuget</a>
 </p>
@@ -128,7 +128,7 @@
 						  Disabled="@_buttonDisabled"
 						  OnToggleChanged="OnToggleClicked">
 				<Content>
-					<img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px"/>
+					<img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px" />
 				</Content>
 			</ToggleButton>
 		</div>
@@ -155,6 +155,13 @@
 			</ToggleButton>
 		</div>
 	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Toggle Button group Event log</strong>:</label>
+			<textarea @ref="log3" @bind="_button2Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -163,25 +170,37 @@
 	</PermaLinkElement>
 	<p>Renders a container for <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
 
-	<ToggleButtonGroup ActiveButton="_activeButton">
-		<ToggleButtons>
-			<ToggleButton @ref="_activeButton">
-				<Content><strong>1</strong></Content>
-			</ToggleButton>
-			<ToggleButton>
-				<Content><strong>2</strong></Content>
-			</ToggleButton>
-			<ToggleButton>
-				<Content><strong>3</strong></Content>
-			</ToggleButton>
-			<ToggleButton>
-				<Content><strong>4</strong></Content>
-			</ToggleButton>
-			<ToggleButton>
-				<Content><strong>5</strong></Content>
-			</ToggleButton>
-		</ToggleButtons>
-	</ToggleButtonGroup>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Disabled: <input class="mr-3" type="checkbox" @bind="_buttonGroupDisabled" />
+			Allow non selected button: <input class="mr-3" type="checkbox" @bind="_allowEmptySelect" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<ToggleButtonGroup Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
+				<ToggleButtons>
+					<ToggleButton @ref="_btn1">
+						<Content><strong>1</strong></Content>
+					</ToggleButton>
+					<ToggleButton @ref="_btn2">
+						<Content><strong>2</strong></Content>
+					</ToggleButton>
+					<ToggleButton @ref="_btn3">
+						<Content><strong>3</strong></Content>
+					</ToggleButton>
+					<ToggleButton>
+						<Content><strong>4</strong></Content>
+					</ToggleButton>
+					<ToggleButton>
+						<Content><strong>5</strong></Content>
+					</ToggleButton>
+				</ToggleButtons>
+			</ToggleButtonGroup>
+		</div>
+	</div>
+
 </div>
 
 @code {
@@ -234,6 +253,19 @@
 
 	//Button group
 	private ToggleButton _activeButton;
+	private ToggleButton _btn1;
+	private ToggleButton _btn2;
+	private ToggleButton _btn3;
+	private bool _buttonGroupDisabled = false;
+	private bool _allowEmptySelect = true;
+
+	private ElementReference log3;
+	private string _button2Log;
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		_activeButton = _btn1;
+	}
 
 	private async Task<string> WriteLog(string log, string message)
 	{

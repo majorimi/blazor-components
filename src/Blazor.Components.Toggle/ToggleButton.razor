@@ -6,7 +6,6 @@
 <style>
 	.toggleButton[id=@($"toggleButton_{_componentId}")] {
 		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
-		opacity: @(Disabled ? 0.7 : 1);
 	}
 	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
 		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
@@ -51,10 +50,9 @@
 		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
 
-	[Parameter]
-	public RenderFragment Content { get; set; }
+	[Parameter] public RenderFragment Content { get; set; }
 
-	[Parameter]public bool Checked { get; set; } = false;
+	[Parameter] public bool Checked { get; set; } = false;
 
 	[Parameter] public int Height { get; set; } = 30;
 	[Parameter] public int Width { get; set; } = 30;

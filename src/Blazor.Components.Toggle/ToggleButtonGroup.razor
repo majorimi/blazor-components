@@ -30,6 +30,12 @@
 			if (value != _activeButton)
 			{
 				_activeButton = value;
+				if (_activeButton != null)
+				{
+					_activeButton.Checked = true;
+					//StateHasChanged();
+				}
+
 				ButtonToggled(_activeButton);
 			}
 		}

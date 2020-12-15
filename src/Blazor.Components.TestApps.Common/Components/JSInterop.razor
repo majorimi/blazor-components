@@ -450,5 +450,10 @@
 		{
 			await _clipboardHandler.DisposeAsync();
 		}
+
+		if (_resizeHandler is not null)
+		{
+			await _resizeHandler.DisposeAsync();
+		}
 	}
 }

@@ -14,3 +14,8 @@
     border: solid 1px lightgray;
     text-align: center;
 }
+
+button[disabled] {
+    pointer-events: none;
+    opacity: 0.7;
+}

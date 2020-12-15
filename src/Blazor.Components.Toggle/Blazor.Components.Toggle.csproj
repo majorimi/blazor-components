@@ -15,7 +15,7 @@
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<PackageTags>.Net5 Blazor Toggle Switch Button</PackageTags>
+		<PackageTags>.Net5 Blazor Toggle Switch Button Group</PackageTags>
 		<Description>Blazor component that renders customizable Toggle switch and Toggle button components. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
