@@ -70,7 +70,7 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<label><strong>Toggle switch Event log</strong>:</label>
-			<textarea @ref="log1" @bind="_swithch1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+			<textarea @ref="_log1" @bind="_swithch1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -79,7 +79,7 @@
 	<PermaLinkElement PermaLinkName="toggle-button" IconMarginTop="8" IconSize="18">
 		<Content><h3>Toggle button</h3></Content>
 	</PermaLinkElement>
-	<p>Renders <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc.</p>
+	<p>Renders <strong>HTML button styled as Toggle button</strong> with custom content and customizable size, color, etc.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -137,7 +137,7 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<label><strong>Toggle button Event log</strong>:</label>
-			<textarea @ref="log2" @bind="_button1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
+			<textarea @ref="_log2" @bind="_button1Log" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 
@@ -156,22 +156,18 @@
 		</div>
 	</div>
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<label><strong>Toggle Button group Event log</strong>:</label>
-			<textarea @ref="log3" @bind="_button2Log" style="height:200px;" class="form-control w-100" readonly></textarea>
-		</div>
-	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="toggle-buttongroup" IconMarginTop="8" IconSize="18">
 		<Content><h3>Toggle button group</h3></Content>
 	</PermaLinkElement>
-	<p>Renders a container for <strong>HTML input styled as Toggle button</strong> with custom Render content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
+	<p>Renders a container for <strong>HTML button styled as Toggle button</strong> with custom content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
+			Number of buttons: <strong>@_btnCount</strong>
+			<br />
 			Disabled: <input class="mr-3" type="checkbox" @bind="_buttonGroupDisabled" />
 			Allow non selected button: <input class="mr-3" type="checkbox" @bind="_allowEmptySelect" />
 		</div>
@@ -179,7 +175,8 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<ToggleButtonGroup Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
+			<ToggleButtonGroup @ref="_btnGroup" OnToggleChanged="OnToggleGroupClicked"
+							   Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
 				<ToggleButtons>
 					<ToggleButton @ref="_btn1">
 						<Content><strong>1</strong></Content>
@@ -190,14 +187,15 @@
 					<ToggleButton @ref="_btn3">
 						<Content><strong>3</strong></Content>
 					</ToggleButton>
-					<ToggleButton>
-						<Content><strong>4</strong></Content>
-					</ToggleButton>
-					<ToggleButton>
-						<Content><strong>5</strong></Content>
-					</ToggleButton>
 				</ToggleButtons>
 			</ToggleButtonGroup>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Toggle Button group Event log</strong>:</label>
+			<textarea @ref="_log3" @bind="_buttonGroupLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 
@@ -222,7 +220,7 @@
 	private bool _disabled = false;
 	private ToggleSwitchStyle _styleType = ToggleSwitchStyle.Circle;
 
-	private ElementReference log1;
+	private ElementReference _log1;
 	private string _swithch1Log;
 
 	private async Task OnToggleSwitched(bool val)
@@ -242,7 +240,7 @@
 	private bool _isButtonChecked = true;
 	private bool _buttonDisabled = false;
 
-	private ElementReference log2;
+	private ElementReference _log2;
 	private string _button1Log;
 
 	private async Task OnToggleClicked(bool val)
@@ -252,26 +250,40 @@
 	}
 
 	//Button group
+	private ToggleButtonGroup _btnGroup;
 	private ToggleButton _activeButton;
 	private ToggleButton _btn1;
 	private ToggleButton _btn2;
 	private ToggleButton _btn3;
 	private bool _buttonGroupDisabled = false;
 	private bool _allowEmptySelect = true;
+	private int _btnCount = 0;
 
-	private ElementReference log3;
-	private string _button2Log;
+	private ElementReference _log3;
+	private string _buttonGroupLog;
 
 	protected override void OnAfterRender(bool firstRender)
 	{
-		_activeButton = _btn1;
+		if (firstRender)
+		{
+			//_activeButton = _btn1;
+			_btnCount = _btnGroup.ButtonsCount;
+			//StateHasChanged();
+		}
 	}
+
+	private async Task OnToggleGroupClicked(ToggleButton active)
+	{
+		_buttonGroupLog = await WriteLog(_buttonGroupLog, $"Toggle Button group event Active button {active}");
+	}
+
 
 	private async Task<string> WriteLog(string log, string message)
 	{
 		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		await log1.ScrollToEndAsync();
-		await log2.ScrollToEndAsync();
+		await _log1.ScrollToEndAsync();
+		await _log2.ScrollToEndAsync();
+		await _log3.ScrollToEndAsync();
 
 		return log;
 	}

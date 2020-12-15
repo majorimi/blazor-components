@@ -1,1 +1,1 @@
-.toggleButton{overflow:hidden;cursor:pointer;outline:0;border:none;text-align:center;padding:0}.toggleButton.toggled{overflow:hidden;cursor:pointer;outline:0;border:solid 1px #d3d3d3;text-align:center}button[disabled]{pointer-events:none;opacity:.7}
+.toggleButton{overflow:hidden;cursor:pointer;outline:0;border:none;text-align:center;padding:0}.toggleButton.toggled{overflow:hidden;cursor:pointer;outline:0;border:solid 1px #d3d3d3;text-align:center}button[disabled]{pointer-events:none;opacity:.6}

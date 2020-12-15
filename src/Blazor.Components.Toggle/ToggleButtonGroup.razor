@@ -33,20 +33,23 @@
 				if (_activeButton != null)
 				{
 					_activeButton.Checked = true;
-					//StateHasChanged();
 				}
 
 				ButtonToggled(_activeButton);
 			}
 		}
 	}
-	private IList<ToggleButton> Buttons = new List<ToggleButton>();
+
+	public int ButtonsCount => _buttons.Count;
+
+	public IEnumerable<ToggleButton> Buttons => _buttons;
+	private IList<ToggleButton> _buttons = new List<ToggleButton>();
 
 	internal void AddButton(ToggleButton button)
 	{
 		if (button is not null)
 		{
-			Buttons.Add(button);
+			_buttons.Add(button);
 		}
 	}
 

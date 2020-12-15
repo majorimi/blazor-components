@@ -19,8 +19,8 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 # Components
 
 - **`ToggleSwitch`**: Renders **HTML `<input>` styled as Toggle switch** with customizable size and color, etc.
-- **`ToggleButton`**: 
-- **`ToggleButtonGroup`**: 
+- **`ToggleButton`**: Renders **HTML `<button>` styled as Toggle button** with custom content and customizable size, color, etc.
+- **`ToggleButtonGroup`**: Renders a container for **HTML `<button>` styled as Toggle button** with custom content and customizable size, color, etc. Also allows only one toggled button to be Checked.
 
 ## `ToggleSwitch` component
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
@@ -50,6 +50,7 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
 
 ## `ToggleButton` component
+Blazor component to represent a `boolean` value as an ON/OFF toggle switch as a button and custom content.
 
 ### Properties
 - **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
@@ -151,6 +152,15 @@ Following code example shows how to use **`ToggleSwitch`** component in your Bla
 ### `ToggleButton` usage
 
 Following code example shows how to use **`ToggleButton`** component in your Blazor App. 
+
+```
+
+
+```
+
+### `ToggleButtonGroup` usage
+
+Following code example shows how to use **`ToggleButtonGroup`** component in your Blazor App. 
 
 ```
 
