@@ -144,7 +144,6 @@ Following code example shows how to use **`ToggleSwitch`** component in your Bla
 	private async Task OnToggleSwitched(bool val)
 	{
 		_value = val;
-		_swithch1Log +=  $"Toggle Switched event current value: {val}";
 	}
 }
 ```
@@ -154,7 +153,55 @@ Following code example shows how to use **`ToggleSwitch`** component in your Bla
 Following code example shows how to use **`ToggleButton`** component in your Blazor App. 
 
 ```
+<ToggleButton @ref="_toggleButton"
+				Checked="@_isButtonChecked"
+				OnColor="@_buttonOnColor"
+				OffColor="@_buttonOffColor"
+				HoverColor="@_buttonHoverColor"
+				Width="@_buttonWidth"
+				Height="@_buttonHeight"
+				Disabled="@_buttonDisabled"
+				OnToggleChanged="OnToggleClicked">
+	<Content>
+		<img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px" />
+	</Content>
+</ToggleButton>
 
+<ToggleButton>
+	<Content><strong>B</strong></Content>
+</ToggleButton>
+<ToggleButton>
+	<Content><i>I</i></Content>
+</ToggleButton>
+<ToggleButton>
+	<Content><u>U</u></Content>
+</ToggleButton>
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await _toggleButton.InnerElementReference.FocusAsync();
+		}
+	}
+
+	//Button
+	private ToggleButton _toggleButton;
+
+	private string _buttonOnColor = "lightGray";
+	private string _buttonOffColor = "white";
+	private string _buttonHoverColor = "WhiteSmoke";
+	private int _buttonWidth = 30;
+	private int _buttonHeight = 30;
+	private bool _isButtonChecked = true;
+	private bool _buttonDisabled = false;
+
+	private async Task OnToggleClicked(bool val)
+	{
+		_isButtonChecked = val;
+	}
+}
 
 ```
 

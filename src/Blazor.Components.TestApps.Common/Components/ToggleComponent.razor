@@ -201,6 +201,8 @@
 
 </div>
 
+@using System.Linq;
+
 @code {
 	//Switch
 	private ToggleSwitch _toggleSwitch;
@@ -209,6 +211,11 @@
 		if (firstRender)
 		{
 			await _toggleSwitch.InnerElementReference.FocusAsync();
+			
+			//Group
+			_activeButton = _btn1;
+			_btnCount = _btnGroup.ButtonsCount;
+			StateHasChanged();
 		}
 	}
 
@@ -262,19 +269,11 @@
 	private ElementReference _log3;
 	private string _buttonGroupLog;
 
-	protected override void OnAfterRender(bool firstRender)
-	{
-		if (firstRender)
-		{
-			//_activeButton = _btn1;
-			_btnCount = _btnGroup.ButtonsCount;
-			//StateHasChanged();
-		}
-	}
-
 	private async Task OnToggleGroupClicked(ToggleButton active)
 	{
-		_buttonGroupLog = await WriteLog(_buttonGroupLog, $"Toggle Button group event Active button {active}");
+		_activeButton = active;
+		var index = _btnGroup.Buttons.ToList().IndexOf(active);
+		_buttonGroupLog = await WriteLog(_buttonGroupLog, $"Toggle Button group event Active button index: {index}");
 	}
 
 
