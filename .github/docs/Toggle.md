@@ -163,7 +163,7 @@ Following code example shows how to use **`ToggleButton`** component in your Bla
 				Disabled="@_buttonDisabled"
 				OnToggleChanged="OnToggleClicked">
 	<Content>
-		<img src="https://img.icons8.com/pastel-glyph/2x/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px" />
+		<img src="https://raw.githubusercontent.com/majorimi/blazor-components/master/src/Blazor.Components.TestApps.Common/wwwroot/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px" />
 	</Content>
 </ToggleButton>
 
