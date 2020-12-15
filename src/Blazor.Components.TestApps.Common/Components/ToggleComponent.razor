@@ -163,20 +163,20 @@
 	<PermaLinkElement PermaLinkName="toggle-buttongroup" IconMarginTop="8" IconSize="18">
 		<Content><h3>Toggle button group</h3></Content>
 	</PermaLinkElement>
-	<p>Renders a container for <strong>HTML button styled as Toggle button</strong> with custom content and customizable size, color, etc. Also allows only one toggled button to be Checked.</p>
+	<p>Renders a container for <strong>HTML button styled as Toggle button</strong> with custom content and customizable size, color, etc. Also allows only one toggle button to be Checked.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Number of buttons: <strong>@_btnCount</strong>
 			<br />
-			Disabled: <input class="mr-3" type="checkbox" @bind="_buttonGroupDisabled" />
-			Allow non selected button: <input class="mr-3" type="checkbox" @bind="_allowEmptySelect" />
+			Disabled: <input class="mr-2" type="checkbox" @bind="_buttonGroupDisabled" />
+			One button always must toggled: <input class="mr-2" type="checkbox" @bind="_mustToggled" />
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<ToggleButtonGroup @ref="_btnGroup" OnToggleChanged="OnToggleGroupClicked"
+			<ToggleButtonGroup @ref="_btnGroup" MustToggled="_mustToggled" OnToggleChanged="OnToggleGroupClicked"
 							   Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
 				<ToggleButtons>
 					<ToggleButton @ref="_btn1">
@@ -264,7 +264,7 @@
 	private ToggleButton _btn2;
 	private ToggleButton _btn3;
 	private bool _buttonGroupDisabled = false;
-	private bool _allowEmptySelect = true;
+	private bool _mustToggled = false;
 	private int _btnCount = 0;
 
 	private ElementReference _log3;

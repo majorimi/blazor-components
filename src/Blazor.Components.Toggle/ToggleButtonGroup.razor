@@ -1,4 +1,4 @@
-﻿<div id="@($"toggleButton_{_componentId}")" @ref="_inputRef" disabled="@Disabled" @attributes=AllOtherAttributes>
+﻿<div id="@($"toggleButton_{_componentId}")" @ref="_inputRef" tabindex="99" disabled="@Disabled" @attributes=AllOtherAttributes>
 	<CascadingValue Value="this">
 		@ToggleButtons
 	</CascadingValue>
@@ -15,6 +15,7 @@
 	public RenderFragment ToggleButtons { get; set; }
 
 	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public bool MustToggled { get; set; } = false;
 
 	[Parameter] public EventCallback<ToggleButton?> OnToggleChanged { get; set; }
 
@@ -22,7 +23,8 @@
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	private ToggleButton? _activeButton;
-	[Parameter] public ToggleButton? ActiveButton
+	[Parameter]
+	public ToggleButton? ActiveButton
 	{
 		get => _activeButton;
 		set
@@ -45,18 +47,24 @@
 	public IEnumerable<ToggleButton> Buttons => _buttons;
 	private IList<ToggleButton> _buttons = new List<ToggleButton>();
 
-	internal void AddButton(ToggleButton button)
+	internal async Task AddButton(ToggleButton button)
 	{
 		if (button is not null)
 		{
 			_buttons.Add(button);
+			if(MustToggled && ButtonsCount == 1)
+			{
+				button.Checked = true;
+				await ButtonToggled(button);
+			}
 		}
 	}
 
 	internal async Task ButtonToggled(ToggleButton? button)
 	{
-		if(button is not null && Buttons.Contains(button))
+		if (button is not null && Buttons.Contains(button))
 		{
+			var toggled = true;
 			if (button.Checked)
 			{
 				ActiveButton = button;
@@ -70,11 +78,19 @@
 			}
 			else
 			{
-				ActiveButton = null;
+				if (MustToggled)
+				{
+					ActiveButton = button;
+					button.Checked = true;
+					toggled = false;
+				}
+				else
+				{
+					ActiveButton = null;
+				}
 			}
 
-			StateHasChanged();
-			if(OnToggleChanged.HasDelegate)
+			if (toggled && OnToggleChanged.HasDelegate)
 			{
 				await OnToggleChanged.InvokeAsync(ActiveButton);
 			}
