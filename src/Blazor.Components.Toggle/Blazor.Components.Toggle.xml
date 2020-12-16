@@ -24,5 +24,10 @@
             Square handle style
             </summary>
         </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.OnColor">
+            <summary>
+            Background color of the button when it is ON (toggled).
+            </summary>
+        </member>
     </members>
 </doc>
