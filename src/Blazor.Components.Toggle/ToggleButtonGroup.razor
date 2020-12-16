@@ -42,7 +42,7 @@
 		}
 	}
 
-	public int ButtonsCount => _buttons.Count;
+	public int ButtonCount => _buttons.Count;
 
 	public IEnumerable<ToggleButton> Buttons => _buttons;
 	private IList<ToggleButton> _buttons = new List<ToggleButton>();
@@ -52,7 +52,7 @@
 		if (button is not null)
 		{
 			_buttons.Add(button);
-			if(MustToggled && ButtonsCount == 1)
+			if(MustToggled && ButtonCount == 1)
 			{
 				button.Checked = true;
 				await ButtonToggled(button);
