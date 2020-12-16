@@ -1,0 +1,86 @@
+﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
+		@onclick="Switched" disabled="@Disabled" @attributes=AllOtherAttributes>
+	@Content
+</button>
+
+<style>
+	.toggleButton[id=@($"toggleButton_{_componentId}")] {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
+	}
+	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
+	}
+</style>
+
+@using Blazor.Components.Core.HtmlColors;
+
+@inject ILogger<ToggleButton> _logger;
+
+@code {
+		[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Parent?.AddButton(this);
+	}
+
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
+
+	private string _onColor = "211,211,211";//lightGray
+	[Parameter]
+	public string OnColor
+	{
+		get => _onColor;
+		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _offColor = "255, 255, 255";//white
+	[Parameter]
+	public string OffColor
+	{
+		get => _offColor;
+		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _hoverColor = "245, 245, 245";//WhiteSmoke
+	[Parameter]
+	public string HoverColor
+	{
+		get => _hoverColor;
+		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	[Parameter] public RenderFragment Content { get; set; }
+
+	[Parameter] public bool Checked { get; set; } = false;
+
+	[Parameter] public int Height { get; set; } = 30;
+	[Parameter] public int Width { get; set; } = 30;
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private async Task Switched()
+	{
+		Checked = !Checked;
+		WriteDiag($"{nameof(Switched)} Toggle button value changed: '{Checked}'.");
+
+		if (OnToggleChanged.HasDelegate)
+		{
+			await OnToggleChanged.InvokeAsync(Checked);
+		}
+
+		if (Parent is not null)
+		{
+			await Parent.ButtonToggled(this);
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

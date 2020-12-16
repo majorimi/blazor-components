@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blazor.Components.Toggle</name>
+    </assembly>
+    <members>
+        <member name="T:Blazor.Components.Toggle.ToggleSwitchStyle">
+            <summary>
+            Toggle switch handle style 
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Toggle.ToggleSwitchStyle.Ellipse">
+            <summary>
+            Ellipse handle style
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Toggle.ToggleSwitchStyle.Circle">
+            <summary>
+            Circle handle style
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Toggle.ToggleSwitchStyle.Square">
+            <summary>
+            Square handle style
+            </summary>
+        </member>
+    </members>
+</doc>

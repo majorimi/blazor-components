@@ -1,0 +1,104 @@
+﻿<div id="@($"toggleButton_{_componentId}")" @ref="_inputRef" tabindex="99" disabled="@Disabled" @attributes=AllOtherAttributes>
+	<CascadingValue Value="this">
+		@ToggleButtons
+	</CascadingValue>
+</div>
+
+@inject ILogger<ToggleButtonGroup> _logger;
+
+@code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
+
+	[Parameter]
+	public RenderFragment ToggleButtons { get; set; }
+
+	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public bool MustToggled { get; set; } = false;
+
+	[Parameter] public EventCallback<ToggleButton?> OnToggleChanged { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private ToggleButton? _activeButton;
+	[Parameter]
+	public ToggleButton? ActiveButton
+	{
+		get => _activeButton;
+		set
+		{
+			if (value != _activeButton)
+			{
+				_activeButton = value;
+				if (_activeButton != null)
+				{
+					_activeButton.Checked = true;
+				}
+
+				ButtonToggled(_activeButton);
+			}
+		}
+	}
+
+	public int ButtonCount => _buttons.Count;
+
+	public IEnumerable<ToggleButton> Buttons => _buttons;
+	private IList<ToggleButton> _buttons = new List<ToggleButton>();
+
+	internal async Task AddButton(ToggleButton button)
+	{
+		if (button is not null)
+		{
+			_buttons.Add(button);
+			if(MustToggled && ButtonCount == 1)
+			{
+				button.Checked = true;
+				await ButtonToggled(button);
+			}
+		}
+	}
+
+	internal async Task ButtonToggled(ToggleButton? button)
+	{
+		if (button is not null && Buttons.Contains(button))
+		{
+			var toggled = true;
+			if (button.Checked)
+			{
+				ActiveButton = button;
+				foreach (var item in Buttons)
+				{
+					if (item != button)
+					{
+						item.Checked = false;
+					}
+				}
+			}
+			else
+			{
+				if (MustToggled)
+				{
+					ActiveButton = button;
+					button.Checked = true;
+					toggled = false;
+				}
+				else
+				{
+					ActiveButton = null;
+				}
+			}
+
+			if (toggled && OnToggleChanged.HasDelegate)
+			{
+				await OnToggleChanged.InvokeAsync(ActiveButton);
+			}
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

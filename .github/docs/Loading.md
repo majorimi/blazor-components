@@ -23,14 +23,14 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## `LoadingPage` component
 Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
-It is useful when you want to show 
+It is useful when you want to show some content with overlay meanwhile your page is loading (waiting API response, etc.).
 
 ### Properties
 - **`LoadingContent`: `RenderFragment` HTML content - Required** <br />
 Required HTML content to show on top of the overlay `<div>`.
 Subscribe to this event and place your page initializer code to the event handler when using **'automatic'** mode. Otherwise can be omitted.
 - **`OverlayBackgroundColor`: `string { get; set; }` (default: "gray")** <br />
-Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: **Color Names**, **RGB** or with **HEX** values.
+Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
 - **`OverlayOpacity`: `double { get; set; }` (default: 0.9)** <br />
 Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means the overlay layer is not visible.
 

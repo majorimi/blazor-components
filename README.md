@@ -49,12 +49,13 @@ Check out our planned components and extensions on the project [Wiki page](https
 
 **Blazor Components are providing custom UI components to develop Balazor applications:**
 
-- **Blazor.Components.JsInterop**: [Js Interop components and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provide useful functionality which can be achieved only with Js Interop.
-- **Blazor.Components.Debounce**: [Debounce component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, Textarea or other element with debounced onChange.
-- **Blazor.Components.Typeahead**: [Typeahead component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md) that renders an HTML Input or InputText with Typeahead panel.
+- **Blazor.Components.Common.JsInterop**: [Js Interop components and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provide useful functionality which can be achieved only with Js Interop.
+- **Blazor.Components.Debounce**: [Debounce components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, Textarea or other element with debounced onChange.
+- **Blazor.Components.Typeahead**: [Typeahead components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md) that renders an HTML Input or InputText with Typeahead panel.
 - **Blazor.Components.Loading**: [Loading components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md) that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loaing...
 - **Blazor.Components.Timer**: [Timer component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md) that can be used for scheduled and periodically repeated tasks to call custom code.
 - **Blazor.Components.CssEvents**: [CSS Transition and Animation events](https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md) Extensions and Components wrapper to notify on CSS Transition and Animation events.
 - **Blazor.Components.Modal**: [Modal dialog component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md) that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.
 - **Blazor.Components.PermaLink**: [PermaLink component and extension](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md) that can be used to create navigation element inside Blazor pages (#permalink).
+- **Blazor.Components.Toggle**: [Toggle components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md) that can be used to render customizable Toggle switch and Toggle button components.
 

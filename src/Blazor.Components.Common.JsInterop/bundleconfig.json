@@ -34,5 +34,11 @@
     "inputFiles": [
       "wwwroot/globalMouseEvents.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/resize.min.js",
+    "inputFiles": [
+      "wwwroot/resize.js"
+    ]
   }
 ]

@@ -1,0 +1,96 @@
+﻿<input @ref="_inputRef" id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
+	style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.5)" @attributes=AllOtherAttributes />
+
+<style>
+	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
+		@GetColor()
+		@GetThumbStyle()
+	}
+	input[id=@($"_toggleSwitch_{_componentId}")]::-moz-range-thumb {
+		@GetColor()
+		@GetThumbStyle()
+	}
+	input[id=@($"_toggleSwitch_{_componentId}")]::-ms-thumb {
+		@GetColor()
+		@GetThumbStyle()
+	}
+</style>
+
+@using System.Globalization;
+@using Blazor.Components.Core.HtmlColors;
+
+@inject ILogger<ToggleSwitch> _logger;
+
+@code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	public ElementReference InnerElementReference => _inputRef;
+
+	private string _onColor = "0, 0, 255";//blue
+	[Parameter] 
+	public string OnColor
+	{
+		get => _onColor;
+		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _offColor = "169, 169, 169";//darkgray
+	[Parameter] 
+	public string OffColor
+	{
+		get => _offColor;
+		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private int _value = 1; //true
+	[Parameter] 
+	public bool Checked 
+	{
+		get { return Convert.ToBoolean(_value); }
+		set { _value = Convert.ToInt32(value); }
+	}
+
+	[Parameter] public int Height { get; set; } = 30;
+	[Parameter] public int Width { get; set; } = 80;
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	[Parameter] public ToggleSwitchStyle HandleStyle { get; set; } = ToggleSwitchStyle.Circle;
+
+	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private string GetColor(double alpha = 1)
+	{
+		var color = _value == 1 ? _onColor : _offColor;
+		if(Disabled)
+		{
+			color = "230, 230, 230";//gray
+		}
+
+		return $"background-color: rgba({color}, {alpha.ToString("0.0", CultureInfo.InvariantCulture)}); ";
+	}
+	private string GetThumbStyle()
+	{
+		var radius = HandleStyle == ToggleSwitchStyle.Square ? 0 : 50;
+		int height = (int)(Height * 1.25);
+		int width = HandleStyle == ToggleSwitchStyle.Ellipse ? (int)(height * 1.25) : height;
+
+		return $"border-radius: {radius}%; height: {height}px; width: {width}px;";
+	}
+
+	private async Task Switched(ChangeEventArgs e)
+	{
+		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Checked}'.");
+
+		if(OnToggleChanged.HasDelegate)
+		{
+			await OnToggleChanged.InvokeAsync(!Checked);
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

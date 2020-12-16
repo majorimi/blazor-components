@@ -27,7 +27,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
 

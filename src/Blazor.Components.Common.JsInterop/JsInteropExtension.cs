@@ -4,6 +4,7 @@ using Blazor.Components.Common.JsInterop.Click;
 using Blazor.Components.Common.JsInterop.Clipboard;
 using Blazor.Components.Common.JsInterop.Focus;
 using Blazor.Components.Common.JsInterop.GlobalMouseEvents;
+using Blazor.Components.Common.JsInterop.Resize;
 using Blazor.Components.Common.JsInterop.Scroll;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace Blazor.Components.Common.JsInterop
 			services.AddTransient<IScrollHandler, ScrollHandler>();
 			services.AddTransient<IClipboardHandler, ClipboardHandler>();
 			services.AddTransient<IGlobalMouseEventHandler, GlobalMouseEventHandler>();
+			services.AddTransient<IResizeHandler, ResizeHandler>();		
 
 			return services;
 		}
