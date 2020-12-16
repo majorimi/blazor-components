@@ -14,8 +14,6 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/Toggle).
 
-![Toggle demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/Toggle.gif)
-
 # Components
 
 - **`ToggleSwitch`**: Renders **HTML `<input>` styled as Toggle switch** with customizable size and color, etc.
@@ -24,6 +22,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## `ToggleSwitch` component
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
+![Toggle switch demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleSwitch.gif)
 
 ### Properties
 - **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
@@ -51,6 +50,7 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 
 ## `ToggleButton` component
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch as a button and custom content.
+![Toggle button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButton.gif)
 
 ### Properties
 - **`Content`: `RenderFragment` HTML content - Required**
@@ -79,6 +79,8 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
 ## `ToggleButtonGroup` component
+
+![Toggle button group demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButtonGroup.gif)
 
 ### Properties
 - **`ToggleButtons`: `RenderFragment` HTML content - Required**
