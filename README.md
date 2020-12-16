@@ -58,4 +58,5 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Blazor.Components.Modal**: [Modal dialog component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md) that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.
 - **Blazor.Components.PermaLink**: [PermaLink component and extension](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md) that can be used to create navigation element inside Blazor pages (#permalink).
 - **Blazor.Components.Toggle**: [Toggle components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md) that can be used to render customizable Toggle switch and Toggle button components.
+- **Blazor.Components.Tabs**: [Tabs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tabs.md) that renders customizable Tabs panel with many tabs and custom content.
 

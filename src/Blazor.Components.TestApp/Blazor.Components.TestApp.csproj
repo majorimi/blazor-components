@@ -28,6 +28,7 @@
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
 	  <Watch Remove="Pages\PermaLinkPage.razor" />
+	  <Watch Remove="Pages\TabsPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
 	</ItemGroup>
 
@@ -60,6 +61,9 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="Pages\TimerPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Pages\TogglePage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	  <Content Update="wwwroot\css\app.css">

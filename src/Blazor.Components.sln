@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Toggle", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Toggle.Tests", "Blazor.Components.Toggle.Tests\Blazor.Components.Toggle.Tests.csproj", "{2C1015E5-5B0B-47B7-B5F7-7A3BCFFD4DA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Components.Tabs", "Blazor.Components.Tabs\Blazor.Components.Tabs.csproj", "{CFBB3A37-D52D-4B7C-B6A9-05B2ABCCF9B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Components.Tabs", "Blazor.Components.Tabs\Blazor.Components.Tabs.csproj", "{CFBB3A37-D52D-4B7C-B6A9-05B2ABCCF9B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
