@@ -53,6 +53,8 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch as a button and custom content.
 
 ### Properties
+- **`Content`: `RenderFragment` HTML content - Required**
+Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
 - **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
 Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
 - **`OnColor`: `string { get; set; }` (default: "white") - Required** <br />
@@ -61,8 +63,6 @@ Sets the `style` of the HTML `<button>` `background-color` when button is ON (bo
 Sets the `style` of the HTML `<button>` `background-color` when button is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
 - **`HoverColor`: `string { get; set; }` (default: "whitesmoke") - Required** <br />
 Sets the `style` of the HTML `<button>` `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
-- **`Content`: `RenderFragment` HTML content - Required**
-Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
 - **`Height`: `int { get; set; }` (default: 30) - Required** <br />
 HTML `<button>` element height in `px`.
 - **`Width`: `int { get; set; }` (default: 80) - Required** <br />
@@ -81,7 +81,20 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 ## `ToggleButtonGroup` component
 
 ### Properties
-
+- **`ToggleButtons`: `RenderFragment` HTML content - Required**
+Required list of ToggleButtons components. See usage example.
+- **`ActiveButton`: `ToggleButton? { get; set; }` (default: NULL)**
+Returns currently active "toggled" button element ref also can be used to set which button should be active "toggled".
+- **`Buttons`: `IEnumerable<ToggleButton> Buttons { get; }`**
+Returns all the `ToggleButton` reference added to the group. It can be used for activating any of the elements.
+- **`ButtonCount`: `int { get; }`**
+Returns the number of `ToggleButton` int the given `ToggleButtonGroup`.
+- **`MustToggled`: `bool { get; set; }` (default: false)** <br />
+Determines whether at least one ToggleButton must be toggled all the time or all buttons can be Off.
+- **`Disabled`: `bool { get; set; }` (default: false)** <br />
+Determines whether all the rendered HTML `<button>` elements should be disabled or not.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 ### Events
 - **`OnToggleChanged`: `EventCallback<ToggleButton>` delegate** <br />
@@ -214,6 +227,49 @@ Following code example shows how to use **`ToggleButton`** component in your Bla
 Following code example shows how to use **`ToggleButtonGroup`** component in your Blazor App. 
 
 ```
+@*ToggleButtons can be configured as regular ToggleButton*@
+<ToggleButtonGroup @ref="_btnGroup" MustToggled="_mustToggled" OnToggleChanged="OnToggleGroupClicked"
+			Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
+	<ToggleButtons>
+		<ToggleButton @ref="_btn1">
+			<Content><strong>1</strong></Content>
+		</ToggleButton>
+		<ToggleButton @ref="_btn2">
+			<Content><strong>2</strong></Content>
+		</ToggleButton>
+		<ToggleButton @ref="_btn3">
+			<Content><strong>3</strong></Content>
+		</ToggleButton>
+	</ToggleButtons>
+</ToggleButtonGroup>
 
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_activeButton = _btn1;
+			_btnCount = _btnGroup.ButtonCount;
+			StateHasChanged();
+		}
+	}
 
+	private ToggleButtonGroup _btnGroup;
+	private ToggleButton _activeButton;
+	private ToggleButton _btn1;
+	private ToggleButton _btn2;
+	private ToggleButton _btn3;
+	private bool _buttonGroupDisabled = false;
+	private bool _mustToggled = false;
+	private int _btnCount = 0;
+
+	private ElementReference _log3;
+	private string _buttonGroupLog;
+
+	private async Task OnToggleGroupClicked(ToggleButton active)
+	{
+		_activeButton = active;
+		var index = _btnGroup.Buttons.ToList().IndexOf(active);
+	}
+}
 ```

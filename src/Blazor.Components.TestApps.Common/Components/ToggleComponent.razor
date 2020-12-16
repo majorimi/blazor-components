@@ -176,16 +176,17 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
+			@*ToggleButtons can be configured as regular ToggleButton*@
 			<ToggleButtonGroup @ref="_btnGroup" MustToggled="_mustToggled" OnToggleChanged="OnToggleGroupClicked"
 							   Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
 				<ToggleButtons>
-					<ToggleButton @ref="_btn1">
+					<ToggleButton @ref="_btn1" OnColor="@_btnGroupOnColor">
 						<Content><strong>1</strong></Content>
 					</ToggleButton>
-					<ToggleButton @ref="_btn2">
+					<ToggleButton @ref="_btn2" OnColor="@_btnGroupOnColor">
 						<Content><strong>2</strong></Content>
 					</ToggleButton>
-					<ToggleButton @ref="_btn3">
+					<ToggleButton @ref="_btn3" OnColor="@_btnGroupOnColor">
 						<Content><strong>3</strong></Content>
 					</ToggleButton>
 				</ToggleButtons>
@@ -266,6 +267,7 @@
 	private bool _buttonGroupDisabled = false;
 	private bool _mustToggled = false;
 	private int _btnCount = 0;
+	private string _btnGroupOnColor = "#a4edd5";
 
 	private ElementReference _log3;
 	private string _buttonGroupLog;
