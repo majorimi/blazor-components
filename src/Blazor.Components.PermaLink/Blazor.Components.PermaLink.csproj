@@ -9,7 +9,7 @@
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md</PackageProjectUrl>
 		<PackageIcon>blazor.components.png</PackageIcon>
