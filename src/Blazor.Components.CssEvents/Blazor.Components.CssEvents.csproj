@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.CssEvents\Blazor.Components.CssEvents.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.CssEvents.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

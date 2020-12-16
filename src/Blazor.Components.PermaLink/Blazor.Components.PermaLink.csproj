@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.PermaLink\Blazor.Components.PermaLink.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.PermaLink.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

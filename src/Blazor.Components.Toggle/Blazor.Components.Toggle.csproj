@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Toggle\Blazor.Components.Toggle.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Toggle.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

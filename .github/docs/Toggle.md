@@ -20,7 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`ToggleButton`**: Renders **HTML `<button>` styled as Toggle button** with custom content and customizable size, color, etc.
 - **`ToggleButtonGroup`**: Renders a container for **HTML `<button>` styled as Toggle button** with custom content and customizable size, color, etc. Also allows only one toggle button to be Checked.
 
-## `ToggleSwitch` component
+## `ToggleSwitch` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-switch))
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
 ![Toggle switch demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleSwitch.gif)
 
@@ -48,7 +48,7 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 - **`OnToggleChanged`: `EventCallback<bool>` delegate** <br />
 Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
 
-## `ToggleButton` component
+## `ToggleButton` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-button))
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch as a button and custom content.
 ![Toggle button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButton.gif)
 
@@ -78,7 +78,7 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
-## `ToggleButtonGroup` component
+## `ToggleButtonGroup` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-buttongroup))
 
 ![Toggle button group demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButtonGroup.gif)
 

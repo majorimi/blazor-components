@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.WebAssembly.Logging.Console.xml</DocumentationFile>
 	</PropertyGroup>
 
 

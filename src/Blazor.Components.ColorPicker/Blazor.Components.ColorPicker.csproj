@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.ColorPicker\Blazor.Components.ColorPicker.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.ColorPicker.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

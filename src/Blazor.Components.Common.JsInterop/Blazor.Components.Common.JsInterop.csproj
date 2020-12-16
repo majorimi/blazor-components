@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

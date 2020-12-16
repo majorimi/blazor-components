@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.DragAndDrop\Blazor.Components.DragAndDrop.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.DragAndDrop.xml</DocumentationFile>
 	</PropertyGroup>
 
 	

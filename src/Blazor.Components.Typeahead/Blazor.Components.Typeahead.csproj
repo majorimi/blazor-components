@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Typeahead\Blazor.Components.Typeahead.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Typeahead.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

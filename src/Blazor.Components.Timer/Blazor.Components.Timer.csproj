@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Timer\Blazor.Components.Timer.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Timer.xml</DocumentationFile>
 	</PropertyGroup>
 
 

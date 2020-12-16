@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Modal\Blazor.Components.Modal.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Modal.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
