@@ -1,0 +1,32 @@
+﻿@if (Parent.ActiveTab == this)
+{
+	@Content
+}
+
+@code {
+	[CascadingParameter] private TabsPanel Parent { get; set; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public RenderFragment Header { get; set; }
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+
+	/// <summary>
+	/// Determines whether all the rendered HTML elements should be disabled or not.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	protected override void OnInitialized()
+	{
+		if (Parent == null)
+		{
+			throw new ArgumentNullException(nameof(Parent), $"{nameof(TabItem)} must exist within a {nameof(TabsPanel)}");
+		}
+
+		Parent.AddTab(this);
+	}
+}

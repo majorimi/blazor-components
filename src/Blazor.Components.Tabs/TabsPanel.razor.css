@@ -1,0 +1,30 @@
+﻿.tabsPanel {
+	outline: 0;
+}
+
+.tabsPanel[disabled] {
+	pointer-events: none;
+	opacity: 0.7;
+}
+
+.tabItem {
+	overflow: hidden;
+	cursor: pointer;
+	outline: 0;
+	border: none;
+	text-align: center;
+	padding: 3px 12px;
+}
+
+.tabItem.active {
+	overflow: hidden;
+	cursor: pointer;
+	outline: 0;
+	border: solid 1px lightgray;
+	text-align: center;
+}
+
+.tabItem:disabled {
+	pointer-events: none;
+	opacity: 0.7;
+}

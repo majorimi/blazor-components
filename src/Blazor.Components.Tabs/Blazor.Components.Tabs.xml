@@ -4,5 +4,70 @@
         <name>Blazor.Components.Tabs</name>
     </assembly>
     <members>
+        <member name="P:Blazor.Components.Tabs.TabItem.Header">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabItem.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabItem.Disabled">
+            <summary>
+            Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItems">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveColor">
+            <summary>
+            Sets the `style` of the `background-color` when tab is Active. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.InactiveColor">
+            <summary>
+            Sets the `style` of the `background-color` when tab is not the Active tab. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.HoverColor">
+            <summary>
+            Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsHeight">
+            <summary>
+            HTML element height in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsWidth">
+            <summary>
+            HTML element Width in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.Disabled">
+            <summary>
+            Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.TabCount">
+            <summary>
+            Returns the number of <see cref="T:Blazor.Components.Tabs.TabItem"/> int the given `TabsPanel`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveTab">
+            <summary>
+            Returns all the <see cref="T:Blazor.Components.Tabs.TabItem"/> reference added to the group. It can be used for activating any of the elements.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
     </members>
 </doc>

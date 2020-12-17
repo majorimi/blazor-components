@@ -6,7 +6,28 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-
+	<TabsPanel>
+		<TabItems>
+			<TabItem>
+				<Header>Tab 1</Header>
+				<Content>
+					<h1>The first tab</h1>
+				</Content>
+			</TabItem>
+			<TabItem>
+				<Header>Tab 2</Header>
+				<Content>
+					<h1>The second tab</h1>
+				</Content>
+			</TabItem>
+			<TabItem Disabled="true">
+				<Header>Tab 3</Header>
+				<Content>
+					<h1>The third tab</h1>
+				</Content>
+			</TabItem>
+		</TabItems>
+	</TabsPanel>
 </div>
 
 @code {
