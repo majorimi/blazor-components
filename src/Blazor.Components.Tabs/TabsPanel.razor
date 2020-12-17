@@ -1,17 +1,18 @@
-﻿<div class="tabsPanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
-	@foreach (var tab in _tabs)
-	{
-		<button type="button" class="tabItem @GetButtonClass(tab)" 
-				style="width: @(TabItemsWidth)px; height: @(TabItemsHeight)px;"
-				@onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled">
-			@tab.Header
-		</button>
-	}
-</div>
+﻿<div @ref="_inputRef" class="tabsPanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
+	<div class="tabsHeader">
+		@foreach (var tab in _tabs)
+		{
+			<button type="button" class="tabItem @GetButtonClass(tab)" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled"
+					style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto");">
+				@tab.Header
+			</button>
+		}
+	</div>
 
-<CascadingValue Value="this">
-	@TabItems
-</CascadingValue>
+	<CascadingValue Value="this">
+		@TabItems
+	</CascadingValue>
+</div>
 
 <style>
 	.tabItem {
@@ -33,6 +34,11 @@
 @inject ILogger<TabsPanel> _logger;
 
 @code {
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
 
 	/// <summary>
 	///
@@ -89,9 +95,19 @@
 	/// </summary>
 	public int TabCount => _tabs.Count;
 	/// <summary>
+	/// Returns all the <see cref="TabItem"/> reference added to the group. It can be used for activating any of the tabs.
+	/// </summary>
+	public IEnumerable<TabItem> Tabs => _tabs;
+
+	/// <summary>
 	/// Returns all the <see cref="TabItem"/> reference added to the group. It can be used for activating any of the elements.
 	/// </summary>
 	[Parameter] public TabItem ActiveTab { get; set; }
+
+	/// <summary>
+	/// Callback function called when other tab activated. Active TabItem is the callback parameter.
+	/// </summary>
+	[Parameter] public EventCallback<TabItem> OnTabChanged { get; set; }
 
 	/// <summary>
 	/// Blazor capture for any unmatched HTML attributes.
@@ -101,6 +117,8 @@
 
 	internal void AddTab(TabItem tabPage)
 	{
+		WriteDiag($"{nameof(AddTab)}: {tabPage}");
+
 		_tabs.Add(tabPage);
 		if (_tabs.Count == 1)
 		{
@@ -114,9 +132,16 @@
 	{
 		return tab == ActiveTab ? "active" : "";
 	}
-	private void ActivateTab(TabItem tab)
+	private async Task ActivateTab(TabItem tab)
 	{
+		WriteDiag($"{nameof(ActivateTab)}: {tab}");
+
 		ActiveTab = tab;
+
+		if(OnTabChanged.HasDelegate)
+		{
+			await OnTabChanged.InvokeAsync(ActiveTab);
+		}
 	}
 
 	private void WriteDiag(string message)

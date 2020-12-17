@@ -29,7 +29,7 @@
 	[Parameter] public bool MustToggled { get; set; } = false;
 
 	/// <summary>
-	/// 
+	/// Callback function called when component toggled. Actual toggled (selected) button is the callback parameter. When nothing selected value is `NULL`.
 	/// </summary>
 	[Parameter] public EventCallback<ToggleButton?> OnToggleChanged { get; set; }
 
@@ -68,6 +68,8 @@
 
 	internal async Task AddButton(ToggleButton button)
 	{
+		WriteDiag($"{nameof(ButtonToggled)}: {button}");
+
 		if (button is not null)
 		{
 			_buttons.Add(button);
@@ -87,6 +89,8 @@
 
 	internal async Task ButtonToggled(ToggleButton? button)
 	{
+		WriteDiag($"{nameof(ButtonToggled)}: {button}");
+
 		if (button is not null && Buttons.Contains(button))
 		{
 			var toggled = true;
