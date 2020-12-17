@@ -7,7 +7,7 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>TabsPanel with TabItems</h3>
-	<p>Renders <strong>HTML button styled as Toggle button</strong> with custom content and customizable size, color, etc.</p>
+	<p>Renders <strong><code>TabsPanel</code> container </strong> for <strong><code>TabItem</code> components</strong> with custumizable header and content.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -46,9 +46,20 @@
 		</div>
 	</div>
 
+	<div class="row pb-4">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tabs horizontal positon: <select class="form-control selectpicker w-100" @bind="_tabPositon">
+				@foreach (var item in Enum.GetValues(typeof(TabPositons)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
 	<div class="row pb-2">
 		<div class="col-12">
-			<TabsPanel @ref="_tabs" 
+			<TabsPanel @ref="_tabs"
 					   ActiveColor="@_activeColor"
 					   InactiveColor="@_inactiveColor"
 					   HoverColor="@_hoverColor"
@@ -56,6 +67,8 @@
 					   TabItemsHeight="@_height"
 					   TabItemsWidth="@_width"
 					   Disabled="@_allTabsDisabled"
+					   TabPositon="@_tabPositon"
+					   Animate="@_animate"
 					   OnTabChanged="OnTabChanged">
 				<TabItems>
 					<TabItem @ref="_tab1">
@@ -117,6 +130,8 @@
 	private string _hoverColor = "WhiteSmoke";
 	private int _width = 135;
 	private int _height = 40;
+	private TabPositons _tabPositon = TabPositons.Left;
+	private bool _animate = false;
 	private bool _allTabsDisabled = false;
 	private bool _isTabDisabled = false;
 

@@ -4,6 +4,26 @@
         <name>Blazor.Components.Tabs</name>
     </assembly>
     <members>
+        <member name="T:Blazor.Components.Tabs.TabPositons">
+            <summary>
+            Determines the positions of tabs.
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Tabs.TabPositons.Left">
+            <summary>
+            Left side
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Tabs.TabPositons.Center">
+            <summary>
+            Centered
+            </summary>
+        </member>
+        <member name="F:Blazor.Components.Tabs.TabPositons.Right">
+            <summary>
+            Right side
+            </summary>
+        </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Header">
             <summary>
             Required HTML content to show content of current TabItem.
