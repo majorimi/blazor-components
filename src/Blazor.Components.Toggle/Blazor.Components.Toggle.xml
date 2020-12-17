@@ -24,9 +24,154 @@
             Square handle style
             </summary>
         </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
         <member name="P:Blazor.Components.Toggle.ToggleButton.OnColor">
             <summary>
-            Background color of the button when it is ON (toggled).
+            Sets the `style` of the `background-color` when button is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.OffColor">
+            <summary>
+            Sets the `style` of the `background-color` when button is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.HoverColor">
+            <summary>
+            Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.Content">
+            <summary>
+            Required HTML content to show in Toggle button.It can be any text or image (please use transparent background image).
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.Checked">
+            <summary>
+            Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.Height">
+            <summary>
+            HTML element height in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.Width">
+            <summary>
+            HTML element Width in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.Disabled">
+             <summary>
+            Determines whether the rendered HTML element should be disabled or not.
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.OnToggleChanged">
+             <summary>
+            Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButton.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.ToggleButtons">
+            <summary>
+            Required list of ToggleButtons components. See usage example.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.Disabled">
+            <summary>
+            Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.MustToggled">
+            <summary>
+            Determines whether at least one <see cref="T:Blazor.Components.Toggle.ToggleButton"/> must be toggled all the time or all buttons can be Off.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.OnToggleChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.ActiveButton">
+            <summary>
+            Returns currently active "toggled" <see cref="T:Blazor.Components.Toggle.ToggleButton"/> element ref also can be used to set which button should be active "toggled".
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.ButtonCount">
+            <summary>
+            Returns the number of <see cref="T:Blazor.Components.Toggle.ToggleButton"/> int the given `ToggleButtonGroup`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.Buttons">
+            <summary>
+            Returns all the <see cref="T:Blazor.Components.Toggle.ToggleButton"/> reference added to the group. It can be used for activating any of the elements.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleButtonGroup.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.OnColor">
+            <summary>
+            Sets the `background-color` when switch is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.OffColor">
+            <summary>
+            Sets the `background-color` when switch is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.Checked">
+            <summary>
+            Represents Toggle switch value: **ON**: `true`, **OFF**: `false`
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.Height">
+            <summary>
+            HTML element height in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.Width">
+            <summary>
+            HTML element Width in `px`.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.Disabled">
+             <summary>
+            Determines whether the rendered HTML element should be disabled or not.
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.HandleStyle">
+             <summary>
+            Renders Toggle switch handle with different shaped styles <see cref="T:Blazor.Components.Toggle.ToggleSwitchStyle"/>
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.OnToggleChanged">
+             <summary>
+            Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
+             </summary>
+        </member>
+        <member name="P:Blazor.Components.Toggle.ToggleSwitch.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
     </members>

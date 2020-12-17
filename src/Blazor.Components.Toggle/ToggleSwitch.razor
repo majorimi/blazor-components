@@ -1,5 +1,5 @@
 ﻿<input @ref="_inputRef" id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
-	style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.5)" @attributes=AllOtherAttributes />
+	   style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(Height / 2)px; @GetColor(0.5)" @attributes=AllOtherAttributes />
 
 <style>
 	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
@@ -24,17 +24,26 @@
 @code {
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
 	public ElementReference InnerElementReference => _inputRef;
 
 	private string _onColor = "0, 0, 255";//blue
-	[Parameter] 
+	/// <summary>
+	/// Sets the `background-color` when switch is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
 	public string OnColor
 	{
 		get => _onColor;
 		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
 	private string _offColor = "169, 169, 169";//darkgray
-	[Parameter] 
+	/// <summary>
+	/// Sets the `background-color` when switch is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
 	public string OffColor
 	{
 		get => _offColor;
@@ -42,28 +51,49 @@
 	}
 
 	private int _value = 1; //true
-	[Parameter] 
-	public bool Checked 
+	/// <summary>
+	/// Represents Toggle switch value: **ON**: `true`, **OFF**: `false`
+	/// </summary>
+	[Parameter]
+	public bool Checked
 	{
 		get { return Convert.ToBoolean(_value); }
 		set { _value = Convert.ToInt32(value); }
 	}
 
+	/// <summary>
+	/// HTML element height in `px`.
+	/// </summary>
 	[Parameter] public int Height { get; set; } = 30;
+	/// <summary>
+	/// HTML element Width in `px`.
+	/// </summary>
 	[Parameter] public int Width { get; set; } = 80;
+	/// <summary>
+	///Determines whether the rendered HTML element should be disabled or not.
+	/// </summary>
 	[Parameter] public bool Disabled { get; set; } = false;
 
+	/// <summary>
+	///Renders Toggle switch handle with different shaped styles <see cref="ToggleSwitchStyle"/>
+	/// </summary>
 	[Parameter] public ToggleSwitchStyle HandleStyle { get; set; } = ToggleSwitchStyle.Circle;
 
+	/// <summary>
+	///Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
+	/// </summary>
 	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
 
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	private string GetColor(double alpha = 1)
 	{
 		var color = _value == 1 ? _onColor : _offColor;
-		if(Disabled)
+		if (Disabled)
 		{
 			color = "230, 230, 230";//gray
 		}
@@ -83,7 +113,7 @@
 	{
 		WriteDiag($"{nameof(Switched)} Toggle switch value changed: '{!Checked}'.");
 
-		if(OnToggleChanged.HasDelegate)
+		if (OnToggleChanged.HasDelegate)
 		{
 			await OnToggleChanged.InvokeAsync(!Checked);
 		}
