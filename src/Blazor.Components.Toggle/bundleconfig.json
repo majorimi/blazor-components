@@ -10,5 +10,11 @@
     "inputFiles": [
       "ToggleButton.razor.css"
     ]
+  },
+  {
+    "outputFileName": "ToggleButtonGroup.razor.min.css",
+    "inputFiles": [
+      "ToggleButtonGroup.razor.css"
+    ]
   }
 ]
