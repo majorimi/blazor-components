@@ -46,7 +46,7 @@
         </member>
         <member name="P:Blazor.Components.Toggle.ToggleButton.Content">
             <summary>
-            Required HTML content to show in Toggle button.It can be any text or image (please use transparent background image).
+            Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
             </summary>
         </member>
         <member name="P:Blazor.Components.Toggle.ToggleButton.Checked">

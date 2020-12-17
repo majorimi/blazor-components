@@ -41,7 +41,7 @@
 	public ElementReference InnerElementReference => _inputRef;
 
 	/// <summary>
-	///
+	/// Required HTML content to set TabItems as <see cref="RenderFragment"/>.
 	/// </summary>
 	[Parameter] public RenderFragment TabItems { get; set; }
 
@@ -99,10 +99,15 @@
 	/// </summary>
 	public IEnumerable<TabItem> Tabs => _tabs;
 
+	private TabItem _activeTab;
 	/// <summary>
 	/// Returns all the <see cref="TabItem"/> reference added to the group. It can be used for activating any of the elements.
 	/// </summary>
-	[Parameter] public TabItem ActiveTab { get; set; }
+	[Parameter] public TabItem ActiveTab
+	{
+		get => _activeTab;
+		set => ActivateTab(value);
+	}
 
 	/// <summary>
 	/// Callback function called when other tab activated. Active TabItem is the callback parameter.
@@ -124,8 +129,6 @@
 		{
 			ActiveTab = tabPage;
 		}
-
-		StateHasChanged();
 	}
 
 	private string GetButtonClass(TabItem tab)
@@ -136,11 +139,13 @@
 	{
 		WriteDiag($"{nameof(ActivateTab)}: {tab}");
 
-		ActiveTab = tab;
-
-		if(OnTabChanged.HasDelegate)
+		if (_activeTab != tab)
 		{
-			await OnTabChanged.InvokeAsync(ActiveTab);
+			_activeTab = tab;
+			if (OnTabChanged.HasDelegate)
+			{
+				await OnTabChanged.InvokeAsync(ActiveTab);
+			}
 		}
 	}
 

@@ -6,12 +6,12 @@
     <members>
         <member name="P:Blazor.Components.Tabs.TabItem.Header">
             <summary>
-            
+            Required HTML content to show content of current TabItem.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Content">
             <summary>
-            
+            Required HTML content to show Header content of current TabItem.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Disabled">
@@ -25,9 +25,9 @@
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabItems">
-             <summary>
-            
-             </summary>
+            <summary>
+            Required HTML content to set TabItems as <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/>.
+            </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveColor">
             <summary>
