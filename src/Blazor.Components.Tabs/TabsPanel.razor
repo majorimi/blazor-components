@@ -90,6 +90,9 @@
 	[Parameter] public bool Disabled { get; set; } = false;
 
 	[Parameter] public bool Animate { get; set; } = false;
+	/// <summary>
+	/// Determines TabItems vertical positon {Left, Center, Right }
+	/// </summary>
 	[Parameter] public TabPositons TabPositon { get; set; } = TabPositons.Left;
 
 	private IList<TabItem> _tabs = new List<TabItem>();

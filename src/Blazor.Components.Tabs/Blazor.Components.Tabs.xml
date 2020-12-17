@@ -79,6 +79,11 @@
             Determines whether all the rendered HTML elements should be disabled or not.
             </summary>
         </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.TabPositon">
+            <summary>
+            Determines TabItems vertical positon {Left, Center, Right }
+            </summary>
+        </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabCount">
             <summary>
             Returns the number of <see cref="T:Blazor.Components.Tabs.TabItem"/> int the given `TabsPanel`.
