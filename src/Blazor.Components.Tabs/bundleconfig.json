@@ -4,5 +4,11 @@
     "inputFiles": [
       "TabsPanel.razor.css"
     ]
+  },
+  {
+    "outputFileName": "TabItem.razor.min.css",
+    "inputFiles": [
+      "TabItem.razor.css"
+    ]
   }
 ]

@@ -43,6 +43,8 @@
 			<br />
 			TabsPanel Disabled: <input class="mr-3" type="checkbox" @bind="_allTabsDisabled" />
 			Disable Tab: <input class="mr-3" type="checkbox" @bind="_isTabDisabled" />
+			<br />
+			Animate Tab changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
 		</div>
 	</div>
 
@@ -68,7 +70,7 @@
 					   TabItemsWidth="@_width"
 					   Disabled="@_allTabsDisabled"
 					   TabPositon="@_tabPositon"
-					   Animate="@_animate"
+					   Animate="@_isAnimated"
 					   OnTabChanged="OnTabChanged">
 				<TabItems>
 					<TabItem id="tab1" @ref="_tab1">
@@ -131,7 +133,7 @@
 	private int _width = 135;
 	private int _height = 40;
 	private TabPositons _tabPositon = TabPositons.Left;
-	private bool _animate = false;
+	private bool _isAnimated = false;
 	private bool _allTabsDisabled = false;
 	private bool _isTabDisabled = false;
 

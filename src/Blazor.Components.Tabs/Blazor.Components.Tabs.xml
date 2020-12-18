@@ -86,7 +86,7 @@
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.Animate">
             <summary>
-            ???
+            Determines to apply CSS animation and transion on Tab changes or not.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabPositon">

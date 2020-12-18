@@ -2,7 +2,7 @@
 	<div class="tabsHeader @TabPositon.ToString().ToLower()">
 		@foreach (var tab in _tabs)
 		{
-			<button type="button" class="tabItem @GetButtonClass(tab)" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled"
+			<button type="button" class="@GetButtonClass(tab)" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled"
 					style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto");">
 				@tab.Header
 			</button>
@@ -90,9 +90,9 @@
 	[Parameter] public bool Disabled { get; set; } = false;
 
 	/// <summary>
-	/// ???
+	/// Determines to apply CSS animation and transion on Tab changes or not.
 	/// </summary>
-	[Parameter] public bool Animate { get; set; } = false;
+	[Parameter] public bool Animate { get; set; } = true;
 	/// <summary>
 	/// Determines TabItems vertical positon {Left, Center, Right }
 	/// </summary>
@@ -112,7 +112,8 @@
 	/// <summary>
 	/// Returns all the <see cref="TabItem"/> reference added to the group. It can be used for activating any of the elements.
 	/// </summary>
-	[Parameter] public TabItem ActiveTab
+	[Parameter]
+	public TabItem ActiveTab
 	{
 		get => _activeTab;
 		set => ActivateTab(value);
@@ -141,17 +142,23 @@
 	}
 	internal void TabDisabled(TabItem tabPage)
 	{
-		if(ActiveTab == tabPage && tabPage.Disabled && _tabs.Count > 1)
+		if (ActiveTab == tabPage && tabPage.Disabled && _tabs.Count > 1)
 		{
 			var index = _tabs.IndexOf(tabPage);
-			ActiveTab = _tabs[index == 0 ? 1 : --index]; 
+			ActiveTab = _tabs[index == 0 ? 1 : --index];
 		}
 		StateHasChanged();
 	}
 
 	private string GetButtonClass(TabItem tab)
 	{
-		return tab == ActiveTab ? "active" : "";
+		var classes = new List<string>();
+		classes.Add("tabItem");
+
+		classes.Add(tab == ActiveTab ? "active" : "");
+		classes.Add(Animate ? "animate" : "");
+
+		return string.Join(' ', classes.Where(x => !string.IsNullOrWhiteSpace(x)));
 	}
 	private async Task ActivateTab(TabItem tab)
 	{

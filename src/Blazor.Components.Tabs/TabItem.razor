@@ -1,12 +1,28 @@
 ﻿@if (Parent.ActiveTab == this)
 {
-	<div @attributes=AllOtherAttributes>
+	<div class="@(Parent?.Animate ?? false ? "tabContentAnimate" : "") @(_visible ? "visible" : "")" @attributes=AllOtherAttributes>
 		@Content
 	</div>
 }
 
 @code {
 	[CascadingParameter] private TabsPanel Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (Parent == null)
+		{
+			throw new ArgumentNullException(nameof(Parent), $"{nameof(TabItem)} must exist within a {nameof(TabsPanel)}");
+		}
+
+		Parent.AddTab(this);
+	}
+
+	private bool _visible = false;
+	protected override void OnAfterRender(bool firstRender)
+	{
+		_visible = Parent.ActiveTab == this;
+	}
 
 	/// <summary>
 	/// Required HTML content to show content of current TabItem.
@@ -39,14 +55,4 @@
 	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
-
-	protected override void OnInitialized()
-	{
-		if (Parent == null)
-		{
-			throw new ArgumentNullException(nameof(Parent), $"{nameof(TabItem)} must exist within a {nameof(TabsPanel)}");
-		}
-
-		Parent.AddTab(this);
-	}
 }
