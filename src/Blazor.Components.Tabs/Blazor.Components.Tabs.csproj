@@ -15,8 +15,8 @@
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<PackageTags>.Net5 Blazor Tabs</PackageTags>
-		<Description>Blazor component that renders customizable Toggle switch and Toggle button components. Part of Majorsoft Blazor library.</Description>
+		<PackageTags>.Net5 Blazor Tabs TabItem</PackageTags>
+		<Description>Blazor component that renders customizable Tabs element panel with many tabs and custom content. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	</PropertyGroup>

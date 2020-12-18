@@ -26,12 +26,12 @@
         </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Header">
             <summary>
-            Required HTML content to show content of current TabItem.
+            Required HTML content to show Header content of current TabItem.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Content">
             <summary>
-            Required HTML content to show Header content of current TabItem.
+            Required HTML content to show content of current TabItem.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabItem.Disabled">
@@ -71,12 +71,12 @@
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsHeight">
             <summary>
-            HTML element height in `px`.
+            Sets all <see cref="T:Blazor.Components.Tabs.TabItem"/> elements height in `px`.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsWidth">
             <summary>
-            HTML element Width in `px`.
+            Sets all <see cref="T:Blazor.Components.Tabs.TabItem"/> elements Width in `px`.
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.Disabled">
@@ -106,7 +106,7 @@
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveTab">
             <summary>
-            Returns all the <see cref="T:Blazor.Components.Tabs.TabItem"/> reference added to the group. It can be used for activating any of the elements.
+            Returns currently active <see cref="T:Blazor.Components.Tabs.TabItem"/> element ref also can be used to set which Tab should be active "selected".
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.OnTabChanged">

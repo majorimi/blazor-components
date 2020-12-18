@@ -87,7 +87,7 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 Required list of ToggleButtons components. See usage example.
 - **`ActiveButton`: `ToggleButton? { get; set; }` (default: NULL)**
 Returns currently active "toggled" button element ref also can be used to set which button should be active "toggled".
-- **`Buttons`: `IEnumerable<ToggleButton> Buttons { get; }`**
+- **`Buttons`: `IEnumerable<ToggleButton> { get; }`**
 Returns all the `ToggleButton` reference added to the group. It can be used for activating any of the elements.
 - **`ButtonCount`: `int { get; }`**
 Returns the number of `ToggleButton` int the given `ToggleButtonGroup`.
