@@ -1,0 +1,49 @@
+﻿.tabsPanel {
+	outline: 0;
+}
+.tabsPanel[disabled] {
+	pointer-events: none;
+	opacity: 0.7;
+}
+
+.tabsHeader {
+	outline: 0;
+	border-bottom: solid 1px lightgray;
+	margin-bottom: 1px;
+	display: flex;
+	flex-wrap: wrap;
+}
+.tabsHeader.left {
+	justify-content: flex-start;
+}
+.tabsHeader.center {
+	justify-content: center;
+}
+.tabsHeader.right {
+	justify-content:flex-end;
+}
+
+.tabItem {
+	overflow: hidden;
+	cursor: pointer;
+	outline: 0;
+	border: none;
+	text-align: center;
+	padding: 3px 12px;
+	margin: 1px;
+}
+.tabItem.active {
+	overflow: hidden;
+	cursor: pointer;
+	outline: 0;
+	border: solid 1px lightgray;
+	text-align: center;
+}
+.tabItem:disabled {
+	pointer-events: none;
+	opacity: 0.7;
+}
+.tabItem.animate {
+	-webkit-transition: background-color 0.5s; /* For Safari 3.1 to 6.0 */
+	transition: background-color 0.5s;
+}

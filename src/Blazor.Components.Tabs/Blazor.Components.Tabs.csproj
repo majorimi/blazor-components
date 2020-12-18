@@ -4,35 +4,32 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageId>Majorsoft.Blazor.Components.Toggle</PackageId>
+		<PackageId>Majorsoft.Blazor.Components.Tabs</PackageId>
 		<Version>1.0.0.0</Version>
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
 		<Copyright>©2020 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Toggle.md</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tabs.md</PackageProjectUrl>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<PackageTags>.Net5 Blazor Toggle Switch Button Group</PackageTags>
-		<Description>Blazor component that renders customizable Toggle switch and Toggle button components. Part of Majorsoft Blazor library.</Description>
+		<PackageTags>.Net5 Blazor Tabs TabItem</PackageTags>
+		<Description>Blazor component that renders customizable Tabs element panel with many tabs and custom content. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Toggle.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Tabs.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Remove="bundleconfig.json" />
+	  <Content Remove="bundleconfig.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<_ContentIncludedByDefault Remove="bundleconfig.json" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
@@ -52,7 +49,7 @@
 		</None>
 		<None Include="bundleconfig.json" />
 	</ItemGroup>
-
+	
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
 		<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
@@ -63,4 +60,5 @@
 			<PackagePath>lib\net5.0</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
+
 </Project>

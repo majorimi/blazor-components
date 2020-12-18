@@ -16,7 +16,7 @@
 		<PackageId>Majorsoft.Blazor.Components.Debounce</PackageId>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<Description>Blazor component that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced onChange. Part of Majorsoft Blazor library.</Description>
 		<Title>Blazor Components Debounce Input</Title>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
