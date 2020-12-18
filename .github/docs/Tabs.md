@@ -18,7 +18,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`TabsPanel`**: Renders **HTML `<div>` container** for `TabItem` components also customizable size, color, etc. for Tab Items.
 - **`TabItem`**: Renders **HTML `<button>` styled as Tab** with custom header and content. **Must be placed inside a `TabsPanel` component.**
 
-![Tabs demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/Tabs.gif)
+![Tabs demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/tabs.gif)
 
 ## `TabsPanel` component
 
@@ -91,6 +91,84 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 Following code example shows how to use **`TabsPanel`**  with **`TabItem`** component in your Blazor App. 
 
 ```
+<TabsPanel @ref="_tabs"
+		ActiveColor="@_activeColor"
+		InactiveColor="@_inactiveColor"
+		HoverColor="@_hoverColor"
+		ActiveTab="@_activeTab"
+		TabItemsHeight="@_height"
+		TabItemsWidth="@_width"
+		Disabled="@_allTabsDisabled"
+		TabPositon="@_tabPositon"
+		Animate="@_isAnimated"
+		OnTabChanged="OnTabChanged">
+	<TabItems>
+		<TabItem id="tab1" @ref="_tab1">
+			<Header><strong>Tab 1</strong></Header>
+			<Content>
+				<h1>The first tab</h1>
+			</Content>
+		</TabItem>
+		<TabItem @ref="_tab2">
+			<Header><i>Tab 2</i></Header>
+			<Content>
+				<h1>The second tab</h1>
+			</Content>
+		</TabItem>
+		<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled">
+			<Header><u>Can disable</u></Header>
+			<Content>
+				<h1>This tab can be disabled</h1>
+				<p>And also any <code>TabItem</code> can be disabled by using <code>Disabled</code> property.</p>
+			</Content>
+		</TabItem>
+		<TabItem id="tab4" @ref="_tab4">
+			<Header>Header icon <i class="fa fa-home"></i></Header>
+			<Content>
+				<h1>Tab with icon in header</h1>
+			</Content>
+		</TabItem>
+	</TabItems>
+</TabsPanel>
 
+@using System.Linq;
 
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await _tabs.InnerElementReference.FocusAsync();
+
+			//Group
+			_activeTab = _tab2;
+			_tabsCount = _tabs.TabCount;
+			StateHasChanged();
+		}
+	}
+
+	private string _activeColor = "DodgerBlue";
+	private string _inactiveColor = "White";
+	private string _hoverColor = "WhiteSmoke";
+	private int _width = 135;
+	private int _height = 40;
+	private TabPositons _tabPositon = TabPositons.Left;
+	private bool _isAnimated = false;
+	private bool _allTabsDisabled = false;
+	private bool _isTabDisabled = false;
+
+	private int _tabsCount;
+
+	private TabsPanel _tabs;
+	private TabItem _activeTab;
+	private TabItem _tab1;
+	private TabItem _tab2;
+	private TabItem _tab3;
+	private TabItem _tab4;
+
+	private async Task OnTabChanged(TabItem tab)
+	{
+		_activeTab = tab;
+		var index = _tabs.Tabs.ToList().IndexOf(tab);
+	}
 ```
