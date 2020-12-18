@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<div class="row pb-2 border rounded m-1">
+	<div class="row mb-3 border rounded m-1">
 		<div class="col-12">
 			<TabsPanel @ref="_tabs"
 					   ActiveColor="@_activeColor"
@@ -71,8 +71,8 @@
 					   Animate="@_animate"
 					   OnTabChanged="OnTabChanged">
 				<TabItems>
-					<TabItem @ref="_tab1">
-						<Header>Tab 1</Header>
+					<TabItem id="tab1" @ref="_tab1">
+						<Header><strong>Tab 1</strong></Header>
 						<Content>
 							<h1>The first tab</h1>
 						</Content>
@@ -83,16 +83,16 @@
 							<h1>The second tab</h1>
 						</Content>
 					</TabItem>
-					<TabItem @ref="_tab3" Disabled="@_isTabDisabled">
-						<Header>Can disable</Header>
+					<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled">
+						<Header><u>Can disable</u></Header>
 						<Content>
-							<h1>The third tab</h1>
+							<h1>This tab can be disabled</h1>
 						</Content>
 					</TabItem>
-					<TabItem @ref="_tab4">
+					<TabItem id="tab4" @ref="_tab4">
 						<Header>Header icon <i class="fa fa-home"></i></Header>
 						<Content>
-							<h1>Complex tab header</h1>
+							<h1>Tab with icon in header</h1>
 						</Content>
 					</TabItem>
 				</TabItems>

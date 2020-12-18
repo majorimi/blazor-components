@@ -89,6 +89,9 @@
 	/// </summary>
 	[Parameter] public bool Disabled { get; set; } = false;
 
+	/// <summary>
+	/// ???
+	/// </summary>
 	[Parameter] public bool Animate { get; set; } = false;
 	/// <summary>
 	/// Determines TabItems vertical positon {Left, Center, Right }
@@ -135,6 +138,15 @@
 		{
 			ActiveTab = tabPage;
 		}
+	}
+	internal void TabDisabled(TabItem tabPage)
+	{
+		if(ActiveTab == tabPage && tabPage.Disabled && _tabs.Count > 1)
+		{
+			var index = _tabs.IndexOf(tabPage);
+			ActiveTab = _tabs[index == 0 ? 1 : --index]; 
+		}
+		StateHasChanged();
 	}
 
 	private string GetButtonClass(TabItem tab)

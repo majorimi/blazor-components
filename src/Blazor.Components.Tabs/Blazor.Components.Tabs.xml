@@ -39,6 +39,11 @@
             Determines whether all the rendered HTML elements should be disabled or not.
             </summary>
         </member>
+        <member name="P:Blazor.Components.Tabs.TabItem.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -77,6 +82,11 @@
         <member name="P:Blazor.Components.Tabs.TabsPanel.Disabled">
             <summary>
             Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Blazor.Components.Tabs.TabsPanel.Animate">
+            <summary>
+            ???
             </summary>
         </member>
         <member name="P:Blazor.Components.Tabs.TabsPanel.TabPositon">
