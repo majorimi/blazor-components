@@ -8,7 +8,7 @@
 		<Version>1.0.0.0</Version>
 		<Authors>Imre Toth</Authors>
 		<Product>Majorsoft Blazor Components</Product>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
@@ -23,12 +23,12 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.WebAssembly.Logging.Console.xml</DocumentationFile>
 	</PropertyGroup>
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 	</ItemGroup>
 

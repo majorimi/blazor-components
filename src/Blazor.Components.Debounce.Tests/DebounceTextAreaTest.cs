@@ -223,7 +223,7 @@ namespace Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceTextArea_should_wait_debounce_time_on_disabled_force_enter()
 		{
-			var debounceTime = 25;
+			var debounceTime = 50;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;

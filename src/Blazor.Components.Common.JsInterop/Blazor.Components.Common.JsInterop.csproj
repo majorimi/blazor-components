@@ -9,7 +9,7 @@
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Common.JsInterop.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,7 +31,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

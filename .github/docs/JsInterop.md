@@ -21,6 +21,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
 - **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+- **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
@@ -72,6 +73,8 @@ Sets focus on the given HTML DOM element reference. **Note: `IJSObjectReference`
 Stores the actually focused HTML DOM element reference into a JS variable. This can be restored by calling `RestoreStoredElementFocusAsync` method.
 - **`RestoreStoredElementFocusAsync`**: **`Task RestoreStoredElementFocusAsync(bool clearElementRef = true)`** <br />
 Restores the HTML DOM element reference stored by calling `StoreFocusedElementAsync` method.
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
 ## Element info JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#info-js))
 **Element info JS is a set of Extension methods for `ElementReference` objects.**
@@ -81,7 +84,7 @@ Restores the HTML DOM element reference stored by calling `StoreFocusedElementAs
 Returns the given HTML element ClintBoundRect data as `DomRect`.
 
 ## Scroll JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#scroll-js))
-**Scroll JS**is a set of **Extension methods** for `ElementReference` objects. 
+**Scroll JS** is a set of **Extension methods** for `ElementReference` objects. 
 Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
 
 ### `IScrollHandler` Functions
@@ -105,6 +108,8 @@ Returns page X,Y scroll position as `ScrollEventArgs`.
 Adds event listener for 'scroll' HTML event for the whole document/window. **Also returns with Event Id event id to unsubscribe from event.**
 - **`RemovePageScrollAsync`**: **`Task RemovePageScrollAsync(string eventId)`**<br />
 Removes event listener for 'scroll' HTML event for the whole document/window by the given event Id.
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
 ### `ElementReference` extensions
 - **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference)`**<br />
@@ -120,6 +125,20 @@ Removes event listener for 'scroll' HTML event for the whole document/window by 
 - **`ScrollInParentByIdAsync`**: **`Task ScrollInParentByIdAsync(this ElementReference parent, string id)`**<br />
 - **`ScrollInParentByClassAsync`**: **`Task ScrollInParentByClassAsync(this ElementReference parent, string className)`**<br />
 
+## Resize JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#resize-js))
+**Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
+
+### Functions
+- **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
+Adds event listener for 'resize' HTML event for the whole document/window.
+- **`RemovePageResizeAsync`**: **`Task RemovePageResizeAsync(string eventId)`**<br />
+Removes event listener for 'resize' HTML event for the whole document/window by the given event Id.
+- **`RegisterResizeAsync`**: **`Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null)`**<br />
+Adds event listener for 'resize' HTML event for the given element with property filter.
+- **`RemoveResizeAsync`**: **`Task RemoveResizeAsync(ElementReference elementRef)`**<br />
+Removes event listener for 'resize' HTML event for the given element.
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
 ## Clipboard JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#clipboard-js))
 Injectable `IClipboardHandler` service to handle JS 'copy' to clipboard Interop for accessing computer Clipboard from Blazor Application.
@@ -129,6 +148,8 @@ Injectable `IClipboardHandler` service to handle JS 'copy' to clipboard Interop 
 Copies the given element text content to clipboard.
 - **`CopyTextToClipboardAsync`**: **`Task<bool> CopyTextToClipboardAsync(string text)`** <br />
 Copies the given text content to clipboard.
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
 ### `ElementReference` extensions
 - **`CopyElementTextToClipboardAsync`**: **`Task<bool> CopyElementTextToClipboardAsync(this ElementReference elementReference)`** <br />
@@ -156,6 +177,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Blazor.Components.Common.JsInterop.Focus
 @*Only if you want to use Click*@
 @using Blazor.Components.Common.JsInterop.Click
+@*Only if you want to use Resize*@
+@using Blazor.Components.Common.JsInterop.Resize
 @*Only if you want to use ElementInfo*@
 @using Blazor.Components.Common.JsInterop.ElementInfo
 @*Only if you want to use Clipboard*@

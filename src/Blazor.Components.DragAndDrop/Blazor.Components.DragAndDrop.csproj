@@ -10,7 +10,7 @@
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<Description>Blazor component that renders wrapper components to enables Drag and Drop in Blazor Apps. Part of Majorsoft Blazor library.</Description>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md</PackageProjectUrl>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.DragAndDrop\Blazor.Components.DragAndDrop.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.DragAndDrop.xml</DocumentationFile>
 	</PropertyGroup>
 
 	
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

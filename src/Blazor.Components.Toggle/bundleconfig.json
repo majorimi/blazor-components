@@ -1,0 +1,20 @@
+[
+  {
+    "outputFileName": "ToggleSwitch.razor.min.css",
+    "inputFiles": [
+      "ToggleSwitch.razor.css"
+    ]
+  },
+  {
+    "outputFileName": "ToggleButton.razor.min.css",
+    "inputFiles": [
+      "ToggleButton.razor.css"
+    ]
+  },
+  {
+    "outputFileName": "ToggleButtonGroup.razor.min.css",
+    "inputFiles": [
+      "ToggleButtonGroup.razor.css"
+    ]
+  }
+]

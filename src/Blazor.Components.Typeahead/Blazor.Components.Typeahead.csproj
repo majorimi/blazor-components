@@ -16,14 +16,14 @@
 		<PackageId>Majorsoft.Blazor.Components.Typeahead</PackageId>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
-		<Copyright>Imre Toth 2020</Copyright>
+		<Copyright>©2020 Imre Toth</Copyright>
 		<Description>Blazor component that renders an HTML Input or InputText with Typeahead panel. Part of Majorsoft Blazor library.</Description>
 		<Title>Blazor Components Typeahead Input</Title>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>.\Blazor.Components.Typeahead\Blazor.Components.Typeahead.xml</DocumentationFile>
+		<DocumentationFile>.\Blazor.Components.Typeahead.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,7 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
 	<!--Include project DLL output to Nuget package-->

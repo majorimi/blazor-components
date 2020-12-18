@@ -19,7 +19,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -30,7 +30,9 @@
 	<ProjectReference Include="..\Blazor.Components.Loading\Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Modal\Blazor.Components.Modal.csproj" />
 	<ProjectReference Include="..\Blazor.Components.PermaLink\Blazor.Components.PermaLink.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Tabs\Blazor.Components.Tabs.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Timer\Blazor.Components.Timer.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Toggle\Blazor.Components.Toggle.csproj" />
 	<ProjectReference Include="..\Blazor.Components.Typeahead\Blazor.Components.Typeahead.csproj" />
   </ItemGroup>
 

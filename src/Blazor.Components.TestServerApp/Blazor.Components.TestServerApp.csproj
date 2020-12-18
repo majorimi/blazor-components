@@ -32,6 +32,9 @@
 	<Content Update="Pages\TimerPage.razor">
 	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</Content>
+	<Content Update="Pages\TogglePage.razor">
+	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	</Content>
   </ItemGroup>
 
 </Project>
