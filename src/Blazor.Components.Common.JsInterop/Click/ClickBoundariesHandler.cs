@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Click
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 {
 	/// <summary>
 	/// Implementation of <see cref="IClickBoundariesHandler"/>

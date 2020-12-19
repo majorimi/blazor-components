@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Scroll
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 {
 	/// <summary>
 	/// PageScrollEventInfo event <see cref="DotNetObjectReference"/> info to handle JS callback

@@ -1,11 +1,11 @@
-﻿using Blazor.Components.Common.JsInterop.GlobalMouseEvents;
+﻿using Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents;
 
 using Microsoft.AspNetCore.Components;
 
 using System;
 using System.Threading.Tasks;
 
-namespace Blazor.Components.Common.JsInterop.Resize
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 {
 	/// <summary>
 	/// Injectable service to handle JS 'resize' events for HTML element or the whole document.

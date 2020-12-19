@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Blazor.Components.CssEvents.Animation
+namespace Majorsoft.Blazor.Components.CssEvents.Animation
 {
 	/// <summary>
 	/// Collection of <see cref="AnimationEventInfo"/> to aggregate Animation events

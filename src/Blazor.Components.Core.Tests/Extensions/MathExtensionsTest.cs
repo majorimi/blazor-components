@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Drawing;
 
-using Blazor.Components.Core.Extensions;
-using Blazor.Components.Core.HtmlColors;
+using Majorsoft.Blazor.Components.Core.Extensions;
+using Majorsoft.Blazor.Components.Core.HtmlColors;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blazor.Components.Core.Tests.Extensions
+namespace Majorsoft.Blazor.Components.Core.Tests.Extensions
 {
 	[TestClass]
 	public class MathExtensionsTest

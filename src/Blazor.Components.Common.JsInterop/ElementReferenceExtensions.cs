@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop
+namespace Majorsoft.Blazor.Components.Common.JsInterop
 {
 	public static class ElementReferenceExtensions
 	{

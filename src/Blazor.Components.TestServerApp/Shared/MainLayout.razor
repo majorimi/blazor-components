@@ -15,16 +15,16 @@
 </div>
 
 @*Permalink*@
-@using Blazor.Components.PermaLink
+@using Majorsoft.Blazor.Components.PermaLink
 @using Microsoft.Extensions.Logging
-@using Blazor.Components.Common.JsInterop.Scroll
+@using Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 
 @inject IScrollHandler _scrollHandler
 @inject NavigationManager _navigationManager
 @inject ILogger<IPermaLinkWatcherService> _logger
 
 @*Server hoster Blazor console log*@
-@using Blazor.Server.Logging.Console
+@using Majorsoft.Blazor.Server.Logging.Console
 @inject IBrowserConsoleLoggerService _browserConsoleLogger
 
 @implements IDisposable

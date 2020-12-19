@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.CssEvents.Animation
+namespace Majorsoft.Blazor.Components.CssEvents.Animation
 {
 	/// <summary>
 	/// Animation event <see cref="DotNetObjectReference"/> info to handle JS callback

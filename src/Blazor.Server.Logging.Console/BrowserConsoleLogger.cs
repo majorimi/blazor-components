@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console
 {
 	internal class BrowserConsoleLogger<T> : BrowserConsoleLogger, ILogger<T>
 	{

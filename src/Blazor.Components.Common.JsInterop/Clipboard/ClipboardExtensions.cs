@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Clipboard
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 {
 	/// <summary>
 	/// Static class for extension methods

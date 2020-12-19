@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
+namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 {
 	/// <summary>
 	/// PageMouseEventInfo event <see cref="DotNetObjectReference"/> info to handle JS callback

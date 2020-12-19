@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Common.JsInterop.ElementInfo
+﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo
 {
 	public class DomRect
 	{

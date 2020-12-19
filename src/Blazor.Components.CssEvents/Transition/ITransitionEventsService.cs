@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Components.CssEvents.Transition
+namespace Majorsoft.Blazor.Components.CssEvents.Transition
 {
 	/// <summary>
 	/// Injectable service to handle CSS Transition events

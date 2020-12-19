@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.CssEvents.Animation
+﻿namespace Majorsoft.Blazor.Components.CssEvents.Animation
 {
 	public sealed class AnimationEventArgs : CssBaseEventArgs
 	{

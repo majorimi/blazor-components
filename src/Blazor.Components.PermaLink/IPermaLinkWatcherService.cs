@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink
 {
 	/// <summary>
 	/// Injectable service to handle Permalink navigation for the whole application. It is registered as Singleton

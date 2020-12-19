@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.PermaLink
+﻿namespace Majorsoft.Blazor.Components.PermaLink
 {
 	public enum ShowPermaLinkIcon
 	{

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.ElementInfo
+namespace Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo
 {
 	public static class ElementReferenceInfoExtensions
 	{

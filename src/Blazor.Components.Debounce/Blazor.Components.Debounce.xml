@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.Components.Debounce</name>
+        <name>Majorsoft.Blazor.Components.Debounce</name>
     </assembly>
     <members>
     </members>

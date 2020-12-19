@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Toggle
+﻿namespace Majorsoft.Blazor.Components.Toggle
 {
 	/// <summary>
 	/// Toggle switch handle style 

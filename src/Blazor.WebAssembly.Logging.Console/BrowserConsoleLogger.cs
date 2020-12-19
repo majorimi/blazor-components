@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.WebAssembly.Logging.Console
+namespace Majorsoft.Blazor.WebAssembly.Logging.Console
 {
 	internal class BrowserConsoleLogger<T> : BrowserConsoleLogger, ILogger<T>
 	{

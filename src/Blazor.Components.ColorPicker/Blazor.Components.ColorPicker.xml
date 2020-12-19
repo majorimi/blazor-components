@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.Components.ColorPicker</name>
+        <name>Majorsoft.Blazor.Components.ColorPicker</name>
     </assembly>
     <members>
     </members>

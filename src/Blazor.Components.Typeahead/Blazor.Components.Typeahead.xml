@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.Components.Typeahead</name>
+        <name>Majorsoft.Blazor.Components.Typeahead</name>
     </assembly>
     <members>
     </members>

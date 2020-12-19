@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Clipboard
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 {
 	/// <summary>
 	/// Implementation of <see cref="IClipboardHandler"/>

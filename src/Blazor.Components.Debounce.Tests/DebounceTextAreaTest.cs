@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Debounce.Tests
+namespace Majorsoft.Blazor.Components.Debounce.Tests
 {
 	[TestClass]
 	public class DebounceTextAreaTest

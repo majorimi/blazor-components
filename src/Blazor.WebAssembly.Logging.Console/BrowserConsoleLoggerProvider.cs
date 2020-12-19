@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace Blazor.WebAssembly.Logging.Console
+namespace Majorsoft.Blazor.WebAssembly.Logging.Console
 {
 	[ProviderAlias("BrowserConsole")]
 	public class BrowserConsoleLoggerProvider : ILoggerProvider

@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Focus
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Focus
 {
 	/// <summary>
 	/// Implementation of <see cref="IFocusHandler"/>

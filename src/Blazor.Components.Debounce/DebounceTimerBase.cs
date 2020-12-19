@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Components.Debounce
+namespace Majorsoft.Blazor.Components.Debounce
 {
 	public abstract class DebounceTimerBase : ComponentBase, IDisposable
 	{

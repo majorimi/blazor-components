@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink
 {
 	[Flags]
 	public enum PermaLinkIconActions

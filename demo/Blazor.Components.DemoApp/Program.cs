@@ -11,7 +11,7 @@ using Blazor.Components.CssEvents;
 using Blazor.Components.Common.JsInterop;
 using Blazor.Components.PermaLink;
 
-namespace Blazor.Components.DemoApp
+namespace Majorsoft.Blazor.Components.DemoApp
 {
 	public class Program
 	{

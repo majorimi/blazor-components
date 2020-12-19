@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.WebAssembly.Logging.Console
+namespace Majorsoft.Blazor.WebAssembly.Logging.Console
 {
 	public static class BrowserConsoleLoggerExtensions
 	{

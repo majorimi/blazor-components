@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Blazor.Components.Common.JsInterop.Click
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 {
 	/// <summary>
 	/// Injectable service to handle JS 'click' events for the whole document.

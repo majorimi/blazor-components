@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink
 {
 	/// <summary>
 	/// Extension methods to register required Permalink services into IServiceCollection

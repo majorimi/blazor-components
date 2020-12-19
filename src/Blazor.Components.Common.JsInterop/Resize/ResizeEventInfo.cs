@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
+namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 {
 	/// <summary>
 	/// PageResizeEventInfo event <see cref="DotNetObjectReference"/> info to handle JS callback

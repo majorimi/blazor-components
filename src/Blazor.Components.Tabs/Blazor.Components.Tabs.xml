@@ -1,120 +1,120 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.Components.Tabs</name>
+        <name>Majorsoft.Blazor.Components.Tabs</name>
     </assembly>
     <members>
-        <member name="T:Blazor.Components.Tabs.TabPositons">
+        <member name="T:Majorsoft.Blazor.Components.Tabs.TabPositons">
             <summary>
             Determines the positions of tabs.
             </summary>
         </member>
-        <member name="F:Blazor.Components.Tabs.TabPositons.Left">
+        <member name="F:Majorsoft.Blazor.Components.Tabs.TabPositons.Left">
             <summary>
             Left side
             </summary>
         </member>
-        <member name="F:Blazor.Components.Tabs.TabPositons.Center">
+        <member name="F:Majorsoft.Blazor.Components.Tabs.TabPositons.Center">
             <summary>
             Centered
             </summary>
         </member>
-        <member name="F:Blazor.Components.Tabs.TabPositons.Right">
+        <member name="F:Majorsoft.Blazor.Components.Tabs.TabPositons.Right">
             <summary>
             Right side
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabItem.Header">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Header">
             <summary>
             Required HTML content to show Header content of current TabItem.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabItem.Content">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Content">
             <summary>
             Required HTML content to show content of current TabItem.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabItem.Disabled">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Disabled">
             <summary>
             Determines whether all the rendered HTML elements should be disabled or not.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabItem.AllOtherAttributes">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.InnerElementReference">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItems">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabItems">
             <summary>
             Required HTML content to set TabItems as <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/>.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveColor">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.ActiveColor">
             <summary>
             Sets the `style` of the `background-color` when tab is Active. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.InactiveColor">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.InactiveColor">
             <summary>
             Sets the `style` of the `background-color` when tab is not the Active tab. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.HoverColor">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.HoverColor">
             <summary>
             Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsHeight">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabItemsHeight">
             <summary>
-            Sets all <see cref="T:Blazor.Components.Tabs.TabItem"/> elements height in `px`.
+            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements height in `px`.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.TabItemsWidth">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabItemsWidth">
             <summary>
-            Sets all <see cref="T:Blazor.Components.Tabs.TabItem"/> elements Width in `px`.
+            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements Width in `px`.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.Disabled">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Disabled">
             <summary>
             Determines whether all the rendered HTML elements should be disabled or not.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.Animate">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Animate">
             <summary>
             Determines to apply CSS animation and transion on Tab changes or not.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.TabPositon">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabPositon">
             <summary>
             Determines TabItems vertical positon {Left, Center, Right }
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.TabCount">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabCount">
             <summary>
-            Returns the number of <see cref="T:Blazor.Components.Tabs.TabItem"/> int the given `TabsPanel`.
+            Returns the number of <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> int the given `TabsPanel`.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.Tabs">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Tabs">
             <summary>
-            Returns all the <see cref="T:Blazor.Components.Tabs.TabItem"/> reference added to the group. It can be used for activating any of the tabs.
+            Returns all the <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> reference added to the group. It can be used for activating any of the tabs.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.ActiveTab">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.ActiveTab">
             <summary>
-            Returns currently active <see cref="T:Blazor.Components.Tabs.TabItem"/> element ref also can be used to set which Tab should be active "selected".
+            Returns currently active <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> element ref also can be used to set which Tab should be active "selected".
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.OnTabChanged">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.OnTabChanged">
             <summary>
             Callback function called when other tab activated. Active TabItem is the callback parameter.
             </summary>
         </member>
-        <member name="P:Blazor.Components.Tabs.TabsPanel.AllOtherAttributes">
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
             </summary>

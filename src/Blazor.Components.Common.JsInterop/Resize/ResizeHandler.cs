@@ -1,4 +1,4 @@
-﻿using Blazor.Components.Common.JsInterop.GlobalMouseEvents;
+﻿using Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blazor.Components.Common.JsInterop.Resize
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 {
 	/// <summary>
 	/// Implementation of <see cref="IResizeHandler"/>

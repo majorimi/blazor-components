@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Timer
+﻿namespace Majorsoft.Blazor.Components.Timer
 {
 	/// <summary>
 	/// Times to occur of <see cref="AdvancedTimer"/> ticks

@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Tabs
+﻿namespace Majorsoft.Blazor.Components.Tabs
 {
 	/// <summary>
 	/// Determines the positions of tabs.

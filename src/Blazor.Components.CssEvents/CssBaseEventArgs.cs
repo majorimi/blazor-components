@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Components.CssEvents
+namespace Majorsoft.Blazor.Components.CssEvents
 {
 	/// <summary>
 	/// Common properties of CSS Animation and Transition events.

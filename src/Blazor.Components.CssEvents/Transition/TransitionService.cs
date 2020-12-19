@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.CssEvents.Transition
+namespace Majorsoft.Blazor.Components.CssEvents.Transition
 {
 	/// <summary>
 	/// Implementation of <see cref="ITransitionEventsService"/>

@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console
 {
 	public class BlazorServerConsoleLoggingHub : Hub
 	{

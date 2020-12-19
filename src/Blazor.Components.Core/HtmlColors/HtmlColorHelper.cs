@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Blazor.Components.Core.HtmlColors
+namespace Majorsoft.Blazor.Components.Core.HtmlColors
 {
 	public static class HtmlColorHelper
 	{

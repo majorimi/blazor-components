@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Toggle.Tests
+namespace Majorsoft.Blazor.Components.Toggle.Tests
 {
 	[TestClass]
 	public class ToggleSwitchTest

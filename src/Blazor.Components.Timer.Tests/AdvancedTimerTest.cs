@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Timer.Tests
+namespace Majorsoft.Blazor.Components.Timer.Tests
 {
 	[TestClass]
 	public class AdvancedTimerTest

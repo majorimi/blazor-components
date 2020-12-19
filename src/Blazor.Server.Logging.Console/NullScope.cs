@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console
 {
     internal class NullScope : IDisposable
     {

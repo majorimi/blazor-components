@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-using Blazor.Components.CssEvents.Transition;
-using Blazor.Components.CssEvents.Animation;
+using Majorsoft.Blazor.Components.CssEvents.Transition;
+using Majorsoft.Blazor.Components.CssEvents.Animation;
 
-namespace Blazor.Components.CssEvents
+namespace Majorsoft.Blazor.Components.CssEvents
 {
 	/// <summary>
 	/// Extension methods to register <see cref="ITransitionEventsService"/> and <see cref="IAnimationEventsService"/> into IServiceCollection

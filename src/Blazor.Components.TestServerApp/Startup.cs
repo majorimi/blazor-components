@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Blazor.Components.CssEvents;
-using Blazor.Components.Common.JsInterop;
-using Blazor.Server.Logging.Console;
+using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Server.Logging.Console;
 
-namespace Blazor.Components.TestServerApp
+namespace Majorsoft.Blazor.Components.TestServerApp
 {
 	public class Startup
 	{

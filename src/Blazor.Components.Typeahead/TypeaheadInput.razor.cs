@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using Blazor.Components.Common.JsInterop.Click;
-using Blazor.Components.Common.JsInterop.ElementInfo;
-using Blazor.Components.Common.JsInterop.Scroll;
-using Blazor.Components.Core.HtmlColors;
-using Blazor.Components.Debounce;
+using Majorsoft.Blazor.Components.Common.JsInterop.Click;
+using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
+using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
+using Majorsoft.Blazor.Components.Core.HtmlColors;
+using Majorsoft.Blazor.Components.Debounce;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Components.Typeahead
+namespace Majorsoft.Blazor.Components.Typeahead
 {
 	public partial class TypeaheadInput<TItem> : ComponentBase, IAsyncDisposable
 	{

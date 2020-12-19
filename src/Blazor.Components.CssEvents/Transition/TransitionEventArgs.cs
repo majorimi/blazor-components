@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.CssEvents.Transition
+﻿namespace Majorsoft.Blazor.Components.CssEvents.Transition
 {
 	public sealed class TransitionEventArgs : CssBaseEventArgs
 	{

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.CssEvents.Animation
+namespace Majorsoft.Blazor.Components.CssEvents.Animation
 {
 	public sealed class AnimationEventsService  : IAnimationEventsService
 	{

@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Loading
+﻿namespace Majorsoft.Blazor.Components.Loading
 {
 	public enum ButtonTypes
 	{

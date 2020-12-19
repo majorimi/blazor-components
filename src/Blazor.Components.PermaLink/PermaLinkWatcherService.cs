@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 
-using Blazor.Components.Common.JsInterop.Scroll;
+using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink
 {
 	/// <summary>
 	/// Implementation of <see cref="IPermaLinkWatcherService"/>

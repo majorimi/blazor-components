@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Components.Common.JsInterop.Scroll
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 {
 	/// <summary>
 	/// Injectable service to handle JS document/window 'scroll' events for the whole document.

@@ -1,15 +1,15 @@
 ﻿using System;
 
-using Blazor.Components.Common.JsInterop.Click;
-using Blazor.Components.Common.JsInterop.Clipboard;
-using Blazor.Components.Common.JsInterop.Focus;
-using Blazor.Components.Common.JsInterop.GlobalMouseEvents;
-using Blazor.Components.Common.JsInterop.Resize;
-using Blazor.Components.Common.JsInterop.Scroll;
+using Majorsoft.Blazor.Components.Common.JsInterop.Click;
+using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
+using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
+using Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents;
+using Majorsoft.Blazor.Components.Common.JsInterop.Resize;
+using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blazor.Components.Common.JsInterop
+namespace Majorsoft.Blazor.Components.Common.JsInterop
 {
 	/// <summary>
 	/// Extension methods to register required JS Interop services into IServiceCollection

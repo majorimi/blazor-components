@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
+namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 {
 	/// <summary>
 	/// Injectable service to handle JS document/window 'mouse' events for the whole document.

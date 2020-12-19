@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
+namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 {
 	/// <summary>
 	/// Implementation of <see cref="IGlobalMouseEventHandler"/>

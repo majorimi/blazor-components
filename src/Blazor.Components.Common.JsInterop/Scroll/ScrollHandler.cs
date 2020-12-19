@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Scroll
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 {
 	/// <summary>
 	/// Implementation of <see cref="IScrollHandler"/>

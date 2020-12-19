@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 using System.Threading.Tasks;
 
-namespace Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console
 {
 	internal class ServerConsoleLogging
 	{

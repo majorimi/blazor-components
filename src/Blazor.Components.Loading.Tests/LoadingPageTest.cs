@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Loading.Tests
+namespace Majorsoft.Blazor.Components.Loading.Tests
 {
 	[TestClass]
 	public class LoadingPageTest

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 
-using Blazor.Components.Common.JsInterop.Focus;
-using Blazor.Components.CssEvents.Transition;
+using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
+using Majorsoft.Blazor.Components.CssEvents.Transition;
 
 using Bunit;
 
@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Modal.Tests
+namespace Majorsoft.Blazor.Components.Modal.Tests
 {
 	[TestClass]
 	public class ModalDialogTest

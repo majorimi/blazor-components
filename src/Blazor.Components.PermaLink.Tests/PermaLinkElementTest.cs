@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-using Blazor.Components.Common.JsInterop.Clipboard;
+using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
 
 using Bunit;
 using Bunit.TestDoubles;
@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.PermaLink.Tests
+namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
 	public class PermaLinkElementTest

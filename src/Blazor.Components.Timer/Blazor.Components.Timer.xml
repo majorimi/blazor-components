@@ -1,32 +1,32 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.Components.Timer</name>
+        <name>Majorsoft.Blazor.Components.Timer</name>
     </assembly>
     <members>
-        <member name="T:Blazor.Components.Timer.Times">
+        <member name="T:Majorsoft.Blazor.Components.Timer.Times">
             <summary>
-            Times to occur of <see cref="T:Blazor.Components.Timer.AdvancedTimer"/> ticks
+            Times to occur of <see cref="T:Majorsoft.Blazor.Components.Timer.AdvancedTimer"/> ticks
             </summary>
         </member>
-        <member name="P:Blazor.Components.Timer.Times.Count">
+        <member name="P:Majorsoft.Blazor.Components.Timer.Times.Count">
             <summary>
             Occurrence count
             </summary>
         </member>
-        <member name="M:Blazor.Components.Timer.Times.Once">
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Once">
             <summary>
             Should occur only once
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Blazor.Components.Timer.Times.Infinite">
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Infinite">
             <summary>
             Should occur until stopped
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Blazor.Components.Timer.Times.Exactly(System.UInt64)">
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Exactly(System.UInt64)">
             <summary>
             Should occur exactly to the given number of times
             </summary>

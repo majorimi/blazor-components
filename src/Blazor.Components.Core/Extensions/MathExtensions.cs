@@ -1,4 +1,4 @@
-﻿namespace Blazor.Components.Core.Extensions
+﻿namespace Majorsoft.Blazor.Components.Core.Extensions
 {
 	public static class MathExtensions
 	{

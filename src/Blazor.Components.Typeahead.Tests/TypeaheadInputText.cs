@@ -1,5 +1,5 @@
-using Blazor.Components.Common.JsInterop.Click;
-using Blazor.Components.Debounce;
+using Majorsoft.Blazor.Components.Common.JsInterop.Click;
+using Majorsoft.Blazor.Components.Debounce;
 
 using Bunit;
 
@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Blazor.Components.Typeahead.Tests
+namespace Majorsoft.Blazor.Components.Typeahead.Tests
 {
 	[TestClass]
 	public class TypeaheadInputText

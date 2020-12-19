@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console
 {
 	[ProviderAlias("ServerBrowserConsole")]
 	public class BrowserConsoleLoggerProvider : ILoggerProvider

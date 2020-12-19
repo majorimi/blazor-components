@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Blazor.Components.CssEvents.Transition
+namespace Majorsoft.Blazor.Components.CssEvents.Transition
 {
 	/// <summary>
 	/// Collection of <see cref="TransitionEventInfo"/> to aggregate Transition events

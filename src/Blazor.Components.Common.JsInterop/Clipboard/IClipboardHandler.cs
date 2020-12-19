@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Components.Common.JsInterop.Clipboard
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 {
 	/// <summary>
 	/// Injectable service to handle JS 'copy' to clipboard Interops.

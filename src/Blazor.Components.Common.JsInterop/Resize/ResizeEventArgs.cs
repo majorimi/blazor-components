@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazor.Components.Common.JsInterop.GlobalMouseEvents
+namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 {
 	/// <summary>
 	/// Custom defined event args for Resize events

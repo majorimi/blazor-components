@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Focus
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Focus
 {
 	/// <summary>
 	/// Injectable service to handle JS 'focus' Interops.

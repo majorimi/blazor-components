@@ -1,8 +1,8 @@
-﻿using Blazor.Components.Core.HtmlColors;
+﻿using Majorsoft.Blazor.Components.Core.HtmlColors;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blazor.Components.Core.Tests.HtmlColors
+namespace Majorsoft.Blazor.Components.Core.Tests.HtmlColors
 {
 	[TestClass]
 	public class HtmlColorHelperTest

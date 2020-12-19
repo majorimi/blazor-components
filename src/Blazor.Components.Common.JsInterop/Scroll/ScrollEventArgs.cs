@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazor.Components.Common.JsInterop.Scroll
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 {
 	public sealed class ScrollEventArgs : EventArgs
 	{

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazor.Components.Common.JsInterop.Scroll
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 {
 	/// <summary>
 	/// Extensions for <see cref="ElementReference"/> HTML elements.

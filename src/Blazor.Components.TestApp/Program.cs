@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Blazor.WebAssembly.Logging.Console;
-using Blazor.Components.CssEvents;
-using Blazor.Components.Common.JsInterop;
-using Blazor.Components.PermaLink;
+using Majorsoft.Blazor.WebAssembly.Logging.Console;
+using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.PermaLink;
 
-namespace Blazor.Components.TestApp
+namespace Majorsoft.Blazor.Components.TestApp
 {
 	public class Program
 	{

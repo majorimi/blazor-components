@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Blazor.Components.Debounce
+namespace Majorsoft.Blazor.Components.Debounce
 {
 	public sealed partial class DebounceInput : DebounceTimerBase
 	{

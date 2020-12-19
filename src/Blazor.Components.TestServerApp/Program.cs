@@ -1,10 +1,10 @@
-using Blazor.Server.Logging.Console;
+using Majorsoft.Blazor.Server.Logging.Console;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Components.TestServerApp
+namespace Majorsoft.Blazor.Components.TestServerApp
 {
 	public class Program
 	{

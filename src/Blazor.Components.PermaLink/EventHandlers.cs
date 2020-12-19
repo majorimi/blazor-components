@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink
 {
 	/// <summary>
 	/// Event handler to fix blinking icon
