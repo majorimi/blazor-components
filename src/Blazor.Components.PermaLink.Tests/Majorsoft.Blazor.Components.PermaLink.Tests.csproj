@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
 
-	<IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -16,8 +16,9 @@
 		<PackageReference Include="coverlet.collector" Version="1.3.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Blazor.Components.Debounce\Blazor.Components.Debounce.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+    <ProjectReference Include="..\Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
+  </ItemGroup>
 
 </Project>

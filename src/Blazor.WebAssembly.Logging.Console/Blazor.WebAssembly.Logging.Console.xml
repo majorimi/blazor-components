@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Blazor.WebAssembly.Logging.Console</name>
+        <name>Majorsoft.Blazor.WebAssembly.Logging.Console</name>
     </assembly>
     <members>
         <member name="M:Blazor.WebAssembly.Logging.Console.BrowserConsoleLoggerExtensions.AddBrowserConsole(Microsoft.Extensions.Logging.ILoggingBuilder)">

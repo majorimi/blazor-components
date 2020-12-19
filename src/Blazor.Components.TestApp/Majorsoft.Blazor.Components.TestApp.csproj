@@ -37,8 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
-		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Blazor.WebAssembly.Logging.Console.csproj" />
+		<ProjectReference Include="..\Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj" />
+		<ProjectReference Include="..\Blazor.WebAssembly.Logging.Console\Majorsoft.Blazor.WebAssembly.Logging.Console.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

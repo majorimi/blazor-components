@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
-    <ProjectReference Include="..\Blazor.Components.Typeahead\Blazor.Components.Typeahead.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Typeahead\Majorsoft.Blazor.Components.Typeahead.csproj" />
   </ItemGroup>
 
 </Project>

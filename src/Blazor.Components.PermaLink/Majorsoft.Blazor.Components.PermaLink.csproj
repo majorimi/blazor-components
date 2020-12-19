@@ -39,7 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

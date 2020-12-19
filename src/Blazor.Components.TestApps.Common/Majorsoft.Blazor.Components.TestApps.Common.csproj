@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
+	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<_ContentIncludedByDefault Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="bundleconfig.json" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	<ProjectReference Include="..\Blazor.Components.ColorPicker\Majorsoft.Blazor.Components.ColorPicker.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
+	<ProjectReference Include="..\Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Tabs\Majorsoft.Blazor.Components.Tabs.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
+	<ProjectReference Include="..\Blazor.Components.Typeahead\Majorsoft.Blazor.Components.Typeahead.csproj" />
+  </ItemGroup>
+
+</Project>

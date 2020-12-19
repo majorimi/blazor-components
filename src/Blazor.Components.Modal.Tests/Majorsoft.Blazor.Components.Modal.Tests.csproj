@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
-    <ProjectReference Include="..\Blazor.Components.CssEvents\Blazor.Components.CssEvents.csproj" />
-    <ProjectReference Include="..\Blazor.Components.Modal\Blazor.Components.Modal.csproj" />
+    <ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+    <ProjectReference Include="..\Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
+    <ProjectReference Include="..\Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
   </ItemGroup>
 
 </Project>

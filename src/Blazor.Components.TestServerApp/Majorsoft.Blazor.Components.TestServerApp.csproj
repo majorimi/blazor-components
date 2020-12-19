@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Blazor.Components.TestApps.Common\Blazor.Components.TestApps.Common.csproj" />
-	<ProjectReference Include="..\Blazor.Server.Logging.Console\Blazor.Server.Logging.Console.csproj" />
+	<ProjectReference Include="..\Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj" />
+	<ProjectReference Include="..\Blazor.Server.Logging.Console\Majorsoft.Blazor.Server.Logging.Console.csproj" />
   </ItemGroup>
 
   <ItemGroup>

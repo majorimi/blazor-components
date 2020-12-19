@@ -45,9 +45,9 @@
 
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
-			<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Blazor.Components.Common.JsInterop.csproj" />
-			<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Blazor.Components.Core.csproj" />
-			<ProjectReference Include="..\Blazor.Components.Debounce\Blazor.Components.Debounce.csproj" />
+			<ProjectReference Include="..\Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+			<ProjectReference PrivateAssets="all" Include="..\Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+			<ProjectReference Include="..\Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Blazor.Components.Core.dll">
