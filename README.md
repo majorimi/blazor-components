@@ -29,6 +29,12 @@ useful extensions. Which can boost Blazor app developments by:
 - Components are extensible, provided extensions and services can be used in other components.
 - All components and extensions written in C# (with some required JS) and unit tested with [bUnit](https://github.com/egil/bUnit).
 
+## Releases
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/majorimi/blazor-components)
+![GitHub Release Date](https://img.shields.io/github/release-date/majorimi/blazor-components)
+
+For the full **release history with detailed change description and _breaking change announcements_** please see: [release notes](https://github.com/majorimi/blazor-components/releases).  
+
 ## Prerequisites
 - .NET 5
 - Visual Studio 2019/Visual Studio Code.
