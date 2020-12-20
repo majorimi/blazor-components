@@ -44,8 +44,7 @@ jobs:
       displayName: 'dotnet build'
       inputs:
         command: 'build'
-        projects: '**/*.csproj'
-        workingDirectory: src/
+        projects: 'src/Majorsoft.Blazor.Components.sln'
 
     - task: DotNetCoreCLI@2
       displayName: 'run tests'
