@@ -13,7 +13,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 	/// <summary>
 	/// Implementation of <see cref="IResizeHandler"/>
 	/// </summary>
-	public class ResizeHandler : IResizeHandler
+	public sealed class ResizeHandler : IResizeHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<ElementReference> _registeredElements;
@@ -96,8 +96,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			if (_resizeJs is not null)
 			{
-				await _resizeJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
-				await _resizeJs.InvokeVoidAsync("disposeGlobal", _registeredEvents.ToArray());
+				await _resizeJs.InvokeVoidAsync("dispose", (object)_registeredElements.ToArray());
+				await _resizeJs.InvokeVoidAsync("disposeGlobal", (object)_registeredEvents.ToArray());
 
 				await _resizeJs.DisposeAsync();
 			}

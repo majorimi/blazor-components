@@ -242,7 +242,7 @@
 @inject IScrollHandler _scrollHandler
 @inject IFocusHandler _focusHandler
 @inject IResizeHandler _resizeHandler
-@inject IClickBoundariesHandler _clichHandler;
+@inject IClickBoundariesHandler _clickHandler;
 @inject IClipboardHandler _clipboardHandler;
 @inject IGlobalMouseEventHandler _globalMouseEventHandler;
 
@@ -265,11 +265,11 @@
 	{
 		if (_clickSubscribed)
 		{
-			await _clichHandler.RemoveClickBoundariesAsync(_clickDiv);
+			await _clickHandler.RemoveClickBoundariesAsync(_clickDiv);
 		}
 		else
 		{
-			await _clichHandler.RegisterClickBoundariesAsync(_clickDiv,
+			await _clickHandler.RegisterClickBoundariesAsync(_clickDiv,
 			 async (args) => await PageClick(args, "OUSIDE of registered element"),
 			 async (args) => await PageClick(args, "INSIDE of registered element"));
 		}
@@ -441,14 +441,19 @@
 			await _focusHandler.DisposeAsync();
 		}
 
-		if(_clichHandler is not null)
+		if(_clickHandler is not null)
 		{
-			await _clichHandler.DisposeAsync();
+			await _clickHandler.DisposeAsync();
 		}
 
 		if(_clipboardHandler is not null)
 		{
 			await _clipboardHandler.DisposeAsync();
+		}
+
+		if(_globalMouseEventHandler is not null)
+		{
+			await _globalMouseEventHandler.DisposeAsync();
 		}
 
 		if (_resizeHandler is not null)
