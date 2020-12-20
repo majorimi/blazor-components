@@ -72,7 +72,7 @@ Determines whether all the rendered HTML elements should be disabled or not.
 
 ## Installation
 
-Blazor.Components.Tabs is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Tabs/). 
+**Majorsoft.Blazor.Components.Tabs** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Tabs/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Tabs
@@ -83,7 +83,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Tabs
+@using Majorsoft.Blazor.Components.Tabs
 ```
 
 ### `TabsPanel` and `TabItem` usage

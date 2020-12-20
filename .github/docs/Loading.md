@@ -76,7 +76,7 @@ Resets the component to the original state. Shows the specified default `Content
 
 ## Installation
 
-Blazor.Components.Loading is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading/). 
+**Majorsoft.Blazor.Components.Loading** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Loading
@@ -87,7 +87,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Loading
+@using Majorsoft.Blazor.Components.Loading
 ```
 
 ### `LoadingPage` usage

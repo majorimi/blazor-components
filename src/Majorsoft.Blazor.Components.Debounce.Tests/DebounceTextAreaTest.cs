@@ -126,7 +126,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceTextArea_should_wait_debounce_time_respective_to_minChars()
 		{
-			var debounceTime = 30;
+			var debounceTime = 50;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
@@ -146,7 +146,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""cat""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 3); //wait for debounce
+			await Task.Delay(debounceTime * 4); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("cat", notifiedValue);
