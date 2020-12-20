@@ -37,7 +37,7 @@ jobs:
       displayName: 'dotnet restore packages'
       inputs:
         command: 'restore'
-        projects: 'src/Blazor.Components.sln'
+        projects: 'src/Majorsoft.Blazor.Components.sln'
         feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
