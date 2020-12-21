@@ -14,6 +14,11 @@
             Animation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.CssEvents.Animation.AnimationEventsService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.CssEvents.Animation.IAnimationEventsService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.CssEvents.Animation.IAnimationEventsService">
             <summary>
             Injectable service to handle CSS Animation events

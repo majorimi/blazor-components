@@ -111,7 +111,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		{
 			if (_scrollJs is not null)
 			{
-				await _scrollJs.InvokeVoidAsync("dispose", _registeredEvents.ToArray());
+				await _scrollJs.InvokeVoidAsync("dispose", (object)_registeredEvents.ToArray());
 
 				await _scrollJs.DisposeAsync();
 			}

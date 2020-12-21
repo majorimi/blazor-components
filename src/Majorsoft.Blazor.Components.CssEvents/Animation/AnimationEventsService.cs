@@ -8,6 +8,9 @@ using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.CssEvents.Animation
 {
+	/// <summary>
+	/// Implementation of <see cref="IAnimationEventsService"/>
+	/// </summary>
 	public sealed class AnimationEventsService  : IAnimationEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;

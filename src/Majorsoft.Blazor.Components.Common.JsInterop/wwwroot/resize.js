@@ -85,11 +85,12 @@ export function removeResizeEventHandler(element) {
 export function dispose(elementsWithPropArray) {
     if (elementsWithPropArray) {
         for (var i = 0; i < elementsWithPropArray.length; i++) {
-            removeClickBoundariesHandler(elementsWithPropArray[i]);
+            removeResizeEventHandler(elementsWithPropArray[i]);
         }
     }
 }
 
+///////////////////////////////////////////////////////////////////////////
 
 //HTLM page resize events
 function createWindowResizeEventHandler(dotnetRef) {
@@ -167,7 +168,7 @@ export function removeGlobalResizeEvent(eventId) {
 export function disposeGlobal(eventIdArray) {
     if (eventIdArray) {
         for (var i = 0; i < eventIdArray.length; i++) {
-            removeResizeEvent(eventIdArray[i]);
+            removeGlobalResizeEvent(eventIdArray[i]);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 	/// <summary>
 	/// Implementation of <see cref="IGlobalMouseEventHandler"/>
 	/// </summary>
-	public class GlobalMouseEventHandler : IGlobalMouseEventHandler
+	public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private List<string> _registeredEvents;
@@ -108,7 +108,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 		{
 			if (_mouseJs is not null)
 			{
-				await _mouseJs.InvokeVoidAsync("dispose", _registeredEvents.ToArray());
+				await _mouseJs.InvokeVoidAsync("dispose", (object)_registeredEvents.ToArray());
 				await _mouseJs.DisposeAsync();
 			}
 		}

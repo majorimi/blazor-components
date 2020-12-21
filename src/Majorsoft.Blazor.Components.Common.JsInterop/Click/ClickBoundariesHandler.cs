@@ -68,7 +68,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 		{
 			if (_clickJs is not null)
 			{
-				await _clickJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
+				await _clickJs.InvokeVoidAsync("dispose", (object)_registeredElements.ToArray());
 
 				await _clickJs.DisposeAsync();
 			}
