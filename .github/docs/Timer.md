@@ -75,7 +75,7 @@ Factory method to create a new instance of `Times` with the given parameter valu
 
 ## Installation
 
-Blazor.Components.Timer is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/). 
+**Majorsoft.Blazor.Components.Timer** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Timer
@@ -87,7 +87,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 
 ```
-@using Blazor.Components.Timer
+@using Majorsoft.Blazor.Components.Timer
 ```
 
 Following code example shows how to use **`AdvancedTimer`** component in your Blazor App. With 2 sec. delay

@@ -158,8 +158,7 @@ Copies the given element text content to clipboard.
 # Configuration
 
 ## Installation
-
-Blazor.Components.Common.JsInterop is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop/). 
+**Majorsoft.Blazor.Components.Common.JsInterop** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Common.JsInterop
@@ -170,25 +169,25 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Common.JsInterop
+@using Majorsoft.Blazor.Components.Common.JsInterop
 @*Only if you want to use Scroll*@
-@using Blazor.Components.Common.JsInterop.Scroll
+@using Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 @*Only if you want to use Focus*@
-@using Blazor.Components.Common.JsInterop.Focus
+@using Majorsoft.Blazor.Components.Common.JsInterop.Focus
 @*Only if you want to use Click*@
-@using Blazor.Components.Common.JsInterop.Click
+@using Majorsoft.Blazor.Components.Common.JsInterop.Click
 @*Only if you want to use Resize*@
-@using Blazor.Components.Common.JsInterop.Resize
+@using Majorsoft.Blazor.Components.Common.JsInterop.Resize
 @*Only if you want to use ElementInfo*@
-@using Blazor.Components.Common.JsInterop.ElementInfo
+@using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo
 @*Only if you want to use Clipboard*@
-@using Blazor.Components.Common.JsInterop.Clipboard
+@using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 ```
 
 
 **In case of WebAssembly project register CSS events services in your `Program.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 public static async Task Main(string[] args)
 {
@@ -200,7 +199,7 @@ public static async Task Main(string[] args)
 
 **In case of Server hosted project register CSS events services in your `Startup.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 
 public void ConfigureServices(IServiceCollection services)

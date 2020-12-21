@@ -1,0 +1,129 @@
+﻿@using Microsoft.Extensions.Logging
+@using System.Timers
+
+@implements IDisposable
+@inject ILogger<AdvancedTimer> _logger;
+
+@code {
+	private double _intervalInMilisec = 200;
+	[Parameter] 
+	public double IntervalInMilisec 
+	{ 
+		get => _intervalInMilisec;
+		set
+		{
+			if(value == _intervalInMilisec)
+				return;
+
+			_intervalInMilisec = value > 0 ? value : 1;
+			if (_timer is not null)
+			{
+				_timer.Interval = _intervalInMilisec;
+			}
+		} 
+	}
+
+	[Parameter] public double DelayInMilisec { get; set; } = 0;
+	[Parameter] public Times Occurring { get; set; } = Times.Once();
+	[Parameter] public bool AutoStart { get; set; } = true;
+
+	[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
+
+	private bool _disposedValue;
+	private Timer _timer;
+	private ulong _eventCount = 0;
+
+	protected override void OnInitialized()
+	{
+		if (DelayInMilisec > 0)
+		{
+			_timer = new Timer(DelayInMilisec);
+			_timer.Elapsed += OnDelay;
+			_timer.AutoReset = false;
+		}
+		else
+		{
+			_timer = new Timer(IntervalInMilisec);
+			_timer.Elapsed += OnElapsed;
+			_timer.AutoReset = Occurring.Count == 1 ? false : true;
+		}
+
+		if (AutoStart)
+		{
+			_timer.Start();
+		}
+
+		WriteDiag($"Initialized Timer with Interval: '{IntervalInMilisec}' ms. Delay before start: {DelayInMilisec} ms. Max occurring: {Occurring.Count}, AutoStart: {AutoStart}");
+	}
+
+	public bool IsEnabled => _timer?.Enabled ?? false;
+
+	public void Start() => _timer?.Start();
+	public void Stop() => _timer?.Stop();
+	public void Reset()
+	{
+		WriteDiag($"Resetting Timer with Interval: '{IntervalInMilisec}' ms. Max occurring: {Occurring.Count}");
+
+		_timer?.Stop();
+		_eventCount = 0;
+		_timer?.Start();
+	}
+
+	private void OnDelay(object source, ElapsedEventArgs e)
+	{
+		WriteDiag($"Timer required Delay: {DelayInMilisec} ms elapsed. Stopping timer to switch event handler.");
+
+		_timer.Stop();
+		_timer.Elapsed -= OnDelay;
+		_timer.Elapsed += OnElapsed;
+
+		_timer.Interval = IntervalInMilisec;
+		_timer.AutoReset = Occurring.Count == 1 ? false : true;
+
+		_timer.Start();
+	}
+	private void OnElapsed(object source, ElapsedEventArgs e)
+	{
+		_eventCount++;
+		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount}, required occurrence: {Occurring.Count}. Invoke {nameof(OnIntervalElapsed)} event");
+		InvokeAsync(async () =>
+		{
+			await OnIntervalElapsed.InvokeAsync(_eventCount);
+		});
+
+		if (_eventCount >= Occurring.Count)
+		{
+			_timer.Stop();
+
+			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the required occurrence: {Occurring.Count} Timer stopped.");
+			return;
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
+	}
+
+	
+	protected virtual void Dispose(bool disposing)
+	{
+		if (!_disposedValue)
+		{
+			if (disposing)
+			{
+				_timer.Elapsed -= OnElapsed;
+				_timer.Dispose();
+			}
+
+			_disposedValue = true;
+		}
+	}
+
+	public void Dispose()
+	{
+		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+		Dispose(disposing: true);
+		GC.SuppressFinalize(this);
+	}
+}

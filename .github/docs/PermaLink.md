@@ -63,7 +63,8 @@ Callback function called when Permalink icon clicked and **`PermaLinkIconActions
 # Configuration
 
 ## Installation
-Blazor.Components.PermaLink is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink/). 
+
+**Majorsoft.Blazor.Components.PermaLink** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.PermaLink
@@ -74,7 +75,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.PermaLink
+@using Majorsoft.Blazor.Components.PermaLink
 ```
 
 ### Dependences
@@ -86,8 +87,8 @@ which handles JS Interop for many features e.g. scrolling, etc.
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Blazor.Components.Common.JsInterop;
-using Blazor.Components.PermaLink;
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.PermaLink;
 ...
 public static async Task Main(string[] args)
 {
@@ -105,7 +106,7 @@ Inject the single instance of `IPermaLinkWatcherService` to activate Permalink w
 Also instance should be disposed.
 
 ```
-@using Blazor.Components.PermaLink
+@using Majorsoft.Blazor.Components.PermaLink
 
 @inject IPermaLinkWatcherService _permalinkWatcher
 
@@ -130,7 +131,7 @@ Also instance should be disposed.
 
 **NOTE: PermaLinkWatcher cannot be added here!**
 ```
-using Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.Common.JsInterop;
 ...
 
 public void ConfigureServices(IServiceCollection services)
@@ -147,8 +148,8 @@ public void ConfigureServices(IServiceCollection services)
 It has to be instantiated manually by using the following code. Also instance should be disposed:
 
 ```
-@using Blazor.Components.PermaLink
-@using Blazor.Components.Common.JsInterop.Scroll
+@using Majorsoft.Blazor.Components.PermaLink
+@using Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 @using Microsoft.AspNetCore.Components.Routing
 
 @inject IScrollHandler _scrollHandler

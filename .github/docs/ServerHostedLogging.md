@@ -27,7 +27,7 @@ The logger supports the LogLevels defined by Microsoft [LogLevel enum](https://d
 
 ## Installation
 
-Blazor.Components.Deboudnce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Server.Logging.Console/). 
+**package Majorsoft.Blazor.Server.Logging.Console** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Server.Logging.Console/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Server.Logging.Console
@@ -45,7 +45,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 Add the following code snippet to your Server hosted Blazor Application. 
 Into the **`Program.cs`** file 'CreateHostBuilder' method.
 ```
-using Blazor.Server.Logging.Console;
+using Majorsoft.Blazor.Server.Logging.Console;
 
 ...
 
@@ -88,7 +88,7 @@ public void Configure(IApplicationBuilder app)
 Initialize and start SignalR connection with Sever. It should be executed only once.
 Best place to do it is in **`MainLayout.razor`** file.
 ```
-@using Blazor.Server.Logging.Console
+@using Majorsoft.Blazor.Server.Logging.Console
 @inject IBrowserConsoleLoggerService _browserConsoleLogger
 
 @implements IAsyncDisposable

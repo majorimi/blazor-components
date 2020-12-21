@@ -81,7 +81,7 @@ Component implements `IDisposable` interface Blazor framework will call it when 
 
 ## Installation
 
-Blazor.Components.Debounce is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/). 
+**Majorsoft.Blazor.Components.Debounce** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Debounce
@@ -92,7 +92,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Debounce
+@using Majorsoft.Blazor.Components.Debounce
 ```
 
 ### `DebounceInput` and `DebounceTextArea` usage

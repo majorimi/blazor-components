@@ -1,0 +1,62 @@
+﻿<div class="loading" 
+		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+		hidden="@(!_isLoading)" @attributes=AllOtherAttributes>
+	<div class="loading-content">@(LoadingContent)</div>	
+</div>
+
+@using System.Globalization;
+@using Majorsoft.Blazor.Components.Core.HtmlColors;
+@inject ILogger<LoadingPage> _logger;
+
+@code {
+	private string _overlayColor = "128,128,128";//gray
+	[Parameter] 
+	public string OverlayBackgroundColor
+	{
+		get => _overlayColor;
+		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
+	[Parameter] public RenderFragment LoadingContent { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	[Parameter] public EventCallback OnLoading { get; set; }
+
+	public void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	public void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
+	}
+
+	private bool _isLoading = false;
+	protected override async Task OnInitializedAsync()
+	{
+		if (OnLoading.HasDelegate)
+		{
+			_isLoading = true;
+			WriteDiag($"OnInitializedAsync currently IsLoading: '{_isLoading}'.");
+
+			try
+			{
+				await OnLoading.InvokeAsync();
+			}
+			finally
+			{
+				_isLoading = false;
+				WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
+			}
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

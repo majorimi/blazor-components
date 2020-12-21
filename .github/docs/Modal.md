@@ -89,7 +89,7 @@ Component implements `IAsyncDisposable` interface Blazor framework will call it 
 
 ## Installation
 
-Blazor.Components.Modal is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal). 
+**Majorsoft.Blazor.Components.Modal** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Modal
@@ -101,7 +101,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 
 ```
-@using Blazor.Components.Modal
+@using Majorsoft.Blazor.Components.Modal
 ```
 
 ### Dependences
@@ -113,7 +113,7 @@ which handles JS Interop for focusing previous elements.
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 public static async Task Main(string[] args)
 {
@@ -127,7 +127,7 @@ public static async Task Main(string[] args)
 
 **In case of Server hosted project register services in your `Startup.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 
 public void ConfigureServices(IServiceCollection services)

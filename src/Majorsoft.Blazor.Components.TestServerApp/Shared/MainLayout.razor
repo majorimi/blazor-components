@@ -1,0 +1,61 @@
+﻿@inherits LayoutComponentBase
+
+<div>
+	<NavMenu AppName="Blazor Components (Server)"/>
+</div>
+
+<div class="main">
+	<div class="top-row px-4">
+		<a href="https://github.com/majorimi/blazor-components" target="_blank">About</a>
+	</div>
+
+	<div class="content px-4">
+		@Body
+	</div>
+</div>
+
+@*Permalink*@
+@using Majorsoft.Blazor.Components.PermaLink
+@using Microsoft.Extensions.Logging
+@using Majorsoft.Blazor.Components.Common.JsInterop.Scroll
+
+@inject IScrollHandler _scrollHandler
+@inject NavigationManager _navigationManager
+@inject ILogger<IPermaLinkWatcherService> _logger
+
+@*Server hoster Blazor console log*@
+@using Majorsoft.Blazor.Server.Logging.Console
+@inject IBrowserConsoleLoggerService _browserConsoleLogger
+
+@implements IDisposable
+@implements IAsyncDisposable
+
+@code {
+	private IPermaLinkWatcherService _permalinkWatcher;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			//setup permalink
+			_permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger);
+			_permalinkWatcher.WatchPermaLinks();
+
+			//setup console log
+			await _browserConsoleLogger.StartLoggerAsync();
+		}
+	}
+
+	public void Dispose()
+	{
+		_permalinkWatcher?.Dispose();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_browserConsoleLogger is not null)
+		{
+			await _browserConsoleLogger.DisposeAsync();
+		}
+	}
+}

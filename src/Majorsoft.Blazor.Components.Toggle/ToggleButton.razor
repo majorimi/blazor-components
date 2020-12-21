@@ -1,0 +1,119 @@
+﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
+		@onclick="Switched" disabled="@Disabled" @attributes=AllOtherAttributes>
+	@Content
+</button>
+
+<style>
+	.toggleButton[id=@($"toggleButton_{_componentId}")] {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
+	}
+	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
+		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
+	}
+</style>
+
+@using Majorsoft.Blazor.Components.Core.HtmlColors;
+
+@inject ILogger<ToggleButton> _logger;
+
+@code {
+	[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Parent?.AddButton(this);
+	}
+
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	private string _onColor = "211,211,211";//lightGray
+	/// <summary>
+	/// Sets the `style` of the `background-color` when button is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string OnColor
+	{
+		get => _onColor;
+		set => _onColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _offColor = "255, 255, 255";//white
+	/// <summary>
+	/// Sets the `style` of the `background-color` when button is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string OffColor
+	{
+		get => _offColor;
+		set => _offColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _hoverColor = "245, 245, 245";//WhiteSmoke
+	/// <summary>
+	/// Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string HoverColor
+	{
+		get => _hoverColor;
+		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	/// <summary>
+	/// Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+
+	/// <summary>
+	/// Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
+	/// </summary>
+	[Parameter] public bool Checked { get; set; } = false;
+
+	/// <summary>
+	/// HTML element height in `px`.
+	/// </summary>
+	[Parameter] public int Height { get; set; } = 30;
+	/// <summary>
+	/// HTML element Width in `px`.
+	/// </summary>
+	[Parameter] public int Width { get; set; } = 30;
+	/// <summary>
+	///Determines whether the rendered HTML element should be disabled or not.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	/// <summary>
+	///Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
+	/// </summary>
+	[Parameter] public EventCallback<bool> OnToggleChanged { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private async Task Switched()
+	{
+		Checked = !Checked;
+		WriteDiag($"{nameof(Switched)} Toggle button value changed: '{Checked}'.");
+
+		if (OnToggleChanged.HasDelegate)
+		{
+			await OnToggleChanged.InvokeAsync(Checked);
+		}
+
+		if (Parent is not null)
+		{
+			await Parent.ButtonToggled(this);
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}
