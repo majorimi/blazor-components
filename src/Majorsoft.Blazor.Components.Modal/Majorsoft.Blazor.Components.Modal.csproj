@@ -19,6 +19,7 @@
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageTags>.Net5 Blazor Modal Dialog Window</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<Title>Blazor Components Modal</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

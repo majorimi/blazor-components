@@ -19,6 +19,7 @@
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<Title>Blazor Components Loading</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

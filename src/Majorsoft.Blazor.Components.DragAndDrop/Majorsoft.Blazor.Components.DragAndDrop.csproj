@@ -18,7 +18,7 @@
 		<RepositoryType>Git</RepositoryType>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageTags>.Net5 Blazor Drag&amp;Drop Drag Drop</PackageTags>
-		<Title>Blazor Components Typeahead Input</Title>
+		<Title>Blazor Components Drag and Drop</Title>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 	</PropertyGroup>
 

@@ -19,6 +19,7 @@
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<Title>Blazor Components CSS events</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
