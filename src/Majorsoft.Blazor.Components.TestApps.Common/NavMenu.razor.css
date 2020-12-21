@@ -47,22 +47,22 @@ nav-item .nav-link {
     padding: .2rem 1rem !important;
 }
 
-    .nav-item:first-of-type {
-        padding-top: .25rem;
-    }
+.nav-item:first-of-type {
+    padding-top: .25rem;
+}
 
-    .nav-item:last-of-type {
-        padding-bottom: .1rem;
-    }
+.nav-item:last-of-type {
+    padding-bottom: .1rem;
+}
 
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 2.5rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
+.nav-item ::deep a {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+}
 
 .nav-item ::deep a.active {
     background-color: rgba(255,255,255,0.25);
@@ -80,34 +80,59 @@ nav-item .nav-link {
     color: #d7d7d7;
     padding: .1rem 1rem;
 }
-    .nav-group:hover {
-        background-color: rgba(255,255,255,0.1);
-        color: white;
-    }
-    .nav-group ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 1.75rem;
-        display: flex;
-        align-items: center;
-        line-height: 2rem;
-        margin-left: 1.5rem;
-        font-size: .9rem;
-    }
-    .nav-group .nav-item:first-of-type {
-        padding-top: .1rem;
-    }
-    .nav-group .nav-item:last-of-type {
-        padding-bottom: .1rem;
-    }
+.nav-group:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+.nav-group ::deep a {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    line-height: 2rem;
+    margin-left: 1.5rem;
+    font-size: .9rem;
+}
+.nav-group .nav-item:first-of-type {
+    padding-top: .1rem;
+}
+.nav-group .nav-item:last-of-type {
+    padding-bottom: .1rem;
+}
 
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
     }
 
-    .collapse {
+    .menu {
         /* Never collapse the sidebar for wide screens */
         display: block;
+        overflow-y: scroll;
+        height: 500px;
+        min-height: 400px;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+    .menu:hover::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
     }
 }
