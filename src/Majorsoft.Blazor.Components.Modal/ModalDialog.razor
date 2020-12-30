@@ -4,25 +4,25 @@
 
 @implements IAsyncDisposable
 
-@if(_isOpened)
+@if (_isOpened)
 {
 	<div @ref="_overlayDiv" class="bmodal @(Animate ? "fade": "")" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
-			style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
-			@attributes=AllOtherAttributes>
-		<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true" >
-		
-			@if(Header != null || ShowCloseButton)
+		 style="opacity: @_opacity; background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
+		 @attributes=AllOtherAttributes>
+		<div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true">
+
+			@if (Header != null || ShowCloseButton)
 			{
 				<div class="bmodal-header">
 					@Header
-					@if(ShowCloseButton)
+					@if (ShowCloseButton)
 					{
 						<button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
 					}
 				</div>
 			}
 			<div class="bmodal-body">@Content</div>
-			@if(Footer != null)
+			@if (Footer != null)
 			{
 				<div class="bmodal-footer">@Footer</div>
 			}
@@ -55,16 +55,28 @@
 
 	//Overlay style
 	private string _overlayColor = "128,128,128";//gray
-	[Parameter] 
+	/// <summary>
+	/// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB or with HEX values.
+	/// </summary>
+	[Parameter]
 	public string OverlayBackgroundColor
 	{
 		get => _overlayColor;
 		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
 	}
+	/// <summary>
+	/// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+	/// </summary>
 	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
 
 	//Close settings
+	/// <summary>
+	/// When true Modal dialog will be closed when Overlay (background) clicked. It works even if Overlay not visible (Opacity is set to 0)
+	/// </summary>
 	[Parameter] public bool CloseOnOverlayClick { get; set; } = true;
+	/// <summary>
+	/// When true Modal dialog will be closed when Esc (Escape) key pressed.
+	/// </summary>
 	[Parameter] public bool CloseOnEscapeKey { get; set; } = true;
 
 	//Size
@@ -78,9 +90,23 @@
 	[Parameter] public bool Centered { get; set; } = false;
 
 	//Contents
+	/// <summary>
+	/// HTML content to show on the Modal header (top), right to the close button (if visible).
+	/// Can be any valid HTML but should be only Title text. Must not be defined if you want to leave it out. Also ShowCloseButton must be set to false.
+	/// </summary>
 	[Parameter] public RenderFragment Header { get; set; }
+	/// <summary>
+	/// Required HTML content to show on the Modal dialog. Can be any valid HTML.
+	/// </summary>
 	[Parameter] public RenderFragment Content { get; set; }
+	/// <summary>
+	/// HTML content to show on the Modal footer (bottom). Can be any valid HTML but should be only custom action buttons.
+	/// Must not be defined if you want to leave it out.
+	/// </summary>
 	[Parameter] public RenderFragment Footer { get; set; }
+	/// <summary>
+	/// When true Modal dialog will show Header (even if Header is not defined) with closed x button.
+	/// </summary>
 	[Parameter] public bool ShowCloseButton { get; set; } = true;
 
 	//Events
@@ -94,20 +120,23 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public bool IsOpen => _isOpened;
 
 	protected override async Task OnInitializedAsync()
 	{
-		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");	
+		WriteDiag($"OnInitializedAsync currently IsOpened: '{_isOpened}'.");
 		_dialogTop = _dialogDefaultTop;
 	}
 
 	private async Task OverlayClicked(MouseEventArgs e)
 	{
-		if(CloseOnOverlayClick && _isOpened)
+		if (CloseOnOverlayClick && _isOpened)
 		{
 			WriteDiag($"Overlay DIV clicked dialog closing, currently IsOpened: '{_isOpened}'.");
-			if(OnOverlayClicked.HasDelegate)
+			if (OnOverlayClicked.HasDelegate)
 			{
 				await OnOverlayClicked.InvokeAsync(e);
 			}
@@ -117,11 +146,11 @@
 	}
 	private async Task CloseClicked(MouseEventArgs e)
 	{
-		if(ShowCloseButton && _isOpened)
+		if (ShowCloseButton && _isOpened)
 		{
 			WriteDiag($"Close button clicked dialog closing, currently IsOpened: '{_isOpened}'.");
 
-			if(OnCloseButtonClicked.HasDelegate)
+			if (OnCloseButtonClicked.HasDelegate)
 			{
 				await OnCloseButtonClicked.InvokeAsync(e);
 			}
@@ -135,7 +164,7 @@
 		{
 			WriteDiag($"Overlay DIV key pressed event: '{e.Key}' dialog closing, currently IsOpened: '{_isOpened}'.");
 
-			if(OnEscapeKeyPress.HasDelegate)
+			if (OnEscapeKeyPress.HasDelegate)
 			{
 				await OnEscapeKeyPress.InvokeAsync(e);
 			}
@@ -146,17 +175,17 @@
 
 	//Dialog style animation params
 	private string _dialogTop;
-	private string _dialogDefaultTop =>  Centered ? "25%;" : "5%;";
+	private string _dialogDefaultTop => Centered ? "25%;" : "5%;";
 	private string GetDialogTop()
 	{
-		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height/2)}px);";
+		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height / 2)}px);";
 	}
 
 	private async Task TransitionEnded(TransitionEventArgs[] args)
 	{
-		if(Animate)
+		if (Animate)
 		{
-			if(OnTransitionEnded.HasDelegate)
+			if (OnTransitionEnded.HasDelegate)
 			{
 				await OnTransitionEnded.InvokeAsync(args);
 			}
@@ -164,7 +193,7 @@
 			WriteDiag($"Dialog Transition has ended IsOpened: '{_isOpened}', TransitionEventArgs[] count: '{args.Length}'!!");
 			if (_opacity == 1) //Visible
 			{
-				await OpenInternal(); 
+				await OpenInternal();
 			}
 			else if (_opacity == 0) //Hidden
 			{
@@ -174,22 +203,27 @@
 	}
 
 	private KeyValuePair<ElementReference, string>[] _elementRefsWithProperties;
+	/// <summary>
+	/// When method called Modal dialog will be opened. It should be await-ed.
+	/// </summary>
+	/// <returns>Task</returns>
+	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsOpen instead of public methods.")]
 	public async Task Open()
 	{
 		_dialogTop = _dialogDefaultTop;//Reset dialog to page top
 		_isOpened = true;
 		WriteDiag($"Opening dialog currently, Opacity: {_opacity}, IsOpened: '{_isOpened}'.");
 
-		if(Animate)
+		if (Animate)
 		{
 			WriteDiag($"Opening dialog Waiting some time for UI to render and set Opacity to 1 IsOpened: '{_isOpened}'.");
 			await Task.Delay((int)(_animationDuration * 100)); //HACK: Must wait, time is not exact.. Render happens before but DIV is still not visible!!
 
 			_elementRefsWithProperties = new KeyValuePair<ElementReference, string>[]
-			{ 
-				new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"), 
-				new KeyValuePair<ElementReference, string>(_modal, "top") 
-			};
+			{
+				new KeyValuePair<ElementReference, string>(_overlayDiv, "opacity"),
+				new KeyValuePair<ElementReference, string>(_modal, "top")
+				};
 			await _transitionService.RegisterTransitionsWhenAllEndedAsync(TransitionEnded, _elementRefsWithProperties);
 
 			_dialogTop = GetDialogTop();
@@ -207,7 +241,7 @@
 	}
 	private async Task OpenInternal()
 	{
-		if(Focus)
+		if (Focus)
 		{
 			//Store previous focused element
 			await _focusHandler.StoreFocusedElementAsync();
@@ -224,11 +258,16 @@
 		}
 	}
 
+	/// <summary>
+	/// When method called Modal dialog will be closed. It should be await-ed.
+	/// </summary>
+	/// <returns>Task</returns>
+	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsOpen instead of public methods.")]
 	public async Task Close()
 	{
 		_opacity = 0; //Dialog must be hidden
 
-		if(Animate)
+		if (Animate)
 		{
 			WriteDiag($"Closing dialog Waiting for UI to play CSS fade and set Opacity to 0 IsOpened: '{_isOpened}'.");
 			_dialogTop = _dialogDefaultTop;
@@ -240,7 +279,7 @@
 	}
 	private async Task CloseInternal()
 	{
-		if(Animate)
+		if (Animate)
 		{
 			await _transitionService.RemoveTransitionsWhenAllEndedAsync(_elementRefsWithProperties);
 			_elementRefsWithProperties = null;
@@ -249,11 +288,11 @@
 		_isOpened = false;
 		WriteDiag($"Closing dialog currently IsOpened: '{_isOpened}'.");
 
-		if(Focus)
+		if (Focus)
 		{
 			await _focusHandler.RestoreStoredElementFocusAsync();
 		}
-		
+
 		if (OnClose.HasDelegate)
 		{
 			WriteDiag($"Closing dialog calling {nameof(Close)} event handlers IsOpened: '{_isOpened}'.");
@@ -268,15 +307,19 @@
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 
+	/// <summary>
+	/// Async dispose
+	/// </summary>
+	/// <returns></returns>
 	public async ValueTask DisposeAsync()
 	{
 		WriteDiag($"Closing dialog running DisposeAsync() IsOpened: '{_isOpened}'.");
 
-		if(_focusHandler is not null)
+		if (_focusHandler is not null)
 		{
 			await _focusHandler.DisposeAsync();
 		}
-		if(_transitionService is not null)
+		if (_transitionService is not null)
 		{
 			await _transitionService.DisposeAsync();
 		}
