@@ -9,33 +9,6 @@
 @inject ILogger<LoadingPage> _logger;
 
 @code {
-	private string _overlayColor = "128,128,128";//gray
-	[Parameter] 
-	public string OverlayBackgroundColor
-	{
-		get => _overlayColor;
-		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
-	}
-	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
-	[Parameter] public RenderFragment LoadingContent { get; set; }
-
-	[Parameter(CaptureUnmatchedValues = true)]
-	public Dictionary<string, object> AllOtherAttributes { get; set; }
-
-	[Parameter] public EventCallback OnLoading { get; set; }
-
-	public void Set()
-	{
-		_isLoading = true;
-		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
-	}
-	public void Reset()
-	{
-		_isLoading = false;
-		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
-	}
-
-	private bool _isLoading = false;
 	protected override async Task OnInitializedAsync()
 	{
 		if (OnLoading.HasDelegate)
@@ -53,6 +26,73 @@
 				WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
 			}
 		}
+	}
+
+	private string _overlayColor = "128,128,128";//gray
+	/// <summary>
+	/// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+	/// </summary>
+	[Parameter]
+	public string OverlayBackgroundColor
+	{
+		get => _overlayColor;
+		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	/// <summary>
+	/// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+	/// </summary>
+	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
+
+	/// <summary>
+	/// Required HTML content to show on top of the overlay div. 
+	/// Subscribe to this event and place your page initializer code to the event handler when using 'automatic' mode. Otherwise can be omitted.
+	/// </summary>
+	[Parameter] public RenderFragment LoadingContent { get; set; }
+
+	/// <summary>
+	/// Callback function called when component OnInitializedAsync Blazor event triggered.
+	/// </summary>
+	[Parameter] public EventCallback OnLoading { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private bool _isLoading = false;
+	/// <summary>
+	/// Can be set overlay to loading state  true  or remove it  false . Returns  true  if loading overlay is prompted, otherwise  false.
+	/// </summary>
+	[Parameter] public bool IsLoading
+	{
+		get => _isLoading;
+		set
+		{
+			if(value != _isLoading)
+			{
+				if (value)
+					Set();
+				else
+					Reset();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Sets the component to Loading state. Shows overlay `div` with specified content.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsLoading instead of public methods.")]
+	public void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	/// <summary>
+	/// Resets the component to the original state. Hides overlay `div`.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsLoading instead of public methods.")]
+	public void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
 	}
 
 	private void WriteDiag(string message)
