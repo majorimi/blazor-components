@@ -80,13 +80,35 @@
 	[Parameter] public bool CloseOnEscapeKey { get; set; } = true;
 
 	//Size
+	/// <summary>
+	/// Modal dialog window Height in px if set to 0 Height is set auto.
+	/// </summary>
 	[Parameter] public double Height { get; set; } = 0;
+	/// <summary>
+	/// Modal dialog window Width in px if set to 0 Width is set auto.
+	/// </summary>
 	[Parameter] public double Width { get; set; } = 0;
+	/// <summary>
+	/// Modal dialog window minimum Height in px.
+	/// </summary>
 	[Parameter] public double MinHeight { get; set; } = 200;
+	/// <summary>
+	/// Modal dialog window minimum Width in px.
+	/// </summary>
 	[Parameter] public double MinWidth { get; set; } = 200;
 
+	/// <summary>
+	/// When true Modal dialog will automatically set focus to itself when it opens, and set it bact to the last focused element when it closes. 
+	/// In general this should never be set to false as it makes the Modal less accessible to screen-readers, etc.
+	/// </summary>
 	[Parameter] public bool Focus { get; set; } = true;
+	/// <summary>
+	/// When true Modal dialog will appear and disappear by using smooth CSS slide and fade transitions.
+	/// </summary>
 	[Parameter] public bool Animate { get; set; } = true;
+	/// <summary>
+	/// When true Modal dialog will be vertically centered, otherwise shown near to the top. Modal dialog horizontally always centered.
+	/// </summary>
 	[Parameter] public bool Centered { get; set; } = false;
 
 	//Contents
@@ -110,18 +132,36 @@
 	[Parameter] public bool ShowCloseButton { get; set; } = true;
 
 	//Events
+	/// <summary>
+	/// Callback function called when the Modal dialog is opening.
+	/// </summary>
 	[Parameter] public EventCallback OnOpen { get; set; }
+	/// <summary>
+	/// Callback function called when the Modal dialog is closing.
+	/// </summary>
 	[Parameter] public EventCallback OnClose { get; set; }
+	/// <summary>
+	/// Callback function called when close x button was clicked.
+	/// </summary>
 	[Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+	/// <summary>
+	/// Callback function called when Overlay (background) was clicked.
+	/// </summary>
 	[Parameter] public EventCallback<MouseEventArgs> OnOverlayClicked { get; set; }
+	/// <summary>
+	/// Callback function called when Esc key was pressed.
+	/// </summary>
 	[Parameter] public EventCallback<KeyboardEventArgs> OnEscapeKeyPress { get; set; }
+	/// <summary>
+	/// Callback function called when CSS transitions are ended. It will be triggered when dialog opened or closed.
+	/// </summary>
 	[Parameter] public EventCallback<TransitionEventArgs[]> OnTransitionEnded { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// 
+	/// Returns true if the Modal dialog is opened, otherwise false.
 	/// </summary>
 	public bool IsOpen => _isOpened;
 
@@ -207,7 +247,6 @@
 	/// When method called Modal dialog will be opened. It should be await-ed.
 	/// </summary>
 	/// <returns>Task</returns>
-	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsOpen instead of public methods.")]
 	public async Task Open()
 	{
 		_dialogTop = _dialogDefaultTop;//Reset dialog to page top
@@ -262,7 +301,6 @@
 	/// When method called Modal dialog will be closed. It should be await-ed.
 	/// </summary>
 	/// <returns>Task</returns>
-	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsOpen instead of public methods.")]
 	public async Task Close()
 	{
 		_opacity = 0; //Dialog must be hidden
