@@ -106,7 +106,7 @@ You can skip that event registration when subscribed to `OnLoading` event of Loa
 
 In this case when `LoadingPage` component got initialized it will show the overlay `<div>` with 
 your specified `LoadingContent`. Component will call your `async` event handler and use `await` to wait for method execution. 
-When your code run overlay will be hidden. 
+When your code run overlay will be removed from DOM. 
 
 All your code runs in Try/Finally block so you should not worry about 'infinity' loading state.
 

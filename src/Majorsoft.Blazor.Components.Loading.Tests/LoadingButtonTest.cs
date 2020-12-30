@@ -74,7 +74,6 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 		[TestMethod]
 		public void LoadingButton_should_rendered_correctly_loading_state() //Incomplete test for technical reasons...
 		{
-			var clicked = false;
 			IRenderedComponent<LoadingButton> rendered = null;
 
 			rendered = _testContext.RenderComponent<LoadingButton>(parameters => parameters
@@ -87,26 +86,25 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 				{
 					builder.AddMarkupContent(1, "loading...");
 				}))
-				.Add(p => p.OnClicked, args => { CheckClick(); clicked = true; }));
+				.Add(p => p.OnClicked, async args => { await CheckClick(); }));
 
 			var button = rendered.Find("button");
 			button.Click();
 
 			Assert.IsNotNull(button);
-			Assert.IsTrue(clicked);
 
-			void CheckClick()
+			async Task CheckClick()
 			{
-				rendered.Render(); //HACK: for some reason no rendering but on UI it works...
-								  
-				//WARNING: during event handling Render() does not work on UI it's good!!!!
-				//rendered.WaitForAssertion(() => 
-				//	rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\" disabled=\"\">loading...</button>"), timeout: TimeSpan.FromSeconds(1));
+				await Task.Delay(200);
+
+				rendered.WaitForAssertion(() =>
+					rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\" disabled=\"\">loading...</button>"), 
+					timeout: TimeSpan.FromSeconds(1));
 			}
 		}
 
 		[TestMethod]
-		public async Task LoadingButton_should_rendered_correctly_loading_state_enabled()
+		public void LoadingButton_should_rendered_correctly_loading_state_enabled()
 		{
 			var rendered = _testContext.RenderComponent<LoadingButton>(parameters => parameters
 				.Add(p => p.Type, ButtonTypes.Submit)
@@ -120,14 +118,14 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 					builder.AddMarkupContent(1, "loading...");
 				})));
 
-			rendered.Instance.Set();
-			rendered.Render(); //HACK: for some reason no rendering but on UI it works...
+			rendered.SetParametersAndRender(parameters => parameters
+				.Add(p => p.IsLoading, true));
 
 			rendered.WaitForAssertion(() => rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\">loading...</button>"), timeout: TimeSpan.FromSeconds(1));
 		}
 
 		[TestMethod]
-		public async Task LoadingButton_should_be_loading_state_when_Set_called()
+		public void LoadingButton_should_be_loading_state_when_IsLoading_true()
 		{
 			var rendered = _testContext.RenderComponent<LoadingButton>(parameters => parameters
 				.Add(p => p.Type, ButtonTypes.Submit)
@@ -140,14 +138,14 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 					builder.AddMarkupContent(1, "loading...");
 				})));
 
-			rendered.Instance.Set();
-			rendered.Render(); //HACK: for some reason no rendering but on UI it works...
+			rendered.SetParametersAndRender(parameters => parameters
+				.Add(p => p.IsLoading, true));
 
 			rendered.WaitForAssertion(() => rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\" disabled=\"\">loading...</button>"), timeout: TimeSpan.FromSeconds(1));
 		}
 
 		[TestMethod]
-		public async Task LoadingButton_should_be_default_state_when_Reset_called()
+		public void LoadingButton_should_be_default_state_when_IsLoading_false()
 		{
 			var rendered = _testContext.RenderComponent<LoadingButton>(parameters => parameters
 				.Add(p => p.Type, ButtonTypes.Submit)
@@ -160,12 +158,12 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 					builder.AddMarkupContent(1, "loading...");
 				})));
 
-			rendered.Instance.Set();
-			rendered.Render(); //HACK: for some reason no rendering but on UI it works...
+			rendered.SetParametersAndRender(parameters => parameters
+				.Add(p => p.IsLoading, true));
 			rendered.WaitForAssertion(() => rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\" disabled=\"\">loading...</button>"), timeout: TimeSpan.FromSeconds(2));
 
-			rendered.Instance.Reset();
-			rendered.Render(); //HACK: for some reason no rendering but on UI it works...
+			rendered.SetParametersAndRender(parameters => parameters
+				.Add(p => p.IsLoading, false));
 			rendered.WaitForAssertion(() => rendered.MarkupMatches("<button blazor:onclick=\"1\" type=\"submit\">hello...</button>"), timeout: TimeSpan.FromSeconds(2));
 		}
 	}

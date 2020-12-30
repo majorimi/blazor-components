@@ -1,8 +1,11 @@
-﻿<div class="loading" 
-		style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
-		hidden="@(!_isLoading)" @attributes=AllOtherAttributes>
-	<div class="loading-content">@(LoadingContent)</div>	
-</div>
+﻿@if (_isLoading)
+{
+	<div class="loading" 
+			style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+			@attributes=AllOtherAttributes>
+		<div class="loading-content">@(LoadingContent)</div>	
+	</div>
+}
 
 @using System.Globalization;
 @using Majorsoft.Blazor.Components.Core.HtmlColors;
