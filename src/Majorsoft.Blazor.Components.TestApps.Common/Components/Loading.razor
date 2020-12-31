@@ -42,7 +42,7 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading element</h3>
-	<p>Renders an Overlay layer for the wrapped element (Table, etc.) with customizable content for showing loading...</p>
+	<p>Renders an Overlay layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -63,7 +63,7 @@
 		</LoadingContent>
 		<Content>
 			<table class="table table-striped table-bordered">
-				<thead class="table-dark">
+				<thead class="">
 					<tr>
 						<th>Company</th>
 						<th>Contact</th>
@@ -170,7 +170,6 @@
 	}
 
 	//Page Loading
-
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 500;
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
@@ -190,7 +189,7 @@
 	}
 
 	//Element Loading
-	private string _overlayColorTable = "lightblue";
+	private string _overlayColorTable = "orange";
 	private double _overlayOpacityTable = 500;
 	private bool _elementIsLoading = false;
 

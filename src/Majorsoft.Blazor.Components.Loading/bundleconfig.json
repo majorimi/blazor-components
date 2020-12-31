@@ -4,5 +4,11 @@
     "inputFiles": [
       "LoadingPage.razor.css"
     ]
+  },
+  {
+    "outputFileName": "LoadingElement.razor.min.css",
+    "inputFiles": [
+      "LoadingElement.razor.css"
+    ]
   }
 ]
