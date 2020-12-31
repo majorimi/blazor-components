@@ -38,8 +38,10 @@
 		get => _intervalInMilisec;
 		set
 		{
-			if(value == _intervalInMilisec)
+			if (value == _intervalInMilisec)
+			{
 				return;
+			}
 
 			_intervalInMilisec = value > 0 ? value : 1;
 			if (_timer is not null)

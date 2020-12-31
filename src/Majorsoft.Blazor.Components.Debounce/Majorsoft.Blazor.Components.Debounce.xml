@@ -4,6 +4,11 @@
         <name>Majorsoft.Blazor.Components.Debounce</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase">
+            <summary>
+            Base class for Debounce components.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.InnerElementReference">
             <summary>
             Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -45,11 +50,6 @@
         <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.OnValueChanged">
             <summary>
             Callback function called when value was changed (debounced) with field value passed into.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.Dispose">
-            <summary>
-            Dispose component
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.InnerElementReference">

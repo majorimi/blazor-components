@@ -1,4 +1,5 @@
 ﻿@inherits DebounceTimerBase
 @inject ILogger<DebounceTextArea> _logger;
 
+<AdvancedTimer IsEnabled="@_isTimerEnabled" IntervalInMilisec="@DebounceTime" AutoStart="false" Occurring="Times.Once()" OnIntervalElapsed="OnElapsed" />
 <textarea @ref="_inputRef" value="@Value" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AdditionalAttributes />
