@@ -50,6 +50,37 @@
             Resets the component to the original state. Shows the specified default Content and enables button.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.OverlayBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.OverlayOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.Content">
+            <summary>
+            Required HTML content to render e.g: Table or Grid...
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.LoadingContent">
+            <summary>
+            Required HTML content to show on top of the overlay div.
+            Subscribe to this event and place your page initializer code to the event handler when using 'automatic' mode. Otherwise can be omitted.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.OnLoading">
+            <summary>
+            Callback function called when component OnInitializedAsync Blazor event triggered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.IsLoading">
+            <summary>
+            Can be set overlay to loading state  true  or remove it  false . Returns  true  if loading overlay is prompted, otherwise  false.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.OverlayBackgroundColor">
             <summary>
             Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
