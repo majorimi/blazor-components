@@ -43,4 +43,9 @@
 	</None>
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
+	</ItemGroup>
+
 </Project>

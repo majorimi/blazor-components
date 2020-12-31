@@ -23,6 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Collapse\Majorsoft.Blazor.Components.Collapse.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.ColorPicker\Majorsoft.Blazor.Components.ColorPicker.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />

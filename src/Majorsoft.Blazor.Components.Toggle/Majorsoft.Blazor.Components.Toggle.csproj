@@ -19,6 +19,7 @@
 		<Description>Blazor component that renders customizable Toggle switch and Toggle button components. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<Title>Blazor Components Toggle</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

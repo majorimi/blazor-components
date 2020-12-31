@@ -19,6 +19,7 @@
 		<Description>Blazor component that can be used for scheduled and periodically repeated tasks to call custom code. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<Title>Blazor Components Timer</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

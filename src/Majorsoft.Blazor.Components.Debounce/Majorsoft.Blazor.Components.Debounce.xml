@@ -4,5 +4,117 @@
         <name>Majorsoft.Blazor.Components.Debounce</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase">
+            <summary>
+            Base class for Debounce components.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.DebounceTime">
+            <summary>
+            Notification debounce timeout in ms. If set to 0 notifications happens immediately. -1 disables automatic notification completely. 
+            Notification will only happen by pressing Enter key or onblur, if set.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.Value">
+            <summary>
+            Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
+            Also control actual value can be read out (useful when MinLenght not reached).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.MinLength">
+            <summary>
+            Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.ForceNotifyByEnter">
+            <summary>
+            Notification of current value will be sent immediately by hitting Enter key. Enabled by-default. 
+            Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.ForceNotifyOnBlur">
+            <summary>
+            Same as ForceNotifyByEnter but notification triggered onblur event, when focus leaves the input field.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.OnInput">
+            <summary>
+            Callback function called when HTML control received keyboard inputs.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceTimerBase.OnValueChanged">
+            <summary>
+            Callback function called when value was changed (debounced) with field value passed into.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.DebounceTime">
+            <summary>
+            Notification debounce timeout in ms. If set to 0 notifications happens immediately. -1 disables automatic notification completely.
+            Notification will only happen by pressing Enter key or onblur, if set.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.MinLength">
+            <summary>
+            Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.ForceNotifyByEnter">
+            <summary>
+            Notification of current value will be sent immediately by hitting Enter key. Enabled by-default.
+            Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.ForceNotifyOnBlur">
+            <summary>
+            Same as ForceNotifyByEnter but notification triggered onblur event, when focus leaves the input field.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputText.OnValueChanged">
+            <summary>
+            Callback function called when value was changed (debounced) with field value passed into.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.DebounceTime">
+            <summary>
+            Notification debounce timeout in ms. If set to 0 notifications happens immediately. -1 disables automatic notification completely.
+            Notification will only happen by pressing Enter key or onblur, if set.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.MinLength">
+            <summary>
+            Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.ForceNotifyByEnter">
+            <summary>
+            Notification of current value will be sent immediately by hitting Enter key. Enabled by-default.
+            Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.ForceNotifyOnBlur">
+            <summary>
+            Same as ForceNotifyByEnter but notification triggered onblur event, when focus leaves the input field.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Debounce.DebounceInputTextArea.OnValueChanged">
+            <summary>
+            Callback function called when value was changed (debounced) with field value passed into.
+            </summary>
+        </member>
     </members>
 </doc>

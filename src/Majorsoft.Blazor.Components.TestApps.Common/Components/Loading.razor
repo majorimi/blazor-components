@@ -31,7 +31,7 @@
 		</div>
 	</div>
 
-	<LoadingPage @ref="_loadingPage" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
+	<LoadingPage IsLoading="@_pageIsLoading" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
 		<LoadingContent>
 			<i class="fa fa-cog fa-3x fa-spin"></i> 
 			<h2 class="m-3">Refreshing...</h2>
@@ -87,7 +87,10 @@
 					<InputText @bind-Value="exampleModel.Name" class="form-control w-100" />
 				</div>
 				<div class="pb-2">
-					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" DisabledWhenLoading="_disabledWhenLoading3" Type="ButtonTypes.Submit">
+					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" 
+								   IsLoading="@_isButtonLoading"
+								   DisabledWhenLoading="_disabledWhenLoading3" 
+								   Type="ButtonTypes.Submit">
 						<Content>
 							Submit
 						</Content>
@@ -110,18 +113,18 @@
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 500;
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
-	private LoadingPage _loadingPage;
+	private bool _pageIsLoading = false;
 	private async Task LoadForm()
 	{
 		try
 		{
-			_loadingPage.Set(); //Set the layout to Loading state
+			_pageIsLoading = true; //Set the layout to Loading state
 
 			await Task.Delay(1000); //write your code here...
 		}
 		finally
 		{
-			_loadingPage.Reset(); //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
+			_pageIsLoading = false; //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
 		}
 	}
 
@@ -136,17 +139,18 @@
 
 	//Use it with EditForm otherwise use LoadingButton.OnClicked event.
 	private LoadingButton _loadingButton;
+	private bool _isButtonLoading = false;
 	private async Task FormOnValidSubmit()
 	{
 		try
 		{
-			_loadingButton.Set(); //Set the button to Loading state
+			_isButtonLoading = true; //Set the button to Loading state
 
 			await Task.Delay(1500); //write your code here...
 		}
 		finally
 		{
-			_loadingButton.Reset(); //Reset button to default state in FINALLY block to avoid infinity loading state in case of any error!
+			_isButtonLoading = false; //Reset button to default state in FINALLY block to avoid infinity loading state in case of any error!
 		}
 	}
 

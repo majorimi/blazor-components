@@ -4,5 +4,87 @@
         <name>Majorsoft.Blazor.Components.Loading</name>
     </assembly>
     <members>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.Content">
+            <summary>
+            Required HTML content to show as default button content.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.LoadingContent">
+            <summary>
+            Required HTML content to show when operation is in progress button is in loading state.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.Type">
+            <summary>
+            Intelisense supported type safe values to render HTML button type="" attribute.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.DisabledWhenLoading">
+            <summary>
+            Determines whether the button should be disabled during loading state or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.OnClicked">
+            <summary>
+            Function called when component onclick Blazor event triggered. Subscribe to this event and place your code to the event handler 
+            when using 'automatic' mode. Otherwise can be omitted.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingButton.IsLoading">
+            <summary>
+            Can be set the button to loading state  true or normal false. Returns true if button is loading, otherwise  false.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Loading.LoadingButton.Set">
+            <summary>
+            Sets the component to Loading state. Shows the specified LoadingContent and disables button, if configured to.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Loading.LoadingButton.Reset">
+            <summary>
+            Resets the component to the original state. Shows the specified default Content and enables button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.OverlayBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.OverlayOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.LoadingContent">
+            <summary>
+            Required HTML content to show on top of the overlay div. 
+            Subscribe to this event and place your page initializer code to the event handler when using 'automatic' mode. Otherwise can be omitted.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.OnLoading">
+            <summary>
+            Callback function called when component OnInitializedAsync Blazor event triggered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.IsLoading">
+            <summary>
+            Can be set overlay to loading state  true  or remove it  false . Returns  true  if loading overlay is prompted, otherwise  false.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Loading.LoadingPage.Set">
+            <summary>
+            Sets the component to Loading state. Shows overlay `div` with specified content.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Loading.LoadingPage.Reset">
+            <summary>
+            Resets the component to the original state. Hides overlay `div`.
+            </summary>
+        </member>
     </members>
 </doc>

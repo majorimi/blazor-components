@@ -72,11 +72,6 @@ they have the same **properties**, **events** and **functions** as well.
 - **`OnValueChanged`: `EventCallback<string>` delegate - Required** <br />
   Callback function called when value was changed (debounced) with field value passed into.
 
-### Functions
-
-- **`Dispose()`: `@implements IDisposable` interface** <br />
-Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
-
 # Configuration
 
 ## Installation

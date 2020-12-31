@@ -19,6 +19,7 @@
 		<Description>Blazor component that renders customizable Tabs element panel with many tabs and custom content. Part of Majorsoft Blazor library.</Description>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<Title>Blazor Components Tabs</Title>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
