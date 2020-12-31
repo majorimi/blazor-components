@@ -5,34 +5,6 @@
 @inject ILogger<AdvancedTimer> _logger;
 
 @code {
-	private double _intervalInMilisec = 200;
-	[Parameter] 
-	public double IntervalInMilisec 
-	{ 
-		get => _intervalInMilisec;
-		set
-		{
-			if(value == _intervalInMilisec)
-				return;
-
-			_intervalInMilisec = value > 0 ? value : 1;
-			if (_timer is not null)
-			{
-				_timer.Interval = _intervalInMilisec;
-			}
-		} 
-	}
-
-	[Parameter] public double DelayInMilisec { get; set; } = 0;
-	[Parameter] public Times Occurring { get; set; } = Times.Once();
-	[Parameter] public bool AutoStart { get; set; } = true;
-
-	[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
-
-	private bool _disposedValue;
-	private Timer _timer;
-	private ulong _eventCount = 0;
-
 	protected override void OnInitialized()
 	{
 		if (DelayInMilisec > 0)
@@ -56,10 +28,78 @@
 		WriteDiag($"Initialized Timer with Interval: '{IntervalInMilisec}' ms. Delay before start: {DelayInMilisec} ms. Max occurring: {Occurring.Count}, AutoStart: {AutoStart}");
 	}
 
-	public bool IsEnabled => _timer?.Enabled ?? false;
+	private double _intervalInMilisec = 200;
+	/// <summary>
+	/// Notification timeout in ms. If set to 0 or less it set to 1 ms.
+	/// </summary>
+	[Parameter]
+	public double IntervalInMilisec
+	{
+		get => _intervalInMilisec;
+		set
+		{
+			if(value == _intervalInMilisec)
+				return;
 
+			_intervalInMilisec = value > 0 ? value : 1;
+			if (_timer is not null)
+			{
+				_timer.Interval = _intervalInMilisec;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Delay in ms. before the timer will start. If set to 0 timer will start immediately.
+	/// </summary>
+	[Parameter] public double DelayInMilisec { get; set; } = 0;
+	/// <summary>
+	/// Number of times elapsed even will be fired. See <see cref="Times"/> record description.
+	/// </summary>
+	[Parameter] public Times Occurring { get; set; } = Times.Once();
+	/// <summary>
+	/// If true timer will start when component OnInitialized event run, otherwise timer must be started by IsEnabled property set to true.
+	/// </summary>
+	[Parameter] public bool AutoStart { get; set; } = true;
+
+	/// <summary>
+	/// Timer event this Function called when specified timeout elapsed, parameter is the iteration count.
+	/// </summary>
+	[Parameter] public EventCallback<ulong> OnIntervalElapsed { get; set; }
+
+	private bool _disposedValue;
+	private Timer? _timer;
+	private ulong _eventCount = 0;
+
+	/// <summary>
+	/// Can be set to start `true` or stop `false` timer. Returns the inner state of the timer. `True` if timer is running otherwise `false`.
+	/// </summary>
+	[Parameter] public bool IsEnabled
+	{
+		get => _timer?.Enabled ?? false;
+		set
+		{
+			if (value)
+				Start();
+			else
+				Stop();
+		}
+	}
+
+	/// <summary>
+	/// Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Start() => _timer?.Start();
+	/// <summary>
+	/// Stops the internal timer and no more event will be fired.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Stop() => _timer?.Stop();
+	/// <summary>
+	/// Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
+	/// </summary>
+	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Reset()
 	{
 		WriteDiag($"Resetting Timer with Interval: '{IntervalInMilisec}' ms. Max occurring: {Occurring.Count}");
@@ -93,7 +133,7 @@
 
 		if (_eventCount >= Occurring.Count)
 		{
-			_timer.Stop();
+			_timer?.Stop();
 
 			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the required occurrence: {Occurring.Count} Timer stopped.");
 			return;
@@ -105,7 +145,6 @@
 		_logger.LogDebug($"{DateTime.Now.TimeOfDay} - Component {this.GetType()}: {message}");
 	}
 
-	
 	protected virtual void Dispose(bool disposing)
 	{
 		if (!_disposedValue)
@@ -120,6 +159,9 @@
 		}
 	}
 
+	/// <summary>
+	/// Dispose component
+	/// </summary>
 	public void Dispose()
 	{
 		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
