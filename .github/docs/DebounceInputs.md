@@ -90,6 +90,11 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Debounce
 ```
 
+### Dependences
+**Majorsoft.Blazor.Components.Debounce** package depends on other Majorsoft Nuget packages:
+- [Majorsoft.Blazor.Components.Timer](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer)
+which provides the debounce time feature.
+
 ### `DebounceInput` and `DebounceTextArea` usage
 
 Following code example shows how to use **`DebounceInput`** component in your Blazor App with model binding
@@ -120,8 +125,7 @@ on specific `OnInput` event. So it will enable two way binding between component
 	private bool _forceNotifyByEnter = true;
 	private bool _forceNotifyOnBlur = true;
 	private DebounceInput input1;
-}
-	
+}	
 ```
 
 ### `DebounceInputText` and `DebounceInputTextArea` usage

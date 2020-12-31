@@ -19,6 +19,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 # Components
 
 - **`LoadingPage`**: Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
+- **`LoadingElement`**: 
 - **`LoadingButton`**: Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
 
 ## `LoadingPage` component
