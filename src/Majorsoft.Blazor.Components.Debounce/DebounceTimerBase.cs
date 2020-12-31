@@ -14,13 +14,19 @@ namespace Majorsoft.Blazor.Components.Debounce
 		private bool _notifiedLastChange = false;
 		private bool _disposedValue;
 		private bool _debounceEnabled = true;
-		protected ElementReference _inputRef;
 
+		protected ElementReference _inputRef;
+		/// <summary>
+		/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+		/// </summary>
 		public ElementReference InnerElementReference => _inputRef;
 
 		private double _intervalInMilisec = 200;
-		[Parameter]
-		public double DebounceTime
+		/// <summary>
+		/// Notification debounce timeout in ms. If set to 0 notifications happens immediately. -1 disables automatic notification completely. 
+		/// Notification will only happen by pressing Enter key or onblur, if set.
+		/// </summary>
+		[Parameter] public double DebounceTime
 		{
 			get => _intervalInMilisec;
 			set
@@ -34,16 +40,37 @@ namespace Majorsoft.Blazor.Components.Debounce
 			}
 		}
 
+		/// <summary>
+		/// Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
+		/// Also control actual value can be read out (useful when MinLenght not reached).
+		/// </summary>
 		[Parameter] public string? Value { get; set; }
+		/// <summary>
+		/// Minimal length of text to start notify, if value is shorter than MinLength, there will be notifications with empty value "".
+		/// </summary>
 		[Parameter] public int MinLength { get; set; } = 0;
+		/// <summary>
+		/// Notification of current value will be sent immediately by hitting Enter key. Enabled by-default. 
+		/// Notification will obey MinLength rule, if length is less, then empty value "" will be sent back.
+		/// </summary>
 		[Parameter] public bool ForceNotifyByEnter { get; set; } = true;
+		/// <summary>
+		/// Same as ForceNotifyByEnter but notification triggered onblur event, when focus leaves the input field.
+		/// </summary>
 		[Parameter] public bool ForceNotifyOnBlur { get; set; } = true;
+
+		//Events
+		/// <summary>
+		/// Callback function called when HTML control received keyboard inputs.
+		/// </summary>
+		[Parameter] public EventCallback<string> OnInput { get; set; }
+		/// <summary>
+		/// Callback function called when value was changed (debounced) with field value passed into.
+		/// </summary>
+		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
 		[Parameter(CaptureUnmatchedValues = true)]
 		public Dictionary<string, object> AdditionalAttributes { get; set; }
-
-		[Parameter] public EventCallback<string> OnInput { get; set; }
-		[Parameter] public EventCallback<string> OnValueChanged { get; set; }
 
 		private Timer _timer;
 		protected abstract ILogger BaseLogger { get; }
@@ -181,6 +208,9 @@ namespace Majorsoft.Blazor.Components.Debounce
 			}
 		}
 
+		/// <summary>
+		/// Dispose component
+		/// </summary>
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
