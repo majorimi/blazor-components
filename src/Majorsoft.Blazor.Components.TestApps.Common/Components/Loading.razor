@@ -13,7 +13,7 @@
 
 	<LoadingPage OnLoading="@SendRequest">
 		<LoadingContent>
-			<i class="fa fa-spinner fa-3x fa-spin"></i> 
+			<i class="fa fa-spinner fa-3x fa-spin"></i>
 			<h2 class="m-3">Loading...</h2>
 		</LoadingContent>
 	</LoadingPage>
@@ -25,15 +25,19 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacity/1000) 
+			Overlay opacity: @(_overlayOpacity/1000)
 			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Loading content: <textarea class="form-control w-100" @bind="_overlayContent" />
 		</div>
 	</div>
 
 	<LoadingPage IsLoading="@_pageIsLoading" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
 		<LoadingContent>
-			<i class="fa fa-cog fa-3x fa-spin"></i> 
-			<h2 class="m-3">Refreshing...</h2>
+			@((MarkupString)_overlayContent)
 		</LoadingContent>
 	</LoadingPage>
 
@@ -55,11 +59,15 @@
 			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacityTable" @oninput="(e => _overlayOpacityTable = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Loading content: <textarea class="form-control w-100" @bind="_overlayContent2" />
+		</div>
+	</div>
 
 	<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable/1000)">
 		<LoadingContent>
-			<i class="fa fa-cog fa-3x fa-spin"></i>
-			<h2 class="m-3">Refreshing...</h2>
+			@((MarkupString)_overlayContent2)
 		</LoadingContent>
 		<Content>
 			<table class="table table-striped table-bordered">
@@ -172,6 +180,9 @@
 	//Page Loading
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 500;
+	private string _overlayContent = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
+<h2 class=""m-3"">Refreshing...</h2>";
+
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
 	private bool _pageIsLoading = false;
 	private async Task LoadForm()
@@ -192,6 +203,8 @@
 	private string _overlayColorTable = "orange";
 	private double _overlayOpacityTable = 500;
 	private bool _elementIsLoading = false;
+	private string _overlayContent2 = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
+<h2 class=""m-3"">Refreshing...</h2>";
 
 	private async Task LoadTable()
 	{

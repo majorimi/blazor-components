@@ -4,8 +4,7 @@
 	top: 0;
 	left: 0;
 	position: relative;
-	display: block;
-	z-index: 1000;
+	z-index: 100;
 }
 
 .loading-content {
@@ -15,6 +14,6 @@
 	left: 50%;
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
-	z-index: 1001;
+	z-index: 101;
 	text-align: center;
 }
