@@ -31,7 +31,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
 	</ItemGroup>
 
-
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Majorsoft.Blazor.Components.Debounce</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+	
 	<ItemGroup>
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>

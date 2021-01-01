@@ -46,6 +46,7 @@
 			_intervalInMilisec = value > 0 ? value : 1;
 			if (_timer is not null)
 			{
+				_timer.AutoReset = Occurring.Count == 1 ? false : true;
 				_timer.Interval = _intervalInMilisec;
 			}
 		}
@@ -81,6 +82,9 @@
 		get => _timer?.Enabled ?? false;
 		set
 		{
+			if (value == _timer?.Enabled)
+				return;
+
 			if (value)
 				Start();
 			else
@@ -92,12 +96,20 @@
 	/// Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
 	/// </summary>
 	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
-	public void Start() => _timer?.Start();
+	public void Start()
+	{
+		WriteDiag("Timer started.");
+		_timer?.Start();
+	}
 	/// <summary>
 	/// Stops the internal timer and no more event will be fired.
 	/// </summary>
 	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
-	public void Stop() => _timer?.Stop();
+	public void Stop()
+	{
+		WriteDiag("Timer stopped.");
+		_timer?.Stop();
+	}
 	/// <summary>
 	/// Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
 	/// </summary>
@@ -115,31 +127,31 @@
 	{
 		WriteDiag($"Timer required Delay: {DelayInMilisec} ms elapsed. Stopping timer to switch event handler.");
 
-		_timer.Stop();
+		_timer?.Stop();
 		_timer.Elapsed -= OnDelay;
 		_timer.Elapsed += OnElapsed;
 
 		_timer.Interval = IntervalInMilisec;
 		_timer.AutoReset = Occurring.Count == 1 ? false : true;
 
-		_timer.Start();
+		_timer?.Start();
 	}
 	private void OnElapsed(object source, ElapsedEventArgs e)
-	{
-		_eventCount++;
-		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount}, required occurrence: {Occurring.Count}. Invoke {nameof(OnIntervalElapsed)} event");
-		InvokeAsync(async () =>
-		{
-			await OnIntervalElapsed.InvokeAsync(_eventCount);
-		});
-
+	{		
 		if (_eventCount >= Occurring.Count)
 		{
 			_timer?.Stop();
 
-			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the required occurrence: {Occurring.Count} Timer stopped.");
+			WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: {_eventCount} reached the required occurrence: '{Occurring.Count}' Timer stopped.");
 			return;
 		}
+
+		_eventCount++;
+		WriteDiag($"Timer triggered after: '{IntervalInMilisec}' ms. current occurrence: '{_eventCount}', required occurrence: '{Occurring.Count}' AutoReset: '{_timer?.AutoReset}'. Invoke '{nameof(OnIntervalElapsed)}' event.");
+		InvokeAsync(async () =>
+		{
+			await OnIntervalElapsed.InvokeAsync(_eventCount);
+		});
 	}
 
 	private void WriteDiag(string message)

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 
+using Majorsoft.Blazor.Components.Timer;
+
 namespace Majorsoft.Blazor.Components.Debounce
 {
 	/// <summary>
@@ -16,7 +18,7 @@ namespace Majorsoft.Blazor.Components.Debounce
 		private bool _notifiedLastChange = false;
 		private bool _debounceEnabled = true;
 
-		protected bool _isTimerEnabled = false;
+		protected AdvancedTimer _timer;
 		protected ElementReference _inputRef;
 		/// <summary>
 		/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -80,14 +82,14 @@ namespace Majorsoft.Blazor.Components.Debounce
 		{
 			SetTimer(DebounceTime);
 
-			WriteDiag($"Initialized with Value: '{Value}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: {_debounceEnabled}.");
+			WriteDiag($"Initialized with Value: '{Value}', Timer interval: '{DebounceTime}' ms, MinLength: '{MinLength}', DebounceEnabled: '{_debounceEnabled}'.");
 			base.OnInitialized();
 		}
 
 		protected async Task OnTextChange(ChangeEventArgs e)
 		{
-			WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: {_debounceEnabled}, timer interval: {_intervalInMilisec}");
-			_isTimerEnabled = false; //Stop previous timer
+			WriteDiag($"OnTextChange event: '{e.Value}', DebounceEnabled: '{_debounceEnabled}', timer interval: '{_intervalInMilisec}'.");
+			_timer.Stop(); //Stop previous timer
 
 			if(OnInput.HasDelegate) //Immediately notify listeners of text change e.g. @bind
 			{
@@ -107,52 +109,54 @@ namespace Majorsoft.Blazor.Components.Debounce
 				return;
 			}
 
-			_isTimerEnabled = true; //Re-start timer
+			_timer.Reset(); //Re-start timer
 		}
 		protected void OnBlur(FocusEventArgs e)
 		{
-			WriteDiag($"OnBlur event: '{e.Type}', ForceNotifyOnBlur: {ForceNotifyOnBlur}, DebounceEnabled: {_debounceEnabled}");
+			WriteDiag($"OnBlur event: '{e.Type}', ForceNotifyOnBlur: '{ForceNotifyOnBlur}', DebounceEnabled: '{_debounceEnabled}'.");
 
 			if (ForceNotifyOnBlur)
 			{
-				_isTimerEnabled = false; //Stop timer
+				_timer.Stop(); //Stop timer
 				Notify();
 			}
 		}
 		protected void OnKeyPress(KeyboardEventArgs e)
 		{
-			WriteDiag($"OnKeyPress event: '{e.Key}', ForceNotifyByEnter: {ForceNotifyByEnter}, DebounceEnabled: {_debounceEnabled}");
+			WriteDiag($"OnKeyPress event: '{e.Key}', ForceNotifyByEnter: '{ForceNotifyByEnter}', DebounceEnabled: '{_debounceEnabled}'.");
 
 			if (ForceNotifyByEnter && (e.Key?.Equals("Enter", StringComparison.OrdinalIgnoreCase) ?? false))
 			{
-				_isTimerEnabled = false; //Stop timer
+				_timer.Stop(); //Stop timer
 				Notify();
 			}
 		}
 
 		protected void OnElapsed(ulong count)
 		{
-			WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: {_debounceEnabled}, Value: '{Value}'");
-
-			Notify();
+			WriteDiag($"Timer triggered after: '{DebounceTime}' ms delay, DebounceEnabled: '{_debounceEnabled}', Value: '{Value}'.");
+			if (_debounceEnabled)
+			{
+				Notify();
+			}
 		}
 
 		private void Notify()
 		{
 			if(_notifiedLastChange)
 			{
-				WriteDiag($"Notify event was already sent NotifiedLastChange: {_notifiedLastChange}");
+				WriteDiag($"Notify event was already sent NotifiedLastChange: '{_notifiedLastChange}'.");
 				return;
 			}
 
-			WriteDiag($"Start ValueChanged notification with length check. Value: '{Value}' length is {Value?.Length}, required MinLength: {MinLength} ");
+			WriteDiag($"Start ValueChanged notification with length check. Value: '{Value}' length is {Value?.Length}, required MinLength: '{MinLength}'.");
 			var invokeValue = Value?.Length >= MinLength
 				? Value
 				: string.Empty;
 
 			InvokeAsync(async () =>
 			{
-				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'");
+				WriteDiag($"Invoke ValueChanged event with: '{invokeValue}'.");
 
 				_notifiedLastChange = true;
 				await OnValueChanged.InvokeAsync(invokeValue);
@@ -161,17 +165,16 @@ namespace Majorsoft.Blazor.Components.Debounce
 
 		private void SetTimer(double value)
 		{
-			_isTimerEnabled = false;
+			if (_timer is not null)
+			{
+				_timer.Stop();
+			}
 
 			_intervalInMilisec = value;
 			if (value <= -1)
 			{
+				_timer?.Stop();
 				_debounceEnabled = false;
-				return;
-			}
-			if (value == 0) //Timer cannot handle 0
-			{
-				_debounceEnabled = true;
 				return;
 			}
 
