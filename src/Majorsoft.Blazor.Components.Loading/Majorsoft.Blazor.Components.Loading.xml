@@ -62,13 +62,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.Content">
             <summary>
-            Required HTML content to render e.g: Table or Grid...
+            Required HTML content to show by default e.g: Table or Grid...
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.LoadingContent">
             <summary>
-            Required HTML content to show on top of the overlay div.
-            Subscribe to this event and place your page initializer code to the event handler when using 'automatic' mode. Otherwise can be omitted.
+            Required HTML content to show on top of the Content in an overlay div.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.OnLoading">
