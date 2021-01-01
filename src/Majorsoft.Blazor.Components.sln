@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Tabs", "Majorsoft.Blazor.Components.Tabs\Majorsoft.Blazor.Components.Tabs.csproj", "{CFBB3A37-D52D-4B7C-B6A9-05B2ABCCF9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Collapse", "Majorsoft.Blazor.Components.Collapse\Majorsoft.Blazor.Components.Collapse.csproj", "{BD2761AB-D257-447D-9EDC-8EBC3C721B7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Collapse", "Majorsoft.Blazor.Components.Collapse\Majorsoft.Blazor.Components.Collapse.csproj", "{BD2761AB-D257-447D-9EDC-8EBC3C721B7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

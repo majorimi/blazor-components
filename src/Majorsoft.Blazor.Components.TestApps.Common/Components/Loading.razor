@@ -1,7 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations;
 
 <h1>Loading Components</h1>
-
 <p>
 	Blazor components that renders Overlay for page load. HTML @("<button>") with customizable content for showing async operation in progress/loading state. For usege see soruce code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md" target="_blank">Github</a>.
@@ -10,11 +9,11 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Loading page</h3>
-	<p>Renders and Overlay layer with customizable content for showing Page loading...</p>
+	<p>Renders an Overlay layer for the whole page with customizable content for showing Page loading...</p>
 
 	<LoadingPage OnLoading="@SendRequest">
 		<LoadingContent>
-			<i class="fa fa-spinner fa-3x fa-spin"></i> 
+			<i class="fa fa-spinner fa-3x fa-spin"></i>
 			<h2 class="m-3">Loading...</h2>
 		</LoadingContent>
 	</LoadingPage>
@@ -26,19 +25,84 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacity/1000) 
+			Overlay opacity: @(_overlayOpacity/1000)
 			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Loading content: <textarea class="form-control w-100" @bind="_overlayContent" />
 		</div>
 	</div>
 
 	<LoadingPage IsLoading="@_pageIsLoading" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity/1000)">
 		<LoadingContent>
-			<i class="fa fa-cog fa-3x fa-spin"></i> 
-			<h2 class="m-3">Refreshing...</h2>
+			@((MarkupString)_overlayContent)
 		</LoadingContent>
 	</LoadingPage>
 
-	<button class="btn btn-primary" @onclick="LoadForm">Prompt loader...</button>
+	<button class="btn btn-primary" @onclick="LoadForm">Prompt Page loader...</button>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Loading element</h3>
+	<p>Renders an Overlay layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColorTable" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay opacity: @(_overlayOpacityTable / 1000)
+			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacityTable" @oninput="(e => _overlayOpacityTable = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Loading content: <textarea class="form-control w-100" @bind="_overlayContent2" />
+		</div>
+	</div>
+
+	<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable/1000)">
+		<LoadingContent>
+			@((MarkupString)_overlayContent2)
+		</LoadingContent>
+		<Content>
+			<table class="table table-striped table-bordered">
+				<thead class="">
+					<tr>
+						<th>Company</th>
+						<th>Contact</th>
+						<th>Country</th>
+					</tr>
+				</thead>
+				<tr>
+					<td>Alfreds Futterkiste</td>
+					<td>Maria Anders</td>
+					<td>Germany</td>
+				</tr>
+				<tr>
+					<td>Centro comercial Moctezuma</td>
+					<td>Francisco Chang</td>
+					<td>Mexico</td>
+				</tr>
+				<tr>
+					<td>Ernst Handel</td>
+					<td>Roland Mendel</td>
+					<td>Austria</td>
+				</tr>
+				<tr>
+					<td>Island Trading</td>
+					<td>Helen Bennett</td>
+					<td>UK</td>
+				</tr>
+			</table>
+		</Content>
+	</LoadingElement>
+
+	<button class="btn btn-primary" @onclick="LoadTable">Prompt Table loader...</button>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -107,11 +171,18 @@
 @code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		await _loadingButton.InnerElementReference.FocusAsync();
+		if (firstRender)
+		{
+			await _loadingButton.InnerElementReference.FocusAsync();
+		}
 	}
 
+	//Page Loading
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 500;
+	private string _overlayContent = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
+<h2 class=""m-3"">Refreshing...</h2>";
+
 	//Use it when loader should be manually triggered otherwise use LoadingPage.OnLoading event.
 	private bool _pageIsLoading = false;
 	private async Task LoadForm()
@@ -128,6 +199,28 @@
 		}
 	}
 
+	//Element Loading
+	private string _overlayColorTable = "orange";
+	private double _overlayOpacityTable = 500;
+	private bool _elementIsLoading = false;
+	private string _overlayContent2 = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
+<h2 class=""m-3"">Refreshing...</h2>";
+
+	private async Task LoadTable()
+	{
+		try
+		{
+			_elementIsLoading = true; //Set the layout to Loading state
+
+			await Task.Delay(1000); //write your code here...
+		}
+		finally
+		{
+			_elementIsLoading = false; //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
+		}
+	}
+
+	//Button Loading
 	private async Task SendRequest()
 	{
 		await Task.Delay(1500); //write your code here...

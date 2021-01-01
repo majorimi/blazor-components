@@ -14,16 +14,16 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/loading).
 
-![Loading demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/loading.gif)
-
 # Components
 
 - **`LoadingPage`**: Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
+- **`LoadingElement`**: Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...
 - **`LoadingButton`**: Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
 
 ## `LoadingPage` component
 Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
-It is useful when you want to show some content with overlay meanwhile your page is loading (waiting API response, etc.).
+It is useful when you want to show some content with full page overlay meanwhile your page is loading (waiting API response, etc.).
+![LoadingPage demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/loadingPage.gif)
 
 ### Properties
 - **`LoadingContent`: `RenderFragment` HTML content - Required** <br />
@@ -48,8 +48,34 @@ Sets the component to Loading state. Shows overlay `<div>` with specified conten
 - **`Reset()`: `void Reset()`** <br />
 Resets the component to the original state. Hides overlay `<div>`.
 
+
+## `LoadingElement` component
+Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...
+It is useful when you want to show some content with overlay on a Table or Grid, etc. meanwhile data is being fetched from server.
+![LoadingElement demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/loadingElement.gif)
+
+### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+ Required HTML content to show by default e.g: Table or Grid...
+- **`LoadingContent`: `RenderFragment` HTML content - Required** <br />
+Required HTML content to show on top of the `Content` in an overlay `<div>`.
+- **`OverlayBackgroundColor`: `string { get; set; }` (default: "gray")** <br />
+Sets the `style` of the HTML `<div>` `background-color`. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+- **`OverlayOpacity`: `double { get; set; }` (default: 0.9)** <br />
+Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means the overlay layer is not visible.
+- **`IsLoading`: `bool { get; set; }`** <br />
+ Can be set overlay to loading state `true` or remove it `false`.  Returns `true` if loading overlay is prompted, otherwise `false`.
+
+**Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML element `<div>`**.
+
+### Events
+- **`OnLoading`: `EventCallback` delegate** <br />
+Callback function called when component `OnInitializedAsync` Blazor event triggered. 
+
+
 ## `LoadingButton` component
 Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
+![LoadingButton demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/loadingButton.gif)
 
 ### Properties
 - **`Content`: `RenderFragment` HTML content - Required** <br />
@@ -133,8 +159,8 @@ Instead you have to show/hide overlay in your event handler e.g. `OnInitializedA
 
 **Use `bool IsLoading` Blazor parameter to set the Page loader state.**
 
-**OBSOLATE:** Use `@ref=""` tag and declare `LoadingPage` type variable in your code with the given name in ref. 
-And call `Set()` and `Reset()` functions in your handler (in code example `LoadForm()`).
+**OBSOLATE:** ~~Use `@ref=""` tag and declare `LoadingPage` type variable in your code with the given name in ref. 
+And call `Set()` and `Reset()` functions in your handler (in code example `LoadForm()`).~~
 
 **Important: you should put your code in Try/Finally block to avoid 'infinite' loading state in case of any errors.**
 
@@ -162,6 +188,63 @@ And call `Set()` and `Reset()` functions in your handler (in code example `LoadF
 		finally
 		{
 			_pageIsLoading = false; //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
+		}
+	}
+}
+```
+
+### `LoadingElement` usage
+Following code example shows how to use **`LoadingElement`** component. Unlike other Loading components `LoadingElement` can only used in **'manual' mode**.
+
+In manual mode overlay won't be shown automatically. 
+Instead you have to show/hide overlay in your event handler e.g. `OnInitializedAsync`, `onclick`, etc.
+**Use `bool IsLoading` Blazor parameter to set the loader state.**
+
+```
+<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable/1000)">
+	<LoadingContent>
+		<i class="fa fa-refresh fa-3x fa-spin"></i> 
+		<h2 class="m-3">Refreshing...</h2>
+	</LoadingContent>
+	<Content>
+		<table class="table table-striped table-bordered">
+			<thead class="">
+				<tr>
+					<th>Company</th>
+					<th>Contact</th>
+					<th>Country</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>Alfreds Futterkiste</td>
+				<td>Maria Anders</td>
+				<td>Germany</td>
+			</tr>
+			<tr>
+				<td>Centro comercial Moctezuma</td>
+				<td>Francisco Chang</td>
+				<td>Mexico</td>
+			</tr>
+		</table>
+	</Content>
+</LoadingElement>
+
+@code {
+	private string _overlayColorTable = "orange";
+	private double _overlayOpacityTable = 500;
+	private bool _elementIsLoading = false;
+
+	private async Task LoadTable()
+	{
+		try
+		{
+			_elementIsLoading = true; //Set the layout to Loading state
+
+			await Task.Delay(1000); //write your code here...
+		}
+		finally
+		{
+			_elementIsLoading = false; //Reset layout to default state in FINALLY block to avoid infinity loading state in case of any error!
 		}
 	}
 }
@@ -206,8 +289,8 @@ Instead you have to switch button state in your event handler most probably in a
 
 **Use `bool IsLoading` Blazor parameter to set the Page loader state.**
 
-**OBSOLATE:** Use `@ref=""` tag and declare `LoadingButton` type variable in your code with the given name in ref. 
-And call `Set()` and `Reset()` functions in your handler (in code example `FormOnValidSubmit()`).
+**OBSOLATE:** ~~Use `@ref=""` tag and declare `LoadingButton` type variable in your code with the given name in ref. 
+And call `Set()` and `Reset()` functions in your handler (in code example `FormOnValidSubmit()`).~~
 
 **Important: you should put your code in Try/Finally block to avoid 'infinite' loading state in case of any errors.**
 
