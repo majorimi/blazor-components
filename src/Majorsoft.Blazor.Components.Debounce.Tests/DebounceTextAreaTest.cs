@@ -248,8 +248,9 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			Assert.IsNotNull(input);
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
+			Assert.AreEqual(valueEventTime, DateTime.MinValue);
 
-			await Task.Delay(debounceTime * 3); //wait for debounce
+			await Task.Delay(debounceTime * 4); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
