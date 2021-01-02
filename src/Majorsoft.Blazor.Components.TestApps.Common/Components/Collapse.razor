@@ -1,5 +1,78 @@
-﻿<h3>Collapse</h3>
+﻿<h1>Collapse Components</h1>
+<p>
+	Blazor component that renders customizable Collapsable/Expandable panel and Accordion with many but only one active panel also custom content and header. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Collapse</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Collapse" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>CollapsePanel</h3>
+	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsable panel</strong> with custumizable header and content.</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Active tab color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_activeColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Inactive tabs color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_inactiveColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tabs Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
+		</div>
+	</div>
+
+	<div class="row mb-3 border rounded m-1">
+		<div class="col-12">
+			<CollapsePanel>
+
+			</CollapsePanel>
+		</div>
+	</div>
+
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Accordion</h3>
+	<p>
+		Renders <strong> a set of <code>CollapsePanel</code> components </strong> which is an <strong> Expandable and Collapsable panel</strong> with custumizable header and content.
+		But <code>Accordion</code> allows only one Expanded (active) panel.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Active tab color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionActiveColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Inactive tabs color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionInactiveColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tabs Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionHoverColor" />
+		</div>
+	</div>
+
+	<Accordion>
+
+	</Accordion>
+
+</div>
 
 @code {
+	//Collapse
+	private string _activeColor = "DodgerBlue";
+	private string _inactiveColor = "White";
+	private string _hoverColor = "WhiteSmoke";
+
+	//Accordion
+	private string _accordionActiveColor = "";
+	private string _accordionInactiveColor = "";
+	private string _accordionHoverColor = "";
 
 }
