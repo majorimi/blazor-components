@@ -27,6 +27,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="bundleconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\..\.github\Images\blazor.components.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -35,6 +39,7 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="bundleconfig.json" />
 	</ItemGroup>
 
 

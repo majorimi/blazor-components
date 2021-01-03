@@ -1,4 +1,17 @@
-﻿<h1>Collapse Components</h1>
+﻿<style>
+	h5 {
+		margin-bottom: 0px;
+		display: inline-block;
+	}
+	span {
+		float: right;
+		margin: 3px;
+		margin-top: 6px;
+		color: white;
+	}
+</style>
+
+<h1>Collapse Components</h1>
 <p>
 	Blazor component that renders customizable Collapsable/Expandable panel and Accordion with many but only one active panel also custom content and header. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md" target="_blank">Github</a>.
@@ -11,24 +24,40 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Active tab color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_activeColor" />
+			Collapsed color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_collapsedColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Inactive tabs color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_inactiveColor" />
+			Expanded color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_expandedColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Tabs Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
+			Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
 		</div>
 	</div>
 
-	<div class="row mb-3 border rounded m-1">
+	<div class="row mb-3">
 		<div class="col-12">
-			<CollapsePanel>
-
+			<CollapsePanel CollapsedColor="@_collapsedColor" ExpandedColor="@_expandedColor" HoverColor="@_hoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						This is the content
+					</div>
+				</Content>
 			</CollapsePanel>
 		</div>
 	</div>
@@ -66,9 +95,9 @@
 
 @code {
 	//Collapse
-	private string _activeColor = "DodgerBlue";
-	private string _inactiveColor = "White";
-	private string _hoverColor = "WhiteSmoke";
+	private string _collapsedColor = "DodgerBlue";
+	private string _expandedColor = "LightBlue";
+	private string _hoverColor = "LightGray";
 
 	//Accordion
 	private string _accordionActiveColor = "";
