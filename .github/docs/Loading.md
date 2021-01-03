@@ -20,7 +20,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`LoadingElement`**: Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...
 - **`LoadingButton`**: Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
 
-## `LoadingPage` component
+## `LoadingPage` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-page))
 Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
 It is useful when you want to show some content with full page overlay meanwhile your page is loading (waiting API response, etc.).
 
@@ -50,7 +50,7 @@ Sets the component to Loading state. Shows overlay `<div>` with specified conten
 Resets the component to the original state. Hides overlay `<div>`.
 
 
-## `LoadingElement` component
+## `LoadingElement` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-element))
 Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...
 It is useful when you want to show some content with overlay on a Table or Grid, etc. meanwhile data is being fetched from server.
 
@@ -75,7 +75,7 @@ Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means 
 Callback function called when component `OnInitializedAsync` Blazor event triggered. 
 
 
-## `LoadingButton` component
+## `LoadingButton` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-button))
 Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
 
 ![LoadingButton demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/loadingButton.gif)
