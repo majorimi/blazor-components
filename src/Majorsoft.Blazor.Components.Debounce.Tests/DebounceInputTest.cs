@@ -226,7 +226,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceInput_should_wait_debounce_time_on_disabled_force_enter()
 		{
-			var debounceTime = 25;
+			var debounceTime = 30;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
