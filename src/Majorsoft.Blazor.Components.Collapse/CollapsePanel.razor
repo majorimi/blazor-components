@@ -1,0 +1,172 @@
+﻿<div @ref="_inputRef" class="collapsePanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
+	@if (Collapsed)
+	{
+		<div id="@($"collapse_{_componentId}")" class="collapseHeader collapsed @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+			@(CommonHeader ?? CollapsedHeaderContent)
+		</div>
+	}
+	else
+	{
+		<div id="@($"collapse_{_componentId}")" class="collapseHeader expanded @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+			@(CommonHeader ?? ExpandedHeaderContent)
+		</div>
+	}
+	<div class="collapseContent @(Animate ? "animate" : "")"
+		 style="opacity: @(Collapsed ? "0" : "1"); height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
+		@Content
+	</div>
+</div>
+
+<style>
+	.collapseHeader[id=@($"collapse_{_componentId}")].expanded {
+		background-color: @($"rgb({ExpandedColor})");
+	}
+	.collapseHeader[id=@($"collapse_{_componentId}")].collapsed {
+		background-color: @($"rgb({CollapsedColor})");
+	}
+	.collapseHeader[id=@($"collapse_{_componentId}")]:hover {
+		background-color: @($"rgb({HoverColor})");
+	}
+</style>
+
+@using Majorsoft.Blazor.Components.Core.HtmlColors;
+
+@inject ILogger<CollapsePanel> _logger;
+
+@code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	/// <summary>
+	/// Common header for Collapse control it will be shown for any collapsed state. It overrides ExpandedHeaderContent, CollapsedHeaderContent.
+	/// </summary>
+	[Parameter] public RenderFragment CommonHeader { get; set; }
+	/// <summary>
+	/// Special header for Collapse control it is shown when item Expanded.
+	/// </summary>
+	[Parameter] public RenderFragment ExpandedHeaderContent { get; set; }
+	/// <summary>
+	/// Special header for Collapse control it is shown when item Collapsed.
+	/// </summary>
+	[Parameter] public RenderFragment CollapsedHeaderContent { get; set; }
+
+	/// <summary>
+	/// HTML Content of the collapse panel.
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+
+	private string _expandedColor = "211,211,211";//lightGray
+	/// <summary>
+	/// Sets the `style` of the `background-color` when tab is Active. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string ExpandedColor
+	{
+		get => _expandedColor;
+		set => _expandedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _collapsedColor = "211,211,211";//lightGray
+	/// <summary>
+	/// Sets the `style` of the `background-color` when tab is not the Active tab. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string CollapsedColor
+	{
+		get => _collapsedColor;
+		set => _collapsedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	private string _hoverColor = "245, 245, 245";//WhiteSmoke
+	/// <summary>
+	/// Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string HoverColor
+	{
+		get => _hoverColor;
+		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	/// <summary>
+	/// Sets the height of Content panel in `px`. 0 is auto.
+	/// </summary>
+	[Parameter] public int ContentHeight { get; set; } = 200;
+
+	/// <summary>
+	/// Determines whether all the rendered HTML elements should be disabled or not.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	private bool _collapsed = false;
+	/// <summary>
+	/// Can be set if panel should be collapsed `true` or expanded `false`.
+	/// </summary>
+	[Parameter] public bool Collapsed
+	{
+		get => _collapsed;
+		set
+		{
+			if(value != _collapsed)
+			{
+				_collapsed = value;
+
+				if (OnCollapseChanged.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnCollapseChanged.InvokeAsync(Collapsed);
+					});
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Determines to apply CSS animation and transition on Collapse state changes or not.
+	/// Note: in case of `auto` height some animation won't work.
+	/// </summary>
+	[Parameter] public bool Animate { get; set; } = true;
+
+	/// <summary>
+	/// Determines whether content overflow is visible (scrollable) or not (hidden).
+	/// </summary>
+	[Parameter] public bool ShowContentOverflow { get; set; } = false;
+
+	/// <summary>
+	/// Callback function called when panel collapsed or expanded. Collapsed state is the callback parameter.
+	/// </summary>
+	[Parameter] public EventCallback<bool> OnCollapseChanged { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private async Task ExpandCollapse()
+	{
+		Collapsed = !Collapsed;
+		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
+
+		if (OnCollapseChanged.HasDelegate)
+		{
+			await OnCollapseChanged.InvokeAsync(Collapsed);
+		}
+	}
+
+	private string GetContentHeight()
+	{
+		if (Collapsed)
+			return "0px;";
+
+		return ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;";
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}
