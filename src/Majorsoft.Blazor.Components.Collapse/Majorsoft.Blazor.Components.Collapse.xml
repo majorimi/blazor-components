@@ -11,7 +11,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.CommonHeader">
             <summary>
-            Common header for Collapse control it will be shown all the time. It is overdefine ExpandedHeaderContent, CollapsedHeaderContent.
+            Common header for Collapse control it will be shown for any collapsed state. It overrides ExpandedHeaderContent, CollapsedHeaderContent.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ExpandedHeaderContent">

@@ -42,7 +42,7 @@
 	public ElementReference InnerElementReference => _inputRef;
 
 	/// <summary>
-	/// Common header for Collapse control it will be shown all the time. It is overdefine ExpandedHeaderContent, CollapsedHeaderContent.
+	/// Common header for Collapse control it will be shown for any collapsed state. It overrides ExpandedHeaderContent, CollapsedHeaderContent.
 	/// </summary>
 	[Parameter] public RenderFragment CommonHeader { get; set; }
 	/// <summary>
@@ -125,7 +125,7 @@
 	}
 
 	/// <summary>
-	/// Determines to apply CSS animation and transion on Collapse state changes or not.
+	/// Determines to apply CSS animation and transition on Collapse state changes or not.
 	/// Note: in case of `auto` height some animation won't work.
 	/// </summary>
 	[Parameter] public bool Animate { get; set; } = true;
