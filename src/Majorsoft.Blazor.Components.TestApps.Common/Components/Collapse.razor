@@ -6,7 +6,9 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>CollapsePanel</h3>
+	<PermaLinkElement PermaLinkName="click-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>CollapsePanel</h3></Content>
+	</PermaLinkElement>
 	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsable panel</strong> with custumizable header and content.</p>
 
 	<div class="row pb-2">
@@ -63,7 +65,10 @@
 				</ExpandedHeaderContent>
 				<Content>
 					<div style="border: 1px solid gray; height: 100%;">
-						This is the content
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/33200850951/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/3884/33200850951_079a7fd7e4_b.jpg" width="200" height="150" />
+						</a>
 					</div>
 				</Content>
 			</CollapsePanel>
@@ -76,10 +81,103 @@
 			<textarea @ref="_log" @bind="_collapseLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
+
+	<hr />
+	<div class="row mb-3">
+		<div class="col-12">
+			<h3>Multiple CollapsePanel items</h3>
+
+			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 1 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 1 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the first content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/49503272657/" target="_blank">
+							<img src="https://live.staticflickr.com/65535/49503272657_f8dd72c868_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel ContentHeight="0" Collapsed="true" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 2 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 2 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the second content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/22769636223/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/5650/22769636223_7cd63b9fc4_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel ContentHeight="0" Collapsed="true" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 3 - Expand me</h5>
+						<span class="fa fa-lg fa-angle-double-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 3 - Collapse me</h5>
+						<span class="fa fa-lg fa-angle-double-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="height: 100%;">
+						<h4>This is the third content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/20446928144/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/622/20446928144_4394d817ba_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+
+			<CollapsePanel ContentHeight="0" style="margin-bottom: 5px;">
+				<CommonHeader>
+					<div class="w-100">
+						<h5>Common heder will never change...</h5>
+					</div>
+				</CommonHeader>
+				<Content>
+					<div style="height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/29505484165/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/8544/29505484165_33d919ee42_b.jpg" width="250" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+		</div>
+	</div>
+
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Accordion</h3>
+	<PermaLinkElement PermaLinkName="click-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Accordion</h3></Content>
+	</PermaLinkElement>
 	<p>
 		Renders <strong> a set of <code>CollapsePanel</code> components </strong> which is an <strong> Expandable and Collapsable panel</strong> with custumizable header and content.
 		But <code>Accordion</code> allows only one Expanded (active) panel.
@@ -115,7 +213,7 @@
 	private bool _isAnimated = true;
 	private bool _isCollapseDisabled = false;
 	private bool _isCollapsed = false;
-	private int _height = 100;
+	private int _height = 200;
 
 	private ElementReference _log;
 	private string _collapseLog;
