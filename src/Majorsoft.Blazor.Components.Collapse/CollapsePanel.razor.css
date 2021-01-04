@@ -24,14 +24,8 @@
 .collapseContent {
 	outline: none;
 	display: block;
-	overflow: auto;
-	opacity: 0;
-}
-.collapseContent.visible {
-	opacity: 1;
 }
 .collapseContent.animate {
-	opacity: 1;
-	-webkit-transition: opacity 1s; /* For Safari 3.1 to 6.0 */
-	transition: opacity 1s;
+	-webkit-transition: opacity 1s, height 0.4s; /* For Safari 3.1 to 6.0 */
+	transition: opacity 1s, height 0.4s;
 }

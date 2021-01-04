@@ -61,7 +61,13 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate">
             <summary>
-            Determines to apply CSS animation and transion on Tab changes or not.
+            Determines to apply CSS animation and transion on Collapse state changes or not.
+            Note: in case of `auto` height some animation won't work.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ShowContentOverflow">
+            <summary>
+            Determines whether content overflow is visible (scrollable) or not (hidden).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.OnCollapseChanged">

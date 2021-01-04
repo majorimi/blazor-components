@@ -39,6 +39,8 @@
 			Collapsed: <input class="mr-3" type="checkbox" @bind="_isCollapsed" />
 			<br />
 			Animate Collapse changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
+			<br />
+			Show content overflow: <input class="mr-3" type="checkbox" @bind="_showOverflow" />
 		</div>
 	</div>
 
@@ -51,6 +53,7 @@
 						   Collapsed="@_isCollapsed"
 						   ContentHeight="@_height"
 						   Animate="@_isAnimated"
+						   ShowContentOverflow="@_showOverflow"
 						   OnCollapseChanged="OnCollapsed">
 				<CollapsedHeaderContent>
 					<div class="w-100">
@@ -87,6 +90,8 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<h3>Multiple CollapsePanel items</h3>
+			<p>Example usage of multiple independent <code>CollapsePanel</code>s with default settings. 
+			Note: content <code>height: auto</code> prevents some CSS animation to work.</p>
 
 			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">
 				<CollapsedHeaderContent>
@@ -155,7 +160,7 @@
 				</Content>
 			</CollapsePanel>
 
-			<CollapsePanel ContentHeight="0" style="margin-bottom: 5px;">
+			<CollapsePanel ContentHeight="190" style="margin-bottom: 5px;">
 				<CommonHeader>
 					<div class="w-100">
 						<h5>Common heder will never change...</h5>
@@ -214,6 +219,7 @@
 	private bool _isAnimated = true;
 	private bool _isCollapseDisabled = false;
 	private bool _isCollapsed = false;
+	private bool _showOverflow = false;
 	private int _height = 200;
 
 	private ElementReference _log;
