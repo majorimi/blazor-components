@@ -1,29 +1,29 @@
 ﻿<div @ref="_inputRef" class="collapsePanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
 	@if (Collapsed)
 	{
-		<div class="collapseHeader collapsed" @onclick="ExpandCollapse">
+		<div id="@($"collapse_{_componentId}")" class="collapseHeader collapsed @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
 			@(CommonHeader ?? CollapsedHeaderContent)
 		</div>
 	}
 	else
 	{
-		<div class="collapseHeader expanded" @onclick="ExpandCollapse">
+		<div id="@($"collapse_{_componentId}")" class="collapseHeader expanded @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
 			@(CommonHeader ?? ExpandedHeaderContent)
 		</div>
-		<div class="collapseContent" style="height: @(ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;")">
+		<div class="collapseContent @_contentCss" style="height: @(ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;")">
 			@Content
 		</div>
 	}
 </div>
 
 <style>
-	.collapseHeader.expanded {
+	.collapseHeader[id=@($"collapse_{_componentId}")].expanded {
 		background-color: @($"rgb({ExpandedColor})");
 	}
-	.collapseHeader.collapsed {
+	.collapseHeader[id=@($"collapse_{_componentId}")].collapsed {
 		background-color: @($"rgb({CollapsedColor})");
 	}
-	.collapseHeader:hover {
+	.collapseHeader[id=@($"collapse_{_componentId}")]:hover {
 		background-color: @($"rgb({HoverColor})");
 	}
 </style>
@@ -33,11 +33,24 @@
 @inject ILogger<CollapsePanel> _logger;
 
 @code {
+	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
 	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 	/// </summary>
 	public ElementReference InnerElementReference => _inputRef;
+
+	private string _contentCss = "visible";
+	protected override void OnAfterRender(bool firstRender)
+	{
+		_contentCss = string.Empty;
+		if (!Collapsed)
+		{
+			_contentCss = Animate ? "animate" : "visible";
+		}
+
+		base.OnAfterRender(firstRender);
+	}
 
 	/// <summary>
 	/// Common header for Collapse control it will be shown all the time. It is overdefine ExpandedHeaderContent, CollapsedHeaderContent.
@@ -98,10 +111,33 @@
 	/// </summary>
 	[Parameter] public bool Disabled { get; set; } = false;
 
+	private bool _collapsed = false;
 	/// <summary>
-	///
+	/// Can be set if panel should be collapsed `true` or expanded `false`.
 	/// </summary>
-	[Parameter] public bool Collapsed { get; set; } = false;
+	[Parameter] public bool Collapsed
+	{
+		get => _collapsed;
+		set
+		{
+			if(value != _collapsed)
+			{
+				_collapsed = value;
+				if (OnCollapseChanged.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnCollapseChanged.InvokeAsync(Collapsed);
+					});
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Determines to apply CSS animation and transion on Tab changes or not.
+	/// </summary>
+	[Parameter] public bool Animate { get; set; } = true;
 
 	/// <summary>
 	/// Callback function called when panel collapsed or expanded. Collapsed state is the callback parameter.
@@ -119,7 +155,7 @@
 		Collapsed = !Collapsed;
 		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
 
-		if(OnCollapseChanged.HasDelegate)
+		if (OnCollapseChanged.HasDelegate)
 		{
 			await OnCollapseChanged.InvokeAsync(Collapsed);
 		}

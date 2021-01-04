@@ -6,7 +6,7 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="click-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+	<PermaLinkElement PermaLinkName="collapsePanel" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>CollapsePanel</h3></Content>
 	</PermaLinkElement>
 	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsable panel</strong> with custumizable header and content.</p>
@@ -50,6 +50,7 @@
 						   Disabled="@_isCollapseDisabled"
 						   Collapsed="@_isCollapsed"
 						   ContentHeight="@_height"
+						   Animate="@_isAnimated"
 						   OnCollapseChanged="OnCollapsed">
 				<CollapsedHeaderContent>
 					<div class="w-100">
@@ -175,7 +176,7 @@
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="click-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+	<PermaLinkElement PermaLinkName="accordion" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Accordion</h3></Content>
 	</PermaLinkElement>
 	<p>

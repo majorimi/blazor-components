@@ -55,9 +55,14 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Collapsed">
-             <summary>
-            
-             </summary>
+            <summary>
+            Can be set if panel should be collapsed `true` or expanded `false`.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate">
+            <summary>
+            Determines to apply CSS animation and transion on Tab changes or not.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.OnCollapseChanged">
             <summary>
