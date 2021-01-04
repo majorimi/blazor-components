@@ -1,6 +1,10 @@
 ﻿.collapsePanel {
 	outline: none;
 }
+.collapsePanel.disabled {
+	opacity: 0.6;
+	pointer-events: none;
+}
 
 .collapseHeader {
 	outline: none;

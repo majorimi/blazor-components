@@ -9,6 +9,26 @@
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.CommonHeader">
+            <summary>
+            Common header for Collapse control it will be shown all the time. It is overdefine ExpandedHeaderContent, CollapsedHeaderContent.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ExpandedHeaderContent">
+            <summary>
+            Special header for Collapse control it is shown when item Expanded.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.CollapsedHeaderContent">
+            <summary>
+            Special header for Collapse control it is shown when item Collapsed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ExpandedColor">
             <summary>
             Sets the `style` of the `background-color` when tab is Active. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.

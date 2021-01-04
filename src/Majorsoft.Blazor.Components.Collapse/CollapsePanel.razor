@@ -1,14 +1,14 @@
-﻿<div @ref="_inputRef" class="collapsePanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
+﻿<div @ref="_inputRef" class="collapsePanel @(Disabled ? "disabled" : "")" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
 	@if (Collapsed)
 	{
 		<div class="collapseHeader collapsed" @onclick="ExpandCollapse">
-			@CollapsedHeaderContent
+			@(CommonHeader ?? CollapsedHeaderContent)
 		</div>
 	}
 	else
 	{
 		<div class="collapseHeader expanded" @onclick="ExpandCollapse">
-			@ExpandedHeaderContent
+			@(CommonHeader ?? ExpandedHeaderContent)
 		</div>
 		<div class="collapseContent" style="height: @(ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;")">
 			@Content
@@ -39,9 +39,22 @@
 	/// </summary>
 	public ElementReference InnerElementReference => _inputRef;
 
+	/// <summary>
+	/// Common header for Collapse control it will be shown all the time. It is overdefine ExpandedHeaderContent, CollapsedHeaderContent.
+	/// </summary>
+	[Parameter] public RenderFragment CommonHeader { get; set; }
+	/// <summary>
+	/// Special header for Collapse control it is shown when item Expanded.
+	/// </summary>
 	[Parameter] public RenderFragment ExpandedHeaderContent { get; set; }
+	/// <summary>
+	/// Special header for Collapse control it is shown when item Collapsed.
+	/// </summary>
 	[Parameter] public RenderFragment CollapsedHeaderContent { get; set; }
 
+	/// <summary>
+	/// HTML Content of the collapse panel.
+	/// </summary>
 	[Parameter] public RenderFragment Content { get; set; }
 
 	private string _expandedColor = "211,211,211";//lightGray
@@ -101,9 +114,15 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	private void ExpandCollapse()
+	private async Task ExpandCollapse()
 	{
 		Collapsed = !Collapsed;
+		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
+
+		if(OnCollapseChanged.HasDelegate)
+		{
+			await OnCollapseChanged.InvokeAsync(Collapsed);
+		}
 	}
 
 	private void WriteDiag(string message)

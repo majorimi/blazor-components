@@ -1,17 +1,4 @@
-﻿<style>
-	h5 {
-		margin-bottom: 0px;
-		display: inline-block;
-	}
-	span {
-		float: right;
-		margin: 3px;
-		margin-top: 6px;
-		color: white;
-	}
-</style>
-
-<h1>Collapse Components</h1>
+﻿<h1>Collapse Components</h1>
 <p>
 	Blazor component that renders customizable Collapsable/Expandable panel and Accordion with many but only one active panel also custom content and header. For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md" target="_blank">Github</a>.
@@ -37,10 +24,31 @@
 			Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
 		</div>
 	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			CollapsePanel contet Height (0 is auto): @(_height)px
+			<input type="range" class="w-100" min="0" max="400" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			CollapsePanel Disabled: <input class="mr-3" type="checkbox" @bind="_isCollapseDisabled" />
+			Collapsed: <input class="mr-3" type="checkbox" @bind="_isCollapsed" />
+			<br />
+			Animate Collapse changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
+		</div>
+	</div>
 
 	<div class="row mb-3">
 		<div class="col-12">
-			<CollapsePanel CollapsedColor="@_collapsedColor" ExpandedColor="@_expandedColor" HoverColor="@_hoverColor">
+			<CollapsePanel CollapsedColor="@_collapsedColor"
+						   ExpandedColor="@_expandedColor"
+						   HoverColor="@_hoverColor"
+						   Disabled="@_isCollapseDisabled"
+						   Collapsed="@_isCollapsed"
+						   ContentHeight="@_height"
+						   OnCollapseChanged="OnCollapsed">
 				<CollapsedHeaderContent>
 					<div class="w-100">
 						<h5>Expand me</h5>
@@ -62,6 +70,12 @@
 		</div>
 	</div>
 
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Collapse Event log</strong>:</label>
+			<textarea @ref="_log" @bind="_collapseLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -98,10 +112,30 @@
 	private string _collapsedColor = "DodgerBlue";
 	private string _expandedColor = "LightBlue";
 	private string _hoverColor = "LightGray";
+	private bool _isAnimated = true;
+	private bool _isCollapseDisabled = false;
+	private bool _isCollapsed = false;
+	private int _height = 100;
+
+	private ElementReference _log;
+	private string _collapseLog;
+
+	private async Task OnCollapsed(bool state)
+	{
+		_isCollapsed = state;
+		_collapseLog = WriteLog(_collapseLog, $"Collapse panel state has changed event Collapsed: {state}");
+		await _log.ScrollToEndAsync();
+	}
 
 	//Accordion
 	private string _accordionActiveColor = "";
 	private string _accordionInactiveColor = "";
 	private string _accordionHoverColor = "";
 
+
+	private string WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		return log;
+	}
 }
