@@ -8,7 +8,7 @@ Blazor Components Debounce Input controls
 # About
 
 Blazor components that are rendering HTML `<input>`, `<textarea>` elements also extending `InputText` and `InputTextArea` Blazor provided components with debounced (delay) event for onChange. **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/Debounce.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Debounce.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/debounceinput).
 

@@ -9,7 +9,7 @@ Blazor Timer Component
 
 Blazor component that can be used as a simple scheduler or performing periodically repeated tasks 
 by calling custom async code. **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/TimerComponent.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/TimerComponent.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/timer).
 

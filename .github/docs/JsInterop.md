@@ -9,7 +9,7 @@ Blazor Js Interop components and extensions
 
 Collection of Blazor components and extension methods that provide useful functionality which can be achieved only with Js Interop.
 **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/JSInterop.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/JSInterop.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop).
 

@@ -9,7 +9,7 @@ Blazor Collapse Components
 
 Blazor component that renders customizable Collapsible/Expandable panel and Accordion with many but only one active panel also custom content and header.
 **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/Collapse.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Collapse.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/Collapse).
 
@@ -22,7 +22,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 Blazor component that renders `CollapsePanel` component which is an **Expandable and Collapsible panel** with customizable header and content.
 Multiple components can be added to a Balzor component each will act and work independently.
 
-![CollapsePanel demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/Collapse.gif)
+![CollapsePanel demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/collapse.gif)
 
 ### Properties
 - **`CommonHeader`: `RenderFragment` HTML content - Required or see specific headers** <br />
@@ -62,7 +62,7 @@ Blazor component that renders a **set of `CollapsePanel` components**. It is onl
 Each `CollapsePanel` act as individual components so they should be configured directly (use variables to change parameter for all at once).
 **`Accordion` allows only one Expanded (active)** panel.
 
-![Accordion button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/Accordion.gif)
+![Accordion button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/accordion.gif)
 
 ### Properties
 - **`CollapsePanels`: `RenderFragment` HTML content - Required**

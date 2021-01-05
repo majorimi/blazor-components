@@ -10,7 +10,7 @@ Blazor Tabs Components
 
 Blazor component that renders customizable Tabs element panel with many tabs and custom content.
 **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/Tabs.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Tabs.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/Tabs).
 

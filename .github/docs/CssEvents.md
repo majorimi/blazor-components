@@ -10,6 +10,7 @@ Blazor CSS Animation and Transition components and extensions
 Blazor Extensions and Components wrapper to notify on CSS **Transition** and **Animation** events.
 This is useful when you want to wait for a CSS **Transition** or **Animation** to finish and then continue run C# code, e.g.: hide the element, etc.
  **All components work with WebAssembly and Server hosted models**. 
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/CssEvents.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents).
 

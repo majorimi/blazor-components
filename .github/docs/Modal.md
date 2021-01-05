@@ -9,6 +9,7 @@ Blazor Components Modal dialog control
 
 Blazor component that can be used for prompting Modal dialog window for lightboxes, user notifications or with fully customizable **Header**, **Content** and **Footer** parameterized Overlay, etc..
  **All components work with WebAssembly and Server hosted models**. 
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Dialog.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/modal).
 

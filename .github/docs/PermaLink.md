@@ -9,7 +9,7 @@ Blazor Components PermaLink control and extension
 
 Blazor **injectable `IPermaLinkWatcherService` service** and `PermaLinkElement` wrapper component which allows navigation inside Blazor pages (#permalink). 
 **All components work with WebAssembly and Server hosted models** (Blazor server side configuration is different). 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/PermaLink.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Permalink.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/permalink#main).
 
