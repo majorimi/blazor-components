@@ -118,18 +118,10 @@
 			if(value != _collapsed)
 			{
 				_collapsed = value;
-				if (!Collapsed)
+				InvokeAsync(async () =>
 				{
-					Parent?.ActivateCollapsePanel(this);
-				}
-
-				if (OnCollapseChanged.HasDelegate)
-				{
-					InvokeAsync(async () =>
-					{
-						await OnCollapseChanged.InvokeAsync(Collapsed);
-					});
-				}
+					await CollapseEvent();
+				});
 			}
 		}
 	}
@@ -158,17 +150,18 @@
 
 	private async Task ExpandCollapse()
 	{
-		Collapsed = !Collapsed;
+		_collapsed = !Collapsed;
 		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
 
-		if (!Collapsed)
-		{
-			Parent?.ActivateCollapsePanel(this);
-		}
+		await CollapseEvent();
+	}
+	private async Task CollapseEvent()
+	{
+		Parent?.ActivateCollapsePanel(_collapsed ? null : this);
 
 		if (OnCollapseChanged.HasDelegate)
 		{
-			await OnCollapseChanged.InvokeAsync(Collapsed);
+			await OnCollapseChanged.InvokeAsync(_collapsed);
 		}
 	}
 

@@ -231,7 +231,7 @@
 				</CollapsedHeaderContent>
 				<ExpandedHeaderContent>
 					<div class="w-100">
-						<h5>Active panel 1 - Collapse me</h5>
+						<h5>Single Active panel 1 - Collapse me</h5>
 						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
 					</div>
 				</ExpandedHeaderContent>
@@ -255,7 +255,7 @@
 				</CollapsedHeaderContent>
 				<ExpandedHeaderContent>
 					<div class="w-100">
-						<h5>Active panel 2 - Collapse me</h5>
+						<h5>Single Active panel 2 - Collapse me</h5>
 						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
 					</div>
 				</ExpandedHeaderContent>
@@ -279,7 +279,7 @@
 				</CollapsedHeaderContent>
 				<ExpandedHeaderContent>
 					<div class="w-100">
-						<h5>Active panel 3 - Collapse me</h5>
+						<h5>Single Active panel 3 - Collapse me</h5>
 						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
 					</div>
 				</ExpandedHeaderContent>
@@ -310,7 +310,7 @@
 	{
 		if (firstRender)
 		{
-			//Group
+			//Accordion
 			_activePanel = _panel2;
 			_collapseCount = _accordion.CollapsePanelCount;
 			StateHasChanged();
@@ -339,13 +339,13 @@
 
 	//Accordion
 	private string _accordionCollapsedColor = "green";
-	private string _accordionExpandedColor = "forestGreen";
+	private string _accordionExpandedColor = "lightGreen";
 	private string _accordionHoverColor = "lime";
 	private bool _isAccordionDisabled = false;
 	private int _collapseCount;
 
 	private Accordion _accordion;
-	private CollapsePanel _activePanel;
+	private CollapsePanel? _activePanel;
 	private CollapsePanel _panel1;
 	private CollapsePanel _panel2;
 	private CollapsePanel _panel3;
@@ -353,7 +353,7 @@
 	private ElementReference _logAccordion;
 	private string _accordionLog;
 
-	private async Task OnAccordionChanged(CollapsePanel active)
+	private async Task OnAccordionChanged(CollapsePanel? active)
 	{
 		_activePanel = active;
 		var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);

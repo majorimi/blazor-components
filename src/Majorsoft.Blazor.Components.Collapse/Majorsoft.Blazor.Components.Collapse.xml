@@ -31,7 +31,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.ActiveCollapsePanel">
             <summary>
-            Returns currently active <see cref="T:Majorsoft.Blazor.Components.Collapse.CollapsePanel"/> element ref also can be used to set which Tab should be active "selected".
+            Returns currently active <see cref="T:Majorsoft.Blazor.Components.Collapse.CollapsePanel"/> element ref also can be used to set which panel should be Expanded "active".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.OnCollapsePanelChanged">

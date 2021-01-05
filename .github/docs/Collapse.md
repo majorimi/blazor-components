@@ -58,35 +58,31 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 Callback function called when panel collapsed or expanded. Collapsed state is the callback parameter.
 
 ## `Accordion` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/collapse#Accordion))
-Blazor component that renders a **set of `CollapsePanel` components** which is an Expandable and Collapsible panel with customizable header and content. But **`Accordion` allows only one Expanded (active)** panel.
+Blazor component that renders a **set of `CollapsePanel` components**. It is only a wrapper element for `CollapsePanel`s.
+Each `CollapsePanel` act as individual components so they should be configured directly (use variables to change parameter for all at once).
+**`Accordion` allows only one Expanded (active)** panel.
 
 ![Accordion button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/Accordion.gif)
 
 ### Properties
-- **`Content`: `RenderFragment` HTML content - Required**
-Required HTML content to show in Toggle button. It can be any text or image (please use transparent background image).
-- **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
-Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
-- **`OnColor`: `string { get; set; }` (default: "white") - Required** <br />
-Sets the `style` of the HTML `<button>` `background-color` when button is ON (bool value `true`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
-- **`OffColor`: `string { get; set; }` (default: "lightgray") - Required** <br />
-Sets the `style` of the HTML `<button>` `background-color` when button is OFF (bool value `false`). Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
-- **`HoverColor`: `string { get; set; }` (default: "whitesmoke") - Required** <br />
-Sets the `style` of the HTML `<button>` `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
-- **`Height`: `int { get; set; }` (default: 30) - Required** <br />
-HTML `<button>` element height in `px`.
-- **`Width`: `int { get; set; }` (default: 80) - Required** <br />
-HTML `<button>` element width in `px`.
+- **`CollapsePanels`: `RenderFragment` HTML content - Required**
+Required HTML content to set `CollapsePanel`s as `RenderFragment`.
+- **`CollapsePanelItems`: `IEnumerable<CollapsePanel> { get; }`**
+Returns all the `CollapsePanel` reference added to the group. It can be used for activating any of the panels.
+- **`CollapsePanelCount`: `int { get; }`**
+Returns the number of `CollapsePanel` int the given `Accordion`.
+- **`ActiveCollapsePanel`: `CollapsePanel { get; set; }` (default: NULL)**
+Returns currently active `CollapsePanel` element ref also can be used to set which panel should be Expanded "active".
 - **`Disabled`: `bool { get; set; }` (default: false)** <br />
-Determines whether the rendered HTML `<button>` element should be disabled or not.
+Determines whether the rendered HTML elements should be disabled or not.
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
 Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 ### Events
-- **`OnToggleChanged`: `EventCallback<bool>` delegate** <br />
-Callback function called when component toggled. Actual toggle `Value` is the callback `bool` parameter. 
+- **`OnCollapsePanelChanged`: `EventCallback<CollapsePanel>` delegate** <br />
+Callback function called when other `CollapsePanel` activated. Active `CollapsePanel` is the callback parameter.
 
-**Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
+**Arbitrary HTML attributes e.g.: `id="ac1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
 # Configuration
 
@@ -159,111 +155,110 @@ Following code example shows how to use **`CollapsePanel`** component in your Bl
 }
 ```
 
-### `ToggleButton` usage
+### `Accordion` usage
 
-Following code example shows how to use **`ToggleButton`** component in your Blazor App. 
+Following code example shows how to use **`Accordion`** component in your Blazor App. 
 
 ```
-<ToggleButton @ref="_toggleButton"
-				Checked="@_isButtonChecked"
-				OnColor="@_buttonOnColor"
-				OffColor="@_buttonOffColor"
-				HoverColor="@_buttonHoverColor"
-				Width="@_buttonWidth"
-				Height="@_buttonHeight"
-				Disabled="@_buttonDisabled"
-				OnToggleChanged="OnToggleClicked">
-	<Content>
-		<img src="https://raw.githubusercontent.com/majorimi/blazor-components/master/src/Blazor.Components.TestApps.Common/wwwroot/place-marker.png" width="@(_buttonWidth - 5)px" height="@(_buttonHeight - 5)px" />
-	</Content>
-</ToggleButton>
-
-<ToggleButton>
-	<Content><strong>B</strong></Content>
-</ToggleButton>
-<ToggleButton>
-	<Content><i>I</i></Content>
-</ToggleButton>
-<ToggleButton>
-	<Content><u>U</u></Content>
-</ToggleButton>
+<Accordion @ref="_accordion" id="ac1"
+			ActiveCollapsePanel="@_activePanel"
+			Disabled="@_isAccordionDisabled"
+			OnCollapsePanelChanged="OnAccordionChanged">
+	<CollapsePanels>
+		<CollapsePanel @ref="_panel1" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						ExpandedColor="@_accordionExpandedColor"
+						HoverColor="@_accordionHoverColor">
+			<CollapsedHeaderContent>
+				<div class="w-100">
+					<h5>Panel 1 - Expand me</h5>
+					<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+				</div>
+			</CollapsedHeaderContent>
+			<ExpandedHeaderContent>
+				<div class="w-100">
+					<h5>Active panel 1 - Collapse me</h5>
+					<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+				</div>
+			</ExpandedHeaderContent>
+			<Content>
+				<div style="border: 1px solid gray; height: 100%;">
+					<h4>This is the content</h4>
+				</div>
+			</Content>
+		</CollapsePanel>
+		<CollapsePanel @ref="_panel2" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						ExpandedColor="@_accordionExpandedColor"
+						HoverColor="@_accordionHoverColor">
+			<CollapsedHeaderContent>
+				<div class="w-100">
+					<h5>Panel 2 - Expand me</h5>
+					<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+				</div>
+			</CollapsedHeaderContent>
+			<ExpandedHeaderContent>
+				<div class="w-100">
+					<h5>Active panel 2 - Collapse me</h5>
+					<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+				</div>
+			</ExpandedHeaderContent>
+			<Content>
+				<div style="border: 1px solid gray; height: 100%;">
+					<h4>This is the content</h4>
+				</div>
+			</Content>
+		</CollapsePanel>
+		<CollapsePanel @ref="_panel3" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						ExpandedColor="@_accordionExpandedColor"
+						HoverColor="@_accordionHoverColor">
+			<CollapsedHeaderContent>
+				<div class="w-100">
+					<h5>Panel 3 - Expand me</h5>
+					<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+				</div>
+			</CollapsedHeaderContent>
+			<ExpandedHeaderContent>
+				<div class="w-100">
+					<h5>Active panel 3 - Collapse me</h5>
+					<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+				</div>
+			</ExpandedHeaderContent>
+			<Content>
+				<div style="border: 1px solid gray; height: 100%;">
+					<h4>This is the content</h4>
+				</div>
+			</Content>
+		</CollapsePanel>
+	</CollapsePanels>
+</Accordion>
 
 @code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			await _toggleButton.InnerElementReference.FocusAsync();
-		}
-	}
-
-	//Button
-	private ToggleButton _toggleButton;
-
-	private string _buttonOnColor = "lightGray";
-	private string _buttonOffColor = "white";
-	private string _buttonHoverColor = "WhiteSmoke";
-	private int _buttonWidth = 30;
-	private int _buttonHeight = 30;
-	private bool _isButtonChecked = true;
-	private bool _buttonDisabled = false;
-
-	private async Task OnToggleClicked(bool val)
-	{
-		_isButtonChecked = val;
-	}
-}
-
-```
-
-### `ToggleButtonGroup` usage
-
-Following code example shows how to use **`ToggleButtonGroup`** component in your Blazor App. 
-
-```
-@*ToggleButtons can be configured as regular ToggleButton*@
-<ToggleButtonGroup @ref="_btnGroup" MustToggled="_mustToggled" OnToggleChanged="OnToggleGroupClicked"
-			Disabled="@_buttonGroupDisabled" ActiveButton="@_activeButton">
-	<ToggleButtons>
-		<ToggleButton @ref="_btn1">
-			<Content><strong>1</strong></Content>
-		</ToggleButton>
-		<ToggleButton @ref="_btn2">
-			<Content><strong>2</strong></Content>
-		</ToggleButton>
-		<ToggleButton @ref="_btn3">
-			<Content><strong>3</strong></Content>
-		</ToggleButton>
-	</ToggleButtons>
-</ToggleButtonGroup>
-
-@code {
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			_activeButton = _btn1;
-			_btnCount = _btnGroup.ButtonCount;
+			//Accordion
+			_activePanel = _panel2;
+			_collapseCount = _accordion.CollapsePanelCount;
 			StateHasChanged();
 		}
 	}
 
-	private ToggleButtonGroup _btnGroup;
-	private ToggleButton _activeButton;
-	private ToggleButton _btn1;
-	private ToggleButton _btn2;
-	private ToggleButton _btn3;
-	private bool _buttonGroupDisabled = false;
-	private bool _mustToggled = false;
-	private int _btnCount = 0;
+	private string _accordionCollapsedColor = "green";
+	private string _accordionExpandedColor = "lightGreen";
+	private string _accordionHoverColor = "lime";
+	private bool _isAccordionDisabled = false;
+	private int _collapseCount;
 
-	private ElementReference _log3;
-	private string _buttonGroupLog;
+	private Accordion _accordion;
+	private CollapsePanel _activePanel;
+	private CollapsePanel _panel1;
+	private CollapsePanel _panel2;
+	private CollapsePanel _panel3;
 
-	private async Task OnToggleGroupClicked(ToggleButton active)
+	private async Task OnAccordionChanged(CollapsePanel active)
 	{
-		_activeButton = active;
-		var index = _btnGroup.Buttons.ToList().IndexOf(active);
+		_activePanel = active;
+		var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
 	}
 }
 ```

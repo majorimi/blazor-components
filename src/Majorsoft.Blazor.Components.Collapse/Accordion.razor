@@ -33,12 +33,12 @@
 	/// </summary>
 	public IEnumerable<CollapsePanel> CollapsePanelItems => _collapsePanels;
 
-	private CollapsePanel _activeCollapsePanel;
+	private CollapsePanel? _activeCollapsePanel;
 	/// <summary>
-	/// Returns currently active <see cref="CollapsePanel"/> element ref also can be used to set which Tab should be active "selected".
+	/// Returns currently active <see cref="CollapsePanel"/> element ref also can be used to set which panel should be Expanded "active".
 	/// </summary>
 	[Parameter]
-	public CollapsePanel ActiveCollapsePanel
+	public CollapsePanel? ActiveCollapsePanel
 	{
 		get => _activeCollapsePanel;
 		set => ActivateCollapsePanel(value);
@@ -62,20 +62,28 @@
 		_collapsePanels.Add(collapsePanel);
 		collapsePanel.Collapsed = true;
 	}
-	internal async Task ActivateCollapsePanel(CollapsePanel collapsePanel)
+	private bool _activateInProgress = false;
+	internal async Task ActivateCollapsePanel(CollapsePanel? collapsePanel)
 	{
+		if (_activateInProgress)
+			return;
+
+		_activateInProgress = true;
 		WriteDiag($"{nameof(ActivateCollapsePanel)}: {collapsePanel}");
 
-		if (_activeCollapsePanel != collapsePanel)
+		if (_activeCollapsePanel != collapsePanel) //Activate only 1 panel
 		{
+			if (_activeCollapsePanel is not null)
+			{
+				_activeCollapsePanel.Collapsed = true; //collapse current
+			}
+
 			_activeCollapsePanel = collapsePanel;
 
-			//Activate only 1 panel
-			foreach (var item in _collapsePanels)
+			if (_activeCollapsePanel is not null)
 			{
-				item.Collapsed = true;
+				_activeCollapsePanel.Collapsed = false; //expand new
 			}
-			_activeCollapsePanel.Collapsed = false;
 			StateHasChanged();
 
 			if (OnCollapsePanelChanged.HasDelegate)
@@ -83,6 +91,7 @@
 				await OnCollapsePanelChanged.InvokeAsync(ActiveCollapsePanel);
 			}
 		}
+		_activateInProgress = false;
 	}
 
 	private void WriteDiag(string message)
