@@ -10,7 +10,7 @@ trigger:
     - master
   paths:
     include:
-    - demo/Blazor.Components.DemoApp/*
+    - demo/Majorsoft.Blazor.Components.DemoApp/*
 
 pr: none
 
@@ -20,7 +20,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  project: 'demo/Blazor.Components.DemoApp/Blazor.Components.DemoApp.csproj'
+  project: 'demo/Majorsoft.Blazor.Components.DemoApp/Majorsoft.Blazor.Components.DemoApp.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -58,9 +58,9 @@ jobs:
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/DemoApp'
         zipAfterPublish: true
         modifyOutputPath: false
-        # workingDirectory: 'demo/Blazor.Components.DemoApp/'
+        # workingDirectory: 'demo/Majorsoft.Blazor.Components.DemoApp/'
 
     - task: PublishBuildArtifacts@1
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)/DemoApp' 
-        artifactName: 'Blazor.Components.DemoApp'
+        artifactName: 'Majorsoft.Blazor.Components.DemoApp'

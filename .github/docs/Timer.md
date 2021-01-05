@@ -11,7 +11,6 @@ Blazor component that can be used as a simple scheduler or performing periodical
 by calling custom async code. **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/TimerComponent.razor).
 
-
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/timer).
 
 ![Timer demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/timer.gif)
@@ -35,11 +34,11 @@ much more modern techniques. 'push' based communication like: SignalR or WebSeck
 - **`DelayInMilisec`: `double { get; set; }` (default: 0)** <br />
   Delay in ms. before the timer will start. If set to `0` timer will start immediately.
 - **`AutoStart`: `bool { get; set; }` (default: true)** <br />
- If `true` timer will start when component `OnInitialized` event run, otherwise timer must be started by calling `Start()` method.  
+ If `true` timer will start when component `OnInitialized` event run, otherwise timer must be started by `IsEnabled` property set to `true`.  
 - **`Occurring`: `Times { get; set; }` (default: Times.Once())** <br />
   Number of times elapsed even will be fired. See `Times` record description.
 - **`IsEnabled`: `bool { get; }`** <br />
-Returns the inner state of the timer. `True` if timer is running otherwise `false`.
+ Can be set to start `true` or stop `false` timer. Returns the inner state of the timer. `True` if timer is running otherwise `false`.
 
 **Arbitrary HTML attributes e.g.: `id="load1"` can be applied but won't result in HTLM DOM**.
 
@@ -48,9 +47,9 @@ Returns the inner state of the timer. `True` if timer is running otherwise `fals
   Timer event this Function called when specified timeout elapsed, parameter is the iteration count.
 
 ### Functions
-- **`Start()`: `void Start()`** <br />
+- **OBSOLETE (set IsEnabled to true): `Start()`: `void Start()`** <br />
 Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
-- **`Stop()`: `void Stop()`** <br />
+- **OBSOLETE (set IsEnabled to false): `Stop()`: `void Stop()`** <br />
 Stops the internal timer and no more event will be fired.
 - **`Reset()`: `void Reset()`** <br />
 Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
@@ -75,7 +74,7 @@ Factory method to create a new instance of `Times` with the given parameter valu
 
 ## Installation
 
-Blazor.Components.Timer is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/). 
+**Majorsoft.Blazor.Components.Timer** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Timer
@@ -87,7 +86,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 
 ```
-@using Blazor.Components.Timer
+@using Majorsoft.Blazor.Components.Timer
 ```
 
 Following code example shows how to use **`AdvancedTimer`** component in your Blazor App. With 2 sec. delay
@@ -120,7 +119,7 @@ interval on UI and Start/Stop function used.
 	<input type="range" min="100" max="2000" @bind="clockInterval" /> Clock interval: @clockInterval ms.
 </div>
 <span>Infinite clock (Manual Start): <strong>@_time</strong></span>
-<AdvancedTimer @ref="_clock" IntervalInMilisec="@clockInterval" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
+<AdvancedTimer IsEnabled="@_clockEnabled" IntervalInMilisec="@clockInterval" Occurring="Times.Infinite()" AutoStart="false" OnIntervalElapsed="@Clock" />
 
 <br />
 <button class="btn btn-sm btn-primary" @onclick="StartStopClock">@_buttonText</button>
@@ -129,7 +128,7 @@ interval on UI and Start/Stop function used.
 	//Clock
 	private double clockInterval = 300;
 	private string _time = DateTime.Now.ToString("hh:mm:ss.f");
-	private AdvancedTimer _clock;
+	private bool _clockEnabled = false;
 	private string _buttonText = "Start";
 	private void Clock()
 	{
@@ -137,17 +136,16 @@ interval on UI and Start/Stop function used.
 	}
 	private void StartStopClock()
 	{
-		if (_clock.IsEnabled)
+		if (_clockEnabled)
 		{
-			_clock.Stop();
+			_clockEnabled = false;
 			_buttonText = "Start";
 		}
 		else
 		{
-			_clock.Start();
+			_clockEnabled = true;
 			_buttonText = "Stop";
 		}
 	}
 }
-
 ```

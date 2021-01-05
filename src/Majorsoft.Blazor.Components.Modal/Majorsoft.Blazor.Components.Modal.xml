@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.Components.Modal</name>
+    </assembly>
+    <members>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OverlayBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB or with HEX values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OverlayOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.CloseOnOverlayClick">
+            <summary>
+            When true Modal dialog will be closed when Overlay (background) clicked. It works even if Overlay not visible (Opacity is set to 0)
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.CloseOnEscapeKey">
+            <summary>
+            When true Modal dialog will be closed when Esc (Escape) key pressed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Height">
+            <summary>
+            Modal dialog window Height in px if set to 0 Height is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Width">
+            <summary>
+            Modal dialog window Width in px if set to 0 Width is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.MinHeight">
+            <summary>
+            Modal dialog window minimum Height in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.MinWidth">
+            <summary>
+            Modal dialog window minimum Width in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Focus">
+            <summary>
+            When true Modal dialog will automatically set focus to itself when it opens, and set it bact to the last focused element when it closes. 
+            In general this should never be set to false as it makes the Modal less accessible to screen-readers, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Animate">
+            <summary>
+            When true Modal dialog will appear and disappear by using smooth CSS slide and fade transitions.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Centered">
+            <summary>
+            When true Modal dialog will be vertically centered, otherwise shown near to the top. Modal dialog horizontally always centered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Header">
+            <summary>
+            HTML content to show on the Modal header (top), right to the close button (if visible).
+            Can be any valid HTML but should be only Title text. Must not be defined if you want to leave it out. Also ShowCloseButton must be set to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Content">
+            <summary>
+            Required HTML content to show on the Modal dialog. Can be any valid HTML.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.Footer">
+            <summary>
+            HTML content to show on the Modal footer (bottom). Can be any valid HTML but should be only custom action buttons.
+            Must not be defined if you want to leave it out.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.ShowCloseButton">
+            <summary>
+            When true Modal dialog will show Header (even if Header is not defined) with closed x button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnOpen">
+            <summary>
+            Callback function called when the Modal dialog is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnClose">
+            <summary>
+            Callback function called when the Modal dialog is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnCloseButtonClicked">
+            <summary>
+            Callback function called when close x button was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnOverlayClicked">
+            <summary>
+            Callback function called when Overlay (background) was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnEscapeKeyPress">
+            <summary>
+            Callback function called when Esc key was pressed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.OnTransitionEnded">
+            <summary>
+            Callback function called when CSS transitions are ended. It will be triggered when dialog opened or closed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Modal.ModalDialog.IsOpen">
+            <summary>
+            Returns true if the Modal dialog is opened, otherwise false.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Modal.ModalDialog.Open">
+            <summary>
+            When method called Modal dialog will be opened. It should be await-ed.
+            </summary>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Modal.ModalDialog.Close">
+            <summary>
+            When method called Modal dialog will be closed. It should be await-ed.
+            </summary>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Modal.ModalDialog.DisposeAsync">
+            <summary>
+            Async dispose
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

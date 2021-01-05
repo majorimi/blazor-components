@@ -32,7 +32,7 @@ The logger supports the LogLevels defined by Microsoft [LogLevel enum](https://d
 
 ## Installation
 
-Blazor.Components.Deboudnce.Input is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.WebAssembly.Logging.Console/). 
+**Majorsoft.Blazor.Components.Deboudnce.Input** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.WebAssembly.Logging.Console/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.WebAssembly.Logging.Console
@@ -44,7 +44,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 Add the following code snippet to your WebAssembly hosted (client side) Blazor Application. 
 Into the `**Program.cs`** file 'Main' method.
 ```
-using Blazor.WebAssembly.Logging.Console;
+using Majorsoft.Blazor.WebAssembly.Logging.Console;
 
 ...
 

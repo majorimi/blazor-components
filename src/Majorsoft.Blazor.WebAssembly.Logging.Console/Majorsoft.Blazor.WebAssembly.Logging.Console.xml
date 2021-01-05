@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.WebAssembly.Logging.Console</name>
+    </assembly>
+    <members>
+        <member name="M:Majorsoft.Blazor.WebAssembly.Logging.Console.BrowserConsoleLoggerExtensions.AddBrowserConsole(Microsoft.Extensions.Logging.ILoggingBuilder)">
+            <summary>
+            Adds a console logger named 'Console' to the factory.
+            </summary>
+            <param name="builder">The <see cref="T:Microsoft.Extensions.Logging.ILoggingBuilder"/> to use.</param>
+        </member>
+        <member name="M:Majorsoft.Blazor.WebAssembly.Logging.Console.BrowserConsoleLoggerExtensions.AddBrowserConsole(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Adds a console logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>.Information or higher.
+            </summary>
+            <param name="factory">The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> to use.</param>
+        </member>
+        <member name="M:Majorsoft.Blazor.WebAssembly.Logging.Console.BrowserConsoleLoggerExtensions.AddBrowserConsole(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Logging.LogLevel)">
+            <summary>
+            Adds a browser console logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>s of minLevel or higher.
+            </summary>
+            <param name="factory">The <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> to use.</param>
+            <param name="minLevel">The minimum <see cref="T:Microsoft.Extensions.Logging.LogLevel"/> to be logged</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Majorsoft.Blazor.WebAssembly.Logging.Console.BrowserConsoleLoggerExtensions.AddBrowserConsole(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})" -->
+    </members>
+</doc>

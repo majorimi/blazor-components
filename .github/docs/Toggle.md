@@ -108,7 +108,7 @@ Callback function called when component toggled. Actual toggled (selected) butto
 
 ## Installation
 
-Blazor.Components.Toggle is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Toggle/). 
+**Majorsoft.Blazor.Components.Toggle** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Toggle/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Toggle
@@ -119,7 +119,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Toggle
+@using Majorsoft.Blazor.Components.Toggle
 ```
 
 ### `ToggleSwitch` usage
