@@ -1,0 +1,369 @@
+﻿<h1>Collapse Components</h1>
+<p>
+	Blazor component that renders customizable Collapsible/Expandable panel and Accordion with many but only one active panel also custom content and header. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Collapse</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Collapse" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="collapsePanel" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>CollapsePanel</h3></Content>
+	</PermaLinkElement>
+	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Collapsed color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_collapsedColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Expanded color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_expandedColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			CollapsePanel contet Height (0 is auto): @(_height)px
+			<input type="range" class="w-100" min="0" max="400" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			CollapsePanel Disabled: <input class="mr-3" type="checkbox" @bind="_isCollapseDisabled" />
+			Collapsed: <input class="mr-3" type="checkbox" @bind="_isCollapsed" />
+			<br />
+			Animate Collapse changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
+			<br />
+			Show content overflow: <input class="mr-3" type="checkbox" @bind="_showOverflow" />
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="col-12">
+			<CollapsePanel CollapsedColor="@_collapsedColor"
+						   ExpandedColor="@_expandedColor"
+						   HoverColor="@_hoverColor"
+						   Disabled="@_isCollapseDisabled"
+						   Collapsed="@_isCollapsed"
+						   ContentHeight="@_height"
+						   Animate="@_isAnimated"
+						   ShowContentOverflow="@_showOverflow"
+						   OnCollapseChanged="OnCollapsed">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/33200850951/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/3884/33200850951_079a7fd7e4_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Collapse Event log</strong>:</label>
+			<textarea @ref="_log" @bind="_collapseLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+
+	<hr />
+	<div class="row mb-3">
+		<div class="col-12">
+			<h3>Multiple CollapsePanel items</h3>
+			<p>
+				Example usage of multiple independent <code>CollapsePanel</code>s with default settings.
+				Note: content <code>height: auto</code> prevents some CSS animation to work.
+			</p>
+
+			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 1 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 1 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the first content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/49503272657/" target="_blank">
+							<img src="https://live.staticflickr.com/65535/49503272657_f8dd72c868_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel ContentHeight="0" Collapsed="true" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 2 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 2 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the second content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/22769636223/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/5650/22769636223_7cd63b9fc4_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel ContentHeight="0" Collapsed="true" style="margin-bottom: 10px;">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 3 - Expand me</h5>
+						<span class="fa fa-lg fa-angle-double-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Collapse 3 - Collapse me</h5>
+						<span class="fa fa-lg fa-angle-double-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="height: 100%;">
+						<h4>This is the third content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/20446928144/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/622/20446928144_4394d817ba_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+
+			<CollapsePanel ContentHeight="190" style="margin-bottom: 5px;">
+				<CommonHeader>
+					<div class="w-100">
+						<h5>Common heder will never change...</h5>
+					</div>
+				</CommonHeader>
+				<Content>
+					<div style="height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/29505484165/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/8544/29505484165_33d919ee42_b.jpg" width="250" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+		</div>
+	</div>
+
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="accordion" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Accordion</h3></Content>
+	</PermaLinkElement>
+	<p>
+		Renders <strong> a set of <code>CollapsePanel</code> components </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.
+		But <code>Accordion</code> allows only one Expanded (active) panel.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Collapsed color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionCollapsedColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Expanded color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionExpandedColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionHoverColor" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Number of CollapsePanel: <strong>@_collapseCount</strong>
+			<br />
+			Accordion Disabled: <input class="mr-3" type="checkbox" @bind="_isAccordionDisabled" />
+		</div>
+	</div>
+
+	<Accordion @ref="_accordion" id="ac1"
+			   ActiveCollapsePanel="@_activePanel"
+			   Disabled="@_isAccordionDisabled"
+			   OnCollapsePanelChanged="OnAccordionChanged">
+		<CollapsePanels>
+			<CollapsePanel @ref="_panel1" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 1 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Single Active panel 1 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/33802309192/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/2881/33802309192_74f2eb3005_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel @ref="_panel2" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 2 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Single Active panel 2 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/41641664115/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/1730/41641664115_f3d6477b7c_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel @ref="_panel3" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 3 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Single Active panel 3 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/30239309451/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/8273/30239309451_10f9bdfddd_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+		</CollapsePanels>
+	</Accordion>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Accordion Event log</strong>:</label>
+			<textarea @ref="_logAccordion" @bind="_accordionLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@using System.Linq;
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			//Accordion
+			_activePanel = _panel2;
+			_collapseCount = _accordion.CollapsePanelCount;
+			StateHasChanged();
+		}
+	}
+
+	//Collapse
+	private string _collapsedColor = "DodgerBlue";
+	private string _expandedColor = "LightBlue";
+	private string _hoverColor = "LightGray";
+	private bool _isAnimated = true;
+	private bool _isCollapseDisabled = false;
+	private bool _isCollapsed = false;
+	private bool _showOverflow = false;
+	private int _height = 200;
+
+	private ElementReference _log;
+	private string _collapseLog;
+
+	private async Task OnCollapsed(bool state)
+	{
+		_isCollapsed = state;
+		_collapseLog = WriteLog(_collapseLog, $"Collapse panel state has changed event Collapsed: {state}");
+		await _log.ScrollToEndAsync();
+	}
+
+	//Accordion
+	private string _accordionCollapsedColor = "green";
+	private string _accordionExpandedColor = "lightGreen";
+	private string _accordionHoverColor = "lime";
+	private bool _isAccordionDisabled = false;
+	private int _collapseCount;
+
+	private Accordion _accordion;
+	private CollapsePanel? _activePanel;
+	private CollapsePanel _panel1;
+	private CollapsePanel _panel2;
+	private CollapsePanel _panel3;
+
+	private ElementReference _logAccordion;
+	private string _accordionLog;
+
+	private async Task OnAccordionChanged(CollapsePanel? active)
+	{
+		_activePanel = active;
+		var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
+		_accordionLog = WriteLog(_accordionLog, $"Accordion state has changed. Active CollapsePanel index: {index}");
+		await _logAccordion.ScrollToEndAsync();
+	}
+
+	private string WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		return log;
+	}
+}
