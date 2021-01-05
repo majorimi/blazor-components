@@ -106,12 +106,12 @@
 	/// </summary>
 	public IEnumerable<TabItem> Tabs => _tabs;
 
-	private TabItem _activeTab;
+	private TabItem? _activeTab;
 	/// <summary>
 	/// Returns currently active <see cref="TabItem"/> element ref also can be used to set which Tab should be active "selected".
 	/// </summary>
 	[Parameter]
-	public TabItem ActiveTab
+	public TabItem? ActiveTab
 	{
 		get => _activeTab;
 		set => ActivateTab(value);

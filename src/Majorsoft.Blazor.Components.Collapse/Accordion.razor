@@ -1,5 +1,101 @@
-﻿<h3>Accordion</h3>
+﻿<div @ref="_inputRef" class="accordionPanel" disabled="@Disabled" tabindex="200" @attributes=AllOtherAttributes>
+	<CascadingValue Value="this">
+		@CollapsePanels
+	</CascadingValue>
+</div>
+
+@inject ILogger<Accordion> _logger;
 
 @code {
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
 
+	/// <summary>
+	/// Required HTML content to set CollapsePanel as <see cref="RenderFragment"/>.
+	/// </summary>
+	[Parameter] public RenderFragment CollapsePanels { get; set; }
+
+	/// <summary>
+	/// Determines whether all the rendered HTML elements should be disabled or not.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	private IList<CollapsePanel> _collapsePanels = new List<CollapsePanel>();
+	/// <summary>
+	/// Returns the number of <see cref="CollapsePanel"/> int the given `Accordion`.
+	/// </summary>
+	public int CollapsePanelCount => _collapsePanels.Count;
+	/// <summary>
+	/// Returns all the <see cref="CollapsePanel"/> reference added to the group. It can be used for activating any of the panels.
+	/// </summary>
+	public IEnumerable<CollapsePanel> CollapsePanelItems => _collapsePanels;
+
+	private CollapsePanel? _activeCollapsePanel;
+	/// <summary>
+	/// Returns currently active <see cref="CollapsePanel"/> element ref also can be used to set which panel should be Expanded "active".
+	/// </summary>
+	[Parameter]
+	public CollapsePanel? ActiveCollapsePanel
+	{
+		get => _activeCollapsePanel;
+		set => ActivateCollapsePanel(value);
+	}
+
+	/// <summary>
+	/// Callback function called when other CollapsePanel activated. Active CollapsePanel is the callback parameter.
+	/// </summary>
+	[Parameter] public EventCallback<CollapsePanel> OnCollapsePanelChanged { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	internal void AddCollapsePanel(CollapsePanel collapsePanel)
+	{
+		WriteDiag($"{nameof(AddCollapsePanel)}: {collapsePanel}");
+
+		_collapsePanels.Add(collapsePanel);
+		collapsePanel.Collapsed = true;
+	}
+	private bool _activateInProgress = false;
+	internal async Task ActivateCollapsePanel(CollapsePanel? collapsePanel)
+	{
+		if (_activateInProgress)
+			return;
+
+		_activateInProgress = true;
+		WriteDiag($"{nameof(ActivateCollapsePanel)}: {collapsePanel}");
+
+		if (_activeCollapsePanel != collapsePanel) //Activate only 1 panel
+		{
+			if (_activeCollapsePanel is not null)
+			{
+				_activeCollapsePanel.Collapsed = true; //collapse current
+			}
+
+			_activeCollapsePanel = collapsePanel;
+
+			if (_activeCollapsePanel is not null)
+			{
+				_activeCollapsePanel.Collapsed = false; //expand new
+			}
+			StateHasChanged();
+
+			if (OnCollapsePanelChanged.HasDelegate)
+			{
+				await OnCollapsePanelChanged.InvokeAsync(ActiveCollapsePanel);
+			}
+		}
+		_activateInProgress = false;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
 }

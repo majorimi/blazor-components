@@ -4,5 +4,11 @@
     "inputFiles": [
       "CollapsePanel.razor.css"
     ]
+  },
+  {
+    "outputFileName": "Accordion.razor.min.css",
+    "inputFiles": [
+      "Accordion.razor.css"
+    ]
   }
 ]

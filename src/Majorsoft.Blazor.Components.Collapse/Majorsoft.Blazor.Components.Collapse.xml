@@ -4,6 +4,46 @@
         <name>Majorsoft.Blazor.Components.Collapse</name>
     </assembly>
     <members>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.CollapsePanels">
+            <summary>
+            Required HTML content to set CollapsePanel as <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.Disabled">
+            <summary>
+            Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.CollapsePanelCount">
+            <summary>
+            Returns the number of <see cref="T:Majorsoft.Blazor.Components.Collapse.CollapsePanel"/> int the given `Accordion`.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.CollapsePanelItems">
+            <summary>
+            Returns all the <see cref="T:Majorsoft.Blazor.Components.Collapse.CollapsePanel"/> reference added to the group. It can be used for activating any of the panels.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.ActiveCollapsePanel">
+            <summary>
+            Returns currently active <see cref="T:Majorsoft.Blazor.Components.Collapse.CollapsePanel"/> element ref also can be used to set which panel should be Expanded "active".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.OnCollapsePanelChanged">
+            <summary>
+            Callback function called when other CollapsePanel activated. Active CollapsePanel is the callback parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -61,7 +101,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate">
             <summary>
-            Determines to apply CSS animation and transion on Collapse state changes or not.
+            Determines to apply CSS animation and transition on Collapse state changes or not.
             Note: in case of `auto` height some animation won't work.
             </summary>
         </member>

@@ -34,6 +34,12 @@
 @inject ILogger<CollapsePanel> _logger;
 
 @code {
+	[CascadingParameter] private Accordion Parent { get; set; }
+	protected override void OnInitialized()
+	{
+		Parent?.AddCollapsePanel(this);
+	}
+
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
@@ -112,14 +118,10 @@
 			if(value != _collapsed)
 			{
 				_collapsed = value;
-
-				if (OnCollapseChanged.HasDelegate)
+				InvokeAsync(async () =>
 				{
-					InvokeAsync(async () =>
-					{
-						await OnCollapseChanged.InvokeAsync(Collapsed);
-					});
-				}
+					await CollapseEvent();
+				});
 			}
 		}
 	}
@@ -148,12 +150,18 @@
 
 	private async Task ExpandCollapse()
 	{
-		Collapsed = !Collapsed;
+		_collapsed = !Collapsed;
 		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
+
+		await CollapseEvent();
+	}
+	private async Task CollapseEvent()
+	{
+		Parent?.ActivateCollapsePanel(_collapsed ? null : this);
 
 		if (OnCollapseChanged.HasDelegate)
 		{
-			await OnCollapseChanged.InvokeAsync(Collapsed);
+			await OnCollapseChanged.InvokeAsync(_collapsed);
 		}
 	}
 
