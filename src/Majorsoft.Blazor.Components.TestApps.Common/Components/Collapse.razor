@@ -90,8 +90,10 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<h3>Multiple CollapsePanel items</h3>
-			<p>Example usage of multiple independent <code>CollapsePanel</code>s with default settings. 
-			Note: content <code>height: auto</code> prevents some CSS animation to work.</p>
+			<p>
+				Example usage of multiple independent <code>CollapsePanel</code>s with default settings.
+				Note: content <code>height: auto</code> prevents some CSS animation to work.
+			</p>
 
 			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">
 				<CollapsedHeaderContent>
@@ -191,27 +193,130 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Active tab color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionActiveColor" />
+			Collapsed color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionCollapsedColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Inactive tabs color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionInactiveColor" />
+			Expanded color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionExpandedColor" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Tabs Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionHoverColor" />
+			Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_accordionHoverColor" />
 		</div>
 	</div>
 
-	<Accordion>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Number of CollapsePanel: <strong>@_collapseCount</strong>
+			<br />
+			Accordion Disabled: <input class="mr-3" type="checkbox" @bind="_isAccordionDisabled" />
+		</div>
+	</div>
 
+	<Accordion @ref="_accordion" id="ac1"
+			   ActiveCollapsePanel="@_activePanel"
+			   Disabled="@_isAccordionDisabled"
+			   OnCollapsePanelChanged="OnAccordionChanged">
+		<CollapsePanels>
+			<CollapsePanel @ref="_panel1" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 1 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Active panel 1 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/33802309192/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/2881/33802309192_74f2eb3005_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel @ref="_panel2" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 2 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Active panel 2 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/41641664115/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/1730/41641664115_f3d6477b7c_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+			<CollapsePanel @ref="_panel3" style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor"
+						   ExpandedColor="@_accordionExpandedColor"
+						   HoverColor="@_accordionHoverColor">
+				<CollapsedHeaderContent>
+					<div class="w-100">
+						<h5>Panel 3 - Expand me</h5>
+						<span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+					</div>
+				</CollapsedHeaderContent>
+				<ExpandedHeaderContent>
+					<div class="w-100">
+						<h5>Active panel 3 - Collapse me</h5>
+						<span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+					</div>
+				</ExpandedHeaderContent>
+				<Content>
+					<div style="border: 1px solid gray; height: 100%;">
+						<h4>This is the content</h4>
+						<a href="https://www.flickr.com/photos/135037635@N03/30239309451/in/album-72157655977338469/" target="_blank">
+							<img src="https://live.staticflickr.com/8273/30239309451_10f9bdfddd_b.jpg" width="200" height="150" />
+						</a>
+					</div>
+				</Content>
+			</CollapsePanel>
+		</CollapsePanels>
 	</Accordion>
 
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Accordion Event log</strong>:</label>
+			<textarea @ref="_logAccordion" @bind="_accordionLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
 </div>
 
+@using System.Linq;
+
 @code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			//Group
+			_activePanel = _panel2;
+			_collapseCount = _accordion.CollapsePanelCount;
+			StateHasChanged();
+		}
+	}
+
 	//Collapse
 	private string _collapsedColor = "DodgerBlue";
 	private string _expandedColor = "LightBlue";
@@ -233,10 +338,28 @@
 	}
 
 	//Accordion
-	private string _accordionActiveColor = "";
-	private string _accordionInactiveColor = "";
-	private string _accordionHoverColor = "";
+	private string _accordionCollapsedColor = "green";
+	private string _accordionExpandedColor = "forestGreen";
+	private string _accordionHoverColor = "lime";
+	private bool _isAccordionDisabled = false;
+	private int _collapseCount;
 
+	private Accordion _accordion;
+	private CollapsePanel _activePanel;
+	private CollapsePanel _panel1;
+	private CollapsePanel _panel2;
+	private CollapsePanel _panel3;
+
+	private ElementReference _logAccordion;
+	private string _accordionLog;
+
+	private async Task OnAccordionChanged(CollapsePanel active)
+	{
+		_activePanel = active;
+		var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
+		_accordionLog = WriteLog(_accordionLog, $"Accordion state has changed. Active CollapsePanel index: {index}");
+		await _logAccordion.ScrollToEndAsync();
+	}
 
 	private string WriteLog(string log, string message)
 	{

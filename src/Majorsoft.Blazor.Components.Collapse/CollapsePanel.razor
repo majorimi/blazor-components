@@ -34,6 +34,12 @@
 @inject ILogger<CollapsePanel> _logger;
 
 @code {
+	[CascadingParameter] private Accordion Parent { get; set; }
+	protected override void OnInitialized()
+	{
+		Parent?.AddCollapsePanel(this);
+	}
+
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
@@ -112,6 +118,10 @@
 			if(value != _collapsed)
 			{
 				_collapsed = value;
+				if (!Collapsed)
+				{
+					Parent?.ActivateCollapsePanel(this);
+				}
 
 				if (OnCollapseChanged.HasDelegate)
 				{
@@ -150,6 +160,11 @@
 	{
 		Collapsed = !Collapsed;
 		WriteDiag($"{nameof(ExpandCollapse)} called on DIV click - Collapsed stete: {Collapsed}");
+
+		if (!Collapsed)
+		{
+			Parent?.ActivateCollapsePanel(this);
+		}
 
 		if (OnCollapseChanged.HasDelegate)
 		{
