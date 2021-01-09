@@ -45,10 +45,11 @@ jobs:
       inputs:
         command: 'build'
         projects: '$(solution)'
+        arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'run tests'
       inputs:
-       command: 'test'
-       projects: '**/*.Tests.csproj'
-       arguments: '--configuration $(buildConfiguration)'
+        command: 'test'
+        projects: '**/*.Tests.csproj'
+        arguments: '--configuration $(buildConfiguration)'
