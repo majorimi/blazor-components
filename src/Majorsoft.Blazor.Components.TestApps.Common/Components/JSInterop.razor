@@ -23,6 +23,7 @@
 		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
 		<li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
 		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+		<li><NavLink href="jsinterop#lang-js">Browser Language Js</NavLink></li>
 	</ul>
 </div>
 
@@ -233,10 +234,26 @@
 	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="lang-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Browser Language JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Browser Language JS</strong> is an <strong>injectable <code>ILanguageService</code> service</strong> for detect the browser language preference.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>Your Broser prefered language is: <strong>@_detectedBrowserLang</strong></label>
+		</div>
+	</div>
+</div>
+
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 
 
 @using System.Text.Json
+@using System.Globalization
 @implements IAsyncDisposable
 
 @inject IScrollHandler _scrollHandler
@@ -245,6 +262,7 @@
 @inject IClickBoundariesHandler _clickHandler;
 @inject IClipboardHandler _clipboardHandler;
 @inject IGlobalMouseEventHandler _globalMouseEventHandler;
+@inject ILanguageService _languageService;
 
 @code {
 	private string _scrollEventId = null;
@@ -254,6 +272,7 @@
 		await ClickEventHandler();
 		await GlobalClickEventHandler();
 		await ResizeEventHandler();
+		_detectedBrowserLang = await _languageService.GetBrowserLanguageAsync();
 	}
 
 	//Click examples
@@ -428,6 +447,9 @@
 		await _clipboardHandler.CopyTextToClipboardAsync(_codedString);
 	}
 
+	//Broswer lang
+	private CultureInfo _detectedBrowserLang;
+
 	public async ValueTask DisposeAsync()
 	{
 		if(_scrollHandler is not null)
@@ -459,6 +481,11 @@
 		if (_resizeHandler is not null)
 		{
 			await _resizeHandler.DisposeAsync();
+		}
+
+		if(_languageService is not null)
+		{
+			await _languageService.DisposeAsync();
 		}
 	}
 }
