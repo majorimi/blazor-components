@@ -15,7 +15,7 @@
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryType>Git</RepositoryType>
-		<Description>Blazor component that provides useful functionality which can be achieved only with Js Interop. Part of Majorsoft Blazor library.</Description>
+		<Description>Blazor component that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, GEO location, etc. Part of Majorsoft Blazor library.</Description>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
@@ -29,6 +29,11 @@
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
 		<Content Remove="wwwroot\focus.js" />
+		<Content Remove="wwwroot\lang.min.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\lang.min.js" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -46,6 +51,7 @@
 		</None>
 		<None Include="bundleconfig.json" />
 		<None Include="wwwroot\focus.js" />
+		<None Include="wwwroot\lang.min.js" />
 	</ItemGroup>
 
 </Project>

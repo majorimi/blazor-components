@@ -40,5 +40,11 @@
     "inputFiles": [
       "wwwroot/resize.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lang.min.js",
+    "inputFiles": [
+      "wwwroot/lang.js"
+    ]
   }
 ]

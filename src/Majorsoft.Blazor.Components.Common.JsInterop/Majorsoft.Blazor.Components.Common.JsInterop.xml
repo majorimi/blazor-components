@@ -215,6 +215,22 @@
             </summary>
             <param name="services">IServiceCollection instance</param>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService">
+            <summary>
+            Injectable service to handle Browser language Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService.GetBrowserLanguageAsync">
+            <summary>
+            Returns the browser preferred language.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.LanguageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler">
             <summary>
             Injectable service to handle JS 'resize' events for HTML element or the whole document.
