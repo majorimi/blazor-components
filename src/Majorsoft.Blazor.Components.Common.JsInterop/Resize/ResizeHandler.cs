@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,6 +48,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 
 			await _resizeJs.InvokeVoidAsync("removeGlobalResizeEvent", eventId);
 			RemoveEvent(eventId);
+		}
+
+		public async Task<PageSize> GetPageSizeAsync()
+		{
+			await CheckJsObjectAsync();
+
+			var size = await _resizeJs.InvokeAsync<PageSize>("getPageSize");
+			return size;
 		}
 
 		public async Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null)

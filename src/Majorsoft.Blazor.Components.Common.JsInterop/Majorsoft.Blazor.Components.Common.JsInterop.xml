@@ -71,6 +71,11 @@
             <param name="elementReference">Text to copy</param>
             <returns>Async Task</returns>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo.ElementReferenceInfoExtensions">
+            <summary>
+            Static class for <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> extension methods.
+            </summary>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo.ElementReferenceInfoExtensions.GetClientRectAsync(Microsoft.AspNetCore.Components.ElementReference)">
             <summary>
             Returns the given HTML element ClintBoundRect data.
@@ -250,6 +255,12 @@
             <param name="eventId">Event id from <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterPageResizeAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})"/></param>
             <returns>Async Task</returns>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetPageSizeAsync">
+            <summary>
+            Returns Browser Window size (height and width in Pixel).
+            </summary>
+            <returns>Async Task with Window size</returns>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterResizeAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})">
             <summary>
             Adds event listener for 'resize' HTML event for the given element with property filter.
@@ -264,6 +275,27 @@
             </summary>
             <param name="elementRef">Blazor reference to an HTML element</param>
             <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize">
+            <summary>
+            Custom type to represent Browser Window size.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.Height">
+            <summary>
+            Browser Window height
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.Width">
+            <summary>
+            Browser Window width
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.ToString">
+            <summary>
+            PageSize string representation.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.ResizeHandler">
             <summary>

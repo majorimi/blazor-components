@@ -130,6 +130,9 @@ Implements `IAsyncDisposable` interface the injected service should be Disposed.
 **Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 
 ### Functions
+- **`GetPageSizeAsync`**: **`Task<PageSize> GetPageSizeAsync()`**<br />
+Returns Browser Window size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+on each page resize.
 - **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
 Adds event listener for 'resize' HTML event for the whole document/window.
 - **`RemovePageResizeAsync`**: **`Task RemovePageResizeAsync(string eventId)`**<br />

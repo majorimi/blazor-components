@@ -6,6 +6,9 @@ using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo
 {
+	/// <summary>
+	/// Static class for <see cref="ElementReference"/> extension methods.
+	/// </summary>
 	public static class ElementReferenceInfoExtensions
 	{
 		/// <summary>

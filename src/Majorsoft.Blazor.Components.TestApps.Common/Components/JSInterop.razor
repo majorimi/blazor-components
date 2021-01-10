@@ -24,6 +24,7 @@
 		<li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
 		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
 		<li><NavLink href="jsinterop#lang-js">Browser Language Js</NavLink></li>
+		<li><NavLink href="jsinterop#geo-js">Geolocation Js</NavLink></li>
 	</ul>
 </div>
 
@@ -205,6 +206,8 @@
 			<button class="btn btn-primary" @onclick="ResizeEventHandler">@(_resizeSubscribed ? "Unsubscribe from resize" : "Subscribe to resize")</button>
 			<br />
 			<label><strong>Resize Events log</strong>:</label>
+			<br />
+			<label>Browser Window initial size: <strong>@_pageSize</strong></label>
 			<textarea @ref="_log4" @bind="_logMessage4" class="form-control w-100 logText" readonly></textarea>
 		</div>
 	</div>
@@ -249,6 +252,21 @@
 	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="geo-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Geo JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Geolocation JS</strong> is an <strong>injectable <code>IGeolocationService</code> service</strong> for detect the user Geolocation also .
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+
+		</div>
+	</div>
+</div>
+
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 
 
@@ -271,7 +289,10 @@
 		await ScrollEventHandler();
 		await ClickEventHandler();
 		await GlobalClickEventHandler();
+		
 		await ResizeEventHandler();
+		_pageSize = await _resizeHandler.GetPageSizeAsync();
+
 		_detectedBrowserLang = await _languageService.GetBrowserLanguageAsync();
 	}
 
@@ -406,6 +427,7 @@
 	}
 
 	//Resize JS
+	private PageSize _pageSize;
 	private bool _resizeSubscribed;
 	private async Task ResizeEventHandler()
 	{
