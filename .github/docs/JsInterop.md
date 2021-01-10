@@ -24,6 +24,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
+- **Geo JS**: is an **injectable `IGeolocationService` service**
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 
@@ -198,6 +199,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 @*Only if you want to use Language*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Language
+@*Only if you want to use Geolocation*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Geo
 ```
 
 
