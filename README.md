@@ -33,7 +33,7 @@ useful extensions. Which can boost Blazor app developments by:
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/majorimi/blazor-components)
 ![GitHub Release Date](https://img.shields.io/github/release-date/majorimi/blazor-components)
 
-For the full **release history with detailed change description and _breaking change announcements_** please see: [release notes](https://github.com/majorimi/blazor-components/releases).  
+:warning: For the full **release history with detailed change description and _breaking change announcements_** please see: [release notes](https://github.com/majorimi/blazor-components/releases).  
 
 ## Prerequisites
 - .NET 5
@@ -44,7 +44,7 @@ For the full **release history with detailed change description and _breaking ch
 Detailed descriptions and usage code samples are available on separated docs files. 
 Please follow the link provided on each bullet points. Also you can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/).
 
-Check out our planned components and extensions on the project [Wiki page](https://github.com/majorimi/blazor-components/wiki).
+Check out our planned components and extensions on the project [Wiki page](https://github.com/majorimi/blazor-components/wiki). If you have any prefered component to have priority or new component ideas please submit it.
 
 ### **Majorsoft Blazor Extensions**
 
