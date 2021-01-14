@@ -1,12 +1,15 @@
 ﻿<style>
-.logText {
-	height: 150px !important;
-}
+	.logText {
+		height: 150px !important;
+	}
 </style>
 
 <h1>Js Interop controls and extensions</h1>
 <p>
-	Blazor components and extensions that provide useful functionality which can be achieved only with Js Interop. For usege see soruce code and docs on
+	Blazor components, injectable services and extensions that provides useful functionality and event notifications which can be achieved only with JS Interop e.g.
+	scroll, clipboard, focus, resize, language detection, Geolocation, etc..
+	<br />
+	<strong>Note: all injected JS services must be disposed!</strong> For usege see soruce code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
@@ -33,35 +36,71 @@
 		<Content><h3>Click JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
-		click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources. 
-		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
+		<strong>Click JS</strong> is a convenient Blazor component and also an injectable service to detect mouse clicks 
+		inside and outside of a given HTML element.
 		<br />
 		<strong>
-			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when need to detect if click
-			happened outside of the component with <code>OnOutsideClick</code>.
+			NOTE: Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This functionality is useful when need to detect if click
+			happened outside of the component with <code>OnOutsideClick</code> event.
 		</strong>
 	</p>
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<div class="text-center" @ref="_clickDiv" style="margin-right:auto; margin-left:auto; width:150px; height:80px; background:lightgray;">
-				Inside A
-				<div class="text-center" style="width:150px; height:50px; background:gray;">
-					Inside B
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>IClickBoundariesHandler</code> injectable service</h4>
+		<p>
+			<code>IClickBoundariesHandler</code> is an <strong>injectable service</strong> with RenderFragment for content and callback event handlers
+			for <code>OnOutsideClick</code>, <code>OnInsideClick</code>.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<div class="text-center" @ref="_clickDiv" style="margin-right:auto; margin-left:auto; width:150px; height:80px; background:lightgray;">
+					Inside A
+					<div class="text-center" style="width:150px; height:50px; background:gray;">
+						Inside B
+					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12">
+				<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>click</code></p>
+				<button class="btn btn-primary" @onclick="ClickEventHandler">@(_clickSubscribed ? "Unsubscribe from click" : "Subscribe to click")</button>
+				<br />
+
+				<label><strong>IClickBoundariesHandler log</strong>:</label>
+				<textarea @ref="_clickLog" @bind="_clickLogMessage" class="form-control w-100 logText" readonly></textarea>
 			</div>
 		</div>
 	</div>
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>click</code></p>
-			<button class="btn btn-primary" @onclick="ClickEventHandler">@(_clickSubscribed ? "Unsubscribe from click" : "Subscribe to click")</button>
-			<br />
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>ClickBoundariesElement</code> component</h4>
+		<p>
+			<code>ClickBoundariesElement</code>is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all
+			click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources.
+		</p>
 
-			<label><strong>Click boundaries log</strong>:</label>
-			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		<div class="row pb-2">
+			<div class="col-12 text-center">
+				<ClickBoundariesElement OnOutsideClick="@(arg => PageClick2(arg, "OUSIDE of content"))"
+										OnInsideClick="@(arg => PageClick2(arg, "INSIDE of content"))">
+					<Content>
+						<div style="display:inline-block; margin-right: auto; margin-left: auto; width: 200px; height: 110px; background: lightgray;">
+							ClickBoundariesElement: <br /> 	Inside A
+							<div class="text-center" style="width:200px; height:50px; background:gray;">
+								Inside B
+							</div>
+						</div>
+					</Content>
+				</ClickBoundariesElement>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>ClickBoundariesElement log</strong>:</label>
+				<textarea @ref="_clickLog2" @bind="_clickLogMessage2" class="form-control w-100 logText" readonly></textarea>
+			</div>
 		</div>
 	</div>
 </div>
@@ -73,8 +112,8 @@
 	<p>
 		<strong>Global Mouse JS</strong> is an <strong>injectable <code>IGlobalMouseEventHandler</code> service</strong> for global mouse callback event handlers.
 		<br />
-			Blazor supports <code>@@onclick</code>, <code>@@onmousemove</code>, etc. events but only for Blazor rendered elements. With this service you can get similar event notifications
-			for the whole <strong>document/window</strong>.
+		Blazor supports <code>@@onclick</code>, <code>@@onmousemove</code>, etc. events but only for Blazor rendered elements. With this service you can get similar event notifications
+		for the whole <strong>document/window</strong>.
 	</p>
 
 	<div class="row pb-2">
@@ -95,7 +134,7 @@
 	</PermaLinkElement>
 	<p>
 		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
-		which can be used in case of <code>ElementReference</code> is available. 
+		which can be used in case of <code>ElementReference</code> is available.
 		<br />
 		<strong>Focus JS is able to identify and restore focus on ANY DOM element without using Blazor <code>@@ref=""</code> tag.</strong> It is useful when focus should be
 		restored on a parent component but element reference not stored or it's on a different component.
@@ -147,7 +186,7 @@
 		<Content><h3>Scroll JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
+		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
 		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
 	</p>
 
@@ -181,7 +220,7 @@
 			<button class="btn btn-primary" @onclick="@(async () => await _log2.ScrollToEndAsync())">Scroll to textbox Bottom</button>
 		</div>
 	</div>
-	
+
 	<hr />
 </div>
 
@@ -197,7 +236,7 @@
 		<div class="col-12">
 			<p><code>RegisterPageResizeAsync()</code> will add event listener to HTML document/window <code>resize events.</code></p>
 			<p><code>RegisterResizeAsync()</code> will add event listener to the given HTML Element <code>resize events.</code></p>
-			
+
 			<label>Resizabel Textarea with event listener:</label>
 			<br />
 			<textarea @ref="_resizeElement" style="resize:both;" readonly>Grab right bottom corner to resize element...</textarea>
@@ -289,7 +328,7 @@
 		await ScrollEventHandler();
 		await ClickEventHandler();
 		await GlobalClickEventHandler();
-		
+
 		await ResizeEventHandler();
 		_pageSize = await _resizeHandler.GetPageSizeAsync();
 
@@ -297,10 +336,14 @@
 	}
 
 	//Click examples
-	private ElementReference _log;
+	private ElementReference _clickLog;
 	private ElementReference _clickDiv;
-	private string _logMessage;
+	private string _clickLogMessage;
 	private bool _clickSubscribed;
+
+	private ElementReference _clickLog2;
+	private string _clickLogMessage2;
+
 	private async Task ClickEventHandler()
 	{
 		if (_clickSubscribed)
@@ -318,10 +361,17 @@
 	}
 	private async Task PageClick(MouseEventArgs args, string message)
 	{
-		_logMessage += $"{DateTime.Now.TimeOfDay}: Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		_clickLogMessage += $"{DateTime.Now.TimeOfDay}: IClickBoundariesHandler Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
 		StateHasChanged();
 
-		await _log.ScrollToEndAsync();
+		await _clickLog.ScrollToEndAsync();
+	}
+	private async Task PageClick2(MouseEventArgs args, string message)
+	{
+		_clickLogMessage2 += $"{DateTime.Now.TimeOfDay}: ClickBoundariesElement Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		//StateHasChanged();
+
+		await _clickLog2.ScrollToEndAsync();
 	}
 
 	//Mouse examples
@@ -474,28 +524,28 @@
 
 	public async ValueTask DisposeAsync()
 	{
-		if(_scrollHandler is not null)
+		if (_scrollHandler is not null)
 		{
 			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
 			await _scrollHandler.DisposeAsync();
 		}
 
-		if(_focusHandler is not null)
+		if (_focusHandler is not null)
 		{
 			await _focusHandler.DisposeAsync();
 		}
 
-		if(_clickHandler is not null)
+		if (_clickHandler is not null)
 		{
 			await _clickHandler.DisposeAsync();
 		}
 
-		if(_clipboardHandler is not null)
+		if (_clipboardHandler is not null)
 		{
 			await _clipboardHandler.DisposeAsync();
 		}
 
-		if(_globalMouseEventHandler is not null)
+		if (_globalMouseEventHandler is not null)
 		{
 			await _globalMouseEventHandler.DisposeAsync();
 		}
@@ -505,7 +555,7 @@
 			await _resizeHandler.DisposeAsync();
 		}
 
-		if(_languageService is not null)
+		if (_languageService is not null)
 		{
 			await _languageService.DisposeAsync();
 		}

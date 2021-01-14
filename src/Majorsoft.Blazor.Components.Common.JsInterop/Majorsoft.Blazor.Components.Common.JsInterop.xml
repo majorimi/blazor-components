@@ -35,6 +35,21 @@
             <param name="elementRef">Blazor reference to an HTML element</param>
             <returns>Async Task</returns>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.Content">
+            <summary>
+            HTML Content of Click detection element.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.OnOutsideClick">
+            <summary>
+            Callback function called when clicked outside of the given element.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.OnInsideClick">
+            <summary>
+            Callback function called when clicked inside of the given element.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Clipboard.ClipboardExtensions">
             <summary>
             Static class for extension methods

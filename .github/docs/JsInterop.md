@@ -7,7 +7,8 @@ Blazor Js Interop components and extensions
 
 # About
 
-Collection of Blazor components and extension methods that provide useful functionality which can be achieved only with Js Interop.
+Collection of Blazor components, injectable services and extension methods that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. 
+	scroll, clipboard, focus, resize, language detection, Geolocation, etc..
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/JSInterop.razor).
 
@@ -15,7 +16,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Features
 
-- **Click JS**: is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+- **Click JS**: `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
  Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
@@ -27,12 +28,30 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Geo JS**: is an **injectable `IGeolocationService` service**
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
-
-**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
 This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
 
-### Functions
+### `ClickBoundariesElement` component
+`ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`OnOutsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked outside of the given element.
+- **`OnInsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked inside of the given element.
+
+**Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML wrapper element `<span>`**.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+### `IClickBoundariesHandler` service
+**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
+
+#### Functions
 - **`RegisterClickBoundariesAsync`**: **`Task RegisterClickBoundariesAsync(ElementReference elementRef, Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null)`** <br />
  Adds event listener for 'click' HTML event for the given element with property filter.
 - **`RemoveClickBoundariesAsync`**: **`Task RemoveClickBoundariesAsync(ElementReference elementRef)`** <br />
