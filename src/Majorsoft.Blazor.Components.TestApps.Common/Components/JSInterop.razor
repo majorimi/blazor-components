@@ -301,6 +301,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
+			<button class="btn btn-primary" @onclick="@(async () => await _geoLocationService.GetCurrentPosition())">Get current location</button>
 
 		</div>
 	</div>
@@ -320,6 +321,7 @@
 @inject IClipboardHandler _clipboardHandler;
 @inject IGlobalMouseEventHandler _globalMouseEventHandler;
 @inject ILanguageService _languageService;
+@inject IGeolocationService _geoLocationService;
 
 @code {
 	private string _scrollEventId = null;
@@ -558,6 +560,11 @@
 		if (_languageService is not null)
 		{
 			await _languageService.DisposeAsync();
+		}
+
+		if(_geoLocationService is not null)
+		{
+			await _geoLocationService.DisposeAsync();
 		}
 	}
 }

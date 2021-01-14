@@ -142,6 +142,107 @@
             </summary>
             <returns>Async Task</returns>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult">
+            <summary>
+            Wrapper object for return value of Geolocation service.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.Coordinates">
+            <summary>
+            Represents the position, if any.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.Error">
+            <summary>
+            Represents the reason of an error occurring, if any.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.IsSuccess">
+            <summary>
+            Returns true if there is no error object, otherwise false.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates">
+            <summary>
+            The GeolocationCoordinates interface represents the position and altitude of the device on Earth, as well as the accuracy with which these properties are calculated.
+            https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Latitude">
+            <summary>
+            Representing the latitude of the position in decimal degrees.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Longitude">
+            <summary>
+            Represents the longitude of a geographical position, specified in decimal degrees.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Accuracy">
+            <summary>
+            representing the accuracy, with a 95% confidence level, of the 
+            <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Latitude"/> and <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Longitude"/> properties expressed in meters.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Altitude">
+            <summary>
+            Representing the altitude of the position in meters above the WGS84 ellipsoid (which defines the nominal sea level surface). 
+            This value is null if the implementation cannot provide this data.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.AltitudeAccuracy">
+            <summary>
+            Representing the accuracy, with a 95% confidence level, of the <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Altitude"/> expressed in meters. 
+            This value is null if the implementation doesn't support measuring altitude.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Speed">
+            <summary>
+            Representing the velocity of the device in meters per second. This value can be null.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Heading">
+            <summary>
+            representing the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading due north the device is. Zero degrees represents true north, and the direction is determined clockwise (which means that east is 90 degrees and west is 270 degrees). 
+            If GeolocationCoordinates.speed is 0, heading is NaN. If the device is not able to provide heading information, this value is null.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError">
+            <summary>
+            The GeolocationPositionError interface represents the reason of an error occurring when using the geolocating device.
+            https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError.ErrorCode">
+            <summary>
+            Represents the reason of an error occurring.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError.ErrorMessage">
+            <summary>
+            Returns a human-readable DOMString describing the details of the error.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes">
+            <summary>
+            Represents the reason of an error occurring when using the geolocating device.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.PERMISSION_DENIED">
+            <summary>
+            The acquisition of the geolocation information failed because the page didn't have the permission to do it.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.POSITION_UNAVAILABLE">
+            <summary>
+            The acquisition of the geolocation failed because at least one internal source of position returned an internal error.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.TIMEOUT">
+            <summary>
+            The time allowed to acquire the geolocation, defined by PositionOptions.timeout information was reached before the information was obtained.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.GlobalMouseEventHandler">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.IGlobalMouseEventHandler"/>
