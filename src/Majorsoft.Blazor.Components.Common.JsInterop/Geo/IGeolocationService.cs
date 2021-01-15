@@ -1,7 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
@@ -33,102 +32,28 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		/// <summary>
 		/// Get the current position of the device.
 		/// </summary>
-		/// <param name="locationResultCallback"></param>
-		/// <param name="highAccuracy"></param>
-		/// <param name="timeout"></param>
-		/// <param name="cacheTime"></param>
+		/// <param name="locationResultCallback">Callback function which will receive <see cref="GeolocationResult"/></param>
+		/// <param name="highAccuracy">Indicates the application would like to receive the best possible results</param>
+		/// <param name="timeout">Representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. Default is 5000</param>
+		/// <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
 		/// <returns>Async Task</returns>
 		Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null);
 
 		/// <summary>
-		/// 
+		/// Register a handler function that will be called automatically each time the position of the device changes.
 		/// </summary>
-		/// <param name="locationEventsCallback"></param>
-		/// <param name="highAccuracy"></param>
-		/// <param name="timeout"></param>
-		/// <param name="cacheTime"></param>
-		/// <returns>Async Task</returns>
+		/// <param name="locationEventsCallback">Callback function which will receive <see cref="GeolocationResult"/></param>
+		/// <param name="highAccuracy">Indicates the application would like to receive the best possible results</param>
+		/// <param name="timeout">Representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. Default is 5000</param>
+		/// <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
+		/// <returns>Async Task with int32 handlerId which can be used to remove watcher in <see cref="RemoveGeolocationWatcher"/></returns>
 		Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null);
 
 		/// <summary>
-		/// 
+		/// Unregister location/error monitoring handlers previously installed using <see cref="AddGeolocationWatcher"/>
 		/// </summary>
 		/// <param name="handlerId"></param>
 		/// <returns>Async Task</returns>
 		Task RemoveGeolocationWatcher(int handlerId);
-	}
-
-	/// <summary>
-	/// Implementation of <see cref="IGeolocationService"/>
-	/// </summary>
-	public sealed class GeolocationService : IGeolocationService
-	{
-		private const int DefaultTimeOut = 5000;
-		private const int DefaultCacheTime = 0;
-
-		private readonly IJSRuntime _jsRuntime;
-		private IJSObjectReference _geoJs;
-		private List<int> _registeredEvents;
-
-		public GeolocationService(IJSRuntime jsRuntime)
-		{
-			_jsRuntime = jsRuntime;
-			_registeredEvents = new List<int>();
-		}
-
-		public async Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy, TimeSpan? timeout, TimeSpan? cacheTime)
-		{
-			await CheckJsObjectAsync();
-
-			var info = new GeolocationEventInfo(locationResultCallback);
-			var dotnetRef = DotNetObjectReference.Create<GeolocationEventInfo>(info);
-
-			await _geoJs.InvokeVoidAsync("getCurrentPosition", dotnetRef, 
-				highAccuracy, 
-				timeout?.TotalMilliseconds ?? DefaultTimeOut, 
-				cacheTime?.TotalMilliseconds ?? DefaultCacheTime);
-		}
-
-		public async Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)
-		{
-			var info = new GeolocationEventInfo(locationEventsCallback);
-			var dotnetRef = DotNetObjectReference.Create<GeolocationEventInfo>(info);
-
-			var id = await _geoJs.InvokeAsync<int>("addGeolocationWatcher", dotnetRef,
-				highAccuracy,
-				timeout?.TotalMilliseconds ?? DefaultTimeOut,
-				cacheTime?.TotalMilliseconds ?? DefaultCacheTime);
-
-			_registeredEvents.Add(id);
-			return id;
-		}
-
-		public async Task RemoveGeolocationWatcher(int handlerId)
-		{
-			_registeredEvents.Remove(handlerId);
-			await _geoJs.InvokeVoidAsync("removeGeolocationWatcher", handlerId);
-		}
-
-		private async Task CheckJsObjectAsync()
-		{
-			if (_geoJs is null)
-			{
-#if DEBUG
-				_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.js");
-#else
-				_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.min.js");
-#endif
-			}
-		}
-
-		public async ValueTask DisposeAsync()
-		{
-			if (_geoJs is not null)
-			{
-				await _geoJs.InvokeVoidAsync("dispose", (object)_registeredEvents.ToArray());
-
-				await _geoJs.DisposeAsync();
-			}
-		}
 	}
 }

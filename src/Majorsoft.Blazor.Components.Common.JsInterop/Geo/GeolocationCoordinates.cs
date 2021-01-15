@@ -1,32 +1,5 @@
-﻿using System;
-
-namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
+﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 {
-	/// <summary>
-	/// Wrapper object for return value of Geolocation service.
-	/// </summary>
-	public sealed class GeolocationResult
-	{
-		/// <summary>
-		/// Represents the position, if any.
-		/// </summary>
-		public GeolocationCoordinates? Coordinates { get; set; }
-		/// <summary>
-		/// Represents the reason of an error occurring, if any.
-		/// </summary>
-		public GeolocationError? Error { get; set; }
-
-		/// <summary>
-		/// Returns true if there is no error object, otherwise false.
-		/// </summary>
-		public bool IsSuccess => Error is null && Coordinates is not null;
-
-		/// <summary>
-		/// Event time
-		/// </summary>
-		public DateTime TimeStamp { get; set; }
-	}
-
 	/// <summary>
 	/// The GeolocationCoordinates interface represents the position and altitude of the device on Earth, as well as the accuracy with which these properties are calculated.
 	/// https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates
@@ -65,40 +38,5 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		/// If GeolocationCoordinates.speed is 0, heading is NaN. If the device is not able to provide heading information, this value is null.
 		/// </summary>
 		public double? Heading { get; set; }
-	}
-
-	/// <summary>
-	/// The GeolocationPositionError interface represents the reason of an error occurring when using the geolocating device.
-	/// https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError
-	/// </summary>
-	public sealed class GeolocationError
-	{
-		/// <summary>
-		/// Represents the reason of an error occurring.
-		/// </summary>
-		public GeolocationPositionErrorCodes ErrorCode { get; set; }
-		/// <summary>
-		/// Returns a human-readable DOMString describing the details of the error.
-		/// </summary>
-		public string ErrorMessage { get; set; }
-	}
-
-	/// <summary>
-	/// Represents the reason of an error occurring when using the geolocating device.
-	/// </summary>
-	public enum GeolocationPositionErrorCodes
-	{
-		/// <summary>
-		/// The acquisition of the geolocation information failed because the page didn't have the permission to do it.
-		/// </summary>
-		PERMISSION_DENIED = 1,
-		/// <summary>
-		/// The acquisition of the geolocation failed because at least one internal source of position returned an internal error.
-		/// </summary>
-		POSITION_UNAVAILABLE = 2,
-		/// <summary>
-		/// The time allowed to acquire the geolocation, defined by PositionOptions.timeout information was reached before the information was obtained.
-		/// </summary>
-		TIMEOUT = 3
 	}
 }
