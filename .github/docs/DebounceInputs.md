@@ -8,7 +8,7 @@ Blazor Components Debounce Input controls
 # About
 
 Blazor components that are rendering HTML `<input>`, `<textarea>` elements also extending `InputText` and `InputTextArea` Blazor provided components with debounced (delay) event for onChange. **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/Debounce.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Debounce.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/debounceinput).
 
@@ -72,16 +72,11 @@ they have the same **properties**, **events** and **functions** as well.
 - **`OnValueChanged`: `EventCallback<string>` delegate - Required** <br />
   Callback function called when value was changed (debounced) with field value passed into.
 
-### Functions
-
-- **`Dispose()`: `@implements IDisposable` interface** <br />
-Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
-
 # Configuration
 
 ## Installation
 
-Blazor.Components.Debounce is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/). 
+**Majorsoft.Blazor.Components.Debounce** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Debounce/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Debounce
@@ -92,8 +87,13 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Debounce
+@using Majorsoft.Blazor.Components.Debounce
 ```
+
+### Dependences
+**Majorsoft.Blazor.Components.Debounce** package depends on other Majorsoft Nuget packages:
+- [Majorsoft.Blazor.Components.Timer](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer)
+which provides the debounce time feature.
 
 ### `DebounceInput` and `DebounceTextArea` usage
 
@@ -125,8 +125,7 @@ on specific `OnInput` event. So it will enable two way binding between component
 	private bool _forceNotifyByEnter = true;
 	private bool _forceNotifyOnBlur = true;
 	private DebounceInput input1;
-}
-	
+}	
 ```
 
 ### `DebounceInputText` and `DebounceInputTextArea` usage

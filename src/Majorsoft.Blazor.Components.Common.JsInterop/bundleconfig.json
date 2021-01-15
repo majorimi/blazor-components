@@ -1,0 +1,44 @@
+[
+  {
+    "outputFileName": "wwwroot/elementInfo.min.js",
+    "inputFiles": [
+      "wwwroot/elementInfo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/click.min.js",
+    "inputFiles": [
+      "wwwroot/click.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/focus.min.js",
+    "inputFiles": [
+      "wwwroot/focus.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/scroll.min.js",
+    "inputFiles": [
+      "wwwroot/scroll.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/clipboard.min.js",
+    "inputFiles": [
+      "wwwroot/clipboard.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/globalMouseEvents.min.js",
+    "inputFiles": [
+      "wwwroot/globalMouseEvents.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/resize.min.js",
+    "inputFiles": [
+      "wwwroot/resize.js"
+    ]
+  }
+]

@@ -1,0 +1,106 @@
+﻿<button @ref="_inputRef" @onclick="ButtonClicked" type="@Type.ToString().ToLower()" disabled=@(_isLoading && DisabledWhenLoading) @attributes=AllOtherAttributes>
+	@(!_isLoading ? Content : LoadingContent)
+</button>
+
+@inject ILogger<LoadingButton> _logger;
+@code {
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	/// <summary>
+	/// Required HTML content to show as default button content.
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+	/// <summary>
+	/// Required HTML content to show when operation is in progress button is in loading state.
+	/// </summary>
+	[Parameter] public RenderFragment LoadingContent { get; set; }
+
+	/// <summary>
+	/// Intelisense supported type safe values to render HTML button type="" attribute.
+	/// </summary>
+	[Parameter] public ButtonTypes Type { get; set; } = ButtonTypes.Button;
+
+	/// <summary>
+	/// Determines whether the button should be disabled during loading state or not.
+	/// </summary>
+	[Parameter] public bool DisabledWhenLoading { get; set; } = true;
+
+	/// <summary>
+	/// Function called when component onclick Blazor event triggered. Subscribe to this event and place your code to the event handler 
+	/// when using 'automatic' mode. Otherwise can be omitted.
+	/// </summary>
+	[Parameter] public EventCallback OnClicked { get; set; }
+
+	private bool _isLoading = false;
+	/// <summary>
+	/// Can be set the button to loading state  true or normal false. Returns true if button is loading, otherwise  false.
+	/// </summary>
+	[Parameter]
+	public bool IsLoading
+	{
+		get => _isLoading;
+		set
+		{
+			if (value != _isLoading)
+			{
+				if (value)
+					Set();
+				else
+					Reset();
+			}
+		}
+	}
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	/// <summary>
+	/// Sets the component to Loading state. Shows the specified LoadingContent and disables button, if configured to.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsLoading instead of public methods.")]
+	public void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	/// <summary>
+	/// Resets the component to the original state. Shows the specified default Content and enables button.
+	/// </summary>
+	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsLoading instead of public methods.")]
+	public void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
+	}
+
+	private async Task ButtonClicked(MouseEventArgs e)
+	{
+		if (!OnClicked.HasDelegate)
+		{
+			WriteDiag($"Clicked but no event handler registered. Button won't go to loading state please use Set/Reset functions or register OnClicked event.");
+			return;
+		}
+
+		_isLoading = true;
+		WriteDiag($"Clicked async event handler will be called. Currently IsLoading: '{_isLoading}'.");
+
+		try
+		{
+			await OnClicked.InvokeAsync();
+		}
+		finally
+		{
+			_isLoading = false;
+			WriteDiag($"Async event handler awaited. Load finished IsLoading: '{_isLoading}'.");
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

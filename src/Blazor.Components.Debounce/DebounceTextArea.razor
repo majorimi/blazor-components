@@ -1,4 +1,0 @@
-﻿@inherits DebounceTimerBase
-@inject ILogger<DebounceTextArea> _logger;
-
-<textarea @ref="_inputRef" value="@Value" @oninput="OnTextChange" @onblur="OnBlur" @onkeypress="OnKeyPress" @attributes=AdditionalAttributes />

@@ -1,0 +1,31 @@
+﻿.collapsePanel {
+	outline: none;
+}
+.collapsePanel[disabled] {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.collapseHeader {
+	outline: none;
+	width: 100%;
+	height: auto;
+	cursor: pointer;
+	border: 1px solid transparent;
+	padding: 3px;
+	display: flex;
+	box-shadow: 0 1px 2px #aaa;
+}
+.collapseHeader.animate {
+	-webkit-transition: background-color 0.5s; /* For Safari 3.1 to 6.0 */
+	transition: background-color 0.5s;
+}
+
+.collapseContent {
+	outline: none;
+	display: block;
+}
+.collapseContent.animate {
+	-webkit-transition: opacity 1s, height 0.4s; /* For Safari 3.1 to 6.0 */
+	transition: opacity 1s, height 0.4s;
+}

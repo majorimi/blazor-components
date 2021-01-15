@@ -8,7 +8,7 @@ Blazor Components Typeahead controls
 # About
 
 Blazor component that renders an HTML `<input>` or **Blazor** provided `InputText` with Typeahead panel with optional debounce (delay) and minimal required chars. **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Blazor.Components.TestApps.Common/Components/Typeahead.razor).
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Typeahead.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/typeahead).
 
@@ -113,7 +113,7 @@ Component implements `IAsyncDisposable` interface Blazor framework will call it 
 
 ## Installation
 
-Blazor.Components.Typeahead is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead/). 
+**Majorsoft.Blazor.Components.Typeahead** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Typeahead/). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.Typeahead
@@ -124,7 +124,7 @@ Use the `--version` option to specify a [preview version](https://www.nuget.org/
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Blazor.Components.Typeahead
+@using Majorsoft.Blazor.Components.Typeahead
 ```
 
 ### Dependences
@@ -136,7 +136,7 @@ which handles JS Interop for many features e.g. scrolling, etc.
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.Common.JsInterop;
 ...
 public static async Task Main(string[] args)
 {
@@ -149,7 +149,7 @@ public static async Task Main(string[] args)
 
 **In case of Server hosted project register services in your `Startup.cs` file:**
 ```
-using Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.Common.JsInterop;
 ...
 
 public void ConfigureServices(IServiceCollection services)

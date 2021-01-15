@@ -18,7 +18,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'src/Majorsoft.Blazor.Components.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -37,19 +37,19 @@ jobs:
       displayName: 'dotnet restore packages'
       inputs:
         command: 'restore'
-        projects: 'src/Blazor.Components.sln'
+        projects: '$(solution)'
         feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
       inputs:
         command: 'build'
-        projects: '**/*.csproj'
-        workingDirectory: src/
+        projects: '$(solution)'
+        arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'run tests'
       inputs:
-       command: 'test'
-       projects: '**/*.Tests.csproj'
-       arguments: '--configuration $(buildConfiguration)'
+        command: 'test'
+        projects: '**/*.Tests.csproj'
+        arguments: '--configuration $(buildConfiguration)'

@@ -10,6 +10,7 @@ Blazor CSS Animation and Transition components and extensions
 Blazor Extensions and Components wrapper to notify on CSS **Transition** and **Animation** events.
 This is useful when you want to wait for a CSS **Transition** or **Animation** to finish and then continue run C# code, e.g.: hide the element, etc.
  **All components work with WebAssembly and Server hosted models**. 
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/CssEvents.razor).
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents).
 
@@ -171,7 +172,7 @@ public sealed class CssBaseEventArgs : EventArgs
 
 ## Installation
 
-Blazor.Components.CssEvents is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents). 
+**Majorsoft.Blazor.Components.CssEvent**s is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents). 
 
 ```sh
 dotnet add package Majorsoft.Blazor.Components.CssEvents
@@ -184,17 +185,17 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 **Components have complex usage examples depending on CSS classes, @keyframes and events, etc. So best way to understand is to check Demo app code.**
 
 ```
-@using Blazor.Components.CssEvents
+@using Majorsoft.Blazor.Components.CssEvents
 @*Only if you want to use Animations*@
-@using Blazor.Components.CssEvents.Animation
+@using Majorsoft.Blazor.Components.CssEvents.Animation
 @*Only if you want to use Transitions*@
-@using Blazor.Components.CssEvents.Transition
+@using Majorsoft.Blazor.Components.CssEvents.Transition
 ```
 
 
 **In case of WebAssembly project register CSS events services in your `Program.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 public static async Task Main(string[] args)
 {
@@ -206,7 +207,7 @@ public static async Task Main(string[] args)
 
 **In case of Server hosted project register CSS events services in your `Startup.cs` file:**
 ```
-using Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.CssEvents;
 ...
 
 public void ConfigureServices(IServiceCollection services)

@@ -1,0 +1,179 @@
+﻿<h1>Tabs Components</h1>
+<p>
+	Blazor component that renders customizable Tabs element panel with many tabs and custom content. For usege see soruce code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tabs.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Tabs</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Tabs" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>TabsPanel with TabItems</h3>
+	<p>Renders <strong><code>TabsPanel</code> container </strong> for <strong><code>TabItem</code> components</strong> with custumizable header and content.</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Active tab color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_activeColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Inactive tabs color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_inactiveColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tabs Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tab items Width (0 is auto): @(_width)px
+			<input type="range" class="w-100" min="0" max="300" @bind="_width" @oninput="(e => _width = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tab items Height (0 is auto): @(_height)px
+			<input type="range" class="w-100" min="0" max="70" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Number of tabs: <strong>@_tabsCount</strong>
+			<br />
+			TabsPanel Disabled: <input class="mr-3" type="checkbox" @bind="_allTabsDisabled" />
+			Disable Tab: <input class="mr-3" type="checkbox" @bind="_isTabDisabled" />
+			<br />
+			Animate Tab changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
+		</div>
+	</div>
+
+	<div class="row pb-4">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Tabs horizontal positon: <select class="form-control selectpicker w-100" @bind="_tabPositon">
+				@foreach (var item in Enum.GetValues(typeof(TabPositons)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row mb-3 border rounded m-1">
+		<div class="col-12">
+			<TabsPanel @ref="_tabs"
+					   ActiveColor="@_activeColor"
+					   InactiveColor="@_inactiveColor"
+					   HoverColor="@_hoverColor"
+					   ActiveTab="@_activeTab"
+					   TabItemsHeight="@_height"
+					   TabItemsWidth="@_width"
+					   Disabled="@_allTabsDisabled"
+					   TabPositon="@_tabPositon"
+					   Animate="@_isAnimated"
+					   OnTabChanged="OnTabChanged">
+				<TabItems>
+					<TabItem id="tab1" @ref="_tab1">
+						<Header><strong>Tab 1</strong></Header>
+						<Content>
+							<h1>The first tab</h1>
+							<a href="https://www.flickr.com/photos/135037635@N03/19416459563/in/album-72157655977338469/" target="_blank">
+								<img src="https://live.staticflickr.com/262/19416459563_89d00f380b_b.jpg" width="200" height="150" />
+							</a>
+						</Content>
+					</TabItem>
+					<TabItem @ref="_tab2">
+						<Header><i>Tab 2</i></Header>
+						<Content>
+							<h1>The second tab</h1>
+							<a href="https://www.flickr.com/photos/135037635@N03/21052744791/in/album-72157655977338469/" target="_blank">
+								<img src="https://live.staticflickr.com/563/21052744791_980c93cf31_b.jpg" width="200" height="150" />
+							</a>
+						</Content>
+					</TabItem>
+					<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled">
+						<Header><u>Can disable</u></Header>
+						<Content>
+							<h1>This tab can be disabled</h1>
+							<p>And also any <code>TabItem</code> can be disabled by using <code>Disabled</code> property.</p>
+							<a href="https://www.flickr.com/photos/135037635@N03/20167139460/in/album-72157655977338469/" target="_blank">
+								<img src="https://live.staticflickr.com/561/20167139460_99f36fb6b3_b.jpg" width="200" height="150" />
+							</a>
+						</Content>
+					</TabItem>
+					<TabItem id="tab4" @ref="_tab4">
+						<Header>Header icon <i class="fa fa-home"></i></Header>
+						<Content>
+							<h1>Tab with icon in header</h1>
+							<a href="https://www.flickr.com/photos/135037635@N03/22344122565/in/album-72157655977338469/" target="_blank">
+								<img src="https://live.staticflickr.com/5743/22344122565_ca98b2a2fa_b.jpg" width="200" height="150" />
+							</a>
+						</Content>
+					</TabItem>
+				</TabItems>
+			</TabsPanel>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Tabs Event log</strong>:</label>
+			<textarea @ref="_log" @bind="_tabsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+
+</div>
+
+@using System.Linq;
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await _tabs.InnerElementReference.FocusAsync();
+
+			//Group
+			_activeTab = _tab2;
+			_tabsCount = _tabs.TabCount;
+			StateHasChanged();
+		}
+	}
+
+	private string _activeColor = "DodgerBlue";
+	private string _inactiveColor = "White";
+	private string _hoverColor = "WhiteSmoke";
+	private int _width = 135;
+	private int _height = 40;
+	private TabPositons _tabPositon = TabPositons.Left;
+	private bool _isAnimated = true;
+	private bool _allTabsDisabled = false;
+	private bool _isTabDisabled = false;
+
+	private int _tabsCount;
+
+	private TabsPanel _tabs;
+	private TabItem _activeTab;
+	private TabItem _tab1;
+	private TabItem _tab2;
+	private TabItem _tab3;
+	private TabItem _tab4;
+
+	private ElementReference _log;
+	private string _tabsLog;
+
+	private async Task OnTabChanged(TabItem tab)
+	{
+		_activeTab = tab;
+		var index = _tabs.Tabs.ToList().IndexOf(tab);
+		_tabsLog = await WriteLog(_tabsLog, $"Tab item activated event Active tab index: {index}");
+	}
+
+	private async Task<string> WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await _log.ScrollToEndAsync();
+
+		return log;
+	}
+}

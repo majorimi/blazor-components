@@ -1,0 +1,107 @@
+﻿@if (_isLoading)
+{
+	<div class="loading"
+		 style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))"
+		 @attributes=AllOtherAttributes>
+		<div class="loading-content">@(LoadingContent)</div>
+		@Content
+	</div>
+}
+else
+{
+	@Content
+}
+
+@using System.Globalization;
+@using Majorsoft.Blazor.Components.Core.HtmlColors;
+@inject ILogger<LoadingElement> _logger;
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		if (OnLoading.HasDelegate)
+		{
+			_isLoading = true;
+			WriteDiag($"OnInitializedAsync currently IsLoading: '{_isLoading}'.");
+
+			try
+			{
+				await OnLoading.InvokeAsync();
+			}
+			finally
+			{
+				_isLoading = false;
+				WriteDiag($"Async process finished IsLoading: '{_isLoading}'.");
+			}
+		}
+	}
+
+	private string _overlayColor = "128,128,128";//gray
+	/// <summary>
+	/// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+	/// </summary>
+	[Parameter]
+	public string OverlayBackgroundColor
+	{
+		get => _overlayColor;
+		set => _overlayColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+	/// <summary>
+	/// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+	/// </summary>
+	[Parameter] public double OverlayOpacity { get; set; } = 0.9;
+
+	/// <summary>
+	/// Required HTML content to show by default e.g: Table or Grid...
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+
+	/// <summary>
+	/// Required HTML content to show on top of the Content in an overlay div.
+	/// </summary>
+	[Parameter] public RenderFragment LoadingContent { get; set; }
+
+	/// <summary>
+	/// Callback function called when component OnInitializedAsync Blazor event triggered.
+	/// </summary>
+	[Parameter] public EventCallback OnLoading { get; set; }
+
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private bool _isLoading = false;
+	/// <summary>
+	/// Can be set overlay to loading state  true  or remove it  false . Returns  true  if loading overlay is prompted, otherwise  false.
+	/// </summary>
+	[Parameter]
+	public bool IsLoading
+	{
+		get => _isLoading;
+		set
+		{
+			if (value != _isLoading)
+			{
+				if (value)
+					Set();
+				else
+					Reset();
+			}
+		}
+	}
+
+	private void Set()
+	{
+		_isLoading = true;
+		WriteDiag($"Set() method called currently IsLoading: '{_isLoading}'.");
+	}
+	private void Reset()
+	{
+		_isLoading = false;
+		WriteDiag($"Reset() method called currently IsLoading: '{_isLoading}'.");
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

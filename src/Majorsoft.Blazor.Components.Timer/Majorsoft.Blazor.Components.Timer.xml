@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.Components.Timer</name>
+    </assembly>
+    <members>
+        <member name="T:Majorsoft.Blazor.Components.Timer.Times">
+            <summary>
+            Times to occur of <see cref="T:Majorsoft.Blazor.Components.Timer.AdvancedTimer"/> ticks
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.Times.Count">
+            <summary>
+            Occurrence count
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Once">
+            <summary>
+            Should occur only once
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Infinite">
+            <summary>
+            Should occur until stopped
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.Times.Exactly(System.UInt64)">
+            <summary>
+            Should occur exactly to the given number of times
+            </summary>
+            <param name="count">N occurrence</param>
+            <returns></returns>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.IntervalInMilisec">
+            <summary>
+            Notification timeout in ms. If set to 0 or less it set to 1 ms.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.DelayInMilisec">
+            <summary>
+            Delay in ms. before the timer will start. If set to 0 timer will start immediately.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.Occurring">
+            <summary>
+            Number of times elapsed even will be fired. See <see cref="T:Majorsoft.Blazor.Components.Timer.Times"/> record description.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.AutoStart">
+            <summary>
+            If true timer will start when component OnInitialized event run, otherwise timer must be started by IsEnabled property set to true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.OnIntervalElapsed">
+            <summary>
+            Timer event this Function called when specified timeout elapsed, parameter is the iteration count.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Timer.AdvancedTimer.IsEnabled">
+            <summary>
+            Can be set to start `true` or stop `false` timer. Returns the inner state of the timer. `True` if timer is running otherwise `false`.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.AdvancedTimer.Start">
+            <summary>
+            Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.AdvancedTimer.Stop">
+            <summary>
+            Stops the internal timer and no more event will be fired.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.AdvancedTimer.Reset">
+            <summary>
+            Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Timer.AdvancedTimer.Dispose">
+            <summary>
+            Dispose component
+            </summary>
+        </member>
+    </members>
+</doc>
