@@ -21,6 +21,9 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		/// </summary>
 		public bool IsSuccess => Error is null && Coordinates is not null;
 
+		/// <summary>
+		/// Event time
+		/// </summary>
 		public DateTime TimeStamp { get; set; }
 	}
 

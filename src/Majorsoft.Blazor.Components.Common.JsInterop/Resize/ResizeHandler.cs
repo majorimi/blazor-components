@@ -5,7 +5,6 @@ using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,8 +45,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			await CheckJsObjectAsync();
 
+			_registeredEvents.Remove(eventId);
 			await _resizeJs.InvokeVoidAsync("removeGlobalResizeEvent", eventId);
-			RemoveEvent(eventId);
 		}
 
 		public async Task<PageSize> GetPageSizeAsync()
@@ -77,11 +76,6 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 			RemoveElement(elementRef);
 		}
 
-		private void RemoveEvent(string eventId)
-		{
-			var items = _registeredEvents.Where(x => x.Equals(eventId));
-			_registeredEvents = _registeredEvents.Except(items).ToList();
-		}
 		private void RemoveElement(ElementReference elementRef)
 		{
 			var items = _registeredElements.Where(x => x.Equals(elementRef));

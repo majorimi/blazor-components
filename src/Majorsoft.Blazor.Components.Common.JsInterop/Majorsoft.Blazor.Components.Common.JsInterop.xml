@@ -162,6 +162,11 @@
             Returns true if there is no error object, otherwise false.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.TimeStamp">
+            <summary>
+            Event time
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates">
             <summary>
             The GeolocationCoordinates interface represents the position and altitude of the device on Earth, as well as the accuracy with which these properties are calculated.
@@ -241,6 +246,48 @@
         <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.TIMEOUT">
             <summary>
             The time allowed to acquire the geolocation, defined by PositionOptions.timeout information was reached before the information was obtained.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo">
+            <summary>
+            Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService">
+            <summary>
+            Injectable service to handle Browser Geolocation Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.GetCurrentPosition(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            Get the current position of the device.
+            </summary>
+            <param name="locationResultCallback"></param>
+            <param name="highAccuracy"></param>
+            <param name="timeout"></param>
+            <param name="cacheTime"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcher(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            
+            </summary>
+            <param name="locationEventsCallback"></param>
+            <param name="highAccuracy"></param>
+            <param name="timeout"></param>
+            <param name="cacheTime"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcher(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="handlerId"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.GlobalMouseEventHandler">

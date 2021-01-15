@@ -282,11 +282,12 @@
 	</PermaLinkElement>
 	<p>
 		<strong>Browser Language JS</strong> is an <strong>injectable <code>ILanguageService</code> service</strong> for detect the browser language preference.
+		It is useful when Blazor application is localized and wants to show the app in the user preferred language.
 	</p>
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<label>Your Broser prefered language is: <strong>@_detectedBrowserLang</strong></label>
+			<label>Your Browser preferred language is: <strong>@_detectedBrowserLang</strong></label>
 		</div>
 	</div>
 </div>
@@ -301,8 +302,7 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<button class="btn btn-primary" @onclick="@(async () => await _geoLocationService.GetCurrentPosition())">Get current location</button>
-
+			<button class="btn btn-primary" @onclick="@(async () => await _geoLocationService.GetCurrentPosition(CurrentLocationResult))">Get current location</button>
 		</div>
 	</div>
 </div>
@@ -523,6 +523,12 @@
 
 	//Broswer lang
 	private CultureInfo _detectedBrowserLang;
+
+	//Geo
+	private async Task CurrentLocationResult(GeolocationResult geolocationResult)
+	{
+
+	}
 
 	public async ValueTask DisposeAsync()
 	{

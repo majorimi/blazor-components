@@ -1,34 +1,84 @@
-﻿export function getCurrentPosition(highAccuracy, timeout, cacheTime) {
+﻿//Create event handler
+function createSuccessEventHandler(dotnetRef) {
+    let eventCallback = function (pos) {
+        let args = {
+            Coordinates: {
+                Latitude: pos.coords.latitude,
+                Longitude: pos.coords.longitude,
+                Accuracy: pos.coords.accuracy,
+                Altitude: pos.coords.altitude,
+                AltitudeAccuracy: pos.coords.altitudeAccuracy,
+                Speed: pos.coords.speed,
+                Heading: pos.coords.heading,
+            },
+            Error: null,
+            TimeStamp: new Date(pos.timestamp).toISOString()
+        };
+
+        dotnetRef.invokeMethodAsync("GeolocationEvent", args);
+    }
+
+    return eventCallback;
+}
+function createErrorEventHandler(dotnetRef) {
+    let eventCallback = function (error) {
+        let args = {
+            Coordinates: null,
+            Error: {
+                ErrorCode: error.code,
+                ErrorMessage: error.message
+            },
+            TimeStamp: new Date().toISOString()
+        };
+
+        dotnetRef.invokeMethodAsync("GeolocationEvent", args);
+    };
+
+    return eventCallback;
+}
+
+//Current location
+export function getCurrentPosition(dotnetRef, highAccuracy, timeout, cacheTime) {
+    if (!dotnetRef) {
+        return;
+    }
+
     let options = {
-        enableHighAccuracy: highAccuracy, //true,
+        enableHighAccuracy: highAccuracy, //false,
         timeout: timeout, //5000,
         maximumAge: cacheTime, //0
     };
 
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(createSuccessEventHandler(dotnetRef), createErrorEventHandler(dotnetRef), options);
 }
 
-function success(pos) {
-    var crd = pos.coords;
+//Location watch
+export function addGeolocationWatcher(dotnetRef, highAccuracy, timeout, cacheTime) {
+    if (!dotnetRef) {
+        return;
+    }
 
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
+    let options = {
+        enableHighAccuracy: highAccuracy, //false,
+        timeout: timeout, //5000,
+        maximumAge: cacheTime, //0
+    };
+
+    let handler = navigator.geolocation.watchPosition(createSuccessEventHandler(dotnetRef), createErrorEventHandler(dotnetRef), options);
+    return handler;
 }
-function error(error) {
-    switch (error.code) {
-        case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation."
-            break;
-        case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Location information is unavailable."
-            break;
-        case error.TIMEOUT:
-            x.innerHTML = "The request to get user location timed out."
-            break;
-        case error.UNKNOWN_ERROR:
-            x.innerHTML = "An unknown error occurred."
-            break;
+export function removeGeolocationWatcher(handler) {
+    if (!handler) {
+        return;
+    }
+
+    navigator.geolocation.clearWatch(handler);
+}
+
+export function dispose(handlerArray) {
+    if (handlerArray) {
+        for (var i = 0; i < handlerArray.length; i++) {
+            removeGeolocationWatcher(handlerArray[i]);
+        }
     }
 }
