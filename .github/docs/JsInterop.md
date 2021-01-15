@@ -7,7 +7,8 @@ Blazor Js Interop components and extensions
 
 # About
 
-Collection of Blazor components and extension methods that provide useful functionality which can be achieved only with Js Interop.
+Collection of Blazor components, injectable services and extension methods that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. 
+	scroll, clipboard, focus, resize, language detection, Geolocation, etc..
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/JSInterop.razor).
 
@@ -15,7 +16,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Features
 
-- **Click JS**: is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+- **Click JS**: `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
  Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
@@ -24,14 +25,33 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
+- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
-
-**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
 This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
 
-### Functions
+### `ClickBoundariesElement` component
+`ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`OnOutsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked outside of the given element.
+- **`OnInsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked inside of the given element.
+
+**Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML wrapper element `<span>`**.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+### `IClickBoundariesHandler` service
+**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
+
+#### Functions
 - **`RegisterClickBoundariesAsync`**: **`Task RegisterClickBoundariesAsync(ElementReference elementRef, Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null)`** <br />
  Adds event listener for 'click' HTML event for the given element with property filter.
 - **`RemoveClickBoundariesAsync`**: **`Task RemoveClickBoundariesAsync(ElementReference elementRef)`** <br />
@@ -130,6 +150,9 @@ Implements `IAsyncDisposable` interface the injected service should be Disposed.
 **Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 
 ### Functions
+- **`GetPageSizeAsync`**: **`Task<PageSize> GetPageSizeAsync()`**<br />
+Returns Browser Window size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+on each page resize.
 - **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
 Adds event listener for 'resize' HTML event for the whole document/window.
 - **`RemovePageResizeAsync`**: **`Task RemovePageResizeAsync(string eventId)`**<br />
@@ -162,7 +185,26 @@ Copies the given element text content to clipboard.
 ### Functions
 - **`GetBrowserLanguageAsync`**: **`Task<CultureInfo> GetBrowserLanguageAsync()`** <br />
 Returns the given user's Browser language preference as .NET `CultureInfo`.
-- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+
+## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
+**Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
+It is using the Geolocation API which allows users to provide their location to web applications if they desire.
+
+**NOTE:** Geolocation only accurate for devices with GPS, e.g. smartphones.
+**In most cases users have to enable it and grant permission to access location data!**
+Also some properties of the response might be not available like `Speed`, `Heading` because of required hardwares: GPS, compass, etc.
+
+### Functions
+- **`GetCurrentPosition`: `Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Get the current position of the device.
+- **`AddGeolocationWatcher`: `Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Register a handler function that will be **called automatically each time the position of the device changes**.
+- **`RemoveGeolocationWatcher`: `Task RemoveGeolocationWatcher(int handlerId)`** <br />
+Unregister location/error monitoring handlers previously installed using `AddGeolocationWatcher`.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 
@@ -195,6 +237,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 @*Only if you want to use Language*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Language
+@*Only if you want to use Geolocation*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Geo
 ```
 
 

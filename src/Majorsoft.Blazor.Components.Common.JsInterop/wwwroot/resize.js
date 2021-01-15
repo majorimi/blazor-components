@@ -95,12 +95,7 @@ export function dispose(elementsWithPropArray) {
 //HTLM page resize events
 function createWindowResizeEventHandler(dotnetRef) {
     let eventHandler = function () {
-        let args = {
-            Height: window.innerHeight,
-            Width: window.innerWidth
-        };
-
-        dotnetRef.invokeMethodAsync("ResizeEvent", args);
+        dotnetRef.invokeMethodAsync("ResizeEvent", getPageSize());
     }
 
     return eventHandler;
@@ -171,4 +166,15 @@ export function disposeGlobal(eventIdArray) {
             removeGlobalResizeEvent(eventIdArray[i]);
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////
+//HTLM page size
+export function getPageSize() {
+    let args = {
+        Height: window.innerHeight,
+        Width: window.innerWidth
+    }
+
+    return args;
 }

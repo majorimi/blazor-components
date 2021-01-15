@@ -3,20 +3,26 @@
 
 @implements IAsyncDisposable
 
-<div @ref="_clickContainer" @attributes=AllOtherAttributes>
+<span @ref="_clickContainer" @attributes=AllOtherAttributes>
 	@Content
-</div>
+</span>
 
 @code {
 	private ElementReference _clickContainer;
 
-	[Parameter]
-	public RenderFragment Content { get; set; }
+	/// <summary>
+	/// HTML Content of Click detection element.
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
 
-	[Parameter]
-	public EventCallback<MouseEventArgs> OnOutsideClick { get; set; }
-	[Parameter]
-	public EventCallback<MouseEventArgs> OnInsideClick { get; set; }
+	/// <summary>
+	/// Callback function called when clicked outside of the given element.
+	/// </summary>
+	[Parameter] public EventCallback<MouseEventArgs> OnOutsideClick { get; set; }
+	/// <summary>
+	/// Callback function called when clicked inside of the given element.
+	/// </summary>
+	[Parameter] public EventCallback<MouseEventArgs> OnInsideClick { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
@@ -27,16 +33,16 @@
 		{
 			WriteDiag($"OnAfterRenderAsync  component rendered, registering click events.");
 
-			await _clickHandler.RegisterClickBoundariesAsync(_clickContainer, 
-			async (args) => 
-			{ 
+			await _clickHandler.RegisterClickBoundariesAsync(_clickContainer,
+			async (args) =>
+			{
 				if(OnOutsideClick.HasDelegate)
 				{
 					await OnOutsideClick.InvokeAsync(args);
 				}
 			},
-			async (args) => 
-			{ 
+			async (args) =>
+			{
 				if(OnInsideClick.HasDelegate)
 				{
 					await OnInsideClick.InvokeAsync(args);

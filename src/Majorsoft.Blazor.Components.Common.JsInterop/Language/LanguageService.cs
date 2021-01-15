@@ -15,7 +15,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Language
 
 		public LanguageService(IJSRuntime jsRuntime)
 		{
-				_jsRuntime = jsRuntime;
+			_jsRuntime = jsRuntime;
 		}
 
 		public async Task<CultureInfo> GetBrowserLanguageAsync()

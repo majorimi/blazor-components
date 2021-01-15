@@ -45,8 +45,16 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			await CheckJsObjectAsync();
 
+			_registeredEvents.Remove(eventId);
 			await _resizeJs.InvokeVoidAsync("removeGlobalResizeEvent", eventId);
-			RemoveEvent(eventId);
+		}
+
+		public async Task<PageSize> GetPageSizeAsync()
+		{
+			await CheckJsObjectAsync();
+
+			var size = await _resizeJs.InvokeAsync<PageSize>("getPageSize");
+			return size;
 		}
 
 		public async Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null)
@@ -68,11 +76,6 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 			RemoveElement(elementRef);
 		}
 
-		private void RemoveEvent(string eventId)
-		{
-			var items = _registeredEvents.Where(x => x.Equals(eventId));
-			_registeredEvents = _registeredEvents.Except(items).ToList();
-		}
 		private void RemoveElement(ElementReference elementRef)
 		{
 			var items = _registeredElements.Where(x => x.Equals(elementRef));
