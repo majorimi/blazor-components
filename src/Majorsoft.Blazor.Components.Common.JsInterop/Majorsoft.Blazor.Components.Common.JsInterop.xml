@@ -183,7 +183,8 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Heading">
             <summary>
-            representing the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading due north the device is. Zero degrees represents true north, and the direction is determined clockwise (which means that east is 90 degrees and west is 270 degrees). 
+            representing the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading due north the device is. 
+            Zero degrees represents true north, and the direction is determined clockwise (which means that east is 90 degrees and west is 270 degrees). 
             If GeolocationCoordinates.speed is 0, heading is NaN. If the device is not able to provide heading information, this value is null.
             </summary>
         </member>
@@ -201,6 +202,11 @@
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError.ErrorMessage">
             <summary>
             Returns a human-readable DOMString describing the details of the error.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo">
+            <summary>
+            Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes">
@@ -251,11 +257,6 @@
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationService">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo">
-            <summary>
-            Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService">

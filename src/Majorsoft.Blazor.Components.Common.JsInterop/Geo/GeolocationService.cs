@@ -39,6 +39,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 
 		public async Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)
 		{
+			await CheckJsObjectAsync();
+
 			var info = new GeolocationEventInfo(locationEventsCallback);
 			var dotnetRef = DotNetObjectReference.Create<GeolocationEventInfo>(info);
 
@@ -53,6 +55,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 
 		public async Task RemoveGeolocationWatcher(int handlerId)
 		{
+			await CheckJsObjectAsync();
+
 			_registeredEvents.Remove(handlerId);
 			await _geoJs.InvokeVoidAsync("removeGeolocationWatcher", handlerId);
 		}
