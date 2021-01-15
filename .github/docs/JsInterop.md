@@ -25,7 +25,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
-- **Geo JS**: is an **injectable `IGeolocationService` service**
+- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
@@ -185,7 +185,26 @@ Copies the given element text content to clipboard.
 ### Functions
 - **`GetBrowserLanguageAsync`**: **`Task<CultureInfo> GetBrowserLanguageAsync()`** <br />
 Returns the given user's Browser language preference as .NET `CultureInfo`.
-- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+
+## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
+**Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
+It is using the Geolocation API which allows users to provide their location to web applications if they desire.
+
+**NOTE:** Geolocation only accurate for devices with GPS, e.g. smartphones.
+**In most cases users have to enable it and grant permission to access location data!**
+Also some properties of the response might be not available like `Speed`, `Heading` because of required hardwares: GPS, compass, etc.
+
+### Functions
+- **`GetCurrentPosition`: `Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Get the current position of the device.
+- **`AddGeolocationWatcher`: `Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Register a handler function that will be **called automatically each time the position of the device changes**.
+- **`RemoveGeolocationWatcher`: `Task RemoveGeolocationWatcher(int handlerId)`** <br />
+Unregister location/error monitoring handlers previously installed using `AddGeolocationWatcher`.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 

@@ -297,14 +297,18 @@
 		<Content><h3>Geo JS</h3></Content>
 	</PermaLinkElement>
 	<p>
-		<strong>Geolocation JS</strong> is an <strong>injectable <code>IGeolocationService</code> service</strong> for detect the user Geolocation also.
+		<strong>Geolocation JS</strong> is an <strong>injectable <code>IGeolocationService</code> service</strong> for detect the device Geolocation (GPS position, speed, heading, etc.).
 		It is using the Geolocation API which allows users to provide their location to web applications if they desire.
 	</p>
 	<p class="bg-warning text-dark">
-		<strong>NOTE:</strong> Geolocation only accurate for devices with GPS, e.g. smartphones. <br />
-		<strong>In most cases users have to enable it and grant permission to access location data!</strong> <br />
-		Also some properties of the response might be not available like <code>Speed</code>, <code>Heading</code> because of required hardwares: GPS, compass, etc.
+		<span class="p-1">
+			<strong>NOTE:</strong> Geolocation only accurate for devices with GPS, e.g. smartphones. <br />
+			<strong>In most cases users have to enable it and grant permission to access location data!</strong> <br />
+			Also some properties of the response might be not available like <code>Speed</code>, <code>Heading</code> because of required hardwares: GPS, compass, etc.
+		</span>
 	</p>
+
+	<hr />
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -399,7 +403,7 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12">
-			<label>Geolocation events:</label>
+			<label><strong>Geolocation events:</strong></label>
 			<textarea @ref="_log5" @bind="_logMessage5" class="form-control w-100 logText" readonly></textarea>
 		</div>
 	</div>
