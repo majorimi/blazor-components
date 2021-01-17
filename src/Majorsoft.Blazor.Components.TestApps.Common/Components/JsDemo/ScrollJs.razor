@@ -1,0 +1,94 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="scroll-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Scroll JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
+		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong><code>ScrollToElementAsync()</code> will scroll the given <code>ElementReference</code> (Button) to the visible aarea</strong>:</label>
+			<br />
+			<button class="btn btn-primary" @ref="_scrollToView" @onclick="ScrollToView">Scroll to view</button>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>scroll</code></p>
+			<button class="btn btn-primary" @onclick="ScrollEventHandler">@(_scrollSubscribed ? "Unsubscribe from scroll" : "Subscribe to scroll")</button>
+			<br />
+			<label><strong>Scroll Events log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (textarea) to element top and bottom</strong>:</label>
+			<br />
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToTopAsync())">Scroll to textbox Top</button>
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToEndAsync())">Scroll to textbox Bottom</button>
+		</div>
+	</div>
+
+	<hr />
+</div>
+
+@implements IAsyncDisposable
+@inject IScrollHandler _scrollHandler
+
+@code {
+	private string _scrollEventId = null;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await ScrollEventHandler();
+	}
+
+	//Scroll examples
+	private ElementReference _scrollToView;
+	private async Task ScrollToView()
+	{
+		await _scrollToView.ScrollToElementAsync();
+	}
+
+	private ElementReference _log;
+	private string _logMessage;
+	private async Task PageScrolled(ScrollEventArgs args)
+	{
+		_logMessage += $"{DateTime.Now.TimeOfDay}: Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log.ScrollToEndAsync();
+	}
+
+	private bool _scrollSubscribed = false;
+	private async Task ScrollEventHandler()
+	{
+		if (_scrollSubscribed)
+		{
+			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
+		}
+		else
+		{
+			_scrollEventId = await _scrollHandler.RegisterPageScrollAsync(PageScrolled);
+		}
+
+		_scrollSubscribed = !_scrollSubscribed;
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_scrollHandler is not null)
+		{
+			await _scrollHandler.DisposeAsync();
+		}
+	}
+}

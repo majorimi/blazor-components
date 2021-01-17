@@ -1,0 +1,133 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="click-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Click JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Click JS</strong> is a convenient Blazor component and also an injectable service to detect mouse clicks
+		inside and outside of a given HTML element.
+		<br />
+		<strong>
+			NOTE: Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This functionality is useful when need to detect if click
+			happened outside of the component with <code>OnOutsideClick</code> event.
+		</strong>
+	</p>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>IClickBoundariesHandler</code> injectable service</h4>
+		<p>
+			<code>IClickBoundariesHandler</code> is an <strong>injectable service</strong> with RenderFragment for content and callback event handlers
+			for <code>OnOutsideClick</code>, <code>OnInsideClick</code>.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<div class="text-center" @ref="_clickDiv" style="margin-right:auto; margin-left:auto; width:150px; height:80px; background:lightgray;">
+					Inside A
+					<div class="text-center" style="width:150px; height:50px; background:gray;">
+						Inside B
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12">
+				<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>click</code></p>
+				<button class="btn btn-primary" @onclick="ClickEventHandler">@(_clickSubscribed ? "Unsubscribe from click" : "Subscribe to click")</button>
+				<br />
+
+				<label><strong>IClickBoundariesHandler log</strong>:</label>
+				<textarea @ref="_clickLog" @bind="_clickLogMessage" class="form-control w-100 logText" readonly></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4><code>ClickBoundariesElement</code> component</h4>
+		<p>
+			<code>ClickBoundariesElement</code>is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all
+			click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12 text-center">
+				<ClickBoundariesElement OnOutsideClick="@(arg => PageClick2(arg, "OUSIDE of content"))"
+										OnInsideClick="@(arg => PageClick2(arg, "INSIDE of content"))">
+					<Content>
+						<div style="display:inline-block; margin-right: auto; margin-left: auto; width: 200px; height: 110px; background: lightgray;">
+							ClickBoundariesElement: <br /> 	Inside A
+							<div class="text-center" style="width:200px; height:50px; background:gray;">
+								Inside B
+							</div>
+						</div>
+					</Content>
+				</ClickBoundariesElement>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>ClickBoundariesElement log</strong>:</label>
+				<textarea @ref="_clickLog2" @bind="_clickLogMessage2" class="form-control w-100 logText" readonly></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+
+@implements IAsyncDisposable
+@inject IClickBoundariesHandler _clickHandler;
+
+@code { 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			await ClickEventHandler();
+		}
+	}
+
+	//Click examples
+	private ElementReference _clickLog;
+	private ElementReference _clickDiv;
+	private string _clickLogMessage;
+	private bool _clickSubscribed = false;
+
+	private ElementReference _clickLog2;
+	private string _clickLogMessage2;
+
+	private async Task ClickEventHandler()
+	{
+		if (_clickSubscribed)
+		{
+			await _clickHandler.RemoveClickBoundariesAsync(_clickDiv);
+		}
+		else
+		{
+			await _clickHandler.RegisterClickBoundariesAsync(_clickDiv,
+			 async (args) => await PageClick(args, "OUSIDE of registered element"),
+			 async (args) => await PageClick(args, "INSIDE of registered element"));
+		}
+
+		_clickSubscribed = !_clickSubscribed;
+	}
+	private async Task PageClick(MouseEventArgs args, string message)
+	{
+		_clickLogMessage += $"{DateTime.Now.TimeOfDay}: IClickBoundariesHandler Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _clickLog.ScrollToEndAsync();
+	}
+	private async Task PageClick2(MouseEventArgs args, string message)
+	{
+		_clickLogMessage2 += $"{DateTime.Now.TimeOfDay}: ClickBoundariesElement Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
+		//StateHasChanged();
+
+		await _clickLog2.ScrollToEndAsync();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_clickHandler is not null)
+		{
+			await _clickHandler.DisposeAsync();
+		}
+	}
+}
