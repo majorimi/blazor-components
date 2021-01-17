@@ -72,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.DemoApp", "..\demo\Majorsoft.Blazor.Components.DemoApp\Majorsoft.Blazor.Components.DemoApp.csproj", "{783907D5-3DE1-4D09-B22B-59AA40C17686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Maps", "Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj", "{3AD2A154-A197-46BE-A213-51328C13B008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Maps", "Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj", "{3AD2A154-A197-46BE-A213-51328C13B008}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
