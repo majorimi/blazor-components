@@ -300,15 +300,17 @@
 		<strong>Geolocation JS</strong> is an <strong>injectable <code>IGeolocationService</code> service</strong> for detect the device Geolocation (GPS position, speed, heading, etc.).
 		It is using the Geolocation API which allows users to provide their location to web applications if they desire.
 	</p>
-	<p class="bg-warning text-dark">
-		<span class="p-1">
-			<strong>NOTE:</strong> Geolocation only accurate for devices with GPS, e.g. smartphones. <br />
-			<strong>In most cases users have to enable it and grant permission to access location data!</strong> <br />
-			Also some properties of the response might be not available like <code>Speed</code>, <code>Heading</code> because of required hardwares: GPS, compass, etc.
-		</span>
+	<p class="bg-warning text-dark p-1">
+		<strong>NOTE:</strong> Geolocation only accurate for devices with GPS, e.g. smartphones. <br />
+		<strong>In most cases users have to enable it and grant permission to access location data!</strong> <br />
+		Also some properties of the response might be not available like <code>Speed</code>, <code>Heading</code> because of required hardwares: GPS, compass, etc.
 	</p>
 
 	<hr />
+
+	<p>
+		<a href="/map">Show Map demo</a>
+	</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -409,6 +411,7 @@
 	</div>
 </div>
 
+<hr />
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 
 
