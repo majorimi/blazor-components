@@ -46,4 +46,12 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Bing\" />
+	</ItemGroup>
+
 </Project>
