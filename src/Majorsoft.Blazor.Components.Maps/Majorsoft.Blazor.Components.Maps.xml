@@ -36,6 +36,11 @@
             </summary>
             <returns>Maps specific geo coordinates or address</returns>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapImageFormats">
+            <summary>
+            Google maps images may be returned in several common web graphics formats
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes">
             <summary>
             The Maps Static API creates maps in several formats
@@ -59,11 +64,6 @@
         <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes.Hybrid">
             <summary>
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapImageFormats">
-            <summary>
-            Google maps images may be returned in several common web graphics formats
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.InnerElementReference">

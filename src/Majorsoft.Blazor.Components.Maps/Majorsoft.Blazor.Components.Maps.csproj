@@ -15,7 +15,7 @@
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryType>Git</RepositoryType>
-		<Description>Blazor component that renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net. Part of Majorsoft Blazor library.</Description>
+		<Description>Blazor component that renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net code. Part of Majorsoft Blazor library.</Description>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageTags>.Net5 Blazor Maps Google Bing Pins Cluster Geo Location Geolocation Position GPS</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>

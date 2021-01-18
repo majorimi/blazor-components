@@ -1,7 +1,7 @@
 ﻿<h1>Map Components</h1>
 
 <p>
-	Blazor components renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net. For usage see source code and docs on
+	Blazor components renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net code. For usage see source code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Maps</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Maps" target="_blank">Nuget</a>
 </p>
@@ -18,19 +18,82 @@
 	<PermaLinkElement PermaLinkName="google-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Google Maps</h3></Content>
 	</PermaLinkElement>
-
 	<p>
-
-	</p>
-	<GoogleSimpleMaps>
-	</GoogleSimpleMaps>
-
-	<p>
-
+		<strong>To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.</strong>
 	</p>
 
-	<GoogleMaps>
-	</GoogleMaps>
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Google Maps Static API</h4>
+		<p>
+			The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an HTTP request via a URL.
+			For each request, you can specify the location of the map, the size of the image, the zoom level, the type of map, and the placement of optional markers at locations on the map. You can additionally label your markers using alphanumeric characters.
+		</p>
+		<p>
+			A Maps Static API image is embedded within an <code>&lt;img&gt;</code> tag's <code>src</code> attribute, or its equivalent in other programming languages.
+		</p>
+
+		@*<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay opacity: @(_overlayOpacity/1000)
+				<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal height (0 is auto): @(_modalHeight == 0 ? "auto" : $"{_modalHeight}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalHeight" @oninput="(e => _modalHeight = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal width (0 is auto): @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal Min. height: @(_modalMinHeight)px
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalMinHeight" @oninput="(e => _modalMinHeight = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Modal Min. width: @(_modalMinWitdth)px
+				<input type="range" class="w-100" min="0" max="1000" @bind="_modalMinWitdth" @oninput="(e => _modalMinWitdth = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>*@
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<p><strong>Rendered Google Maps image:</strong></p>
+
+				<GoogleSimpleMaps />
+			</div>
+		</div>
+
+	</div>
+
+	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+		<h4>Google Maps JavaScript API</h4>
+		<p>
+			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices. 
+			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers 
+			and styles, controls and events, and various services and libraries.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<p><strong>Rendered Google Maps:</strong></p>
+
+				<GoogleMaps />
+			</div>
+		</div>
+	</div>
 
 </div>
 
