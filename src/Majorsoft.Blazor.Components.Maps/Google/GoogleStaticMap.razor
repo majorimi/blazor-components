@@ -1,9 +1,8 @@
-﻿<img @ref="_simpleMap" @attributes=AllOtherAttributes
-	 src="@GetMapsUrl()" />
+﻿<img @ref="_simpleMap" @attributes=AllOtherAttributes src="@GetMapsUrl()" />
 
 @implements IAsyncDisposable
 
-@inject ILogger<GoogleSimpleMaps> _logger;
+@inject ILogger<GoogleStaticMap> _logger;
 @inject IGeolocationService _geolocationService;
 
 @code {
@@ -15,21 +14,9 @@
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if (CenterCurrentLocation)
+		if (CenterCurrentLocation && firstRender)
 		{
-			await _geolocationService.GetCurrentPosition(async (pos) =>
-			{
-				if (pos.IsSuccess)
-				{
-					Center = new GeolocationData()
-					{
-						Latitude = pos.Coordinates.Latitude,
-						Longitude = pos.Coordinates.Longitude
-					};
-					StateHasChanged();
-				}
-			},
-			false, TimeSpan.FromSeconds(10));
+			await CenterCurrentLocationOnMap();
 		}
 	}
 
@@ -62,16 +49,16 @@
 	/// Defines the format of the resulting image. By default, the Maps Static API creates PNG images.
 	/// There are several possible formats including GIF, JPEG and PNG types.
 	/// </summary>
-	[Parameter] public GoogleMapImageFormats Format { get; set; } = GoogleMapImageFormats.Gif;
+	[Parameter] public GoogleMapImageFormats ImageFormat { get; set; } = GoogleMapImageFormats.Gif;
 
 	/// <summary>
 	/// Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles
 	/// </summary>
-	public string Language { get; set; }
+	[Parameter] public string Language { get; set; }
 	/// <summary>
 	/// Defines the appropriate borders to display, based on geo-political sensitivities.
 	/// </summary>
-	public string Region { get; set; }
+	[Parameter] public string Region { get; set; }
 
 	/// <summary>
 	/// Maps center position set by the given Coordinates or Address.
@@ -80,15 +67,16 @@
 	[Parameter] public GeolocationData? Center { get; set; }
 
 	/// <summary>
-	/// If set `true` then try to detect device location by using <see cref="IGeolocationService"/>.
-	/// Note: detecting geolocation is an `async` operation it means map might be centered after page rendered. Also location can fail!
+	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
+	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
-	[Parameter] public bool CenterCurrentLocation { get; set; } = true;
+	[Parameter]
+	public bool CenterCurrentLocation { get; set; } = false;
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
 	/// </summary>
-	[Parameter] public string ApiKey { get; set; } = "";
+	[Parameter] public string ApiKey { get; set; }
 	/// <summary>
 	/// A digital signature used to verify that any site generating requests using your API key is authorized to do so.
 	/// Requests without a digital signature might fail.
@@ -96,10 +84,46 @@
 	[Parameter] public string Signature { get; set; }
 
 	/// <summary>
+	/// Callback function called when location successfully detected with <see cref="IGeolocationService"/>.
+	/// Device positon will be supplied in the event which should be used to override <see cref="Center"/> parameter value.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationData> OnCurrentLocationDetected { get; set; }
+
+	/// <summary>
 	/// Blazor capture for any unmatched HTML attributes.
 	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	/// <summary>
+	/// Starts an async operation to try to dectect device locaton by using <see cref="IGeolocationService"/>.
+	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
+	/// </summary>
+	/// <returns>Async task</returns>
+	public async Task CenterCurrentLocationOnMap()
+	{
+		await _geolocationService.GetCurrentPosition(LocationResult, false, TimeSpan.FromSeconds(10));
+		WriteDiag($"Geolocation service was called waiting for response, result will be processed in callback method.");
+	}
+	private async Task LocationResult(GeolocationResult pos)
+	{
+		WriteDiag($"Geolocation service result received in callback method. Result success: '{pos.IsSuccess}'.");
+
+		if (pos.IsSuccess)
+		{
+			Center = new GeolocationData()
+			{
+				Latitude = pos.Coordinates.Latitude,
+				Longitude = pos.Coordinates.Longitude
+			};
+
+			if(OnCurrentLocationDetected.HasDelegate)
+			{
+				WriteDiag($"Notifying {nameof(OnCurrentLocationDetected)} delegates with detected coordinates.");
+				await OnCurrentLocationDetected.InvokeAsync(Center);
+			}
+		}
+	}
 
 	private string GetMapsUrl()
 	{
@@ -110,7 +134,7 @@
 		query.Add($"size={Width}x{Height}");
 		query.Add($"scale={(HighResolution ? 2 : 1)}");
 		query.Add($"maptype={MapType.ToString().ToLower()}");
-		query.Add($"format={Format.ToString().ToLower()}");
+		query.Add($"format={ImageFormat.ToString().ToLower()}");
 		query.Add($"language={Language}");
 		query.Add($"region={Region}");
 		//Auth
@@ -120,7 +144,15 @@
 			query.Add($"signature={Signature}");
 		}
 
-		return baseUrl + string.Join('&', query.Where(x => !string.IsNullOrWhiteSpace(x)));
+		var url = baseUrl + string.Join('&', query.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+		WriteDiag($"Static Map url was concatenated: {url}");
+		return url;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 
 	public async ValueTask DisposeAsync()

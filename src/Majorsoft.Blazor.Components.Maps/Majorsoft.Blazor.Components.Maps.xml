@@ -66,80 +66,93 @@
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.InnerElementReference">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.ZoomLevel">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.ZoomLevel">
             <summary>
             Defines the zoom level of the map, which determines the magnification level of the map.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Width">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Width">
             <summary>
             Maps image Width in px.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Height">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Height">
             <summary>
             Maps image Height in px.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.HighResolution">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.HighResolution">
             <summary>
             Affects the number of pixels that are returned. scale=2 returns twice as many pixels as scale=1 while retaining the
             same coverage area and level of detail (i.e. the contents of the map don't change). This is useful when developing for high-resolution displays.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.MapType">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.MapType">
             <summary>
             Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Format">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.ImageFormat">
             <summary>
             Defines the format of the resulting image. By default, the Maps Static API creates PNG images.
             There are several possible formats including GIF, JPEG and PNG types.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Language">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Language">
             <summary>
             Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Region">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Region">
             <summary>
             Defines the appropriate borders to display, based on geo-political sensitivities.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Center">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center">
             <summary>
             Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.CenterCurrentLocation"/> to `true`.
+            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation"/> to `true`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.CenterCurrentLocation">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation">
             <summary>
-            If set `true` then try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
-            Note: detecting geolocation is an `async` operation it means map might be centered after page rendered. Also location can fail!
+            If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
+            Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.ApiKey">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.ApiKey">
             <summary>
             Required allows you to monitor your application's API usage in the Google Cloud Console.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.Signature">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Signature">
             <summary>
             A digital signature used to verify that any site generating requests using your API key is authorized to do so.
             Requests without a digital signature might fail.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleSimpleMaps.AllOtherAttributes">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.OnCurrentLocationDetected">
+            <summary>
+            Callback function called when location successfully detected with <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Device positon will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> parameter value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
             </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnMap">
+            <summary>
+            Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
+            </summary>
+            <returns>Async task</returns>
         </member>
     </members>
 </doc>

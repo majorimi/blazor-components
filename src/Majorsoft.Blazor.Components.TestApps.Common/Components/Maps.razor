@@ -22,6 +22,13 @@
 		<strong>To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.</strong>
 	</p>
 
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Enter your <strong>Google Maps API key</strong> here (Check if it is valid for JavaScript and Static APIs):
+			<input class="form-control w-100 bg-warning" @bind="_googleMapsApiKey" placeholder="Google Maps API key REQUIRED!" />
+		</div>
+	</div>
+
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
 		<h4>Google Maps Static API</h4>
 		<p>
@@ -32,57 +39,92 @@
 			A Maps Static API image is embedded within an <code>&lt;img&gt;</code> tag's <code>src</code> attribute, or its equivalent in other programming languages.
 		</p>
 
-		@*<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<h6>Map center position (Coordinates or Address):</h6>
+				Latitude: <input class="form-control w-100" @bind="_staticMapCenter.Latitude" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" @bind="_staticMapCenter.Longitude" pattern="Longitude" />
+
+				Or full Address (omitted when coordinates supplied):
+				<input class="form-control w-100 mb-3" @bind="_staticMapCenter.Address" placeholder="Full address" />
+				<p>
+					Center device location on load (overrides <code>Center</code> property):
+					<strong>NOTE: Async operation which might fail!</strong>
+					<input type="checkbox" @bind="_staticMapCenterCurrentLocation" disabled="disabled" />
+
+					<br />
+					High Resolution Map:
+					<input type="checkbox" @bind="_staticMapHighResolution" />
+				</p>
+
+				Maps current Center position: <strong>@_staticMapCenter.ToString()</strong>
 			</div>
 		</div>
 		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Overlay opacity: @(_overlayOpacity/1000)
-				<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+			<div class="col-12 col-lg-8 col-xl-6">
+				Map zoom level: @(_staticMapZoomLevel)
+				<input type="range" class="w-100" min="0" max="24" @bind="_staticMapZoomLevel" @oninput="(e => _staticMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Modal height (0 is auto): @(_modalHeight == 0 ? "auto" : $"{_modalHeight}px")
-				<input type="range" class="w-100" min="0" max="1000" @bind="_modalHeight" @oninput="(e => _modalHeight = int.Parse(e.Value?.ToString()))" />
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Image height: @($"{_staticMapHeight}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_staticMapHeight" @oninput="(e => _staticMapHeight = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Modal width (0 is auto): @(_modalWitdth == 0 ? "auto" : $"{_modalWitdth}px")
-				<input type="range" class="w-100" min="0" max="1000" @bind="_modalWitdth" @oninput="(e => _modalWitdth = int.Parse(e.Value?.ToString()))" />
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Image width: @($"{_staticMapWidth}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_staticMapWidth" @oninput="(e => _staticMapWidth = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Modal Min. height: @(_modalMinHeight)px
-				<input type="range" class="w-100" min="0" max="1000" @bind="_modalMinHeight" @oninput="(e => _modalMinHeight = int.Parse(e.Value?.ToString()))" />
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Type: <select class="form-control selectpicker w-100" @bind="_staticMapType">
+					@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
+					{
+						<option value="@item">@item</option>
+					}
+				</select>
 			</div>
 		</div>
 		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-5">
-				Modal Min. width: @(_modalMinWitdth)px
-				<input type="range" class="w-100" min="0" max="1000" @bind="_modalMinWitdth" @oninput="(e => _modalMinWitdth = int.Parse(e.Value?.ToString()))" />
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Image format:  <select class="form-control selectpicker w-100" @bind="_staticMapImageFormat">
+					@foreach (var item in Enum.GetValues(typeof(GoogleMapImageFormats)))
+					{
+						<option value="@item">@item</option>
+					}
+				</select>
 			</div>
-		</div>*@
+		</div>
 
 		<div class="row pb-2">
 			<div class="col-12">
 				<p><strong>Rendered Google Maps image:</strong></p>
 
-				<GoogleSimpleMaps />
+				<GoogleStaticMap @ref="_googleStaticMap" 
+								 Center="@_staticMapCenter"
+								 CenterCurrentLocation="@_staticMapCenterCurrentLocation"
+								 ZoomLevel="@_staticMapZoomLevel"
+								 Width="@_staticMapWidth"
+								 Height="@_staticMapHeight"
+								 HighResolution="@_staticMapHighResolution"
+								 MapType="@_staticMapType"
+								 ImageFormat="@_staticMapImageFormat"
+								 OnCurrentLocationDetected="@(loc => StaticMapLocationDetected(loc))" />
 			</div>
 		</div>
 
+		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithStaticMap)">Center my location with Map</button>
+		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedService)">Center my location with GeolocationService</button>
 	</div>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
 		<h4>Google Maps JavaScript API</h4>
 		<p>
-			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices. 
-			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers 
+			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
+			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers
 			and styles, controls and events, and various services and libraries.
 		</p>
 
@@ -90,7 +132,7 @@
 			<div class="col-12">
 				<p><strong>Rendered Google Maps:</strong></p>
 
-				<GoogleMaps />
+				<GoogleMap />
 			</div>
 		</div>
 	</div>
@@ -108,7 +150,59 @@
 
 </div>
 
-@code {
-	private const string pos = "47.439586759063666,19.10229996558434";
+@implements IAsyncDisposable
 
+@inject IGeolocationService _geolocationService;
+
+@code {
+	private string _googleMapsApiKey;
+
+	//Static Maps
+	private GoogleStaticMap _googleStaticMap;
+	private GeolocationData _staticMapCenter = new GeolocationData()
+	{
+		Latitude = 47.439586759063666,
+		Longitude = 9.10229996558434
+	};
+	private byte _staticMapZoomLevel = 14;
+	private int _staticMapWidth = 400;
+	private int _staticMapHeight = 300;
+	private bool _staticMapCenterCurrentLocation = true;
+	private bool _staticMapHighResolution = false;
+	private GoogleMapTypes _staticMapType = GoogleMapTypes.Roadmap;
+	private GoogleMapImageFormats _staticMapImageFormat = GoogleMapImageFormats.Png;
+
+	private async Task CenterMyLocationWithStaticMap()
+	{
+		await _googleStaticMap.CenterCurrentLocationOnMap();
+	}
+	private async Task CenterMyLocationWithInjectedService()
+	{
+		await _geolocationService.GetCurrentPosition(async(pos) =>
+		{
+			if(pos.IsSuccess)
+			{
+				_staticMapCenter = new GeolocationData()
+				{
+					Latitude = pos.Coordinates.Latitude,
+					Longitude = pos.Coordinates.Longitude
+				};
+				StateHasChanged();
+			}
+		},
+		false, TimeSpan.FromSeconds(10));
+	}
+
+	private async Task StaticMapLocationDetected(GeolocationData loc)
+	{
+		_staticMapCenter = loc;
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_geolocationService is not null)
+		{
+			await _geolocationService.DisposeAsync();
+		}
+	}
 }
