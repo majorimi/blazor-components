@@ -83,6 +83,22 @@
 	/// </summary>
 	[Parameter] public string Signature { get; set; }
 
+	public string Markers { get; set; }
+
+	/// <summary>
+	/// Defines a single path of two or more connected points to overlay on the image at specified locations. 
+	/// This parameter takes a string of point definitions separated by the pipe character (|), or an encoded polyline using the enc: prefix within the location declaration of the path.
+	/// </summary>
+	[Parameter] public string Path { get; set; }
+	/// <summary>
+	/// Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+	/// </summary>
+	[Parameter] public string VisibleLocations { get; set; }
+	/// <summary>
+	/// Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
+	/// </summary>
+	[Parameter] public string Style { get; set; }
+
 	/// <summary>
 	/// Callback function called when location successfully detected with <see cref="IGeolocationService"/>.
 	/// Device positon will be supplied in the event which should be used to override <see cref="Center"/> parameter value.
@@ -137,6 +153,19 @@
 		query.Add($"format={ImageFormat.ToString().ToLower()}");
 		query.Add($"language={Language}");
 		query.Add($"region={Region}");
+		//Features
+		if(!string.IsNullOrWhiteSpace(Path))
+		{
+			query.Add($"path={Path}");
+		}
+		if (!string.IsNullOrWhiteSpace(Style))
+		{
+			query.Add($"style={Style}");
+		}
+		if (!string.IsNullOrWhiteSpace(VisibleLocations))
+		{
+			query.Add($"visible={VisibleLocations}");
+		}
 		//Auth
 		query.Add($"key={ApiKey}");
 		if (!string.IsNullOrWhiteSpace(Signature))

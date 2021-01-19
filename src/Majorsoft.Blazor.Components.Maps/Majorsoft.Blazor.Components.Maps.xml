@@ -136,6 +136,22 @@
             Requests without a digital signature might fail.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Path">
+            <summary>
+            Defines a single path of two or more connected points to overlay on the image at specified locations. 
+            This parameter takes a string of point definitions separated by the pipe character (|), or an encoded polyline using the enc: prefix within the location declaration of the path.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.VisibleLocations">
+            <summary>
+            Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Style">
+            <summary>
+            Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.OnCurrentLocationDetected">
             <summary>
             Callback function called when location successfully detected with <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
