@@ -83,7 +83,10 @@
 	/// </summary>
 	[Parameter] public string Signature { get; set; }
 
-	public string Markers { get; set; }
+	/// <summary>
+	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+	/// </summary>
+	[Parameter] public IEnumerable<GoogleMapMarker> Markers { get; set; }
 
 	/// <summary>
 	/// Defines a single path of two or more connected points to overlay on the image at specified locations. 
