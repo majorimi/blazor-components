@@ -179,8 +179,7 @@
 		if (Markers?.Any() ?? false)
 		{
 			var markers = Markers.Select(s => s.ToString())
-				.Where(x => !string.IsNullOrWhiteSpace(x))
-				.Select(s => $"markers={s}");
+				.Where(x => !string.IsNullOrWhiteSpace(x));
 
 			query.Add(string.Join('&', markers));
 		}
