@@ -72,9 +72,9 @@
             Each marker descriptor must contain a set of one or more locations defining where to place the marker on the map.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.HasCustomIcon">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.HasStyleDefined">
             <summary>
-            
+            Checks if any marker style was defined in <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style"/> or <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.CustomIcon"/> properties.
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor">
@@ -100,6 +100,11 @@
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
             <summary>
             The anchor point sets how the icon is placed in relation to the specified markers locations.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">
+            <summary>
+            Specifies the size of marker
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle">
@@ -128,11 +133,6 @@
             <summary>
             Scale value is multiplied with the marker image size to produce the actual output size of the marker in pixels. 
             Default scale value is 1; accepted values are 1, 2, and 4.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">
-            <summary>
-            Specifies the size of marker
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes">
@@ -238,7 +238,6 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Path">
             <summary>
             Defines a single path of two or more connected points to overlay on the image at specified locations. 
-            This parameter takes a string of point definitions separated by the pipe character (|), or an encoded polyline using the enc: prefix within the location declaration of the path.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.VisibleLocations">

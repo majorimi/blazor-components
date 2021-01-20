@@ -87,16 +87,14 @@
 	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations.
 	/// </summary>
 	[Parameter] public IEnumerable<GoogleMapMarker> Markers { get; set; }
-
 	/// <summary>
 	/// Defines a single path of two or more connected points to overlay on the image at specified locations. 
-	/// This parameter takes a string of point definitions separated by the pipe character (|), or an encoded polyline using the enc: prefix within the location declaration of the path.
 	/// </summary>
-	[Parameter] public string Path { get; set; }
+	[Parameter] public IEnumerable<GeolocationData> Path { get; set; }
 	/// <summary>
 	/// Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
 	/// </summary>
-	[Parameter] public string VisibleLocations { get; set; }
+	[Parameter] public IEnumerable<GeolocationData> VisibleLocations { get; set; }
 	/// <summary>
 	/// Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
 	/// </summary>
@@ -154,21 +152,43 @@
 		query.Add($"scale={(HighResolution ? 2 : 1)}");
 		query.Add($"maptype={MapType.ToString().ToLower()}");
 		query.Add($"format={ImageFormat.ToString().ToLower()}");
-		query.Add($"language={Language}");
-		query.Add($"region={Region}");
-		//Features
-		if(!string.IsNullOrWhiteSpace(Path))
+		if(!string.IsNullOrWhiteSpace(Language))
 		{
-			query.Add($"path={Path}");
+			query.Add($"language={Language}");
+		}
+		if (!string.IsNullOrWhiteSpace(Region))
+		{
+			query.Add($"region={Region}");
+		}
+
+		//Features
+		if(Path?.Any() ?? false)
+		{
+			var path = Path.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x));
+
+			query.Add($"path={string.Join("|", path)}");
+		}
+		if (VisibleLocations?.Any() ?? false)
+		{
+			var loc = VisibleLocations.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x));
+
+			query.Add($"visible={string.Join("|", loc)}");
+		}
+		if (Markers?.Any() ?? false)
+		{
+			var markers = Markers.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x))
+				.Select(s => $"markers={s}");
+
+			query.Add(string.Join('&', markers));
 		}
 		if (!string.IsNullOrWhiteSpace(Style))
 		{
 			query.Add($"style={Style}");
 		}
-		if (!string.IsNullOrWhiteSpace(VisibleLocations))
-		{
-			query.Add($"visible={VisibleLocations}");
-		}
+
 		//Auth
 		query.Add($"key={ApiKey}");
 		if (!string.IsNullOrWhiteSpace(Signature))
