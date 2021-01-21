@@ -26,6 +26,15 @@
 	  <DocumentationFile>.\Majorsoft.Blazor.Components.Maps.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Content Remove="bundleconfig.json" />
+	  <Content Remove="wwwroot\googleMaps.min.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\googleMaps.min.js" />
+	</ItemGroup>
+
 	
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
@@ -44,6 +53,8 @@
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
 	  </None>
+	  <None Include="bundleconfig.json" />
+	  <None Include="wwwroot\googleMaps.min.js" />
 	</ItemGroup>
 
 	<ItemGroup>

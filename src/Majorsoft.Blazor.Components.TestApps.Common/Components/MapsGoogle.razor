@@ -128,8 +128,11 @@
 		<h4>Google Maps JavaScript API</h4>
 		<p>
 			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
-			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers
-			and styles, controls and events, and various services and libraries.
+			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers and styles, controls and events, and various services and libraries.
+		</p>
+
+		<p>
+			A Maps JavaScript API renders a complex customizable map within <code>&lt;div&gt;</code> tag's also allowing to receive events.
 			<br />
 			You can learn about Google Static Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
 		</p>
@@ -238,6 +241,8 @@
 	{
 		_staticMapCenter = loc; //Static Map component detected current location, must override initial value.
 	}
+
+	//Javascript Maps
 
 	public async ValueTask DisposeAsync()
 	{

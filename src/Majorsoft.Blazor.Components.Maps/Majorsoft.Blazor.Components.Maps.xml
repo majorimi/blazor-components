@@ -160,6 +160,36 @@
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomLevel">
+            <summary>
+            Defines the zoom level of the map, which determines the magnification level of the map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Width">
+            <summary>
+            Maps image Width in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Height">
+            <summary>
+            Maps image Height in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ApiKey">
+            <summary>
+            Required allows you to monitor your application's API usage in the Google Cloud Console.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.

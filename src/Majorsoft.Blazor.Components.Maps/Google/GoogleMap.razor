@@ -1,7 +1,76 @@
-﻿@*<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=&v=weekly" defer></script>*@
+﻿<div id="@_mapContainerId" @ref="_jsMap" style="width:@(Width)px; height:@(Height)px;" @attributes=AllOtherAttributes></div>
 
+<button @onclick="Click">Recenter</button>
+
+@implements IAsyncDisposable
+
+@inject ILogger<GoogleStaticMap> _logger
+@inject IGeolocationService _geolocationService
+@*TODO: remove*@
+@inject IJSRuntime _jsRuntime
 
 @code {
-	
+	private string _mapContainerId = "map";
+	private ElementReference _jsMap;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _jsMap;
+
+	private IJSObjectReference _googleMapsJs;@*TODO: remove*@
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_googleMapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.js");
+
+			await _googleMapsJs.InvokeVoidAsync("init", "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s", _mapContainerId);
+		}
+	}
+
+	/// <summary>
+	/// Defines the zoom level of the map, which determines the magnification level of the map.
+	/// </summary>
+	[Parameter] public byte ZoomLevel { get; set; } = 12;
+
+	//Size
+	/// <summary>
+	/// Maps image Width in px.
+	/// </summary>
+	[Parameter] public double Width { get; set; } = 400;
+	/// <summary>
+	/// Maps image Height in px.
+	/// </summary>
+	[Parameter] public double Height { get; set; } = 300;
+
+	/// <summary>
+	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
+	/// </summary>
+	[Parameter] public string ApiKey { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private async Task Click()
+	{
+		await _googleMapsJs.InvokeVoidAsync("recenter");
+		StateHasChanged();
+	}
+
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_geolocationService is not null)
+		{
+			await _geolocationService.DisposeAsync();
+		}
+	}
 }

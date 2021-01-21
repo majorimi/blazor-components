@@ -1,4 +1,4 @@
-﻿<img @ref="_simpleMap" @attributes=AllOtherAttributes src="@GetMapsUrl()" />
+﻿<img @ref="_staticMap" src="@GetMapsUrl()" @attributes=AllOtherAttributes />
 
 @implements IAsyncDisposable
 
@@ -6,11 +6,11 @@
 @inject IGeolocationService _geolocationService;
 
 @code {
-	private ElementReference _simpleMap;
+	private ElementReference _staticMap;
 	/// <summary>
 	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 	/// </summary>
-	public ElementReference InnerElementReference => _simpleMap;
+	public ElementReference InnerElementReference => _staticMap;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
