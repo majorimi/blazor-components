@@ -12,7 +12,7 @@ Majorsoft Blazor Components
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-Nuget?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=7&branchName=master)
 
 Majorsoft Blazor Components is a set of UI Components and other useful Extensions for [Blazor](https://blazor.net) applications.
-All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 
+All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). You can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/).
 
 ## About the project
 **Majorsoft Blazor Components** is one of the newest but the most modern Blazor library. Using the fastest ever .NET 5 Framework leveraging CSS and JS isolation. 
