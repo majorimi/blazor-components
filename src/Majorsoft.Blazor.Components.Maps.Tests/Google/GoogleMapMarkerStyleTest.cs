@@ -71,7 +71,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 				Size = GoogleMapMarkerSizes.Normal,
 			};
 
-			Assert.AreEqual("color:12345%7Clabel:9", style.ToString());
+			Assert.AreEqual("color:12345|label:9", style.ToString());
 		}
 
 		[TestMethod]
@@ -85,7 +85,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 				Scale = 4
 			};
 
-			Assert.AreEqual("scale:4%7Csize:tiny%7Ccolor:red%7Clabel:X", style.ToString());
+			Assert.AreEqual("scale:4|size:tiny|color:red|label:X", style.ToString());
 		}
 	}
 }

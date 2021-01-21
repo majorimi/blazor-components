@@ -272,7 +272,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;path=1.1,2.2|London&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;path=1.1,2.2|London&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -302,7 +302,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;visible=1.1,2.2|London&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;visible=1.1,2.2|London&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -339,7 +339,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 					{ new GoogleMapMarker()
 						{
 							Style = new GoogleMapMarkerStyle()
-							{ Color = "#FFAABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
+							{ Color = "0xFFAABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
 						}
 					},
 				};
@@ -358,7 +358,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;markers=1.111,2.222&amp;markers=anchor:left%7Cicon:http://test.com%7C17.111,33.222%7CLondon&amp;markers=color:red%7Clabel:A%7CNew York&amp;markers=size:mid%7Ccolor:#ffaabb%7Clabel:2%7CBudapest%7C5.123,8.99&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;markers=1.111,2.222&amp;markers=anchor:left|icon:http://test.com|17.111,33.222|London&amp;markers=color:red|label:A|New York&amp;markers=size:mid|color:0xffaabb|label:2|Budapest|5.123,8.99&amp;key="" />");
 		}
 	}
 }

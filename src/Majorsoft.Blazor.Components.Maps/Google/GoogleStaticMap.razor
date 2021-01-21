@@ -146,8 +146,17 @@
 	{
 		var baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
 		var query = new List<string>();
-		query.Add($"center={Center?.ToString()}");
-		query.Add($"zoom={ZoomLevel}");
+
+		if((!Path?.Any() ?? true) && (!Markers?.Any() ?? true))
+		{
+			query.Add($"center={Center?.ToString()}");
+
+			if (!VisibleLocations?.Any() ?? true)
+			{
+				query.Add($"zoom={ZoomLevel}");
+			}
+		}
+
 		query.Add($"size={Width}x{Height}");
 		query.Add($"scale={(HighResolution ? 2 : 1)}");
 		query.Add($"maptype={MapType.ToString().ToLower()}");

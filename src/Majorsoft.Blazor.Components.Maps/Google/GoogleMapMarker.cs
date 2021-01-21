@@ -52,10 +52,10 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			if(!string.IsNullOrWhiteSpace(style))
 			{
-				style += "%7C";
+				style += "|";
 			}
 
-			return $"markers={style}{string.Join("%7C", loc)}";
+			return $"markers={style}{string.Join("|", loc)}";
 		}
 	}
 }

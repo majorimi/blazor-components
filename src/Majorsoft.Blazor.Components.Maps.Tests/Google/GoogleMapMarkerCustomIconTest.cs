@@ -28,8 +28,8 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 				IconUrl = "iconUrl"
 			};
 
-			Assert.AreEqual("anchor:top%7Cicon:iconUrl", icon.ToString());
-			Assert.AreEqual("anchor:center%7Cicon:iconUrl", icon2.ToString());
+			Assert.AreEqual("anchor:top|icon:iconUrl", icon.ToString());
+			Assert.AreEqual("anchor:center|icon:iconUrl", icon2.ToString());
 		}
 	}
 }

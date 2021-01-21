@@ -41,7 +41,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				{ Label != default(char) ? $"label:{Label.ToString().ToUpper()}" : null }
 			};
 
-			return string.Join("%7C", parts.Where(x => !string.IsNullOrWhiteSpace(x)));
+			return string.Join("|", parts.Where(x => !string.IsNullOrWhiteSpace(x)));
 		}
 	}
 }

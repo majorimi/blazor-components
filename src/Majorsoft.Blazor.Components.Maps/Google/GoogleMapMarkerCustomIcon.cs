@@ -19,7 +19,7 @@
 		{
 			return string.IsNullOrWhiteSpace(IconUrl)
 				? string.Empty
-				: $"anchor:{Anchor.ToString().ToLower()}%7Cicon:{IconUrl}";
+				: $"anchor:{Anchor.ToString().ToLower()}|icon:{IconUrl}";
 		}
 	}
 }
