@@ -54,7 +54,27 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <returns></returns>
 		Task InitMap(string apiKey, string mapContainerId, Func<string, Task> mapInitializedCallback = null);
 
-		Task SetCenter();
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="latitude"></param>
+		/// <param name="longitude"></param>
+		/// <returns></returns>
+		Task SetCenter(double latitude, double longitude);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns></returns>
+		Task SetCenter(string address);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="zoom"></param>
+		/// <returns></returns>
+		Task SetZoom(byte zoom);
 	}
 
 	public sealed class GoogleMapsService : IGoogleMapsService
@@ -85,10 +105,22 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, dotnetRef);
 		}
 
-		public async Task SetCenter()
+		public async Task SetCenter(double latitude, double longitude)
 		{
 			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setCenter", MapContainerId);
+			await _mapsJs.InvokeVoidAsync("setCenterCoords", MapContainerId, latitude, longitude);
+		}
+
+		public async Task SetCenter(string address)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setCenterAddress", MapContainerId, address);
+		}
+
+		public async Task SetZoom(byte zoom)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setZoom", MapContainerId, zoom);
 		}
 
 		private async Task CheckJsObjectAsync()

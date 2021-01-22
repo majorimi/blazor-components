@@ -77,13 +77,24 @@ function getElementIdWithDotnetRef(dict, elementId) {
 }
 let _mapsElementDict = [];
 
-//Google maps Features
-export function setCenter(elementId, latitude, longitude) {
+//Google JS Maps Features
+export function setCenterCoords(elementId, latitude, longitude) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-			mapWithDotnetRef.map.setCenter({ lat: 17.397, lng: 49.644 });
-			//mapWithDotnetRef.map.setZoom(6);
+			mapWithDotnetRef.map.setCenter({ lat: latitude, lng: longitude });
+		}
+	}
+}
+export function setCenterAddress(elementId, address) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			geocodeAddress(address, function (results) {
+				if (results) {
+					mapWithDotnetRef.map.setCenter(results[0].geometry.location);
+				}
+			});
 		}
 	}
 }
@@ -91,9 +102,32 @@ export function setZoom(elementId, zoom) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-			mapWithDotnetRef.map.setZoom(6);
+			mapWithDotnetRef.map.setZoom(zoom);
 		}
 	}
+}
+
+//Google GeoCoder
+export function getAddressCoordinates(elementId, address) {
+	geocodeAddress(address, function (results) {
+		if (results) {
+			let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+			if (mapWithDotnetRef && mapWithDotnetRef.map) {
+				//TODO: map .NET object
+				mapWithDotnetRef.ref.invokeMethodAsync("AddressSearch", results);
+			}
+		}
+	});
+}
+function geocodeAddress(address, successCallback) {
+	let geocoder = new google.maps.Geocoder();
+	geocoder.geocode({
+		'address': address
+	}, function (results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			successCallback(results);
+		}
+	});
 }
 
 //Dispose

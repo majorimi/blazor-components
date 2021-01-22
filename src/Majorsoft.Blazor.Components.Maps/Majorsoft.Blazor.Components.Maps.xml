@@ -179,6 +179,28 @@
             <param name="mapInitializedCallback"></param>
             <returns></returns>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="latitude"></param>
+            <param name="longitude"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetZoom(System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="zoom"></param>
+            <returns></returns>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -197,6 +219,18 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Height">
             <summary>
             Maps image Height in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center">
+            <summary>
+            Maps center position set by the given Coordinates or Address.
+            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation"/> to `true`.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation">
+            <summary>
+            If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
+            Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ApiKey">

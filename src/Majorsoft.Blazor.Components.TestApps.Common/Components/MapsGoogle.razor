@@ -46,7 +46,7 @@
 					<input type="checkbox" @bind="_staticMapCenterCurrentLocation" disabled="disabled" />
 				</p>
 
-				Maps current Center position: <strong>@_staticMapCenter.ToString()</strong>
+				Maps Center position: <strong>@_staticMapCenter.ToString()</strong>
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -134,18 +134,56 @@
 		<p>
 			A Maps JavaScript API renders a complex customizable map within <code>&lt;div&gt;</code> tag's also allowing to receive events.
 			<br />
-			You can learn about Google Static Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
+			You can learn about Google JavaScript Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
 		</p>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<h6>Map center position (Coordinates or Address):</h6>
+				Latitude: <input class="form-control w-100" @bind="_jsMapCenter.Latitude" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" @bind="_jsMapCenter.Longitude" pattern="Longitude" />
+
+				Or full Address (omitted when coordinates supplied):
+				<input class="form-control w-100 mb-3" @bind="_jsMapCenter.Address" placeholder="Full address" />
+				<p>
+					Center device location on load (overrides <code>Center</code> property):
+					<strong>NOTE: Async operation which might fail!</strong>
+					<input type="checkbox" @bind="_jsMapCenterCurrentLocation" disabled="disabled" />
+				</p>
+
+				Maps Center position: <strong>@_jsMapCenter.ToString()</strong>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				Map zoom level: @(_jsMapZoomLevel)
+				<input type="range" class="w-100" min="0" max="24" @bind="_jsMapZoomLevel" @oninput="(e => _jsMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps height: @($"{_jsMapHeight}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapHeight" @oninput="(e => _jsMapHeight = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps width: @($"{_jsMapWidth}px")
+				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
 
 		<div class="row pb-2">
 			<div class="col-12">
 				<p><strong>Rendered Google JavaScript Maps:</strong></p>
 
 				<GoogleMap @ref="_googleMap"
+						   Height="@_jsMapHeight"
+						   Width="@_jsMapWidth"
+						   CenterCurrentLocation="@_jsMapCenterCurrentLocation"
 						   ApiKey="@_googleMapsApiKey" />
 
-				<GoogleMap 
-						   ApiKey="@_googleMapsApiKey" />
+				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
 
 			</div>
 		</div>
@@ -249,6 +287,18 @@
 
 	//Javascript Maps
 	private GoogleMap _googleMap;
+	private GeolocationData _jsMapCenter = new GeolocationData()
+	{
+		Latitude = 7.439586759063666,
+		Longitude = 9.10229996558434,
+		Address = "Times Square New York" //Coordinates override it
+	};
+	private byte _jsMapZoomLevel = 14;
+	private int _jsMapWidth = 400;
+	private int _jsMapHeight = 300;
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+
+
 
 	public async ValueTask DisposeAsync()
 	{
