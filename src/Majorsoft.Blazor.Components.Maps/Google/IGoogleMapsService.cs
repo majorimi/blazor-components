@@ -85,6 +85,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, dotnetRef);
 		}
 
+		public async Task SetCenter()
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setCenter", MapContainerId);
+		}
+
 		private async Task CheckJsObjectAsync()
 		{
 			if (_mapsJs is null)
@@ -101,14 +107,10 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		{
 			if (_mapsJs is not null)
 			{
+				await _mapsJs.InvokeVoidAsync("dispose", MapContainerId);
+
 				await _mapsJs.DisposeAsync();
 			}
-		}
-
-		public async Task SetCenter()
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setCenter");
 		}
 	}
 }

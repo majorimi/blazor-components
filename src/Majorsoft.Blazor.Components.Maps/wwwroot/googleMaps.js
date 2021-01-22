@@ -30,16 +30,12 @@
 	document.head.appendChild(importedMaps);
 }
 
-//Global function for Google Js callback
+//Global function for Google Js callback. It will be called when "https://maps.googleapis.com/maps/api/js" loaded.
+//TODO: multiple instances of Js Maps if registered must be stored before callback happens. In the future it might causes timing issues...
 window.initGoogleMaps = () => {
-	//var map = new google.maps.Map(document.getElementById(mapElementId), {
-	//	center: { lat: -34.397, lng: 150.644 },
-	//	zoom: 8,
-	//});
-
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
-		let map = new google.maps.Map(document.getElementById(elementId), {});
+		let map = new google.maps.Map(document.getElementById(elementId), { });
 		_mapsElementDict[i].value.map = map;
 
 		_mapsElementDict[i].value.ref.invokeMethodAsync("MapInitialized", elementId);
@@ -84,13 +80,23 @@ let _mapsElementDict = [];
 //Google maps Features
 export function setCenter(elementId, latitude, longitude) {
 	if (elementId) {
-		let map = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-		if (map) {
-			map.setCenter({ lat: 17.397, lng: 49.644 });
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setCenter({ lat: 17.397, lng: 49.644 });
+			//mapWithDotnetRef.map.setZoom(6);
+		}
+	}
+}
+export function setZoom(elementId, zoom) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setZoom(6);
 		}
 	}
 }
 
+//Dispose
 export function dispose(elementId) {
 	removeElementIdWithDotnetRef(elementId);
 }
