@@ -160,6 +160,25 @@
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapsEventInfo">
+            <summary>
+            GoogleMapsEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle Google Maps event callbacks
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task})">
+            <summary>
+            
+            </summary>
+            <param name="apiKey"></param>
+            <param name="mapContainerId"></param>
+            <param name="mapInitializedCallback"></param>
+            <returns></returns>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -297,6 +316,17 @@
             Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
             </summary>
             <returns>Async task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.MapsExtension">
+            <summary>
+            Extension methods to register required Google, Bing, etc map services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.MapsExtension.AddMapExtensions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required Map services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
         </member>
     </members>
 </doc>

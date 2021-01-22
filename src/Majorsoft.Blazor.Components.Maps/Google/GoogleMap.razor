@@ -6,25 +6,29 @@
 
 @inject ILogger<GoogleStaticMap> _logger
 @inject IGeolocationService _geolocationService
-@*TODO: remove*@
-@inject IJSRuntime _jsRuntime
+@inject IGoogleMapsService _mapService
 
 @code {
-	private string _mapContainerId = "map";
+	private string _mapContainerId = $"map_{Guid.NewGuid().ToString("n")}";
 	private ElementReference _jsMap;
 	/// <summary>
 	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 	/// </summary>
 	public ElementReference InnerElementReference => _jsMap;
 
-	private IJSObjectReference _googleMapsJs;@*TODO: remove*@
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			_googleMapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.js");
-
-			await _googleMapsJs.InvokeVoidAsync("init", "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s", _mapContainerId);
+			await _mapService.InitMap(ApiKey, _mapContainerId,
+				async (mapId) =>
+				{
+					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
+					if(OnMapInitialized.HasDelegate)
+					{
+						await OnMapInitialized.InvokeAsync(_mapContainerId);
+					}
+				});
 		}
 	}
 
@@ -48,6 +52,9 @@
 	/// </summary>
 	[Parameter] public string ApiKey { get; set; }
 
+	//Events
+	[Parameter] public EventCallback<string> OnMapInitialized { get; set; }
+
 	/// <summary>
 	/// Blazor capture for any unmatched HTML attributes.
 	/// </summary>
@@ -56,8 +63,7 @@
 
 	private async Task Click()
 	{
-		await _googleMapsJs.InvokeVoidAsync("recenter");
-		StateHasChanged();
+		await _mapService.SetCenter();
 	}
 
 

@@ -141,7 +141,12 @@
 			<div class="col-12">
 				<p><strong>Rendered Google JavaScript Maps:</strong></p>
 
-				<GoogleMap />
+				<GoogleMap @ref="_googleMap"
+						   ApiKey="@_googleMapsApiKey" />
+
+				<GoogleMap 
+						   ApiKey="@_googleMapsApiKey" />
+
 			</div>
 		</div>
 	</div>
@@ -243,6 +248,7 @@
 	}
 
 	//Javascript Maps
+	private GoogleMap _googleMap;
 
 	public async ValueTask DisposeAsync()
 	{
