@@ -377,6 +377,15 @@ export function setTilt(elementId, tilt) {
 	}
 }
 
+export function resizeMap(elementId) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			google.maps.event.trigger(mapWithDotnetRef.map, "resize");
+		}
+	}
+}
+
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {
 	geocodeAddress(address, function (results) {

@@ -355,6 +355,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <returns></returns>
 		Task SetTilt(byte tilt);
 
+		Task ResizeMap();
+
 	}
 
 	public sealed class GoogleMapsService : IGoogleMapsService
@@ -425,6 +427,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setTilt", MapContainerId, tilt);
+		}
+
+		public async Task ResizeMap()
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("resizeMap", MapContainerId);
 		}
 
 		private async Task CheckJsObjectAsync()

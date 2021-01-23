@@ -1,4 +1,6 @@
-﻿<div id="@_mapContainerId" @ref="_jsMap" style="width:@(Width)px; height:@(Height)px;" @attributes=AllOtherAttributes></div>
+﻿<div id="@_mapContainerId" @ref="_jsMap" 
+	 style="position: relative; overflow: hidden; width: @(Width)px; height: @(Height)px;" @attributes=AllOtherAttributes>
+</div>
 
 @implements IAsyncDisposable
 
@@ -46,6 +48,8 @@
 		{
 			await _mapService.SetCenter(Center.Address);
 		}
+
+		await _mapService.ResizeMap(); //TODO: notify maps only when size changed.
 	}
 
 	/// <summary>
