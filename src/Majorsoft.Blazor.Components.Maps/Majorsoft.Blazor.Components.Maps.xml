@@ -170,6 +170,11 @@
             
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.MapContainerId">
+            <summary>
+            HTML Div Id which was set when Maps initialized with <see cref="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task})"/> method.
+            </summary>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task})">
             <summary>
             
@@ -199,6 +204,35 @@
             
             </summary>
             <param name="zoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.PanTo(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="latitude"></param>
+            <param name="longitude"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetMapType(Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes)">
+            <summary>
+            
+            </summary>
+            <param name="googleMapType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetHeading(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="heading"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetTilt(System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="tilt"></param>
             <returns></returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
@@ -238,10 +272,28 @@
             Required allows you to monitor your application's API usage in the Google Cloud Console.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnCurrentLocationDetected">
+            <summary>
+            Callback function called when location successfully detected with <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Device positon will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center"/> parameter value.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
             </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnMap">
+            <summary>
+            Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
+            </summary>
+            <returns>Async task</returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.InnerElementReference">
             <summary>
@@ -361,6 +413,27 @@
             Registers required Map services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Rect">
+            <summary>
+            Custom type to represent Rectangle size.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Rect.Height">
+            <summary>
+            Rect height
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Rect.Width">
+            <summary>
+            Rect width
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Rect.ToString">
+            <summary>
+            Rect string representation.
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>

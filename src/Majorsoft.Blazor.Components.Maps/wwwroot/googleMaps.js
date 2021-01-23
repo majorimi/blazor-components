@@ -35,9 +35,247 @@
 window.initGoogleMaps = () => {
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
-		let map = new google.maps.Map(document.getElementById(elementId), { });
+
+		//Create Map
+		let map = new google.maps.Map(document.getElementById(elementId), {});
+		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
 
+		//Add Event listeners
+		//Mouse
+		map.addListener("click", (mapsMouseEvent) => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Latitude: mapsMouseEvent.latLng.lat,
+						Longitude: mapsMouseEvent.latLng.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapClicked", arg);
+				}
+			}
+		});
+		map.addListener("dblclick", (mapsMouseEvent) => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Latitude: mapsMouseEvent.latLng.lat,
+						Longitude: mapsMouseEvent.latLng.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapDoubleClicked", arg);
+				}
+			}
+		});
+		map.addListener("mouseup", (mapsMouseEvent) => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Latitude: mapsMouseEvent.latLng.lat,
+						Longitude: mapsMouseEvent.latLng.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseUp", arg);
+				}
+			}
+		});
+		map.addListener("mousedown", (mapsMouseEvent) => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Latitude: mapsMouseEvent.latLng.lat,
+						Longitude: mapsMouseEvent.latLng.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseDown", arg);
+				}
+			}
+		});
+		map.addListener("mousemove", (mapsMouseEvent) => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Latitude: mapsMouseEvent.latLng.lat,
+						Longitude: mapsMouseEvent.latLng.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseMove", arg);
+				}
+			}
+		});
+		map.addListener("mouseover", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseOver");
+				}
+			}
+		});
+		map.addListener("mouseout", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseOut");
+				}
+			}
+		});
+		//Changes
+		map.addListener("center_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let center = map.getCenter();
+					let arg = {
+						Latitude: center.lat,
+						Longitude: center.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapCenterChanged", arg);
+				}
+			}
+		});
+		map.addListener("zoom_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapZoomChanged", map.getZoom());
+				}
+			}
+		});
+		map.addListener("maptypeid_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapTypeIdChanged", map.getMapTypeId());
+				}
+			}
+		});
+		map.addListener("heading_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapHeadingChanged", map.getHeading());
+				}
+			}
+		});
+		map.addListener("tilt_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapTiltChanged", map.getTilt());
+				}
+			}
+		});
+		map.addListener("bounds_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapBoundsChanged");
+				}
+			}
+		});
+		map.addListener("projection_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapProjectionChanged");
+				}
+			}
+		});
+		map.addListener("draggable_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapDraggableChanged");
+				}
+			}
+		});
+		map.addListener("streetview_changed", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapStreetviewChanged");
+				}
+			}
+		});
+		//Drag
+		map.addListener("drag", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let center = map.getCenter();
+					let arg = {
+						Latitude: center.lat,
+						Longitude: center.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapDrag", arg);
+				}
+			}
+		});
+		map.addListener("dragend", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let center = map.getCenter();
+					let arg = {
+						Latitude: center.lat,
+						Longitude: center.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapDragEnd", arg);
+				}
+			}
+		});
+		map.addListener("dragstart", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let center = map.getCenter();
+					let arg = {
+						Latitude: center.lat,
+						Longitude: center.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync("MapDragStart", arg);
+				}
+			}
+		});
+		//Other
+		map.addListener("resize", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let arg = {
+						Width: map.getDiv().offsetWidth,
+						Height: map.getDiv().offsetHeight
+					};
+					mapWithDotnetRef.ref.invokeMethodAsync("MapResized", arg);
+				}
+			}
+		});
+		map.addListener("tilesloaded", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapTilesLoaded");
+				}
+			}
+		});
+		map.addListener("idle", () => {
+			if (map && map.elementId) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					mapWithDotnetRef.ref.invokeMethodAsync("MapIdle");
+				}
+			}
+		});
+		//Init
 		_mapsElementDict[i].value.ref.invokeMethodAsync("MapInitialized", elementId);
 	}
 };
@@ -98,11 +336,43 @@ export function setCenterAddress(elementId, address) {
 		}
 	}
 }
+export function panTo(elementId, latitude, longitude) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.panTo({ lat: latitude, lng: longitude });
+		}
+	}
+}
 export function setZoom(elementId, zoom) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			mapWithDotnetRef.map.setZoom(zoom);
+		}
+	}
+}
+export function setMapType(elementId, mapType) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setMapTypeId(mapType);
+		}
+	}
+}
+export function setHeading(elementId, heading) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setHeading(heading);
+		}
+	}
+}
+export function setTilt(elementId, tilt) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setTilt(tilt);
 		}
 	}
 }
