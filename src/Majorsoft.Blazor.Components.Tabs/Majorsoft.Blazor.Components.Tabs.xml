@@ -36,7 +36,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Disabled">
             <summary>
-            Determines whether all the rendered HTML elements should be disabled or not.
+            Determines whether the current rendered TabItem should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Hidden">
+            <summary>
+            Determines whether the current rendered TabItem should be hidden or not.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.AllOtherAttributes">
