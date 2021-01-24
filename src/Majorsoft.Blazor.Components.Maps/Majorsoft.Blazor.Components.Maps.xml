@@ -175,7 +175,7 @@
             HTML Div Id which was set when Maps initialized with <see cref="!:InitMap(string, string, Func&lt;string, Task&gt;)"/> method.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
             <summary>
             
             </summary>
@@ -295,14 +295,19 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapClicked">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
+             <summary>
+            
+             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnCurrentLocationDetected">
             <summary>

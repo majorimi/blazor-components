@@ -180,8 +180,10 @@
 				<GoogleMap @ref="_googleMap"
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
-						   ZoomLevel="@_jsMapZoomLevel"
+						   @bind-ZoomLevel="_jsMapZoomLevel" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
+						   @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChangedChanged"
 						   CenterCurrentLocation="@_jsMapCenterCurrentLocation"
+						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
 						   ApiKey="@_googleMapsApiKey" />
@@ -195,6 +197,9 @@
 			<div class="col-12">
 				<label><strong>Google JavaScript Maps Event log</strong>:</label>
 				<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+
+				<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
+				<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
 			</div>
 		</div>
 	</div>
@@ -326,6 +331,34 @@
 		await _log.ScrollToEndAsync();
 
 		return log;
+	}
+
+
+
+	private async Task CenterMyLocationWithJavaScriptMap()
+	{
+		await _googleMap.CenterCurrentLocationOnMap();
+	}
+	private async Task CenterMyLocationWithInjectedServiceJavaScript()
+	{
+		await _geolocationService.GetCurrentPosition(async (pos) =>
+		{
+			if (pos.IsSuccess)
+			{
+				_jsMapCenter = new GeolocationData()
+				{
+					Latitude = pos.Coordinates.Latitude,
+					Longitude = pos.Coordinates.Longitude
+				};
+				StateHasChanged();
+			}
+		},
+		false, TimeSpan.FromSeconds(10));
+	}
+
+	private async Task JavaScripMapLocationDetected(GeolocationData loc)
+	{
+		_jsMapCenter = loc; //Static Map component detected current location, must override initial value.
 	}
 
 	public async ValueTask DisposeAsync()

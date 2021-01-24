@@ -1,4 +1,4 @@
-﻿<div id="@_mapContainerId" @ref="_jsMap" 
+﻿<div id="@_mapContainerId" @ref="_jsMap"
 	 style="position: relative; overflow: hidden; width: @(Width)px; height: @(Height)px;" @attributes=AllOtherAttributes>
 </div>
 
@@ -41,52 +41,123 @@
 					{
 						await OnMapClicked.InvokeAsync(coords);
 					}
+				},
+				mapZoomChangedCallback: async (zoom) =>
+				{
+					WriteDiag($"Map Zoom level changed to: '{zoom}'.");
+
+					_zoomLevel = zoom;
+					if (OnMapZoomLevelChanged.HasDelegate)
+					{
+						await OnMapZoomLevelChanged.InvokeAsync(zoom);
+					}
+				},
+				mapCenterChangedCallback: async (coords) =>
+				{
+					WriteDiag($"Map Center changed to: '{coords}'.");
+
+					_center = new GeolocationData()
+					{
+						Latitude = coords.Latitude,
+						Longitude = coords.Longitude,
+						Address = _center.Address
+					};
+					if (OnMapCenterChangedChanged.HasDelegate)
+					{
+						await OnMapCenterChangedChanged.InvokeAsync(_center);
+					}
 				});
 		}
 	}
 
-	protected override async Task OnParametersSetAsync()
-	{
-		await _mapService.SetZoom(ZoomLevel);
-		if (Center?.HasCoordinates ?? false)
-		{
-			await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
-		}
-		else if(!string.IsNullOrWhiteSpace(Center?.Address))
-		{
-			await _mapService.SetCenter(Center.Address);
-		}
-
-		await _mapService.ResizeMap(); //TODO: notify maps only when size changed.
-	}
-
+	private byte _zoomLevel = 12;
 	/// <summary>
 	/// Defines the zoom level of the map, which determines the magnification level of the map.
 	/// </summary>
-	[Parameter] public byte ZoomLevel { get; set; } = 12;
+	[Parameter]
+	public byte ZoomLevel
+	{
+		get => _zoomLevel;
+		set
+		{
+			if (value != _zoomLevel)
+			{
+				_zoomLevel = value;
+				InvokeAsync(async () => await _mapService.SetZoom(ZoomLevel));
+			}
+		}
+	}
 
 	//Size
+	private int _width = 400;
 	/// <summary>
 	/// Maps image Width in px.
 	/// </summary>
-	[Parameter] public int Width { get; set; } = 400;
+	[Parameter]
+	public int Width
+	{
+		get => _width;
+		set
+		{
+			if (value != _width)
+			{
+				_width = value;
+				InvokeAsync(async () => await _mapService.ResizeMap());
+			}
+		}
+	}
+	private int _height = 300;
 	/// <summary>
 	/// Maps image Height in px.
 	/// </summary>
-	[Parameter] public int Height { get; set; } = 300;
+	[Parameter]
+	public int Height
+	{
+		get => _height;
+		set
+		{
+			if (value != _height)
+			{
+				_height = value;
+				InvokeAsync(async () => await _mapService.ResizeMap());
+			}
+		}
+	}
 
+	private GeolocationData? _center;
 	/// <summary>
 	/// Maps center position set by the given Coordinates or Address.
 	/// Also can be set the divece location by setting <see cref="CenterCurrentLocation"/> to `true`.
 	/// </summary>
-	[Parameter] public GeolocationData? Center { get; set; }
+	[Parameter]
+	public GeolocationData? Center
+	{
+		get => _center;
+		set
+		{
+			if (_center != value)
+			{
+				_center = value;
+				InvokeAsync(async () =>
+				{
+					if (Center?.HasCoordinates ?? false)
+					{
+						await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
+					}
+					else if (!string.IsNullOrWhiteSpace(Center?.Address))
+					{
+						await _mapService.SetCenter(Center.Address);
+					}
+				});
+			}
+		}
+	}
 
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
-	[Parameter]
-	public bool CenterCurrentLocation { get; set; } = false;
+	[Parameter] public bool CenterCurrentLocation { get; set; } = false;
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
@@ -97,15 +168,21 @@
 
 	//Events
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	[Parameter] public EventCallback<string> OnMapInitialized { get; set; }
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	[Parameter] public EventCallback<GeolocationCoordinate> OnMapClicked { get; set; }
 
+	/// <summary>
+	///
+	/// </summary>
+	[Parameter] public EventCallback<byte> OnMapZoomLevelChanged { get; set; }
+
+	[Parameter] public EventCallback<GeolocationData> OnMapCenterChangedChanged { get; set; }
 
 	#endregion
 

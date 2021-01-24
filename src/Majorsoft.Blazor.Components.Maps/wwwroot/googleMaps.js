@@ -94,7 +94,7 @@ window.initGoogleMaps = () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
 				if (mapWithDotnetRef) {
-					let center = map.getCenter();
+					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
 						Longitude: center.lng
@@ -173,7 +173,7 @@ window.initGoogleMaps = () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
 				if (mapWithDotnetRef) {
-					let center = map.getCenter();
+					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
 						Longitude: center.lng
@@ -187,7 +187,7 @@ window.initGoogleMaps = () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
 				if (mapWithDotnetRef) {
-					let center = map.getCenter();
+					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
 						Longitude: center.lng
@@ -201,7 +201,7 @@ window.initGoogleMaps = () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
 				if (mapWithDotnetRef) {
-					let center = map.getCenter();
+					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
 						Longitude: center.lng

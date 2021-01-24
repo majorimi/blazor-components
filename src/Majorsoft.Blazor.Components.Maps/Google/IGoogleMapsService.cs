@@ -23,7 +23,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Func<Task> _mapMapMouseOverCallback;
 		private readonly Func<Task> _mapMapMouseOutCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapCenterChangedCallback;
-		private readonly Func<int, Task> _mapZoomChangedCallback;
+		private readonly Func<byte, Task> _mapZoomChangedCallback;
 		private readonly Func<GoogleMapTypes, Task> _mapTypeChangedCallback;
 		private readonly Func<int, Task> _mapHeadingChangedCallback;
 		private readonly Func<byte, Task> _mapTiltChangedCallback;
@@ -48,7 +48,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Task> mapMapMouseOverCallback = null,
 			Func<Task> mapMapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
-			Func<int, Task> mapZoomChangedCallback = null,
+			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
 			Func<int, Task> mapHeadingChangedCallback = null,
 			Func<byte, Task> mapTiltChangedCallback = null,
@@ -170,7 +170,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			}
 		}
 		[JSInvokable("MapZoomChanged")]
-		public async Task MapZoomChanged(int zoom)
+		public async Task MapZoomChanged(byte zoom)
 		{
 			if (_mapZoomChangedCallback is not null)
 			{
@@ -334,7 +334,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Task> mapMapMouseOverCallback = null,
 			Func<Task> mapMapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
-			Func<int, Task> mapZoomChangedCallback = null,
+			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
 			Func<int, Task> mapHeadingChangedCallback = null,
 			Func<byte, Task> mapTiltChangedCallback = null,
@@ -427,7 +427,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Task> mapMapMouseOverCallback = null,
 			Func<Task> mapMapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
-			Func<int, Task> mapZoomChangedCallback = null,
+			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
 			Func<int, Task> mapHeadingChangedCallback = null,
 			Func<byte, Task> mapTiltChangedCallback = null,
