@@ -182,10 +182,19 @@
 						   Width="@_jsMapWidth"
 						   ZoomLevel="@_jsMapZoomLevel"
 						   CenterCurrentLocation="@_jsMapCenterCurrentLocation"
+						   OnMapInitialized="@OnMapInitialized"
+						   OnMapClicked="@OnMapClicked"
 						   ApiKey="@_googleMapsApiKey" />
 
 				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
 
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Google JavaScript Maps Event log</strong>:</label>
+				<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
 	</div>
@@ -299,7 +308,25 @@
 	private int _jsMapHeight = 300;
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 
+	private ElementReference _log;
+	private string _mapsLog;
 
+	private async Task OnMapInitialized(string elementId)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: {elementId}.");
+	}
+	private async Task OnMapClicked(GeolocationCoordinate coordinate)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}.");
+	}
+
+	private async Task<string> WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await _log.ScrollToEndAsync();
+
+		return log;
+	}
 
 	public async ValueTask DisposeAsync()
 	{

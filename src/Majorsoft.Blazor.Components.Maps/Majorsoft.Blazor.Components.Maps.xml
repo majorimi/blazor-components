@@ -172,16 +172,38 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.MapContainerId">
             <summary>
-            HTML Div Id which was set when Maps initialized with <see cref="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task})"/> method.
+            HTML Div Id which was set when Maps initialized with <see cref="!:InitMap(string, string, Func&lt;string, Task&gt;)"/> method.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task})">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
             <summary>
             
             </summary>
             <param name="apiKey"></param>
             <param name="mapContainerId"></param>
             <param name="mapInitializedCallback"></param>
+            <param name="mapClickedCallback"></param>
+            <param name="mapDoubleClickedCallback"></param>
+            <param name="mapMouseUpCallback"></param>
+            <param name="mapMouseDownCallback"></param>
+            <param name="mapMouseMoveCallback"></param>
+            <param name="mapMapMouseOverCallback"></param>
+            <param name="mapMapMouseOutCallback"></param>
+            <param name="mapCenterChangedCallback"></param>
+            <param name="mapZoomChangedCallback"></param>
+            <param name="mapTypeChangedCallback"></param>
+            <param name="mapHeadingChangedCallback"></param>
+            <param name="mapTiltChangedCallback"></param>
+            <param name="mapBoundsChangedCallback"></param>
+            <param name="mapProjectionChangedCallback"></param>
+            <param name="mapDraggableChangedCallback"></param>
+            <param name="mapStreetviewChangedCallback"></param>
+            <param name="mapDragCallback"></param>
+            <param name="mapDragEndCallback"></param>
+            <param name="mapDragStartCallback"></param>
+            <param name="mapResizedCallback"></param>
+            <param name="mapTilesLoadedCallback"></param>
+            <param name="mapIdleCallback"></param>
             <returns></returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.Double,System.Double)">
@@ -273,6 +295,11 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapClicked">
             <summary>
             
             </summary>

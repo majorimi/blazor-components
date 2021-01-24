@@ -301,8 +301,53 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="apiKey"></param>
 		/// <param name="mapContainerId"></param>
 		/// <param name="mapInitializedCallback"></param>
+		/// <param name="mapClickedCallback"></param>
+		/// <param name="mapDoubleClickedCallback"></param>
+		/// <param name="mapMouseUpCallback"></param>
+		/// <param name="mapMouseDownCallback"></param>
+		/// <param name="mapMouseMoveCallback"></param>
+		/// <param name="mapMapMouseOverCallback"></param>
+		/// <param name="mapMapMouseOutCallback"></param>
+		/// <param name="mapCenterChangedCallback"></param>
+		/// <param name="mapZoomChangedCallback"></param>
+		/// <param name="mapTypeChangedCallback"></param>
+		/// <param name="mapHeadingChangedCallback"></param>
+		/// <param name="mapTiltChangedCallback"></param>
+		/// <param name="mapBoundsChangedCallback"></param>
+		/// <param name="mapProjectionChangedCallback"></param>
+		/// <param name="mapDraggableChangedCallback"></param>
+		/// <param name="mapStreetviewChangedCallback"></param>
+		/// <param name="mapDragCallback"></param>
+		/// <param name="mapDragEndCallback"></param>
+		/// <param name="mapDragStartCallback"></param>
+		/// <param name="mapResizedCallback"></param>
+		/// <param name="mapTilesLoadedCallback"></param>
+		/// <param name="mapIdleCallback"></param>
 		/// <returns></returns>
-		Task InitMap(string apiKey, string mapContainerId, Func<string, Task> mapInitializedCallback = null);
+		Task InitMap(string apiKey, string mapContainerId,
+			Func<string, Task> mapInitializedCallback = null,
+			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
+			Func<Task> mapMapMouseOverCallback = null,
+			Func<Task> mapMapMouseOutCallback = null,
+			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
+			Func<int, Task> mapZoomChangedCallback = null,
+			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
+			Func<int, Task> mapHeadingChangedCallback = null,
+			Func<byte, Task> mapTiltChangedCallback = null,
+			Func<Task> mapBoundsChangedCallback = null,
+			Func<Task> mapProjectionChangedCallback = null,
+			Func<Task> mapDraggableChangedCallback = null,
+			Func<Task> mapStreetviewChangedCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragEndCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragStartCallback = null,
+			Func<Rect, Task> mapResizedCallback = null,
+			Func<Task> mapTilesLoadedCallback = null,
+			Func<Task> mapIdleCallback = null);
 
 		/// <summary>
 		/// 
@@ -363,6 +408,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private IJSObjectReference _mapsJs;
+		private DotNetObjectReference<GoogleMapsEventInfo> _dotNetObjectReference;
 
 		public string MapContainerId { get; private set; }
 
@@ -371,7 +417,30 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_jsRuntime = jsRuntime;
 		}
 
-		public async Task InitMap(string apiKey, string mapContainerId, Func<string, Task> mapInitializedCallback)
+		public async Task InitMap(string apiKey, string mapContainerId,
+			Func<string, Task> mapInitializedCallback,
+			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
+			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
+			Func<Task> mapMapMouseOverCallback = null,
+			Func<Task> mapMapMouseOutCallback = null,
+			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
+			Func<int, Task> mapZoomChangedCallback = null,
+			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
+			Func<int, Task> mapHeadingChangedCallback = null,
+			Func<byte, Task> mapTiltChangedCallback = null,
+			Func<Task> mapBoundsChangedCallback = null,
+			Func<Task> mapProjectionChangedCallback = null,
+			Func<Task> mapDraggableChangedCallback = null,
+			Func<Task> mapStreetviewChangedCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragEndCallback = null,
+			Func<GeolocationCoordinate, Task> mapDragStartCallback = null,
+			Func<Rect, Task> mapResizedCallback = null,
+			Func<Task> mapTilesLoadedCallback = null,
+			Func<Task> mapIdleCallback = null)
 		{
 			if(MapContainerId == mapContainerId)
 			{
@@ -381,10 +450,34 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			MapContainerId = mapContainerId;
 			await CheckJsObjectAsync();
 
-			var info = new GoogleMapsEventInfo(mapContainerId, mapInitializedCallback);
-			var dotnetRef = DotNetObjectReference.Create<GoogleMapsEventInfo>(info);
+			var info = new GoogleMapsEventInfo(mapContainerId, 
+				mapInitializedCallback: mapInitializedCallback,
+				mapClickedCallback: mapClickedCallback,
+				mapDoubleClickedCallback: mapDoubleClickedCallback,
+				mapMouseUpCallback: mapMouseUpCallback,
+				mapMouseDownCallback: mapMouseDownCallback,
+				mapMouseMoveCallback: mapMouseMoveCallback,
+				mapMapMouseOverCallback: mapMapMouseOverCallback,
+				mapMapMouseOutCallback: mapMapMouseOutCallback,
+				mapCenterChangedCallback: mapCenterChangedCallback,
+				mapZoomChangedCallback: mapZoomChangedCallback,
+				mapTypeChangedCallback: mapTypeChangedCallback,
+				mapHeadingChangedCallback: mapHeadingChangedCallback,
+				mapTiltChangedCallback: mapTiltChangedCallback,
+				mapBoundsChangedCallback: mapBoundsChangedCallback,
+				mapProjectionChangedCallback: mapProjectionChangedCallback,
+				mapDraggableChangedCallback: mapDraggableChangedCallback,
+				mapStreetviewChangedCallback: mapStreetviewChangedCallback,
+				mapDragCallback: mapDragCallback,
+				mapDragEndCallback: mapDragEndCallback,
+				mapDragStartCallback: mapDragStartCallback,
+				mapResizedCallback: mapResizedCallback,
+				mapTilesLoadedCallback: mapTilesLoadedCallback,
+				mapIdleCallback: mapIdleCallback);
 
-			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, dotnetRef);
+			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapsEventInfo>(info);
+
+			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference);
 		}
 
 		public async Task SetCenter(double latitude, double longitude)
@@ -455,6 +548,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 				await _mapsJs.DisposeAsync();
 			}
+
+			_dotNetObjectReference?.Dispose();
 		}
 	}
 }

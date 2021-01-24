@@ -41,72 +41,37 @@ window.initGoogleMaps = () => {
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
 
+		function mouseEventHandlers(mapsMouseEvent, callbackFuncName) {
+			if (map && map.elementId && mapsMouseEvent) {
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
+				if (mapWithDotnetRef) {
+					let coord = mapsMouseEvent.latLng.toJSON();
+					let arg = {
+						Latitude: coord.lat,
+						Longitude: coord.lng
+					};
+
+					mapWithDotnetRef.ref.invokeMethodAsync(callbackFuncName, arg);
+				}
+			}
+		}
+
 		//Add Event listeners
 		//Mouse
 		map.addListener("click", (mapsMouseEvent) => {
-			if (map && map.elementId) {
-				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
-					let arg = {
-						Latitude: mapsMouseEvent.latLng.lat,
-						Longitude: mapsMouseEvent.latLng.lng
-					};
-
-					mapWithDotnetRef.ref.invokeMethodAsync("MapClicked", arg);
-				}
-			}
+			mouseEventHandlers(mapsMouseEvent, "MapClicked");
 		});
 		map.addListener("dblclick", (mapsMouseEvent) => {
-			if (map && map.elementId) {
-				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
-					let arg = {
-						Latitude: mapsMouseEvent.latLng.lat,
-						Longitude: mapsMouseEvent.latLng.lng
-					};
-
-					mapWithDotnetRef.ref.invokeMethodAsync("MapDoubleClicked", arg);
-				}
-			}
+			mouseEventHandlers(mapsMouseEvent, "MapDoubleClicked");
 		});
 		map.addListener("mouseup", (mapsMouseEvent) => {
-			if (map && map.elementId) {
-				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
-					let arg = {
-						Latitude: mapsMouseEvent.latLng.lat,
-						Longitude: mapsMouseEvent.latLng.lng
-					};
-
-					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseUp", arg);
-				}
-			}
+			mouseEventHandlers(mapsMouseEvent, "MapMouseUp");
 		});
 		map.addListener("mousedown", (mapsMouseEvent) => {
-			if (map && map.elementId) {
-				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
-					let arg = {
-						Latitude: mapsMouseEvent.latLng.lat,
-						Longitude: mapsMouseEvent.latLng.lng
-					};
-
-					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseDown", arg);
-				}
-			}
+			mouseEventHandlers(mapsMouseEvent, "MapMouseDown");
 		});
 		map.addListener("mousemove", (mapsMouseEvent) => {
-			if (map && map.elementId) {
-				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
-					let arg = {
-						Latitude: mapsMouseEvent.latLng.lat,
-						Longitude: mapsMouseEvent.latLng.lng
-					};
-
-					mapWithDotnetRef.ref.invokeMethodAsync("MapMouseMove", arg);
-				}
-			}
+			mouseEventHandlers(mapsMouseEvent, "MapMouseMove");
 		});
 		map.addListener("mouseover", () => {
 			if (map && map.elementId) {
@@ -411,5 +376,11 @@ function geocodeAddress(address, successCallback) {
 
 //Dispose
 export function dispose(elementId) {
-	removeElementIdWithDotnetRef(elementId);
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		mapWithDotnetRef.map = null;
+		mapWithDotnetRef.ref = null;
+
+		removeElementIdWithDotnetRef(elementId);
+	}
 }

@@ -21,7 +21,7 @@
 		if (firstRender)
 		{
 			await _mapService.InitMap(ApiKey, _mapContainerId,
-				async (mapId) =>
+				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
 					if (CenterCurrentLocation)
@@ -32,6 +32,14 @@
 					if (OnMapInitialized.HasDelegate)
 					{
 						await OnMapInitialized.InvokeAsync(_mapContainerId);
+					}
+				},
+				mapClickedCallback: async (coords) =>
+				{
+					WriteDiag($"Map was clicked at: '{coords}'.");
+					if (OnMapClicked.HasDelegate)
+					{
+						await OnMapClicked.InvokeAsync(coords);
 					}
 				});
 		}
@@ -85,11 +93,21 @@
 	/// </summary>
 	[Parameter] public string ApiKey { get; set; }
 
+	#region Map events
+
 	//Events
 	/// <summary>
 	/// 
 	/// </summary>
 	[Parameter] public EventCallback<string> OnMapInitialized { get; set; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapClicked { get; set; }
+
+
+	#endregion
 
 	/// <summary>
 	/// Callback function called when location successfully detected with <see cref="IGeolocationService"/>.
