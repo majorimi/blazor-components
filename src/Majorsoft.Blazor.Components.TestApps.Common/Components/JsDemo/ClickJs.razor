@@ -75,12 +75,13 @@
 @implements IAsyncDisposable
 @inject IClickBoundariesHandler _clickHandler;
 
-@code { 
+@code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if(firstRender)
+		if (firstRender)
 		{
 			await ClickEventHandler();
+			StateHasChanged();
 		}
 	}
 
