@@ -14,13 +14,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 	public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<string> _registeredEvents;
 		private IJSObjectReference _mouseJs;
+		private List<DotNetObjectReference<PageMouseEventInfo>> _dotNetObjectReferences;
 
 		public GlobalMouseEventHandler(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
-			_registeredEvents = new List<string>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<PageMouseEventInfo>>();
 		}
 
 		public async Task<string> RegisterPageMouseDownAsync(Func<MouseEventArgs, Task> mouseDownCallback)
@@ -32,7 +32,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 			var dotnetRef = DotNetObjectReference.Create<PageMouseEventInfo>(info);
 
 			await _mouseJs.InvokeVoidAsync("addGlobalMouseDownHandler", dotnetRef, id);
-			_registeredEvents.Add(id);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			return id;
 		}
@@ -53,7 +53,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 			var dotnetRef = DotNetObjectReference.Create<PageMouseEventInfo>(info);
 
 			await _mouseJs.InvokeVoidAsync("addGlobalMouseMoveHandler", dotnetRef, id);
-			_registeredEvents.Add(id);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			return id;
 		}
@@ -74,7 +74,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 			var dotnetRef = DotNetObjectReference.Create<PageMouseEventInfo>(info);
 
 			await _mouseJs.InvokeVoidAsync("addGlobalMouseUpHandler", dotnetRef, id);
-			_registeredEvents.Add(id);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			return id;
 		}
@@ -88,8 +88,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 
 		private void RemoveElement(string eventId)
 		{
-			var items = _registeredEvents.Where(x => x.Equals(eventId));
-			_registeredEvents = _registeredEvents.Except(items).ToList();
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.EventId.Equals(eventId));
+			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
+
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -108,8 +113,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 		{
 			if (_mouseJs is not null)
 			{
-				await _mouseJs.InvokeVoidAsync("dispose", (object)_registeredEvents.ToArray());
+				await _mouseJs.InvokeVoidAsync("dispose", 
+					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).Distinct().ToArray());
 				await _mouseJs.DisposeAsync();
+			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
 			}
 		}
 	}
