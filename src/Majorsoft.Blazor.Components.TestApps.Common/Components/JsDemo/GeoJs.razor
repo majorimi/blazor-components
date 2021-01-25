@@ -140,10 +140,13 @@
 		if (geolocationResult.IsSuccess)
 		{
 			_currentLocation = geolocationResult.Coordinates;
-			return;
+		}
+		else
+		{
+			_currentLocationError = $"Failed to get location. Error code: {geolocationResult.Error?.ErrorCode.ToString()} Reason: {geolocationResult.Error?.ErrorMessage}";
 		}
 
-		_currentLocationError = $"Failed to get location. Error code: {geolocationResult.Error?.ErrorCode.ToString()} Reason: {geolocationResult.Error?.ErrorMessage}";
+		StateHasChanged();
 	}
 
 	private int _geoEventId;

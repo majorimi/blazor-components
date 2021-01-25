@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 {
 	/// <summary>
-	/// Geolocation event <see cref="DotNetObjectReference"/> info to handle JS callback
+	/// Base class for Geolocation event <see cref="DotNetObjectReference"/> info to handle JS callback
 	/// </summary>
-	internal sealed class GeolocationEventInfo
+	internal abstract class GeolocationEventInfo
 	{
 		private readonly Func<GeolocationResult, Task> _locationResultCallback;
 
@@ -18,7 +18,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		}
 
 		[JSInvokable("GeolocationEvent")]
-		public async Task GeolocationEvent(GeolocationResult args)
+		public virtual async Task GeolocationEvent(GeolocationResult args)
 		{
 			await _locationResultCallback(args);
 		}
