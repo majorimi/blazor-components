@@ -88,7 +88,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 
 		private void RemoveElement(string eventId)
 		{
-			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.EventId.Equals(eventId));
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.EventId == eventId);
 			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
 
 			foreach (var item in dotNetRefs)

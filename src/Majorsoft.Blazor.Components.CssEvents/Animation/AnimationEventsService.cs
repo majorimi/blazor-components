@@ -145,7 +145,8 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 		{
 			if (_animationJs is not null)
 			{
-				await _animationJs.InvokeVoidAsync("dispose", _registeredStartEvents.ToArray(), _registeredIterationEvents.ToArray(), _registeredEndEvents.ToArray());
+				await _animationJs.InvokeVoidAsync("dispose", 
+					_registeredStartEvents.ToArray(), _registeredIterationEvents.ToArray(), _registeredEndEvents.ToArray());
 
 				await _animationJs.DisposeAsync();
 			}
