@@ -1,0 +1,225 @@
+﻿<img @ref="_staticMap" src="@GetMapsUrl()" @attributes=AllOtherAttributes />
+
+@implements IAsyncDisposable
+
+@inject ILogger<GoogleStaticMap> _logger;
+@inject IGeolocationService _geolocationService;
+
+@code {
+	private ElementReference _staticMap;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _staticMap;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (CenterCurrentLocation && firstRender)
+		{
+			await CenterCurrentLocationOnMap();
+		}
+	}
+
+	/// <summary>
+	/// Defines the zoom level of the map, which determines the magnification level of the map.
+	/// </summary>
+	[Parameter] public byte ZoomLevel { get; set; } = 12;
+
+	//Size
+	/// <summary>
+	/// Maps image Width in px.
+	/// </summary>
+	[Parameter] public int Width { get; set; } = 400;
+	/// <summary>
+	/// Maps image Height in px.
+	/// </summary>
+	[Parameter] public int Height { get; set; } = 300;
+
+	/// <summary>
+	/// Affects the number of pixels that are returned. scale=2 returns twice as many pixels as scale=1 while retaining the
+	/// same coverage area and level of detail (i.e. the contents of the map don't change). This is useful when developing for high-resolution displays.
+	/// </summary>
+	[Parameter] public bool HighResolution { get; set; } = false;
+
+	/// <summary>
+	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+	/// </summary>
+	[Parameter] public GoogleMapTypes MapType { get; set; } = GoogleMapTypes.Roadmap;
+	/// <summary>
+	/// Defines the format of the resulting image. By default, the Maps Static API creates PNG images.
+	/// There are several possible formats including GIF, JPEG and PNG types.
+	/// </summary>
+	[Parameter] public GoogleMapImageFormats ImageFormat { get; set; } = GoogleMapImageFormats.Gif;
+
+	/// <summary>
+	/// Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles
+	/// </summary>
+	[Parameter] public string Language { get; set; }
+	/// <summary>
+	/// Defines the appropriate borders to display, based on geo-political sensitivities.
+	/// </summary>
+	[Parameter] public string Region { get; set; }
+
+	/// <summary>
+	/// Maps center position set by the given Coordinates or Address.
+	/// Also can be set the divece location by setting <see cref="CenterCurrentLocation"/> to `true`.
+	/// </summary>
+	[Parameter] public GeolocationData? Center { get; set; }
+
+	/// <summary>
+	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
+	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
+	/// </summary>
+	[Parameter]
+	public bool CenterCurrentLocation { get; set; } = false;
+
+	/// <summary>
+	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
+	/// </summary>
+	[Parameter] public string ApiKey { get; set; }
+	/// <summary>
+	/// A digital signature used to verify that any site generating requests using your API key is authorized to do so.
+	/// Requests without a digital signature might fail.
+	/// </summary>
+	[Parameter] public string Signature { get; set; }
+
+	/// <summary>
+	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+	/// </summary>
+	[Parameter] public IEnumerable<GoogleMapMarker> Markers { get; set; }
+	/// <summary>
+	/// Defines a single path of two or more connected points to overlay on the image at specified locations. 
+	/// </summary>
+	[Parameter] public IEnumerable<GeolocationData> Path { get; set; }
+	/// <summary>
+	/// Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+	/// </summary>
+	[Parameter] public IEnumerable<GeolocationData> VisibleLocations { get; set; }
+	/// <summary>
+	/// Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
+	/// </summary>
+	[Parameter] public string Style { get; set; }
+
+	/// <summary>
+	/// Callback function called when location successfully detected with <see cref="IGeolocationService"/>.
+	/// Device positon will be supplied in the event which should be used to override <see cref="Center"/> parameter value.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationData> OnCurrentLocationDetected { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	/// <summary>
+	/// Starts an async operation to try to dectect device locaton by using <see cref="IGeolocationService"/>.
+	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
+	/// </summary>
+	/// <returns>Async task</returns>
+	public async Task CenterCurrentLocationOnMap()
+	{
+		await _geolocationService.GetCurrentPosition(LocationResult, false, TimeSpan.FromSeconds(10));
+		WriteDiag($"Geolocation service was called waiting for response, result will be processed in callback method.");
+	}
+	private async Task LocationResult(GeolocationResult pos)
+	{
+		WriteDiag($"Geolocation service result received in callback method. Result success: '{pos.IsSuccess}'.");
+
+		if (pos.IsSuccess)
+		{
+			Center = new GeolocationData()
+			{
+				Latitude = pos.Coordinates.Latitude,
+				Longitude = pos.Coordinates.Longitude
+			};
+
+			if(OnCurrentLocationDetected.HasDelegate)
+			{
+				WriteDiag($"Notifying {nameof(OnCurrentLocationDetected)} delegates with detected coordinates.");
+				await OnCurrentLocationDetected.InvokeAsync(Center);
+			}
+		}
+	}
+
+	private string GetMapsUrl()
+	{
+		var baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
+		var query = new List<string>();
+
+		if((!Path?.Any() ?? true) && (!Markers?.Any() ?? true))
+		{
+			query.Add($"center={Center?.ToString()}");
+
+			if (!VisibleLocations?.Any() ?? true)
+			{
+				query.Add($"zoom={ZoomLevel}");
+			}
+		}
+
+		query.Add($"size={Width}x{Height}");
+		query.Add($"scale={(HighResolution ? 2 : 1)}");
+		query.Add($"maptype={MapType.ToString().ToLower()}");
+		query.Add($"format={ImageFormat.ToString().ToLower()}");
+		if(!string.IsNullOrWhiteSpace(Language))
+		{
+			query.Add($"language={Language}");
+		}
+		if (!string.IsNullOrWhiteSpace(Region))
+		{
+			query.Add($"region={Region}");
+		}
+
+		//Features
+		if(Path?.Any() ?? false)
+		{
+			var path = Path.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x));
+
+			query.Add($"path={string.Join("|", path)}");
+		}
+		if (VisibleLocations?.Any() ?? false)
+		{
+			var loc = VisibleLocations.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x));
+
+			query.Add($"visible={string.Join("|", loc)}");
+		}
+		if (Markers?.Any() ?? false)
+		{
+			var markers = Markers.Select(s => s.ToString())
+				.Where(x => !string.IsNullOrWhiteSpace(x));
+
+			query.Add(string.Join('&', markers));
+		}
+		if (!string.IsNullOrWhiteSpace(Style))
+		{
+			query.Add($"style={Style}");
+		}
+
+		//Auth
+		query.Add($"key={ApiKey}");
+		if (!string.IsNullOrWhiteSpace(Signature))
+		{
+			query.Add($"signature={Signature}");
+		}
+
+		var url = baseUrl + string.Join('&', query.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+		WriteDiag($"Static Map url was concatenated: {url}");
+		return url;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_geolocationService is not null)
+		{
+			await _geolocationService.DisposeAsync();
+		}
+	}
+}

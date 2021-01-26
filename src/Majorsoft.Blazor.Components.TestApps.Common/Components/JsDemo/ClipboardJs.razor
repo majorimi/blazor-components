@@ -1,0 +1,50 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="clipboard-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Clipboard JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Resize JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for accessing computer Clipboard from Blazor Application.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<input type="text" value="Hello World" @ref="_copyInput">
+			<button class="btn btn-primary" @onclick="CopyToClipboard">Copy input value to Clipboard</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>@_codedString</label>
+			<button class="btn btn-primary" @onclick="CopyTextToClipboard">Copy coded text to Clipboard</button>
+		</div>
+	</div>
+</div>
+
+@implements IAsyncDisposable
+@inject IClipboardHandler _clipboardHandler;
+
+@code {
+
+	//Clipboard JS
+	private ElementReference _copyInput;
+	private string _codedString = "Copy string value form C# code...";
+	private async Task CopyToClipboard()
+	{
+		await _copyInput.CopyElementTextToClipboardAsync();
+		@*await _clipboardHandler.CopyElementTextToClipboardAsync(_copyInput);*@
+	}
+	private async Task CopyTextToClipboard()
+	{
+		await _clipboardHandler.CopyTextToClipboardAsync(_codedString);
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+
+		if (_clipboardHandler is not null)
+		{
+			await _clipboardHandler.DisposeAsync();
+		}
+	}
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/googleMaps.min.js",
+    "inputFiles": [
+      "wwwroot/googleMaps.js"
+    ]
+  }
+]

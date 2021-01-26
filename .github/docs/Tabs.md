@@ -64,7 +64,9 @@ Required HTML content to show Header content of current TabItem.
 - **`Content`: `RenderFragment` HTML content - Required**
 Required HTML content to show content of current TabItem.
 - **`Disabled`: `bool { get; set; }` (default: false)** <br />
-Determines whether all the rendered HTML elements should be disabled or not.
+Determines whether the current rendered TabItem should be disabled or not.
+- **`Hidden`: `bool { get; set; }` (default: false)** <br />
+Determines whether the current rendered TabItem should be hidden or not.
 
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
@@ -115,7 +117,7 @@ Following code example shows how to use **`TabsPanel`**  with **`TabItem`** comp
 				<h1>The second tab</h1>
 			</Content>
 		</TabItem>
-		<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled">
+		<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled" Hidden="@_isTabHidden">
 			<Header><u>Can disable</u></Header>
 			<Content>
 				<h1>This tab can be disabled</h1>
@@ -156,6 +158,7 @@ Following code example shows how to use **`TabsPanel`**  with **`TabItem`** comp
 	private bool _isAnimated = false;
 	private bool _allTabsDisabled = false;
 	private bool _isTabDisabled = false;
+	private bool _isTabHidden = false;
 
 	private int _tabsCount;
 

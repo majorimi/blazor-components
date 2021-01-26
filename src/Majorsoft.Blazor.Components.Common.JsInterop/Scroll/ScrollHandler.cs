@@ -14,13 +14,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 	public sealed class ScrollHandler : IScrollHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<string> _registeredEvents;
 		private IJSObjectReference _scrollJs;
+		private List<DotNetObjectReference<PageScrollEventInfo>> _dotNetObjectReferences;
 
 		public ScrollHandler(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
-			_registeredEvents = new List<string>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<PageScrollEventInfo>>();
 		}
 
 		public async Task ScrollToPageEndAsync()
@@ -74,9 +74,9 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 			var id = Guid.NewGuid().ToString();
 			var info = new PageScrollEventInfo(scrollCallback, id);
 			var dotnetRef = DotNetObjectReference.Create<PageScrollEventInfo>(info);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			await _scrollJs.InvokeVoidAsync("addScrollEvent", dotnetRef, id);
-			_registeredEvents.Add(id);
 
 			return id;
 		}
@@ -91,8 +91,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 
 		private void RemoveElement(string eventId)
 		{
-			var items = _registeredEvents.Where(x => x.Equals(eventId));
-			_registeredEvents = _registeredEvents.Except(items).ToList();
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.EventId == eventId);
+			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
+
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -111,7 +116,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		{
 			if (_scrollJs is not null)
 			{
-				await _scrollJs.InvokeVoidAsync("dispose", (object)_registeredEvents.ToArray());
+				await _scrollJs.InvokeVoidAsync("dispose",
+					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
 
 				await _scrollJs.DisposeAsync();
 			}

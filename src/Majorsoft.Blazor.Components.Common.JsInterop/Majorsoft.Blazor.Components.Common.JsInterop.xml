@@ -204,9 +204,19 @@
             Returns a human-readable DOMString describing the details of the error.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventCurrentPositionInfo">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo"/> for GetCurrentPosition method with self dispose <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventCurrentPositionInfo.DotNetObjectReference"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo">
             <summary>
-            Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            Base class for Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventWatcherInfo">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo"/> for AddGeolocationWatcher method.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes">

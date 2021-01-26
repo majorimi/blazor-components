@@ -29,6 +29,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Tabs\Majorsoft.Blazor.Components.Tabs.csproj" />

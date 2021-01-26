@@ -16,15 +16,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 	public sealed class ResizeHandler : IResizeHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<ElementReference> _registeredElements;
-		private List<string> _registeredEvents;
 		private IJSObjectReference _resizeJs;
+		private List<DotNetObjectReference<ResizeEventInfo>> _dotNetObjectReferences;
 
 		public ResizeHandler(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
-			_registeredElements = new List<ElementReference>();
-			_registeredEvents = new List<string>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<ResizeEventInfo>>();
 		}
 
 		public async Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)
@@ -34,9 +32,9 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 			var id = Guid.NewGuid().ToString();
 			var info = new ResizeEventInfo(resizeCallback, id);
 			var dotnetRef = DotNetObjectReference.Create<ResizeEventInfo>(info);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			await _resizeJs.InvokeVoidAsync("addGlobalResizeEvent", dotnetRef, id);
-			_registeredEvents.Add(id);
 
 			return id;
 		}
@@ -45,8 +43,10 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			await CheckJsObjectAsync();
 
-			_registeredEvents.Remove(eventId);
 			await _resizeJs.InvokeVoidAsync("removeGlobalResizeEvent", eventId);
+
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.EventId == eventId);
+			RemoveElement(dotNetRefs);
 		}
 
 		public async Task<PageSize> GetPageSizeAsync()
@@ -63,9 +63,10 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 
 			var info = new ResizeEventInfo(resizeCallback, null);
 			var dotnetRef = DotNetObjectReference.Create<ResizeEventInfo>(info);
+			info.ElementReference = elementRef;
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			await _resizeJs.InvokeVoidAsync("addResizeEventHandler", elementRef, dotnetRef);
-			_registeredElements.Add(elementRef);
 		}
 
 		public async Task RemoveResizeAsync(ElementReference elementRef)
@@ -73,14 +74,19 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 			await CheckJsObjectAsync();
 
 			await _resizeJs.InvokeVoidAsync("removeResizeEventHandler", elementRef);
-			RemoveElement(elementRef);
+
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.ElementReference.Equals(elementRef));
+			RemoveElement(dotNetRefs);
 		}
 
-		private void RemoveElement(ElementReference elementRef)
+		private void RemoveElement(IEnumerable<DotNetObjectReference<ResizeEventInfo>> dotNetRefs)
 		{
-			var items = _registeredElements.Where(x => x.Equals(elementRef));
+			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
 
-			_registeredElements = _registeredElements.Except(items).ToList();
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -99,10 +105,17 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			if (_resizeJs is not null)
 			{
-				await _resizeJs.InvokeVoidAsync("dispose", (object)_registeredElements.ToArray());
-				await _resizeJs.InvokeVoidAsync("disposeGlobal", (object)_registeredEvents.ToArray());
+				await _resizeJs.InvokeVoidAsync("dispose", 
+					(object)_dotNetObjectReferences.Select(s => s.Value.ElementReference).ToArray());
+				await _resizeJs.InvokeVoidAsync("disposeGlobal", 
+					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
 
 				await _resizeJs.DisposeAsync();
+			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
 			}
 		}
 	}

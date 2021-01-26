@@ -9,6 +9,7 @@ using Majorsoft.Blazor.WebAssembly.Logging.Console;
 using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.PermaLink;
+using Majorsoft.Blazor.Components.Maps;
 
 namespace Majorsoft.Blazor.Components.TestApp
 {
@@ -23,6 +24,7 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddCssEvents();
 			builder.Services.AddJsInteropExtensions();
 			builder.Services.AddPermaLinkWatcher();
+			builder.Services.AddMapExtensions();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
