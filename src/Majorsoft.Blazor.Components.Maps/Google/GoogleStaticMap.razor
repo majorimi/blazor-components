@@ -128,11 +128,7 @@
 
 		if (pos.IsSuccess)
 		{
-			Center = new GeolocationData()
-			{
-				Latitude = pos.Coordinates.Latitude,
-				Longitude = pos.Coordinates.Longitude
-			};
+			Center = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 
 			if(OnCurrentLocationDetected.HasDelegate)
 			{

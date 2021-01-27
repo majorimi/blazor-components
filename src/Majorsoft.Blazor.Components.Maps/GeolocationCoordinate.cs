@@ -10,16 +10,22 @@ namespace Majorsoft.Blazor.Components.Maps
 		/// <summary>
 		/// Representing the latitude of the position in decimal degrees.
 		/// </summary>
-		public double? Latitude { get; set; }
+		public double? Latitude { get; init; }
 		/// <summary>
 		/// Represents the longitude of a geographical position, specified in decimal degrees.
 		/// </summary>
-		public double? Longitude { get; set; }
+		public double? Longitude { get; init; }
 
 		/// <summary>
 		/// Checks to <see cref="Latitude"/> and <see cref="Longitude"/> are defined.
 		/// </summary>
 		public bool HasCoordinates => Latitude.HasValue && Longitude.HasValue;
+
+		public GeolocationCoordinate(double? latitude, double? longitude)
+		{
+			Latitude = latitude;
+			Longitude = longitude;
+		}
 
 		/// <summary>
 		/// Formats coordinates to Maps specific string or return Empty.

@@ -35,11 +35,11 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" @bind="_staticMapCenter.Latitude" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" @bind="_staticMapCenter.Longitude" pattern="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_staticMapCenter.Latitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(double.Parse(e.Value?.ToString()), _staticMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_staticMapCenter.Longitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(_staticMapCenter.Latitude, double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
-				<input class="form-control w-100 mb-3" @bind="_staticMapCenter.Address" placeholder="Full address" />
+				<input class="form-control w-100 mb-3" value="@_staticMapCenter.Address" @onchange="@((e) => _staticMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
 				<p>
 					Center device location on load (overrides <code>Center</code> property):
 					<strong>NOTE: Async operation which might fail!</strong>
@@ -105,7 +105,7 @@
 
 				<GoogleStaticMap @ref="_googleStaticMap"
 								 ApiKey="@_googleMapsApiKey"
-								 Center="@_staticMapCenter"
+								 @bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
 								 CenterCurrentLocation="@_staticMapCenterCurrentLocation"
 								 ZoomLevel="@_staticMapZoomLevel"
 								 Width="@_staticMapWidth"
@@ -115,8 +115,7 @@
 								 ImageFormat="@_staticMapImageFormat"
 								 Path="@(_staticMapShowPath ? _staticMapPaths : null)"
 								 VisibleLocations="@(_staticMapShowVisiblePoints ? _staticMapVisiblePoints : null)"
-								 Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)"
-								 OnCurrentLocationDetected="@(loc => StaticMapLocationDetected(loc))" />
+								 Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)" />
 			</div>
 		</div>
 
@@ -140,11 +139,11 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" @bind="_jsMapCenter.Latitude" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" @bind="_jsMapCenter.Longitude" pattern="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(double.Parse(e.Value?.ToString()), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
-				<input class="form-control w-100 mb-3" @bind="_jsMapCenter.Address" placeholder="Full address" />
+				<input class="form-control w-100 mb-3" value="@_jsMapCenter.Address" @onchange="@((e) => _jsMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
 				<p>
 					Center device location on load (overrides <code>Center</code> property):
 					<strong>NOTE: Async operation which might fail!</strong>
@@ -214,25 +213,20 @@
 
 	protected override void OnInitialized()
 	{
-		_staticMapMarkers.ElementAt(0).Locations.Add(new GeolocationData() { Latitude = 1.111, Longitude = 2.222 });
-		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData() { Latitude = 17.111, Longitude = 33.222 });
-		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData() { Address = "London" });
-		_staticMapMarkers.ElementAt(2).Locations.Add(new GeolocationData() { Address = "New York" });
-		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData() { Address = "Budapest" });
-		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData() { Latitude = 5.123, Longitude = 8.99 });
+		_staticMapMarkers.ElementAt(0).Locations.Add(new GeolocationData(1.111, 2.222));
+		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData(17.111, 33.222));
+		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData("London"));
+		_staticMapMarkers.ElementAt(2).Locations.Add(new GeolocationData("New York"));
+		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
+		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
 	}
 
 	//Static Maps
 	private GoogleStaticMap _googleStaticMap;
-	private GeolocationData _staticMapCenter = new GeolocationData()
-	{
-		Latitude = 47.439586759063666,
-		Longitude = 9.10229996558434,
-		Address = "Times Square New York" //Coordinates override it
-	};
-	private byte _staticMapZoomLevel = 14;
-	private int _staticMapWidth = 400;
-	private int _staticMapHeight = 300;
+	private GeolocationData _staticMapCenter = new GeolocationData(7.439586759063666, 9.10229996558434);
+	private byte _staticMapZoomLevel = 10;
+	private int _staticMapWidth = 450;
+	private int _staticMapHeight = 200;
 	private bool _staticMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _staticMapType = GoogleMapTypes.Roadmap;
 	private GoogleMapImageFormats _staticMapImageFormat = GoogleMapImageFormats.Png;
@@ -241,14 +235,14 @@
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
 		{
-			{ new GeolocationData() { Address = "Budapest" } },
-			{ new GeolocationData() { Address = "London" } }
+			{ new GeolocationData("Budapest")},
+			{ new GeolocationData("London")}
 		};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
 		{
-			{ new GeolocationData() { Address = "Budapest" } },
-			{ new GeolocationData() { Address = "London" } }
+			{ new GeolocationData("Budapest" )},
+			{ new GeolocationData("London")}
 		};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleMapMarker> _staticMapMarkers = new List<GoogleMapMarker>()
@@ -284,38 +278,26 @@
 		{
 			if (pos.IsSuccess)
 			{
-				_staticMapCenter = new GeolocationData()
-				{
-					Latitude = pos.Coordinates.Latitude,
-					Longitude = pos.Coordinates.Longitude
-				};
+				_staticMapCenter = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 				StateHasChanged();
 			}
 		},
 		false, TimeSpan.FromSeconds(10));
 	}
 
-	private async Task StaticMapLocationDetected(GeolocationData loc)
-	{
-		_staticMapCenter = loc; //Static Map component detected current location, must override initial value.
-	}
 
 	//Javascript Maps
 	private GoogleMap _googleMap;
-	private GeolocationData _jsMapCenter = new GeolocationData()
-	{
-		Latitude = 7.439586759063666,
-		Longitude = 9.10229996558434,
-		Address = "Times Square New York" //Coordinates override it
-	};
-	private byte _jsMapZoomLevel = 14;
-	private int _jsMapWidth = 400;
-	private int _jsMapHeight = 300;
-	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
+	private byte _jsMapZoomLevel = 10;
+	private int _jsMapWidth = 450;
+	private int _jsMapHeight = 200;
+	private bool _jsMapCenterCurrentLocation = false; //Overrides Center. Async operation which micht fail with Location services
 
 	private ElementReference _log;
 	private string _mapsLog;
 
+	//Events
 	private async Task OnMapInitialized(string elementId)
 	{
 		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: {elementId}.");
@@ -324,15 +306,6 @@
 	{
 		_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}.");
 	}
-
-	private async Task<string> WriteLog(string log, string message)
-	{
-		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		await _log.ScrollToEndAsync();
-
-		return log;
-	}
-
 
 
 	private async Task CenterMyLocationWithJavaScriptMap()
@@ -345,11 +318,7 @@
 		{
 			if (pos.IsSuccess)
 			{
-				_jsMapCenter = new GeolocationData()
-				{
-					Latitude = pos.Coordinates.Latitude,
-					Longitude = pos.Coordinates.Longitude
-				};
+				_jsMapCenter = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 				StateHasChanged();
 			}
 		},
@@ -361,6 +330,14 @@
 		_jsMapCenter = loc; //Static Map component detected current location, must override initial value.
 	}
 
+
+	private async Task<string> WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await _log.ScrollToEndAsync();
+
+		return log;
+	}
 	public async ValueTask DisposeAsync()
 	{
 		if (_geolocationService is not null)

@@ -16,9 +16,9 @@
 	/// </summary>
 	public ElementReference InnerElementReference => _jsMap;
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	private bool _mapInitialized = false;
+	protected override async Task OnInitializedAsync()
 	{
-		if (firstRender)
 		{
 			await _mapService.InitMap(ApiKey, _mapContainerId,
 				mapInitializedCallback: async (mapId) =>
@@ -28,6 +28,9 @@
 					{
 						await CenterCurrentLocationOnMap();
 					}
+
+					_mapInitialized = true;
+					StateHasChanged(); //Must reset all parameter values in JS
 
 					if (OnMapInitialized.HasDelegate)
 					{
@@ -54,14 +57,9 @@
 				},
 				mapCenterChangedCallback: async (coords) =>
 				{
-					WriteDiag($"Map Center changed to: '{coords}'.");
+					WriteDiag($"Map Center changed to: '{coords}', current center: {_center}.");
 
-					_center = new GeolocationData()
-					{
-						Latitude = coords.Latitude,
-						Longitude = coords.Longitude,
-						Address = _center.Address
-					};
+					_center = new GeolocationData(coords.Latitude, coords.Longitude);
 					if (OnMapCenterChangedChanged.HasDelegate)
 					{
 						await OnMapCenterChangedChanged.InvokeAsync(_center);
@@ -80,7 +78,7 @@
 		get => _zoomLevel;
 		set
 		{
-			if (value != _zoomLevel)
+			if (_mapInitialized && value != _zoomLevel)
 			{
 				_zoomLevel = value;
 				InvokeAsync(async () => await _mapService.SetZoom(ZoomLevel));
@@ -99,7 +97,7 @@
 		get => _width;
 		set
 		{
-			if (value != _width)
+			if (_mapInitialized && value != _width)
 			{
 				_width = value;
 				InvokeAsync(async () => await _mapService.ResizeMap());
@@ -116,7 +114,7 @@
 		get => _height;
 		set
 		{
-			if (value != _height)
+			if (_mapInitialized && value != _height)
 			{
 				_height = value;
 				InvokeAsync(async () => await _mapService.ResizeMap());
@@ -135,7 +133,7 @@
 		get => _center;
 		set
 		{
-			if (_center != value)
+			if (_mapInitialized && _center?.ToString() != value?.ToString())
 			{
 				_center = value;
 				InvokeAsync(async () =>
@@ -216,11 +214,7 @@
 		if (pos?.IsSuccess ?? false)
 		{
 			await _mapService.SetCenter(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
-			Center = new GeolocationData()
-			{
-				Latitude = pos.Coordinates.Latitude,
-				Longitude = pos.Coordinates.Longitude
-			};
+			Center = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 
 			if (OnCurrentLocationDetected.HasDelegate)
 			{

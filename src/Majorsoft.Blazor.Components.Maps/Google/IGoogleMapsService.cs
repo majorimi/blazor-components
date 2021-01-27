@@ -286,44 +286,44 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	}
 
 	/// <summary>
-	/// 
+	/// Injectable service to handle Google JavaScript Maps functionalities.
 	/// </summary>
 	public interface IGoogleMapsService : IAsyncDisposable
 	{
 		/// <summary>
-		/// HTML Div Id which was set when Maps initialized with <see cref="InitMap(string, string, Func{string, Task})"/> method.
+		/// HTML Div Id which was set when Maps initialized with <see cref="InitMap"/> method.
 		/// </summary>
 		string MapContainerId { get; }
 
 		/// <summary>
-		/// 
+		/// This function must be called only once to initialize Google JavaScript Maps with ApiKey and event callbacks.
 		/// </summary>
-		/// <param name="apiKey"></param>
-		/// <param name="mapContainerId"></param>
-		/// <param name="mapInitializedCallback"></param>
-		/// <param name="mapClickedCallback"></param>
-		/// <param name="mapDoubleClickedCallback"></param>
-		/// <param name="mapMouseUpCallback"></param>
-		/// <param name="mapMouseDownCallback"></param>
-		/// <param name="mapMouseMoveCallback"></param>
-		/// <param name="mapMapMouseOverCallback"></param>
-		/// <param name="mapMapMouseOutCallback"></param>
-		/// <param name="mapCenterChangedCallback"></param>
-		/// <param name="mapZoomChangedCallback"></param>
-		/// <param name="mapTypeChangedCallback"></param>
-		/// <param name="mapHeadingChangedCallback"></param>
-		/// <param name="mapTiltChangedCallback"></param>
-		/// <param name="mapBoundsChangedCallback"></param>
-		/// <param name="mapProjectionChangedCallback"></param>
-		/// <param name="mapDraggableChangedCallback"></param>
-		/// <param name="mapStreetviewChangedCallback"></param>
-		/// <param name="mapDragCallback"></param>
-		/// <param name="mapDragEndCallback"></param>
-		/// <param name="mapDragStartCallback"></param>
-		/// <param name="mapResizedCallback"></param>
-		/// <param name="mapTilesLoadedCallback"></param>
-		/// <param name="mapIdleCallback"></param>
-		/// <returns></returns>
+		/// <param name="apiKey">Google API Key which has permission for Google JavaScript Maps</param>
+		/// <param name="mapContainerId">HTML Div Id which will contain Google Map</param>
+		/// <param name="mapInitializedCallback">Callback function for Map initialized event</param>
+		/// <param name="mapClickedCallback">Callback function for Map clicked event</param>
+		/// <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
+		/// <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
+		/// <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
+		/// <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
+		/// <param name="mapMapMouseOverCallback">Callback function for Map mouse enter event</param>
+		/// <param name="mapMapMouseOutCallback">Callback function for Map mouse leaving event</param>
+		/// <param name="mapCenterChangedCallback">Callback function for Map center point changed event</param>
+		/// <param name="mapZoomChangedCallback">Callback function for Map zoom level changed event</param>
+		/// <param name="mapTypeChangedCallback">Callback function for Map type changed event</param>
+		/// <param name="mapHeadingChangedCallback">Callback function for Map heading changed event</param>
+		/// <param name="mapTiltChangedCallback">Callback function for Map tilt position changed event</param>
+		/// <param name="mapBoundsChangedCallback">Callback function for Map boundaries changed event</param>
+		/// <param name="mapProjectionChangedCallback">Callback function for Map projection changed event</param>
+		/// <param name="mapDraggableChangedCallback">Callback function for Map draggable changed event</param>
+		/// <param name="mapStreetviewChangedCallback">Callback function for Map street-view changed event</param>
+		/// <param name="mapDragCallback">Callback function for Map dragging event</param>
+		/// <param name="mapDragEndCallback">Callback function for Map drag ended event</param>
+		/// <param name="mapDragStartCallback">Callback function for Map drag started event</param>
+		/// <param name="mapResizedCallback">Callback function for Map resized event</param>
+		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
+		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
+		/// <returns>Async task</returns>
 		Task InitMap(string apiKey, string mapContainerId,
 			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
@@ -404,6 +404,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 	}
 
+	/// <summary>
+	/// Default implementation of <see cref="IGoogleMapsService"/>
+	/// </summary>
 	public sealed class GoogleMapsService : IGoogleMapsService
 	{
 		private readonly IJSRuntime _jsRuntime;

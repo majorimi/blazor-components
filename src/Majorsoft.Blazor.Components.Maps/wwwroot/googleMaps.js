@@ -93,7 +93,7 @@ window.initGoogleMaps = () => {
 		map.addListener("center_changed", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -172,7 +172,7 @@ window.initGoogleMaps = () => {
 		map.addListener("drag", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -186,7 +186,7 @@ window.initGoogleMaps = () => {
 		map.addListener("dragend", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -200,7 +200,7 @@ window.initGoogleMaps = () => {
 		map.addListener("dragstart", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
