@@ -179,12 +179,19 @@
 				<GoogleMap @ref="_googleMap"
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
+						   Center="@_jsMapCenter"
 						   @bind-ZoomLevel="_jsMapZoomLevel" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
-						   @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChangedChanged"
 						   CenterCurrentLocation="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
+						   OnMapDoubleClicked="@OnMapDoubleClicked"
+						   OnMapMouseUp="@OnMapMouseUp"
+						   OnMapMouseDown="@OnMapMouseDown"
+						   OnMouseMove="@OnMouseMove"
+						   OnMapMouseOver="@OnMapMouseOver"
+						   OnMapMouseOut="@OnMapMouseOut"
+						   OnMapCenterChanged="@OnMapCenterChanged"
 						   ApiKey="@_googleMapsApiKey" />
 
 				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
@@ -268,6 +275,7 @@
 			},
 		};
 
+	//Geolocation current position detection
 	private async Task CenterMyLocationWithStaticMap()
 	{
 		await _googleStaticMap.CenterCurrentLocationOnMap();
@@ -300,14 +308,47 @@
 	//Events
 	private async Task OnMapInitialized(string elementId)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: {elementId}.");
+		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: {elementId}");
 	}
 	private async Task OnMapClicked(GeolocationCoordinate coordinate)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}.");
+		_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}");
+	}
+	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map was double clicked at: {coordinate.ToString()}");
+	}
+	private async Task OnMapMouseUp(GeolocationCoordinate coordinate)
+	{
+		await Task.Delay(50); //Wait for click event to log. NOT REQUIRED in production code!!!
+		_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Up at: {coordinate.ToString()}");
+	}
+	private async Task OnMapMouseDown(GeolocationCoordinate coordinate)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Down at: {coordinate.ToString()}");
+	}
+	private async Task OnMouseMove(GeolocationCoordinate coordinate)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map mouse moved to: {coordinate.ToString()}");
+	}
+	private async Task OnMapMouseOver()
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map mouse (over) entered into Maps area");
+	}
+	private async Task OnMapMouseOut()
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map mouse (out) leaved Maps area");
 	}
 
+	private async Task OnMapCenterChanged(GeolocationCoordinate coordinate)
+	{
+		//Can be used with Binding and custom event: @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
 
+		_mapsLog = await WriteLog(_mapsLog, $"Map Center location changed to: {coordinate.ToString()}");
+		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude);
+	}
+
+	//Geolocation current position detection
 	private async Task CenterMyLocationWithJavaScriptMap()
 	{
 		await _googleMap.CenterCurrentLocationOnMap();
@@ -325,9 +366,9 @@
 		false, TimeSpan.FromSeconds(10));
 	}
 
-	private async Task JavaScripMapLocationDetected(GeolocationData loc)
+	private async Task JavaScripMapLocationDetected(GeolocationData coordinate)
 	{
-		_jsMapCenter = loc; //Static Map component detected current location, must override initial value.
+		_jsMapCenter = coordinate; //JS Map callback when detected current location, must override initial value.
 	}
 
 

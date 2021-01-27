@@ -20,8 +20,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseUpCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseDownCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseMoveCallback;
-		private readonly Func<Task> _mapMapMouseOverCallback;
-		private readonly Func<Task> _mapMapMouseOutCallback;
+		private readonly Func<Task> _mapMouseOverCallback;
+		private readonly Func<Task> _mapMouseOutCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapCenterChangedCallback;
 		private readonly Func<byte, Task> _mapZoomChangedCallback;
 		private readonly Func<GoogleMapTypes, Task> _mapTypeChangedCallback;
@@ -45,8 +45,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
-			Func<Task> mapMapMouseOverCallback = null,
-			Func<Task> mapMapMouseOutCallback = null,
+			Func<Task> mapMouseOverCallback = null,
+			Func<Task> mapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
 			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
@@ -71,8 +71,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_mapMouseUpCallback = mapMouseUpCallback;
 			_mapMouseDownCallback = mapMouseDownCallback;
 			_mapMouseMoveCallback = mapMouseMoveCallback;
-			_mapMapMouseOverCallback = mapMapMouseOverCallback;
-			_mapMapMouseOutCallback = mapMapMouseOutCallback;
+			_mapMouseOverCallback = mapMouseOverCallback;
+			_mapMouseOutCallback = mapMouseOutCallback;
 			_mapCenterChangedCallback = mapCenterChangedCallback;
 			_mapZoomChangedCallback = mapZoomChangedCallback;
 			_mapTypeChangedCallback = mapTypeChangedCallback;
@@ -147,17 +147,17 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		[JSInvokable("MapMouseOver")]
 		public async Task MapMouseOver()
 		{
-			if (_mapMapMouseOverCallback is not null)
+			if (_mapMouseOverCallback is not null)
 			{
-				await _mapMapMouseOverCallback.Invoke();
+				await _mapMouseOverCallback.Invoke();
 			}
 		}
 		[JSInvokable("MapMouseOut")]
 		public async Task MapMouseOut()
 		{
-			if (_mapMapMouseOutCallback is not null)
+			if (_mapMouseOutCallback is not null)
 			{
-				await _mapMapMouseOutCallback.Invoke();
+				await _mapMouseOutCallback.Invoke();
 			}
 		}
 		//Changes
@@ -306,8 +306,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
 		/// <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
 		/// <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
-		/// <param name="mapMapMouseOverCallback">Callback function for Map mouse enter event</param>
-		/// <param name="mapMapMouseOutCallback">Callback function for Map mouse leaving event</param>
+		/// <param name="mapMouseOverCallback">Callback function for Map mouse enter event</param>
+		/// <param name="mapMouseOutCallback">Callback function for Map mouse leaving event</param>
 		/// <param name="mapCenterChangedCallback">Callback function for Map center point changed event</param>
 		/// <param name="mapZoomChangedCallback">Callback function for Map zoom level changed event</param>
 		/// <param name="mapTypeChangedCallback">Callback function for Map type changed event</param>
@@ -331,8 +331,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
-			Func<Task> mapMapMouseOverCallback = null,
-			Func<Task> mapMapMouseOutCallback = null,
+			Func<Task> mapMouseOverCallback = null,
+			Func<Task> mapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
 			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
@@ -427,8 +427,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
-			Func<Task> mapMapMouseOverCallback = null,
-			Func<Task> mapMapMouseOutCallback = null,
+			Func<Task> mapMouseOverCallback = null,
+			Func<Task> mapMouseOutCallback = null,
 			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
 			Func<byte, Task> mapZoomChangedCallback = null,
 			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
@@ -460,8 +460,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				mapMouseUpCallback: mapMouseUpCallback,
 				mapMouseDownCallback: mapMouseDownCallback,
 				mapMouseMoveCallback: mapMouseMoveCallback,
-				mapMapMouseOverCallback: mapMapMouseOverCallback,
-				mapMapMouseOutCallback: mapMapMouseOutCallback,
+				mapMouseOverCallback: mapMouseOverCallback,
+				mapMouseOutCallback: mapMouseOutCallback,
 				mapCenterChangedCallback: mapCenterChangedCallback,
 				mapZoomChangedCallback: mapZoomChangedCallback,
 				mapTypeChangedCallback: mapTypeChangedCallback,

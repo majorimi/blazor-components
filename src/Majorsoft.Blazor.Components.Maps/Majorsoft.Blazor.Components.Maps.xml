@@ -187,8 +187,8 @@
             <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
             <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
             <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
-            <param name="mapMapMouseOverCallback">Callback function for Map mouse enter event</param>
-            <param name="mapMapMouseOutCallback">Callback function for Map mouse leaving event</param>
+            <param name="mapMouseOverCallback">Callback function for Map mouse enter event</param>
+            <param name="mapMouseOutCallback">Callback function for Map mouse leaving event</param>
             <param name="mapCenterChangedCallback">Callback function for Map center point changed event</param>
             <param name="mapZoomChangedCallback">Callback function for Map zoom level changed event</param>
             <param name="mapTypeChangedCallback">Callback function for Map type changed event</param>
@@ -300,19 +300,119 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
-             <summary>
-            
-             </summary>
+            <summary>
+            Callback function for Google Map initialized event
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapClicked">
              <summary>
-            
+            Callback function for Google Map clicked event
              </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDoubleClicked">
+            <summary>
+            Callback function for Google Map double clicked event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseUp">
+            <summary>
+            Callback function for Google Map mouse up event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseDown">
+            <summary>
+            Callback function for Google Map mouse down event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMouseMove">
+            <summary>
+            Callback function for Google Map mouse move event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOver">
+            <summary>
+            Callback function for Google Map mouse enter event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOut">
+            <summary>
+            Callback function for Google Map mouse leaving event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapCenterChanged">
+            <summary>
+            Callback function for Google Map Center point changed event
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
-             <summary>
-            
-             </summary>
+            <summary>
+            Callback function for Google Map zoom level changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
+            <summary>
+            Callback function for Google Map type changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapHeadingChanged">
+            <summary>
+            Callback function for Google Map heading changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTiltChanged">
+            <summary>
+            Callback function for Google Map tilt position changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapBoundsChanged">
+            <summary>
+            Callback function for Google Map boundaries changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapProjectionChanged">
+            <summary>
+            Callback function for Google Map projection changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDraggableChanged">
+            <summary>
+            Callback function for Google Map draggable changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapStreetviewChanged">
+            <summary>
+            Callback function for Google Map street-view changed event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDrag">
+            <summary>
+            Callback function for Google Map dragging event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragEnd">
+            <summary>
+            Callback function for Google Map drag ended event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragStart">
+            <summary>
+            Callback function for Google Map drag started event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapResized">
+            <summary>
+            Callback function for Google Map resized event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTilesLoaded">
+            <summary>
+            Callback function for Google Map tiles loaded event
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapIdle">
+            <summary>
+            Callback function for Google Map idle event
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnCurrentLocationDetected">
             <summary>
