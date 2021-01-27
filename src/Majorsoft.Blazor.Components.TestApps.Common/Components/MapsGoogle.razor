@@ -203,11 +203,11 @@
 			<div class="col-12">
 				<label><strong>Google JavaScript Maps Event log</strong>:</label>
 				<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
-
-				<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
-				<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
 			</div>
 		</div>
+
+		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
+		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
 	</div>
 
 </div>
@@ -300,7 +300,7 @@
 	private byte _jsMapZoomLevel = 10;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 200;
-	private bool _jsMapCenterCurrentLocation = false; //Overrides Center. Async operation which micht fail with Location services
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -340,7 +340,7 @@
 		_mapsLog = await WriteLog(_mapsLog, $"Map mouse (out) leaved Maps area");
 	}
 
-	private async Task OnMapCenterChanged(GeolocationCoordinate coordinate)
+	private async Task OnMapCenterChanged(GeolocationData coordinate)
 	{
 		//Can be used with Binding and custom event: @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
 

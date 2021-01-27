@@ -17,6 +17,7 @@
 	public ElementReference InnerElementReference => _jsMap;
 
 	private bool _mapInitialized = false;
+	private bool _isDragging = false;
 	protected override async Task OnInitializedAsync()
 	{
 		{
@@ -96,8 +97,10 @@
 				mapCenterChangedCallback: async (coords) =>
 				{
 					WriteDiag($"Map Center changed to: '{coords}', current center: {_center}.");
+					if (_center?.ToString() == coords?.ToString())
+						return;
 
-					_center = new GeolocationData(coords.Latitude, coords.Longitude);
+					_center = new GeolocationData(coords?.Latitude, coords?.Longitude);
 					if (OnMapCenterChanged.HasDelegate)
 					{
 						await OnMapCenterChanged.InvokeAsync(_center);
@@ -185,25 +188,27 @@
 
 					if (OnMapDrag.HasDelegate)
 					{
-						await OnMapDrag.InvokeAsync(_center);
+						await OnMapDrag.InvokeAsync(coords);
 					}
 				},
 				mapDragEndCallback: async (coords) =>
 				{
 					WriteDiag($"Map Dragging End to: '{coords}', current center: {_center}.");
+					_isDragging = false;
 
 					if (OnMapDragEnd.HasDelegate)
 					{
-						await OnMapDragEnd.InvokeAsync(_center);
+						await OnMapDragEnd.InvokeAsync(coords);
 					}
 				},
 				mapDragStartCallback: async (coords) =>
 				{
 					WriteDiag($"Map Dragging Start to: '{coords}', current center: {_center}.");
+					_isDragging = true;
 
 					if (OnMapDragStart.HasDelegate)
 					{
-						await OnMapDragStart.InvokeAsync(_center);
+						await OnMapDragStart.InvokeAsync(coords);
 					}
 				},
 				mapResizedCallback: async (rect) =>
@@ -301,7 +306,7 @@
 		get => _center;
 		set
 		{
-			if (_mapInitialized && _center != value && _center?.ToString() != value?.ToString())
+			if (_mapInitialized && !_isDragging && _center?.ToString() != value?.ToString())
 			{
 				_center = value;
 				InvokeAsync(async () =>
@@ -370,7 +375,7 @@
 	/// <summary>
 	/// Callback function for Google Map Center point changed event
 	/// </summary>
-	[Parameter] public EventCallback<GeolocationCoordinate> OnMapCenterChanged { get; set; }
+	[Parameter] public EventCallback<GeolocationData> OnMapCenterChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map zoom level changed event
 	/// </summary>
