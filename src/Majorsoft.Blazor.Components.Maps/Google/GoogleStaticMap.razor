@@ -14,7 +14,7 @@
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if (CenterCurrentLocation && firstRender)
+		if (CenterCurrentLocationOnLoad && firstRender)
 		{
 			await CenterCurrentLocationOnMap();
 		}
@@ -62,7 +62,7 @@
 
 	/// <summary>
 	/// Maps center position set by the given Coordinates or Address.
-	/// Also can be set the divece location by setting <see cref="CenterCurrentLocation"/> to `true`.
+	/// Also can be set the divece location by setting <see cref="CenterCurrentLocationOnLoad"/> to `true`.
 	/// </summary>
 	[Parameter] public GeolocationData? Center { get; set; }
 
@@ -71,7 +71,7 @@
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
 	[Parameter]
-	public bool CenterCurrentLocation { get; set; } = false;
+	public bool CenterCurrentLocationOnLoad { get; set; } = false;
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.

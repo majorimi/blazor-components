@@ -106,7 +106,7 @@
 				<GoogleStaticMap @ref="_googleStaticMap"
 								 ApiKey="@_googleMapsApiKey"
 								 @bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
-								 CenterCurrentLocation="@_staticMapCenterCurrentLocation"
+								 CenterCurrentLocationOnLoad="@_staticMapCenterCurrentLocation"
 								 ZoomLevel="@_staticMapZoomLevel"
 								 Width="@_staticMapWidth"
 								 Height="@_staticMapHeight"
@@ -171,6 +171,16 @@
 				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Type: <select class="form-control selectpicker w-100" @bind="_jsMapType">
+					@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
+					{
+						<option value="@item">@item</option>
+					}
+				</select>
+			</div>
+		</div>
 
 		<div class="row pb-2">
 			<div class="col-12">
@@ -180,8 +190,9 @@
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
 						   Center="@_jsMapCenter"
-						   @bind-ZoomLevel="_jsMapZoomLevel" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
-						   CenterCurrentLocation="@_jsMapCenterCurrentLocation"
+						   ZoomLevel="@_jsMapZoomLevel"
+						   MapType="@_jsMapType"
+						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
@@ -192,6 +203,8 @@
 						   OnMapMouseOver="@OnMapMouseOver"
 						   OnMapMouseOut="@OnMapMouseOut"
 						   OnMapCenterChanged="@OnMapCenterChanged"
+						   OnMapZoomLevelChanged="@OnMapZoomLevelChanged"
+						   OnMapTypeChanged="@OnMapTypeChanged"
 						   ApiKey="@_googleMapsApiKey" />
 
 				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
@@ -202,6 +215,13 @@
 		<div class="row pb-2">
 			<div class="col-12">
 				<label><strong>Google JavaScript Maps Event log</strong>:</label>
+				<br />
+				Log Mouse move: <input class="mr-2" type="checkbox" @bind="_logMouseMove" />
+				Log other Mouse events: <input class="mr-2" type="checkbox" @bind="_logOtherMouseEvents" />
+				Log Drag events: <input class="mr-2" type="checkbox" @bind="_logDragEvents" />
+				Log Center change: <input class="mr-2" type="checkbox" @bind="_logCenterChangeEvents" />
+				Log Other events: <input class="mr-2" type="checkbox" @bind="_logOtherEvents" />
+
 				<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 			</div>
 		</div>
@@ -241,19 +261,19 @@
 
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
-		{
+{
 			{ new GeolocationData("Budapest")},
 			{ new GeolocationData("London")}
 		};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
-		{
+{
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
 		};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleMapMarker> _staticMapMarkers = new List<GoogleMapMarker>()
-		{
+{
 			{ new GoogleMapMarker() },
 			{ new GoogleMapMarker()
 				{
@@ -301,9 +321,15 @@
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 200;
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 
 	private ElementReference _log;
 	private string _mapsLog;
+	private bool _logMouseMove = false;
+	private bool _logOtherMouseEvents = true;
+	private bool _logDragEvents = true;
+	private bool _logCenterChangeEvents = true;
+	private bool _logOtherEvents = true;
 
 	//Events
 	private async Task OnMapInitialized(string elementId)
@@ -312,41 +338,84 @@
 	}
 	private async Task OnMapClicked(GeolocationCoordinate coordinate)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}");
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}");
+		}
 	}
 	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was double clicked at: {coordinate.ToString()}");
+		if (_logOtherMouseEvents)
+		{
+			await Task.Delay(100); //Wait for click event to log. NOT REQUIRED in production code!!!
+			_mapsLog = await WriteLog(_mapsLog, $"Map was double clicked at: {coordinate.ToString()}");
+		}
 	}
 	private async Task OnMapMouseUp(GeolocationCoordinate coordinate)
 	{
-		await Task.Delay(50); //Wait for click event to log. NOT REQUIRED in production code!!!
-		_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Up at: {coordinate.ToString()}");
+		if (_logOtherMouseEvents)
+		{
+			await Task.Delay(50); //Wait for click event to log. NOT REQUIRED in production code!!!
+			_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Up at: {coordinate.ToString()}");
+		}
 	}
 	private async Task OnMapMouseDown(GeolocationCoordinate coordinate)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Down at: {coordinate.ToString()}");
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Down at: {coordinate.ToString()}");
+		}
 	}
 	private async Task OnMouseMove(GeolocationCoordinate coordinate)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map mouse moved to: {coordinate.ToString()}");
+		if (_logMouseMove)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map mouse moved to: {coordinate.ToString()}");
+		}
 	}
 	private async Task OnMapMouseOver()
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map mouse (over) entered into Maps area");
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map mouse (over) entered into Maps area");
+		}
 	}
 	private async Task OnMapMouseOut()
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map mouse (out) leaved Maps area");
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map mouse (out) leaved Maps area");
+		}
 	}
 
 	private async Task OnMapCenterChanged(GeolocationData coordinate)
 	{
 		//Can be used with Binding and custom event: @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
-
-		_mapsLog = await WriteLog(_mapsLog, $"Map Center location changed to: {coordinate.ToString()}");
-		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude);
+		if (_logCenterChangeEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Center location changed to: {coordinate.ToString()}");
+		}
+		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
 	}
+	private async Task OnMapZoomLevelChanged(byte zoom)
+	{
+		//Can be used with Binding and custom event: @bind-ZoomLevel="_jsMapZoomLevel" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Zoom level changed to: {zoom}");
+		}
+		_jsMapZoomLevel = zoom;  //Two-way binding with event value
+	}
+	private async Task OnMapTypeChanged(GoogleMapTypes googleMapTypes)
+	{
+		//Can be used with Binding and custom event: @bind-MapType="_jsMapType" @bind-MapType:event="OnMapTypeChanged"
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map type changed to: {googleMapTypes}");
+		}
+		_jsMapType = googleMapTypes; //Two-way binding with event value
+	}
+
 
 	//Geolocation current position detection
 	private async Task CenterMyLocationWithJavaScriptMap()

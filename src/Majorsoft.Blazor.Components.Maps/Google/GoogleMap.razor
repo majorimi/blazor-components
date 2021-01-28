@@ -25,7 +25,7 @@
 				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
-					if (CenterCurrentLocation)
+					if (CenterCurrentLocationOnLoad)
 					{
 						await CenterCurrentLocationOnMap();
 					}
@@ -109,6 +109,8 @@
 				mapZoomChangedCallback: async (zoom) =>
 				{
 					WriteDiag($"Map Zoom level changed to: '{zoom}'.");
+					if (_zoomLevel == zoom)
+						return;
 
 					_zoomLevel = zoom;
 					if (OnMapZoomLevelChanged.HasDelegate)
@@ -119,8 +121,10 @@
 				mapTypeChangedCallback: async (type) =>
 				{
 					WriteDiag($"Map Type changed to: '{type}'.");
+					if (_mapType == type)
+						return;
 
-					//_zoomLevel = type;
+					_mapType = type;
 					if (OnMapTypeChanged.HasDelegate)
 					{
 						await OnMapTypeChanged.InvokeAsync(type);
@@ -298,7 +302,7 @@
 	private GeolocationData? _center;
 	/// <summary>
 	/// Maps center position set by the given Coordinates or Address.
-	/// Also can be set the divece location by setting <see cref="CenterCurrentLocation"/> to `true`.
+	/// Also can be set the divece location by setting <see cref="CenterCurrentLocationOnLoad"/> to `true`.
 	/// </summary>
 	[Parameter]
 	public GeolocationData? Center
@@ -324,11 +328,28 @@
 		}
 	}
 
+	private GoogleMapTypes _mapType = GoogleMapTypes.Roadmap;
+	/// <summary>
+	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+	/// </summary>
+	[Parameter] public GoogleMapTypes MapType
+	{
+		get => _mapType;
+		set
+		{
+			if(_mapInitialized && _mapType != value)
+			{
+				_mapType = value;
+				InvokeAsync(async () => await _mapService.SetMapType(_mapType));
+			}
+		}
+	}
+
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
-	[Parameter] public bool CenterCurrentLocation { get; set; } = false;
+	[Parameter] public bool CenterCurrentLocationOnLoad { get; set; } = false;
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
@@ -374,22 +395,27 @@
 
 	/// <summary>
 	/// Callback function for Google Map Center point changed event
+	/// Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged"
 	/// </summary>
 	[Parameter] public EventCallback<GeolocationData> OnMapCenterChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map zoom level changed event
+	/// Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
 	/// </summary>
 	[Parameter] public EventCallback<byte> OnMapZoomLevelChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map type changed event
+	/// Can be used for Two-way binding: @bind-MapType="_jsMapType" @bind-MapType:event="OnMapTypeChanged"
 	/// </summary>
 	[Parameter] public EventCallback<GoogleMapTypes> OnMapTypeChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map heading changed event
+	/// Can be used for Two-way binding:
 	/// </summary>
 	[Parameter] public EventCallback<int> OnMapHeadingChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map tilt position changed event
+	/// Can be used for Two-way binding:
 	/// </summary>
 	[Parameter] public EventCallback<byte> OnMapTiltChanged { get; set; }
 	/// <summary>

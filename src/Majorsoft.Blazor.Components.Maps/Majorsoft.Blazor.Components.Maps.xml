@@ -314,10 +314,15 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center">
             <summary>
             Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation"/> to `true`.
+            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapType">
+            <summary>
+            Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad">
             <summary>
             If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
             Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
@@ -371,26 +376,31 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapCenterChanged">
             <summary>
             Callback function for Google Map Center point changed event
+            Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
             <summary>
             Callback function for Google Map zoom level changed event
+            Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
             <summary>
             Callback function for Google Map type changed event
+            Can be used for Two-way binding: @bind-MapType="_jsMapType" @bind-MapType:event="OnMapTypeChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapHeadingChanged">
             <summary>
             Callback function for Google Map heading changed event
+            Can be used for Two-way binding:
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTiltChanged">
             <summary>
             Callback function for Google Map tilt position changed event
+            Can be used for Two-way binding:
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapBoundsChanged">
@@ -511,10 +521,10 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center">
             <summary>
             Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation"/> to `true`.
+            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad">
             <summary>
             If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
             Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
