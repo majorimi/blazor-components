@@ -473,17 +473,17 @@
 	[Parameter] public EventCallback<byte> OnMapZoomLevelChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map type changed event
-	/// Can be used for Two-way binding: @bind-MapType="_jsMapType" @bind-MapType:event="OnMapTypeChanged"
+	/// Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged"
 	/// </summary>
 	[Parameter] public EventCallback<GoogleMapTypes> OnMapTypeChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map heading changed event
-	/// Can be used for Two-way binding:
+	/// Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged"
 	/// </summary>
 	[Parameter] public EventCallback<int> OnMapHeadingChanged { get; set; }
 	/// <summary>
 	/// Callback function for Google Map tilt position changed event
-	/// Can be used for Two-way binding:
+	/// Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged"
 	/// </summary>
 	[Parameter] public EventCallback<byte> OnMapTiltChanged { get; set; }
 	/// <summary>

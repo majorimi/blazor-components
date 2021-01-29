@@ -420,19 +420,19 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
             <summary>
             Callback function for Google Map type changed event
-            Can be used for Two-way binding: @bind-MapType="_jsMapType" @bind-MapType:event="OnMapTypeChanged"
+            Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapHeadingChanged">
             <summary>
             Callback function for Google Map heading changed event
-            Can be used for Two-way binding:
+            Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTiltChanged">
             <summary>
             Callback function for Google Map tilt position changed event
-            Can be used for Two-way binding:
+            Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged"
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapBoundsChanged">

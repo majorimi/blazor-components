@@ -218,6 +218,18 @@
 						   OnMapCenterChanged="@OnMapCenterChanged"
 						   OnMapZoomLevelChanged="@OnMapZoomLevelChanged"
 						   OnMapTypeChanged="@OnMapTypeChanged"
+						   OnMapHeadingChanged="@OnMapHeadingChanged"
+						   OnMapTiltChanged="@OnMapTiltChanged"
+						   OnMapBoundsChanged="@OnMapBoundsChanged"
+						   OnMapProjectionChanged="@OnMapProjectionChanged"
+						   OnMapDraggableChanged="@OnMapDraggableChanged"
+						   OnMapStreetviewChanged="@OnMapStreetviewChanged"
+						   OnMapDrag="@OnMapDrag"
+						   OnMapDragEnd="@OnMapDragEnd"
+						   OnMapDragStart="@OnMapDragStart"
+						   OnMapResized="@OnMapResized"
+						   OnMapTilesLoaded="@OnMapTilesLoaded"
+						   OnMapIdle="@OnMapIdle"
 						   ApiKey="@_googleMapsApiKey" />
 
 				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
@@ -338,7 +350,7 @@
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
-	private byte _jsHeading = 0;
+	private int _jsHeading = 0;
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -437,7 +449,97 @@
 		}
 		_jsMapType = googleMapTypes; //Two-way binding with event value
 	}
+	private async Task OnMapHeadingChanged(int heading)
+	{
+		//Can be used with Binding and custom event: @bind-Heading="_jsHeading" @bind-ZoomLevel:event="OnMapHeadingChanged"
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Heading changed to: {heading}");
+		}
+		_jsHeading = heading;  //Two-way binding with event value
+	}
+	private async Task OnMapTiltChanged(byte tilt)
+	{
+		//Can be used with Binding and custom event: @bind-Tilt="_jsTilt" @bind-ZoomLevel:event="OnMapTiltChanged"
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Tilt changed to: {tilt}");
+		}
+		_jsTilt = tilt;  //Two-way binding with event value
+	}
 
+	private async Task OnMapBoundsChanged()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map boundaries changed");
+		}
+	}
+	private async Task OnMapProjectionChanged()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map projection changed");
+		}
+	}
+	private async Task OnMapDraggableChanged()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map draggable changed");
+		}
+	}
+	private async Task OnMapStreetviewChanged()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Streetview changed");
+		}
+	}
+
+	private async Task OnMapDrag(GeolocationCoordinate coordinate)
+	{
+		if (_logDragEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Draging at: {coordinate.ToString()}");
+		}
+	}
+	private async Task OnMapDragEnd(GeolocationCoordinate coordinate)
+	{
+		if (_logDragEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Drag End at: {coordinate.ToString()}");
+		}
+	}
+	private async Task OnMapDragStart(GeolocationCoordinate coordinate)
+	{
+		if (_logDragEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map Drag Start at: {coordinate.ToString()}");
+		}
+	}
+
+	private async Task OnMapResized(Rect rect)
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map was resized to: {rect.ToString()}");
+		}
+	}
+	private async Task OnMapTilesLoaded()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map tiles loaded");
+		}
+	}
+	private async Task OnMapIdle()
+	{
+		if (_logOtherEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map idle");
+		}
+	}
 
 	//Geolocation current position detection
 	private async Task CenterMyLocationWithJavaScriptMap()
