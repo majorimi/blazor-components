@@ -23,6 +23,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapInitializedCallback">Callback function for Map initialized event</param>
 		/// <param name="mapClickedCallback">Callback function for Map clicked event</param>
 		/// <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
+		/// <param name="mapContextMenuCallback">Callback function for Map content menu event</param>
 		/// <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
 		/// <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
 		/// <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
@@ -48,6 +49,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
@@ -144,6 +146,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<string, Task> mapInitializedCallback,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
@@ -177,6 +180,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				mapInitializedCallback: mapInitializedCallback,
 				mapClickedCallback: mapClickedCallback,
 				mapDoubleClickedCallback: mapDoubleClickedCallback,
+				mapContextMenuCallback: mapContextMenuCallback,
 				mapMouseUpCallback: mapMouseUpCallback,
 				mapMouseDownCallback: mapMouseDownCallback,
 				mapMouseMoveCallback: mapMouseMoveCallback,

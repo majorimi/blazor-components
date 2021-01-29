@@ -54,6 +54,14 @@
 						await OnMapDoubleClicked.InvokeAsync(coords);
 					}
 				},
+				mapContextMenuCallback: async (coords) =>
+				{
+					WriteDiag($"Map context menu opened at: '{coords}'.");
+					if (OnMapContextMenu.HasDelegate)
+					{
+						await OnMapContextMenu.InvokeAsync(coords);
+					}
+				},
 				mapMouseUpCallback: async (coords) =>
 				{
 					WriteDiag($"Map mouse button Up at: '{coords}'.");
@@ -133,8 +141,10 @@
 				mapHeadingChangedCallback: async (heading) =>
 				{
 					WriteDiag($"Map Heading changed to: '{heading}'.");
+					if (_heading == heading)
+						return;
 
-					//_zoomLevel = heading;
+					_heading = heading;
 					if (OnMapHeadingChanged.HasDelegate)
 					{
 						await OnMapHeadingChanged.InvokeAsync(heading);
@@ -143,8 +153,10 @@
 				mapTiltChangedCallback: async (tilt) =>
 				{
 					WriteDiag($"Map Tilt changed to: '{tilt}'.");
+					if (_tilt == tilt)
+						return;
 
-					//_zoomLevel = tilt;
+					_tilt = tilt;
 					if (OnMapTiltChanged.HasDelegate)
 					{
 						await OnMapTiltChanged.InvokeAsync(tilt);
@@ -345,6 +357,42 @@
 		}
 	}
 
+	private int _heading;
+	/// <summary>
+	/// The heading for aerial imagery in degrees measured clockwise from cardinal direction North. 
+	/// Headings are snapped to the nearest available angle for which imagery is available.
+	/// </summary>
+	public int Heading
+	{
+		get => _heading;
+		set
+		{
+			if (_mapInitialized && value != _heading)
+			{
+				_heading = value;
+				InvokeAsync(async () => await _mapService.SetHeading(_heading));
+			}
+		}
+	}
+
+	private byte _tilt;
+	/// <summary>
+	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. 
+	/// 45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
+	/// </summary>
+	public byte Tilt
+	{
+		get => _tilt;
+		set
+		{
+			if (_mapInitialized && value != _tilt)
+			{
+				_tilt = value;
+				InvokeAsync(async () => await _mapService.SetTilt(_tilt));
+			}
+		}
+	}
+
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
@@ -372,6 +420,10 @@
 	/// Callback function for Google Map double clicked event
 	/// </summary>
 	[Parameter] public EventCallback<GeolocationCoordinate> OnMapDoubleClicked { get; set; }
+	/// <summary>
+	/// Callback function for Google Map content menu event
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapContextMenu { get; set; }
 	/// <summary>
 	/// Callback function for Google Map mouse up event
 	/// </summary>

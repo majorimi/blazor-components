@@ -64,6 +64,9 @@ window.initGoogleMaps = () => {
 		map.addListener("dblclick", (mapsMouseEvent) => {
 			mouseEventHandlers(mapsMouseEvent, "MapDoubleClicked");
 		});
+		map.addListener("contextmenu", (mapsMouseEvent) => {
+			mouseEventHandlers(mapsMouseEvent, "MapContextMenu");
+		});
 		map.addListener("mouseup", (mapsMouseEvent) => {
 			mouseEventHandlers(mapsMouseEvent, "MapMouseUp");
 		});

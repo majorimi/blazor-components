@@ -14,6 +14,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Func<string, Task> _mapInitializedCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapClickedCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapDoubleClickedCallback;
+		private readonly Func<GeolocationCoordinate, Task> _mapContextMenuCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseUpCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseDownCallback;
 		private readonly Func<GeolocationCoordinate, Task> _mapMouseMoveCallback;
@@ -42,6 +43,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapInitializedCallback">Callback function for Map initialized event</param>
 		/// <param name="mapClickedCallback">Callback function for Map clicked event</param>
 		/// <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
+		/// <param name="mapContextMenuCallback">Callback function for Map content menu event</param>
 		/// <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
 		/// <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
 		/// <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
@@ -66,6 +68,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
 			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
@@ -92,6 +95,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_mapInitializedCallback = mapInitializedCallback;
 			_mapClickedCallback = mapClickedCallback;
 			_mapDoubleClickedCallback = mapDoubleClickedCallback;
+			_mapContextMenuCallback = mapContextMenuCallback;
 			_mapMouseUpCallback = mapMouseUpCallback;
 			_mapMouseDownCallback = mapMouseDownCallback;
 			_mapMouseMoveCallback = mapMouseMoveCallback;
@@ -158,6 +162,14 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			if (_mapDoubleClickedCallback is not null)
 			{
 				await _mapDoubleClickedCallback.Invoke(geolocationCoordinate);
+			}
+		}
+		[JSInvokable("MapContextMenu")]
+		public async Task MapContextMenu(GeolocationCoordinate geolocationCoordinate)
+		{
+			if (_mapContextMenuCallback is not null)
+			{
+				await _mapContextMenuCallback.Invoke(geolocationCoordinate);
 			}
 		}
 		[JSInvokable("MapMouseMove")]

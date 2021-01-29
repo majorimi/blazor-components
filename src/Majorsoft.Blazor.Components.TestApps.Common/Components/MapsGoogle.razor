@@ -192,11 +192,14 @@
 						   Center="@_jsMapCenter"
 						   ZoomLevel="@_jsMapZoomLevel"
 						   MapType="@_jsMapType"
+						   Heading="@_jsHeading"
+						   Tilt="@_jsTilt"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
 						   OnMapDoubleClicked="@OnMapDoubleClicked"
+						   OnMapContextMenu="@OnMapContextMenu"
 						   OnMapMouseUp="@OnMapMouseUp"
 						   OnMapMouseDown="@OnMapMouseDown"
 						   OnMouseMove="@OnMouseMove"
@@ -322,6 +325,8 @@
 	private int _jsMapHeight = 200;
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
+	private byte _jsTilt = 0;
+	private byte _jsHeading = 0;
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -347,15 +352,20 @@
 	{
 		if (_logOtherMouseEvents)
 		{
-			await Task.Delay(100); //Wait for click event to log. NOT REQUIRED in production code!!!
 			_mapsLog = await WriteLog(_mapsLog, $"Map was double clicked at: {coordinate.ToString()}");
+		}
+	}
+	private async Task OnMapContextMenu(GeolocationCoordinate coordinate)
+	{
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map context menu opened at: {coordinate.ToString()}");
 		}
 	}
 	private async Task OnMapMouseUp(GeolocationCoordinate coordinate)
 	{
 		if (_logOtherMouseEvents)
 		{
-			await Task.Delay(50); //Wait for click event to log. NOT REQUIRED in production code!!!
 			_mapsLog = await WriteLog(_mapsLog, $"Map mouse button Up at: {coordinate.ToString()}");
 		}
 	}
@@ -440,12 +450,15 @@
 		_jsMapCenter = coordinate; //JS Map callback when detected current location, must override initial value.
 	}
 
-
+	private object _lock = new object();
 	private async Task<string> WriteLog(string log, string message)
 	{
-		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		await _log.ScrollToEndAsync();
+		lock (_lock)
+		{
+			log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		}
 
+		await _log.ScrollToEndAsync();
 		return log;
 	}
 	public async ValueTask DisposeAsync()

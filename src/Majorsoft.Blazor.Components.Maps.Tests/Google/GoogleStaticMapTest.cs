@@ -62,7 +62,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.CenterCurrentLocation, true));
+				.Add(p => p.CenterCurrentLocationOnLoad, true));
 
 			var map = rendered.Find("img");
 
@@ -80,7 +80,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.CenterCurrentLocation, false));
+				.Add(p => p.CenterCurrentLocationOnLoad, false));
 
 			var map = rendered.Find("img");
 
