@@ -183,6 +183,12 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
+				ClickableIcons: <input class="mr-2" type="checkbox" @bind="_jsClickableIcons" />
+				DisableDefaultUI: <input class="mr-2" type="checkbox" @bind="_jsDisableDefaultUI" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
 				<p>
 					<strong>Pre-render settings</strong>: Background color: <strong>@_jsMapBackgroundColor</strong>
 					Control size: <strong>@(_jsMapControlSize)px</strong>
@@ -204,6 +210,8 @@
 						   MapType="@_jsMapType"
 						   Heading="@_jsHeading"
 						   Tilt="@_jsTilt"
+						   ClickableIcons="@_jsClickableIcons"
+						   DisableDefaultUI="@_jsDisableDefaultUI"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
@@ -351,6 +359,8 @@
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
 	private int _jsHeading = 0;
+	private bool _jsClickableIcons = true;
+	private bool _jsDisableDefaultUI = false;
 
 	private ElementReference _log;
 	private string _mapsLog;

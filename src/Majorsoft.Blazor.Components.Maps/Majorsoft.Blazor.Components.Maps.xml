@@ -290,6 +290,12 @@
             <param name="tilt"></param>
             <returns></returns>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.ResizeMap">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapsService">
             <summary>
             Default implementation of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService"/>
@@ -347,6 +353,18 @@
             <summary>
             Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45.
             45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ClickableIcons">
+            <summary>
+            When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI. 
+            By default map icons are clickable.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DisableDefaultUI">
+            <summary>
+            Enables/disables all default UI buttons. May be overridden individually. 
+            Does not disable the keyboard controls, which are separately controlled.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad">

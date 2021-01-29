@@ -127,7 +127,14 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <returns></returns>
 		Task SetTilt(byte tilt);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		Task ResizeMap();
+
+		Task SetClickableIcons(bool isClickable);
+		Task SetDisableDefaultUI(bool isDisabled);
 
 	}
 
@@ -261,6 +268,18 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("resizeMap", MapContainerId);
+		}
+
+		public async Task SetClickableIcons(bool isClickable)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setClickableIcons", MapContainerId, isClickable);
+		}
+
+		public async Task SetDisableDefaultUI(bool isDisabled)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setDisableDefaultUI", MapContainerId, isDisabled);
 		}
 
 		private async Task CheckJsObjectAsync()

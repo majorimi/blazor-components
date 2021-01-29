@@ -348,6 +348,22 @@ export function setTilt(elementId, tilt) {
 		}
 	}
 }
+export function setClickableIcons(elementId, isClickable) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setClickableIcons(isClickable);
+		}
+	}
+}
+export function setDisableDefaultUI(elementId, isDisabled) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setOptions({ disableDefaultUI: isDisabled});
+		}
+	}
+}
 
 export function resizeMap(elementId) {
 	if (elementId) {

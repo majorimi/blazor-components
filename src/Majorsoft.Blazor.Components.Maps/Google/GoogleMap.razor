@@ -409,6 +409,44 @@
 		}
 	}
 
+	private bool _clickableIcons = true;
+	/// <summary>
+	/// When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI. 
+	/// By default map icons are clickable.
+	/// </summary>
+	[Parameter]
+	public bool ClickableIcons
+	{
+		get => _clickableIcons;
+		set
+		{
+			if (_mapInitialized && value != _clickableIcons)
+			{
+				_clickableIcons = value;
+				InvokeAsync(async () => await _mapService.SetClickableIcons(_clickableIcons));
+			}
+		}
+	}
+
+	private bool _disableDefaultUI = false;
+	/// <summary>
+	/// Enables/disables all default UI buttons. May be overridden individually. 
+	/// Does not disable the keyboard controls, which are separately controlled.
+	/// </summary>
+	[Parameter]
+	public bool DisableDefaultUI
+	{
+		get => _disableDefaultUI;
+		set
+		{
+			if (_mapInitialized && value != _disableDefaultUI)
+			{
+				_disableDefaultUI = value;
+				InvokeAsync(async () => await _mapService.SetDisableDefaultUI(_disableDefaultUI));
+			}
+		}
+	}
+
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
