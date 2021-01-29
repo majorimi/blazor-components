@@ -21,7 +21,10 @@
 	protected override async Task OnInitializedAsync()
 	{
 		{
-			await _mapService.InitMap(ApiKey, _mapContainerId,
+			await _mapService.InitMap(apiKey: ApiKey,
+				mapContainerId: _mapContainerId,
+				backgroundColor: BackgroundColor,
+				controlSize: ControlSize,
 				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
@@ -257,6 +260,16 @@
 		}
 	}
 
+	/// <summary>
+	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans. 
+	/// This option can only be set when the map is initialized.
+	/// </summary>
+	[Parameter] public string BackgroundColor { get; set; }
+	/// <summary>
+	/// Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
+	/// </summary>
+	[Parameter] public int ControlSize { get; set; }
+
 	private byte _zoomLevel = 12;
 	/// <summary>
 	/// Defines the zoom level of the map, which determines the magnification level of the map.
@@ -344,12 +357,13 @@
 	/// <summary>
 	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
 	/// </summary>
-	[Parameter] public GoogleMapTypes MapType
+	[Parameter]
+	public GoogleMapTypes MapType
 	{
 		get => _mapType;
 		set
 		{
-			if(_mapInitialized && _mapType != value)
+			if (_mapInitialized && _mapType != value)
 			{
 				_mapType = value;
 				InvokeAsync(async () => await _mapService.SetMapType(_mapType));
@@ -359,9 +373,10 @@
 
 	private int _heading;
 	/// <summary>
-	/// The heading for aerial imagery in degrees measured clockwise from cardinal direction North. 
+	/// The heading for aerial imagery in degrees measured clockwise from cardinal direction North.
 	/// Headings are snapped to the nearest available angle for which imagery is available.
 	/// </summary>
+	[Parameter]
 	public int Heading
 	{
 		get => _heading;
@@ -377,9 +392,10 @@
 
 	private byte _tilt;
 	/// <summary>
-	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. 
+	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45.
 	/// 45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
 	/// </summary>
+	[Parameter]
 	public byte Tilt
 	{
 		get => _tilt;

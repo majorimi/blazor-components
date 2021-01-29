@@ -52,7 +52,7 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Map zoom level: @(_staticMapZoomLevel)
-				<input type="range" class="w-100" min="0" max="24" @bind="_staticMapZoomLevel" @oninput="(e => _staticMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
+				<input type="range" class="w-100" min="0" max="21" @bind="_staticMapZoomLevel" @oninput="(e => _staticMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -156,7 +156,7 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Map zoom level: @(_jsMapZoomLevel)
-				<input type="range" class="w-100" min="0" max="24" @bind="_jsMapZoomLevel" @oninput="(e => _jsMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
+				<input type="range" class="w-100" min="0" max="21" @bind="_jsMapZoomLevel" @oninput="(e => _jsMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -181,6 +181,14 @@
 				</select>
 			</div>
 		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<p>
+					<strong>Pre-render settings</strong>: Background color: <strong>@_jsMapBackgroundColor</strong>
+					Control size: <strong>@(_jsMapControlSize)px</strong>
+				</p>
+			</div>
+		</div>
 
 		<div class="row pb-2">
 			<div class="col-12">
@@ -189,6 +197,8 @@
 				<GoogleMap @ref="_googleMap"
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
+						   BackgroundColor="@_jsMapBackgroundColor"
+						   ControlSize="@_jsMapControlSize"
 						   Center="@_jsMapCenter"
 						   ZoomLevel="@_jsMapZoomLevel"
 						   MapType="@_jsMapType"
@@ -320,6 +330,8 @@
 	//Javascript Maps
 	private GoogleMap _googleMap;
 	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
+	private string _jsMapBackgroundColor = "lightblue";
+	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 200;

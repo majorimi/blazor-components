@@ -1,9 +1,9 @@
-﻿export function init(key, elementId, dotnetRef) {
+﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize) {
 	if (!key || !elementId || !dotnetRef) {
 		return;
 	}
 
-	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef); //Store maps
+	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize); //Store map info
 
 	let scriptsIncluded = false;
 	let scriptTags = document.querySelectorAll('head > script');
@@ -35,9 +35,13 @@
 window.initGoogleMaps = () => {
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
+		let mapInfo = _mapsElementDict[i].value;
 
 		//Create Map
-		let map = new google.maps.Map(document.getElementById(elementId), {});
+		let map = new google.maps.Map(document.getElementById(elementId), {
+			backgroundColor: mapInfo.bgColor,
+			controlSize: mapInfo.ctrSize
+		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
 
@@ -249,7 +253,7 @@ window.initGoogleMaps = () => {
 };
 
 //Store elementId with .NET Ref
-function storeElementIdWithDotnetRef(dict, elementId, dotnetRef) {
+function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize) {
 	let elementFound = false;
 	for (let i = 0; i < dict.length; i++) {
 		if (dict[i].key === elementId) {
@@ -260,7 +264,7 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef) {
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null }
+			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize }
 		});
 	}
 }

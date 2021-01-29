@@ -20,6 +20,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// </summary>
 		/// <param name="apiKey">Google API Key which has permission for Google JavaScript Maps</param>
 		/// <param name="mapContainerId">HTML Div Id which will contain Google Map</param>
+		/// <param name="backgroundColor">Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans. This option can only be set when the map is initialized.</param>
+		/// <param name="controlSize">Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.</param>
 		/// <param name="mapInitializedCallback">Callback function for Map initialized event</param>
 		/// <param name="mapClickedCallback">Callback function for Map clicked event</param>
 		/// <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
@@ -45,7 +47,10 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
 		/// <returns>Async task</returns>
-		Task InitMap(string apiKey, string mapContainerId,
+		Task InitMap(string apiKey, 
+			string mapContainerId,
+			string backgroundColor = "lightgray",
+			int controlSize = 40,
 			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
@@ -142,8 +147,11 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_jsRuntime = jsRuntime;
 		}
 
-		public async Task InitMap(string apiKey, string mapContainerId,
-			Func<string, Task> mapInitializedCallback,
+		public async Task InitMap(string apiKey,
+			string mapContainerId,
+			string backgroundColor,
+			int controlSize,
+			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
@@ -204,7 +212,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapsEventInfo>(info);
 
-			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference);
+			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize);
 		}
 
 		public async Task SetCenter(double latitude, double longitude)
