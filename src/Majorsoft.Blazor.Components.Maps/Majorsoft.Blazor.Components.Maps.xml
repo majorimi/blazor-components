@@ -170,6 +170,11 @@
             <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
             <param name="mapIdleCallback">Callback function for Map idle event</param>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapsService">
+            <summary>
+            Default implementation of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes">
             <summary>
             The Maps Static API creates maps in several formats
@@ -241,65 +246,83 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.Double,System.Double)">
             <summary>
-            
+            Sets the center point as coordinates of the Map.
             </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
+            <param name="latitude">Latitude component</param>
+            <param name="longitude">Longitude component</param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.String)">
             <summary>
-            
+            Sets the center point as coordinates after Address was resolved to coords of the Map.
             </summary>
-            <param name="address"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetZoom(System.Byte)">
-            <summary>
-            
-            </summary>
-            <param name="zoom"></param>
-            <returns></returns>
+            <param name="address">Address as required center point</param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.PanTo(System.Double,System.Double)">
             <summary>
-            
+            Sets the center point as coordinates of the Map with smooth slide animation.
             </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
+            <param name="latitude">Latitude component</param>
+            <param name="longitude">Longitude component</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.PanTo(System.String)">
+            <summary>
+            Sets the center point as coordinates after Address was resolved to coords of the Map smooth slide animation.
+            </summary>
+            <param name="address">Address as required center point</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetZoom(System.Byte)">
+            <summary>
+            Sets map Zoom level.
+            </summary>
+            <param name="zoom">Required Zoom level should be 0-22</param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetMapType(Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes)">
             <summary>
-            
+            Sets the map type.
             </summary>
-            <param name="googleMapType"></param>
-            <returns></returns>
+            <param name="googleMapType">Required <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes"/></param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetHeading(System.Int32)">
             <summary>
-            
+            Sets the compass heading for aerial imagery measured in degrees from cardinal direction North.
             </summary>
-            <param name="heading"></param>
-            <returns></returns>
+            <param name="heading">Required heading 0-360</param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetTilt(System.Byte)">
             <summary>
-            
+            Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport. 
+            setTilt(45) causes the tilt angle to automatically switch to 45 whenever 45° imagery is available for the current zoom level and viewport, and switch back to 0 whenever 45° imagery is not available (this is the default behavior). 
             </summary>
-            <param name="tilt"></param>
-            <returns></returns>
+            <param name="tilt">Required tilt 0 or 45</param>
+            <returns>Async task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.ResizeMap">
             <summary>
-            
+            Notify Maps JS about container DIV resized.
             </summary>
-            <returns></returns>
+            <returns>Async task</returns>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapsService">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetClickableIcons(System.Boolean)">
             <summary>
-            Default implementation of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService"/>
+            Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI. 
+            To disable the clickability of map icons, pass a value of false to this method.
             </summary>
+            <param name="isClickable">Icons are clickable or not</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetOptions(System.Dynamic.ExpandoObject)">
+            <summary>
+            Sets given options to Map.
+            </summary>
+            <param name="options">Google JavaScript Maps options</param>
+            <returns>Async task</returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>
@@ -308,7 +331,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.BackgroundColor">
             <summary>
-            Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans. 
+            Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
             This option can only be set when the map is initialized.
             </summary>
         </member>
@@ -338,6 +361,11 @@
             Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.AnimateCenterChange">
+            <summary>
+            Apply animation on Maps center change.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapType">
             <summary>
             Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
@@ -357,14 +385,31 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ClickableIcons">
             <summary>
-            When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI. 
+            When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI.
             By default map icons are clickable.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DisableDefaultUI">
             <summary>
-            Enables/disables all default UI buttons. May be overridden individually. 
+            Enables/disables all default UI buttons. May be overridden individually.
             Does not disable the keyboard controls, which are separately controlled.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DisableDoubleClickZoom">
+            <summary>
+            Enables/disables zoom and center on double click. Enabled by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DraggableCursor">
+            <summary>
+            The name or url of the cursor to display when mousing over a draggable map. 
+            This property uses the css cursor attribute to change the icon.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DraggingCursor">
+            <summary>
+            The name or url of the cursor to display when the map is being dragged. 
+            This property uses the css cursor attribute to change the icon.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad">

@@ -261,7 +261,7 @@
 	}
 
 	/// <summary>
-	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans. 
+	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
 	/// This option can only be set when the map is initialized.
 	/// </summary>
 	[Parameter] public string BackgroundColor { get; set; }
@@ -342,16 +342,27 @@
 				{
 					if (Center?.HasCoordinates ?? false)
 					{
-						await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
+						if(AnimateCenterChange)
+							await _mapService.PanTo(Center.Latitude.Value, Center.Longitude.Value);
+						else
+							await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
 					}
 					else if (!string.IsNullOrWhiteSpace(Center?.Address))
 					{
-						await _mapService.SetCenter(Center.Address);
+						if (AnimateCenterChange)
+							await _mapService.PanTo(Center.Address);
+						else
+							await _mapService.SetCenter(Center.Address);
 					}
 				});
 			}
 		}
 	}
+
+	/// <summary>
+	/// Apply animation on Maps center change.
+	/// </summary>
+	[Parameter] public bool AnimateCenterChange { get; set; } = true;
 
 	private GoogleMapTypes _mapType = GoogleMapTypes.Roadmap;
 	/// <summary>
@@ -411,7 +422,7 @@
 
 	private bool _clickableIcons = true;
 	/// <summary>
-	/// When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI. 
+	/// When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI.
 	/// By default map icons are clickable.
 	/// </summary>
 	[Parameter]
@@ -430,7 +441,7 @@
 
 	private bool _disableDefaultUI = false;
 	/// <summary>
-	/// Enables/disables all default UI buttons. May be overridden individually. 
+	/// Enables/disables all default UI buttons. May be overridden individually.
 	/// Does not disable the keyboard controls, which are separately controlled.
 	/// </summary>
 	[Parameter]
@@ -442,7 +453,75 @@
 			if (_mapInitialized && value != _disableDefaultUI)
 			{
 				_disableDefaultUI = value;
-				InvokeAsync(async () => await _mapService.SetDisableDefaultUI(_disableDefaultUI));
+
+				dynamic options = new ExpandoObject();
+				options.disableDefaultUI = _disableDefaultUI;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private bool _disableDoubleClickZoom = false;
+	/// <summary>
+	/// Enables/disables zoom and center on double click. Enabled by default.
+	/// </summary>
+	[Parameter]
+	public bool DisableDoubleClickZoom
+	{
+		get => _disableDoubleClickZoom;
+		set
+		{
+			if (_mapInitialized && value != _disableDoubleClickZoom)
+			{
+				_disableDoubleClickZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.disableDoubleClickZoom = _disableDoubleClickZoom;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private string? _draggableCursor = null;
+	/// <summary>
+	/// The name or url of the cursor to display when mousing over a draggable map. 
+	/// This property uses the css cursor attribute to change the icon.
+	/// </summary>
+	[Parameter]
+	public string? DraggableCursor
+	{
+		get => _draggableCursor;
+		set
+		{
+			if (_mapInitialized && value != _draggableCursor)
+			{
+				_draggableCursor = value;
+
+				dynamic options = new ExpandoObject();
+				options.draggableCursor = _draggableCursor;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private string? _draggingCursor = null;
+	/// <summary>
+	/// The name or url of the cursor to display when the map is being dragged. 
+	/// This property uses the css cursor attribute to change the icon.
+	/// </summary>
+	[Parameter]
+	public string? DraggingCursor
+	{
+		get => _draggingCursor;
+		set
+		{
+			if (_mapInitialized && value != _draggingCursor)
+			{
+				_draggingCursor = value;
+
+				dynamic options = new ExpandoObject();
+				options.draggingCursor = _draggingCursor;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
 			}
 		}
 	}

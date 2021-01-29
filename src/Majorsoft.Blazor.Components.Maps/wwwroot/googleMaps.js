@@ -308,7 +308,7 @@ export function setCenterAddress(elementId, address) {
 		}
 	}
 }
-export function panTo(elementId, latitude, longitude) {
+export function panToCoords(elementId, latitude, longitude) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
@@ -316,6 +316,19 @@ export function panTo(elementId, latitude, longitude) {
 		}
 	}
 }
+export function panToAddress(elementId, address) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			geocodeAddress(address, function (results) {
+				if (results) {
+					mapWithDotnetRef.map.panTo(results[0].geometry.location);
+				}
+			});
+		}
+	}
+}
+
 export function setZoom(elementId, zoom) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -356,11 +369,12 @@ export function setClickableIcons(elementId, isClickable) {
 		}
 	}
 }
-export function setDisableDefaultUI(elementId, isDisabled) {
+
+export function setOptions(elementId, options) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-			mapWithDotnetRef.map.setOptions({ disableDefaultUI: isDisabled});
+			mapWithDotnetRef.map.setOptions(options);
 		}
 	}
 }

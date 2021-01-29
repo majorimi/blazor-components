@@ -1,6 +1,6 @@
-﻿using Microsoft.JSInterop;
-
+﻿
 using System;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Google
@@ -77,233 +77,83 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Task> mapIdleCallback = null);
 
 		/// <summary>
-		/// 
+		/// Sets the center point as coordinates of the Map.
 		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		/// <returns></returns>
+		/// <param name="latitude">Latitude component</param>
+		/// <param name="longitude">Longitude component</param>
+		/// <returns>Async task</returns>
 		Task SetCenter(double latitude, double longitude);
 
 		/// <summary>
-		/// 
+		/// Sets the center point as coordinates after Address was resolved to coords of the Map.
 		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
+		/// <param name="address">Address as required center point</param>
+		/// <returns>Async task</returns>
 		Task SetCenter(string address);
 
 		/// <summary>
-		/// 
+		/// Sets the center point as coordinates of the Map with smooth slide animation.
 		/// </summary>
-		/// <param name="zoom"></param>
-		/// <returns></returns>
-		Task SetZoom(byte zoom);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		/// <returns></returns>
+		/// <param name="latitude">Latitude component</param>
+		/// <param name="longitude">Longitude component</param>
+		/// <returns>Async task</returns>
 		Task PanTo(double latitude, double longitude);
 
 		/// <summary>
-		/// 
+		/// Sets the center point as coordinates after Address was resolved to coords of the Map smooth slide animation.
 		/// </summary>
-		/// <param name="googleMapType"></param>
-		/// <returns></returns>
+		/// <param name="address">Address as required center point</param>
+		/// <returns>Async task</returns>
+		Task PanTo(string address);
+
+		/// <summary>
+		/// Sets map Zoom level.
+		/// </summary>
+		/// <param name="zoom">Required Zoom level should be 0-22</param>
+		/// <returns>Async task</returns>
+		Task SetZoom(byte zoom);
+
+		/// <summary>
+		/// Sets the map type.
+		/// </summary>
+		/// <param name="googleMapType">Required <see cref="GoogleMapTypes"/></param>
+		/// <returns>Async task</returns>
 		Task SetMapType(GoogleMapTypes googleMapType);
 
 		/// <summary>
-		/// 
+		/// Sets the compass heading for aerial imagery measured in degrees from cardinal direction North.
 		/// </summary>
-		/// <param name="heading"></param>
-		/// <returns></returns>
+		/// <param name="heading">Required heading 0-360</param>
+		/// <returns>Async task</returns>
 		Task SetHeading(int heading);
 
 		/// <summary>
-		/// 
+		/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport. 
+		/// setTilt(45) causes the tilt angle to automatically switch to 45 whenever 45° imagery is available for the current zoom level and viewport, and switch back to 0 whenever 45° imagery is not available (this is the default behavior). 
 		/// </summary>
-		/// <param name="tilt"></param>
-		/// <returns></returns>
+		/// <param name="tilt">Required tilt 0 or 45</param>
+		/// <returns>Async task</returns>
 		Task SetTilt(byte tilt);
 
 		/// <summary>
-		/// 
+		/// Notify Maps JS about container DIV resized.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Async task</returns>
 		Task ResizeMap();
 
+		/// <summary>
+		/// Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI. 
+		/// To disable the clickability of map icons, pass a value of false to this method.
+		/// </summary>
+		/// <param name="isClickable">Icons are clickable or not</param>
+		/// <returns>Async task</returns>
 		Task SetClickableIcons(bool isClickable);
-		Task SetDisableDefaultUI(bool isDisabled);
 
-	}
-
-	/// <summary>
-	/// Default implementation of <see cref="IGoogleMapsService"/>
-	/// </summary>
-	public sealed class GoogleMapsService : IGoogleMapsService
-	{
-		private readonly IJSRuntime _jsRuntime;
-		private IJSObjectReference _mapsJs;
-		private DotNetObjectReference<GoogleMapsEventInfo> _dotNetObjectReference;
-
-		public string MapContainerId { get; private set; }
-
-		public GoogleMapsService(IJSRuntime jsRuntime)
-		{
-			_jsRuntime = jsRuntime;
-		}
-
-		public async Task InitMap(string apiKey,
-			string mapContainerId,
-			string backgroundColor,
-			int controlSize,
-			Func<string, Task> mapInitializedCallback = null,
-			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
-			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
-			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
-			Func<Task> mapMouseOverCallback = null,
-			Func<Task> mapMouseOutCallback = null,
-			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
-			Func<byte, Task> mapZoomChangedCallback = null,
-			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
-			Func<int, Task> mapHeadingChangedCallback = null,
-			Func<byte, Task> mapTiltChangedCallback = null,
-			Func<Task> mapBoundsChangedCallback = null,
-			Func<Task> mapProjectionChangedCallback = null,
-			Func<Task> mapDraggableChangedCallback = null,
-			Func<Task> mapStreetviewChangedCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragEndCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragStartCallback = null,
-			Func<Rect, Task> mapResizedCallback = null,
-			Func<Task> mapTilesLoadedCallback = null,
-			Func<Task> mapIdleCallback = null)
-		{
-			if(MapContainerId == mapContainerId)
-			{
-				return; //Prevent double init...
-			}
-
-			MapContainerId = mapContainerId;
-			await CheckJsObjectAsync();
-
-			var info = new GoogleMapsEventInfo(mapContainerId, 
-				mapInitializedCallback: mapInitializedCallback,
-				mapClickedCallback: mapClickedCallback,
-				mapDoubleClickedCallback: mapDoubleClickedCallback,
-				mapContextMenuCallback: mapContextMenuCallback,
-				mapMouseUpCallback: mapMouseUpCallback,
-				mapMouseDownCallback: mapMouseDownCallback,
-				mapMouseMoveCallback: mapMouseMoveCallback,
-				mapMouseOverCallback: mapMouseOverCallback,
-				mapMouseOutCallback: mapMouseOutCallback,
-				mapCenterChangedCallback: mapCenterChangedCallback,
-				mapZoomChangedCallback: mapZoomChangedCallback,
-				mapTypeChangedCallback: mapTypeChangedCallback,
-				mapHeadingChangedCallback: mapHeadingChangedCallback,
-				mapTiltChangedCallback: mapTiltChangedCallback,
-				mapBoundsChangedCallback: mapBoundsChangedCallback,
-				mapProjectionChangedCallback: mapProjectionChangedCallback,
-				mapDraggableChangedCallback: mapDraggableChangedCallback,
-				mapStreetviewChangedCallback: mapStreetviewChangedCallback,
-				mapDragCallback: mapDragCallback,
-				mapDragEndCallback: mapDragEndCallback,
-				mapDragStartCallback: mapDragStartCallback,
-				mapResizedCallback: mapResizedCallback,
-				mapTilesLoadedCallback: mapTilesLoadedCallback,
-				mapIdleCallback: mapIdleCallback);
-
-			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapsEventInfo>(info);
-
-			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize);
-		}
-
-		public async Task SetCenter(double latitude, double longitude)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setCenterCoords", MapContainerId, latitude, longitude);
-		}
-
-		public async Task SetCenter(string address)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setCenterAddress", MapContainerId, address);
-		}
-
-		public async Task SetZoom(byte zoom)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setZoom", MapContainerId, zoom);
-		}
-
-		public async Task PanTo(double latitude, double longitude)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("panTo", MapContainerId, latitude, longitude);
-		}
-
-		public async Task SetMapType(GoogleMapTypes googleMapType)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setMapType", MapContainerId, googleMapType.ToString().ToLower());
-		}
-
-		public async Task SetHeading(int heading)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setHeading", MapContainerId, heading);
-		}
-
-		public async Task SetTilt(byte tilt)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setTilt", MapContainerId, tilt);
-		}
-
-		public async Task ResizeMap()
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("resizeMap", MapContainerId);
-		}
-
-		public async Task SetClickableIcons(bool isClickable)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setClickableIcons", MapContainerId, isClickable);
-		}
-
-		public async Task SetDisableDefaultUI(bool isDisabled)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setDisableDefaultUI", MapContainerId, isDisabled);
-		}
-
-		private async Task CheckJsObjectAsync()
-		{
-			if (_mapsJs is null)
-			{
-#if DEBUG
-				_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.js");
-#else
-				_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.min.js");
-#endif
-			}
-		}
-
-		public async ValueTask DisposeAsync()
-		{
-			if (_mapsJs is not null)
-			{
-				await _mapsJs.InvokeVoidAsync("dispose", MapContainerId);
-
-				await _mapsJs.DisposeAsync();
-			}
-
-			_dotNetObjectReference?.Dispose();
-		}
+		/// <summary>
+		/// Sets given options to Map.
+		/// </summary>
+		/// <param name="options">Google JavaScript Maps options</param>
+		/// <returns>Async task</returns>
+		Task SetOptions(ExpandoObject options);
 	}
 }

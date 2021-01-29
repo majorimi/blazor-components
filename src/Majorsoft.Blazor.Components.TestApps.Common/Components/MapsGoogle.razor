@@ -185,6 +185,8 @@
 			<div class="col-12 col-lg-8 col-xl-6">
 				ClickableIcons: <input class="mr-2" type="checkbox" @bind="_jsClickableIcons" />
 				DisableDefaultUI: <input class="mr-2" type="checkbox" @bind="_jsDisableDefaultUI" />
+				DisableDoubleClickZoom: <input class="mr-2" type="checkbox" @bind="_jsDisableDoubleClickZoom" />
+				AnimateCenterChange <input class="mr-2" type="checkbox" @bind="_jsMapAnimateCenterChange" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -206,12 +208,16 @@
 						   BackgroundColor="@_jsMapBackgroundColor"
 						   ControlSize="@_jsMapControlSize"
 						   Center="@_jsMapCenter"
+						   AnimateCenterChange="@_jsMapAnimateCenterChange"
 						   ZoomLevel="@_jsMapZoomLevel"
 						   MapType="@_jsMapType"
 						   Heading="@_jsHeading"
 						   Tilt="@_jsTilt"
 						   ClickableIcons="@_jsClickableIcons"
 						   DisableDefaultUI="@_jsDisableDefaultUI"
+						   DisableDoubleClickZoom="@_jsDisableDoubleClickZoom"
+						   DraggableCursor="crosshair"
+						   DraggingCursor="move"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
@@ -359,8 +365,10 @@
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
 	private int _jsHeading = 0;
+	private bool _jsMapAnimateCenterChange = true;
 	private bool _jsClickableIcons = true;
 	private bool _jsDisableDefaultUI = false;
+	private bool _jsDisableDoubleClickZoom = false;
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -381,6 +389,7 @@
 		{
 			_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}");
 		}
+		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
 	}
 	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
 	{
