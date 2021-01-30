@@ -183,16 +183,29 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
+				Maps Gesture Handling Types: <select class="form-control selectpicker w-100" @bind="_jsGestureHandling">
+					@foreach (var item in Enum.GetValues(typeof(GoogleMapGestureHandlingTypes)))
+					{
+						<option value="@item">@item</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
 				ClickableIcons: <input class="mr-2" type="checkbox" @bind="_jsClickableIcons" />
 				DisableDefaultUI: <input class="mr-2" type="checkbox" @bind="_jsDisableDefaultUI" />
 				DisableDoubleClickZoom: <input class="mr-2" type="checkbox" @bind="_jsDisableDoubleClickZoom" />
 				AnimateCenterChange <input class="mr-2" type="checkbox" @bind="_jsMapAnimateCenterChange" />
+				FullscreenControl: <input class="mr-2" type="checkbox" @bind="_jsFullscreenControl" />
+				KeyboardShortcuts: <input class="mr-2" type="checkbox" @bind="_jsKeyboardShortcuts" />
+				MapTypeControl: <input class="mr-2" type="checkbox" @bind="_jsMapTypeControl" />
 			</div>
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<p>
-					<strong>Pre-render settings</strong>: Background color: <strong>@_jsMapBackgroundColor</strong>
+					<strong>Maps Pre-render settings</strong>: Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong>
 					Control size: <strong>@(_jsMapControlSize)px</strong>
 				</p>
 			</div>
@@ -218,6 +231,12 @@
 						   DisableDoubleClickZoom="@_jsDisableDoubleClickZoom"
 						   DraggableCursor="crosshair"
 						   DraggingCursor="move"
+						   FullscreenControl="@_jsFullscreenControl"
+						   FullscreenControlPositon="@_jsFullscreenControlPositon"
+						   GestureHandling="@_jsGestureHandling"
+						   KeyboardShortcuts="@_jsKeyboardShortcuts"
+						   MapTypeControl="@_jsMapTypeControl"
+						   MapTypeControlOptions="@_jsMapTypeControlOptions"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
@@ -285,6 +304,11 @@
 		_staticMapMarkers.ElementAt(2).Locations.Add(new GeolocationData("New York"));
 		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
 		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
+
+		_jsMapTypeControlOptions.ResetMapTypes(GoogleMapTypes.Roadmap, 
+			GoogleMapTypes.Satellite, 
+			GoogleMapTypes.Terrain, 
+			GoogleMapTypes.Hybrid);
 	}
 
 	//Static Maps
@@ -360,7 +384,7 @@
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
 	private int _jsMapWidth = 450;
-	private int _jsMapHeight = 200;
+	private int _jsMapHeight = 250;
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
@@ -369,6 +393,15 @@
 	private bool _jsClickableIcons = true;
 	private bool _jsDisableDefaultUI = false;
 	private bool _jsDisableDoubleClickZoom = false;
+	private bool _jsFullscreenControl = true;
+	private GoogleMapControlPositions _jsFullscreenControlPositon = GoogleMapControlPositions.TOP_RIGHT;
+	private GoogleMapGestureHandlingTypes _jsGestureHandling = GoogleMapGestureHandlingTypes.Auto;
+	private bool _jsKeyboardShortcuts = true;
+	private bool _jsMapTypeControl = true;
+	private GoogleMapTypeControlOptions _jsMapTypeControlOptions = new GoogleMapTypeControlOptions()
+	{
+		MapTypeControlStyle = GoogleMapTypeControlStyles.DROPDOWN_MENU,
+	};
 
 	private ElementReference _log;
 	private string _mapsLog;

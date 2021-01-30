@@ -40,7 +40,7 @@ window.initGoogleMaps = () => {
 		//Create Map
 		let map = new google.maps.Map(document.getElementById(elementId), {
 			backgroundColor: mapInfo.bgColor,
-			controlSize: mapInfo.ctrSize
+			controlSize: mapInfo.ctrSize,
 		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;

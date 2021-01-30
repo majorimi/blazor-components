@@ -6,7 +6,7 @@
 
 @inject ILogger<GoogleStaticMap> _logger
 @inject IGeolocationService _geolocationService
-@inject IGoogleMapsService _mapService
+@inject IGoogleMapService _mapService
 
 @code {
 	private string _mapContainerId = $"map_{Guid.NewGuid().ToString("n")}";
@@ -260,6 +260,7 @@
 		}
 	}
 
+	//Settings only for initialization time.
 	/// <summary>
 	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
 	/// This option can only be set when the map is initialized.
@@ -381,6 +382,34 @@
 			}
 		}
 	}
+
+	private GoogleMapTypeControlOptions _mapTypeControlOptions = new GoogleMapTypeControlOptions();
+	/// <summary>
+	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+	/// </summary>
+	[Parameter]
+	public GoogleMapTypeControlOptions MapTypeControlOptions
+	{
+		get => _mapTypeControlOptions;
+		set
+		{
+			if (_mapInitialized && _mapTypeControlOptions != value)
+			{
+				_mapTypeControlOptions = value;
+
+				dynamic options = new ExpandoObject();
+				options.mapTypeControlOptions = new
+				{
+					mapTypeIds = _mapTypeControlOptions?.MapTypeIds?.Select(s => s.ToString().ToLower()).ToArray(),
+					position = _mapTypeControlOptions?.Position,
+					style = _mapTypeControlOptions?.MapTypeControlStyle
+				};
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+
 
 	private int _heading;
 	/// <summary>
@@ -525,6 +554,112 @@
 			}
 		}
 	}
+
+	private bool _fullscreenControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Fullscreen control.
+	/// </summary>
+	[Parameter]
+	public bool FullscreenControl
+	{
+		get => _fullscreenControl;
+		set
+		{
+			if (_mapInitialized && value != _fullscreenControl)
+			{
+				_fullscreenControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.fullscreenControl = _fullscreenControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _fullscreenControlPosition = GoogleMapControlPositions.TOP_RIGHT;
+	/// <summary>
+	/// The display options for the Fullscreen control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions FullscreenControlPositon
+	{
+		get => _fullscreenControlPosition;
+		set
+		{
+			if (_mapInitialized && value != _fullscreenControlPosition)
+			{
+				_fullscreenControlPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.fullscreenControlOptions = new { position = _fullscreenControlPosition };
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapGestureHandlingTypes _gestureHandling = GoogleMapGestureHandlingTypes.Auto;
+	/// <summary>
+	/// This setting controls how the API handles gestures on the map.
+	/// </summary>
+	[Parameter]
+	public GoogleMapGestureHandlingTypes GestureHandling
+	{
+		get => _gestureHandling;
+		set
+		{
+			if (_mapInitialized && value != _gestureHandling)
+			{
+				_gestureHandling = value;
+
+				dynamic options = new ExpandoObject();
+				options.gestureHandling = _gestureHandling.ToString().ToLower();
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private bool _keyboardShortcuts = true;
+	/// <summary>
+	/// If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are enabled by default.
+	/// </summary>
+	[Parameter]
+	public bool KeyboardShortcuts
+	{
+		get => _keyboardShortcuts;
+		set
+		{
+			if (_mapInitialized && value != _keyboardShortcuts)
+			{
+				_keyboardShortcuts = value;
+
+				dynamic options = new ExpandoObject();
+				options.keyboardShortcuts = _keyboardShortcuts;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private bool _mapTypeControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Map type control.
+	/// </summary>
+	[Parameter]
+	public bool MapTypeControl
+	{
+		get => _mapTypeControl;
+		set
+		{
+			if (_mapInitialized && value != _mapTypeControl)
+			{
+				_mapTypeControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.mapTypeControl = _mapTypeControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
 
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.

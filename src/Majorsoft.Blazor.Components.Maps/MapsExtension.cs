@@ -22,7 +22,7 @@ namespace Majorsoft.Blazor.Components.Maps
 				throw new ArgumentNullException(nameof(services));
 			}
 
-			services.AddTransient<IGoogleMapsService, GoogleMapsService>();
+			services.AddTransient<IGoogleMapService, GoogleMapService>();
 
 			return services;
 		}

@@ -8,7 +8,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	/// <summary>
 	/// GoogleMapsEventInfo event <see cref="DotNetObjectReference"/> info to handle Google Maps event callbacks
 	/// </summary>
-	internal sealed class GoogleMapsEventInfo
+	internal sealed class GoogleMapEventInfo
 	{
 		private readonly string _mapContainerId;
 		private readonly Func<string, Task> _mapInitializedCallback;
@@ -64,7 +64,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapResizedCallback">Callback function for Map resized event</param>
 		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
-		public GoogleMapsEventInfo(string mapContainerId, 
+		public GoogleMapEventInfo(string mapContainerId, 
 			Func<string, Task> mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,

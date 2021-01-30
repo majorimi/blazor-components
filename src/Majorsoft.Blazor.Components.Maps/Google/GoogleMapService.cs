@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 namespace Majorsoft.Blazor.Components.Maps.Google
 {
 	/// <summary>
-	/// Default implementation of <see cref="IGoogleMapsService"/>
+	/// Default implementation of <see cref="IGoogleMapService"/>
 	/// </summary>
-	public sealed class GoogleMapsService : IGoogleMapsService
+	public sealed class GoogleMapService : IGoogleMapService
 	{
 		private readonly IJSRuntime _jsRuntime;
 		private IJSObjectReference _mapsJs;
-		private DotNetObjectReference<GoogleMapsEventInfo> _dotNetObjectReference;
+		private DotNetObjectReference<GoogleMapEventInfo> _dotNetObjectReference;
 
 		public string MapContainerId { get; private set; }
 
-		public GoogleMapsService(IJSRuntime jsRuntime)
+		public GoogleMapService(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
 		}
@@ -59,7 +59,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			MapContainerId = mapContainerId;
 			await CheckJsObjectAsync();
 
-			var info = new GoogleMapsEventInfo(mapContainerId, 
+			var info = new GoogleMapEventInfo(mapContainerId, 
 				mapInitializedCallback: mapInitializedCallback,
 				mapClickedCallback: mapClickedCallback,
 				mapDoubleClickedCallback: mapDoubleClickedCallback,
@@ -85,7 +85,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				mapTilesLoadedCallback: mapTilesLoadedCallback,
 				mapIdleCallback: mapIdleCallback);
 
-			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapsEventInfo>(info);
+			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapEventInfo>(info);
 
 			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize);
 		}

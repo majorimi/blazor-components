@@ -8,7 +8,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	/// <summary>
 	/// Injectable service to handle Google JavaScript Maps functionalities.
 	/// </summary>
-	public interface IGoogleMapsService : IAsyncDisposable
+	public interface IGoogleMapService : IAsyncDisposable
 	{
 		/// <summary>
 		/// HTML Div Id which was set when Maps initialized with <see cref="InitMap"/> method.
