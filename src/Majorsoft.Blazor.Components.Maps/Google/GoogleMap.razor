@@ -276,7 +276,7 @@
 	/// Defines the zoom level of the map, which determines the magnification level of the map.
 	/// </summary>
 	[Parameter]
-	public byte ZoomLevel
+	public byte Zoom
 	{
 		get => _zoomLevel;
 		set
@@ -284,7 +284,93 @@
 			if (_mapInitialized && value != _zoomLevel)
 			{
 				_zoomLevel = value;
-				InvokeAsync(async () => await _mapService.SetZoom(ZoomLevel));
+				InvokeAsync(async () => await _mapService.SetZoom(_zoomLevel));
+			}
+		}
+	}
+
+	private bool _zoomControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Zoom control.
+	/// </summary>
+	[Parameter]
+	public bool ZoomControl
+	{
+		get => _zoomControl;
+		set
+		{
+			if (_mapInitialized && value != _zoomControl)
+			{
+				_zoomControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.zoomControl = _zoomControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _zoomControlOptionsPosition = GoogleMapControlPositions.BOTTOM_RIGHT;
+	/// <summary>
+	/// The display options for the Zoom control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions ZoomControlOptionsPosition
+	{
+		get => _zoomControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _zoomControlOptionsPosition)
+			{
+				_zoomControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.zoomControlOptions = new { position = _zoomControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private byte? _maxZoom = null;
+	/// <summary>
+	/// The maximum zoom level which will be displayed on the map. If omitted, or set to null, 
+	/// the maximum zoom from the current map type is used instead. 
+	/// </summary>
+	[Parameter]
+	public byte? MaxZoom
+	{
+		get => _maxZoom;
+		set
+		{
+			if (_mapInitialized && value != _maxZoom)
+			{
+				_maxZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.maxZoom = _maxZoom;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private byte? _minZoom = null;
+	/// <summary>
+	/// The minimum zoom level which will be displayed on the map. If omitted, or set to null, 
+	/// the minimum zoom from the current map type is used instead.
+	/// </summary>
+	[Parameter]
+	public byte? MinZoom
+	{
+		get => _minZoom;
+		set
+		{
+			if (_mapInitialized && value != _minZoom)
+			{
+				_minZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.minZoom = _minZoom;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
 			}
 		}
 	}
@@ -408,8 +494,6 @@
 			}
 		}
 	}
-
-
 
 	private int _heading;
 	/// <summary>
@@ -660,6 +744,111 @@
 		}
 	}
 
+	private bool _rotateControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Rotate control.
+	/// </summary>
+	[Parameter]
+	public bool RotateControl
+	{
+		get => _rotateControl;
+		set
+		{
+			if (_mapInitialized && value != _rotateControl)
+			{
+				_rotateControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControl = _rotateControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _rotateControlOptionsPosition = GoogleMapControlPositions.TOP_RIGHT;
+	/// <summary>
+	/// The display options for the Rotate control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions RotateControlOptionsPosition
+	{
+		get => _rotateControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _rotateControlOptionsPosition)
+			{
+				_rotateControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControlOptions = new { position = _rotateControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private bool _scaleControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Scale control.
+	/// </summary>
+	[Parameter]
+	public bool ScaleControl
+	{
+		get => _scaleControl;
+		set
+		{
+			if (_mapInitialized && value != _scaleControl)
+			{
+				_scaleControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControl = _scaleControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private bool _streetViewControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI, 
+	/// and should be set to false when displaying a map type on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+	/// </summary>
+	[Parameter]
+	public bool StreetViewControl
+	{
+		get => _streetViewControl;
+		set
+		{
+			if (_mapInitialized && value != _streetViewControl)
+			{
+				_streetViewControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.streetViewControl = _streetViewControl;
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _streetViewControlOptionsPosition = GoogleMapControlPositions.RIGHT_CENTER;
+	/// <summary>
+	/// The initial display options for the Street View Pegman control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions StreetViewControlOptionsPosition
+	{
+		get => _streetViewControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _streetViewControlOptionsPosition)
+			{
+				_streetViewControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.streetViewControlOptions = new { position = _streetViewControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
 
 	/// <summary>
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.

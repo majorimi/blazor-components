@@ -490,9 +490,31 @@
             Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomLevel">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
             <summary>
             Defines the zoom level of the map, which determines the magnification level of the map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomControl">
+            <summary>
+            The enabled/disabled state of the Zoom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomControlOptionsPosition">
+            <summary>
+            The display options for the Zoom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MaxZoom">
+            <summary>
+            The maximum zoom level which will be displayed on the map. If omitted, or set to null, 
+            the maximum zoom from the current map type is used instead. 
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MinZoom">
+            <summary>
+            The minimum zoom level which will be displayed on the map. If omitted, or set to null, 
+            the minimum zoom from the current map type is used instead.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Width">
@@ -590,6 +612,32 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapTypeControl">
             <summary>
             The initial enabled/disabled state of the Map type control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.RotateControl">
+            <summary>
+            The enabled/disabled state of the Rotate control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.RotateControlOptionsPosition">
+            <summary>
+            The display options for the Rotate control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ScaleControl">
+            <summary>
+            The initial enabled/disabled state of the Scale control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.StreetViewControl">
+            <summary>
+            The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI, 
+            and should be set to false when displaying a map type on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.StreetViewControlOptionsPosition">
+            <summary>
+            The initial display options for the Street View Pegman control.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad">

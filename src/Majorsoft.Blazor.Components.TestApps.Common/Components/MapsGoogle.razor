@@ -200,6 +200,10 @@
 				FullscreenControl: <input class="mr-2" type="checkbox" @bind="_jsFullscreenControl" />
 				KeyboardShortcuts: <input class="mr-2" type="checkbox" @bind="_jsKeyboardShortcuts" />
 				MapTypeControl: <input class="mr-2" type="checkbox" @bind="_jsMapTypeControl" />
+				RotateControl: <input class="mr-2" type="checkbox" @bind="_jsRotateControl" />
+				ScaleControl: <input class="mr-2" type="checkbox" @bind="_jsScaleControl" />
+				StreetViewControl: <input class="mr-2" type="checkbox" @bind="_jsStreetViewControl" />
+				ZoomControl: <input class="mr-2" type="checkbox" @bind="_jsZoomControl" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -222,10 +226,19 @@
 						   ControlSize="@_jsMapControlSize"
 						   Center="@_jsMapCenter"
 						   AnimateCenterChange="@_jsMapAnimateCenterChange"
-						   ZoomLevel="@_jsMapZoomLevel"
+						   Zoom="@_jsMapZoomLevel"
+						   ZoomControl="@_jsZoomControl"
+						   ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
+						   MaxZoom="null"
+						   MinZoom="null"
 						   MapType="@_jsMapType"
 						   Heading="@_jsHeading"
 						   Tilt="@_jsTilt"
+						   RotateControl="@_jsRotateControl"
+						   RotateControlOptionsPosition="GoogleMapControlPositions.RIGHT_TOP"
+						   ScaleControl="@_jsScaleControl"
+						   StreetViewControl="@_jsStreetViewControl"
+						   StreetViewControlOptionsPosition="GoogleMapControlPositions.TOP_CENTER"
 						   ClickableIcons="@_jsClickableIcons"
 						   DisableDefaultUI="@_jsDisableDefaultUI"
 						   DisableDoubleClickZoom="@_jsDisableDoubleClickZoom"
@@ -305,9 +318,9 @@
 		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
 		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
 
-		_jsMapTypeControlOptions.ResetMapTypes(GoogleMapTypes.Roadmap, 
-			GoogleMapTypes.Satellite, 
-			GoogleMapTypes.Terrain, 
+		_jsMapTypeControlOptions.ResetMapTypes(GoogleMapTypes.Roadmap,
+			GoogleMapTypes.Satellite,
+			GoogleMapTypes.Terrain,
 			GoogleMapTypes.Hybrid);
 	}
 
@@ -402,6 +415,10 @@
 	{
 		MapTypeControlStyle = GoogleMapTypeControlStyles.DROPDOWN_MENU,
 	};
+	private bool _jsRotateControl = true;
+	private bool _jsScaleControl = true;
+	private bool _jsStreetViewControl = true;
+	private bool _jsZoomControl = true;
 
 	private ElementReference _log;
 	private string _mapsLog;
