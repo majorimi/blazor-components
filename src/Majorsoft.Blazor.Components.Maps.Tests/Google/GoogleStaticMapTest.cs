@@ -193,10 +193,10 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
 				.Add(p => p.Center, new GeolocationData(1.1, 2.2)));
 
-			foreach (var item in Enum.GetValues(typeof(GoogleMapImageFormats)))
+			foreach (var item in Enum.GetValues(typeof(GoogleStaticMapImageFormats)))
 			{
 				rendered.SetParametersAndRender(parameters => parameters
-					.Add(p => p.ImageFormat, (GoogleMapImageFormats)item));
+					.Add(p => p.ImageFormat, (GoogleStaticMapImageFormats)item));
 
 				var map = rendered.Find("img");
 
@@ -310,7 +310,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
 				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
-				.Add(p => p.Markers, new List<GoogleMapMarker>()));
+				.Add(p => p.Markers, new List<GoogleStaticMapMarker>()));
 
 			var map = rendered.Find("img");
 
@@ -321,22 +321,22 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleStaticMap_should_render_markers()
 		{
-			var markers = new List<GoogleMapMarker>()
+			var markers = new List<GoogleStaticMapMarker>()
 			{
-				{ new GoogleMapMarker() },
-				{ new GoogleMapMarker()
+				{ new GoogleStaticMapMarker() },
+				{ new GoogleStaticMapMarker()
 					{
 						CustomIcon = new GoogleMapMarkerCustomIcon()
 						{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "http://test.com" }
 					}
 				},
-				{ new GoogleMapMarker()
+				{ new GoogleStaticMapMarker()
 					{
 						Style = new GoogleMapMarkerStyle()
 						{ Color = "red", Label = 'A' }
 					}
 				},
-				{ new GoogleMapMarker()
+				{ new GoogleStaticMapMarker()
 					{
 						Style = new GoogleMapMarkerStyle()
 						{ Color = "0xFFAABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }

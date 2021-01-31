@@ -10,7 +10,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_null()
 		{
-			var marker = new GoogleMapMarker();
+			var marker = new GoogleStaticMapMarker();
 
 			Assert.IsNotNull(marker.ToString());
 			Assert.IsNotNull(marker.Locations);
@@ -20,7 +20,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_empty_styles()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = new GoogleMapMarkerCustomIcon(),
 				Style = new GoogleMapMarkerStyle()
@@ -33,7 +33,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_null_locations()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = new GoogleMapMarkerCustomIcon(),
 				Style = new GoogleMapMarkerStyle()
@@ -48,7 +48,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_empty_locations()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = new GoogleMapMarkerCustomIcon(),
 				Style = new GoogleMapMarkerStyle()
@@ -63,7 +63,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_location_with_no_styling()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = null,
 				Style = null
@@ -78,7 +78,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_locations_with_no_styling()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = new GoogleMapMarkerCustomIcon(),
 				Style = new GoogleMapMarkerStyle()
@@ -94,7 +94,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_locations_with_style()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				Style = new GoogleMapMarkerStyle()
 				{
@@ -115,7 +115,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_locations_with_customIcon()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				CustomIcon = new GoogleMapMarkerCustomIcon()
 				{
@@ -134,7 +134,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleMapMarker_should_handle_locations_with_style_overriden()
 		{
-			var marker = new GoogleMapMarker()
+			var marker = new GoogleStaticMapMarker()
 			{
 				Style = new GoogleMapMarkerStyle()
 				{

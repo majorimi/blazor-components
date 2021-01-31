@@ -175,41 +175,6 @@
             The map cannot be panned or zoomed by user gestures.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapImageFormats">
-            <summary>
-            Google maps images may be returned in several common web graphics formats
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
-            <summary>
-            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style">
-            <summary>
-            Set of marker style descriptors.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.CustomIcon">
-            <summary>
-            Override default markers and <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style"/> with your own custom icons instead.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Locations">
-            <summary>
-            Each marker descriptor must contain a set of one or more locations defining where to place the marker on the map.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.HasStyleDefined">
-            <summary>
-            Checks if any marker style was defined in <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style"/> or <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.CustomIcon"/> properties.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
             <summary>
             Rather than use Google's marker icons, you are free to use your own custom icons instead.
@@ -374,6 +339,41 @@
         <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes.Hybrid">
             <summary>
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapImageFormats">
+            <summary>
+            Google maps images may be returned in several common web graphics formats
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker">
+            <summary>
+            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style">
+            <summary>
+            Set of marker style descriptors.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.CustomIcon">
+            <summary>
+            Override default markers and <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style"/> with your own custom icons instead.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Locations">
+            <summary>
+            Each marker descriptor must contain a set of one or more locations defining where to place the marker on the map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.HasStyleDefined">
+            <summary>
+            Checks if any marker style was defined in <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style"/> or <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.CustomIcon"/> properties.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService">

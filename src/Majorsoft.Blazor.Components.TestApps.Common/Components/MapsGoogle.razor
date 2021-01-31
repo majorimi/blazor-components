@@ -80,7 +80,7 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Maps Image format:  <select class="form-control selectpicker w-100" @bind="_staticMapImageFormat">
-					@foreach (var item in Enum.GetValues(typeof(GoogleMapImageFormats)))
+					@foreach (var item in Enum.GetValues(typeof(GoogleStaticMapImageFormats)))
 					{
 						<option value="@item">@item</option>
 					}
@@ -332,7 +332,7 @@
 	private int _staticMapHeight = 200;
 	private bool _staticMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _staticMapType = GoogleMapTypes.Roadmap;
-	private GoogleMapImageFormats _staticMapImageFormat = GoogleMapImageFormats.Png;
+	private GoogleStaticMapImageFormats _staticMapImageFormat = GoogleStaticMapImageFormats.Png;
 	private bool _staticMapHighResolution = false;
 
 	private bool _staticMapShowPath = false;
@@ -348,22 +348,22 @@
 			{ new GeolocationData("London")}
 		};
 	private bool _staticMapShowMarkers = false;
-	private IEnumerable<GoogleMapMarker> _staticMapMarkers = new List<GoogleMapMarker>()
+	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
 {
-			{ new GoogleMapMarker() },
-			{ new GoogleMapMarker()
+			{ new GoogleStaticMapMarker() },
+			{ new GoogleStaticMapMarker()
 				{
 					CustomIcon = new GoogleMapMarkerCustomIcon()
 					{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "https://www.google.com/favicon.ico" }
 				}
 			},
-			{ new GoogleMapMarker()
+			{ new GoogleStaticMapMarker()
 				{
 					Style = new GoogleMapMarkerStyle()
 					{ Color = "green", Label = 'A' }
 				}
 			},
-			{ new GoogleMapMarker()
+			{ new GoogleStaticMapMarker()
 				{
 					Style = new GoogleMapMarkerStyle()
 					{ Color = "0x11AABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }

@@ -6,7 +6,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	/// <summary>
 	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations.
 	/// </summary>
-	public sealed class GoogleMapMarker
+	public sealed class GoogleStaticMapMarker
 	{
 		/// <summary>
 		/// Set of marker style descriptors.
@@ -31,7 +31,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Default constructor
 		/// </summary>
-		public GoogleMapMarker()
+		public GoogleStaticMapMarker()
 		{
 			Locations = new List<GeolocationData>();
 		}

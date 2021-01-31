@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Google maps images may be returned in several common web graphics formats
 	/// </summary>
-	public enum GoogleMapImageFormats
+	public enum GoogleStaticMapImageFormats
 	{
 		Png = 0,
 		Png8 = 1,
