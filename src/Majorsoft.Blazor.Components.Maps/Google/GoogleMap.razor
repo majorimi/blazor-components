@@ -36,7 +36,7 @@
 					_mapInitialized = true;
 					StateHasChanged(); //Must reset all parameter values in JS after Maps initialized
 
-					if (OnMapInitialized.HasDelegate)
+				if (OnMapInitialized.HasDelegate)
 					{
 						await OnMapInitialized.InvokeAsync(_mapContainerId);
 					}
@@ -333,8 +333,8 @@
 
 	private byte? _maxZoom = null;
 	/// <summary>
-	/// The maximum zoom level which will be displayed on the map. If omitted, or set to null, 
-	/// the maximum zoom from the current map type is used instead. 
+	/// The maximum zoom level which will be displayed on the map. If omitted, or set to null,
+	/// the maximum zoom from the current map type is used instead.
 	/// </summary>
 	[Parameter]
 	public byte? MaxZoom
@@ -355,7 +355,7 @@
 
 	private byte? _minZoom = null;
 	/// <summary>
-	/// The minimum zoom level which will be displayed on the map. If omitted, or set to null, 
+	/// The minimum zoom level which will be displayed on the map. If omitted, or set to null,
 	/// the minimum zoom from the current map type is used instead.
 	/// </summary>
 	[Parameter]
@@ -429,7 +429,7 @@
 				{
 					if (Center?.HasCoordinates ?? false)
 					{
-						if(AnimateCenterChange)
+						if (AnimateCenterChange)
 							await _mapService.PanTo(Center.Latitude.Value, Center.Longitude.Value);
 						else
 							await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
@@ -597,7 +597,7 @@
 
 	private string? _draggableCursor = null;
 	/// <summary>
-	/// The name or url of the cursor to display when mousing over a draggable map. 
+	/// The name or url of the cursor to display when mousing over a draggable map.
 	/// This property uses the css cursor attribute to change the icon.
 	/// </summary>
 	[Parameter]
@@ -619,7 +619,7 @@
 
 	private string? _draggingCursor = null;
 	/// <summary>
-	/// The name or url of the cursor to display when the map is being dragged. 
+	/// The name or url of the cursor to display when the map is being dragged.
 	/// This property uses the css cursor attribute to change the icon.
 	/// </summary>
 	[Parameter]
@@ -809,7 +809,7 @@
 
 	private bool _streetViewControl = true;
 	/// <summary>
-	/// The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI, 
+	/// The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI,
 	/// and should be set to false when displaying a map type on which the Street View road overlay should not appear (e.g. a non-Earth map type).
 	/// </summary>
 	[Parameter]
@@ -845,6 +845,36 @@
 
 				dynamic options = new ExpandoObject();
 				options.streetViewControlOptions = new { position = _streetViewControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptions(options));
+			}
+		}
+	}
+
+	private GoogleMapTypeCustomStyle[]? _styles = null;
+	/// <summary>
+	/// Styles to apply to each of the default map types. Note that for satellite/hybrid and terrain modes,
+	/// these styles will only apply to labels and geometry.
+	/// </summary>
+	[Parameter]
+	public GoogleMapTypeCustomStyle[]? Styles
+	{
+		get => _styles;
+		set
+		{
+			if (_mapInitialized && value != _styles)
+			{
+				_styles = value;
+
+				dynamic options = new ExpandoObject();
+				options.styles = _styles?.Select(s =>
+				{
+					dynamic obj = new ExpandoObject();
+					obj.stylers = s.Stylers;
+					obj.elementType = s.ElementType;
+					obj.featureType = s.FeatureType;
+
+					return obj;
+				}).ToArray();
 				InvokeAsync(async () => await _mapService.SetOptions(options));
 			}
 		}
