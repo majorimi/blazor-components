@@ -566,6 +566,12 @@
             Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CustomControls">
+            <summary>
+            Custom controls to add to the Map that will execute callbacks for events.
+            This option can only be set when the map is initialized. Use <see cref="!:OnInitialized"/> method to set it up.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
             <summary>
             Defines the zoom level of the map, which determines the magnification level of the map.
@@ -726,11 +732,6 @@
             <summary>
             If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
             Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CustomControls">
-            <summary>
-            
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ApiKey">
