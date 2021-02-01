@@ -36,7 +36,7 @@
 					_mapInitialized = true;
 					StateHasChanged(); //Must reset all parameter values in JS after Maps initialized
 
-				if (OnMapInitialized.HasDelegate)
+					if (OnMapInitialized.HasDelegate)
 					{
 						await OnMapInitialized.InvokeAsync(_mapContainerId);
 					}
@@ -885,6 +885,23 @@
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
 	[Parameter] public bool CenterCurrentLocationOnLoad { get; set; } = false;
+
+	private IEnumerable<GoogleMapCustomControl> _customControls;
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public IEnumerable<GoogleMapCustomControl> CustomControls
+	{
+		get => _customControls;
+		set
+		{
+			if (_mapInitialized && value != _customControls)
+			{
+				_customControls = value;
+				InvokeAsync(async () => await _mapService.CreateCustomControls(_customControls));
+			}
+		}
+	}
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.

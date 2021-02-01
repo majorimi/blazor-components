@@ -1,7 +1,9 @@
 ﻿using Microsoft.JSInterop;
 
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Google
@@ -26,30 +28,30 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			string mapContainerId,
 			string backgroundColor,
 			int controlSize,
-			Func<string, Task> mapInitializedCallback = null,
-			Func<GeolocationCoordinate, Task> mapClickedCallback = null,
-			Func<GeolocationCoordinate, Task> mapDoubleClickedCallback = null,
-			Func<GeolocationCoordinate, Task> mapContextMenuCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseUpCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseDownCallback = null,
-			Func<GeolocationCoordinate, Task> mapMouseMoveCallback = null,
-			Func<Task> mapMouseOverCallback = null,
-			Func<Task> mapMouseOutCallback = null,
-			Func<GeolocationCoordinate, Task> mapCenterChangedCallback = null,
-			Func<byte, Task> mapZoomChangedCallback = null,
-			Func<GoogleMapTypes, Task> mapTypeChangedCallback = null,
-			Func<int, Task> mapHeadingChangedCallback = null,
-			Func<byte, Task> mapTiltChangedCallback = null,
-			Func<Task> mapBoundsChangedCallback = null,
-			Func<Task> mapProjectionChangedCallback = null,
-			Func<Task> mapDraggableChangedCallback = null,
-			Func<Task> mapStreetviewChangedCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragEndCallback = null,
-			Func<GeolocationCoordinate, Task> mapDragStartCallback = null,
-			Func<Rect, Task> mapResizedCallback = null,
-			Func<Task> mapTilesLoadedCallback = null,
-			Func<Task> mapIdleCallback = null)
+			Func<string, Task>? mapInitializedCallback = null,
+			Func<GeolocationCoordinate, Task>? mapClickedCallback = null,
+			Func<GeolocationCoordinate, Task>? mapDoubleClickedCallback = null,
+			Func<GeolocationCoordinate, Task>? mapContextMenuCallback = null,
+			Func<GeolocationCoordinate, Task>? mapMouseUpCallback = null,
+			Func<GeolocationCoordinate, Task>? mapMouseDownCallback = null,
+			Func<GeolocationCoordinate, Task>? mapMouseMoveCallback = null,
+			Func<Task>? mapMouseOverCallback = null,
+			Func<Task>? mapMouseOutCallback = null,
+			Func<GeolocationCoordinate, Task>? mapCenterChangedCallback = null,
+			Func<byte, Task>? mapZoomChangedCallback = null,
+			Func<GoogleMapTypes, Task>? mapTypeChangedCallback = null,
+			Func<int, Task>? mapHeadingChangedCallback = null,
+			Func<byte, Task>? mapTiltChangedCallback = null,
+			Func<Task>? mapBoundsChangedCallback = null,
+			Func<Task>? mapProjectionChangedCallback = null,
+			Func<Task>? mapDraggableChangedCallback = null,
+			Func<Task>? mapStreetviewChangedCallback = null,
+			Func<GeolocationCoordinate, Task>? mapDragCallback = null,
+			Func<GeolocationCoordinate, Task>? mapDragEndCallback = null,
+			Func<GeolocationCoordinate, Task>? mapDragStartCallback = null,
+			Func<Rect, Task>? mapResizedCallback = null,
+			Func<Task>? mapTilesLoadedCallback = null,
+			Func<Task>? mapIdleCallback = null)
 		{
 			if(MapContainerId == mapContainerId)
 			{
@@ -154,6 +156,15 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setOptions", MapContainerId, options);
+		}
+
+		public async Task CreateCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls)
+		{
+			await CheckJsObjectAsync();
+			_dotNetObjectReference.Value.AddCustomControls(mapCustomControls);
+
+			await _mapsJs.InvokeVoidAsync("createCustomControls", MapContainerId, 
+				(object)mapCustomControls.Cast<GoogleMapCustomControlBase>().ToArray());
 		}
 
 		private async Task CheckJsObjectAsync()

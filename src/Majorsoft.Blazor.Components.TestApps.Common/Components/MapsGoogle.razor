@@ -251,6 +251,7 @@
 						   MapTypeControl="@_jsMapTypeControl"
 						   MapTypeControlOptions="@_jsMapTypeControlOptions"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
+						   CustomControls="@_jsCustomControls"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
@@ -322,6 +323,26 @@
 			GoogleMapTypes.Satellite,
 			GoogleMapTypes.Terrain,
 			GoogleMapTypes.Hybrid);
+
+		_jsCustomControls.Add(new GoogleMapCustomControl(
+			"<div title=\"Click to Center Sydney\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Go to Sydney</div></div>")
+		{
+			OnClickCallback = async () =>
+			{
+				_jsMapCenter = new GeolocationData("Sydney");
+				StateHasChanged();
+			},
+			ControlPosition = GoogleMapControlPositions.BOTTOM_CENTER,
+		});
+		_jsCustomControls.Add(new GoogleMapCustomControl(
+			"<div title=\"Center my location\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Center my location</div></div>")
+		{
+			OnClickCallback = async () =>
+			{
+				await _googleMap.CenterCurrentLocationOnMap();
+			},
+			ControlPosition = GoogleMapControlPositions.TOP_CENTER,
+		});
 	}
 
 	//Static Maps
@@ -419,6 +440,8 @@
 	private bool _jsScaleControl = true;
 	private bool _jsStreetViewControl = true;
 	private bool _jsZoomControl = true;
+
+	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
 
 	private ElementReference _log;
 	private string _mapsLog;

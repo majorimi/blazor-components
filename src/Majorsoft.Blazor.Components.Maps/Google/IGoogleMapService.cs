@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
@@ -155,5 +156,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="options">Google JavaScript Maps options</param>
 		/// <returns>Async task</returns>
 		Task SetOptions(ExpandoObject options);
+
+		/// <summary>
+		/// Creates Custom Controls on the Map on the given position with event callbacks.
+		/// </summary>
+		/// <param name="mapCustomControls">Enumerable CustomControl elements</param>
+		/// <returns>Async task</returns>
+		Task CreateCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls);
 	}
 }

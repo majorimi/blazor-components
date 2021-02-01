@@ -388,6 +388,29 @@ export function resizeMap(elementId) {
 	}
 }
 
+export function createCustomControls(elementId, customControls) {
+	if (elementId && customControls) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < customControls.length; i++) {
+				let control = customControls[i];
+				let controlDiv = document.createElement("div");
+				controlDiv.innerHTML = control.content;
+
+				mapWithDotnetRef.map.controls[control.controlPosition].push(controlDiv);
+
+				let id = control.id;
+				let dotnetRef = mapWithDotnetRef.ref;
+				controlDiv.addEventListener("click", () => {
+					dotnetRef.invokeMethodAsync("CustomControlClicked", id);
+				});
+			}
+		}
+	}
+}
+
+
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {
 	geocodeAddress(address, function (results) {
