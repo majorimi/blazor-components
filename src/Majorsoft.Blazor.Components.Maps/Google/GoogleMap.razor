@@ -281,6 +281,23 @@
 	/// </summary>
 	[Parameter] public IEnumerable<GoogleMapCustomControl> CustomControls { get; set; }
 
+	private IEnumerable<GoogleMapMarker>? _markers;
+	/// <summary>
+	/// MarkerOptions object used to define the properties that can be set on a Marker.
+	/// </summary>
+	[Parameter] public IEnumerable<GoogleMapMarker>? Markers
+	{
+		get => _markers;
+		set
+		{
+			if (_mapInitialized && value != _markers)
+			{
+				_markers = value;
+				//InvokeAsync(async () => await _mapService.SetZoom(_zoomLevel));
+			}
+		}
+	}
+
 	private byte _zoomLevel = 12;
 	/// <summary>
 	/// Defines the zoom level of the map, which determines the magnification level of the map.

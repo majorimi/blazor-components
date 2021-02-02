@@ -218,6 +218,232 @@
             The map cannot be panned or zoomed by user gestures.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Id">
+            <summary>
+            Id of the Custom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.AnchorPoint">
+            <summary>
+            The offset from the marker's position to the tip of an InfoWindow that has been opened with the marker as anchor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Animation">
+            <summary>
+            Which animation to play when marker is added to a map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Clickable">
+            <summary>
+            If true, the marker receives mouse and touch events. Default value is true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.CrossOnDrag">
+            <summary>
+            If false, disables cross that appears beneath the marker when dragging. This option is true by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Cursor">
+            <summary>
+            Mouse cursor to show on hover.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Draggable">
+            <summary>
+            If true, the marker can be dragged. Default value is false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Label">
+            <summary>
+            Adds a label to the marker. The label can either be a string, or a MarkerLabel object.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Icon">
+            <summary>
+            Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Opacity">
+            <summary>
+            The marker's opacity between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Optimized">
+            <summary>
+            Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
+            Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Position">
+            <summary>
+            Marker position. Required in order to display the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Shape">
+            <summary>
+            Image map region definition used for drag/click.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Title">
+            <summary>
+            Rollover text. If provided, an accessibility text (e.g. for use with screen readers) 
+            will be added to the marker with the provided value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Visible">
+            <summary>
+            If true, the marker is visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.ZIndex">
+            <summary>
+            All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
+            <summary>
+            This object defines the clickable region of a marker image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
+            <summary>
+            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
+            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.MyProperty">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel">
+            <summary>
+            These options specify the appearance of a marker label. 
+            A marker label is a string (often a single character) which will appear inside the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Text">
+            <summary>
+            The text to be displayed in the label.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.ClassName">
+            <summary>
+            The className property of the label's element (equivalent to the element's class attribute). 
+            Multiple space-separated CSS classes can be added.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Color">
+            <summary>
+            The color of the label text. Default color is black.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontFamily">
+            <summary>
+            The font family of the label text (equivalent to the CSS font-family property).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontSize">
+            <summary>
+            The font size of the label text (equivalent to the CSS font-size property). Default size is 14px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontWeight">
+            <summary>
+            The font weight of the label text (equivalent to the CSS font-weight property).
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="text">Label text</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon">
+            <summary>
+            A structure representing a Marker icon image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Url">
+            <summary>
+            The URL of the image or sprite sheet.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Anchor">
+            <summary>
+            The position at which to anchor an image in correspondence to the location of the marker on the map.
+            By default, the anchor is located along the center point of the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.LabelOrigin">
+            <summary>
+            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+            By default, the origin is located in the center point of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Origin">
+            <summary>
+            The position of the image within a sprite, if any. 
+            By default, the origin is located at the top left corner of the image (0, 0).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.ScaledSize">
+            <summary>
+            The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Size">
+            <summary>
+            The display size of the sprite or image. When using sprites, you must specify the sprite size. 
+            If the size is not provided, it will be set when the image loads.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="url">Icon Url</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
+            <summary>
+            Animations that can be played on a marker.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
+            <summary>
+            No animation.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
+            <summary>
+            Marker bounces until animation is stopped.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
+            <summary>
+            Marker falls from the top of the map ending with a small bounce.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
             <summary>
             Rather than use Google's marker icons, you are free to use your own custom icons instead.
@@ -570,6 +796,11 @@
             <summary>
             Custom controls to add to the Map that will execute callbacks for events.
             This option can only be set when the map is initialized. Use <see cref="!:OnInitialized"/> method to set it up.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
@@ -1000,6 +1231,27 @@
             Registers required Map services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Point">
+            <summary>
+            Custom type to represent Point.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Point.X">
+            <summary>
+            Point x
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Point.Y">
+            <summary>
+            Point y
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Point.ToString">
+            <summary>
+            Point string representation.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Rect">
             <summary>
