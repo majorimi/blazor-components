@@ -148,6 +148,7 @@
 					Center device location on load (overrides <code>Center</code> property):
 					<strong>NOTE: Async operation which might fail!</strong>
 					<input type="checkbox" @bind="_jsMapCenterCurrentLocation" disabled="disabled" />
+					<br /> Center Map on click: <input type="checkbox" @bind="_jsMapCenterOnClick" />
 				</p>
 
 				Maps Center position: <strong>@_jsMapCenter.ToString()</strong>
@@ -330,6 +331,8 @@
 			OnClickCallback = async () =>
 			{
 				_jsMapCenter = new GeolocationData("Sydney");
+				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Go to Sydney' was clicked");
+
 				StateHasChanged();
 			},
 			ControlPosition = GoogleMapControlPositions.BOTTOM_CENTER,
@@ -339,6 +342,7 @@
 		{
 			OnClickCallback = async () =>
 			{
+				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Center my location' was clicked");
 				await _googleMap.CenterCurrentLocationOnMap();
 			},
 			ControlPosition = GoogleMapControlPositions.TOP_CENTER,
@@ -358,39 +362,39 @@
 
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
-{
-			{ new GeolocationData("Budapest")},
-			{ new GeolocationData("London")}
-		};
+	{
+		{ new GeolocationData("Budapest")},
+		{ new GeolocationData("London")}
+	};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
-{
+	{
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
-		};
+	};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
-{
-			{ new GoogleStaticMapMarker() },
-			{ new GoogleStaticMapMarker()
-				{
-					CustomIcon = new GoogleMapMarkerCustomIcon()
-					{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "https://www.google.com/favicon.ico" }
-				}
-			},
-			{ new GoogleStaticMapMarker()
-				{
-					Style = new GoogleMapMarkerStyle()
-					{ Color = "green", Label = 'A' }
-				}
-			},
-			{ new GoogleStaticMapMarker()
-				{
-					Style = new GoogleMapMarkerStyle()
-					{ Color = "0x11AABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
-				}
-			},
-		};
+	{
+		{ new GoogleStaticMapMarker() },
+		{ new GoogleStaticMapMarker()
+			{
+				CustomIcon = new GoogleMapMarkerCustomIcon()
+				{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "https://www.google.com/favicon.ico" }
+			}
+		},
+		{ new GoogleStaticMapMarker()
+			{
+				Style = new GoogleMapMarkerStyle()
+				{ Color = "green", Label = 'A' }
+			}
+		},
+		{ new GoogleStaticMapMarker()
+			{
+				Style = new GoogleMapMarkerStyle()
+				{ Color = "0x11AABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
+			}
+		},
+	};
 
 	//Geolocation current position detection
 	private async Task CenterMyLocationWithStaticMap()
@@ -450,6 +454,7 @@
 	private bool _logDragEvents = true;
 	private bool _logCenterChangeEvents = true;
 	private bool _logOtherEvents = true;
+	private bool _jsMapCenterOnClick = true;
 
 	//Events
 	private async Task OnMapInitialized(string elementId)
@@ -462,7 +467,11 @@
 		{
 			_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: {coordinate.ToString()}");
 		}
-		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
+
+		if (_jsMapCenterOnClick)
+		{
+			_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
+		}
 	}
 	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
 	{
