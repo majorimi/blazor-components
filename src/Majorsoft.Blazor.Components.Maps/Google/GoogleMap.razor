@@ -290,10 +290,10 @@
 		get => _markers;
 		set
 		{
-			if (_mapInitialized && value != _markers)
+			if (_mapInitialized /*&& (value != _markers || value?.Count() != _markers?.Count())*/)
 			{
 				_markers = value;
-				//InvokeAsync(async () => await _mapService.SetZoom(_zoomLevel));
+				InvokeAsync(async () => await _mapService.CreateMarkers(_markers));
 			}
 		}
 	}

@@ -11,14 +11,14 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Callback function called when custom control was clicked.
 		/// </summary>
-		public Func<Task>? OnClickCallback { get; set; }
+		public Func<string, Task>? OnClickCallback { get; set; }
 
 		/// <summary>
 		/// Default constructor
 		/// </summary>
 		/// <param name="htmlContent">Custom control HTML content</param>
 		/// <param name="onClickCallback">Custom control on click event callback</param>
-		public GoogleMapCustomControl(string htmlContent, Func<Task>? onClickCallback = null)
+		public GoogleMapCustomControl(string htmlContent, Func<string, Task>? onClickCallback = null)
 			: base(htmlContent)
 		{
 			OnClickCallback = onClickCallback;

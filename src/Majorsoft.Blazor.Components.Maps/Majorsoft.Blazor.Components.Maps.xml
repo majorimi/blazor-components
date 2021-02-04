@@ -124,7 +124,7 @@
             Callback function called when custom control was clicked.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl.#ctor(System.String,System.Func{System.Threading.Tasks.Task})">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl.#ctor(System.String,System.Func{System.String,System.Threading.Tasks.Task})">
             <summary>
             Default constructor
             </summary>
@@ -153,9 +153,9 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase.#ctor(System.String)">
             <summary>
-            
+            Default constructor
             </summary>
-            <param name="htmlContent"></param>
+            <param name="htmlContent">HTML content to render as custom control</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapEventInfo">
             <summary>
@@ -305,15 +305,27 @@
             All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
             <summary>
             Default constructor.
             </summary>
+            <param name="position">Marker position on the Map</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
             <summary>
-            
+            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
             </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
+            <summary>
+            Callback function called when custom control was clicked.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="position">Marker position on the Map</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
             <summary>
@@ -775,6 +787,13 @@
             </summary>
             <param name="mapCustomControls">Enumerable CustomControl elements</param>
             <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.CreateMarkers(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker})">
+            <summary>
+            Creates markers on the Map with InfoWindows on the given position with event callbacks.
+            </summary>
+            <param name="markers">Enumerable markers</param>
+            <returns></returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>

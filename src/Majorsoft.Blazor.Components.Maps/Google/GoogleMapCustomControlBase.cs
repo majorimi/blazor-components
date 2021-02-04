@@ -24,9 +24,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		//public RenderFragment Content { get; set; }
 
 		/// <summary>
-		/// 
+		/// Default constructor
 		/// </summary>
-		/// <param name="htmlContent"></param>
+		/// <param name="htmlContent">HTML content to render as custom control</param>
 		public GoogleMapCustomControlBase(string htmlContent)
 		{
 			if (string.IsNullOrWhiteSpace(htmlContent))

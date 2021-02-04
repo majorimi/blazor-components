@@ -253,6 +253,7 @@
 						   MapTypeControlOptions="@_jsMapTypeControlOptions"
 						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 						   CustomControls="@_jsCustomControls"
+						   Markers="@_jsMarkers"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
@@ -328,7 +329,7 @@
 		_jsCustomControls.Add(new GoogleMapCustomControl(
 			"<div title=\"Click to Center Sydney\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Go to Sydney</div></div>")
 		{
-			OnClickCallback = async () =>
+			OnClickCallback = async (id) =>
 			{
 				_jsMapCenter = new GeolocationData("Sydney");
 				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Go to Sydney' was clicked");
@@ -340,7 +341,7 @@
 		_jsCustomControls.Add(new GoogleMapCustomControl(
 			"<div title=\"Center my location\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Center my location</div></div>")
 		{
-			OnClickCallback = async () =>
+			OnClickCallback = async (id) =>
 			{
 				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Center my location' was clicked");
 				await _googleMap.CenterCurrentLocationOnMap();
@@ -362,19 +363,19 @@
 
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
-	{
+{
 		{ new GeolocationData("Budapest")},
 		{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
-	{
+{
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
-	{
+{
 		{ new GoogleStaticMapMarker() },
 		{ new GoogleStaticMapMarker()
 			{
@@ -446,6 +447,7 @@
 	private bool _jsZoomControl = true;
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
+	private List<GoogleMapMarker> _jsMarkers = new List<GoogleMapMarker>();
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -472,6 +474,12 @@
 		{
 			_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
 		}
+
+		_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(coordinate.Latitude, coordinate.Longitude))
+		{
+			Title = "Clicked positon..."
+			//Cursor = 
+		});
 	}
 	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
 	{

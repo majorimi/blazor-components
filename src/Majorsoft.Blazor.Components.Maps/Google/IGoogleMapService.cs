@@ -163,5 +163,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapCustomControls">Enumerable CustomControl elements</param>
 		/// <returns>Async task</returns>
 		Task CreateCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls);
+
+		/// <summary>
+		/// Creates markers on the Map with InfoWindows on the given position with event callbacks.
+		/// </summary>
+		/// <param name="markers">Enumerable markers</param>
+		/// <returns></returns>
+		Task CreateMarkers(IEnumerable<GoogleMapMarker> markers);
 	}
 }

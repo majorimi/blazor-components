@@ -38,6 +38,11 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Func<Task>? _mapIdleCallback;
 
 		private readonly Dictionary<string, GoogleMapCustomControl> _customControls;
+		private readonly Dictionary<string, GoogleMapMarker> _markers;
+
+		public Dictionary<string, GoogleMapCustomControl> CustomControls => _customControls;
+
+		public Dictionary<string, GoogleMapMarker> Markers => _markers;
 
 		/// <summary>
 		/// Default constructor.
@@ -94,6 +99,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Task>? mapIdleCallback = null)
 		{
 			_mapContainerId = mapContainerId;
+
+			_markers = new Dictionary<string, GoogleMapMarker>();
 			_customControls = new Dictionary<string, GoogleMapCustomControl>();
 
 			_mapInitializedCallback = mapInitializedCallback;
@@ -129,6 +136,17 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				if (!_customControls.ContainsKey(item.Id))
 				{
 					_customControls.Add(item.Id, item);
+				}
+			}
+		}
+
+		public void AddMarkers(IEnumerable<GoogleMapMarker> markers)
+		{
+			foreach (var item in markers)
+			{
+				if (!_markers.ContainsKey(item.Id))
+				{
+					_markers.Add(item.Id, item);
 				}
 			}
 		}
@@ -346,7 +364,22 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 				if (callback is not null)
 				{
-					await callback.Invoke();
+					await callback.Invoke(id);
+				}
+			}
+		}
+
+		//Marker events.
+		[JSInvokable("MarkerClicked")]
+		public async Task MarkerClicked(string id)
+		{
+			if (_markers.ContainsKey(id))
+			{
+				var callback = _markers[id].OnClickCallback;
+
+				if (callback is not null)
+				{
+					await callback.Invoke(id);
 				}
 			}
 		}

@@ -167,6 +167,30 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				(object)mapCustomControls.Cast<GoogleMapCustomControlBase>().ToArray());
 		}
 
+		public async Task CreateMarkers(IEnumerable<GoogleMapMarker> markers)
+		{
+			if(markers is null)
+			{
+				return;
+			}
+
+			await CheckJsObjectAsync();
+
+			var newMarkers = markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x))
+				.Except(_dotNetObjectReference.Value.Markers).Select(s => s.Value)
+				.ToList();
+
+			if(newMarkers.Count() == 0)
+			{
+				return;
+			}
+
+			_dotNetObjectReference.Value.AddMarkers(markers);
+			//Add only new markers to the map
+			await _mapsJs.InvokeVoidAsync("createMarkers", MapContainerId,
+				(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+		}
+
 		private async Task CheckJsObjectAsync()
 		{
 			if (_mapsJs is null)

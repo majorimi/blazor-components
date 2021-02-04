@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Google
 {
@@ -62,12 +63,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
 		/// Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
 		/// </summary>
-		public bool Optimized { get; set; }
+		public bool Optimized { get; set; } = true;
 
 		/// <summary>
 		/// Marker position. Required in order to display the marker.
 		/// </summary>
-		public GeolocationData Position { get; set; }
+		public GeolocationCoordinate Position { get; set; }
 
 		/// <summary>
 		/// Image map region definition used for drag/click.
@@ -93,17 +94,32 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public GoogleMapMarkerBase()
+		/// <param name="position">Marker position on the Map</param>
+		public GoogleMapMarkerBase(GeolocationCoordinate position)
 		{
 			Id = Guid.NewGuid().ToString();
+			Position = position ?? throw new ArgumentNullException(nameof(position));
 		}
 	}
 
 	/// <summary>
-	/// 
+	/// MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
 	/// </summary>
 	public class GoogleMapMarker : GoogleMapMarkerBase
 	{
+		/// <summary>
+		/// Callback function called when custom control was clicked.
+		/// </summary>
+		public Func<string, Task>? OnClickCallback { get; set; }
+
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		/// <param name="position">Marker position on the Map</param>
+		public GoogleMapMarker(GeolocationCoordinate position)
+			: base(position)
+		{
+		}
 	}
 
 	/// <summary>

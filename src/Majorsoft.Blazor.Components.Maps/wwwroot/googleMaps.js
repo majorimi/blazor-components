@@ -328,7 +328,7 @@ export function panToAddress(elementId, address) {
 		}
 	}
 }
-
+//set methods
 export function setZoom(elementId, zoom) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -369,7 +369,7 @@ export function setClickableIcons(elementId, isClickable) {
 		}
 	}
 }
-
+//generic set
 export function setOptions(elementId, options) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -388,6 +388,7 @@ export function resizeMap(elementId) {
 	}
 }
 
+//Custom controls
 export function createCustomControls(elementId, customControls) {
 	if (elementId && customControls) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -410,6 +411,28 @@ export function createCustomControls(elementId, customControls) {
 	}
 }
 
+export function createMarkers(elementId, markers) {
+	if (elementId && markers) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < markers.length; i++) {
+
+				let data = markers[i];
+				let marker = new google.maps.Marker({
+					position: { lat: data.position.latitude, lng: data.position.longitude },
+					map: mapWithDotnetRef.map,
+					title: data.title,
+				});
+
+				//If marker has info window
+				marker.addListener("click", () => {
+					infowindow.open(mapWithDotnetRef.map, marker);
+				});
+			}
+		}
+	}
+}
 
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {
