@@ -18,7 +18,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`TabsPanel`**: Renders **HTML `<div>` container** for `TabItem` components also customizable size, color, etc. for Tab Items.
 - **`TabItem`**: Renders **HTML `<button>` styled as Tab** with custom header and content. **Must be placed inside a `TabsPanel` component.**
 
-![Tabs demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/tabs.gif)
+![Tabs demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/tabs.gif)
 
 ## `TabsPanel` component
 
