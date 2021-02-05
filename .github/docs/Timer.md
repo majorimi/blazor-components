@@ -13,7 +13,7 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/timer).
 
-![Timer demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/timer.gif)
+![Timer demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/timer.gif)
 
 # Components
 
