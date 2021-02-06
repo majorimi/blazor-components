@@ -361,11 +361,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			if(_customControls.ContainsKey(id))
 			{
 				var callback = _customControls[id].OnClickCallback;
-
-				if (callback is not null)
-				{
-					await callback.Invoke(id);
-				}
+				await CustomEvent(callback, id);
 			}
 		}
 
@@ -376,11 +372,49 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			if (_markers.ContainsKey(id))
 			{
 				var callback = _markers[id].OnClickCallback;
+				await CustomEvent(callback, id);
+			}
+		}
+		[JSInvokable("MarkerDrag")]
+		public async Task MarkerDrag(string id, GeolocationCoordinate geolocation)
+		{
+			if (_markers.ContainsKey(id))
+			{
+				var callback = _markers[id].OnDragCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("MarkerDragEnd")]
+		public async Task MarkerDragEnd(string id, GeolocationCoordinate geolocation)
+		{
+			if (_markers.ContainsKey(id))
+			{
+				var callback = _markers[id].OnDragEndCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("MarkerDragStart")]
+		public async Task MarkerDragStart(string id, GeolocationCoordinate geolocation)
+		{
+			if (_markers.ContainsKey(id))
+			{
+				var callback = _markers[id].OnDragStartCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
 
-				if (callback is not null)
-				{
-					await callback.Invoke(id);
-				}
+		private async Task CustomEvent(Func<string, Task>? callback, string id)
+		{
+			if (callback is not null)
+			{
+				await callback.Invoke(id);
+			}
+		}
+		private async Task CustomEvent(Func<string, GeolocationCoordinate, Task>? callback, string id, GeolocationCoordinate geolocation)
+		{
+			if (callback is not null)
+			{
+				await callback.Invoke(id, geolocation);
 			}
 		}
 	}

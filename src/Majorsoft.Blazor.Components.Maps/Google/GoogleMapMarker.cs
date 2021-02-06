@@ -108,9 +108,24 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	public class GoogleMapMarker : GoogleMapMarkerBase
 	{
 		/// <summary>
-		/// Callback function called when custom control was clicked.
+		/// Callback function called when Marker was clicked.
 		/// </summary>
 		public Func<string, Task>? OnClickCallback { get; set; }
+
+		/// <summary>
+		/// Callback function called when Marker dragging.
+		/// </summary>
+		public Func<string, GeolocationCoordinate, Task>? OnDragCallback { get; set; }
+
+		/// <summary>
+		/// Callback function called when Marker drag ended.
+		/// </summary>
+		public Func<string, GeolocationCoordinate, Task>? OnDragEndCallback { get; set; }
+
+		/// <summary>
+		/// Callback function called when Marker drag started.
+		/// </summary>
+		public Func<string, GeolocationCoordinate, Task>? OnDragStartCallback { get; set; }
 
 		/// <summary>
 		/// Default constructor.
@@ -136,7 +151,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Describes the shape's type and can be circle, poly or rect.
 		/// </summary>
-		public GoogleMapMarkerShapeTypes MyProperty { get; set; }
+		public GoogleMapMarkerShapeTypes ShapeType { get; set; }
+
+		public string Type => ShapeType.ToString().ToLower();
 	}
 
 	/// <summary>

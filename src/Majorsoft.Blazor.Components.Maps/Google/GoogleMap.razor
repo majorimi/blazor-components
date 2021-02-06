@@ -8,6 +8,7 @@
 @inject IGeolocationService _geolocationService
 @inject IGoogleMapService _mapService
 
+//https://developers.google.com/maps/documentation/javascript/reference
 @code {
 	private string _mapContainerId = $"map_{Guid.NewGuid().ToString("n")}";
 	private ElementReference _jsMap;

@@ -285,7 +285,9 @@ function getElementIdWithDotnetRef(dict, elementId) {
 		}
 	}
 }
+
 let _mapsElementDict = [];
+let _mapsMarkersDict = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -411,6 +413,7 @@ export function createCustomControls(elementId, customControls) {
 	}
 }
 
+//Markers
 export function createMarkers(elementId, markers) {
 	if (elementId && markers) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -418,17 +421,69 @@ export function createMarkers(elementId, markers) {
 
 			for (var i = 0; i < markers.length; i++) {
 
-				let data = markers[i];
+				let markerData = markers[i];
 				let marker = new google.maps.Marker({
-					position: { lat: data.position.latitude, lng: data.position.longitude },
+					//required
+					position: { lat: markerData.position.latitude, lng: markerData.position.longitude },
 					map: mapWithDotnetRef.map,
-					title: data.title,
+					//optional
+					anchorPoint: markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null,
+					animation: markerData.animation,
+					clickable: markerData.clickable,
+					crossOnDrag: markerData.crossOnDrag,
+					cursor: markerData.cursor,
+					draggable: markerData.draggable,
+					icon: markerData.icon,
+					label: markerData.label,
+					opacity: markerData.opacity,
+					optimized: markerData.optimized,
+					shape: markerData.shape,
+					title: markerData.title,
+					visible: markerData.visible,
+					zIndex: markerData.zIndex,
 				});
 
-				//If marker has info window
-				marker.addListener("click", () => {
-					infowindow.open(mapWithDotnetRef.map, marker);
-				});
+				//Marker events
+				if (markerData.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (markerData.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: "",
+						}); 
+					}
+
+					marker.addListener("click", () => {
+						mapWithDotnetRef.ref.invokeMethodAsync("MarkerClicked", markerData.id);
+
+						//If marker has info window
+						if (infoWindow) {
+							infoWindow.open(mapWithDotnetRef.map, marker);
+						}
+					});
+				}
+
+				if (markerData.draggable) {
+					marker.addListener("drag", () => {
+						markerDragEvents("MarkerDrag", markerData.id, marker.getPosition().toJSON());
+					});
+
+					marker.addListener("dragend", () => {
+						markerDragEvents("MarkerDragEnd", markerData.id, marker.getPosition().toJSON());
+					});
+
+					marker.addListener("dragstart", () => {
+						markerDragEvents("MarkerDragStart", markerData.id, marker.getPosition().toJSON());
+					});
+
+					function markerDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
 			}
 		}
 	}

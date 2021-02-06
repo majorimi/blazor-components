@@ -28,11 +28,6 @@
 
 	<ItemGroup>
 	  <Content Remove="bundleconfig.json" />
-	  <Content Remove="wwwroot\googleMaps.min.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\googleMaps.min.js" />
 	</ItemGroup>
 
 	
@@ -54,7 +49,6 @@
 	    <PackagePath></PackagePath>
 	  </None>
 	  <None Include="bundleconfig.json" />
-	  <None Include="wwwroot\googleMaps.min.js" />
 	</ItemGroup>
 
 	<ItemGroup>

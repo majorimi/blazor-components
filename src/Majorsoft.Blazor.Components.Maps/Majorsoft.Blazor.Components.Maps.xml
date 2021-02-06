@@ -318,7 +318,22 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
             <summary>
-            Callback function called when custom control was clicked.
+            Callback function called when Marker was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
+            <summary>
+            Callback function called when Marker dragging.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
+            <summary>
+            Callback function called when Marker drag ended.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
+            <summary>
+            Callback function called when Marker drag started.
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
@@ -338,7 +353,7 @@
             at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.MyProperty">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
             <summary>
             Describes the shape's type and can be circle, poly or rect.
             </summary>
