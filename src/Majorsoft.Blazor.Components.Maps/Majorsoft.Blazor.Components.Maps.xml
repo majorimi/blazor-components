@@ -218,6 +218,72 @@
             The map cannot be panned or zoomed by user gestures.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow">
+            <summary>
+            Info Window to display HTML content on Map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow.Content">
+            <summary>
+            HTML content of the Info Window.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow.MaxWidth">
+            <summary>
+            Maximum allowed with of the Info Window.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
+            <summary>
+            Callback function called when Marker was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
+            <summary>
+            Callback function called when Marker dragging.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
+            <summary>
+            Callback function called when Marker drag ended.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
+            <summary>
+            Callback function called when Marker drag started.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="position">Marker position on the Map</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
+            <summary>
+            Animations that can be played on a marker.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
+            <summary>
+            No animation.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
+            <summary>
+            Marker bounces until animation is stopped.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
+            <summary>
+            Marker falls from the top of the map ending with a small bounce.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase">
             <summary>
             MarkerOptions object used to define the properties that can be set on a Marker.
@@ -305,62 +371,35 @@
             All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.InfoWindow">
+            <summary>
+            Info Window to show for Marker on click.
+            </summary>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
             <summary>
             Default constructor.
             </summary>
             <param name="position">Marker position on the Map</param>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
             <summary>
-            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
+            Rather than use Google's marker icons, you are free to use your own custom icons instead.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.IconUrl">
             <summary>
-            Callback function called when Marker was clicked.
+            Custom icon URL.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.Anchor">
             <summary>
-            Callback function called when Marker dragging.
+            Icon is position in relation to the specified markers locations.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
             <summary>
-            Callback function called when Marker drag ended.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
-            <summary>
-            Callback function called when Marker drag started.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="position">Marker position on the Map</param>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
-            <summary>
-            This object defines the clickable region of a marker image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
-            <summary>
-            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
-            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
-            <summary>
-            Describes the shape's type and can be circle, poly or rect.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
-            <summary>
-            Describes the shape's type and can be circle, poly or rect.
+            The anchor point sets how the icon is placed in relation to the specified markers locations.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel">
@@ -451,44 +490,25 @@
             </summary>
             <param name="url">Icon Url</param>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
             <summary>
-            Animations that can be played on a marker.
+            This object defines the clickable region of a marker image.
             </summary>
         </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
             <summary>
-            No animation.
+            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
+            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
             </summary>
         </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
             <summary>
-            Marker bounces until animation is stopped.
+            Describes the shape's type and can be circle, poly or rect.
             </summary>
         </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
             <summary>
-            Marker falls from the top of the map ending with a small bounce.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
-            <summary>
-            Rather than use Google's marker icons, you are free to use your own custom icons instead.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.IconUrl">
-            <summary>
-            Custom icon URL.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.Anchor">
-            <summary>
-            Icon is position in relation to the specified markers locations.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
-            <summary>
-            The anchor point sets how the icon is placed in relation to the specified markers locations.
+            Describes the shape's type and can be circle, poly or rect.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">

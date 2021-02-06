@@ -524,7 +524,7 @@
 			{
 				_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(coordinate.Latitude, coordinate.Longitude))
 				{
-					AnchorPoint = new Point() { X = 10, Y = 20 },
+					AnchorPoint = new Point() { X = -10, Y = -35 },
 					Animation = GoogleMapMarkerAnimationTypes.DROP,
 					Clickable = true,
 					CrossOnDrag = true,
@@ -540,6 +540,11 @@
 					Title = "Clicked positon marker...",
 					Visible = true,
 					ZIndex = 1,
+					InfoWindow = new GoogleMapInfoWindow() 
+					{
+						Content = $"<div>User clicked at postion: {coordinate.ToString()}</div>",
+						MaxWidth = 200
+					},
 
 					OnClickCallback = _jsMapMarkersClickCallback,
 					OnDragCallback = _jsMapMarkersDragCallback,

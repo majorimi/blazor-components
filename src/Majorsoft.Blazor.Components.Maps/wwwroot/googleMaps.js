@@ -449,7 +449,8 @@ export function createMarkers(elementId, markers) {
 					let infoWindow = null;
 					if (markerData.infoWindow) {
 						infoWindow = new google.maps.InfoWindow({
-							content: "",
+							content: markerData.infoWindow.content,
+							maxWidth: markerData.infoWindow.maxWidth
 						}); 
 					}
 
