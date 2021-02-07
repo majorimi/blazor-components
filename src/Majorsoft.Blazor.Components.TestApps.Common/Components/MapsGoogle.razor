@@ -491,8 +491,8 @@
 	private bool _jsZoomControl = true;
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
-	private List<GoogleMapMarker> _jsMarkers = new List<GoogleMapMarker>();
-	private List<GoogleMapMarker> _jsMarkersTmp = new List<GoogleMapMarker>();
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers = new ObservableRangeCollection<GoogleMapMarker>();
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp = new ObservableRangeCollection<GoogleMapMarker>();
 
 	private ElementReference _log;
 	private string _mapsLog;

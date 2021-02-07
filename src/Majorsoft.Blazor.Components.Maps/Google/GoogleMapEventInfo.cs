@@ -140,7 +140,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			}
 		}
 
-		public void AddMarkers(IEnumerable<GoogleMapMarker> markers)
+		public void SetMarkers(IEnumerable<GoogleMapMarker> markers)
 		{
 			_markers.Clear();
 			foreach (var item in markers)

@@ -209,7 +209,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			//		(object)updateMarkers.Cast<GoogleMapMarkerBase>().ToArray());
 			//}
 
-			_dotNetObjectReference.Value.AddMarkers(markers);
+			_dotNetObjectReference.Value.SetMarkers(markers);
 		}
 
 		private async Task CheckJsObjectAsync()

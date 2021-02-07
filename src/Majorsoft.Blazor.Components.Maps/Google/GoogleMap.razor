@@ -283,21 +283,25 @@
 	/// </summary>
 	[Parameter] public IEnumerable<GoogleMapCustomControl> CustomControls { get; set; }
 
-	private IEnumerable<GoogleMapMarker>? _markers;
+	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
 	/// MarkerOptions object used to define the properties that can be set on a Marker.
 	/// </summary>
-	[Parameter] public IEnumerable<GoogleMapMarker>? Markers
+	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
 	{
 		get => _markers;
 		set
 		{
-			if (_mapInitialized /*&& (value != _markers || value?.Count() != _markers?.Count())*/)
+			if (_mapInitialized && _markers is null && value is not null)
 			{
 				_markers = value;
-				InvokeAsync(async () => await _mapService.CreateMarkers(_markers));
+				_markers.CollectionChanged += MarkersChanges;
 			}
 		}
+	}
+	private void MarkersChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		InvokeAsync(async () => await _mapService.CreateMarkers(_markers));
 	}
 
 	private byte _zoomLevel = 12;
@@ -1081,6 +1085,11 @@
 		if (_geolocationService is not null)
 		{
 			await _geolocationService.DisposeAsync();
+		}
+
+		if (_markers is not null)
+		{
+			_markers.CollectionChanged -= MarkersChanges;
 		}
 	}
 }
