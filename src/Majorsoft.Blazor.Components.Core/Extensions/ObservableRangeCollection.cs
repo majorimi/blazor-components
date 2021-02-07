@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Majorsoft.Blazor.Components.Core.Extensions
 {
@@ -31,7 +32,8 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void AddRange(IEnumerable<T> collection)
 		{
-			if (collection == null) throw new ArgumentNullException("collection");
+			if (collection == null) 
+				throw new ArgumentNullException("collection");
 
 			foreach (var i in collection)
 			{
@@ -40,7 +42,7 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 
 			OnPropertyChanged(new PropertyChangedEventArgs("Count"));
 			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems: collection.ToList(), oldItems: new List<T>()));
 		}
 
 		/// <summary> 
@@ -48,7 +50,8 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void RemoveRange(IEnumerable<T> collection)
 		{
-			if (collection == null) throw new ArgumentNullException("collection");
+			if (collection == null) 
+				throw new ArgumentNullException("collection");
 
 			foreach (var i in collection)
 			{
@@ -57,7 +60,7 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 
 			OnPropertyChanged(new PropertyChangedEventArgs("Count"));
 			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems: new List<T>(), oldItems: collection.ToList()));
 		}
 
 		/// <summary> 
@@ -73,7 +76,11 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void ReplaceRange(IEnumerable<T> collection)
 		{
-			if (collection == null) throw new ArgumentNullException("collection");
+			if (collection == null) 
+				throw new ArgumentNullException("collection");
+
+			var old = new List<T>();
+			old.AddRange(Items);
 
 			Items.Clear();
 			foreach (var i in collection)
@@ -83,7 +90,7 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 
 			OnPropertyChanged(new PropertyChangedEventArgs("Count"));
 			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems: collection.ToList(), oldItems: old));
 		}
 	}
 }

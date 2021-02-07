@@ -167,8 +167,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Creates markers on the Map with InfoWindows on the given position with event callbacks.
 		/// </summary>
-		/// <param name="markers">Enumerable markers</param>
+		/// <param name="newMarkers">Enumerable new markers to add</param>
+		/// <param name="markers">Enumerable markers removed or replaced</param>
 		/// <returns></returns>
-		Task CreateMarkers(IEnumerable<GoogleMapMarker> markers);
+		Task CreateMarkers(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers);
 	}
 }

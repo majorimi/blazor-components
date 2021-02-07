@@ -286,6 +286,7 @@
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
 	/// MarkerOptions object used to define the properties that can be set on a Marker.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collecton the change marker properites (Marker properties value cahnges not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
 	{
@@ -301,7 +302,9 @@
 	}
 	private void MarkersChanges(object? sender, NotifyCollectionChangedEventArgs e)
 	{
-		InvokeAsync(async () => await _mapService.CreateMarkers(_markers));
+		WriteDiag($"{nameof(MarkersChanges)} Marker collection has changed, item Count: '{_markers?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateMarkers(e.NewItems?.Cast<GoogleMapMarker>(), _markers?.Cast<GoogleMapMarker>()));
 	}
 
 	private byte _zoomLevel = 12;

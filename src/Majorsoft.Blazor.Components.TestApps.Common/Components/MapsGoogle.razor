@@ -35,8 +35,8 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" value="@_staticMapCenter.Latitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(double.Parse(e.Value?.ToString()), _staticMapCenter.Longitude))" type="number" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" value="@_staticMapCenter.Longitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(_staticMapCenter.Latitude, double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_staticMapCenter.Latitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()), _staticMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_staticMapCenter.Longitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(_staticMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
 				<input class="form-control w-100 mb-3" value="@_staticMapCenter.Address" @onchange="@((e) => _staticMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
@@ -139,8 +139,8 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(double.Parse(e.Value?.ToString()), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
 				<input class="form-control w-100 mb-3" value="@_jsMapCenter.Address" @onchange="@((e) => _jsMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
@@ -290,7 +290,8 @@
 			<div class="col-12 col-lg-8 col-xl-6">
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkersTmp.AddRange(_jsMarkers); _jsMarkers.Clear(); })">Hide all Markers</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
-				<button class="btn btn-primary" @onclick="@(() => _jsMarkers.Clear())">Remove Markers</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.Clear(); _jsMarkersTmp.Clear(); _jsPhotosAdded = false; })">Remove Markers</button>
+				<button class="btn btn-primary" @onclick="@AddPhotos">Add photo Markers</button>
 			</div>
 		</div>
 
@@ -510,6 +511,45 @@
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragEndCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragStartCallback;
+
+	private bool _jsPhotosAdded = false;
+	public async Task AddPhotos()
+	{
+		if (_jsPhotosAdded)
+			return;
+
+		_jsPhotosAdded = true;
+		_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(36.05257747885196, 14.188007522784417))
+		{
+			Draggable = false,
+			Clickable = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"<h4>Azure Window</h4> <div><a href=\"https://www.flickr.com/photos/135037635@N03/33200850951/in/album-72157655977338469/\" target=\"_blank\"><img src=\"https://live.staticflickr.com/3884/33200850951_079a7fd7e4_b.jpg\" width=\"200\" height=\"150\"></a></div>",
+				MaxWidth = 400
+			},
+		});
+		_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(34.89426050000001, -115.701769))
+		{
+			Draggable = false,
+			Clickable = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"<h4>Kelso Dunes</h4> <div><a href=\"https://www.flickr.com/photos/135037635@N03/49503272657/\" target=\"_blank\"><img src=\"https://live.staticflickr.com/65535/49503272657_f8dd72c868_b.jpg\" width=\"200\" height=\"150\"></a></div>",
+				MaxWidth = 400
+			},
+		});
+		_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(46.917456137488685, 19.83780860614538))
+		{
+			Draggable = false,
+			Clickable = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"<h4>Sunset Sky</h4> <div><a href=\"https://www.flickr.com/photos/135037635@N03/22769636223/in/album-72157655977338469/\" target=\"_blank\"><img src=\"https://live.staticflickr.com/5650/22769636223_7cd63b9fc4_b.jpg\" width=\"200\" height=\"150\"></a></div>",
+				MaxWidth = 400
+			},
+		});
+	}
 
 	//Events
 	private async Task OnMapInitialized(string elementId)

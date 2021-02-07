@@ -823,11 +823,12 @@
             <param name="mapCustomControls">Enumerable CustomControl elements</param>
             <returns>Async task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.CreateMarkers(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker})">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.CreateMarkers(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker},System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker})">
             <summary>
             Creates markers on the Map with InfoWindows on the given position with event callbacks.
             </summary>
-            <param name="markers">Enumerable markers</param>
+            <param name="newMarkers">Enumerable new markers to add</param>
+            <param name="markers">Enumerable markers removed or replaced</param>
             <returns></returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
@@ -855,6 +856,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
             <summary>
             MarkerOptions object used to define the properties that can be set on a Marker.
+            ObservableCollection can be initialized only once! Add or remove items to the collecton the change marker properites (Marker properties value cahnges not detected).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
