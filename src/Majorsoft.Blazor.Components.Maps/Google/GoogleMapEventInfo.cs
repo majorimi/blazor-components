@@ -142,6 +142,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 		public void AddMarkers(IEnumerable<GoogleMapMarker> markers)
 		{
+			_markers.Clear();
 			foreach (var item in markers)
 			{
 				if (!_markers.ContainsKey(item.Id))

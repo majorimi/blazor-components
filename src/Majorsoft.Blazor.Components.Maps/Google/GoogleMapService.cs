@@ -176,19 +176,40 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			await CheckJsObjectAsync();
 
+			//Add only new markers to the map
 			var newMarkers = markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x))
-				.Except(_dotNetObjectReference.Value.Markers).Select(s => s.Value)
-				.ToList();
+				.Except(_dotNetObjectReference.Value.Markers)
+				.Distinct().Select(s => s.Value).ToList();
 
-			if(newMarkers.Count() == 0)
+			if(newMarkers.Count() > 0)
 			{
-				return;
+				await _mapsJs.InvokeVoidAsync("createMarkers", MapContainerId,
+					(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray());
 			}
 
+			//Remove markers from the map
+			var removedMarkers = _dotNetObjectReference.Value.Markers
+				.Except(markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x)))
+				.Distinct().Select(s => s.Value).ToList();
+
+			if (removedMarkers.Count() > 0)
+			{
+				await _mapsJs.InvokeVoidAsync("removeMarkers", MapContainerId,
+					(object)removedMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+			}
+
+			////Update markers
+			//var updateMarkers = _dotNetObjectReference.Value.Markers
+			//	.Intersect(markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x)))
+			//	.Select(s => s.Value).ToList();
+
+			//if (updateMarkers.Count() > 0)
+			//{
+			//	await _mapsJs.InvokeVoidAsync("updateMarkers", MapContainerId,
+			//		(object)updateMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+			//}
+
 			_dotNetObjectReference.Value.AddMarkers(markers);
-			//Add only new markers to the map
-			await _mapsJs.InvokeVoidAsync("createMarkers", MapContainerId,
-				(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray());
 		}
 
 		private async Task CheckJsObjectAsync()

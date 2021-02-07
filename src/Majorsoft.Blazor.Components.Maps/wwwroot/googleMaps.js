@@ -287,7 +287,7 @@ function getElementIdWithDotnetRef(dict, elementId) {
 }
 
 let _mapsElementDict = [];
-let _mapsMarkersDict = [];
+let _mapsMarkers = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -415,7 +415,7 @@ export function createCustomControls(elementId, customControls) {
 
 //Markers
 export function createMarkers(elementId, markers) {
-	if (elementId && markers) {
+	if (elementId && markers && markers.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 
@@ -423,25 +423,15 @@ export function createMarkers(elementId, markers) {
 
 				let markerData = markers[i];
 				let marker = new google.maps.Marker({
-					//required
-					position: { lat: markerData.position.latitude, lng: markerData.position.longitude },
-					map: mapWithDotnetRef.map,
-					//optional
-					anchorPoint: markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null,
-					animation: markerData.animation,
-					clickable: markerData.clickable,
+					id: markerData.id, //Custom id to track Markers
+					//some property does not work after set...
 					crossOnDrag: markerData.crossOnDrag,
-					cursor: markerData.cursor,
-					draggable: markerData.draggable,
-					icon: markerData.icon,
-					label: markerData.label,
-					opacity: markerData.opacity,
 					optimized: markerData.optimized,
-					shape: markerData.shape,
-					title: markerData.title,
-					visible: markerData.visible,
-					zIndex: markerData.zIndex,
 				});
+
+				marker.setMap(mapWithDotnetRef.map);
+				setMarkerData(markerData, marker);
+				_mapsMarkers.push(marker);
 
 				//Marker events
 				if (markerData.clickable) {
@@ -463,7 +453,6 @@ export function createMarkers(elementId, markers) {
 						}
 					});
 				}
-
 				if (markerData.draggable) {
 					marker.addListener("drag", () => {
 						markerDragEvents("MarkerDrag", markerData.id, marker.getPosition().toJSON());
@@ -488,6 +477,69 @@ export function createMarkers(elementId, markers) {
 			}
 		}
 	}
+}
+//export function updateMarkers(elementId, markers) {
+//	if (elementId && markers && markers.length) {
+//		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+//		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+//			for (var i = 0; i < markers.length; i++) {
+//				let markerData = markers[i];
+
+//				_mapsMarkers.forEach(element => {
+//					if (markerData.id == element.id) {
+//						setMarkerData(markerData, element);
+//						return;
+//					}
+//				});
+//			}
+//		}
+//	}
+//}
+export function removeMarkers(elementId, markers) {
+	if (elementId && markers && markers.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < markers.length; i++) {
+				let markerData = markers[i];
+
+				_mapsMarkers.forEach( (element, index) => {
+					if (markerData.id == element.id) {
+						element.setMap(null);
+						_mapsMarkers.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
+function setMarkerData(markerData, marker) {
+	if (!marker || !markerData) {
+		return;
+	}
+
+	//required
+	marker.setPosition({ lat: markerData.position.latitude, lng: markerData.position.longitude });
+	//optional
+	//marker.setAnchorPoint(markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null);
+	marker.anchorPoint = markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null;
+	marker.setAnimation(markerData.animation);
+	marker.setClickable(markerData.clickable);
+	//marker.setCrossOnDrag(markerData.crossOnDrag);
+	marker.crossOnDrag = markerData.crossOnDrag;
+	marker.setCursor(markerData.cursor);
+	marker.setDraggable(markerData.draggable);
+	marker.setIcon(markerData.icon);
+	marker.setLabel(markerData.label);
+	marker.setOpacity(markerData.opacity);
+	//marker.setOptimized(markerData.optimized);
+	marker.optimized = markerData.optimized;
+	marker.setShape(markerData.shape);
+	marker.setTitle(markerData.title);
+	marker.setVisible(markerData.visible);
+	marker.setZIndex(markerData.zIndex);
 }
 
 //Google GeoCoder

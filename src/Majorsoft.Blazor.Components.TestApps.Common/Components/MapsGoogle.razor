@@ -286,6 +286,13 @@
 
 			</div>
 		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<button class="btn btn-primary" @onclick="@(() => { _jsMarkersTmp.AddRange(_jsMarkers); _jsMarkers.Clear(); })">Hide all Markers</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
+				<button class="btn btn-primary" @onclick="@(() => _jsMarkers.Clear())">Remove Markers</button>
+			</div>
+		</div>
 
 		<div class="row pb-2">
 			<div class="col-12">
@@ -312,106 +319,106 @@
 @inject IGeolocationService _geolocationService;
 
 @code {
-		private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
+	private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
 
-		protected override void OnInitialized()
+	protected override void OnInitialized()
+	{
+		//Static map
+		_staticMapMarkers.ElementAt(0).Locations.Add(new GeolocationData(1.111, 2.222));
+		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData(17.111, 33.222));
+		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData("London"));
+		_staticMapMarkers.ElementAt(2).Locations.Add(new GeolocationData("New York"));
+		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
+		_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
+
+		//JS map
+		_jsMapTypeControlOptions.ResetMapTypes(GoogleMapTypes.Roadmap,
+			GoogleMapTypes.Satellite,
+			GoogleMapTypes.Terrain,
+			GoogleMapTypes.Hybrid);
+
+		_jsCustomControls.Add(new GoogleMapCustomControl(
+			"<div title=\"Click to Center Sydney\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Go to Sydney</div></div>")
 		{
-			//Static map
-			_staticMapMarkers.ElementAt(0).Locations.Add(new GeolocationData(1.111, 2.222));
-			_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData(17.111, 33.222));
-			_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData("London"));
-			_staticMapMarkers.ElementAt(2).Locations.Add(new GeolocationData("New York"));
-			_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
-			_staticMapMarkers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
-
-			//JS map
-			_jsMapTypeControlOptions.ResetMapTypes(GoogleMapTypes.Roadmap,
-				GoogleMapTypes.Satellite,
-				GoogleMapTypes.Terrain,
-				GoogleMapTypes.Hybrid);
-
-			_jsCustomControls.Add(new GoogleMapCustomControl(
-				"<div title=\"Click to Center Sydney\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Go to Sydney</div></div>")
+			OnClickCallback = async (id) =>
 			{
-				OnClickCallback = async (id) =>
-				{
-					_jsMapCenter = new GeolocationData("Sydney");
-					_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Go to Sydney' was clicked");
+				_jsMapCenter = new GeolocationData("Sydney");
+				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Go to Sydney' was clicked");
 
-					StateHasChanged();
-				},
-				ControlPosition = GoogleMapControlPositions.BOTTOM_CENTER,
-			});
-			_jsCustomControls.Add(new GoogleMapCustomControl(
-				"<div title=\"Center my location\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Center my location</div></div>")
+				StateHasChanged();
+			},
+			ControlPosition = GoogleMapControlPositions.BOTTOM_CENTER,
+		});
+		_jsCustomControls.Add(new GoogleMapCustomControl(
+			"<div title=\"Center my location\" style=\"background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px; cursor: pointer; margin-bottom: 22px; text-align: center;\"><div style=\"color: rgb(25, 25, 25); font-family: Roboto, Arial, sans-serif; font-size: 16px; line-height: 38px; padding-left: 5px; padding-right: 5px;\">Center my location</div></div>")
+		{
+			OnClickCallback = async (id) =>
 			{
-				OnClickCallback = async (id) =>
-				{
-					_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Center my location' was clicked");
-					await _googleMap.CenterCurrentLocationOnMap();
-				},
-				ControlPosition = GoogleMapControlPositions.TOP_CENTER,
-			});
+				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Center my location' was clicked");
+				await _googleMap.CenterCurrentLocationOnMap();
+			},
+			ControlPosition = GoogleMapControlPositions.TOP_CENTER,
+		});
 
-			_jsMapMarkersClickCallback = async (id) =>
+		_jsMapMarkersClickCallback = async (id) =>
+		{
+			if (_logMarkerEvents)
 			{
-				if (_logMarkerEvents)
-				{
-					var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
-					_mapsLog = await WriteLog(_mapsLog, $"User added Marker was clicked Id: '{id}', at position: '{clickedMarker?.Position?.ToString()}'");
-				}
-			};
-			_jsMapMarkersDragCallback = async (id, pos) =>
+				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Marker was clicked Id: '{id}', at position: '{clickedMarker?.Position?.ToString()}'");
+			}
+		};
+		_jsMapMarkersDragCallback = async (id, pos) =>
+		{
+			if (_logMarkerEvents)
 			{
-				if (_logMarkerEvents)
-				{
-					var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
-					_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', dragging at position: '{pos?.ToString()}'");
-				}
-			};
-			_jsMapMarkersDragEndCallback = async (id, pos) =>
+				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', dragging at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapMarkersDragEndCallback = async (id, pos) =>
+		{
+			if (_logMarkerEvents)
 			{
-				if (_logMarkerEvents)
-				{
-					var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
-					_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag ended at position: '{pos?.ToString()}'");
-				}
-			};
-			_jsMapMarkersDragStartCallback = async (id, pos) =>
+				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag ended at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapMarkersDragStartCallback = async (id, pos) =>
+		{
+			if (_logMarkerEvents)
 			{
-				if (_logMarkerEvents)
-				{
-					var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
-					_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag started at position: '{pos?.ToString()}'");
-				}
-			};
-		}
+				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+	}
 
-		//Static Maps
-		private GoogleStaticMap _googleStaticMap;
-		private GeolocationData _staticMapCenter = new GeolocationData(7.439586759063666, 9.10229996558434);
-		private byte _staticMapZoomLevel = 10;
-		private int _staticMapWidth = 450;
-		private int _staticMapHeight = 200;
-		private bool _staticMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
-		private GoogleMapTypes _staticMapType = GoogleMapTypes.Roadmap;
-		private GoogleStaticMapImageFormats _staticMapImageFormat = GoogleStaticMapImageFormats.Png;
-		private bool _staticMapHighResolution = false;
+	//Static Maps
+	private GoogleStaticMap _googleStaticMap;
+	private GeolocationData _staticMapCenter = new GeolocationData(7.439586759063666, 9.10229996558434);
+	private byte _staticMapZoomLevel = 10;
+	private int _staticMapWidth = 450;
+	private int _staticMapHeight = 200;
+	private bool _staticMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+	private GoogleMapTypes _staticMapType = GoogleMapTypes.Roadmap;
+	private GoogleStaticMapImageFormats _staticMapImageFormat = GoogleStaticMapImageFormats.Png;
+	private bool _staticMapHighResolution = false;
 
-		private bool _staticMapShowPath = false;
-		private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
+	private bool _staticMapShowPath = false;
+	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
 {
 		{ new GeolocationData("Budapest")},
 		{ new GeolocationData("London")}
 	};
-		private bool _staticMapShowVisiblePoints = false;
-		private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
+	private bool _staticMapShowVisiblePoints = false;
+	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
 {
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
 	};
-		private bool _staticMapShowMarkers = false;
-		private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
+	private bool _staticMapShowMarkers = false;
+	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
 {
 		{ new GoogleStaticMapMarker() },
 		{ new GoogleStaticMapMarker()
@@ -434,123 +441,124 @@
 		},
 	};
 
-		//Geolocation current position detection
-		private async Task CenterMyLocationWithStaticMap()
+	//Geolocation current position detection
+	private async Task CenterMyLocationWithStaticMap()
+	{
+		await _googleStaticMap.CenterCurrentLocationOnMap();
+	}
+	private async Task CenterMyLocationWithInjectedService()
+	{
+		await _geolocationService.GetCurrentPosition(async (pos) =>
 		{
-			await _googleStaticMap.CenterCurrentLocationOnMap();
-		}
-		private async Task CenterMyLocationWithInjectedService()
-		{
-			await _geolocationService.GetCurrentPosition(async (pos) =>
+			if (pos.IsSuccess)
 			{
-				if (pos.IsSuccess)
-				{
-					_staticMapCenter = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
-					StateHasChanged();
-				}
-			},
-			false, TimeSpan.FromSeconds(10));
-		}
-
-
-		//Javascript Maps
-		private GoogleMap _googleMap;
-		private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
-		private string _jsMapBackgroundColor = "lightblue";
-		private int _jsMapControlSize = 38;
-		private byte _jsMapZoomLevel = 10;
-		private int _jsMapWidth = 450;
-		private int _jsMapHeight = 250;
-		private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
-		private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
-		private byte _jsTilt = 0;
-		private int _jsHeading = 0;
-		private bool _jsMapAnimateCenterChange = true;
-		private bool _jsClickableIcons = true;
-		private bool _jsDisableDefaultUI = false;
-		private bool _jsDisableDoubleClickZoom = false;
-		private bool _jsFullscreenControl = true;
-		private GoogleMapControlPositions _jsFullscreenControlPositon = GoogleMapControlPositions.TOP_RIGHT;
-		private GoogleMapGestureHandlingTypes _jsGestureHandling = GoogleMapGestureHandlingTypes.Auto;
-		private bool _jsKeyboardShortcuts = true;
-		private bool _jsMapTypeControl = true;
-		private GoogleMapTypeControlOptions _jsMapTypeControlOptions = new GoogleMapTypeControlOptions()
-		{
-			MapTypeControlStyle = GoogleMapTypeControlStyles.DROPDOWN_MENU,
-		};
-		private bool _jsRotateControl = true;
-		private bool _jsScaleControl = true;
-		private bool _jsStreetViewControl = true;
-		private bool _jsZoomControl = true;
-
-		private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
-		private List<GoogleMapMarker> _jsMarkers = new List<GoogleMapMarker>();
-
-		private ElementReference _log;
-		private string _mapsLog;
-		private bool _logMouseMove = false;
-		private bool _logOtherMouseEvents = true;
-		private bool _logDragEvents = true;
-		private bool _logCenterChangeEvents = true;
-		private bool _logOtherEvents = true;
-		private bool _logMarkerEvents = true;
-
-		private bool _jsMapCenterOnClick = true;
-		private bool _jsMapAddMarkerOnClick = true;
-
-		private Func<string, Task> _jsMapMarkersClickCallback;
-		private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragCallback;
-		private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragEndCallback;
-		private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragStartCallback;
-
-		//Events
-		private async Task OnMapInitialized(string elementId)
-		{
-			_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'");
-		}
-		private async Task OnMapClicked(GeolocationCoordinate coordinate)
-		{
-			if (_logOtherMouseEvents)
-			{
-				_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: '{coordinate.ToString()}'");
+				_staticMapCenter = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
+				StateHasChanged();
 			}
+		},
+		false, TimeSpan.FromSeconds(10));
+	}
 
-			if (_jsMapCenterOnClick)
-			{
-				_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
-			}
 
-			if (_jsMapAddMarkerOnClick)
+	//Javascript Maps
+	private GoogleMap _googleMap;
+	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
+	private string _jsMapBackgroundColor = "lightblue";
+	private int _jsMapControlSize = 38;
+	private byte _jsMapZoomLevel = 10;
+	private int _jsMapWidth = 450;
+	private int _jsMapHeight = 250;
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
+	private byte _jsTilt = 0;
+	private int _jsHeading = 0;
+	private bool _jsMapAnimateCenterChange = true;
+	private bool _jsClickableIcons = true;
+	private bool _jsDisableDefaultUI = false;
+	private bool _jsDisableDoubleClickZoom = false;
+	private bool _jsFullscreenControl = true;
+	private GoogleMapControlPositions _jsFullscreenControlPositon = GoogleMapControlPositions.TOP_RIGHT;
+	private GoogleMapGestureHandlingTypes _jsGestureHandling = GoogleMapGestureHandlingTypes.Auto;
+	private bool _jsKeyboardShortcuts = true;
+	private bool _jsMapTypeControl = true;
+	private GoogleMapTypeControlOptions _jsMapTypeControlOptions = new GoogleMapTypeControlOptions()
+	{
+		MapTypeControlStyle = GoogleMapTypeControlStyles.DROPDOWN_MENU,
+	};
+	private bool _jsRotateControl = true;
+	private bool _jsScaleControl = true;
+	private bool _jsStreetViewControl = true;
+	private bool _jsZoomControl = true;
+
+	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
+	private List<GoogleMapMarker> _jsMarkers = new List<GoogleMapMarker>();
+	private List<GoogleMapMarker> _jsMarkersTmp = new List<GoogleMapMarker>();
+
+	private ElementReference _log;
+	private string _mapsLog;
+	private bool _logMouseMove = false;
+	private bool _logOtherMouseEvents = true;
+	private bool _logDragEvents = true;
+	private bool _logCenterChangeEvents = true;
+	private bool _logOtherEvents = true;
+	private bool _logMarkerEvents = true;
+
+	private bool _jsMapCenterOnClick = true;
+	private bool _jsMapAddMarkerOnClick = true;
+
+	private Func<string, Task> _jsMapMarkersClickCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragEndCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragStartCallback;
+
+	//Events
+	private async Task OnMapInitialized(string elementId)
+	{
+		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'");
+	}
+	private async Task OnMapClicked(GeolocationCoordinate coordinate)
+	{
+		if (_logOtherMouseEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Map was clicked at: '{coordinate.ToString()}'");
+		}
+
+		if (_jsMapCenterOnClick)
+		{
+			_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
+		}
+
+		if (_jsMapAddMarkerOnClick)
+		{
+			_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(coordinate.Latitude, coordinate.Longitude))
 			{
-				_jsMarkers.Add(new GoogleMapMarker(new GeolocationCoordinate(coordinate.Latitude, coordinate.Longitude))
+				AnchorPoint = new Point() { X = -10, Y = -35 },
+				Animation = GoogleMapMarkerAnimationTypes.DROP,
+				Clickable = true,
+				CrossOnDrag = true,
+				Cursor = "drag",
+				Draggable = true,
+				Label = new GoogleMapMarkerLabel("Marker Label"),
+				Icon = new GoogleMapMarkerLabelIcon("https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png")
+				{ LabelOrigin = new Point() { Y = 20, X = 5 } },
+				Opacity = 0.75,
+				Optimized = true,
+				Shape = new GoogleMapMarkerShape()
+				{ ShapeType = GoogleMapMarkerShapeTypes.Poly, Coords = new int[] { 1, 1, 1, 20, 18, 20, 18, 1 } },
+				Title = "Clicked positon marker...",
+				Visible = true,
+				ZIndex = 1,
+				InfoWindow = new GoogleMapInfoWindow()
 				{
-					AnchorPoint = new Point() { X = -10, Y = -35 },
-					Animation = GoogleMapMarkerAnimationTypes.DROP,
-					Clickable = true,
-					CrossOnDrag = true,
-					Cursor = "drag",
-					Draggable = true,
-					Label = new GoogleMapMarkerLabel("Marker Label"),
-					Icon = new GoogleMapMarkerLabelIcon("https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png") 
-						{ LabelOrigin = new Point() { Y = 20, X = 5} },
-					Opacity = 0.75,
-					Optimized = true,
-					Shape = new GoogleMapMarkerShape() 
-						{ ShapeType = GoogleMapMarkerShapeTypes.Poly, Coords = new int[] { 1, 1, 1, 20, 18, 20, 18, 1 } },
-					Title = "Clicked positon marker...",
-					Visible = true,
-					ZIndex = 1,
-					InfoWindow = new GoogleMapInfoWindow() 
-					{
-						Content = $"<div>User clicked at postion: {coordinate.ToString()}</div>",
-						MaxWidth = 200
-					},
+					Content = $"<div>User clicked at postion: {coordinate.ToString()}</div>",
+					MaxWidth = 200
+				},
 
-					OnClickCallback = _jsMapMarkersClickCallback,
-					OnDragCallback = _jsMapMarkersDragCallback,
-					OnDragStartCallback = _jsMapMarkersDragStartCallback,
-					OnDragEndCallback = _jsMapMarkersDragEndCallback
-				});
+				OnClickCallback = _jsMapMarkersClickCallback,
+				OnDragCallback = _jsMapMarkersDragCallback,
+				OnDragStartCallback = _jsMapMarkersDragStartCallback,
+				OnDragEndCallback = _jsMapMarkersDragEndCallback
+			});
 		}
 	}
 	private async Task OnMapDoubleClicked(GeolocationCoordinate coordinate)
