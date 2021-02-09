@@ -459,7 +459,7 @@
 	}
 	private async Task CenterMyLocationWithInjectedService()
 	{
-		await _geolocationService.GetCurrentPosition(async (pos) =>
+		await _geolocationService.GetCurrentPositionAsync(async (pos) =>
 		{
 			if (pos.IsSuccess)
 			{
@@ -787,7 +787,7 @@
 	}
 	private async Task CenterMyLocationWithInjectedServiceJavaScript()
 	{
-		await _geolocationService.GetCurrentPosition(async (pos) =>
+		await _geolocationService.GetCurrentPositionAsync(async (pos) =>
 		{
 			if (pos.IsSuccess)
 			{

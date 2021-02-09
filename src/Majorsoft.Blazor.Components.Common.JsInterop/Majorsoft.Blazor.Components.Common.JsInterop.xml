@@ -264,7 +264,7 @@
             Injectable service to handle Browser Geolocation Interops.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.GetCurrentPosition(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.GetCurrentPositionAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Get the current position of the device.
             </summary>
@@ -274,7 +274,7 @@
             <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcher(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcherAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
             <summary>
             Register a handler function that will be called automatically each time the position of the device changes.
             </summary>
@@ -282,11 +282,11 @@
             <param name="highAccuracy">Indicates the application would like to receive the best possible results</param>
             <param name="timeout">Representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. Default is 5000</param>
             <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
-            <returns>Async Task with int32 handlerId which can be used to remove watcher in <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcher(System.Int32)"/></returns>
+            <returns>Async Task with int32 handlerId which can be used to remove watcher in <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcherAsync(System.Int32)"/></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcher(System.Int32)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcherAsync(System.Int32)">
             <summary>
-            Unregister location/error monitoring handlers previously installed using <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcher(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})"/>
+            Unregister location/error monitoring handlers previously installed using <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcherAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})"/>
             </summary>
             <param name="handlerId"></param>
             <returns>Async Task</returns>

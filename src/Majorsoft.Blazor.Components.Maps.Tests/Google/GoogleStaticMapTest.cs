@@ -58,7 +58,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleStaticMap_should_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
@@ -69,14 +69,14 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Once);
 		}
 
 		[TestMethod]
 		public void GoogleStaticMap_should_not_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
@@ -87,7 +87,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Never);
 		}
 

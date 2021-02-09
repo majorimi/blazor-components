@@ -43,7 +43,7 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<button class="btn btn-primary"
-					@onclick="@(async () => await _geoLocationService.GetCurrentPosition(CurrentLocationResult,
+					@onclick="@(async () => await _geoLocationService.GetCurrentPositionAsync(CurrentLocationResult,
 								_geoAccuracy,
 								TimeSpan.FromMilliseconds(_geoTimeout),
 								TimeSpan.FromMilliseconds(_geoCacheTime)))">
@@ -152,11 +152,11 @@
 	{
 		if (_geoSubscribed)
 		{
-			await _geoLocationService.RemoveGeolocationWatcher(_geoEventId);
+			await _geoLocationService.RemoveGeolocationWatcherAsync(_geoEventId);
 		}
 		else
 		{
-			_geoEventId = await _geoLocationService.AddGeolocationWatcher(OnLocationChanged,
+			_geoEventId = await _geoLocationService.AddGeolocationWatcherAsync(OnLocationChanged,
 				_geoAccuracy,
 				TimeSpan.FromMilliseconds(_geoTimeout),
 				TimeSpan.FromMilliseconds(_geoCacheTime));

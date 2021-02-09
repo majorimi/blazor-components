@@ -188,7 +188,6 @@ Returns the given user's Browser language preference as .NET `CultureInfo`.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
-
 ## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
 **Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
 It is using the Geolocation API which allows users to provide their location to web applications if they desire.
@@ -198,11 +197,11 @@ It is using the Geolocation API which allows users to provide their location to 
 Also some properties of the response might be not available like `Speed`, `Heading` because of required hardwares: GPS, compass, etc.
 
 ### Functions
-- **`GetCurrentPosition`: `Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+- **`GetCurrentPositionAsync`: `Task GetCurrentPositionAsync(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
 Get the current position of the device.
-- **`AddGeolocationWatcher`: `Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+- **`AddGeolocationWatcherAsync`: `Task<int> AddGeolocationWatcherAsync(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
 Register a handler function that will be **called automatically each time the position of the device changes**.
-- **`RemoveGeolocationWatcher`: `Task RemoveGeolocationWatcher(int handlerId)`** <br />
+- **`RemoveGeolocationWatcherAsync`: `Task RemoveGeolocationWatcherAsync(int handlerId)`** <br />
 Unregister location/error monitoring handlers previously installed using `AddGeolocationWatcher`.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
