@@ -18,7 +18,7 @@
 	{
 		if (CenterCurrentLocationOnLoad && firstRender)
 		{
-			await CenterCurrentLocationOnMap();
+			await CenterCurrentLocationOnMapAsync();
 		}
 	}
 
@@ -119,7 +119,7 @@
 	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
 	/// </summary>
 	/// <returns>Async task</returns>
-	public async Task CenterCurrentLocationOnMap()
+	public async Task CenterCurrentLocationOnMapAsync()
 	{
 		await _geolocationService.GetCurrentPosition(LocationResult, false, TimeSpan.FromSeconds(10));
 		WriteDiag($"Geolocation service was called waiting for response, result will be processed in callback method.");

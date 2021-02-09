@@ -1162,7 +1162,7 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnMap">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnMapAsync">
             <summary>
             Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
             Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
@@ -1270,7 +1270,7 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnMap">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnMapAsync">
             <summary>
             Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
             Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.

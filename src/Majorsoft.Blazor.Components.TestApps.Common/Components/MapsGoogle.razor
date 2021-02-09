@@ -8,10 +8,14 @@
 	</p>
 
 	<p>
-		<strong>
+		<i class="fa fa-lg fa-exclamation-triangle text-warning" aria-hidden="true"></i>
+		<strong class="">
 			To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.
+			<br />
+			Your API key is not tracked or distributed by Maps Blazor Components and Demo application. It is your responsibility to use it safely in your Blazor Apps!
 		</strong>
 	</p>
+	<hr />
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-6">
@@ -21,7 +25,10 @@
 	</div>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
-		<h4>Google Maps Static API</h4>
+		<PermaLinkElement PermaLinkName="google-static-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h4>Google Maps Static API</h4></Content>
+		</PermaLinkElement>
+		
 		<p>
 			The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an HTTP request via a URL.
 			For each request, you can specify the location of the map, the size of the image, the zoom level, the type of map, and the placement of optional markers at locations on the map. You can additionally label your markers using alphanumeric characters.
@@ -124,7 +131,10 @@
 	</div>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
-		<h4>Google Maps JavaScript API</h4>
+		<PermaLinkElement PermaLinkName="google-js-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h4>Google Maps JavaScript API</h4></Content>
+		</PermaLinkElement>
+
 		<p>
 			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
 			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers and styles, controls and events, and various services and libraries.
@@ -356,7 +366,7 @@
 			OnClickCallback = async (id) =>
 			{
 				_mapsLog = await WriteLog(_mapsLog, $"Custom control button: 'Center my location' was clicked");
-				await _googleMap.CenterCurrentLocationOnMap();
+				await _googleMap.CenterCurrentLocationOnMapAsync();
 			},
 			ControlPosition = GoogleMapControlPositions.TOP_CENTER,
 		});
@@ -445,7 +455,7 @@
 	//Geolocation current position detection
 	private async Task CenterMyLocationWithStaticMap()
 	{
-		await _googleStaticMap.CenterCurrentLocationOnMap();
+		await _googleStaticMap.CenterCurrentLocationOnMapAsync();
 	}
 	private async Task CenterMyLocationWithInjectedService()
 	{
@@ -773,7 +783,7 @@
 	//Geolocation current position detection
 	private async Task CenterMyLocationWithJavaScriptMap()
 	{
-		await _googleMap.CenterCurrentLocationOnMap();
+		await _googleMap.CenterCurrentLocationOnMapAsync();
 	}
 	private async Task CenterMyLocationWithInjectedServiceJavaScript()
 	{
