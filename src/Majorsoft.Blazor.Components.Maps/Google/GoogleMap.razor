@@ -23,7 +23,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		{
-			await _mapService.InitMap(apiKey: ApiKey,
+			await _mapService.InitMapAsync(apiKey: ApiKey,
 				mapContainerId: _mapContainerId,
 				backgroundColor: BackgroundColor,
 				controlSize: ControlSize,
@@ -40,7 +40,7 @@
 
 					if (CustomControls?.Any() ?? false)
 					{
-						await _mapService.CreateCustomControls(CustomControls);
+						await _mapService.CreateCustomControlsAsync(CustomControls);
 					}
 
 					if (OnMapInitialized.HasDelegate)
@@ -304,7 +304,7 @@
 	{
 		WriteDiag($"{nameof(MarkersChanges)} Marker collection has changed, item Count: '{_markers?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
 
-		InvokeAsync(async () => await _mapService.CreateMarkers(e.NewItems?.Cast<GoogleMapMarker>(), _markers?.Cast<GoogleMapMarker>()));
+		InvokeAsync(async () => await _mapService.CreateMarkersAsync(e.NewItems?.Cast<GoogleMapMarker>(), _markers?.Cast<GoogleMapMarker>()));
 	}
 
 	private byte _zoomLevel = 12;
@@ -320,7 +320,7 @@
 			if (_mapInitialized && value != _zoomLevel)
 			{
 				_zoomLevel = value;
-				InvokeAsync(async () => await _mapService.SetZoom(_zoomLevel));
+				InvokeAsync(async () => await _mapService.SetZoomAsync(_zoomLevel));
 			}
 		}
 	}
@@ -341,7 +341,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.zoomControl = _zoomControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -362,7 +362,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.zoomControlOptions = new { position = _zoomControlOptionsPosition };
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -384,7 +384,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.maxZoom = _maxZoom;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -406,7 +406,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.minZoom = _minZoom;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -425,7 +425,7 @@
 			if (_mapInitialized && value != _width)
 			{
 				_width = value;
-				InvokeAsync(async () => await _mapService.ResizeMap());
+				InvokeAsync(async () => await _mapService.ResizeMapAsync());
 			}
 		}
 	}
@@ -442,7 +442,7 @@
 			if (_mapInitialized && value != _height)
 			{
 				_height = value;
-				InvokeAsync(async () => await _mapService.ResizeMap());
+				InvokeAsync(async () => await _mapService.ResizeMapAsync());
 			}
 		}
 	}
@@ -466,16 +466,16 @@
 					if (Center?.HasCoordinates ?? false)
 					{
 						if (AnimateCenterChange)
-							await _mapService.PanTo(Center.Latitude.Value, Center.Longitude.Value);
+							await _mapService.PanToAsync(Center.Latitude.Value, Center.Longitude.Value);
 						else
-							await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
+							await _mapService.SetCenterAsync(Center.Latitude.Value, Center.Longitude.Value);
 					}
 					else if (!string.IsNullOrWhiteSpace(Center?.Address))
 					{
 						if (AnimateCenterChange)
-							await _mapService.PanTo(Center.Address);
+							await _mapService.PanToAsync(Center.Address);
 						else
-							await _mapService.SetCenter(Center.Address);
+							await _mapService.SetCenterAsync(Center.Address);
 					}
 				});
 			}
@@ -500,7 +500,7 @@
 			if (_mapInitialized && _mapType != value)
 			{
 				_mapType = value;
-				InvokeAsync(async () => await _mapService.SetMapType(_mapType));
+				InvokeAsync(async () => await _mapService.SetMapTypeAsync(_mapType));
 			}
 		}
 	}
@@ -526,7 +526,7 @@
 					position = _mapTypeControlOptions?.Position,
 					style = _mapTypeControlOptions?.MapTypeControlStyle
 				};
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -545,7 +545,7 @@
 			if (_mapInitialized && value != _heading)
 			{
 				_heading = value;
-				InvokeAsync(async () => await _mapService.SetHeading(_heading));
+				InvokeAsync(async () => await _mapService.SetHeadingAsync(_heading));
 			}
 		}
 	}
@@ -564,7 +564,7 @@
 			if (_mapInitialized && value != _tilt)
 			{
 				_tilt = value;
-				InvokeAsync(async () => await _mapService.SetTilt(_tilt));
+				InvokeAsync(async () => await _mapService.SetTiltAsync(_tilt));
 			}
 		}
 	}
@@ -583,7 +583,7 @@
 			if (_mapInitialized && value != _clickableIcons)
 			{
 				_clickableIcons = value;
-				InvokeAsync(async () => await _mapService.SetClickableIcons(_clickableIcons));
+				InvokeAsync(async () => await _mapService.SetClickableIconsAsync(_clickableIcons));
 			}
 		}
 	}
@@ -605,7 +605,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.disableDefaultUI = _disableDefaultUI;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -626,7 +626,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.disableDoubleClickZoom = _disableDoubleClickZoom;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -648,7 +648,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.draggableCursor = _draggableCursor;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -670,7 +670,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.draggingCursor = _draggingCursor;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -691,7 +691,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.fullscreenControl = _fullscreenControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -712,7 +712,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.fullscreenControlOptions = new { position = _fullscreenControlPosition };
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -733,7 +733,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.gestureHandling = _gestureHandling.ToString().ToLower();
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -754,7 +754,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.keyboardShortcuts = _keyboardShortcuts;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -775,7 +775,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.mapTypeControl = _mapTypeControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -796,7 +796,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.rotateControl = _rotateControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -817,7 +817,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.rotateControlOptions = new { position = _rotateControlOptionsPosition };
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -838,7 +838,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.rotateControl = _scaleControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -860,7 +860,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.streetViewControl = _streetViewControl;
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -881,7 +881,7 @@
 
 				dynamic options = new ExpandoObject();
 				options.streetViewControlOptions = new { position = _streetViewControlOptionsPosition };
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -911,7 +911,7 @@
 
 					return obj;
 				}).ToArray();
-				InvokeAsync(async () => await _mapService.SetOptions(options));
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -1052,8 +1052,8 @@
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// Starts an async operation to try to dectect device locaton by using <see cref="IGeolocationService"/>.
-	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
+	/// Starts an async operation to try to detect device location by using <see cref="IGeolocationService"/>.
+	/// Once operation has finished successfully <see cref="OnLocationDetected"/> event will be fired.
 	/// </summary>
 	/// <returns>Async task</returns>
 	public async Task CenterCurrentLocationOnMapAsync()
@@ -1067,7 +1067,7 @@
 
 		if (pos?.IsSuccess ?? false)
 		{
-			await _mapService.SetCenter(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
+			await _mapService.SetCenterAsync(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 			Center = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 
 			if (OnCurrentLocationDetected.HasDelegate)

@@ -12,7 +12,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 	public interface IGoogleMapService : IAsyncDisposable
 	{
 		/// <summary>
-		/// HTML Div Id which was set when Maps initialized with <see cref="InitMap"/> method.
+		/// HTML Div Id which was set when Maps initialized with <see cref="InitMapAsync"/> method.
 		/// </summary>
 		string MapContainerId { get; }
 
@@ -48,7 +48,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
 		/// <returns>Async task</returns>
-		Task InitMap(string apiKey, 
+		Task InitMapAsync(string apiKey, 
 			string mapContainerId,
 			string backgroundColor = "lightgray",
 			int controlSize = 40,
@@ -83,14 +83,14 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="latitude">Latitude component</param>
 		/// <param name="longitude">Longitude component</param>
 		/// <returns>Async task</returns>
-		Task SetCenter(double latitude, double longitude);
+		Task SetCenterAsync(double latitude, double longitude);
 
 		/// <summary>
 		/// Sets the center point as coordinates after Address was resolved to coords of the Map.
 		/// </summary>
 		/// <param name="address">Address as required center point</param>
 		/// <returns>Async task</returns>
-		Task SetCenter(string address);
+		Task SetCenterAsync(string address);
 
 		/// <summary>
 		/// Sets the center point as coordinates of the Map with smooth slide animation.
@@ -98,35 +98,35 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="latitude">Latitude component</param>
 		/// <param name="longitude">Longitude component</param>
 		/// <returns>Async task</returns>
-		Task PanTo(double latitude, double longitude);
+		Task PanToAsync(double latitude, double longitude);
 
 		/// <summary>
 		/// Sets the center point as coordinates after Address was resolved to coords of the Map smooth slide animation.
 		/// </summary>
 		/// <param name="address">Address as required center point</param>
 		/// <returns>Async task</returns>
-		Task PanTo(string address);
+		Task PanToAsync(string address);
 
 		/// <summary>
 		/// Sets map Zoom level.
 		/// </summary>
 		/// <param name="zoom">Required Zoom level should be 0-22</param>
 		/// <returns>Async task</returns>
-		Task SetZoom(byte zoom);
+		Task SetZoomAsync(byte zoom);
 
 		/// <summary>
 		/// Sets the map type.
 		/// </summary>
 		/// <param name="googleMapType">Required <see cref="GoogleMapTypes"/></param>
 		/// <returns>Async task</returns>
-		Task SetMapType(GoogleMapTypes googleMapType);
+		Task SetMapTypeAsync(GoogleMapTypes googleMapType);
 
 		/// <summary>
 		/// Sets the compass heading for aerial imagery measured in degrees from cardinal direction North.
 		/// </summary>
 		/// <param name="heading">Required heading 0-360</param>
 		/// <returns>Async task</returns>
-		Task SetHeading(int heading);
+		Task SetHeadingAsync(int heading);
 
 		/// <summary>
 		/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport. 
@@ -134,13 +134,13 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// </summary>
 		/// <param name="tilt">Required tilt 0 or 45</param>
 		/// <returns>Async task</returns>
-		Task SetTilt(byte tilt);
+		Task SetTiltAsync(byte tilt);
 
 		/// <summary>
 		/// Notify Maps JS about container DIV resized.
 		/// </summary>
 		/// <returns>Async task</returns>
-		Task ResizeMap();
+		Task ResizeMapAsync();
 
 		/// <summary>
 		/// Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI. 
@@ -148,21 +148,21 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// </summary>
 		/// <param name="isClickable">Icons are clickable or not</param>
 		/// <returns>Async task</returns>
-		Task SetClickableIcons(bool isClickable);
+		Task SetClickableIconsAsync(bool isClickable);
 
 		/// <summary>
 		/// Sets given options to Map.
 		/// </summary>
 		/// <param name="options">Google JavaScript Maps options</param>
 		/// <returns>Async task</returns>
-		Task SetOptions(ExpandoObject options);
+		Task SetOptionsAsync(ExpandoObject options);
 
 		/// <summary>
 		/// Creates Custom Controls on the Map on the given position with event callbacks.
 		/// </summary>
 		/// <param name="mapCustomControls">Enumerable CustomControl elements</param>
 		/// <returns>Async task</returns>
-		Task CreateCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls);
+		Task CreateCustomControlsAsync(IEnumerable<GoogleMapCustomControl> mapCustomControls);
 
 		/// <summary>
 		/// Creates markers on the Map with InfoWindows on the given position with event callbacks.
@@ -170,6 +170,6 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="newMarkers">Enumerable new markers to add</param>
 		/// <param name="markers">Enumerable markers removed or replaced</param>
 		/// <returns></returns>
-		Task CreateMarkers(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers);
+		Task CreateMarkersAsync(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers);
 	}
 }

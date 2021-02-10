@@ -54,7 +54,7 @@
 	[Parameter] public GoogleStaticMapImageFormats ImageFormat { get; set; } = GoogleStaticMapImageFormats.Gif;
 
 	/// <summary>
-	/// Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles
+	/// Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles.
 	/// </summary>
 	[Parameter] public string Language { get; set; }
 	/// <summary>
@@ -115,8 +115,8 @@
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// Starts an async operation to try to dectect device locaton by using <see cref="IGeolocationService"/>.
-	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
+	/// Starts an async operation to try to detect device location by using <see cref="IGeolocationService"/>.
+	/// Once operation has finished successfully <see cref="OnLocationDetected"/> event will be fired.
 	/// </summary>
 	/// <returns>Async task</returns>
 	public async Task CenterCurrentLocationOnMapAsync()

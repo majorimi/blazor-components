@@ -13,8 +13,6 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/maps).
 
-![Modal demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps.gif)
-
 :warning: **To use any of the Map components you must proved a _Token_ or _API Key_.** 
 It is available in the service provider (Google, Microsoft, etc.) developer sites.
 
@@ -34,12 +32,33 @@ To see how it works please check **Geo JS** [documentation](https://github.com/m
 
 :warning: **To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.**
 
+The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an HTTP request via a URL. For each request, you can specify the location of the map, the size of the image, the zoom level, the type of map, and the placement of optional markers at locations on the map. You can additionally label your markers using alphanumeric characters.
+
+A Maps Static API image is embedded within an `<img>` tag's `src` attribute, or its equivalent in other programming languages.
+You can learn about Google Static Maps features and usage [here](https://developers.google.com/maps/documentation/maps-static/overview).
+
+![Modal demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleStatic.gif)
+
 ### Properties
-- **`Header`: `RenderFragment` HTML content** <br />
-HTML content to show on the Modal header (top), right to the close button (if visible). Can be any valid HTML but should be only Title text. 
-**Must not be defined if you want to leave it out. Also `ShowCloseButton` must be set to `false`**
-- **`Content`: `RenderFragment` HTML content - Required** <br />
-Required HTML content to show on the Modal dialog. Can be any valid HTML.
+- **`ZoomLevel`: `int { get; set; }` (default: 12)** <br />
+Defines the zoom level of the map, which determines the magnification level of the map.
+- **`Width`: `int { get; set; }` (default: 400)** <br />
+Maps image Width in px.
+- **`Height`: `int { get; set; }` (default: 300)** <br />
+Maps image Height in px.
+- **`HighResolution`: `bool { get; set; }` (default: false)** <br />
+Affects the number of pixels that are returned. scale=2 returns twice as many pixels as scale=1 while retaining the
+same coverage area and level of detail (i.e. the contents of the map don't change). This is useful when developing for high-resolution displays.
+- **`MapType`: `GoogleMapTypes { get; set; }` (default: Roadmap)** <br />
+Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+- **`ImageFormat`: `GoogleStaticMapImageFormats { get; set; }` (default: Gif)** <br />
+Defines the format of the resulting image. By default, the Maps Static API creates PNG images. There are several possible formats including GIF, JPEG and PNG types.
+- **`Language`: `string { get; set; }`** <br />
+Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles.
+- **`Region`: `string { get; set; }`** <br />
+Defines the appropriate borders to display, based on geo-political sensitivities.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: `tabindex="20"` will be passed to the corresponding rendered root HTML wrapper element `<div>`**.
 
@@ -51,11 +70,32 @@ Callback function called when the Modal dialog is closing.
 
 ### Functions
 - **`CenterCurrentLocationOnMapAsync()`: `Task CenterCurrentLocationOnMapAsync()`** <br />
-When method called Modal dialog will be opened. It should be `await`-ed.
+Starts an async operation to try to detect device location by using `IGeolocationService`.
+Once operation has finished successfully `OnLocationDetected` event will be fired.
 - **`DisposeAsync()`: `Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 
+## `GoogleMap` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/maps#google-js-maps))
+
+:warning: **To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.**
+
+![Modal demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleJs.gif)
+
+### Properties
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+
+**Arbitrary HTML attributes e.g.: `tabindex="20"` will be passed to the corresponding rendered root HTML wrapper element `<div>`**.
+
+### Events
+
+### Functions
+- **`CenterCurrentLocationOnMapAsync()`: `Task CenterCurrentLocationOnMapAsync()`** <br />
+Starts an async operation to try to detect device location by using `IGeolocationService`.
+Once operation has finished successfully `OnLocationDetected` event will be fired.
+- **`DisposeAsync()`: `Task DisposeAsync()`** <br />
+Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
 
 
 # Configuration

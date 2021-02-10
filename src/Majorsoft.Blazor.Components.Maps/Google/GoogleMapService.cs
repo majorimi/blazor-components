@@ -24,7 +24,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_jsRuntime = jsRuntime;
 		}
 
-		public async Task InitMap(string apiKey,
+		public async Task InitMapAsync(string apiKey,
 			string mapContainerId,
 			string backgroundColor,
 			int controlSize,
@@ -92,73 +92,73 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize);
 		}
 
-		public async Task SetCenter(double latitude, double longitude)
+		public async Task SetCenterAsync(double latitude, double longitude)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setCenterCoords", MapContainerId, latitude, longitude);
 		}
 
-		public async Task SetCenter(string address)
+		public async Task SetCenterAsync(string address)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setCenterAddress", MapContainerId, address);
 		}
 
-		public async Task SetZoom(byte zoom)
+		public async Task SetZoomAsync(byte zoom)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setZoom", MapContainerId, zoom);
 		}
 
-		public async Task PanTo(double latitude, double longitude)
+		public async Task PanToAsync(double latitude, double longitude)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("panToCoords", MapContainerId, latitude, longitude);
 		}
 
-		public async Task PanTo(string address)
+		public async Task PanToAsync(string address)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("panToAddress", MapContainerId, address);
 		}
 
-		public async Task SetMapType(GoogleMapTypes googleMapType)
+		public async Task SetMapTypeAsync(GoogleMapTypes googleMapType)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setMapType", MapContainerId, googleMapType.ToString().ToLower());
 		}
 
-		public async Task SetHeading(int heading)
+		public async Task SetHeadingAsync(int heading)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setHeading", MapContainerId, heading);
 		}
 
-		public async Task SetTilt(byte tilt)
+		public async Task SetTiltAsync(byte tilt)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setTilt", MapContainerId, tilt);
 		}
 
-		public async Task ResizeMap()
+		public async Task ResizeMapAsync()
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("resizeMap", MapContainerId);
 		}
 
-		public async Task SetClickableIcons(bool isClickable)
+		public async Task SetClickableIconsAsync(bool isClickable)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setClickableIcons", MapContainerId, isClickable);
 		}
 
-		public async Task SetOptions(ExpandoObject options)
+		public async Task SetOptionsAsync(ExpandoObject options)
 		{
 			await CheckJsObjectAsync();
 			await _mapsJs.InvokeVoidAsync("setOptions", MapContainerId, options);
 		}
 
-		public async Task CreateCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls)
+		public async Task CreateCustomControlsAsync(IEnumerable<GoogleMapCustomControl> mapCustomControls)
 		{
 			await CheckJsObjectAsync();
 			_dotNetObjectReference.Value.AddCustomControls(mapCustomControls);
@@ -167,7 +167,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				(object)mapCustomControls.Cast<GoogleMapCustomControlBase>().ToArray());
 		}
 
-		public async Task CreateMarkers(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers)
+		public async Task CreateMarkersAsync(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers)
 		{
 			await CheckJsObjectAsync();
 
