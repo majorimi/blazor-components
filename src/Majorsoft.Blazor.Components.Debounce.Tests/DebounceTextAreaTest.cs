@@ -183,7 +183,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(30); //wait for debounce
+			await Task.Delay(50); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -216,7 +216,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(30); //wait for debounce
+			await Task.Delay(50); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("", notifiedValue);
@@ -283,7 +283,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(30); //wait for debounce
+			await Task.Delay(50); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("c", notifiedValue);
@@ -316,7 +316,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			input.MarkupMatches(@"<textarea value=""c""/>"); //value updated immediately with event
 			Assert.IsTrue(eventTime > DateTime.MinValue);
 
-			await Task.Delay(30); //wait for debounce
+			await Task.Delay(50); //wait for debounce
 			rendered.WaitForAssertion(() =>
 			{
 				Assert.AreEqual("", notifiedValue);
