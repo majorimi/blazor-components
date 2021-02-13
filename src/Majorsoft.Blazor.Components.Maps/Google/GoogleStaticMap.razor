@@ -56,15 +56,15 @@
 	/// <summary>
 	/// Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles.
 	/// </summary>
-	[Parameter] public string Language { get; set; }
+	[Parameter] public string Language { get; set; } = "";
 	/// <summary>
 	/// Defines the appropriate borders to display, based on geo-political sensitivities.
 	/// </summary>
-	[Parameter] public string Region { get; set; }
+	[Parameter] public string Region { get; set; } = "";
 
 	/// <summary>
-	/// Maps center position set by the given Coordinates or Address.
-	/// Also can be set the divece location by setting <see cref="CenterCurrentLocationOnLoad"/> to `true`.
+	/// Maps center position set by the given Coordinates or Address <see cref="GeolocationData"/>.
+	/// Also can be set the device location by setting <see cref="CenterCurrentLocationOnLoad"/> to `true`.
 	/// </summary>
 	[Parameter] public GeolocationData? Center { get; set; }
 
@@ -78,33 +78,33 @@
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
 	/// </summary>
-	[Parameter] public string ApiKey { get; set; }
+	[Parameter] public string ApiKey { get; set; } = "";
 	/// <summary>
 	/// A digital signature used to verify that any site generating requests using your API key is authorized to do so.
 	/// Requests without a digital signature might fail.
 	/// </summary>
-	[Parameter] public string Signature { get; set; }
+	[Parameter] public string Signature { get; set; } = "";
 
 	/// <summary>
-	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+	/// The markers parameter defines a set of one or more markers (map pins) at a set of locations <see cref="GoogleStaticMapMarker"/>.
 	/// </summary>
-	[Parameter] public IEnumerable<GoogleStaticMapMarker> Markers { get; set; }
+	[Parameter] public IEnumerable<GoogleStaticMapMarker>? Markers { get; set; }
 	/// <summary>
-	/// Defines a single path of two or more connected points to overlay on the image at specified locations. 
+	/// Defines a single path of two or more connected points to overlay on the image at specified locations <see cref="GeolocationData"/>. 
 	/// </summary>
-	[Parameter] public IEnumerable<GeolocationData> Path { get; set; }
+	[Parameter] public IEnumerable<GeolocationData>? Path { get; set; }
 	/// <summary>
-	/// Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+	/// Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed <see cref="GeolocationData"/>.
 	/// </summary>
-	[Parameter] public IEnumerable<GeolocationData> VisibleLocations { get; set; }
+	[Parameter] public IEnumerable<GeolocationData>? VisibleLocations { get; set; }
 	/// <summary>
 	/// Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
 	/// </summary>
-	[Parameter] public string Style { get; set; }
+	[Parameter] public string Style { get; set; } = "";
 
 	/// <summary>
 	/// Callback function called when location successfully detected with <see cref="IGeolocationService"/>.
-	/// Device positon will be supplied in the event which should be used to override <see cref="Center"/> parameter value.
+	/// Device position will be supplied in the event which should be used to override <see cref="Center"/> parameter value.
 	/// </summary>
 	[Parameter] public EventCallback<GeolocationData> OnCurrentLocationDetected { get; set; }
 

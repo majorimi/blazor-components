@@ -16,7 +16,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 :warning: **To use any of the Map components you must proved a _Token_ or _API Key_.** 
 It is available in the service provider (Google, Microsoft, etc.) developer sites.
 
-:warning: **None of the Majorsoft Maps component tracking or exposing you _Token_ or _API Key_!
+**NOTE: None of the Majorsoft Maps component tracking or exposing you _Token_ or _API Key_!
 Injecting and protecting this _Token_ or _API Key_ in your Blazor application is YOUR responsibility!**
 
 # Components
@@ -57,16 +57,33 @@ Defines the format of the resulting image. By default, the Maps Static API creat
 Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles.
 - **`Region`: `string { get; set; }`** <br />
 Defines the appropriate borders to display, based on geo-political sensitivities.
+- **`Center`: `GeolocationData? { get; set; }` (default: _NULL_)** <br />
+Maps center position set by the given Coordinates or Address.
+Also can be set the device location by setting `CenterCurrentLocationOnLoad` to `true`.
+- **`CenterCurrentLocationOnLoad`: `bool { get; set; }` (default: false)** <br />
+If set `true` then Maps try to detect device location by using `IGeolocationService` and center on the Map once when Map was first loaded.
+**Note:** it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
+- **`ApiKey`: `string { get; set; }` - Required** <br />
+Required allows you to monitor your application's API usage in the Google Cloud Console.
+- **`Signature`: `string { get; set; }`** <br />
+A digital signature used to verify that any site generating requests using your API key is authorized to do so. Requests without a digital signature might fail.
+- **`Markers`: `IEnumerable<GoogleStaticMapMarker>? { get; set; }` (default: _NULL_)** <br />
+The markers parameter defines a set of one or more markers (map pins) at a set of locations `GoogleStaticMapMarker`.
+- **`Path`: `IEnumerable<GeolocationData>? { get; set; }` (default: _NULL_)** <br />
+Defines a single path of two or more connected points to overlay on the image at specified locations `GeolocationData`. 
+- **`VisibleLocations`: `IEnumerable<GeolocationData>? { get; set; }` (default: _NULL_)** <br />
+Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed `GeolocationData`.
+- **`Style`: `string { get; set; }`** <br />
+Defines a custom style to alter the presentation of a specific feature (roads, parks, and other features) of the map.
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
 Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 
 **Arbitrary HTML attributes e.g.: `tabindex="20"` will be passed to the corresponding rendered root HTML wrapper element `<div>`**.
 
 ### Events
-- **`OnOpen`: `EventCallback`** <br />
-Callback function called when the Modal dialog is opening.
-- **`OnClose`: `EventCallback`** <br />
-Callback function called when the Modal dialog is closing.
+- **`OnCurrentLocationDetected`: `EventCallback<GeolocationData>`** <br />
+Callback function called when location successfully detected with `IGeolocationService`.
+Device position will be supplied in the event which should be used to override `Center` parameter value.
 
 ### Functions
 - **`CenterCurrentLocationOnMapAsync()`: `Task CenterCurrentLocationOnMapAsync()`** <br />
