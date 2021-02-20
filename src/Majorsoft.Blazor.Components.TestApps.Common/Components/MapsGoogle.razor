@@ -110,19 +110,19 @@
 			<div class="col-12">
 				<p><strong>Rendered Google Static Maps image:</strong></p>
 
-				<GoogleStaticMap @ref="_googleStaticMap"
-								 ApiKey="@_googleMapsApiKey"
-								 @bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
-								 CenterCurrentLocationOnLoad="@_staticMapCenterCurrentLocation"
-								 ZoomLevel="@_staticMapZoomLevel"
-								 Width="@_staticMapWidth"
-								 Height="@_staticMapHeight"
-								 HighResolution="@_staticMapHighResolution"
-								 MapType="@_staticMapType"
-								 ImageFormat="@_staticMapImageFormat"
-								 Path="@(_staticMapShowPath ? _staticMapPaths : null)"
-								 VisibleLocations="@(_staticMapShowVisiblePoints ? _staticMapVisiblePoints : null)"
-								 Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)" />
+					<GoogleStaticMap @ref="_googleStaticMap"
+									ApiKey="@_googleMapsApiKey"
+									@bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
+									CenterCurrentLocationOnLoad="@_staticMapCenterCurrentLocation"
+									ZoomLevel="@_staticMapZoomLevel"
+									Width="@_staticMapWidth"
+									Height="@_staticMapHeight"
+									HighResolution="@_staticMapHighResolution"
+									MapType="@_staticMapType"
+									ImageFormat="@_staticMapImageFormat"
+									Path="@(_staticMapShowPath ? _staticMapPaths : null)"
+									VisibleLocations="@(_staticMapShowVisiblePoints ? _staticMapVisiblePoints : null)"
+									Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)" />
 			</div>
 		</div>
 
@@ -144,6 +144,8 @@
 			A Maps JavaScript API renders a complex customizable map within <code>&lt;div&gt;</code> tag's also allowing to receive events.
 			<br />
 			You can learn about Google JavaScript Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
+			<br />
+			Google Maps JavaScript API has many features and since it renders an interactive control user interactions will change original parameters. <strong>Which means for some Map properties two-way bindings must be applied.</strong>
 		</p>
 
 		<div class="row pb-2">
@@ -292,7 +294,7 @@
 						   OnMapIdle="@OnMapIdle"
 						   ApiKey="@_googleMapsApiKey" />
 
-				@*<GoogleMap ApiKey="@_googleMapsApiKey" />*@
+				@*<GoogleMap Center="@_jsMapCenter" ApiKey="@_googleMapsApiKey" />*@
 
 			</div>
 		</div>

@@ -856,7 +856,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
             <summary>
             MarkerOptions object used to define the properties that can be set on a Marker.
-            ObservableCollection can be initialized only once! Add or remove items to the collecton the change marker properites (Marker properties value cahnges not detected).
+            ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
@@ -1028,127 +1028,127 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
             <summary>
-            Callback function for Google Map initialized event
+            Callback function for Google Map initialized event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapClicked">
-             <summary>
-            Callback function for Google Map clicked event
-             </summary>
+            <summary>
+            Callback function for Google Map clicked event.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDoubleClicked">
             <summary>
-            Callback function for Google Map double clicked event
+            Callback function for Google Map double clicked event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapContextMenu">
             <summary>
-            Callback function for Google Map content menu event
+            Callback function for Google Map content menu event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseUp">
             <summary>
-            Callback function for Google Map mouse up event
+            Callback function for Google Map mouse up event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseDown">
             <summary>
-            Callback function for Google Map mouse down event
+            Callback function for Google Map mouse down event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMouseMove">
             <summary>
-            Callback function for Google Map mouse move event
+            Callback function for Google Map mouse move event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOver">
             <summary>
-            Callback function for Google Map mouse enter event
+            Callback function for Google Map mouse enter event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOut">
             <summary>
-            Callback function for Google Map mouse leaving event
+            Callback function for Google Map mouse leaving event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapCenterChanged">
             <summary>
-            Callback function for Google Map Center point changed event
-            Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged"
+            Callback function for Google Map Center point changed event.
+            Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
             <summary>
-            Callback function for Google Map zoom level changed event
-            Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
+            Callback function for Google Map zoom level changed event.
+            Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
             <summary>
-            Callback function for Google Map type changed event
-            Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged"
+            Callback function for Google Map type changed event.
+            Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapHeadingChanged">
             <summary>
-            Callback function for Google Map heading changed event
-            Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged"
+            Callback function for Google Map heading changed event.
+            Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTiltChanged">
             <summary>
-            Callback function for Google Map tilt position changed event
-            Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged"
+            Callback function for Google Map tilt position changed event.
+            Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapBoundsChanged">
             <summary>
-            Callback function for Google Map boundaries changed event
+            Callback function for Google Map boundaries changed event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapProjectionChanged">
             <summary>
-            Callback function for Google Map projection changed event
+            Callback function for Google Map projection changed event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDraggableChanged">
             <summary>
-            Callback function for Google Map draggable changed event
+            Callback function for Google Map draggable changed event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapStreetviewChanged">
             <summary>
-            Callback function for Google Map street-view changed event
+            Callback function for Google Map street-view changed event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDrag">
             <summary>
-            Callback function for Google Map dragging event
+            Callback function for Google Map dragging event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragEnd">
             <summary>
-            Callback function for Google Map drag ended event
+            Callback function for Google Map drag ended event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragStart">
             <summary>
-            Callback function for Google Map drag started event
+            Callback function for Google Map drag started event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapResized">
             <summary>
-            Callback function for Google Map resized event
+            Callback function for Google Map resized event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTilesLoaded">
             <summary>
-            Callback function for Google Map tiles loaded event
+            Callback function for Google Map tiles loaded event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapIdle">
             <summary>
-            Callback function for Google Map idle event
+            Callback function for Google Map idle event.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnCurrentLocationDetected">
@@ -1218,8 +1218,8 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center">
             <summary>
-            Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad"/> to `true`.
+            Maps center position set by the given Coordinates or Address <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>.
+            Also can be set the device location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad">
@@ -1241,17 +1241,17 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Markers">
             <summary>
-            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+            The markers parameter defines a set of one or more markers (map pins) at a set of locations <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Path">
             <summary>
-            Defines a single path of two or more connected points to overlay on the image at specified locations. 
+            Defines a single path of two or more connected points to overlay on the image at specified locations <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>. 
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.VisibleLocations">
             <summary>
-            Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+            Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Style">
@@ -1262,7 +1262,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.OnCurrentLocationDetected">
             <summary>
             Callback function called when location successfully detected with <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
-            Device positon will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> parameter value.
+            Device position will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> parameter value.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.AllOtherAttributes">
