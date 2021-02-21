@@ -383,6 +383,61 @@
             PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag">
+            <summary>
+            The `link` tag defines the relationship between the current document and an external resource.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Crossorigin">
+            <summary>
+            Specifies how the element handles cross-origin requests
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Href">
+            <summary>
+            Specifies the location of the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.HrefLang">
+            <summary>
+            Specifies the language of the text in the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Media">
+            <summary>
+            Specifies on what device the linked document will be displayed
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.ReferrerPolicy">
+            <summary>
+            Specifies which referrer to use when fetching the resource
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Rel">
+            <summary>
+            Required. Specifies the relationship between the current document and the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Sizes">
+            <summary>
+            Specifies the size of the linked resource. Only for rel="icon"
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Title">
+            <summary>
+            Defines a preferred or an alternate stylesheet
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Type">
+            <summary>
+            Specifies the media type of the linked document
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService">
             <summary>
             Injectable service to handle HTML Head Interops.
@@ -399,6 +454,27 @@
             Sets the given string value as HTML page title.
             </summary>
             <param name="title"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlHeadLinkTagsAsync(System.Nullable{Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTagRelTypes})">
+            <summary>
+            Returns all existing Link tags from HTML page Head by given Rel type filter.
+            </summary>
+            <param name="linkType">Allowed Link `rel` types</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlFavIconsAsync">
+            <summary>
+            Returns all existing fav icon "rel=icon" tags from HTML page Head.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.SetHtmlFavIconsAsync(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag})">
+            <summary>
+            Removes all existing fav icon "rel=icon" tags from HTML page Head and creates new tags from the given objects.
+            If you have multiple fav icon tags set in the Head first call <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlFavIconsAsync"/> method and change <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Href"/> values.
+            </summary>
+            <param name="favIcons">New fav icons to set</param>
             <returns>Async Task</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.JsInteropExtension">

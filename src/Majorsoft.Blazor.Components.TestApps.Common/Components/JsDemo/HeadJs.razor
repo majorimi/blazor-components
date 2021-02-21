@@ -11,7 +11,15 @@
         <div class="col-12">
             <label>Current HTML page Title:</label>
             <input class="form-control w-100 mb-2" @bind-value="_title" type="text" placeholder="HTML page Tilte" />
-            <button class="btn btn-primary" @onclick="SetPageHead">Set HTML page Title</button>
+            <button class="btn btn-primary" @onclick="SetPageTitle">Set HTML page Title</button>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <label>Current HTML page FavIcon (e.g: https://www.google.com/favicon.ico):</label>
+            <input class="form-control w-100 mb-2" @bind-value="_favIcon " type="text" placeholder="HTML page Tilte" />
+            <button class="btn btn-primary" @onclick="SetPageFavIcon">Set HTML page Fav Icon</button>
         </div>
     </div>
 </div>
@@ -26,15 +34,31 @@
         if (firstRender)
         {
             _title = await _htmlHeadService.GetHtmlTitleAsync();
+            _icons = await _htmlHeadService.GetHtmlFavIconsAsync();
+            _favIcon = _icons.FirstOrDefault()?.Href;
+
             StateHasChanged();
         }
     }
 
     private string _title;
+    private string _favIcon;
+    private IEnumerable<HtmlHeadLinkTag> _icons;
 
-    private async Task SetPageHead()
+    private async Task SetPageTitle()
     {
         await _htmlHeadService.SetHtmlTitleAsync(_title);
+    }
+    private async Task SetPageFavIcon()
+    {
+        await _htmlHeadService.SetHtmlFavIconsAsync(new HtmlHeadLinkTag[] {
+            new HtmlHeadLinkTag()
+            {
+                Href = _favIcon,
+                Sizes ="16x16",
+                Rel = HtmlHeadLinkTagRelTypes.Icon.ToString(),
+            }
+        });
     }
 
     public async ValueTask DisposeAsync()
