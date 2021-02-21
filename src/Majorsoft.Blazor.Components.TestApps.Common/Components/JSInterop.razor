@@ -1,17 +1,17 @@
 ﻿<style>
-	.logText {
-		height: 150px !important;
-	}
+    .logText {
+        height: 150px !important;
+    }
 </style>
 
 <h1>Js Interop controls and extensions</h1>
 <p>
-	Blazor components, injectable services and extensions that provides useful functionality and event notifications which can be achieved only with JS Interop e.g.
-	scroll, clipboard, focus, resize, language detection, Geolocation, etc..
-	<br />
-	<strong>Note: all injected JS services must be disposed!</strong> For usage see source code and docs on
-	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
-	<br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
+    Blazor components, injectable services and extensions that provides useful functionality and event notifications which can be achieved only with JS Interop e.g.
+    scroll, clipboard, focus, resize, language detection, Geolocation, etc..
+    <br />
+    <strong>Note: all injected JS services must be disposed!</strong> For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
+    <br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
 
 @*Later add scroll components here*@
@@ -19,18 +19,19 @@
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
 <div>
-	<h3>JS Interop features:</h3>
-	<ul>
-		<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
-		<li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
-		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
-		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
-		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
-		<li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
-		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
-		<li><NavLink href="jsinterop#lang-js">Browser Language Js</NavLink></li>
-		<li><NavLink href="jsinterop#geo-js">Geolocation Js</NavLink></li>
-	</ul>
+    <h3>JS Interop features:</h3>
+    <ul>
+        <li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+        <li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
+        <li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
+        <li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
+        <li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+        <li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
+        <li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+        <li><NavLink href="jsinterop#lang-js">Browser Language Js</NavLink></li>
+        <li><NavLink href="jsinterop#geo-js">Geolocation Js</NavLink></li>
+        <li><NavLink href="jsinterop#head-js">Head Js</NavLink></li>
+    </ul>
 </div>
 
 <ClickJs />
@@ -51,6 +52,8 @@
 
 <GeoJs />
 
+<HeadJs />
+
 @*Later add scroll components here*@
 <hr />
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
@@ -59,11 +62,11 @@
 @inject IScrollHandler _scrollHandler
 
 @code {
-	public async ValueTask DisposeAsync()
-	{
-		if (_scrollHandler is not null)
-		{
-			await _scrollHandler.DisposeAsync();
-		}
-	}
+    public async ValueTask DisposeAsync()
+    {
+        if (_scrollHandler is not null)
+        {
+            await _scrollHandler.DisposeAsync();
+        }
+    }
 }

@@ -30,11 +30,13 @@
 		<Content Remove="bundleconfig.json" />
 		<Content Remove="wwwroot\focus.js" />
 		<Content Remove="wwwroot\geo.min.js" />
+		<Content Remove="wwwroot\head.min.js" />
 		<Content Remove="wwwroot\lang.min.js" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="wwwroot\geo.min.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\head.min.js" />
 	  <_ContentIncludedByDefault Remove="wwwroot\lang.min.js" />
 	</ItemGroup>
 	
@@ -54,6 +56,7 @@
 		<None Include="bundleconfig.json" />
 		<None Include="wwwroot\focus.js" />
 		<None Include="wwwroot\geo.min.js" />
+		<None Include="wwwroot\head.min.js" />
 		<None Include="wwwroot\lang.min.js" />
 	</ItemGroup>
 

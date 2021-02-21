@@ -1,0 +1,37 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="head-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>HTML Head JS</h3></Content>
+    </PermaLinkElement>
+    <p>
+        <strong>HTML Head JS</strong> is an <strong>injectable <code>IHtmlHeadService</code> service</strong> for accessing and setting HTML document <code>Head</code> tags.
+        It is useful when Blazor application has dynamic content and you need to change <strong>Title</strong>, <strong>Icon</strong> or <strong>Meta tags</strong> for SEO (Search Engine Optimization).
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <label>Current HTML page Title:</label>
+            <input class="form-control w-100" value="@title" type="text" placeholder="HTML page Tilte" />
+        </div>
+    </div>
+</div>
+
+@implements IAsyncDisposable
+@inject IHtmlHeadService _htmlHeadService;
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        title = await _htmlHeadService.GetHtmlTitleAsync();
+    }
+
+    private string title;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_htmlHeadService is not null)
+        {
+            await _htmlHeadService.DisposeAsync();
+        }
+    }
+}
