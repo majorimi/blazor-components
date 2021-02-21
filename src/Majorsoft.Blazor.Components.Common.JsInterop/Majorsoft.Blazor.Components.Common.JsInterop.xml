@@ -383,11 +383,6 @@
             PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadService">
-            <summary>
-            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService"/>
-            </summary>
-        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag">
             <summary>
             The `link` tag defines the relationship between the current document and an external resource.
@@ -436,6 +431,11 @@
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Type">
             <summary>
             Specifies the media type of the linked document
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService"/>
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService">

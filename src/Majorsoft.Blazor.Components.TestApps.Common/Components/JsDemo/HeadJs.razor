@@ -4,7 +4,7 @@
     </PermaLinkElement>
     <p>
         <strong>HTML Head JS</strong> is an <strong>injectable <code>IHtmlHeadService</code> service</strong> for accessing and setting HTML document <code>Head</code> tags.
-        It is useful when Blazor application has dynamic content and you need to change <strong>Title</strong>, <strong>Icon</strong> or <strong>Meta tags</strong> for SEO (Search Engine Optimization).
+        It is useful when Blazor application has dynamic content and you need to change <strong>Title</strong>, <strong>FavIcon</strong> or <strong>Meta tags</strong> for SEO (Search Engine Optimization).
     </p>
 
     <div class="row pb-2">
@@ -19,7 +19,7 @@
         <div class="col-12">
             <label>Current HTML page FavIcon (e.g: https://www.google.com/favicon.ico):</label>
             <input class="form-control w-100 mb-2" @bind-value="_favIcon " type="text" placeholder="HTML page Tilte" />
-            <button class="btn btn-primary" @onclick="SetPageFavIcon">Set HTML page Fav Icon</button>
+            <button class="btn btn-primary" @onclick="SetPageFavIcon">Set HTML page FavIcon</button>
         </div>
     </div>
 </div>
