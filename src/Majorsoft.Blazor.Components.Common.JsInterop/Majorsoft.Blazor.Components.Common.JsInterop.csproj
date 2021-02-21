@@ -28,14 +28,6 @@
 
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
-		<Content Remove="wwwroot\focus.js" />
-		<Content Remove="wwwroot\geo.min.js" />
-		<Content Remove="wwwroot\lang.min.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\geo.min.js" />
-	  <_ContentIncludedByDefault Remove="wwwroot\lang.min.js" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -52,9 +44,6 @@
 			<PackagePath></PackagePath>
 		</None>
 		<None Include="bundleconfig.json" />
-		<None Include="wwwroot\focus.js" />
-		<None Include="wwwroot\geo.min.js" />
-		<None Include="wwwroot\lang.min.js" />
 	</ItemGroup>
 
 </Project>

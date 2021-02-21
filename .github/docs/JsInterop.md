@@ -26,6 +26,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
 - **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
+- **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
@@ -206,6 +207,25 @@ Unregister location/error monitoring handlers previously installed using `AddGeo
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
+## HTML Head JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#head-js))
+**HTML Head JS** is an injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`. 
+It is useful when Blazor application has dynamic content and you need to change **Title**, **FavIcon** or **Meta** tags for SEO (Search Engine Optimization).
+
+### Functions
+- **`GetHtmlTitleAsync`**: **`Task<string> GetHtmlTitleAsync()`** <br />
+Returns the current HTML page title.
+- **`SetHtmlTitleAsync`**: **`Task SetHtmlTitleAsync()`** <br />
+Sets the given string value as HTML page title.
+- **`GetHtmlHeadLinkTagsAsync`**: **`Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(HtmlHeadLinkTagRelTypes? linkType = null)`** <br />
+Returns all existing Link tags from HTML page Head by given Rel type filter.
+- **`GetHtmlFavIconsAsync`**: **`Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlFavIconsAsync()`** <br />
+Returns all existing fav icon "rel=icon" tags from HTML page Head.
+- **`SetHtmlFavIconsAsync`**: **`Task SetHtmlFavIconsAsync(IEnumerable<HtmlHeadLinkTag> favIcons)`** <br />
+Removes all existing fav icon "rel=icon" tags from HTML page Head and creates new tags from the given objects.
+If you have multiple fav icon tags set in the Head first call `GetHtmlFavIconsAsync` method and change `HtmlHeadLinkTag.Href` values.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
 
 # Configuration
 
@@ -238,6 +258,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.Language
 @*Only if you want to use Geolocation*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Geo
+@*Only if you want to use HTML Head tags*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Head
 ```
 
 

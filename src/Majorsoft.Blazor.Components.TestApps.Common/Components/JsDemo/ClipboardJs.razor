@@ -8,15 +8,15 @@
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<input type="text" value="Hello World" @ref="_copyInput">
+			<input class="form-control w-100 mb-2" type="text" value="Hello World" @ref="_copyInput">
 			<button class="btn btn-primary" @onclick="CopyToClipboard">Copy input value to Clipboard</button>
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12">
-			<label>@_codedString</label>
 			<button class="btn btn-primary" @onclick="CopyTextToClipboard">Copy coded text to Clipboard</button>
+			<label><strong>@_codedString</strong></label>
 		</div>
 	</div>
 </div>

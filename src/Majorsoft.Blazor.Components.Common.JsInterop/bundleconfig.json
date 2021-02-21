@@ -52,5 +52,11 @@
     "inputFiles": [
       "wwwroot/geo.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/head.min.js",
+    "inputFiles": [
+      "wwwroot/head.js"
+    ]
   }
 ]
