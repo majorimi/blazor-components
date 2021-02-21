@@ -10,7 +10,8 @@
     <div class="row pb-2">
         <div class="col-12">
             <label>Current HTML page Title:</label>
-            <input class="form-control w-100" value="@title" type="text" placeholder="HTML page Tilte" />
+            <input class="form-control w-100 mb-2" @bind-value="_title" type="text" placeholder="HTML page Tilte" />
+            <button class="btn btn-primary" @onclick="SetPageHead">Set HTML page Title</button>
         </div>
     </div>
 </div>
@@ -22,10 +23,19 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        title = await _htmlHeadService.GetHtmlTitleAsync();
+        if (firstRender)
+        {
+            _title = await _htmlHeadService.GetHtmlTitleAsync();
+            StateHasChanged();
+        }
     }
 
-    private string title;
+    private string _title;
+
+    private async Task SetPageHead()
+    {
+        await _htmlHeadService.SetHtmlTitleAsync(_title);
+    }
 
     public async ValueTask DisposeAsync()
     {

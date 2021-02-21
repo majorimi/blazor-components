@@ -37,13 +37,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Head
 		{
 			await CheckJsObjectAsync();
 
-			return await _jsRuntime.InvokeAsync<string>("getHtmlTitle");
+			return await _headJs.InvokeAsync<string>("getHtmlTitle");
 		}
 		public async Task SetHtmlTitleAsync(string title)
 		{
 			await CheckJsObjectAsync();
 
-			await _jsRuntime.InvokeVoidAsync("setHtmlTitle", title);
+			await _headJs.InvokeVoidAsync("setHtmlTitle", title);
 		}
 
 		private async Task CheckJsObjectAsync()
