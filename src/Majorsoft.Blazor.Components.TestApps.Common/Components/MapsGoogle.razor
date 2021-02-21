@@ -42,8 +42,8 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" value="@_staticMapCenter.Latitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()), _staticMapCenter.Longitude))" type="number" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" value="@_staticMapCenter.Longitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(_staticMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_staticMapCenter.Latitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", ".")), _staticMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_staticMapCenter.Longitude" @oninput="@((e) => _staticMapCenter = new GeolocationData(_staticMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", "."))))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
 				<input class="form-control w-100 mb-3" value="@_staticMapCenter.Address" @onchange="@((e) => _staticMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
@@ -151,8 +151,8 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString())))" type="number" placeholder="Longitude" />
+				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", ".")), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
+				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", "."))))" type="number" placeholder="Longitude" />
 
 				Or full Address (omitted when coordinates supplied):
 				<input class="form-control w-100 mb-3" value="@_jsMapCenter.Address" @onchange="@((e) => _jsMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
