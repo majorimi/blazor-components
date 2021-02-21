@@ -58,36 +58,36 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleStaticMap_should_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.CenterCurrentLocation, true));
+				.Add(p => p.CenterCurrentLocationOnLoad, true));
 
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Once);
 		}
 
 		[TestMethod]
 		public void GoogleStaticMap_should_not_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.CenterCurrentLocation, false));
+				.Add(p => p.CenterCurrentLocationOnLoad, false));
 
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPosition(It.IsAny<Func<GeolocationResult, Task>>(),
+			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Never);
 		}
 
@@ -120,7 +120,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_center_location()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 }));
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2 )));
 
 			var map = rendered.Find("img");
 
@@ -132,7 +132,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_zoom()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.ZoomLevel, (byte)0));
 
 			var map = rendered.Find("img");
@@ -145,7 +145,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_size()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Height, 1111)
 				.Add(p => p.Width, 2222));
 
@@ -159,7 +159,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_scale()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.HighResolution, true));
 
 			var map = rendered.Find("img");
@@ -172,7 +172,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_maptype()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 }));
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2)));
 
 			foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
 			{
@@ -191,12 +191,12 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_format()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 }));
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2)));
 
-			foreach (var item in Enum.GetValues(typeof(GoogleMapImageFormats)))
+			foreach (var item in Enum.GetValues(typeof(GoogleStaticMapImageFormats)))
 			{
 				rendered.SetParametersAndRender(parameters => parameters
-					.Add(p => p.ImageFormat, (GoogleMapImageFormats)item));
+					.Add(p => p.ImageFormat, (GoogleStaticMapImageFormats)item));
 
 				var map = rendered.Find("img");
 
@@ -210,7 +210,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_language()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Language, "en"));
 
 			var map = rendered.Find("img");
@@ -223,7 +223,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_region()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Region, "en"));
 
 			var map = rendered.Find("img");
@@ -236,7 +236,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_style()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Style, "customStyle"));
 
 			var map = rendered.Find("img");
@@ -249,7 +249,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_handle_empty_path()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Path, new List<GeolocationData>()));
 
 			var map = rendered.Find("img");
@@ -262,11 +262,11 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_paths()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Path, new List<GeolocationData>()
 				{
-					{ new GeolocationData() { Latitude = 1.1, Longitude = 2.2 } },
-					{ new GeolocationData() { Address = "London" } }
+					{ new GeolocationData(1.1, 2.2) },
+					{ new GeolocationData("London") }
 				}));
 
 			var map = rendered.Find("img");
@@ -279,7 +279,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_handle_empty_visible()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.VisibleLocations, new List<GeolocationData>()));
 
 			var map = rendered.Find("img");
@@ -292,11 +292,11 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_render_visibles()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.VisibleLocations, new List<GeolocationData>()
 				{
-					{ new GeolocationData() { Latitude = 1.1, Longitude = 2.2 } },
-					{ new GeolocationData() { Address = "London" } }
+					{ new GeolocationData(1.1, 2.2) },
+					{ new GeolocationData("London") }
 				}));
 
 			var map = rendered.Find("img");
@@ -309,8 +309,8 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		public void GoogleStaticMap_should_handle_empty_markers()
 		{
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
-				.Add(p => p.Markers, new List<GoogleMapMarker>()));
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
+				.Add(p => p.Markers, new List<GoogleStaticMapMarker>()));
 
 			var map = rendered.Find("img");
 
@@ -321,38 +321,38 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleStaticMap_should_render_markers()
 		{
-			var markers = new List<GoogleMapMarker>()
-				{
-					{ new GoogleMapMarker() },
-					{ new GoogleMapMarker()
-						{
-							CustomIcon = new GoogleMapMarkerCustomIcon()
-							{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "http://test.com" }
-						}
-					},
-					{ new GoogleMapMarker()
-						{
-							Style = new GoogleMapMarkerStyle()
-							{ Color = "red", Label = 'A' }
-						}
-					},
-					{ new GoogleMapMarker()
-						{
-							Style = new GoogleMapMarkerStyle()
-							{ Color = "0xFFAABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
-						}
-					},
-				};
+			var markers = new List<GoogleStaticMapMarker>()
+			{
+				{ new GoogleStaticMapMarker() },
+				{ new GoogleStaticMapMarker()
+					{
+						CustomIcon = new GoogleMapMarkerCustomIcon()
+						{ Anchor = GoogleMapMarkerCustomIconAnchors.Left, IconUrl = "http://test.com" }
+					}
+				},
+				{ new GoogleStaticMapMarker()
+					{
+						Style = new GoogleMapMarkerStyle()
+						{ Color = "red", Label = 'A' }
+					}
+				},
+				{ new GoogleStaticMapMarker()
+					{
+						Style = new GoogleMapMarkerStyle()
+						{ Color = "0xFFAABB", Label = '2', Size = GoogleMapMarkerSizes.Mid }
+					}
+				},
+			};
 
-			markers.ElementAt(0).Locations.Add(new GeolocationData() { Latitude = 1.111, Longitude = 2.222 });
-			markers.ElementAt(1).Locations.Add(new GeolocationData() { Latitude = 17.111, Longitude = 33.222 });
-			markers.ElementAt(1).Locations.Add(new GeolocationData() { Address = "London" });
-			markers.ElementAt(2).Locations.Add(new GeolocationData() { Address = "New York" });
-			markers.ElementAt(3).Locations.Add(new GeolocationData() { Address = "Budapest" });
-			markers.ElementAt(3).Locations.Add(new GeolocationData() { Latitude = 5.123, Longitude = 8.99 });
+			markers.ElementAt(0).Locations.Add(new GeolocationData(1.111, 2.222));
+			markers.ElementAt(1).Locations.Add(new GeolocationData(17.111, 33.222));
+			markers.ElementAt(1).Locations.Add(new GeolocationData("London"));
+			markers.ElementAt(2).Locations.Add(new GeolocationData("New York"));
+			markers.ElementAt(3).Locations.Add(new GeolocationData("Budapest"));
+			markers.ElementAt(3).Locations.Add(new GeolocationData(5.123, 8.99));
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
-				.Add(p => p.Center, new GeolocationData() { Latitude = 1.1, Longitude = 2.2 })
+				.Add(p => p.Center, new GeolocationData(1.1, 2.2))
 				.Add(p => p.Markers, markers));
 
 			var map = rendered.Find("img");

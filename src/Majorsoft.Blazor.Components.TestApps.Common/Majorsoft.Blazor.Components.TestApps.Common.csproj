@@ -26,6 +26,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Collapse\Majorsoft.Blazor.Components.Collapse.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.ColorPicker\Majorsoft.Blazor.Components.ColorPicker.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />

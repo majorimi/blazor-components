@@ -28,11 +28,6 @@
 
 	<ItemGroup>
 	  <Content Remove="bundleconfig.json" />
-	  <Content Remove="wwwroot\googleMaps.min.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\googleMaps.min.js" />
 	</ItemGroup>
 
 	
@@ -54,11 +49,18 @@
 	    <PackagePath></PackagePath>
 	  </None>
 	  <None Include="bundleconfig.json" />
-	  <None Include="wwwroot\googleMaps.min.js" />
 	</ItemGroup>
 
+	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
-	  <ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0</PackagePath>
+		</_PackageFiles>
 	</ItemGroup>
 
 	<ItemGroup>

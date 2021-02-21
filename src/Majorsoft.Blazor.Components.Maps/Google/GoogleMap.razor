@@ -4,9 +4,11 @@
 
 @implements IAsyncDisposable
 
-@inject ILogger<GoogleStaticMap> _logger
+@inject ILogger<GoogleMap> _logger
 @inject IGeolocationService _geolocationService
-@inject IGoogleMapsService _mapService
+@inject IGoogleMapService _mapService
+
+@*https://developers.google.com/maps/documentation/javascript/reference*@
 
 @code {
 	private string _mapContainerId = $"map_{Guid.NewGuid().ToString("n")}";
@@ -16,17 +18,29 @@
 	/// </summary>
 	public ElementReference InnerElementReference => _jsMap;
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	private bool _mapInitialized = false;
+	private bool _isDragging = false;
+	protected override async Task OnInitializedAsync()
 	{
-		if (firstRender)
 		{
-			await _mapService.InitMap(ApiKey, _mapContainerId,
+			await _mapService.InitMapAsync(apiKey: ApiKey,
+				mapContainerId: _mapContainerId,
+				backgroundColor: BackgroundColor,
+				controlSize: ControlSize,
 				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
-					if (CenterCurrentLocation)
+					if (CenterCurrentLocationOnLoad)
 					{
-						await CenterCurrentLocationOnMap();
+						await CenterCurrentLocationOnMapAsync();
+					}
+
+					_mapInitialized = true;
+					StateHasChanged(); //Must reset all parameter values in JS after Maps initialized
+
+					if (CustomControls?.Any() ?? false)
+					{
+						await _mapService.CreateCustomControlsAsync(CustomControls);
 					}
 
 					if (OnMapInitialized.HasDelegate)
@@ -42,9 +56,79 @@
 						await OnMapClicked.InvokeAsync(coords);
 					}
 				},
+				mapDoubleClickedCallback: async (coords) =>
+				{
+					WriteDiag($"Map was double clicked at: '{coords}'.");
+					if (OnMapDoubleClicked.HasDelegate)
+					{
+						await OnMapDoubleClicked.InvokeAsync(coords);
+					}
+				},
+				mapContextMenuCallback: async (coords) =>
+				{
+					WriteDiag($"Map context menu opened at: '{coords}'.");
+					if (OnMapContextMenu.HasDelegate)
+					{
+						await OnMapContextMenu.InvokeAsync(coords);
+					}
+				},
+				mapMouseUpCallback: async (coords) =>
+				{
+					WriteDiag($"Map mouse button Up at: '{coords}'.");
+					if (OnMapMouseUp.HasDelegate)
+					{
+						await OnMapMouseUp.InvokeAsync(coords);
+					}
+				},
+				mapMouseDownCallback: async (coords) =>
+				{
+					WriteDiag($"Map mouse button Down at: '{coords}'.");
+					if (OnMapMouseDown.HasDelegate)
+					{
+						await OnMapMouseDown.InvokeAsync(coords);
+					}
+				},
+				mapMouseMoveCallback: async (coords) =>
+				{
+					WriteDiag($"Map mouse moved to: '{coords}'.");
+					if (OnMouseMove.HasDelegate)
+					{
+						await OnMouseMove.InvokeAsync(coords);
+					}
+				},
+				mapMouseOverCallback: async () =>
+				{
+					WriteDiag($"Map mouse (over) entered into Maps area.");
+					if (OnMapMouseOver.HasDelegate)
+					{
+						await OnMapMouseOver.InvokeAsync();
+					}
+				},
+				mapMouseOutCallback: async () =>
+				{
+					WriteDiag($"Map mouse (out) leaved Maps area.");
+					if (OnMapMouseOut.HasDelegate)
+					{
+						await OnMapMouseOut.InvokeAsync();
+					}
+				},
+				mapCenterChangedCallback: async (coords) =>
+				{
+					WriteDiag($"Map Center changed to: '{coords}', current center: {_center}.");
+					if (_center?.ToString() == coords?.ToString())
+						return;
+
+					_center = new GeolocationData(coords?.Latitude, coords?.Longitude);
+					if (OnMapCenterChanged.HasDelegate)
+					{
+						await OnMapCenterChanged.InvokeAsync(_center);
+					}
+				},
 				mapZoomChangedCallback: async (zoom) =>
 				{
 					WriteDiag($"Map Zoom level changed to: '{zoom}'.");
+					if (_zoomLevel == zoom)
+						return;
 
 					_zoomLevel = zoom;
 					if (OnMapZoomLevelChanged.HasDelegate)
@@ -52,22 +136,175 @@
 						await OnMapZoomLevelChanged.InvokeAsync(zoom);
 					}
 				},
-				mapCenterChangedCallback: async (coords) =>
+				mapTypeChangedCallback: async (type) =>
 				{
-					WriteDiag($"Map Center changed to: '{coords}'.");
+					WriteDiag($"Map Type changed to: '{type}'.");
+					if (_mapType == type)
+						return;
 
-					_center = new GeolocationData()
+					_mapType = type;
+					if (OnMapTypeChanged.HasDelegate)
 					{
-						Latitude = coords.Latitude,
-						Longitude = coords.Longitude,
-						Address = _center.Address
-					};
-					if (OnMapCenterChangedChanged.HasDelegate)
+						await OnMapTypeChanged.InvokeAsync(type);
+					}
+				},
+				mapHeadingChangedCallback: async (heading) =>
+				{
+					WriteDiag($"Map Heading changed to: '{heading}'.");
+					if (_heading == heading)
+						return;
+
+					_heading = heading;
+					if (OnMapHeadingChanged.HasDelegate)
 					{
-						await OnMapCenterChangedChanged.InvokeAsync(_center);
+						await OnMapHeadingChanged.InvokeAsync(heading);
+					}
+				},
+				mapTiltChangedCallback: async (tilt) =>
+				{
+					WriteDiag($"Map Tilt changed to: '{tilt}'.");
+					if (_tilt == tilt)
+						return;
+
+					_tilt = tilt;
+					if (OnMapTiltChanged.HasDelegate)
+					{
+						await OnMapTiltChanged.InvokeAsync(tilt);
+					}
+				},
+				mapBoundsChangedCallback: async () =>
+				{
+					WriteDiag($"Map Bounds changed.");
+
+					if (OnMapBoundsChanged.HasDelegate)
+					{
+						await OnMapBoundsChanged.InvokeAsync();
+					}
+				},
+				mapProjectionChangedCallback: async () =>
+				{
+					WriteDiag($"Map Projection changed.");
+
+					if (OnMapProjectionChanged.HasDelegate)
+					{
+						await OnMapProjectionChanged.InvokeAsync();
+					}
+				},
+				mapDraggableChangedCallback: async () =>
+				{
+					WriteDiag($"Map Draggable changed.");
+
+					if (OnMapDraggableChanged.HasDelegate)
+					{
+						await OnMapDraggableChanged.InvokeAsync();
+					}
+				},
+				mapStreetviewChangedCallback: async () =>
+				{
+					WriteDiag($"Map Streetview changed.");
+
+					if (OnMapStreetviewChanged.HasDelegate)
+					{
+						await OnMapStreetviewChanged.InvokeAsync();
+					}
+				},
+				mapDragCallback: async (coords) =>
+				{
+					WriteDiag($"Map Dragging to: '{coords}', current center: {_center}.");
+
+					if (OnMapDrag.HasDelegate)
+					{
+						await OnMapDrag.InvokeAsync(coords);
+					}
+				},
+				mapDragEndCallback: async (coords) =>
+				{
+					WriteDiag($"Map Dragging End to: '{coords}', current center: {_center}.");
+					_isDragging = false;
+
+					if (OnMapDragEnd.HasDelegate)
+					{
+						await OnMapDragEnd.InvokeAsync(coords);
+					}
+				},
+				mapDragStartCallback: async (coords) =>
+				{
+					WriteDiag($"Map Dragging Start to: '{coords}', current center: {_center}.");
+					_isDragging = true;
+
+					if (OnMapDragStart.HasDelegate)
+					{
+						await OnMapDragStart.InvokeAsync(coords);
+					}
+				},
+				mapResizedCallback: async (rect) =>
+				{
+					WriteDiag($"Map resized to: '{rect}'.");
+
+					if (OnMapResized.HasDelegate)
+					{
+						await OnMapResized.InvokeAsync(rect);
+					}
+				},
+				mapTilesLoadedCallback: async () =>
+				{
+					WriteDiag($"Map new Tiles loaded.");
+
+					if (OnMapTilesLoaded.HasDelegate)
+					{
+						await OnMapTilesLoaded.InvokeAsync();
+					}
+				},
+				mapIdleCallback: async () =>
+				{
+					WriteDiag($"Map Ideling.");
+
+					if (OnMapIdle.HasDelegate)
+					{
+						await OnMapIdle.InvokeAsync();
 					}
 				});
 		}
+	}
+
+	//Settings only for initialization time.
+	/// <summary>
+	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
+	/// This option can only be set when the map is initialized.
+	/// </summary>
+	[Parameter] public string? BackgroundColor { get; set; }
+	/// <summary>
+	/// Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
+	/// </summary>
+	[Parameter] public int ControlSize { get; set; }
+	/// <summary>
+	/// Custom controls to add to the Map that will execute callbacks for events.
+	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
+	/// </summary>
+	[Parameter] public IEnumerable<GoogleMapCustomControl>? CustomControls { get; set; }
+
+	private ObservableRangeCollection<GoogleMapMarker>? _markers;
+	/// <summary>
+	/// MarkerOptions object used to define the properties that can be set on a Marker.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
+	{
+		get => _markers;
+		set
+		{
+			if (_mapInitialized && _markers is null && value is not null)
+			{
+				_markers = value;
+				_markers.CollectionChanged += MarkersChanges;
+			}
+		}
+	}
+	private void MarkersChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(MarkersChanges)} Marker collection has changed, item Count: '{_markers?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateMarkersAsync(e.NewItems?.Cast<GoogleMapMarker>(), _markers?.Cast<GoogleMapMarker>()));
 	}
 
 	private byte _zoomLevel = 12;
@@ -75,15 +312,101 @@
 	/// Defines the zoom level of the map, which determines the magnification level of the map.
 	/// </summary>
 	[Parameter]
-	public byte ZoomLevel
+	public byte Zoom
 	{
 		get => _zoomLevel;
 		set
 		{
-			if (value != _zoomLevel)
+			if (_mapInitialized && value != _zoomLevel)
 			{
 				_zoomLevel = value;
-				InvokeAsync(async () => await _mapService.SetZoom(ZoomLevel));
+				InvokeAsync(async () => await _mapService.SetZoomAsync(_zoomLevel));
+			}
+		}
+	}
+
+	private bool _zoomControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Zoom control.
+	/// </summary>
+	[Parameter]
+	public bool ZoomControl
+	{
+		get => _zoomControl;
+		set
+		{
+			if (_mapInitialized && value != _zoomControl)
+			{
+				_zoomControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.zoomControl = _zoomControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _zoomControlOptionsPosition = GoogleMapControlPositions.BOTTOM_RIGHT;
+	/// <summary>
+	/// The display options for the Zoom control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions ZoomControlOptionsPosition
+	{
+		get => _zoomControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _zoomControlOptionsPosition)
+			{
+				_zoomControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.zoomControlOptions = new { position = _zoomControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private byte? _maxZoom = null;
+	/// <summary>
+	/// The maximum zoom level which will be displayed on the map. If omitted, or set to null,
+	/// the maximum zoom from the current map type is used instead.
+	/// </summary>
+	[Parameter]
+	public byte? MaxZoom
+	{
+		get => _maxZoom;
+		set
+		{
+			if (_mapInitialized && value != _maxZoom)
+			{
+				_maxZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.maxZoom = _maxZoom;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private byte? _minZoom = null;
+	/// <summary>
+	/// The minimum zoom level which will be displayed on the map. If omitted, or set to null,
+	/// the minimum zoom from the current map type is used instead.
+	/// </summary>
+	[Parameter]
+	public byte? MinZoom
+	{
+		get => _minZoom;
+		set
+		{
+			if (_mapInitialized && value != _minZoom)
+			{
+				_minZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.minZoom = _minZoom;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -99,10 +422,10 @@
 		get => _width;
 		set
 		{
-			if (value != _width)
+			if (_mapInitialized && value != _width)
 			{
 				_width = value;
-				InvokeAsync(async () => await _mapService.ResizeMap());
+				InvokeAsync(async () => await _mapService.ResizeMapAsync());
 			}
 		}
 	}
@@ -116,10 +439,10 @@
 		get => _height;
 		set
 		{
-			if (value != _height)
+			if (_mapInitialized && value != _height)
 			{
 				_height = value;
-				InvokeAsync(async () => await _mapService.ResizeMap());
+				InvokeAsync(async () => await _mapService.ResizeMapAsync());
 			}
 		}
 	}
@@ -127,7 +450,7 @@
 	private GeolocationData? _center;
 	/// <summary>
 	/// Maps center position set by the given Coordinates or Address.
-	/// Also can be set the divece location by setting <see cref="CenterCurrentLocation"/> to `true`.
+	/// Also can be set the divece location by setting <see cref="CenterCurrentLocationOnLoad"/> to `true`.
 	/// </summary>
 	[Parameter]
 	public GeolocationData? Center
@@ -135,20 +458,460 @@
 		get => _center;
 		set
 		{
-			if (_center != value)
+			if (_mapInitialized && !_isDragging && _center?.ToString() != value?.ToString())
 			{
 				_center = value;
 				InvokeAsync(async () =>
 				{
 					if (Center?.HasCoordinates ?? false)
 					{
-						await _mapService.SetCenter(Center.Latitude.Value, Center.Longitude.Value);
+						if (AnimateCenterChange)
+							await _mapService.PanToAsync(Center.Latitude.Value, Center.Longitude.Value);
+						else
+							await _mapService.SetCenterAsync(Center.Latitude.Value, Center.Longitude.Value);
 					}
 					else if (!string.IsNullOrWhiteSpace(Center?.Address))
 					{
-						await _mapService.SetCenter(Center.Address);
+						if (AnimateCenterChange)
+							await _mapService.PanToAsync(Center.Address);
+						else
+							await _mapService.SetCenterAsync(Center.Address);
 					}
 				});
+			}
+		}
+	}
+
+	/// <summary>
+	/// Apply animation on Maps center change.
+	/// </summary>
+	[Parameter] public bool AnimateCenterChange { get; set; } = true;
+
+	private GoogleMapTypes _mapType = GoogleMapTypes.Roadmap;
+	/// <summary>
+	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+	/// </summary>
+	[Parameter]
+	public GoogleMapTypes MapType
+	{
+		get => _mapType;
+		set
+		{
+			if (_mapInitialized && _mapType != value)
+			{
+				_mapType = value;
+				InvokeAsync(async () => await _mapService.SetMapTypeAsync(_mapType));
+			}
+		}
+	}
+
+	private GoogleMapTypeControlOptions _mapTypeControlOptions = new GoogleMapTypeControlOptions();
+	/// <summary>
+	/// Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+	/// </summary>
+	[Parameter]
+	public GoogleMapTypeControlOptions MapTypeControlOptions
+	{
+		get => _mapTypeControlOptions;
+		set
+		{
+			if (_mapInitialized && _mapTypeControlOptions != value)
+			{
+				_mapTypeControlOptions = value;
+
+				dynamic options = new ExpandoObject();
+				options.mapTypeControlOptions = new
+				{
+					mapTypeIds = _mapTypeControlOptions?.MapTypeIds?.Select(s => s.ToString().ToLower()).ToArray(),
+					position = _mapTypeControlOptions?.Position,
+					style = _mapTypeControlOptions?.MapTypeControlStyle
+				};
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private int _heading;
+	/// <summary>
+	/// The heading for aerial imagery in degrees measured clockwise from cardinal direction North.
+	/// Headings are snapped to the nearest available angle for which imagery is available.
+	/// </summary>
+	[Parameter]
+	public int Heading
+	{
+		get => _heading;
+		set
+		{
+			if (_mapInitialized && value != _heading)
+			{
+				_heading = value;
+				InvokeAsync(async () => await _mapService.SetHeadingAsync(_heading));
+			}
+		}
+	}
+
+	private byte _tilt;
+	/// <summary>
+	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45.
+	/// 45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
+	/// </summary>
+	[Parameter]
+	public byte Tilt
+	{
+		get => _tilt;
+		set
+		{
+			if (_mapInitialized && value != _tilt)
+			{
+				_tilt = value;
+				InvokeAsync(async () => await _mapService.SetTiltAsync(_tilt));
+			}
+		}
+	}
+
+	private bool _clickableIcons = true;
+	/// <summary>
+	/// When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI.
+	/// By default map icons are clickable.
+	/// </summary>
+	[Parameter]
+	public bool ClickableIcons
+	{
+		get => _clickableIcons;
+		set
+		{
+			if (_mapInitialized && value != _clickableIcons)
+			{
+				_clickableIcons = value;
+				InvokeAsync(async () => await _mapService.SetClickableIconsAsync(_clickableIcons));
+			}
+		}
+	}
+
+	private bool _disableDefaultUI = false;
+	/// <summary>
+	/// Enables/disables all default UI buttons. May be overridden individually.
+	/// Does not disable the keyboard controls, which are separately controlled.
+	/// </summary>
+	[Parameter]
+	public bool DisableDefaultUI
+	{
+		get => _disableDefaultUI;
+		set
+		{
+			if (_mapInitialized && value != _disableDefaultUI)
+			{
+				_disableDefaultUI = value;
+
+				dynamic options = new ExpandoObject();
+				options.disableDefaultUI = _disableDefaultUI;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _disableDoubleClickZoom = false;
+	/// <summary>
+	/// Enables/disables zoom and center on double click. Enabled by default.
+	/// </summary>
+	[Parameter]
+	public bool DisableDoubleClickZoom
+	{
+		get => _disableDoubleClickZoom;
+		set
+		{
+			if (_mapInitialized && value != _disableDoubleClickZoom)
+			{
+				_disableDoubleClickZoom = value;
+
+				dynamic options = new ExpandoObject();
+				options.disableDoubleClickZoom = _disableDoubleClickZoom;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private string? _draggableCursor = null;
+	/// <summary>
+	/// The name or url of the cursor to display when mousing over a draggable map.
+	/// This property uses the css cursor attribute to change the icon.
+	/// </summary>
+	[Parameter]
+	public string? DraggableCursor
+	{
+		get => _draggableCursor;
+		set
+		{
+			if (_mapInitialized && value != _draggableCursor)
+			{
+				_draggableCursor = value;
+
+				dynamic options = new ExpandoObject();
+				options.draggableCursor = _draggableCursor;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private string? _draggingCursor = null;
+	/// <summary>
+	/// The name or url of the cursor to display when the map is being dragged.
+	/// This property uses the css cursor attribute to change the icon.
+	/// </summary>
+	[Parameter]
+	public string? DraggingCursor
+	{
+		get => _draggingCursor;
+		set
+		{
+			if (_mapInitialized && value != _draggingCursor)
+			{
+				_draggingCursor = value;
+
+				dynamic options = new ExpandoObject();
+				options.draggingCursor = _draggingCursor;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _fullscreenControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Fullscreen control.
+	/// </summary>
+	[Parameter]
+	public bool FullscreenControl
+	{
+		get => _fullscreenControl;
+		set
+		{
+			if (_mapInitialized && value != _fullscreenControl)
+			{
+				_fullscreenControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.fullscreenControl = _fullscreenControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _fullscreenControlPosition = GoogleMapControlPositions.TOP_RIGHT;
+	/// <summary>
+	/// The display options for the Fullscreen control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions FullscreenControlPositon
+	{
+		get => _fullscreenControlPosition;
+		set
+		{
+			if (_mapInitialized && value != _fullscreenControlPosition)
+			{
+				_fullscreenControlPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.fullscreenControlOptions = new { position = _fullscreenControlPosition };
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapGestureHandlingTypes _gestureHandling = GoogleMapGestureHandlingTypes.Auto;
+	/// <summary>
+	/// This setting controls how the API handles gestures on the map.
+	/// </summary>
+	[Parameter]
+	public GoogleMapGestureHandlingTypes GestureHandling
+	{
+		get => _gestureHandling;
+		set
+		{
+			if (_mapInitialized && value != _gestureHandling)
+			{
+				_gestureHandling = value;
+
+				dynamic options = new ExpandoObject();
+				options.gestureHandling = _gestureHandling.ToString().ToLower();
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _keyboardShortcuts = true;
+	/// <summary>
+	/// If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are enabled by default.
+	/// </summary>
+	[Parameter]
+	public bool KeyboardShortcuts
+	{
+		get => _keyboardShortcuts;
+		set
+		{
+			if (_mapInitialized && value != _keyboardShortcuts)
+			{
+				_keyboardShortcuts = value;
+
+				dynamic options = new ExpandoObject();
+				options.keyboardShortcuts = _keyboardShortcuts;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _mapTypeControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Map type control.
+	/// </summary>
+	[Parameter]
+	public bool MapTypeControl
+	{
+		get => _mapTypeControl;
+		set
+		{
+			if (_mapInitialized && value != _mapTypeControl)
+			{
+				_mapTypeControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.mapTypeControl = _mapTypeControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _rotateControl = true;
+	/// <summary>
+	/// The enabled/disabled state of the Rotate control.
+	/// </summary>
+	[Parameter]
+	public bool RotateControl
+	{
+		get => _rotateControl;
+		set
+		{
+			if (_mapInitialized && value != _rotateControl)
+			{
+				_rotateControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControl = _rotateControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _rotateControlOptionsPosition = GoogleMapControlPositions.TOP_RIGHT;
+	/// <summary>
+	/// The display options for the Rotate control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions RotateControlOptionsPosition
+	{
+		get => _rotateControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _rotateControlOptionsPosition)
+			{
+				_rotateControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControlOptions = new { position = _rotateControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _scaleControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Scale control.
+	/// </summary>
+	[Parameter]
+	public bool ScaleControl
+	{
+		get => _scaleControl;
+		set
+		{
+			if (_mapInitialized && value != _scaleControl)
+			{
+				_scaleControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.rotateControl = _scaleControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private bool _streetViewControl = true;
+	/// <summary>
+	/// The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI,
+	/// and should be set to false when displaying a map type on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+	/// </summary>
+	[Parameter]
+	public bool StreetViewControl
+	{
+		get => _streetViewControl;
+		set
+		{
+			if (_mapInitialized && value != _streetViewControl)
+			{
+				_streetViewControl = value;
+
+				dynamic options = new ExpandoObject();
+				options.streetViewControl = _streetViewControl;
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapControlPositions _streetViewControlOptionsPosition = GoogleMapControlPositions.RIGHT_CENTER;
+	/// <summary>
+	/// The initial display options for the Street View Pegman control.
+	/// </summary>
+	[Parameter]
+	public GoogleMapControlPositions StreetViewControlOptionsPosition
+	{
+		get => _streetViewControlOptionsPosition;
+		set
+		{
+			if (_mapInitialized && value != _streetViewControlOptionsPosition)
+			{
+				_streetViewControlOptionsPosition = value;
+
+				dynamic options = new ExpandoObject();
+				options.streetViewControlOptions = new { position = _streetViewControlOptionsPosition };
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
+			}
+		}
+	}
+
+	private GoogleMapTypeCustomStyle[]? _styles = null;
+	/// <summary>
+	/// Styles to apply to each of the default map types. Note that for satellite/hybrid and terrain modes,
+	/// these styles will only apply to labels and geometry.
+	/// </summary>
+	[Parameter]
+	public GoogleMapTypeCustomStyle[]? Styles
+	{
+		get => _styles;
+		set
+		{
+			if (_mapInitialized && value != _styles)
+			{
+				_styles = value;
+
+				dynamic options = new ExpandoObject();
+				options.styles = _styles?.Select(s =>
+				{
+					dynamic obj = new ExpandoObject();
+					obj.stylers = s.Stylers;
+					obj.elementType = s.ElementType;
+					obj.featureType = s.FeatureType;
+
+					return obj;
+				}).ToArray();
+				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
 	}
@@ -157,7 +920,7 @@
 	/// If set `true` then Maps try to detect device location by using <see cref="IGeolocationService"/> and center on the Map once when Map was first loaded.
 	/// Note: it will override <see cref="Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
 	/// </summary>
-	[Parameter] public bool CenterCurrentLocation { get; set; } = false;
+	[Parameter] public bool CenterCurrentLocationOnLoad { get; set; } = false;
 
 	/// <summary>
 	/// Required allows you to monitor your application's API usage in the Google Cloud Console.
@@ -168,21 +931,110 @@
 
 	//Events
 	/// <summary>
-	///
+	/// Callback function for Google Map initialized event.
 	/// </summary>
 	[Parameter] public EventCallback<string> OnMapInitialized { get; set; }
 
 	/// <summary>
-	///
+	/// Callback function for Google Map clicked event.
 	/// </summary>
 	[Parameter] public EventCallback<GeolocationCoordinate> OnMapClicked { get; set; }
+	/// <summary>
+	/// Callback function for Google Map double clicked event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapDoubleClicked { get; set; }
+	/// <summary>
+	/// Callback function for Google Map content menu event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapContextMenu { get; set; }
+	/// <summary>
+	/// Callback function for Google Map mouse up event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseUp { get; set; }
+	/// <summary>
+	/// Callback function for Google Map mouse down event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseDown { get; set; }
+	/// <summary>
+	/// Callback function for Google Map mouse move event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMouseMove { get; set; }
+	/// <summary>
+	/// Callback function for Google Map mouse enter event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapMouseOver { get; set; }
+	/// <summary>
+	/// Callback function for Google Map mouse leaving event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseOut { get; set; }
 
 	/// <summary>
-	///
+	/// Callback function for Google Map Center point changed event.
+	/// Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged".
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationData> OnMapCenterChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map zoom level changed event.
+	/// Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged".
 	/// </summary>
 	[Parameter] public EventCallback<byte> OnMapZoomLevelChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map type changed event.
+	/// Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged".
+	/// </summary>
+	[Parameter] public EventCallback<GoogleMapTypes> OnMapTypeChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map heading changed event.
+	/// Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged".
+	/// </summary>
+	[Parameter] public EventCallback<int> OnMapHeadingChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map tilt position changed event.
+	/// Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged".
+	/// </summary>
+	[Parameter] public EventCallback<byte> OnMapTiltChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map boundaries changed event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapBoundsChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map projection changed event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapProjectionChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map draggable changed event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapDraggableChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map street-view changed event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapStreetviewChanged { get; set; }
 
-	[Parameter] public EventCallback<GeolocationData> OnMapCenterChangedChanged { get; set; }
+	/// <summary>
+	/// Callback function for Google Map dragging event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapDrag { get; set; }
+	/// <summary>
+	/// Callback function for Google Map drag ended event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapDragEnd { get; set; }
+	/// <summary>
+	/// Callback function for Google Map drag started event.
+	/// </summary>
+	[Parameter] public EventCallback<GeolocationCoordinate> OnMapDragStart { get; set; }
+
+	/// <summary>
+	/// Callback function for Google Map resized event.
+	/// </summary>
+	[Parameter] public EventCallback<Rect> OnMapResized { get; set; }
+	/// <summary>
+	/// Callback function for Google Map tiles loaded event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapTilesLoaded { get; set; }
+	/// <summary>
+	/// Callback function for Google Map idle event.
+	/// </summary>
+	[Parameter] public EventCallback OnMapIdle { get; set; }
 
 	#endregion
 
@@ -200,13 +1052,13 @@
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// Starts an async operation to try to dectect device locaton by using <see cref="IGeolocationService"/>.
-	/// Once operation has finished succesfully <see cref="OnLocationDetected"/> event will be fired.
+	/// Starts an async operation to try to detect device location by using <see cref="IGeolocationService"/>.
+	/// Once operation has finished successfully <see cref="OnLocationDetected"/> event will be fired.
 	/// </summary>
 	/// <returns>Async task</returns>
-	public async Task CenterCurrentLocationOnMap()
+	public async Task CenterCurrentLocationOnMapAsync()
 	{
-		await _geolocationService.GetCurrentPosition(LocationResult, false, TimeSpan.FromSeconds(10));
+		await _geolocationService.GetCurrentPositionAsync(LocationResult, false, TimeSpan.FromSeconds(10));
 		WriteDiag($"Geolocation service was called waiting for response, result will be processed in callback method.");
 	}
 	private async Task LocationResult(GeolocationResult pos)
@@ -215,12 +1067,8 @@
 
 		if (pos?.IsSuccess ?? false)
 		{
-			await _mapService.SetCenter(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
-			Center = new GeolocationData()
-			{
-				Latitude = pos.Coordinates.Latitude,
-				Longitude = pos.Coordinates.Longitude
-			};
+			await _mapService.SetCenterAsync(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
+			Center = new GeolocationData(pos.Coordinates.Latitude, pos.Coordinates.Longitude);
 
 			if (OnCurrentLocationDetected.HasDelegate)
 			{
@@ -240,6 +1088,11 @@
 		if (_geolocationService is not null)
 		{
 			await _geolocationService.DisposeAsync();
+		}
+
+		if (_markers is not null)
+		{
+			_markers.CollectionChanged -= MarkersChanges;
 		}
 	}
 }

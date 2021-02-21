@@ -1,9 +1,9 @@
-﻿export function init(key, elementId, dotnetRef) {
+﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize) {
 	if (!key || !elementId || !dotnetRef) {
 		return;
 	}
 
-	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef); //Store maps
+	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize); //Store map info
 
 	let scriptsIncluded = false;
 	let scriptTags = document.querySelectorAll('head > script');
@@ -35,9 +35,13 @@
 window.initGoogleMaps = () => {
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
+		let mapInfo = _mapsElementDict[i].value;
 
 		//Create Map
-		let map = new google.maps.Map(document.getElementById(elementId), {});
+		let map = new google.maps.Map(document.getElementById(elementId), {
+			backgroundColor: mapInfo.bgColor,
+			controlSize: mapInfo.ctrSize,
+		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
 
@@ -63,6 +67,9 @@ window.initGoogleMaps = () => {
 		});
 		map.addListener("dblclick", (mapsMouseEvent) => {
 			mouseEventHandlers(mapsMouseEvent, "MapDoubleClicked");
+		});
+		map.addListener("contextmenu", (mapsMouseEvent) => {
+			mouseEventHandlers(mapsMouseEvent, "MapContextMenu");
 		});
 		map.addListener("mouseup", (mapsMouseEvent) => {
 			mouseEventHandlers(mapsMouseEvent, "MapMouseUp");
@@ -93,7 +100,7 @@ window.initGoogleMaps = () => {
 		map.addListener("center_changed", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -172,7 +179,7 @@ window.initGoogleMaps = () => {
 		map.addListener("drag", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -186,7 +193,7 @@ window.initGoogleMaps = () => {
 		map.addListener("dragend", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -200,7 +207,7 @@ window.initGoogleMaps = () => {
 		map.addListener("dragstart", () => {
 			if (map && map.elementId) {
 				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, map.elementId);
-				if (mapWithDotnetRef) {
+				if (mapWithDotnetRef && map.getCenter()) {
 					let center = map.getCenter().toJSON();
 					let arg = {
 						Latitude: center.lat,
@@ -246,7 +253,7 @@ window.initGoogleMaps = () => {
 };
 
 //Store elementId with .NET Ref
-function storeElementIdWithDotnetRef(dict, elementId, dotnetRef) {
+function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize) {
 	let elementFound = false;
 	for (let i = 0; i < dict.length; i++) {
 		if (dict[i].key === elementId) {
@@ -257,7 +264,7 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef) {
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null }
+			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize }
 		});
 	}
 }
@@ -278,7 +285,9 @@ function getElementIdWithDotnetRef(dict, elementId) {
 		}
 	}
 }
+
 let _mapsElementDict = [];
+let _mapsMarkers = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -301,7 +310,7 @@ export function setCenterAddress(elementId, address) {
 		}
 	}
 }
-export function panTo(elementId, latitude, longitude) {
+export function panToCoords(elementId, latitude, longitude) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
@@ -309,6 +318,19 @@ export function panTo(elementId, latitude, longitude) {
 		}
 	}
 }
+export function panToAddress(elementId, address) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			geocodeAddress(address, function (results) {
+				if (results) {
+					mapWithDotnetRef.map.panTo(results[0].geometry.location);
+				}
+			});
+		}
+	}
+}
+//set methods
 export function setZoom(elementId, zoom) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -341,6 +363,23 @@ export function setTilt(elementId, tilt) {
 		}
 	}
 }
+export function setClickableIcons(elementId, isClickable) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setClickableIcons(isClickable);
+		}
+	}
+}
+//generic set
+export function setOptions(elementId, options) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.setOptions(options);
+		}
+	}
+}
 
 export function resizeMap(elementId) {
 	if (elementId) {
@@ -349,6 +388,158 @@ export function resizeMap(elementId) {
 			google.maps.event.trigger(mapWithDotnetRef.map, "resize");
 		}
 	}
+}
+
+//Custom controls
+export function createCustomControls(elementId, customControls) {
+	if (elementId && customControls) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < customControls.length; i++) {
+				let control = customControls[i];
+				let controlDiv = document.createElement("div");
+				controlDiv.innerHTML = control.content;
+
+				mapWithDotnetRef.map.controls[control.controlPosition].push(controlDiv);
+
+				let id = control.id;
+				let dotnetRef = mapWithDotnetRef.ref;
+				controlDiv.addEventListener("click", () => {
+					dotnetRef.invokeMethodAsync("CustomControlClicked", id);
+				});
+			}
+		}
+	}
+}
+
+//Markers
+export function createMarkers(elementId, markers) {
+	if (elementId && markers && markers.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < markers.length; i++) {
+
+				let markerData = markers[i];
+				let marker = new google.maps.Marker({
+					id: markerData.id, //Custom id to track Markers
+					//some property does not work after set...
+					crossOnDrag: markerData.crossOnDrag,
+					optimized: markerData.optimized,
+				});
+
+				marker.setMap(mapWithDotnetRef.map);
+				setMarkerData(markerData, marker);
+				_mapsMarkers.push(marker);
+
+				//Marker events
+				if (markerData.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (markerData.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: markerData.infoWindow.content,
+							maxWidth: markerData.infoWindow.maxWidth
+						}); 
+					}
+
+					marker.addListener("click", () => {
+						mapWithDotnetRef.ref.invokeMethodAsync("MarkerClicked", markerData.id);
+
+						//If marker has info window
+						if (infoWindow) {
+							infoWindow.open(mapWithDotnetRef.map, marker);
+						}
+					});
+				}
+				if (markerData.draggable) {
+					marker.addListener("drag", () => {
+						markerDragEvents("MarkerDrag", markerData.id, marker.getPosition().toJSON());
+					});
+
+					marker.addListener("dragend", () => {
+						markerDragEvents("MarkerDragEnd", markerData.id, marker.getPosition().toJSON());
+					});
+
+					marker.addListener("dragstart", () => {
+						markerDragEvents("MarkerDragStart", markerData.id, marker.getPosition().toJSON());
+					});
+
+					function markerDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
+			}
+		}
+	}
+}
+//export function updateMarkers(elementId, markers) {
+//	if (elementId && markers && markers.length) {
+//		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+//		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+//			for (var i = 0; i < markers.length; i++) {
+//				let markerData = markers[i];
+
+//				_mapsMarkers.forEach(element => {
+//					if (markerData.id == element.id) {
+//						setMarkerData(markerData, element);
+//						return;
+//					}
+//				});
+//			}
+//		}
+//	}
+//}
+export function removeMarkers(elementId, markers) {
+	if (elementId && markers && markers.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < markers.length; i++) {
+				let markerData = markers[i];
+
+				_mapsMarkers.forEach( (element, index) => {
+					if (markerData.id == element.id) {
+						element.setMap(null);
+						_mapsMarkers.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
+function setMarkerData(markerData, marker) {
+	if (!marker || !markerData) {
+		return;
+	}
+
+	//required
+	marker.setPosition({ lat: markerData.position.latitude, lng: markerData.position.longitude });
+	//optional
+	//marker.setAnchorPoint(markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null);
+	marker.anchorPoint = markerData.anchorPoint ? { x: markerData.anchorPoint.x, y: markerData.anchorPoint.y } : null;
+	marker.setAnimation(markerData.animation);
+	marker.setClickable(markerData.clickable);
+	//marker.setCrossOnDrag(markerData.crossOnDrag);
+	marker.crossOnDrag = markerData.crossOnDrag;
+	marker.setCursor(markerData.cursor);
+	marker.setDraggable(markerData.draggable);
+	marker.setIcon(markerData.icon);
+	marker.setLabel(markerData.label);
+	marker.setOpacity(markerData.opacity);
+	//marker.setOptimized(markerData.optimized);
+	marker.optimized = markerData.optimized;
+	marker.setShape(markerData.shape);
+	marker.setTitle(markerData.title);
+	marker.setVisible(markerData.visible);
+	marker.setZIndex(markerData.zIndex);
 }
 
 //Google GeoCoder

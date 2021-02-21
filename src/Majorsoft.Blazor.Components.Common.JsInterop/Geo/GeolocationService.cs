@@ -25,7 +25,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 			_dotNetObjectReferences = new List<DotNetObjectReference<GeolocationEventWatcherInfo>>();
 		}
 
-		public async Task GetCurrentPosition(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy, TimeSpan? timeout, TimeSpan? cacheTime)
+		public async Task GetCurrentPositionAsync(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy, TimeSpan? timeout, TimeSpan? cacheTime)
 		{
 			await CheckJsObjectAsync();
 
@@ -39,7 +39,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 				cacheTime?.TotalMilliseconds ?? DefaultCacheTime);
 		}
 
-		public async Task<int> AddGeolocationWatcher(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)
+		public async Task<int> AddGeolocationWatcherAsync(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)
 		{
 			await CheckJsObjectAsync();
 
@@ -56,7 +56,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 			return id;
 		}
 
-		public async Task RemoveGeolocationWatcher(int handlerId)
+		public async Task RemoveGeolocationWatcherAsync(int handlerId)
 		{
 			await CheckJsObjectAsync();
 

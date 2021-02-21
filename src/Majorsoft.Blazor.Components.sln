@@ -74,7 +74,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Maps", "Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj", "{3AD2A154-A197-46BE-A213-51328C13B008}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Maps.Tests", "Majorsoft.Blazor.Components.Maps.Tests\Majorsoft.Blazor.Components.Maps.Tests.csproj", "{CE8AF2E1-6860-4F1B-BC96-F84042E55A2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Maps.Tests", "Majorsoft.Blazor.Components.Maps.Tests\Majorsoft.Blazor.Components.Maps.Tests.csproj", "{CE8AF2E1-6860-4F1B-BC96-F84042E55A2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Pipelines", "_Pipelines", "{03B20272-6A8B-4F63-8507-D6BA2A274147}"
+	ProjectSection(SolutionItems) = preProject
+		..\azure-pipelines-commit.yml = ..\azure-pipelines-commit.yml
+		..\azure-pipelines-Nuget.yml = ..\azure-pipelines-Nuget.yml
+		..\azure-pipelines-sampleApp.yml = ..\azure-pipelines-sampleApp.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

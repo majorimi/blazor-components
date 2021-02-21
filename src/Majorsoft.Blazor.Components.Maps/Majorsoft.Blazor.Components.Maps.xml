@@ -47,40 +47,340 @@
             </summary>
             <returns>Maps specific geo coordinates or address</returns>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapImageFormats">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions">
             <summary>
-            Google maps images may be returned in several common web graphics formats
+            Identifiers used to specify the placement of controls on the map. 
+            Controls are positioned relative to other controls in the same layout position. 
+            Controls that are added first are positioned closer to the edge of the map.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.TOP_LEFT">
+            <summary>
+            Elements are positioned in the top left and flow towards the middle.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.TOP_CENTER">
+            <summary>
+            Elements are positioned in the center of the top row.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.TOP_RIGHT">
+            <summary>
+            Elements are positioned in the top right and flow towards the middle.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.LEFT_CENTER">
+            <summary>
+            Elements are positioned in the center of the left side.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.LEFT_TOP">
+            <summary>
+             Elements are positioned on the left, below top-left elements, and flow downwards.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.LEFT_BOTTOM">
+            <summary>
+            Elements are positioned on the left, above bottom-left elements, and flow upwards.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.RIGHT_TOP">
+            <summary>
+             Elements are positioned on the right, below top-right elements, and flow downwards.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.RIGHT_CENTER">
+            <summary>
+            Elements are positioned in the center of the right side.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.RIGHT_BOTTOM">
+            <summary>
+            Elements are positioned on the right, above bottom-right elements, and flow upwards.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.BOTTOM_LEFT">
+            <summary>
+             Elements are positioned in the bottom left and flow towards the middle. Elements are positioned to the right of the Google logo.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.BOTTOM_CENTER">
+            <summary>
+            Elements are positioned in the center of the bottom row.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions.BOTTOM_RIGHT">
+            <summary>
+            Elements are positioned in the bottom right and flow towards the middle. Elements are positioned to the left of the copyrights.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl">
+            <summary>
+            Custom control info to add to the Map that will execute callbacks for events.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl.OnClickCallback">
+            <summary>
+            Callback function called when custom control was clicked.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl.#ctor(System.String,System.Func{System.String,System.Threading.Tasks.Task})">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="htmlContent">Custom control HTML content</param>
+            <param name="onClickCallback">Custom control on click event callback</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase">
+            <summary>
+            Custom control basic info to add to the Map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase.Id">
+            <summary>
+            Id of the Custom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase.ControlPosition">
+            <summary>
+            Control position on the Map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase.Content">
+            <summary>
+            HTML content to render as Custom Control button.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControlBase.#ctor(System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="htmlContent">HTML content to render as custom control</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapEventInfo">
+            <summary>
+            GoogleMapsEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle Google Maps event callbacks
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapEventInfo.#ctor(System.String,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="mapContainerId">HTML Div Id which will contain Google Map</param>
+            <param name="mapInitializedCallback">Callback function for Map initialized event</param>
+            <param name="mapClickedCallback">Callback function for Map clicked event</param>
+            <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
+            <param name="mapContextMenuCallback">Callback function for Map content menu event</param>
+            <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
+            <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
+            <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
+            <param name="mapMouseOverCallback">Callback function for Map mouse enter event</param>
+            <param name="mapMouseOutCallback">Callback function for Map mouse leaving event</param>
+            <param name="mapCenterChangedCallback">Callback function for Map center point changed event</param>
+            <param name="mapZoomChangedCallback">Callback function for Map zoom level changed event</param>
+            <param name="mapTypeChangedCallback">Callback function for Map type changed event</param>
+            <param name="mapHeadingChangedCallback">Callback function for Map heading changed event</param>
+            <param name="mapTiltChangedCallback">Callback function for Map tilt position changed event</param>
+            <param name="mapBoundsChangedCallback">Callback function for Map boundaries changed event</param>
+            <param name="mapProjectionChangedCallback">Callback function for Map projection changed event</param>
+            <param name="mapDraggableChangedCallback">Callback function for Map draggable changed event</param>
+            <param name="mapStreetviewChangedCallback">Callback function for Map street-view changed event</param>
+            <param name="mapDragCallback">Callback function for Map dragging event</param>
+            <param name="mapDragEndCallback">Callback function for Map drag ended event</param>
+            <param name="mapDragStartCallback">Callback function for Map drag started event</param>
+            <param name="mapResizedCallback">Callback function for Map resized event</param>
+            <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
+            <param name="mapIdleCallback">Callback function for Map idle event</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapGestureHandlingTypes">
+            <summary>
+            This setting controls how the API handles gestures on the map.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapGestureHandlingTypes.Auto">
+            <summary>
+            (default) Gesture handling is either cooperative or greedy, depending on whether the page is scrollable or in an iframe.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapGestureHandlingTypes.Cooperative">
+            <summary>
+            Scroll events and one-finger touch gestures scroll the page, and do not zoom or pan the map. Two-finger touch gestures pan and zoom the map. 
+            Scroll events with a ctrl key or ⌘ key pressed zoom the map.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapGestureHandlingTypes.Greedy">
+            <summary>
+            All touch gestures and scroll events pan or zoom the map.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapGestureHandlingTypes.None">
+            <summary>
+            The map cannot be panned or zoomed by user gestures.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow">
+            <summary>
+            Info Window to display HTML content on Map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow.Content">
+            <summary>
+            HTML content of the Info Window.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow.MaxWidth">
+            <summary>
+            Maximum allowed with of the Info Window.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
             <summary>
-            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
             <summary>
-            Set of marker style descriptors.
+            Callback function called when Marker was clicked.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.CustomIcon">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
             <summary>
-            Override default markers and <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style"/> with your own custom icons instead.
+            Callback function called when Marker dragging.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Locations">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
             <summary>
-            Each marker descriptor must contain a set of one or more locations defining where to place the marker on the map.
+            Callback function called when Marker drag ended.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.HasStyleDefined">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
             <summary>
-            Checks if any marker style was defined in <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.Style"/> or <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.CustomIcon"/> properties.
+            Callback function called when Marker drag started.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
             <summary>
-            Default constructor
+            Default constructor.
             </summary>
+            <param name="position">Marker position on the Map</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
+            <summary>
+            Animations that can be played on a marker.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
+            <summary>
+            No animation.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
+            <summary>
+            Marker bounces until animation is stopped.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
+            <summary>
+            Marker falls from the top of the map ending with a small bounce.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Id">
+            <summary>
+            Id of the Custom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.AnchorPoint">
+            <summary>
+            The offset from the marker's position to the tip of an InfoWindow that has been opened with the marker as anchor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Animation">
+            <summary>
+            Which animation to play when marker is added to a map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Clickable">
+            <summary>
+            If true, the marker receives mouse and touch events. Default value is true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.CrossOnDrag">
+            <summary>
+            If false, disables cross that appears beneath the marker when dragging. This option is true by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Cursor">
+            <summary>
+            Mouse cursor to show on hover.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Draggable">
+            <summary>
+            If true, the marker can be dragged. Default value is false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Label">
+            <summary>
+            Adds a label to the marker. The label can either be a string, or a MarkerLabel object.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Icon">
+            <summary>
+            Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Opacity">
+            <summary>
+            The marker's opacity between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Optimized">
+            <summary>
+            Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
+            Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Position">
+            <summary>
+            Marker position. Required in order to display the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Shape">
+            <summary>
+            Image map region definition used for drag/click.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Title">
+            <summary>
+            Rollover text. If provided, an accessibility text (e.g. for use with screen readers) 
+            will be added to the marker with the provided value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Visible">
+            <summary>
+            If true, the marker is visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.ZIndex">
+            <summary>
+            All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.InfoWindow">
+            <summary>
+            Info Window to show for Marker on click.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="position">Marker position on the Map</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
             <summary>
@@ -100,6 +400,115 @@
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
             <summary>
             The anchor point sets how the icon is placed in relation to the specified markers locations.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel">
+            <summary>
+            These options specify the appearance of a marker label. 
+            A marker label is a string (often a single character) which will appear inside the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Text">
+            <summary>
+            The text to be displayed in the label.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.ClassName">
+            <summary>
+            The className property of the label's element (equivalent to the element's class attribute). 
+            Multiple space-separated CSS classes can be added.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Color">
+            <summary>
+            The color of the label text. Default color is black.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontFamily">
+            <summary>
+            The font family of the label text (equivalent to the CSS font-family property).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontSize">
+            <summary>
+            The font size of the label text (equivalent to the CSS font-size property). Default size is 14px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontWeight">
+            <summary>
+            The font weight of the label text (equivalent to the CSS font-weight property).
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="text">Label text</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon">
+            <summary>
+            A structure representing a Marker icon image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Url">
+            <summary>
+            The URL of the image or sprite sheet.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Anchor">
+            <summary>
+            The position at which to anchor an image in correspondence to the location of the marker on the map.
+            By default, the anchor is located along the center point of the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.LabelOrigin">
+            <summary>
+            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+            By default, the origin is located in the center point of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Origin">
+            <summary>
+            The position of the image within a sprite, if any. 
+            By default, the origin is located at the top left corner of the image (0, 0).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.ScaledSize">
+            <summary>
+            The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Size">
+            <summary>
+            The display size of the sprite or image. When using sprites, you must specify the sprite size. 
+            If the size is not provided, it will be set when the image loads.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="url">Icon Url</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
+            <summary>
+            This object defines the clickable region of a marker image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
+            <summary>
+            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
+            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">
@@ -135,6 +544,94 @@
             Default scale value is 1; accepted values are 1, 2, and 4.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapService">
+            <summary>
+            Default implementation of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions">
+            <summary>
+            Options for the rendering of the map type control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.MapTypeIds">
+            <summary>
+            IDs of map types to show in the control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.Position">
+            <summary>
+            Position id. Used to specify the position of the control on the map. The default position is TOP_RIGHT.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.MapTypeControlStyle">
+            <summary>
+            Style id. Used to select what style of map type control to display.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.ClearTypes">
+            <summary>
+            Clear <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.MapTypeIds"/> list.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlOptions.ResetMapTypes(Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes[])">
+            <summary>
+            Resets the list of Map types with the given params array.
+            </summary>
+            <param name="mapTypes">Required map types to use</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlStyles">
+            <summary>
+            Identifiers for common MapTypesControls.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlStyles.DEFAULT">
+            <summary>
+            When the DEFAULT control is shown, it will vary according to window size and other factors. 
+            The DEFAULT control may change in future versions of the API.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlStyles.HORIZONTAL_BAR">
+            <summary>
+            The standard horizontal radio buttons bar.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeControlStyles.DROPDOWN_MENU">
+            <summary>
+            A dropdown menu for the screen realestate conscious.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeCustomStyle">
+            <summary>
+            The MapTypeStyle is a collection of selectors and stylers that define how the map should be styled. 
+            Selectors specify the map features and/or elements that should be affected, and stylers specify how those 
+            features and elements should be modified.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeCustomStyle.Stylers">
+            <summary>
+            The style rules to apply to the selected map features and elements. 
+            The rules are applied in the order that you specify in this array.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeCustomStyle.ElementType">
+            <summary>
+            The element to which a styler should be applied. An element is a visual aspect of a feature on the map. 
+            Example: a label, an icon, the stroke or fill applied to the geometry, and more. Optional. 
+            If elementType is not specified, the value is assumed to be 'all'.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypeCustomStyle.FeatureType">
+            <summary>
+            The feature, or group of features, to which a styler should be applied. Optional. 
+            If featureType is not specified, the value is assumed to be 'all'. 
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes">
             <summary>
             The Maps Static API creates maps in several formats
@@ -160,101 +657,178 @@
             Specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapsEventInfo">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapImageFormats">
             <summary>
-            GoogleMapsEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle Google Maps event callbacks
+            Google maps images may be returned in several common web graphics formats
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker">
             <summary>
-            
+            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.MapContainerId">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style">
             <summary>
-            HTML Div Id which was set when Maps initialized with <see cref="!:InitMap(string, string, Func&lt;string, Task&gt;)"/> method.
+            Set of marker style descriptors.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.InitMap(System.String,System.String,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.CustomIcon">
             <summary>
-            
+            Override default markers and <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style"/> with your own custom icons instead.
             </summary>
-            <param name="apiKey"></param>
-            <param name="mapContainerId"></param>
-            <param name="mapInitializedCallback"></param>
-            <param name="mapClickedCallback"></param>
-            <param name="mapDoubleClickedCallback"></param>
-            <param name="mapMouseUpCallback"></param>
-            <param name="mapMouseDownCallback"></param>
-            <param name="mapMouseMoveCallback"></param>
-            <param name="mapMapMouseOverCallback"></param>
-            <param name="mapMapMouseOutCallback"></param>
-            <param name="mapCenterChangedCallback"></param>
-            <param name="mapZoomChangedCallback"></param>
-            <param name="mapTypeChangedCallback"></param>
-            <param name="mapHeadingChangedCallback"></param>
-            <param name="mapTiltChangedCallback"></param>
-            <param name="mapBoundsChangedCallback"></param>
-            <param name="mapProjectionChangedCallback"></param>
-            <param name="mapDraggableChangedCallback"></param>
-            <param name="mapStreetviewChangedCallback"></param>
-            <param name="mapDragCallback"></param>
-            <param name="mapDragEndCallback"></param>
-            <param name="mapDragStartCallback"></param>
-            <param name="mapResizedCallback"></param>
-            <param name="mapTilesLoadedCallback"></param>
-            <param name="mapIdleCallback"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.Double,System.Double)">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Locations">
             <summary>
-            
+            Each marker descriptor must contain a set of one or more locations defining where to place the marker on the map.
             </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetCenter(System.String)">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.HasStyleDefined">
             <summary>
-            
+            Checks if any marker style was defined in <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.Style"/> or <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.CustomIcon"/> properties.
             </summary>
-            <param name="address"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetZoom(System.Byte)">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker.#ctor">
             <summary>
-            
+            Default constructor
             </summary>
-            <param name="zoom"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.PanTo(System.Double,System.Double)">
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService">
             <summary>
-            
+            Injectable service to handle Google JavaScript Maps functionalities.
             </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetMapType(Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes)">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.MapContainerId">
             <summary>
-            
+            HTML Div Id which was set when Maps initialized with <see cref="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})"/> method.
             </summary>
-            <param name="googleMapType"></param>
-            <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetHeading(System.Int32)">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
             <summary>
-            
+            This function must be called only once to initialize Google JavaScript Maps with ApiKey and event callbacks.
             </summary>
-            <param name="heading"></param>
-            <returns></returns>
+            <param name="apiKey">Google API Key which has permission for Google JavaScript Maps</param>
+            <param name="mapContainerId">HTML Div Id which will contain Google Map</param>
+            <param name="backgroundColor">Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans. This option can only be set when the map is initialized.</param>
+            <param name="controlSize">Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.</param>
+            <param name="mapInitializedCallback">Callback function for Map initialized event</param>
+            <param name="mapClickedCallback">Callback function for Map clicked event</param>
+            <param name="mapDoubleClickedCallback">Callback function for Map double clicked event</param>
+            <param name="mapContextMenuCallback">Callback function for Map content menu event</param>
+            <param name="mapMouseUpCallback">Callback function for Map mouse up event</param>
+            <param name="mapMouseDownCallback">Callback function for Map mouse down event</param>
+            <param name="mapMouseMoveCallback">Callback function for Map mouse move event</param>
+            <param name="mapMouseOverCallback">Callback function for Map mouse enter event</param>
+            <param name="mapMouseOutCallback">Callback function for Map mouse leaving event</param>
+            <param name="mapCenterChangedCallback">Callback function for Map center point changed event</param>
+            <param name="mapZoomChangedCallback">Callback function for Map zoom level changed event</param>
+            <param name="mapTypeChangedCallback">Callback function for Map type changed event</param>
+            <param name="mapHeadingChangedCallback">Callback function for Map heading changed event</param>
+            <param name="mapTiltChangedCallback">Callback function for Map tilt position changed event</param>
+            <param name="mapBoundsChangedCallback">Callback function for Map boundaries changed event</param>
+            <param name="mapProjectionChangedCallback">Callback function for Map projection changed event</param>
+            <param name="mapDraggableChangedCallback">Callback function for Map draggable changed event</param>
+            <param name="mapStreetviewChangedCallback">Callback function for Map street-view changed event</param>
+            <param name="mapDragCallback">Callback function for Map dragging event</param>
+            <param name="mapDragEndCallback">Callback function for Map drag ended event</param>
+            <param name="mapDragStartCallback">Callback function for Map drag started event</param>
+            <param name="mapResizedCallback">Callback function for Map resized event</param>
+            <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
+            <param name="mapIdleCallback">Callback function for Map idle event</param>
+            <returns>Async task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapsService.SetTilt(System.Byte)">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetCenterAsync(System.Double,System.Double)">
             <summary>
-            
+            Sets the center point as coordinates of the Map.
             </summary>
-            <param name="tilt"></param>
+            <param name="latitude">Latitude component</param>
+            <param name="longitude">Longitude component</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetCenterAsync(System.String)">
+            <summary>
+            Sets the center point as coordinates after Address was resolved to coords of the Map.
+            </summary>
+            <param name="address">Address as required center point</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.PanToAsync(System.Double,System.Double)">
+            <summary>
+            Sets the center point as coordinates of the Map with smooth slide animation.
+            </summary>
+            <param name="latitude">Latitude component</param>
+            <param name="longitude">Longitude component</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.PanToAsync(System.String)">
+            <summary>
+            Sets the center point as coordinates after Address was resolved to coords of the Map smooth slide animation.
+            </summary>
+            <param name="address">Address as required center point</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetZoomAsync(System.Byte)">
+            <summary>
+            Sets map Zoom level.
+            </summary>
+            <param name="zoom">Required Zoom level should be 0-22</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetMapTypeAsync(Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes)">
+            <summary>
+            Sets the map type.
+            </summary>
+            <param name="googleMapType">Required <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes"/></param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetHeadingAsync(System.Int32)">
+            <summary>
+            Sets the compass heading for aerial imagery measured in degrees from cardinal direction North.
+            </summary>
+            <param name="heading">Required heading 0-360</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetTiltAsync(System.Byte)">
+            <summary>
+            Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport. 
+            setTilt(45) causes the tilt angle to automatically switch to 45 whenever 45° imagery is available for the current zoom level and viewport, and switch back to 0 whenever 45° imagery is not available (this is the default behavior). 
+            </summary>
+            <param name="tilt">Required tilt 0 or 45</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.ResizeMapAsync">
+            <summary>
+            Notify Maps JS about container DIV resized.
+            </summary>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetClickableIconsAsync(System.Boolean)">
+            <summary>
+            Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI. 
+            To disable the clickability of map icons, pass a value of false to this method.
+            </summary>
+            <param name="isClickable">Icons are clickable or not</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.SetOptionsAsync(System.Dynamic.ExpandoObject)">
+            <summary>
+            Sets given options to Map.
+            </summary>
+            <param name="options">Google JavaScript Maps options</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.CreateCustomControlsAsync(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl})">
+            <summary>
+            Creates Custom Controls on the Map on the given position with event callbacks.
+            </summary>
+            <param name="mapCustomControls">Enumerable CustomControl elements</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.CreateMarkersAsync(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker},System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker})">
+            <summary>
+            Creates markers on the Map with InfoWindows on the given position with event callbacks.
+            </summary>
+            <param name="newMarkers">Enumerable new markers to add</param>
+            <param name="markers">Enumerable markers removed or replaced</param>
             <returns></returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
@@ -262,9 +836,54 @@
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomLevel">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.BackgroundColor">
+            <summary>
+            Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
+            This option can only be set when the map is initialized.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ControlSize">
+            <summary>
+            Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CustomControls">
+            <summary>
+            Custom controls to add to the Map that will execute callbacks for events.
+            This option can only be set when the map is initialized. Use <see cref="!:OnInitialized"/> method to set it up.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker.
+            ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
             <summary>
             Defines the zoom level of the map, which determines the magnification level of the map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomControl">
+            <summary>
+            The enabled/disabled state of the Zoom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ZoomControlOptionsPosition">
+            <summary>
+            The display options for the Zoom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MaxZoom">
+            <summary>
+            The maximum zoom level which will be displayed on the map. If omitted, or set to null,
+            the maximum zoom from the current map type is used instead.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MinZoom">
+            <summary>
+            The minimum zoom level which will be displayed on the map. If omitted, or set to null,
+            the minimum zoom from the current map type is used instead.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Width">
@@ -280,10 +899,123 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center">
             <summary>
             Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation"/> to `true`.
+            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocation">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.AnimateCenterChange">
+            <summary>
+            Apply animation on Maps center change.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapType">
+            <summary>
+            Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapTypeControlOptions">
+            <summary>
+            Defines the type of map to construct. There are several possible maptype values, including roadmap, satellite, hybrid, and terrain.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Heading">
+            <summary>
+            The heading for aerial imagery in degrees measured clockwise from cardinal direction North.
+            Headings are snapped to the nearest available angle for which imagery is available.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Tilt">
+            <summary>
+            Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45.
+            45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ClickableIcons">
+            <summary>
+            When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI.
+            By default map icons are clickable.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DisableDefaultUI">
+            <summary>
+            Enables/disables all default UI buttons. May be overridden individually.
+            Does not disable the keyboard controls, which are separately controlled.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DisableDoubleClickZoom">
+            <summary>
+            Enables/disables zoom and center on double click. Enabled by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DraggableCursor">
+            <summary>
+            The name or url of the cursor to display when mousing over a draggable map.
+            This property uses the css cursor attribute to change the icon.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.DraggingCursor">
+            <summary>
+            The name or url of the cursor to display when the map is being dragged.
+            This property uses the css cursor attribute to change the icon.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.FullscreenControl">
+            <summary>
+            The enabled/disabled state of the Fullscreen control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.FullscreenControlPositon">
+            <summary>
+            The display options for the Fullscreen control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.GestureHandling">
+            <summary>
+            This setting controls how the API handles gestures on the map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.KeyboardShortcuts">
+            <summary>
+            If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are enabled by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapTypeControl">
+            <summary>
+            The initial enabled/disabled state of the Map type control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.RotateControl">
+            <summary>
+            The enabled/disabled state of the Rotate control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.RotateControlOptionsPosition">
+            <summary>
+            The display options for the Rotate control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.ScaleControl">
+            <summary>
+            The initial enabled/disabled state of the Scale control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.StreetViewControl">
+            <summary>
+            The initial enabled/disabled state of the Street View Pegman control. This control is part of the default UI,
+            and should be set to false when displaying a map type on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.StreetViewControlOptionsPosition">
+            <summary>
+            The initial display options for the Street View Pegman control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Styles">
+            <summary>
+            Styles to apply to each of the default map types. Note that for satellite/hybrid and terrain modes,
+            these styles will only apply to labels and geometry.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnLoad">
             <summary>
             If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
             Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
@@ -295,19 +1027,129 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapInitialized">
-             <summary>
-            
-             </summary>
+            <summary>
+            Callback function for Google Map initialized event.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapClicked">
-             <summary>
-            
-             </summary>
+            <summary>
+            Callback function for Google Map clicked event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDoubleClicked">
+            <summary>
+            Callback function for Google Map double clicked event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapContextMenu">
+            <summary>
+            Callback function for Google Map content menu event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseUp">
+            <summary>
+            Callback function for Google Map mouse up event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseDown">
+            <summary>
+            Callback function for Google Map mouse down event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMouseMove">
+            <summary>
+            Callback function for Google Map mouse move event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOver">
+            <summary>
+            Callback function for Google Map mouse enter event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapMouseOut">
+            <summary>
+            Callback function for Google Map mouse leaving event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapCenterChanged">
+            <summary>
+            Callback function for Google Map Center point changed event.
+            Can be used for Two-way binding: @bind-Center="{variable}" @bind-Center:event="OnMapCenterChanged".
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
-             <summary>
-            
-             </summary>
+            <summary>
+            Callback function for Google Map zoom level changed event.
+            Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
+            <summary>
+            Callback function for Google Map type changed event.
+            Can be used for Two-way binding: @bind-MapType="{variable}" @bind-MapType:event="OnMapTypeChanged".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapHeadingChanged">
+            <summary>
+            Callback function for Google Map heading changed event.
+            Can be used for Two-way binding: @bind-Heading="{variable}" @bind-ZoomLevel:event="OnMapHeadingChanged".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTiltChanged">
+            <summary>
+            Callback function for Google Map tilt position changed event.
+            Can be used for Two-way binding: @bind-Tilt="{variable}" @bind-ZoomLevel:event="OnMapTiltChanged".
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapBoundsChanged">
+            <summary>
+            Callback function for Google Map boundaries changed event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapProjectionChanged">
+            <summary>
+            Callback function for Google Map projection changed event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDraggableChanged">
+            <summary>
+            Callback function for Google Map draggable changed event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapStreetviewChanged">
+            <summary>
+            Callback function for Google Map street-view changed event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDrag">
+            <summary>
+            Callback function for Google Map dragging event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragEnd">
+            <summary>
+            Callback function for Google Map drag ended event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapDragStart">
+            <summary>
+            Callback function for Google Map drag started event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapResized">
+            <summary>
+            Callback function for Google Map resized event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTilesLoaded">
+            <summary>
+            Callback function for Google Map tiles loaded event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapIdle">
+            <summary>
+            Callback function for Google Map idle event.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnCurrentLocationDetected">
             <summary>
@@ -320,10 +1162,10 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnMap">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CenterCurrentLocationOnMapAsync">
             <summary>
-            Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
-            Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
+            Starts an async operation to try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Once operation has finished successfully <see cref="!:OnLocationDetected"/> event will be fired.
             </summary>
             <returns>Async task</returns>
         </member>
@@ -366,7 +1208,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Language">
             <summary>
-            Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles
+            Defines the language to use for display of labels on map tiles. Note that this parameter is only supported for some country tiles.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Region">
@@ -376,11 +1218,11 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center">
             <summary>
-            Maps center position set by the given Coordinates or Address.
-            Also can be set the divece location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation"/> to `true`.
+            Maps center position set by the given Coordinates or Address <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>.
+            Also can be set the device location by setting <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad"/> to `true`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocation">
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnLoad">
             <summary>
             If set `true` then Maps try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> and center on the Map once when Map was first loaded.
             Note: it will override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> location, but detecting geolocation is an `async` operation. It means map might be centered after some time the page rendered or location might fail!
@@ -399,17 +1241,17 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Markers">
             <summary>
-            The markers parameter defines a set of one or more markers (map pins) at a set of locations.
+            The markers parameter defines a set of one or more markers (map pins) at a set of locations <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMapMarker"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Path">
             <summary>
-            Defines a single path of two or more connected points to overlay on the image at specified locations. 
+            Defines a single path of two or more connected points to overlay on the image at specified locations <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>. 
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.VisibleLocations">
             <summary>
-            Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed.
+            Specifies one or more locations that should remain visible on the map, though no markers or other indicators will be displayed <see cref="T:Majorsoft.Blazor.Components.Maps.GeolocationData"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Style">
@@ -420,7 +1262,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.OnCurrentLocationDetected">
             <summary>
             Callback function called when location successfully detected with <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
-            Device positon will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> parameter value.
+            Device position will be supplied in the event which should be used to override <see cref="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.Center"/> parameter value.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.AllOtherAttributes">
@@ -428,10 +1270,10 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnMap">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleStaticMap.CenterCurrentLocationOnMapAsync">
             <summary>
-            Starts an async operation to try to dectect device locaton by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
-            Once operation has finished succesfully <see cref="!:OnLocationDetected"/> event will be fired.
+            Starts an async operation to try to detect device location by using <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>.
+            Once operation has finished successfully <see cref="!:OnLocationDetected"/> event will be fired.
             </summary>
             <returns>Async task</returns>
         </member>
@@ -445,6 +1287,27 @@
             Registers required Map services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Point">
+            <summary>
+            Custom type to represent Point.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Point.X">
+            <summary>
+            Point x
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Point.Y">
+            <summary>
+            Point y
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Point.ToString">
+            <summary>
+            Point string representation.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Rect">
             <summary>

@@ -9,7 +9,18 @@
 		/// Represents a secondary location as a string address. 
 		/// It will be omitted if <see cref="Latitude"/> and <see cref="Longitude"/> coordinates are defined.
 		/// </summary>
-		public string Address { get; set; }
+		public string? Address { get; init; }
+
+		public GeolocationData(double? latitude, double? longitude)
+			: base(latitude, longitude)
+		{
+		}
+
+		public GeolocationData(string address)
+			: base(null, null)
+		{
+			Address = address;
+		}
 
 		/// <summary>
 		/// Formats coordinates to Maps specific string or return address.
@@ -19,7 +30,7 @@
 		{
 			return HasCoordinates
 				? base.ToString()
-				: Address;
+				: Address ?? string.Empty;
 		}
 	}
 }
