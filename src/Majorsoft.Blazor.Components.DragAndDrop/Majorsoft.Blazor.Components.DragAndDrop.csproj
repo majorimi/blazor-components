@@ -10,7 +10,7 @@
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
-		<Copyright>©2020 Imre Toth</Copyright>
+		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<Description>Blazor component that renders wrapper components to enables Drag and Drop in Blazor Apps. Part of Majorsoft Blazor library.</Description>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md</PackageProjectUrl>

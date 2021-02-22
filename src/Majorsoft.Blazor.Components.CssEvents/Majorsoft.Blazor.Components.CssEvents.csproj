@@ -9,7 +9,7 @@
 		<Company>Majorsoft</Company>
 		<Version>1.0.0.0</Version>
 		<Product>Blazor Components</Product>
-		<Copyright>©2020 Imre Toth</Copyright>
+		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<Description>Blazor injectable Services and wrapper Components to notify on CSS Transition and Animation events. Part of Majorsoft Blazor library.</Description>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md</PackageProjectUrl>

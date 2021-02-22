@@ -9,7 +9,7 @@
 		<Authors>Imre Toth</Authors>
 		<Product>Majorsoft Blazor Components</Product>
 		<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using Server Hosting Model! Part of Majorsoft Blazor library.</Description>
-		<Copyright>©2020 Imre Toth</Copyright>
+		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>

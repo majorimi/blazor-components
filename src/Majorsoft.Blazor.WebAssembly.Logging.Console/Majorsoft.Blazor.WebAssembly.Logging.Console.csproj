@@ -8,7 +8,7 @@
 		<Version>1.0.0.0</Version>
 		<Authors>Imre Toth</Authors>
 		<Product>Majorsoft Blazor Components</Product>
-		<Copyright>©2020 Imre Toth</Copyright>
+		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
