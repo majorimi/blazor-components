@@ -129,7 +129,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceInput_should_wait_debounce_time_respective_to_minChars()
 		{
-			var debounceTime = 30;
+			var debounceTime = 50;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
@@ -226,7 +226,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceInput_should_wait_debounce_time_on_disabled_force_enter()
 		{
-			var debounceTime = 30;
+			var debounceTime = 50;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
@@ -326,7 +326,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceInput_should_wait_debounce_time_on_disabled_force_blur()
 		{
-			var debounceTime = 30;
+			var debounceTime = 50;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
