@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
+	<Version>1.0.0.0</Version>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<PackageId>Majorsoft.Blazor.Extensions.BrowserStorage</PackageId>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>©2020 Imre Toth</Copyright>
+	<PackageLicenseExpression></PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageTags>.Net5 Blazor BrowserStorage LocalStorage SessionStorage Cookies</PackageTags>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+	<Description>Blazor extension that allows Blazor apps to access (read/write) Browser's Local Storage, Session Storage and stored Cookies. Part of Majorsoft Blazor library.</Description>
+	<Title>Blazor Components Expand/Collapse</Title>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<DocumentationFile>.\Majorsoft.Blazor.Extensions.BrowserStorage.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="bundleconfig.json" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+	<SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+  </ItemGroup>
+
+</Project>
