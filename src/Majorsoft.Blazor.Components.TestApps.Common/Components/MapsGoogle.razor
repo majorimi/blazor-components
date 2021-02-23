@@ -7,19 +7,37 @@
 		into Blazor components. Allowing you to configure, control maps, receive events in your Blazor App purely with .Net code.
 	</p>
 
-	<p>
-		<i class="fa fa-lg fa-exclamation-triangle text-warning" aria-hidden="true"></i>
-		<strong class="">
-			To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.
-			<br />
-			Your API key is not tracked or distributed by Maps Blazor Components and Demo application. It is your responsibility to use it safely in your Blazor Apps!
-		</strong>
-	</p>
+	<div class="row pb-2">
+		<div class="col-12">
+			<table>
+				<tr>
+					<td width="5%">
+						<i class="fas fa-4x fa-exclamation-triangle text-warning" aria-hidden="true" style="margin-bottom: 2px;"></i>
+					</td>
+					<td width="95%">
+						<strong>
+							<ul style="margin-bottom: 2px;">
+								<li>
+									To use Google Maps Platform, you must have a billing account. The billing account is used to <i>track costs</i> associated with your projects.
+								</li>
+								<li>
+									Your API key is not tracked or distributed by Maps Blazor Components and Demo application. It is your responsibility to use it safely in your Blazor Apps!
+								</li>
+								<li>
+									Provided Google API key courtesy of Majorsoft and <i>restricted</i> only for this Demo App. Any illegal usage and distribution of API key will result deletion of it.
+								</li>
+							</ul>
+						</strong>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 	<hr />
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-6">
-			Enter your <strong>Google Maps API key</strong> here (Check if it is valid for JavaScript and Static APIs):
+			Enter your <strong>Google API key</strong> here (Check it has selected: <strong>Maps Static</strong>, <strong>Maps JavaScript</strong> and <strong>Geocoding</strong> APIs):
 			<input class="form-control w-100 bg-warning" @bind="_googleMapsApiKey" placeholder="Google Maps API key REQUIRED!" />
 		</div>
 	</div>
