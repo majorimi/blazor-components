@@ -83,7 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Pipelines", "_Pipelines", 
 		..\azure-pipelines-sampleApp.yml = ..\azure-pipelines-sampleApp.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Extensions.BrowserStorage", "Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj", "{B0BDDF05-5508-4D05-B766-6DB53C33D004}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Extensions.BrowserStorage", "Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj", "{B0BDDF05-5508-4D05-B766-6DB53C33D004}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
