@@ -1,5 +1,22 @@
-﻿<h3>BrowserStorage</h3>
+﻿LocalStorage Count: @_localStorageCount
+
+SessionStorage Count: @_sessionStorageCount
+
+@inject ILocalStorageService _localStorageService
+@inject ISessionStorageService _sessionStorageService
 
 @code {
+    protected override async Task OnInitializedAsync()
+    {
+        _localStorageCount = await _localStorageService.GetLengthAsync();
+
+        _sessionStorageCount = await _sessionStorageService.GetLengthAsync();
+    }
+
+    //LocalStorage
+    private int _localStorageCount;
+
+    //SessionStorage
+    private int _sessionStorageCount;
 
 }

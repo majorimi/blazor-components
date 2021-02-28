@@ -4,5 +4,21 @@
         <name>Majorsoft.Blazor.Extensions.BrowserStorage</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension">
+            <summary>
+            Extension methods to register required JS Interop services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension.AddBrowserStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required JS Interop services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageTypes">
+            <summary>
+            Supported Browser storage types.
+            </summary>
+        </member>
     </members>
 </doc>
