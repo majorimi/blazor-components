@@ -4,6 +4,86 @@
         <name>Majorsoft.Blazor.Extensions.BrowserStorage</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService">
+            <summary>
+            Injectable service for Local Storage
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService">
+            <summary>
+            Injectable service for Session Storage
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService">
+            <summary>
+            The Storage interface of the Web Storage API provides access to a particular domain's session or local storage. 
+            It allows, for example, the addition, modification, or deletion of stored data items.
+            https://developer.mozilla.org/en-US/docs/Web/API/Storage
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetLengthAsync">
+            <summary>
+            Returns an integer representing the number of data items stored in the Storage object.
+            </summary>
+            <returns>Number of objects</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.ClearAsync">
+            <summary>
+            When invoked, will empty all keys out of the storage.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetItemAsync``1(System.String)">
+            <summary>
+            When passed a key name, will return that key's value.
+            </summary>
+            <typeparam name="T">Type param</typeparam>
+            <param name="key">Storage key</param>
+            <returns>Stored T instance object by key</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetItemAsStringAsync(System.String)">
+            <summary>
+            When passed a key name, will return that key's value.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>Sored object as String</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeyAsync(System.Int32)">
+            <summary>
+            Returns Storage key name by the given index.
+            </summary>
+            <param name="index">Index of the key</param>
+            <returns>Storage key name by index</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeysAsync">
+            <summary>
+            Returns all keys in Storage.
+            </summary>
+            <returns>List of keys</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.ContainKeyAsync(System.String)">
+            <summary>
+            Checks if given key exists as Storage key.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>True if key exists, otherwise False</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.RemoveItemAsync(System.String)">
+            <summary>
+            When passed a key name, will remove that key from the storage.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.SetItemAsync``1(System.String,``0)">
+            <summary>
+            When passed a key name and value, will add that key to the storage, or update that key's value if it already exists.
+            </summary>
+            <typeparam name="T">Type param</typeparam>
+            <param name="key">Storage key</param>
+            <param name="data">Object to store</param>
+            <returns>Async Task</returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension">
             <summary>
             Extension methods to register required JS Interop services into IServiceCollection
@@ -14,6 +94,16 @@
             Registers required JS Interop services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.LocalStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.SessionStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService"/>
+            </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageTypes">
             <summary>
