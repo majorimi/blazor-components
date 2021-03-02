@@ -50,14 +50,15 @@ Check out our planned components and extensions on the project [Wiki page](https
 
 **Majorsoft Blazor Extensions are providing useful features to develop Balazor applications:**
 
-- **Majorsoft.Blazor.Server.Logging.Console**: Enables [browser conole logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
-- **Majorsoft.Blazor.WebAssembly.Logging.Console**: Enables [browser conole logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
+- **Majorsoft.Blazor.Server.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
+- **Majorsoft.Blazor.WebAssembly.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
+- **Majorsoft.Blazor.Extensions.BrowserStorage**: Enables [Browser Storage (Local/Session/Cookies)](https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md) access for Blazor applications.
 
 ### **Majorsoft Blazor Components**
 
 **Majorsoft Blazor Components are providing custom UI components to develop Balazor applications:**
 
-- **Majorsoft.Blazor.Components.Common.JsInterop**: [Js Interop components, injectable services and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, Geolocation, etc..
+- **Majorsoft.Blazor.Components.Common.JsInterop**: [Js Interop components, injectable services and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, Geolocation, HTML Head (title, meta, SEO), etc..
 - **Majorsoft.Blazor.Components.Debounce**: [Debounce components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, Textarea or other element with debounced onChange.
 - **Majorsoft.Blazor.Components.Typeahead**: [Typeahead components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md) that renders an HTML Input or InputText with Typeahead panel.
 - **Majorsoft.Blazor.Components.Loading**: [Loading components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md) that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loading...

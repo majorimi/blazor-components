@@ -1,6 +1,52 @@
-﻿LocalStorage Count: @_localStorageCount
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <h1>Browser Storage extensions</h1>
+    <p>
+        Enables <a href="https://github.com/BlazorExtensions/Storage" target="_blank">Browser Local and Session</a> storages and 
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/CookieStore" target="_blank">Cookies store</a> access for Blazor applications. For usage see source code and docs on
+        <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md" target="_blank">Github</a>.
+        <br /><strong>Majorsoft.Blazor.Extensions.BrowserStorage</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.BrowserStorage" target="_blank">Nuget</a>
+    </p>
 
-SessionStorage Count: @_sessionStorageCount
+    <div>
+        <h3>Browser Storage features:</h3>
+        <ul>
+            <li><NavLink href="browserstorage#local">Local Storage</NavLink></li>
+            <li><NavLink href="browserstorage#session">Session Storage</NavLink></li>
+        </ul>
+    </div>
+
+    <div class="container-fluid p-3 mb-3 border rounded">
+        <PermaLinkElement PermaLinkName="local" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+            <Content><h3>Local Storage</h3></Content>
+        </PermaLinkElement>
+        <p>
+            <strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for
+        </p>
+
+        <div class="row pb-2">
+            <div class="col-12">
+                LocalStorage Count: @_localStorageCount
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-3 mb-3 border rounded">
+        <PermaLinkElement PermaLinkName="session" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+            <Content><h3>Session Storage</h3></Content>
+        </PermaLinkElement>
+        <p>
+            <strong>Browser Local Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for
+        </p>
+
+        <div class="row pb-2">
+            <div class="col-12">
+                SessionStorage Count: @_sessionStorageCount
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 @inject ILocalStorageService _localStorageService
 @inject ISessionStorageService _sessionStorageService
