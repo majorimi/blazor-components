@@ -95,6 +95,11 @@
             </summary>
             <param name="services">IServiceCollection instance</param>
         </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageServiceBase">
+            <summary>
+            Storage base class which implements all Local and Session storage features just need to be parametrized.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.LocalStorageService">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService"/>

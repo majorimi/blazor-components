@@ -8,6 +8,9 @@ using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Extensions.BrowserStorage
 {
+	/// <summary>
+	/// Storage base class which implements all Local and Session storage features just need to be parametrized.
+	/// </summary>
 	public abstract class StorageServiceBase : IStorageService
 	{
 		private readonly IJSRuntime _jSRuntime;
