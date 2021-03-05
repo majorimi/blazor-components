@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
@@ -30,28 +29,45 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 
 		public async Task<bool> ContainKeyAsync(string key) => await _jSRuntime.InvokeAsync<bool>($"{_storageName}.hasOwnProperty", key);
 
-		public async Task<string> GetItemAsStringAsync(string key)
+		public async Task<string?> GetItemAsStringAsync(string key)
 		{
 			if (string.IsNullOrEmpty(key))
 			{
-				throw new ArgumentException($"Argument {nameof(key)} cannot by NULL or Empty.");
+				throw new ArgumentException($"'{nameof(key)}' cannot be null or empty.", nameof(key));
 			}
 
 			return await _jSRuntime.InvokeAsync<string>($"{_storageName}.getItem", key);
 		}
 
-		public Task<T> GetItemAsync<T>(string key) => throw new NotImplementedException();
-		
-		public async Task<string> GetKeyAsync(int index) => await _jSRuntime.InvokeAsync<string>($"{_storageName}.key", index);
+		public async Task<T> GetItemAsync<T>(string key)
+		{
+			if (string.IsNullOrEmpty(key))
+			{
+				throw new ArgumentException($"'{nameof(key)}' cannot be null or empty.", nameof(key));
+			}
 
-		public async Task<IEnumerable<string>> GetKeysAsync()
+			if (typeof(T) == typeof(string) || typeof(T) == typeof(ValueType))
+			{
+				return await _jSRuntime.InvokeAsync<T>($"{_storageName}.getItem", key);
+			}
+			else
+			{
+				var jsonData = await _jSRuntime.InvokeAsync<string>($"{_storageName}.getItem", key);
+				var data = JsonSerializer.Deserialize<T>(jsonData);
+				return data;
+			}
+		}
+		
+		public async Task<string?> GetKeyByIndexAsync(int index) => await _jSRuntime.InvokeAsync<string>($"{_storageName}.key", index);
+
+		public async Task<IEnumerable<string>> GetAllKeysAsync()
 		{
 			var length = await GetLengthAsync();
 
 			var tasks = new List<Task<string>>();
 			for (int i = 0; i < length; i++)
 			{
-				tasks.Add(GetKeyAsync(i));
+				tasks.Add(GetKeyByIndexAsync(i));
 			}
 
 			var keys = await Task.WhenAll(tasks);
@@ -70,7 +86,23 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 			await _jSRuntime.InvokeVoidAsync($"{_storageName}.removeItem", key);
 		}
 
-		public Task SetItemAsync<T>(string key, T data) => throw new NotImplementedException();
+		public async Task SetItemAsync<T>(string key, T data)
+		{
+			if (string.IsNullOrEmpty(key))
+			{
+				throw new ArgumentException($"'{nameof(key)}' cannot be null or empty.", nameof(key));
+			}
+
+			if (data is string || data is ValueType)
+			{
+				await _jSRuntime.InvokeVoidAsync($"{_storageName}.setItem", key, data);
+			}
+			else
+			{
+				var jsonData = JsonSerializer.Serialize(data);
+				await _jSRuntime.InvokeVoidAsync($"{_storageName}.setItem", key, jsonData);
+			}
+		}
 	}
 
 	/// <summary>

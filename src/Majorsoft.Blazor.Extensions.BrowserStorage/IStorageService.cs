@@ -35,20 +35,20 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 		/// </summary>
 		/// <param name="key">Storage key</param>
 		/// <returns>Sored object as String</returns>
-		Task<string> GetItemAsStringAsync(string key);
+		Task<string?> GetItemAsStringAsync(string key);
 
 		/// <summary>
 		/// Returns Storage key name by the given index.
 		/// </summary>
 		/// <param name="index">Index of the key</param>
 		/// <returns>Storage key name by index</returns>
-		Task<string> GetKeyAsync(int index);
+		Task<string?> GetKeyByIndexAsync(int index);
 
 		/// <summary>
 		/// Returns all keys in Storage.
 		/// </summary>
 		/// <returns>List of keys</returns>
-		Task<IEnumerable<string>> GetKeysAsync();
+		Task<IEnumerable<string>> GetAllKeysAsync();
 
 		/// <summary>
 		/// Checks if given key exists as Storage key.

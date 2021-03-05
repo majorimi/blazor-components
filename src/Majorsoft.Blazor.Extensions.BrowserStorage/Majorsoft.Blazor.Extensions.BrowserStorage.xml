@@ -48,14 +48,14 @@
             <param name="key">Storage key</param>
             <returns>Sored object as String</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeyAsync(System.Int32)">
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeyByIndexAsync(System.Int32)">
             <summary>
             Returns Storage key name by the given index.
             </summary>
             <param name="index">Index of the key</param>
             <returns>Storage key name by index</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeysAsync">
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetAllKeysAsync">
             <summary>
             Returns all keys in Storage.
             </summary>
