@@ -1,104 +1,105 @@
 ﻿<div class="container-fluid p-3 mb-3 border rounded">
-    <h1>Browser Storage extensions</h1>
-    <p>
-        Enables <a href="https://github.com/BlazorExtensions/Storage" target="_blank">Browser Local and Session</a> storages and
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/CookieStore" target="_blank">Cookies store</a> access for Blazor applications. For usage see source code and docs on
-        <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md" target="_blank">Github</a>.
-        <br /><strong>Majorsoft.Blazor.Extensions.BrowserStorage</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.BrowserStorage" target="_blank">Nuget</a>
-    </p>
+	<h1>Browser Storage extensions</h1>
+	<p>
+		Enables <a href="https://github.com/BlazorExtensions/Storage" target="_blank">Browser Local and Session</a> storages and
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/CookieStore" target="_blank">Cookies store</a> access for Blazor applications. For usage see source code and docs on
+		<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md" target="_blank">Github</a>.
+		<br /><strong>Majorsoft.Blazor.Extensions.BrowserStorage</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.BrowserStorage" target="_blank">Nuget</a>
+	</p>
 
-    <div>
-        <h3>Browser Storage features:</h3>
-        <ul>
-            <li><NavLink href="browserstorage#local">Local Storage</NavLink></li>
-            <li><NavLink href="browserstorage#session">Session Storage</NavLink></li>
-        </ul>
-    </div>
+	<div>
+		<h3>Browser Storage features:</h3>
+		<ul>
+			<li><NavLink href="browserstorage#local">Local Storage</NavLink></li>
+			<li><NavLink href="browserstorage#session">Session Storage</NavLink></li>
+			<li><NavLink href="browserstorage#cookie">Cookie Store</NavLink></li>
+		</ul>
+	</div>
 
-    <div class="container-fluid p-3 mb-3 border rounded">
-        <PermaLinkElement PermaLinkName="local" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-            <Content><h3>Local Storage</h3></Content>
-        </PermaLinkElement>
-        <p>
-            <strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for
-        </p>
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="local" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Local Storage</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for
+		</p>
 
-        <div class="row pb-2">
-            <div class="col-12">
-                LocalStorage item Count: @_localStorageCount
+		<div class="row pb-2">
+			<div class="col-12">
+				LocalStorage item Count: @_localStorageCount
 
-                @if (_localStorageCount > 0)
-                {
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th width="25%">Key</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in _localStorageItems)
-                        {
-                            <tr>
+				@if (_localStorageCount > 0)
+				{
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th width="25%">Key</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						@foreach (var item in _localStorageItems)
+						{
+							<tr>
 
-                                <td>@item.Key</td>
-                                <td>@item.Value</td>
-                            </tr>
-                        }
-                    </table>
-                }
+								<td>@item.Key</td>
+								<td>@item.Value</td>
+							</tr>
+						}
+					</table>
+				}
 
-                <button class="btn btn-primary mb-2" @onclick="@(RefreshLocalStorageItems)">Refresh Local Storage list</button>
-                <button class="btn btn-primary mb-2" @onclick="@(async () => { await _localStorageService.ClearAsync(); await RefreshLocalStorageItems(); })">Clear Local Storage</button>
-                <button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertLocalStorageItems(); await RefreshLocalStorageItems(); })">Insert predefined Local Storage</button>
-            </div>
-        </div>
+				<button class="btn btn-primary mb-2" @onclick="@(RefreshLocalStorageItems)">Refresh Local Storage list</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _localStorageService.ClearAsync(); await RefreshLocalStorageItems(); })">Clear Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertLocalStorageItems(); await RefreshLocalStorageItems(); })">Insert predefined Local Storage</button>
+			</div>
+		</div>
 
-        <div class="row pb-2">
-            <div class="col-12">
+		<div class="row pb-2">
+			<div class="col-12">
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <div class="container-fluid p-3 mb-3 border rounded">
-        <PermaLinkElement PermaLinkName="session" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-            <Content><h3>Session Storage</h3></Content>
-        </PermaLinkElement>
-        <p>
-            <strong>Browser Local Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for
-        </p>
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="session" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Session Storage</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for
+		</p>
 
-        <div class="row pb-2">
-            <div class="col-12">
-                SessionStorage item Count: @_sessionStorageCount
+		<div class="row pb-2">
+			<div class="col-12">
+				SessionStorage item Count: @_sessionStorageCount
 
-                @if (_sessionStorageCount > 0)
-                {
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th width="25%">Key</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in _sessionStorageItems)
-                        {
-                            <tr>
+				@if (_sessionStorageCount > 0)
+				{
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th width="25%">Key</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						@foreach (var item in _sessionStorageItems)
+						{
+							<tr>
 
-                                <td>@item.Key</td>
-                                <td>@item.Value</td>
-                            </tr>
-                        }
-                    </table>
-                }
+								<td>@item.Key</td>
+								<td>@item.Value</td>
+							</tr>
+						}
+					</table>
+				}
 
-                <button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Local Storage list</button>
-                <button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Local Storage</button>
-                <button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Local Storage list</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Local Storage</button>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
 </div>
 
@@ -107,88 +108,88 @@
 @inject ISessionStorageService _sessionStorageService
 
 @code {
-    public class UserInfo
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
+	public class UserInfo
+	{
+		public string Name { get; set; }
+		public int Age { get; set; }
+	}
 
-    protected override async Task OnInitializedAsync()
-    {
-        //LocalStorage
-        await InsertLocalStorageItems();
-        _localStorageCount = await _localStorageService.GetLengthAsync();
-        await RefreshLocalStorageItems();
+	protected override async Task OnInitializedAsync()
+	{
+		//LocalStorage
+		await InsertLocalStorageItems();
+		_localStorageCount = await _localStorageService.GetLengthAsync();
+		await RefreshLocalStorageItems();
 
-        //SessionStorage
-        await InsertSessionStorageItems();
-        _sessionStorageCount = await _sessionStorageService.GetLengthAsync();
-        await RefreshSessionStorageItems();
-    }
+		//SessionStorage
+		await InsertSessionStorageItems();
+		_sessionStorageCount = await _sessionStorageService.GetLengthAsync();
+		await RefreshSessionStorageItems();
+	}
 
-    //LocalStorage
-    private int _localStorageCount;
-    private IList<KeyValuePair<string, string>> _localStorageItems;
+	//LocalStorage
+	private int _localStorageCount;
+	private IList<KeyValuePair<string, string>> _localStorageItems;
 
-    private async Task InsertLocalStorageItems()
-    {
-        await _localStorageService.SetItemAsync("Local_Numeric_value", 2.5);
-        await _localStorageService.SetItemAsync("Local_String_value", "hello");
-        await _localStorageService.SetItemAsync("Local_Data time", DateTime.Now);
-        await _localStorageService.SetItemAsync<UserInfo>("Local_Test_object", new UserInfo { Name = "Name", Age = 22 });
-        await _localStorageService.SetItemAsync<string>("Local_Null_string", null);
-        await _localStorageService.SetItemAsync<UserInfo>("Local_Null_object", null);
-    }
-    private async Task RefreshLocalStorageItems()
-    {
-        _localStorageItems = new List<KeyValuePair<string, string>>();
-        await foreach (var item in GetLocalStorageItems())
-        {
-            _localStorageItems.Add(item);
-        }
-    }
-    private async IAsyncEnumerable<KeyValuePair<string, string>> GetLocalStorageItems()
-    {
-        for (int i = 0; i < _localStorageCount; i++)
-        {
-            var key = await _localStorageService.GetKeyByIndexAsync(i);
-            if (key is null)
-                continue;
+	private async Task InsertLocalStorageItems()
+	{
+		await _localStorageService.SetItemAsync("Local_Numeric_value", 2.5);
+		await _localStorageService.SetItemAsync("Local_String_value", "hello");
+		await _localStorageService.SetItemAsync("Local_Data time", DateTime.Now);
+		await _localStorageService.SetItemAsync<UserInfo>("Local_Test_object", new UserInfo { Name = "Name", Age = 22 });
+		await _localStorageService.SetItemAsync<string>("Local_Null_string", null);
+		await _localStorageService.SetItemAsync<UserInfo>("Local_Null_object", null);
+	}
+	private async Task RefreshLocalStorageItems()
+	{
+		_localStorageItems = new List<KeyValuePair<string, string>>();
+		await foreach (var item in GetLocalStorageItems())
+		{
+			_localStorageItems.Add(item);
+		}
+	}
+	private async IAsyncEnumerable<KeyValuePair<string, string>> GetLocalStorageItems()
+	{
+		for (int i = 0; i < _localStorageCount; i++)
+		{
+			var key = await _localStorageService.GetKeyByIndexAsync(i);
+			if (key is null)
+				continue;
 
-            yield return new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key));
-        }
-    }
+			yield return new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key));
+		}
+	}
 
-    //SessionStorage
-    private int _sessionStorageCount;
-    private IList<KeyValuePair<string, string>> _sessionStorageItems;
+	//SessionStorage
+	private int _sessionStorageCount;
+	private IList<KeyValuePair<string, string>> _sessionStorageItems;
 
-    private async Task InsertSessionStorageItems()
-    {
-        await _sessionStorageService.SetItemAsync("Session_Numeric_value", 2.5);
-        await _sessionStorageService.SetItemAsync("Session_String_value", "hello");
-        await _sessionStorageService.SetItemAsync("Session_Data time", DateTime.Now);
-        await _sessionStorageService.SetItemAsync<UserInfo>("Session_Test_object", new UserInfo { Name = "Name", Age = 22 });
-        await _sessionStorageService.SetItemAsync<string>("Session_Null_string", null);
-        await _sessionStorageService.SetItemAsync<UserInfo>("Session_Null_object", null);
-    }
-    private async Task RefreshSessionStorageItems()
-    {
-        _sessionStorageItems = new List<KeyValuePair<string, string>>();
-        await foreach (var item in GetSessionStorageItems())
-        {
-            _sessionStorageItems.Add(item);
-        }
-    }
-    private async IAsyncEnumerable<KeyValuePair<string, string>> GetSessionStorageItems()
-    {
-        for (int i = 0; i < _sessionStorageCount; i++)
-        {
-            var key = await _sessionStorageService.GetKeyByIndexAsync(i);
-            if (key is null)
-                continue;
+	private async Task InsertSessionStorageItems()
+	{
+		await _sessionStorageService.SetItemAsync("Session_Numeric_value", 2.5);
+		await _sessionStorageService.SetItemAsync("Session_String_value", "hello");
+		await _sessionStorageService.SetItemAsync("Session_Data time", DateTime.Now);
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_Test_object", new UserInfo { Name = "Name", Age = 22 });
+		await _sessionStorageService.SetItemAsync<string>("Session_Null_string", null);
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_Null_object", null);
+	}
+	private async Task RefreshSessionStorageItems()
+	{
+		_sessionStorageItems = new List<KeyValuePair<string, string>>();
+		await foreach (var item in GetSessionStorageItems())
+		{
+			_sessionStorageItems.Add(item);
+		}
+	}
+	private async IAsyncEnumerable<KeyValuePair<string, string>> GetSessionStorageItems()
+	{
+		for (int i = 0; i < _sessionStorageCount; i++)
+		{
+			var key = await _sessionStorageService.GetKeyByIndexAsync(i);
+			if (key is null)
+				continue;
 
-            yield return new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key));
-        }
-    }
+			yield return new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key));
+		}
+	}
 }
