@@ -118,12 +118,12 @@
 	{
 		//LocalStorage
 		await InsertLocalStorageItems();
-		_localStorageCount = await _localStorageService.GetLengthAsync();
+		_localStorageCount = await _localStorageService.CountAsync();
 		await RefreshLocalStorageItems();
 
 		//SessionStorage
 		await InsertSessionStorageItems();
-		_sessionStorageCount = await _sessionStorageService.GetLengthAsync();
+		_sessionStorageCount = await _sessionStorageService.CountAsync();
 		await RefreshSessionStorageItems();
 	}
 
@@ -143,22 +143,25 @@
 	private async Task RefreshLocalStorageItems()
 	{
 		_localStorageItems = new List<KeyValuePair<string, string>>();
-		await foreach (var item in GetLocalStorageItems())
+		await foreach (var key in _localStorageService.GetAllKeysAsync())
 		{
-			_localStorageItems.Add(item);
-		}
-	}
-	private async IAsyncEnumerable<KeyValuePair<string, string>> GetLocalStorageItems()
-	{
-		for (int i = 0; i < _localStorageCount; i++)
-		{
-			var key = await _localStorageService.GetKeyByIndexAsync(i);
 			if (key is null)
 				continue;
 
-			yield return new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key));
+			_localStorageItems.Add(new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key)));
 		}
 	}
+	//private async IAsyncEnumerable<KeyValuePair<string, string>> GetLocalStorageItems()
+	//{
+	//	for (int i = 0; i < _localStorageCount; i++)
+	//	{
+	//		var key = await _localStorageService.GetKeyByIndexAsync(i);
+	//		if (key is null)
+	//			continue;
+
+	//		yield return new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key));
+	//	}
+	//}
 
 	//SessionStorage
 	private int _sessionStorageCount;
@@ -176,20 +179,23 @@
 	private async Task RefreshSessionStorageItems()
 	{
 		_sessionStorageItems = new List<KeyValuePair<string, string>>();
-		await foreach (var item in GetSessionStorageItems())
+		await foreach (var key in _sessionStorageService.GetAllKeysAsync())
 		{
-			_sessionStorageItems.Add(item);
-		}
-	}
-	private async IAsyncEnumerable<KeyValuePair<string, string>> GetSessionStorageItems()
-	{
-		for (int i = 0; i < _sessionStorageCount; i++)
-		{
-			var key = await _sessionStorageService.GetKeyByIndexAsync(i);
 			if (key is null)
 				continue;
 
-			yield return new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key));
+			_sessionStorageItems.Add(new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key)));
 		}
 	}
+	//private async IAsyncEnumerable<KeyValuePair<string, string>> GetSessionStorageItems()
+	//{
+	//	for (int i = 0; i < _sessionStorageCount; i++)
+	//	{
+	//		var key = await _sessionStorageService.GetKeyByIndexAsync(i);
+	//		if (key is null)
+	//			continue;
+
+	//		yield return new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key));
+	//	}
+	//}
 }

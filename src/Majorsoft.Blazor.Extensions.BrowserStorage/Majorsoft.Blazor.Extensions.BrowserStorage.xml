@@ -21,7 +21,7 @@
             https://developer.mozilla.org/en-US/docs/Web/API/Storage
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetLengthAsync">
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.CountAsync">
             <summary>
             Returns an integer representing the number of data items stored in the Storage object.
             </summary>
@@ -84,6 +84,16 @@
             <param name="data">Object to store</param>
             <returns>Async Task</returns>
         </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.LocalStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.SessionStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension">
             <summary>
             Extension methods to register required JS Interop services into IServiceCollection
@@ -98,16 +108,6 @@
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageServiceBase">
             <summary>
             Storage base class which implements all Local and Session storage features just need to be parametrized.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.LocalStorageService">
-            <summary>
-            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService"/>
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.SessionStorageService">
-            <summary>
-            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService"/>
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageTypes">

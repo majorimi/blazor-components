@@ -14,7 +14,7 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 		/// Returns an integer representing the number of data items stored in the Storage object.
 		/// </summary>
 		/// <returns>Number of objects</returns>
-		Task<int> GetLengthAsync();
+		Task<int> CountAsync();
 
 		/// <summary>
 		/// When invoked, will empty all keys out of the storage.
@@ -48,7 +48,7 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 		/// Returns all keys in Storage.
 		/// </summary>
 		/// <returns>List of keys</returns>
-		Task<IEnumerable<string>> GetAllKeysAsync();
+		IAsyncEnumerable<string> GetAllKeysAsync();
 
 		/// <summary>
 		/// Checks if given key exists as Storage key.

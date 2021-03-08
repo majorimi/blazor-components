@@ -60,21 +60,16 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 		
 		public async Task<string?> GetKeyByIndexAsync(int index) => await _jSRuntime.InvokeAsync<string>($"{_storageName}.key", index);
 
-		public async Task<IEnumerable<string>> GetAllKeysAsync()
+		public async IAsyncEnumerable<string> GetAllKeysAsync()
 		{
-			var length = await GetLengthAsync();
-
-			var tasks = new List<Task<string>>();
+			var length = await CountAsync();
 			for (int i = 0; i < length; i++)
 			{
-				tasks.Add(GetKeyByIndexAsync(i));
+				yield return await GetKeyByIndexAsync(i);
 			}
-
-			var keys = await Task.WhenAll(tasks);
-			return keys;
 		}
 
-		public async Task<int> GetLengthAsync() => await _jSRuntime.InvokeAsync<int>("eval", $"{_storageName}.length");
+		public async Task<int> CountAsync() => await _jSRuntime.InvokeAsync<int>("eval", $"{_storageName}.length");
 
 		public async Task RemoveItemAsync(string key)
 		{
@@ -102,28 +97,6 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 				var jsonData = JsonSerializer.Serialize(data);
 				await _jSRuntime.InvokeVoidAsync($"{_storageName}.setItem", key, jsonData);
 			}
-		}
-	}
-
-	/// <summary>
-	/// Implementation of <see cref="ILocalStorageService"/>
-	/// </summary>
-	public class LocalStorageService : StorageServiceBase, ILocalStorageService
-	{
-		public LocalStorageService(IJSRuntime jSRuntime) 
-			: base(jSRuntime, StorageTypes.LocalStorage)
-		{
-		}
-	}
-
-	/// <summary>
-	/// Implementation of <see cref="ISessionStorageService"/>
-	/// </summary>
-	public class SessionStorageService : StorageServiceBase, ISessionStorageService
-	{
-		public SessionStorageService(IJSRuntime jSRuntime) 
-			: base(jSRuntime, StorageTypes.SessionStorage)
-		{
 		}
 	}
 }
