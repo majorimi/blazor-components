@@ -53,8 +53,13 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 			else
 			{
 				var jsonData = await _jSRuntime.InvokeAsync<string>($"{_storageName}.getItem", key);
-				var data = JsonSerializer.Deserialize<T>(jsonData);
-				return data;
+				if (!string.IsNullOrWhiteSpace(jsonData))
+				{
+					var data = JsonSerializer.Deserialize<T>(jsonData);
+					return data;
+				}
+
+				return default(T);
 			}
 		}
 		

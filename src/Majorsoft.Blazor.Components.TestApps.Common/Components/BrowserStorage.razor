@@ -21,7 +21,8 @@
 			<Content><h3>Local Storage</h3></Content>
 		</PermaLinkElement>
 		<p>
-			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for
+			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for accessing
+			Browser's Local Storage API.
 		</p>
 
 		<div class="row pb-2">
@@ -55,8 +56,15 @@
 		</div>
 
 		<div class="row pb-2">
-			<div class="col-12">
+			<div class="col-12 col-lg-8 col-xl-5">
+				<label><strong>Custom data to Local Storage</strong></label>
+				<br />
+				Name:
+				<input class="form-control" @bind-value="_localUserInfo.Name" type="text" />
+				Age:
+				<input class="form-control" @bind-value="_localUserInfo.Age" type="number" />
 
+				<button class="btn btn-primary mt-2" @onclick="@(SaveCustomLocalStorageItem)">Save custom data to Local Storage</button>
 			</div>
 		</div>
 	</div>
@@ -66,7 +74,8 @@
 			<Content><h3>Session Storage</h3></Content>
 		</PermaLinkElement>
 		<p>
-			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for
+			<strong>Browser Session Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for accessing
+			Browser's Session Storage API.
 		</p>
 
 		<div class="row pb-2">
@@ -96,8 +105,20 @@
 				<button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Local Storage list</button>
 				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Local Storage</button>
 				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Local Storage</button>
-
 			</div>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<label><strong>Custom data to Session Storage</strong></label>
+			<br />
+			Name:
+			<input class="form-control" @bind-value="_sessionUserInfo.Name" type="text" />
+			Age:
+			<input class="form-control" @bind-value="_sessionUserInfo.Age" type="number" />
+
+			<button class="btn btn-primary mt-2" @onclick="@(SaveCustomSessionStorageItem)">Save custom data to Session Storage</button>
 		</div>
 	</div>
 
@@ -129,6 +150,7 @@
 
 	//LocalStorage
 	private int _localStorageCount;
+	private UserInfo _localUserInfo = new UserInfo();
 	private IList<KeyValuePair<string, string>> _localStorageItems;
 
 	private async Task InsertLocalStorageItems()
@@ -150,21 +172,18 @@
 
 			_localStorageItems.Add(new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key)));
 		}
-	}
-	//private async IAsyncEnumerable<KeyValuePair<string, string>> GetLocalStorageItems()
-	//{
-	//	for (int i = 0; i < _localStorageCount; i++)
-	//	{
-	//		var key = await _localStorageService.GetKeyByIndexAsync(i);
-	//		if (key is null)
-	//			continue;
 
-	//		yield return new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key));
-	//	}
-	//}
+		_localUserInfo = await _localStorageService.GetItemAsync<UserInfo>("Local_customData") ?? new UserInfo();
+	}
+	private async Task SaveCustomLocalStorageItem()
+	{
+		await _localStorageService.SetItemAsync<UserInfo>("Local_customData", _localUserInfo);
+		await RefreshLocalStorageItems();
+	}
 
 	//SessionStorage
 	private int _sessionStorageCount;
+	private UserInfo _sessionUserInfo = new UserInfo();
 	private IList<KeyValuePair<string, string>> _sessionStorageItems;
 
 	private async Task InsertSessionStorageItems()
@@ -186,16 +205,12 @@
 
 			_sessionStorageItems.Add(new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key)));
 		}
-	}
-	//private async IAsyncEnumerable<KeyValuePair<string, string>> GetSessionStorageItems()
-	//{
-	//	for (int i = 0; i < _sessionStorageCount; i++)
-	//	{
-	//		var key = await _sessionStorageService.GetKeyByIndexAsync(i);
-	//		if (key is null)
-	//			continue;
 
-	//		yield return new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key));
-	//	}
-	//}
+		_sessionUserInfo = await _sessionStorageService.GetItemAsync<UserInfo>("Session_customData") ?? new UserInfo();
+	}
+	private async Task SaveCustomSessionStorageItem()
+	{
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_customData", _sessionUserInfo);
+		await RefreshSessionStorageItems();
+	}
 }
