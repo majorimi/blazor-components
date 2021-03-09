@@ -4,6 +4,11 @@
         <name>Majorsoft.Blazor.Extensions.BrowserStorage</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService">
             <summary>
             Injectable service for Local Storage

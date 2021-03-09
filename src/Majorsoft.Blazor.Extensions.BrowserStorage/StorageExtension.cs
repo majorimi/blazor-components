@@ -22,7 +22,8 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage
 
 			services.AddTransient<ILocalStorageService, LocalStorageService>();
 			services.AddTransient<ISessionStorageService, SessionStorageService>();
-
+			services.AddTransient<ICookieStoreService, CookieStoreService>();
+			
 			return services;
 		}
 	}

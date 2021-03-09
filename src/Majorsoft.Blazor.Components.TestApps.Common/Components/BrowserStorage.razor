@@ -131,14 +131,17 @@
 			Browser's Cookie Store API.
 		</p>
 
-
+		@_cookie?.Name
+		@_all?.Count()
 	</div>
 
 </div>
 
+@using System.Net 
 
 @inject ILocalStorageService _localStorageService
 @inject ISessionStorageService _sessionStorageService
+@inject ICookieStoreService _cookieStoreService
 
 @code {
 	public class UserInfo
@@ -158,7 +161,14 @@
 		await InsertSessionStorageItems();
 		_sessionStorageCount = await _sessionStorageService.CountAsync();
 		await RefreshSessionStorageItems();
+
+		_cookie = await _cookieStoreService.GetAsync("ASP.NET_SessionId");
+		//_all = await _cookieStoreService.GetAllAsync();
+		await _cookieStoreService.SetAsync(new Cookie("aaa", "123", "/browserstorage", "localhost") { Expires = DateTime.Now.AddDays(1) });
 	}
+
+	Cookie _cookie;
+	IEnumerable<Cookie> _all;
 
 	//LocalStorage
 	private int _localStorageCount;
