@@ -4,10 +4,108 @@
         <name>Majorsoft.Blazor.Extensions.BrowserStorage</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie">
+            <summary>
+            HTTP Cookie class.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Name">
+            <summary>
+            Gets or sets the name for the Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Value">
+            <summary>
+            Gets or sets the System.Net.Cookie.Value for the Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Secure">
+            <summary>
+            Gets or sets the security level of a Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Domain">
+            <summary>
+            Gets or sets the URI for which the Cookie is valid.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Port">
+            <summary>
+            Gets or sets a list of TCP ports that the Cookie applies to.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Path">
+            <summary>
+            Gets or sets the URIs to which the Cookie applies.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.HttpOnly">
+            <summary>
+            Determines whether a page script or other active content can access this cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Expires">
+            <summary>
+            Gets or sets the expiration date and time for the Cookie
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.ExpiresAt">
+            <summary>
+            Gets the expiration date and time for the Cookie as a System.DateTime.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.SameSite">
+            <summary>
+             Gets or sets Cookie SameSite which allows you to declare if your cookie should be 
+             restricted to a first-party or same-site context.
+             Values should be "strict", "lax", "none".
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.ConvertToUnixDate(System.DateTime)">
+            <summary>
+            Converts given DateTime to Unix date.
+            </summary>
+            <param name="date">DateTime value to convert</param>
+            <returns>Total second of Unix date</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.CookieStoreService">
+            <summary>
+            Default implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService">
             <summary>
-            
+            The CookieStore interface of the Cookie Store API provides methods for getting and setting cookies.
+            This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.
+            https://developer.mozilla.org/en-US/docs/Web/API/CookieStore
             </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAsync(System.String)">
+            <summary>
+            The get() method gets a single cookie with the given name.
+            </summary>
+            <param name="name">Cookie name</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAllAsync">
+            <summary>
+            The getAll() method gets all matching cookies.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.SetAsync(Majorsoft.Blazor.Extensions.BrowserStorage.Cookie)">
+            <summary>
+            The set() method sets a cookie with the given name and value.
+            </summary>
+            <param name="cookie">Cookie data to set</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.DeleteAsync(System.String)">
+            <summary>
+            The delete() method deletes a cookie with the given name.
+            </summary>
+            <param name="name">Cookie name</param>
+            <returns>Async Task</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService">
             <summary>
