@@ -82,27 +82,27 @@
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAsync(System.String)">
             <summary>
-            The get() method gets a single cookie with the given name.
+            Gets a single cookie with the given name.
             </summary>
             <param name="name">Cookie name</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAllAsync">
             <summary>
-            The getAll() method gets all matching cookies.
+            Gets all matching cookies.
             </summary>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.SetAsync(Majorsoft.Blazor.Extensions.BrowserStorage.Cookie)">
             <summary>
-            The set() method sets a cookie with the given name and value.
+            Sets a cookie with the given name and value.
             </summary>
             <param name="cookie">Cookie data to set</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.DeleteAsync(System.String)">
             <summary>
-            The delete() method deletes a cookie with the given name.
+            Deletes a cookie with the given name.
             </summary>
             <param name="name">Cookie name</param>
             <returns>Async Task</returns>
