@@ -26,11 +26,11 @@ parameters:
 - name: AssemblyVersion
   displayName: 'Required Nuget package version e.g. "1.0.0"'
   type: string
-  default: 
+  default: ''
 - name: PreviewPackageVersion
   displayName: 'Optional Preview version e.g. "-rc.2.20479.15"'
   type: string
-  default: ''
+  default: '-rc'
 
 jobs:
   - job: BuildAndPublish
