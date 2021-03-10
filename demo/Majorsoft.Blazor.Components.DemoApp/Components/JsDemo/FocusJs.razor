@@ -1,0 +1,57 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="focus-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Focus JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
+		which can be used in case of <code>ElementReference</code> is available.
+		<br />
+		<strong>Focus JS is able to identify and restore focus on ANY DOM element without using Blazor <code>@@ref=""</code> tag.</strong> It is useful when focus should be
+		restored on a parent component but element reference not stored or it's on a different component.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-primary">Click to focus</button>
+			<button class="btn btn-primary">Click to focus</button>
+			<button class="btn btn-primary">Click to focus</button>
+
+			<div @onmouseover="StoreFocus" class="w-100 mt-2 text-center font-weight-bold" style="background:red; height:40px;">
+				<h3>Click on ANY focusable element and Hover over to store actual focused element</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-warning" @onclick="RestoreFocus">Restore focus</button>
+			<label class="ml-3 font-weight-bold">@_focusMsg</label>
+		</div>
+	</div>
+</div>
+
+@implements IAsyncDisposable
+@inject IFocusHandler _focusHandler
+
+@code {
+	//Focus examples
+	private string _focusMsg;
+	private async Task StoreFocus()
+	{
+		await _focusHandler.StoreFocusedElementAsync();
+		_focusMsg = "Focused element stored, click somewhere else and do not hover on RED area.";
+	}
+	private async Task RestoreFocus()
+	{
+		await _focusHandler.RestoreStoredElementFocusAsync();
+		_focusMsg = "Focus restored to previous element.";
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_focusHandler is not null)
+		{
+			await _focusHandler.DisposeAsync();
+		}
+	}
+}
