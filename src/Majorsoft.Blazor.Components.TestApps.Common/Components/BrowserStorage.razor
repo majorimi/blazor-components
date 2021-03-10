@@ -1,0 +1,302 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<h1>Browser Storage extensions</h1>
+	<p>
+		Enables <a href="https://developer.mozilla.org/en-US/docs/Web/API/Storage" target="_blank">Browser Local and Session</a> storages and
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/CookieStore" target="_blank">Cookies store</a> access for Blazor applications. For usage see source code and docs on
+		<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md" target="_blank">Github</a>.
+		<br /><strong>Majorsoft.Blazor.Extensions.BrowserStorage</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.BrowserStorage" target="_blank">Nuget</a>
+	</p>
+
+	<div>
+		<h3>Browser Storage features:</h3>
+		<ul>
+			<li><NavLink href="browserstorage#local">Local Storage</NavLink></li>
+			<li><NavLink href="browserstorage#session">Session Storage</NavLink></li>
+			<li><NavLink href="browserstorage#cookie">Cookie Store</NavLink></li>
+		</ul>
+	</div>
+
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="local" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Local Storage</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Browser Local Storage</strong> is an <strong>injectable <code>ILocalStorageService</code> service</strong> for accessing
+			Browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank">Local Storage API</a>.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				LocalStorage item Count: @_localStorageCount
+
+				@if (_localStorageCount > 0)
+				{
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th width="25%">Key</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						@foreach (var item in _localStorageItems)
+						{
+							<tr>
+
+								<td>@item.Key</td>
+								<td>@item.Value</td>
+							</tr>
+						}
+					</table>
+				}
+
+				<button class="btn btn-primary mb-2" @onclick="@(RefreshLocalStorageItems)">Refresh Local Storage list</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _localStorageService.ClearAsync(); await RefreshLocalStorageItems(); })">Clear Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertLocalStorageItems(); await RefreshLocalStorageItems(); })">Insert predefined Local Storage</button>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				<label><strong>Custom data to Local Storage</strong></label>
+				<br />
+				Name:
+				<input class="form-control" @bind-value="_localUserInfo.Name" type="text" />
+				Age:
+				<input class="form-control" @bind-value="_localUserInfo.Age" type="number" />
+
+				<button class="btn btn-primary mt-2" @onclick="@(SaveCustomLocalStorageItem)">Save custom data to Local Storage</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="session" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Session Storage</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Browser Session Storage</strong> is an <strong>injectable <code>ISessionStorageService</code> service</strong> for accessing
+			Browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage" target="_blank">Session Storage API</a>.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12">
+				SessionStorage item Count: @_sessionStorageCount
+
+				@if (_sessionStorageCount > 0)
+				{
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th width="25%">Key</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						@foreach (var item in _sessionStorageItems)
+						{
+							<tr>
+
+								<td>@item.Key</td>
+								<td>@item.Value</td>
+							</tr>
+						}
+					</table>
+				}
+
+				<button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Local Storage list</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Local Storage</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<label><strong>Custom data to Session Storage</strong></label>
+			<br />
+			Name:
+			<input class="form-control" @bind-value="_sessionUserInfo.Name" type="text" />
+			Age:
+			<input class="form-control" @bind-value="_sessionUserInfo.Age" type="number" />
+
+			<button class="btn btn-primary mt-2" @onclick="@(SaveCustomSessionStorageItem)">Save custom data to Session Storage</button>
+		</div>
+	</div>
+
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="cookie" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Cookie Store</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Browser Cookie Store</strong> is an <strong>injectable <code>ICookieStoreService</code> service</strong> for accessing
+			Browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/CookieStore" target="_blank">Cookie Store API</a>.
+			<br />
+			<strong>Note: This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.</strong>
+		</p>
+
+		LocalStorage item Count: @_allCookies?.Count()
+
+		@if (_allCookies?.Count() > 0)
+		{
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Value</th>
+						<th>Domain</th>
+						<th>Port</th>
+						<th>Path</th>
+						<th>Expires</th>
+						<th>HttpOnly</th>
+						<th>Secure</th>
+					</tr>
+				</thead>
+				@foreach (var item in _allCookies)
+				{
+					<tr>
+						<td>@item.Name</td>
+						<td>@item.Value</td>
+						<td>@item.Domain</td>
+						<td>@item.Port</td>
+						<td>@item.Path</td>
+						<td>@item.ExpiresAt (@item.Expires)</td>
+						<td>@item.HttpOnly</td>
+						<td>@item.Secure</td>
+					</tr>
+				}
+			</table>
+
+			<button class="btn btn-primary mt-2" @onclick="@(RemoveCustomCookieAndRefresh)">Remove custom Cookie from Store</button>
+		}
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<label><strong>Add custom Cookie to Store</strong></label>
+			<br />
+			Value:
+			<input class="form-control" @bind-value="_cookie.Value" type="text" />
+
+			<button class="btn btn-primary mt-2" @onclick="@(async () => await SaveCustomCookieAndRefresh(_cookie != null ? _cookie.Value : ""))">Save custom Cookie to Store</button>
+		</div>
+	</div>
+</div>
+
+@inject ILocalStorageService _localStorageService
+@inject ISessionStorageService _sessionStorageService
+@inject ICookieStoreService _cookieStoreService
+
+@code {
+	public class UserInfo
+	{
+		public string Name { get; set; }
+		public int Age { get; set; }
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		//LocalStorage
+		await InsertLocalStorageItems();
+		_localStorageCount = await _localStorageService.CountAsync();
+		await RefreshLocalStorageItems();
+
+		//SessionStorage
+		await InsertSessionStorageItems();
+		_sessionStorageCount = await _sessionStorageService.CountAsync();
+		await RefreshSessionStorageItems();
+
+		//CookieStore
+		_cookie = (await _cookieStoreService.GetAsync("CustomCookie")) ?? new Cookie();
+		_allCookies = await _cookieStoreService.GetAllAsync();
+	}
+
+	//LocalStorage
+	private int _localStorageCount;
+	private UserInfo _localUserInfo = new UserInfo();
+	private IList<KeyValuePair<string, string>> _localStorageItems;
+
+	private async Task InsertLocalStorageItems()
+	{
+		await _localStorageService.SetItemAsync("Local_Numeric_value", 2.5);
+		await _localStorageService.SetItemAsync("Local_String_value", "hello");
+		await _localStorageService.SetItemAsync("Local_Data time", DateTime.Now);
+		await _localStorageService.SetItemAsync<UserInfo>("Local_Test_object", new UserInfo { Name = "Name", Age = 22 });
+		await _localStorageService.SetItemAsync<string>("Local_Null_string", null);
+		await _localStorageService.SetItemAsync<UserInfo>("Local_Null_object", null);
+	}
+	private async Task RefreshLocalStorageItems()
+	{
+		_localStorageItems = new List<KeyValuePair<string, string>>();
+		await foreach (var key in _localStorageService.GetAllKeysAsync())
+		{
+			if (key is null)
+				continue;
+
+			_localStorageItems.Add(new KeyValuePair<string, string>(key, await _localStorageService.GetItemAsStringAsync(key)));
+		}
+
+		_localUserInfo = await _localStorageService.GetItemAsync<UserInfo>("Local_customData") ?? new UserInfo();
+	}
+	private async Task SaveCustomLocalStorageItem()
+	{
+		await _localStorageService.SetItemAsync<UserInfo>("Local_customData", _localUserInfo);
+		await RefreshLocalStorageItems();
+	}
+
+	//SessionStorage
+	private int _sessionStorageCount;
+	private UserInfo _sessionUserInfo = new UserInfo();
+	private IList<KeyValuePair<string, string>> _sessionStorageItems;
+
+	private async Task InsertSessionStorageItems()
+	{
+		await _sessionStorageService.SetItemAsync("Session_Numeric_value", 2.5);
+		await _sessionStorageService.SetItemAsync("Session_String_value", "hello");
+		await _sessionStorageService.SetItemAsync("Session_Data time", DateTime.Now);
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_Test_object", new UserInfo { Name = "Name", Age = 22 });
+		await _sessionStorageService.SetItemAsync<string>("Session_Null_string", null);
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_Null_object", null);
+	}
+	private async Task RefreshSessionStorageItems()
+	{
+		_sessionStorageItems = new List<KeyValuePair<string, string>>();
+		await foreach (var key in _sessionStorageService.GetAllKeysAsync())
+		{
+			if (key is null)
+				continue;
+
+			_sessionStorageItems.Add(new KeyValuePair<string, string>(key, await _sessionStorageService.GetItemAsStringAsync(key)));
+		}
+
+		_sessionUserInfo = await _sessionStorageService.GetItemAsync<UserInfo>("Session_customData") ?? new UserInfo();
+	}
+	private async Task SaveCustomSessionStorageItem()
+	{
+		await _sessionStorageService.SetItemAsync<UserInfo>("Session_customData", _sessionUserInfo);
+		await RefreshSessionStorageItems();
+	}
+
+	//CookieStore
+	Cookie _cookie = new Cookie();
+	IEnumerable<Cookie> _allCookies;
+
+	private async Task SaveCustomCookieAndRefresh(string value)
+	{
+		await _cookieStoreService.SetAsync(new Cookie()
+		{
+			Name = "CustomCookie",
+			Value = value,
+			//Path = "/",
+			//Domain = "localhost",
+			//Secure = true,
+			//Expires = Cookie.ConvertToUnixDate(DateTime.Now.AddDays(1))
+		});
+
+		_cookie = await _cookieStoreService.GetAsync("CustomCookie");
+		_allCookies = await _cookieStoreService.GetAllAsync();
+	}
+	private async Task RemoveCustomCookieAndRefresh()
+	{
+		await _cookieStoreService.DeleteAsync("CustomCookie");
+		_cookie = new Cookie();
+		_allCookies = await _cookieStoreService.GetAllAsync();
+	}
+}
