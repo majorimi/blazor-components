@@ -40,5 +40,23 @@
     "inputFiles": [
       "wwwroot/resize.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lang.min.js",
+    "inputFiles": [
+      "wwwroot/lang.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/geo.min.js",
+    "inputFiles": [
+      "wwwroot/geo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/head.min.js",
+    "inputFiles": [
+      "wwwroot/head.js"
+    ]
   }
 ]

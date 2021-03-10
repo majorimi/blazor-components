@@ -14,18 +14,18 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 	public sealed class AnimationEventsService  : IAnimationEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<KeyValuePair<ElementReference, string>> _registeredStartEvents;
-		private List<KeyValuePair<ElementReference, string>> _registeredIterationEvents;
-		private List<KeyValuePair<ElementReference, string>> _registeredEndEvents;
+		private List<DotNetObjectReference<AnimationEventInfo>> _registeredStartEvents;
+		private List<DotNetObjectReference<AnimationEventInfo>> _registeredIterationEvents;
+		private List<DotNetObjectReference<AnimationEventInfo>> _registeredEndEvents;
 		private IJSObjectReference _animationJs;
 
 		public AnimationEventsService(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
 
-			_registeredStartEvents = new List<KeyValuePair<ElementReference, string>>();
-			_registeredIterationEvents = new List<KeyValuePair<ElementReference, string>>();
-			_registeredEndEvents = new List<KeyValuePair<ElementReference, string>>();
+			_registeredStartEvents = new List<DotNetObjectReference<AnimationEventInfo>>();
+			_registeredIterationEvents = new List<DotNetObjectReference<AnimationEventInfo>>();
+			_registeredEndEvents = new List<DotNetObjectReference<AnimationEventInfo>>();
 		}
 
 		public async Task RegisterAllAnimationEventsAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onEventCallback, string animationName = "")
@@ -84,9 +84,9 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 				var info = new AnimationEventInfo(item.Key, collection.WhenAllFinished, item.Value);
 				collection.Add(info);
 				var dotnetRef = DotNetObjectReference.Create<AnimationEventInfo>(info);
+				_registeredEndEvents.Add(dotnetRef);
 
 				await _animationJs.InvokeVoidAsync("addAnimationEnd", item.Key, dotnetRef, item.Value);
-				_registeredEndEvents.Add(new KeyValuePair<ElementReference, string>(item.Key, item.Value));
 			}
 		}
 		public async Task RemoveAnimationsWhenAllEndedAsync(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties)
@@ -101,7 +101,7 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 		}
 
 		private async Task RegisterEventAsync(string jsMethodName, 
-			List<KeyValuePair<ElementReference, string>> registeredEvents, 
+			List<DotNetObjectReference<AnimationEventInfo>> registeredEvents, 
 			ElementReference elementRef,
 			Func<AnimationEventArgs, Task> onEventCallback,
 			string animationName)
@@ -110,11 +110,14 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 
 			var info = new AnimationEventInfo(elementRef, onEventCallback, animationName);
 			var dotnetRef = DotNetObjectReference.Create<AnimationEventInfo>(info);
+			registeredEvents.Add(dotnetRef);
 
 			await _animationJs.InvokeVoidAsync(jsMethodName, elementRef, dotnetRef, animationName);
-			registeredEvents.Add(new KeyValuePair<ElementReference, string>(elementRef, animationName));
 		}
-		private async Task RemoveEventAsync(string methodName, List<KeyValuePair<ElementReference, string>> registeredEvents, ElementReference elementRef, string animationName)
+		private async Task RemoveEventAsync(string methodName, 
+			List<DotNetObjectReference<AnimationEventInfo>> registeredEvents, 
+			ElementReference elementRef, 
+			string animationName)
 		{
 			await CheckJsObjectAsync();
 
@@ -122,11 +125,18 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 			RemoveElementFromList(registeredEvents, elementRef, animationName);
 		}
 
-		private void RemoveElementFromList(List<KeyValuePair<ElementReference, string>> registeredEvents, ElementReference elementRef, string animationName)
+		private void RemoveElementFromList(List<DotNetObjectReference<AnimationEventInfo>> registeredEvents,
+			ElementReference elementRef, 
+			string animationName)
 		{
-			var items = registeredEvents.Where(x => x.Key.Equals(elementRef) && x.Value == animationName);
+			var dotNetRefs = registeredEvents
+				.Where(x => x.Value.Element.Equals(elementRef) && x.Value.AnimationName == animationName);
+			registeredEvents = registeredEvents.Except(dotNetRefs).ToList();
 
-			registeredEvents = registeredEvents.Except(items).ToList();
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -145,9 +155,29 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 		{
 			if (_animationJs is not null)
 			{
-				await _animationJs.InvokeVoidAsync("dispose", _registeredStartEvents.ToArray(), _registeredIterationEvents.ToArray(), _registeredEndEvents.ToArray());
+				var start = _registeredStartEvents
+					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+				var iteration = _registeredIterationEvents
+					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+				var end = _registeredEndEvents
+					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+
+				await _animationJs.InvokeVoidAsync("dispose", start.ToArray(), iteration.ToArray(), end.ToArray());
 
 				await _animationJs.DisposeAsync();
+			}
+
+			foreach (var item in _registeredStartEvents)
+			{
+				item.Dispose();
+			}
+			foreach (var item in _registeredIterationEvents)
+			{
+				item.Dispose();
+			}
+			foreach (var item in _registeredEndEvents)
+			{
+				item.Dispose();
 			}
 		}
 	}

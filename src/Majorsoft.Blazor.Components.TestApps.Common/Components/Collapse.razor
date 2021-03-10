@@ -28,7 +28,7 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			CollapsePanel contet Height (0 is auto): @(_height)px
+			CollapsePanel content Height (0 is auto): @(_height)px
 			<input type="range" class="w-100" min="0" max="400" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
@@ -91,8 +91,9 @@
 		<div class="col-12">
 			<h3>Multiple CollapsePanel items</h3>
 			<p>
-				Example usage of multiple independent <code>CollapsePanel</code>s with default settings.
-				Note: content <code>height: auto</code> prevents some CSS animation to work.
+				Example usage of multiple independent <code>CollapsePanel</code>s with default settings. 
+				<br />																										 
+				<strong>Note</strong>: content <code>height: auto</code> prevents some CSS animation to work.
 			</p>
 
 			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">

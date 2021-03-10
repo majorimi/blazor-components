@@ -95,7 +95,7 @@
 	/// <summary>
 	/// Starts the internal timer which will start after the set delay and fire event for the given occurrence times.
 	/// </summary>
-	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
+	[Obsolete("Method is obsolete will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Start()
 	{
 		WriteDiag("Timer started.");
@@ -104,7 +104,7 @@
 	/// <summary>
 	/// Stops the internal timer and no more event will be fired.
 	/// </summary>
-	[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
+	[Obsolete("Method is obsolete will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Stop()
 	{
 		WriteDiag("Timer stopped.");
@@ -113,7 +113,6 @@
 	/// <summary>
 	/// Restarts the internal timer and resets the occurrence counter to 0. Events will be fired for the given occurrence times.
 	/// </summary>
-	//[Obsolete("Method is obsolate will be removed! Please use public Blazor parameter: bool IsEnabled instead of public methods.")]
 	public void Reset()
 	{
 		WriteDiag($"Resetting Timer with Interval: '{IntervalInMilisec}' ms. Max occurring: {Occurring.Count}");
@@ -127,14 +126,17 @@
 	{
 		WriteDiag($"Timer required Delay: {DelayInMilisec} ms elapsed. Stopping timer to switch event handler.");
 
-		_timer?.Stop();
+		if (_timer is null)
+			return;
+
+		_timer.Stop();
 		_timer.Elapsed -= OnDelay;
 		_timer.Elapsed += OnElapsed;
 
 		_timer.Interval = IntervalInMilisec;
 		_timer.AutoReset = Occurring.Count == 1 ? false : true;
 
-		_timer?.Start();
+		_timer.Start();
 	}
 	private void OnElapsed(object source, ElapsedEventArgs e)
 	{		
@@ -163,7 +165,7 @@
 	{
 		if (!_disposedValue)
 		{
-			if (disposing)
+			if (disposing && _timer is not null)
 			{
 				_timer.Elapsed -= OnElapsed;
 				_timer.Dispose();

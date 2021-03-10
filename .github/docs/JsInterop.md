@@ -7,7 +7,8 @@ Blazor Js Interop components and extensions
 
 # About
 
-Collection of Blazor components and extension methods that provide useful functionality which can be achieved only with Js Interop.
+Collection of Blazor components, injectable services and extension methods that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. 
+	scroll, clipboard, focus, resize, language detection, Geolocation, etc..
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/JSInterop.razor).
 
@@ -15,7 +16,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Features
 
-- **Click JS**: is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+- **Click JS**: `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
  Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
@@ -23,20 +24,41 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
+- **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
+- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
+- **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
-
-**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
 This component useful when need to detect if click happened outside (anywhere in the document) of the component with `OnOutsideClick`.**
 
-### Functions
+### `ClickBoundariesElement` component
+`ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`OnOutsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked outside of the given element.
+- **`OnInsideClick`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when clicked inside of the given element.
+
+**Arbitrary HTML attributes e.g.: `id="load1"` will be passed to the corresponding rendered HTML wrapper element `<span>`**.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+### `IClickBoundariesHandler` service
+**Injectable `IClickBoundariesHandler` service** to handle JS 'click' events for the whole document. 
+
+#### Functions
 - **`RegisterClickBoundariesAsync`**: **`Task RegisterClickBoundariesAsync(ElementReference elementRef, Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null)`** <br />
  Adds event listener for 'click' HTML event for the given element with property filter.
 - **`RemoveClickBoundariesAsync`**: **`Task RemoveClickBoundariesAsync(ElementReference elementRef)`** <br />
 Removes event listener for 'click' HTML event for the given element.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
-Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ## Global Mouse JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#mouse-js))
 **Injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
@@ -74,7 +96,7 @@ Stores the actually focused HTML DOM element reference into a JS variable. This 
 - **`RestoreStoredElementFocusAsync`**: **`Task RestoreStoredElementFocusAsync(bool clearElementRef = true)`** <br />
 Restores the HTML DOM element reference stored by calling `StoreFocusedElementAsync` method.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
-Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ## Element info JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#info-js))
 **Element info JS is a set of Extension methods for `ElementReference` objects.**
@@ -109,7 +131,7 @@ Adds event listener for 'scroll' HTML event for the whole document/window. **Als
 - **`RemovePageScrollAsync`**: **`Task RemovePageScrollAsync(string eventId)`**<br />
 Removes event listener for 'scroll' HTML event for the whole document/window by the given event Id.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
-Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### `ElementReference` extensions
 - **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference)`**<br />
@@ -129,6 +151,9 @@ Component implements `IAsyncDisposable` interface Blazor framework components al
 **Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 
 ### Functions
+- **`GetPageSizeAsync`**: **`Task<PageSize> GetPageSizeAsync()`**<br />
+Returns Browser Window size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+on each page resize.
 - **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
 Adds event listener for 'resize' HTML event for the whole document/window.
 - **`RemovePageResizeAsync`**: **`Task RemovePageResizeAsync(string eventId)`**<br />
@@ -138,7 +163,7 @@ Adds event listener for 'resize' HTML event for the given element with property 
 - **`RemoveResizeAsync`**: **`Task RemoveResizeAsync(ElementReference elementRef)`**<br />
 Removes event listener for 'resize' HTML event for the given element.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
-Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ## Clipboard JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#clipboard-js))
 Injectable `IClipboardHandler` service to handle JS 'copy' to clipboard Interop for accessing computer Clipboard from Blazor Application.
@@ -149,11 +174,58 @@ Copies the given element text content to clipboard.
 - **`CopyTextToClipboardAsync`**: **`Task<bool> CopyTextToClipboardAsync(string text)`** <br />
 Copies the given text content to clipboard.
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
-Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### `ElementReference` extensions
 - **`CopyElementTextToClipboardAsync`**: **`Task<bool> CopyElementTextToClipboardAsync(this ElementReference elementReference)`** <br />
 Copies the given element text content to clipboard.
+
+## Browser Language JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#lang-js))
+**Browser Language JS** is an injectable `ILanguageService` service for detect the **browser language preference**.
+
+### Functions
+- **`GetBrowserLanguageAsync`**: **`Task<CultureInfo> GetBrowserLanguageAsync()`** <br />
+Returns the given user's Browser language preference as .NET `CultureInfo`.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
+**Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
+It is using the Geolocation API which allows users to provide their location to web applications if they desire.
+
+**NOTE:** Geolocation only accurate for devices with GPS, e.g. smartphones.
+**In most cases users have to enable it and grant permission to access location data!**
+Also some properties of the response might be not available like `Speed`, `Heading` because of required hardwares: GPS, compass, etc.
+
+### Functions
+- **`GetCurrentPositionAsync`: `Task GetCurrentPositionAsync(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Get the current position of the device.
+- **`AddGeolocationWatcherAsync`: `Task<int> AddGeolocationWatcherAsync(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)`** <br />
+Register a handler function that will be **called automatically each time the position of the device changes**.
+- **`RemoveGeolocationWatcherAsync`: `Task RemoveGeolocationWatcherAsync(int handlerId)`** <br />
+Unregister location/error monitoring handlers previously installed using `AddGeolocationWatcher`.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+## HTML Head JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#head-js))
+**HTML Head JS** is an injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`. 
+It is useful when Blazor application has dynamic content and you need to change **Title**, **FavIcon** or **Meta** tags for SEO (Search Engine Optimization).
+
+### Functions
+- **`GetHtmlTitleAsync`**: **`Task<string> GetHtmlTitleAsync()`** <br />
+Returns the current HTML page title.
+- **`SetHtmlTitleAsync`**: **`Task SetHtmlTitleAsync()`** <br />
+Sets the given string value as HTML page title.
+- **`GetHtmlHeadLinkTagsAsync`**: **`Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(HtmlHeadLinkTagRelTypes? linkType = null)`** <br />
+Returns all existing Link tags from HTML page Head by given Rel type filter.
+- **`GetHtmlFavIconsAsync`**: **`Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlFavIconsAsync()`** <br />
+Returns all existing fav icon "rel=icon" tags from HTML page Head.
+- **`SetHtmlFavIconsAsync`**: **`Task SetHtmlFavIconsAsync(IEnumerable<HtmlHeadLinkTag> favIcons)`** <br />
+Removes all existing fav icon "rel=icon" tags from HTML page Head and creates new tags from the given objects.
+If you have multiple fav icon tags set in the Head first call `GetHtmlFavIconsAsync` method and change `HtmlHeadLinkTag.Href` values.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
 
 # Configuration
 
@@ -182,6 +254,12 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo
 @*Only if you want to use Clipboard*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
+@*Only if you want to use Language*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Language
+@*Only if you want to use Geolocation*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Geo
+@*Only if you want to use HTML Head tags*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.Head
 ```
 
 

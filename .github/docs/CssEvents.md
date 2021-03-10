@@ -7,7 +7,7 @@ Blazor CSS Animation and Transition components and extensions
 
 # About
 
-Blazor Extensions and Components wrapper to notify on CSS **Transition** and **Animation** events.
+Blazor injectable Services and wrapper Components to notify on CSS **Transition** and **Animation** events.
 This is useful when you want to wait for a CSS **Transition** or **Animation** to finish and then continue run C# code, e.g.: hide the element, etc.
  **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/CssEvents.razor).
@@ -22,7 +22,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`ITransitionEventsService`**: Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be Disposed manually.
 
 ## CSS Animation events (See [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents#animation))
-Blazor Extension and Component wrapper to notify Blazor apps on CSS supported Animation events: `animationstart`, `animationiteration`, `animationend`. 
+Blazor injectable Services and wrapper Components to notify Blazor apps on CSS supported Animation events: `animationstart`, `animationiteration`, `animationend`. 
 This is useful when you want to wait for a CSS Animations to finish/restart, etc. and then continue run C# code, e.g.: hide the element, etc.
 
 ### `AnimationElement` component
@@ -53,7 +53,7 @@ Callback function called when component corresponding element animation with giv
 - **`DisposeAsync()`: `Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface **your component also should implement it and call `ITransitionEventsService` instance DisposeAsync**.
 
-### `IAnimationEventsService` extension
+### `IAnimationEventsService` service
 Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be DisposeAsync() manually.
 In case of registering a top level element which has nested content with transitions. One element can be registered multiple times with different transition property names.
 All events will bubble up to `TransitionElement` component and event callback will be called on each element's transition event.
@@ -104,7 +104,7 @@ public sealed class AnimationEventArgs : EventArgs
 ```
 
 ## CSS Transition events (See [demo app](https://blazorextensions.z6.web.core.windows.net/cssevents#transition))
-Blazor Extension and Component wrapper to notify Blazor apps on CSS supported Transition event: `transitionend`. 
+Blazor injectable Services and wrapper Components to notify Blazor apps on CSS supported Transition event: `transitionend`. 
 This is useful when you want to wait for a CSS Transition to finish and then continue run C# code, e.g.: hide the element, etc.
 
 ### `TransitionElement` component
@@ -129,7 +129,7 @@ Callback function called when component corresponding element transition with gi
 - **`DisposeAsync()`: `async Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
 
-### `ITransitionEventsService` extension
+### `ITransitionEventsService` service
 Low level injectable service which has more features e.g. can aggregate multiple events from multiple HTML elements but must be DisposeAsync() manually.
 In case of registering a top level element which has nested content with transitions. One element can be registered multiple times with different transition property names.
 All events will bubble up to `TransitionElement` component and event callback will be called on each element's transition event.

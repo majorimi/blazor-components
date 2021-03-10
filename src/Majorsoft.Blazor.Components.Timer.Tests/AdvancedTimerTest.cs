@@ -87,7 +87,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 				.Add(p => p.Occurring, Times.Infinite())
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
 
-			await Task.Delay(debounceTime * (200)); //wait for debounce
+			await Task.Delay(debounceTime * (50)); //wait for debounce
 
 			rendered.MarkupMatches("");
 			Assert.IsTrue(count > 3);

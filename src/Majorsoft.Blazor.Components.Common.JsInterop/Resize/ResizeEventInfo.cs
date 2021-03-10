@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
@@ -11,12 +12,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 	internal sealed class ResizeEventInfo
 	{
 		private readonly Func<ResizeEventArgs, Task> _resizeEventCallback;
-		private readonly string _eventId;
+
+		internal string EventId { get; }
+		internal ElementReference ElementReference { get; set; }
 
 		public ResizeEventInfo(Func<ResizeEventArgs, Task> resizeEventCallback, string eventId)
 		{
 			_resizeEventCallback = resizeEventCallback;
-			_eventId = eventId;
+			EventId = eventId;
 		}
 
 		[JSInvokable("ResizeEvent")]
@@ -24,7 +27,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 		{
 			if (_resizeEventCallback is not null)
 			{
-				args.EventId = _eventId;
+				args.EventId = EventId;
 				await _resizeEventCallback.Invoke(args);
 			}
 		}

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Server.Logging.Console;
+using Majorsoft.Blazor.Components.Maps;
+using Majorsoft.Blazor.Extensions.BrowserStorage;
 
 namespace Majorsoft.Blazor.Components.TestServerApp
 {
@@ -30,6 +32,9 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 
 			services.AddCssEvents();
 			services.AddJsInteropExtensions();
+
+			services.AddMapExtensions();
+			services.AddBrowserStorage();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

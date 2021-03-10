@@ -3,7 +3,10 @@
 using Majorsoft.Blazor.Components.Common.JsInterop.Click;
 using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
 using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
+using Majorsoft.Blazor.Components.Common.JsInterop.Geo;
 using Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents;
+using Majorsoft.Blazor.Components.Common.JsInterop.Head;
+using Majorsoft.Blazor.Components.Common.JsInterop.Language;
 using Majorsoft.Blazor.Components.Common.JsInterop.Resize;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 
@@ -32,7 +35,10 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop
 			services.AddTransient<IScrollHandler, ScrollHandler>();
 			services.AddTransient<IClipboardHandler, ClipboardHandler>();
 			services.AddTransient<IGlobalMouseEventHandler, GlobalMouseEventHandler>();
-			services.AddTransient<IResizeHandler, ResizeHandler>();		
+			services.AddTransient<IResizeHandler, ResizeHandler>();
+			services.AddTransient<ILanguageService, LanguageService>();
+			services.AddTransient<IGeolocationService, GeolocationService>();
+			services.AddTransient<IHtmlHeadService, HtmlHeadService>();
 
 			return services;
 		}

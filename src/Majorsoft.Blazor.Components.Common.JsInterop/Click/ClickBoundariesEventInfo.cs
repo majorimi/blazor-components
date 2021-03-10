@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -14,8 +15,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 		private readonly Func<MouseEventArgs, Task> _outsideClickCallback;
 		private readonly Func<MouseEventArgs, Task> _insideClickCallback;
 
-		public ClickBoundariesEventInfo(Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null)
+		public ElementReference ElementRef { get; }
+
+		public ClickBoundariesEventInfo(ElementReference elementRef,
+			Func<MouseEventArgs, Task> outsideClickCallback = null, 
+			Func<MouseEventArgs, Task> insideClickCallback = null)
 		{
+			ElementRef = elementRef;
 			_outsideClickCallback = outsideClickCallback;
 			_insideClickCallback = insideClickCallback;
 		}

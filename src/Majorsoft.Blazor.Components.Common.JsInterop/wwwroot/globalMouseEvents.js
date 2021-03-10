@@ -62,7 +62,9 @@ function removeAndReturnEventHandler(dict, eventId) {
     return eventCallback;
 }
 
-let _globalHandlerDict = [];
+let _globalMouseMoveDict = [];
+let _globalMouseDownDict = [];
+let _globalMouseUpDict = [];
 
 //Global Mouse move
 export function addGlobalMouseMoveHandler(dotnetRef, eventId) {
@@ -71,7 +73,7 @@ export function addGlobalMouseMoveHandler(dotnetRef, eventId) {
     }
 
     let moveHandler = createGlobalEventHandler(dotnetRef, "GlobalMouseMove");
-    storeEventHandler(_globalHandlerDict, eventId, moveHandler);
+    storeEventHandler(_globalMouseMoveDict, eventId, moveHandler);
 
     document.addEventListener("mousemove", moveHandler);
 }
@@ -80,7 +82,7 @@ export function removeGlobalMouseMoveHandler(eventId) {
         return;
     }
 
-    let eventCallback = removeAndReturnEventHandler(_globalHandlerDict, eventId);
+    let eventCallback = removeAndReturnEventHandler(_globalMouseMoveDict, eventId);
 
     if (!eventCallback) {
         return; //No event handler found
@@ -96,7 +98,7 @@ export function addGlobalMouseDownHandler(dotnetRef, eventId) {
     }
 
     let moveHandler = createGlobalEventHandler(dotnetRef, "GlobalMouseDown");
-    storeEventHandler(_globalHandlerDict, eventId, moveHandler);
+    storeEventHandler(_globalMouseDownDict, eventId, moveHandler);
 
     document.addEventListener("mousedown", moveHandler);
 }
@@ -105,7 +107,7 @@ export function removeGlobalMouseDownHandler(eventId) {
         return;
     }
 
-    let eventCallback = removeAndReturnEventHandler(_globalHandlerDict, eventId);
+    let eventCallback = removeAndReturnEventHandler(_globalMouseDownDict, eventId);
 
     if (!eventCallback) {
         return; //No event handler found
@@ -121,7 +123,7 @@ export function addGlobalMouseUpHandler(dotnetRef, eventId) {
     }
 
     let moveHandler = createGlobalEventHandler(dotnetRef, "GlobalMouseUp");
-    storeEventHandler(_globalHandlerDict, eventId, moveHandler);
+    storeEventHandler(_globalMouseUpDict, eventId, moveHandler);
 
     document.addEventListener("mouseup", moveHandler);
 }
@@ -130,7 +132,7 @@ export function removeGlobalMouseUpHandler(eventId) {
         return;
     }
 
-    let eventCallback = removeAndReturnEventHandler(_globalHandlerDict, eventId);
+    let eventCallback = removeAndReturnEventHandler(_globalMouseUpDict, eventId);
 
     if (!eventCallback) {
         return; //No event handler found
@@ -142,10 +144,10 @@ export function removeGlobalMouseUpHandler(eventId) {
 export function dispose(eventIdArray) {
     if (eventIdArray) {
         for (var i = 0; i < eventIdArray.length; i++) {
+            //Call all remove functions, they handle correct removes...
             removeGlobalMouseMoveHandler(eventIdArray[i]);
             removeGlobalMouseDownHandler(eventIdArray[i]);
             removeGlobalMouseUpHandler(eventIdArray[i]);
-            //Call all function here...
         }
     }
 }

@@ -35,6 +35,21 @@
             <param name="elementRef">Blazor reference to an HTML element</param>
             <returns>Async Task</returns>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.Content">
+            <summary>
+            HTML Content of Click detection element.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.OnOutsideClick">
+            <summary>
+            Callback function called when clicked outside of the given element.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesElement.OnInsideClick">
+            <summary>
+            Callback function called when clicked inside of the given element.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Clipboard.ClipboardExtensions">
             <summary>
             Static class for extension methods
@@ -70,6 +85,11 @@
             </summary>
             <param name="elementReference">Text to copy</param>
             <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo.ElementReferenceInfoExtensions">
+            <summary>
+            Static class for <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> extension methods.
+            </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo.ElementReferenceInfoExtensions.GetClientRectAsync(Microsoft.AspNetCore.Components.ElementReference)">
             <summary>
@@ -120,6 +140,165 @@
             <summary>
             Restores the HTML DOM element reference stored by calling <code>StoreFocusedElementAsync</code> method.
             </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates">
+            <summary>
+            The GeolocationCoordinates interface represents the position and altitude of the device on Earth, as well as the accuracy with which these properties are calculated.
+            https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Latitude">
+            <summary>
+            Representing the latitude of the position in decimal degrees.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Longitude">
+            <summary>
+            Represents the longitude of a geographical position, specified in decimal degrees.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Accuracy">
+            <summary>
+            representing the accuracy, with a 95% confidence level, of the 
+            <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Latitude"/> and <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Longitude"/> properties expressed in meters.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Altitude">
+            <summary>
+            Representing the altitude of the position in meters above the WGS84 ellipsoid (which defines the nominal sea level surface). 
+            This value is null if the implementation cannot provide this data.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.AltitudeAccuracy">
+            <summary>
+            Representing the accuracy, with a 95% confidence level, of the <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Altitude"/> expressed in meters. 
+            This value is null if the implementation doesn't support measuring altitude.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Speed">
+            <summary>
+            Representing the velocity of the device in meters per second. This value can be null.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationCoordinates.Heading">
+            <summary>
+            representing the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading due north the device is. 
+            Zero degrees represents true north, and the direction is determined clockwise (which means that east is 90 degrees and west is 270 degrees). 
+            If GeolocationCoordinates.speed is 0, heading is NaN. If the device is not able to provide heading information, this value is null.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError">
+            <summary>
+            The GeolocationPositionError interface represents the reason of an error occurring when using the geolocating device.
+            https://developer.mozilla.org/en-US/docs/Web/API/GeolocationPositionError
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError.ErrorCode">
+            <summary>
+            Represents the reason of an error occurring.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationError.ErrorMessage">
+            <summary>
+            Returns a human-readable DOMString describing the details of the error.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventCurrentPositionInfo">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo"/> for GetCurrentPosition method with self dispose <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventCurrentPositionInfo.DotNetObjectReference"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo">
+            <summary>
+            Base class for Geolocation event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventWatcherInfo">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationEventInfo"/> for AddGeolocationWatcher method.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes">
+            <summary>
+            Represents the reason of an error occurring when using the geolocating device.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.PERMISSION_DENIED">
+            <summary>
+            The acquisition of the geolocation information failed because the page didn't have the permission to do it.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.POSITION_UNAVAILABLE">
+            <summary>
+            The acquisition of the geolocation failed because at least one internal source of position returned an internal error.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationPositionErrorCodes.TIMEOUT">
+            <summary>
+            The time allowed to acquire the geolocation, defined by PositionOptions.timeout information was reached before the information was obtained.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult">
+            <summary>
+            Wrapper object for return value of Geolocation service.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.Coordinates">
+            <summary>
+            Represents the position, if any.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.Error">
+            <summary>
+            Represents the reason of an error occurring, if any.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.IsSuccess">
+            <summary>
+            Returns true if there is no error object, otherwise false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult.TimeStamp">
+            <summary>
+            Event time
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService">
+            <summary>
+            Injectable service to handle Browser Geolocation Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.GetCurrentPositionAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            Get the current position of the device.
+            </summary>
+            <param name="locationResultCallback">Callback function which will receive <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult"/></param>
+            <param name="highAccuracy">Indicates the application would like to receive the best possible results</param>
+            <param name="timeout">Representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. Default is 5000</param>
+            <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcherAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            Register a handler function that will be called automatically each time the position of the device changes.
+            </summary>
+            <param name="locationEventsCallback">Callback function which will receive <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult"/></param>
+            <param name="highAccuracy">Indicates the application would like to receive the best possible results</param>
+            <param name="timeout">Representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. Default is 5000</param>
+            <param name="cacheTime">Indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. Default is 0 (no cache)</param>
+            <returns>Async Task with int32 handlerId which can be used to remove watcher in <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcherAsync(System.Int32)"/></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.RemoveGeolocationWatcherAsync(System.Int32)">
+            <summary>
+            Unregister location/error monitoring handlers previously installed using <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService.AddGeolocationWatcherAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.Geo.GeolocationResult,System.Threading.Tasks.Task},System.Boolean,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})"/>
+            </summary>
+            <param name="handlerId"></param>
             <returns>Async Task</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.GlobalMouseEventHandler">
@@ -204,6 +383,100 @@
             PageResizeEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag">
+            <summary>
+            The `link` tag defines the relationship between the current document and an external resource.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Crossorigin">
+            <summary>
+            Specifies how the element handles cross-origin requests
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Href">
+            <summary>
+            Specifies the location of the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.HrefLang">
+            <summary>
+            Specifies the language of the text in the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Media">
+            <summary>
+            Specifies on what device the linked document will be displayed
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.ReferrerPolicy">
+            <summary>
+            Specifies which referrer to use when fetching the resource
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Rel">
+            <summary>
+            Required. Specifies the relationship between the current document and the linked document
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Sizes">
+            <summary>
+            Specifies the size of the linked resource. Only for rel="icon"
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Title">
+            <summary>
+            Defines a preferred or an alternate stylesheet
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Type">
+            <summary>
+            Specifies the media type of the linked document
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService">
+            <summary>
+            Injectable service to handle HTML Head Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlTitleAsync">
+            <summary>
+            Returns the current HTML page title.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.SetHtmlTitleAsync(System.String)">
+            <summary>
+            Sets the given string value as HTML page title.
+            </summary>
+            <param name="title"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlHeadLinkTagsAsync(System.Nullable{Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTagRelTypes})">
+            <summary>
+            Returns all existing Link tags from HTML page Head by given Rel type filter.
+            </summary>
+            <param name="linkType">Allowed Link `rel` types</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlFavIconsAsync">
+            <summary>
+            Returns all existing fav icon "rel=icon" tags from HTML page Head.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.SetHtmlFavIconsAsync(System.Collections.Generic.IEnumerable{Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag})">
+            <summary>
+            Removes all existing fav icon "rel=icon" tags from HTML page Head and creates new tags from the given objects.
+            If you have multiple fav icon tags set in the Head first call <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Head.IHtmlHeadService.GetHtmlFavIconsAsync"/> method and change <see cref="P:Majorsoft.Blazor.Components.Common.JsInterop.Head.HtmlHeadLinkTag.Href"/> values.
+            </summary>
+            <param name="favIcons">New fav icons to set</param>
+            <returns>Async Task</returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.JsInteropExtension">
             <summary>
             Extension methods to register required JS Interop services into IServiceCollection
@@ -214,6 +487,22 @@
             Registers required JS Interop services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService">
+            <summary>
+            Injectable service to handle Browser language Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService.GetBrowserLanguageAsync">
+            <summary>
+            Returns the browser preferred language.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.LanguageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService"/>
+            </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler">
             <summary>
@@ -234,6 +523,12 @@
             <param name="eventId">Event id from <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterPageResizeAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})"/></param>
             <returns>Async Task</returns>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetPageSizeAsync">
+            <summary>
+            Returns Browser Window size (height and width in Pixel).
+            </summary>
+            <returns>Async Task with Window size</returns>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.RegisterResizeAsync(Microsoft.AspNetCore.Components.ElementReference,System.Func{Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents.ResizeEventArgs,System.Threading.Tasks.Task})">
             <summary>
             Adds event listener for 'resize' HTML event for the given element with property filter.
@@ -248,6 +543,27 @@
             </summary>
             <param name="elementRef">Blazor reference to an HTML element</param>
             <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize">
+            <summary>
+            Custom type to represent Browser Window size.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.Height">
+            <summary>
+            Browser Window height
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.Width">
+            <summary>
+            Browser Window width
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.PageSize.ToString">
+            <summary>
+            PageSize string representation.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.ResizeHandler">
             <summary>

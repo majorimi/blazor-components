@@ -11,12 +11,12 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 	internal sealed class PageScrollEventInfo
 	{
 		private readonly Func<ScrollEventArgs, Task> _scrollCallback;
-		private readonly string _eventId;
+		internal string EventId { get; }
 
 		public PageScrollEventInfo(Func<ScrollEventArgs, Task> scrollCallback, string eventId)
 		{
 			_scrollCallback = scrollCallback;
-			_eventId = eventId;
+			EventId = eventId;
 		}
 
 		[JSInvokable("PageScroll")]

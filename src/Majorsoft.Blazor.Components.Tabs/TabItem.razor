@@ -35,7 +35,7 @@
 
 	private bool _disabled = false;
 	/// <summary>
-	/// Determines whether all the rendered HTML elements should be disabled or not.
+	/// Determines whether the current rendered TabItem should be disabled or not.
 	/// </summary>
 	[Parameter] public bool Disabled
 	{
@@ -46,6 +46,23 @@
 			{
 				_disabled = value;
 				Parent?.TabDisabled(this);
+			}
+		}
+	}
+
+	private bool _hidden = false;
+	/// <summary>
+	/// Determines whether the current rendered TabItem should be hidden or not.
+	/// </summary>
+	[Parameter] public bool Hidden
+	{
+		get => _hidden;
+		set
+		{
+			if (_hidden != value)
+			{
+				_hidden = value;
+				Parent?.TabHidden(this);
 			}
 		}
 	}

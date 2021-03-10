@@ -1,0 +1,192 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="geo-js" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Geo JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Geolocation JS</strong> is an <strong>injectable <code>IGeolocationService</code> service</strong> for detect the device Geolocation (GPS position, speed, heading, etc.).
+		It is using the Geolocation API which allows users to provide their location to web applications if they desire.
+	</p>
+	<p class="bg-warning text-dark p-1">
+		<strong>NOTE:</strong> Geolocation only accurate for devices with GPS, e.g. smartphones. <br />
+		<strong>In most cases users have to enable it and grant permission to access location data!</strong> <br />
+		Also some properties of the response might be not available like <code>Speed</code>, <code>Heading</code> because of required hardwares: GPS, compass, etc.
+	</p>
+
+	<hr />
+	<p>
+		<a href="/maps">Show location on Maps</a>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			<div>High Accuracy: <input type="checkbox" @bind="_geoAccuracy" /></div>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Maximum timeout (in milliseconds): @(_geoTimeout) ms (0 is infinity).
+			<input type="range" class="w-100" min="0" max="100000" @bind="_geoTimeout" @oninput="(e => _geoTimeout = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Cache time (in milliseconds): @(_geoCacheTime) ms (0 is no Cache).
+			<input type="range" class="w-100" min="0" max="100000" @bind="_geoCacheTime" @oninput="(e => _geoCacheTime = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<h4><code>GetCurrentPosition</code> method</h4>
+	<p>
+		<code>GetCurrentPosition</code> method registers a handler function which will be <strong>called only once</strong> with the
+		current position of the device, or occurred error details.
+	</p>
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-primary"
+					@onclick="@(async () => await _geoLocationService.GetCurrentPositionAsync(CurrentLocationResult,
+								_geoAccuracy,
+								TimeSpan.FromMilliseconds(_geoTimeout),
+								TimeSpan.FromMilliseconds(_geoCacheTime)))">
+				Get current location
+			</button>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Current location is: </strong></label>
+			@if (!string.IsNullOrWhiteSpace(_currentLocationError))
+			{
+				<p class="bg-danger text-light">
+					<label class="p-1"><strong>@_currentLocationError</strong></label>
+				</p>
+			}
+			else if (@_currentLocation is not null)
+			{
+				<table class="table table-striped table-bordered">
+					<tr>
+						<td>Latitude:</td>
+						<td>@_currentLocation.Latitude</td>
+					</tr>
+					<tr>
+						<td>Longitude:</td>
+						<td>@_currentLocation.Longitude</td>
+					</tr>
+					<tr>
+						<td>Accuracy:</td>
+						<td>@(_currentLocation.Accuracy) m</td>
+					</tr>
+					<tr>
+						<td>Altitude:</td>
+						<td>@_currentLocation.Altitude</td>
+					</tr>
+					<tr>
+						<td>Altitude Accuracy:</td>
+						<td>@(_currentLocation.AltitudeAccuracy) m</td>
+					</tr>
+					<tr>
+						<td>Speed:</td>
+						<td>@(_currentLocation.Altitude) m/s</td>
+					</tr>
+					<tr>
+						<td>Heading:</td>
+						<td>@_currentLocation.Heading</td>
+					</tr>
+				</table>
+			}
+		</div>
+	</div>
+	<hr />
+
+	<h4><code>AddGeolocationWatcher</code> method</h4>
+	<p>
+		<code>AddGeolocationWatcher</code> Register a handler function that will be <strong>called automatically each time</strong>
+		the position of the device changes with position of the device, or occurred error details.
+		Position watcher can be removed with <code>RemoveGeolocationWatcher</code> method.
+	</p>
+
+	<p>
+		<a href="/maps">Show location on Maps</a>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-primary" @onclick="GeoEventHandler">@(_geoSubscribed ? "Unsubscribe from Geolocation" : "Subscribe to Geolocation")</button>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Geolocation events:</strong></label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@implements IAsyncDisposable
+@inject IGeolocationService _geoLocationService;
+
+@code {
+	//Geo
+	private bool _geoAccuracy = false;
+	private int _geoTimeout = 5000;
+	private int _geoCacheTime = 0;
+	private GeolocationCoordinates? _currentLocation;
+	private string _currentLocationError;
+
+	private async Task CurrentLocationResult(GeolocationResult geolocationResult)
+	{
+		_currentLocation = null;
+		_currentLocationError = null;
+
+		if (geolocationResult.IsSuccess)
+		{
+			_currentLocation = geolocationResult.Coordinates;
+		}
+		else
+		{
+			_currentLocationError = $"Failed to get location. Error code: {geolocationResult.Error?.ErrorCode.ToString()} Reason: {geolocationResult.Error?.ErrorMessage}";
+		}
+
+		StateHasChanged();
+	}
+
+	private int _geoEventId;
+	private bool _geoSubscribed;
+	private async Task GeoEventHandler()
+	{
+		if (_geoSubscribed)
+		{
+			await _geoLocationService.RemoveGeolocationWatcherAsync(_geoEventId);
+		}
+		else
+		{
+			_geoEventId = await _geoLocationService.AddGeolocationWatcherAsync(OnLocationChanged,
+				_geoAccuracy,
+				TimeSpan.FromMilliseconds(_geoTimeout),
+				TimeSpan.FromMilliseconds(_geoCacheTime));
+		}
+
+		_geoSubscribed = !_geoSubscribed;
+	}
+
+	private ElementReference _log;
+	private string _logMessage;
+	private async Task OnLocationChanged(GeolocationResult geolocationResult)
+	{
+		var message = geolocationResult.IsSuccess
+			? $"Latitude: {geolocationResult.Coordinates?.Latitude}, Longitude: {geolocationResult.Coordinates?.Longitude}, Accuracy: {geolocationResult.Coordinates?.Accuracy} m, Speed: {geolocationResult.Coordinates?.Speed} m/s."
+			: $"Failed to get location. Error code: {geolocationResult.Error?.ErrorCode.ToString()} Reason: {geolocationResult.Error?.ErrorMessage}";
+
+		_logMessage += $"{geolocationResult.TimeStamp}: {message}{Environment.NewLine}";
+		StateHasChanged();
+
+		await _log.ScrollToEndAsync();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_geoLocationService is not null)
+		{
+			await _geoLocationService.DisposeAsync();
+		}
+	}
+}
