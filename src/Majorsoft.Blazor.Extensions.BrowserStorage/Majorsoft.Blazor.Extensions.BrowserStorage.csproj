@@ -17,8 +17,8 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor BrowserStorage LocalStorage SessionStorage Cookies</PackageTags>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<Description>Blazor extension that allows Blazor apps to access (read/write) Browser's Local Storage, Session Storage and stored Cookies. Part of Majorsoft Blazor library.</Description>
-	<Title>Blazor Components Expand/Collapse</Title>
+	<Description>Blazor extension that enables Browser Local and Session storages and Cookies store access for Blazor applications. Part of Majorsoft Blazor library.</Description>
+	<Title>Blazor Extensions BrowserStorage</Title>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
