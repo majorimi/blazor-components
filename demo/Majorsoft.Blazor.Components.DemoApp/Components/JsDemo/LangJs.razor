@@ -1,0 +1,38 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="lang-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Browser Language JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Browser Language JS</strong> is an <strong>injectable <code>ILanguageService</code> service</strong> for detect the browser language preference.
+		It is useful when Blazor application is localized and wants to show the app in the user preferred language.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>Your Browser preferred language is: <strong>@_detectedBrowserLang</strong></label>
+		</div>
+	</div>
+</div>
+
+@using System.Globalization
+
+@implements IAsyncDisposable
+@inject ILanguageService _languageService;
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		_detectedBrowserLang = await _languageService.GetBrowserLanguageAsync();
+	}
+
+	//Broswer lang
+	private CultureInfo _detectedBrowserLang;
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_languageService is not null)
+		{
+			await _languageService.DisposeAsync();
+		}
+	}
+}
