@@ -37,7 +37,7 @@ The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an
 A Maps Static API image is embedded within an `<img>` tag's `src` attribute, or its equivalent in other programming languages.
 You can learn about Google Static Maps features and usage [here](https://developers.google.com/maps/documentation/maps-static/overview).
 
-![Modal demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleStatic.gif)
+![Google Static Map demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleStatic.gif)
 
 ### Properties
 - **`ZoomLevel`: `int { get; set; }` (default: 12)** <br />
@@ -103,7 +103,7 @@ The Maps JavaScript API features four basic map types (roadmap, satellite, hybri
 A Maps JavaScript API renders a complex customizable map within `<div>` tag's also allowing to receive events.
 You can learn about Google JavaScript Maps features and usage [here](https://developers.google.com/maps/documentation/javascript/examples/map-simple)
 
-![Modal demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleJs.gif)
+![Google JS Map demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/maps_googleJs.gif)
 
 ### Properties
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
@@ -154,7 +154,7 @@ The heading for aerial imagery in degrees measured clockwise from cardinal direc
 Headings are snapped to the nearest available angle for which imagery is available.
 - **`Tilt`: `byte { get; set; }` (default: 0)** <br />
 Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45.
-45° imagery is not available (this is the default behavior). 45° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
+45Â° imagery is not available (this is the default behavior). 45Â° imagery is only available for satellite and hybrid map types, within some locations, and at some zoom levels.
 - **`ClickableIcons`: `bool { get; set; }` (default: true)** <br />
 When false, map icons are not clickable. A map icon represents a point of interest, also known as a POI. By default map icons are clickable.
 - **`DisableDefaultUI`: `bool { get; set; }` (default: false)** <br />
