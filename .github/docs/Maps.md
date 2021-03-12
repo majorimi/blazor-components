@@ -37,7 +37,7 @@ The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an
 A Maps Static API image is embedded within an `<img>` tag's `src` attribute, or its equivalent in other programming languages.
 You can learn about Google Static Maps features and usage [here](https://developers.google.com/maps/documentation/maps-static/overview).
 
-![Google Static Map demo](https://github.com/majorimi/blazor-components-docs/raw/main/.github/docs/gifs/maps_googleStatic.gif)
+![Google Static Map demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/maps_googleStatic.gif)
 
 ### Properties
 - **`ZoomLevel`: `int { get; set; }` (default: 12)** <br />
@@ -103,7 +103,7 @@ The Maps JavaScript API features four basic map types (roadmap, satellite, hybri
 A Maps JavaScript API renders a complex customizable map within `<div>` tag's also allowing to receive events.
 You can learn about Google JavaScript Maps features and usage [here](https://developers.google.com/maps/documentation/javascript/examples/map-simple)
 
-![Google JS Map demo](https://github.com/majorimi/blazor-components-docs/raw/main/.github/docs/gifs/maps_googleJs.gif)
+![Google JS Map demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/maps_googleJs.gif)
 
 ### Properties
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
