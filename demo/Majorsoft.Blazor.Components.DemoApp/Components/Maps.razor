@@ -1,0 +1,29 @@
+﻿<h1>Map Components</h1>
+
+<p>
+	Blazor components that renders Google/Bing maps wrapped into Blazor components allowing to control and mange maps with .Net code. For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.Maps</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Maps" target="_blank">Nuget</a>
+</p>
+
+<div>
+	<h3>Maps features:</h3>
+	<p>Maps using <code>IGeolocationService</code> to center current position. It can be omitted and injected separately to your components as well to 
+	get or track device location. To see how it works please check Geo JS <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md#geolocation-js-see-demo-app">documentation</a> and <a href="/jsinterop#geo-js">demo</a>.</p>
+	<ul>
+		<li><NavLink href="maps#google-maps">Google Maps</NavLink></li>
+		<ul>
+			<li><NavLink href="maps#google-static-maps">Static API</NavLink></li>
+			<li><NavLink href="maps#google-js-maps">JavaScript API</NavLink></li>
+		</ul>
+		<li><NavLink href="maps#bing-maps">Bing Maps</NavLink></li>
+	</ul>
+</div>
+
+<MapsGoogle />
+
+<MapsBing />
+
+@code {
+
+}

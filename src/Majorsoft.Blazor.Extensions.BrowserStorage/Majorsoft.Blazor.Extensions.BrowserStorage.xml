@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.Extensions.BrowserStorage</name>
+    </assembly>
+    <members>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie">
+            <summary>
+            HTTP Cookie class.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Name">
+            <summary>
+            Gets or sets the name for the Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Value">
+            <summary>
+            Gets or sets the System.Net.Cookie.Value for the Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Secure">
+            <summary>
+            Gets or sets the security level of a Cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Domain">
+            <summary>
+            Gets or sets the URI for which the Cookie is valid.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Port">
+            <summary>
+            Gets or sets a list of TCP ports that the Cookie applies to.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Path">
+            <summary>
+            Gets or sets the URIs to which the Cookie applies.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.HttpOnly">
+            <summary>
+            Determines whether a page script or other active content can access this cookie.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.Expires">
+            <summary>
+            Gets or sets the expiration date and time for the Cookie
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.ExpiresAt">
+            <summary>
+            Gets the expiration date and time for the Cookie as a System.DateTime.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.SameSite">
+            <summary>
+             Gets or sets Cookie SameSite which allows you to declare if your cookie should be 
+             restricted to a first-party or same-site context.
+             Values should be "strict", "lax", "none".
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.Cookie.ConvertToUnixDate(System.DateTime)">
+            <summary>
+            Converts given DateTime to Unix date.
+            </summary>
+            <param name="date">DateTime value to convert</param>
+            <returns>Total second of Unix date</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.CookieStoreService">
+            <summary>
+            Default implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService">
+            <summary>
+            The CookieStore interface of the Cookie Store API provides methods for getting and setting cookies.
+            This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.
+            https://developer.mozilla.org/en-US/docs/Web/API/CookieStore
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAsync(System.String)">
+            <summary>
+            Gets a single cookie with the given name.
+            </summary>
+            <param name="name">Cookie name</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.GetAllAsync">
+            <summary>
+            Gets all matching cookies.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.SetAsync(Majorsoft.Blazor.Extensions.BrowserStorage.Cookie)">
+            <summary>
+            Sets a cookie with the given name and value.
+            </summary>
+            <param name="cookie">Cookie data to set</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.ICookieStoreService.DeleteAsync(System.String)">
+            <summary>
+            Deletes a cookie with the given name.
+            </summary>
+            <param name="name">Cookie name</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService">
+            <summary>
+            Injectable service for Local Storage
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService">
+            <summary>
+            Injectable service for Session Storage
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService">
+            <summary>
+            The Storage interface of the Web Storage API provides access to a particular domain's session or local storage. 
+            It allows, for example, the addition, modification, or deletion of stored data items.
+            https://developer.mozilla.org/en-US/docs/Web/API/Storage
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.CountAsync">
+            <summary>
+            Returns an integer representing the number of data items stored in the Storage object.
+            </summary>
+            <returns>Number of objects</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.ClearAsync">
+            <summary>
+            When invoked, will empty all keys out of the storage.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetItemAsync``1(System.String)">
+            <summary>
+            When passed a key name, will return that key's value.
+            </summary>
+            <typeparam name="T">Type param</typeparam>
+            <param name="key">Storage key</param>
+            <returns>Stored T instance object by key</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetItemAsStringAsync(System.String)">
+            <summary>
+            When passed a key name, will return that key's value.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>Sored object as String</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetKeyByIndexAsync(System.Int32)">
+            <summary>
+            Returns Storage key name by the given index.
+            </summary>
+            <param name="index">Index of the key</param>
+            <returns>Storage key name by index</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.GetAllKeysAsync">
+            <summary>
+            Returns all keys in Storage.
+            </summary>
+            <returns>List of keys</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.ContainKeyAsync(System.String)">
+            <summary>
+            Checks if given key exists as Storage key.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>True if key exists, otherwise False</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.RemoveItemAsync(System.String)">
+            <summary>
+            When passed a key name, will remove that key from the storage.
+            </summary>
+            <param name="key">Storage key</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.IStorageService.SetItemAsync``1(System.String,``0)">
+            <summary>
+            When passed a key name and value, will add that key to the storage, or update that key's value if it already exists.
+            </summary>
+            <typeparam name="T">Type param</typeparam>
+            <param name="key">Storage key</param>
+            <param name="data">Object to store</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.LocalStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ILocalStorageService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.SessionStorageService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.BrowserStorage.ISessionStorageService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension">
+            <summary>
+            Extension methods to register required JS Interop services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.BrowserStorage.StorageExtension.AddBrowserStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required JS Interop services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageServiceBase">
+            <summary>
+            Storage base class which implements all Local and Session storage features just need to be parametrized.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.BrowserStorage.StorageTypes">
+            <summary>
+            Supported Browser storage types.
+            </summary>
+        </member>
+    </members>
+</doc>

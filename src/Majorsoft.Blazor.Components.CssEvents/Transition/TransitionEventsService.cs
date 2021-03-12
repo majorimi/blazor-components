@@ -14,13 +14,13 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 	public sealed class TransitionEventsService : ITransitionEventsService
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<KeyValuePair<ElementReference, string>> _registeredElements;
+		private List<DotNetObjectReference<TransitionEventInfo>> _dotNetObjectReferences;
 		private IJSObjectReference _transitionJs;
 
 		public TransitionEventsService(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
-			_registeredElements = new List<KeyValuePair<ElementReference, string>>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<TransitionEventInfo>>();
 		}
 
 		public async Task RegisterTransitionEndedAsync(ElementReference elementRef, Func<TransitionEventArgs, Task> onEndedCallback, string transitionPropertyName = "")
@@ -30,8 +30,8 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 			var info = new TransitionEventInfo(elementRef, onEndedCallback, transitionPropertyName);
 			var dotnetRef = DotNetObjectReference.Create<TransitionEventInfo>(info);
 
+			_dotNetObjectReferences.Add(dotnetRef);
 			await _transitionJs.InvokeVoidAsync("addTransitionEnd", elementRef, dotnetRef, transitionPropertyName);
-			_registeredElements.Add(new KeyValuePair<ElementReference, string>(elementRef, transitionPropertyName));
 		}
 
 		public async Task RemoveTransitionEndedAsync(ElementReference elementRef, string transitionPropertyName = "")
@@ -53,8 +53,8 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 				collection.Add(info);
 				var dotnetRef = DotNetObjectReference.Create<TransitionEventInfo>(info);
 
+				_dotNetObjectReferences.Add(dotnetRef);
 				await _transitionJs.InvokeVoidAsync("addTransitionEnd", item.Key, dotnetRef, item.Value);
-				_registeredElements.Add(new KeyValuePair<ElementReference, string>(item.Key, item.Value));
 			}
 		}
 
@@ -71,9 +71,14 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 
 		private void RemoveElement(ElementReference elementRef, string transitionPropertyName)
 		{
-			var items = _registeredElements.Where(x => x.Key.Equals(elementRef) && x.Value == transitionPropertyName);
+			var dotNetRefs = _dotNetObjectReferences
+				.Where(x => x.Value.Element.Equals(elementRef) && x.Value.TransitionPropertyName == transitionPropertyName);
+			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
 
-			_registeredElements = _registeredElements.Except(items).ToList();
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -92,9 +97,16 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 		{
 			if (_transitionJs is not null)
 			{
-				await _transitionJs.InvokeVoidAsync("dispose", _registeredElements.ToArray());
+				var registeredElements = _dotNetObjectReferences
+					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.TransitionPropertyName));
+				await _transitionJs.InvokeVoidAsync("dispose", registeredElements.ToArray());
 
 				await _transitionJs.DisposeAsync();
+			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
 			}
 		}
 	}

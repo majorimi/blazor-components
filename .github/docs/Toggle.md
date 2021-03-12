@@ -22,7 +22,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 ## `ToggleSwitch` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-switch))
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch.
-![Toggle switch demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleSwitch.gif)
+![Toggle switch demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/ToggleSwitch.gif)
 
 ### Properties
 - **`Checked`: `bool { get; set; }` (default: true) - Required** <br />
@@ -50,7 +50,7 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 
 ## `ToggleButton` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-button))
 Blazor component to represent a `boolean` value as an ON/OFF toggle switch as a button and custom content.
-![Toggle button demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButton.gif)
+![Toggle button demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/ToggleButton.gif)
 
 ### Properties
 - **`Content`: `RenderFragment` HTML content - Required**
@@ -80,7 +80,7 @@ Callback function called when component toggled. Actual toggle `Value` is the ca
 
 ## `ToggleButtonGroup` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/toggle#toggle-buttongroup))
 
-![Toggle button group demo](https://github.com/majorimi/blazor-components/raw/master/.github/docs/gifs/ToggleButtonGroup.gif)
+![Toggle button group demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/ToggleButtonGroup.gif)
 
 ### Properties
 - **`ToggleButtons`: `RenderFragment` HTML content - Required**

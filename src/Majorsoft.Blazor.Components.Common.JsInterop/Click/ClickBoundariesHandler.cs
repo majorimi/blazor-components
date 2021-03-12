@@ -15,13 +15,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 	public sealed class ClickBoundariesHandler : IClickBoundariesHandler
 	{
 		private readonly IJSRuntime _jsRuntime;
-		private List<ElementReference> _registeredElements;
 		private IJSObjectReference _clickJs;
+		private List<DotNetObjectReference<ClickBoundariesEventInfo>> _dotNetObjectReferences;
 
 		public ClickBoundariesHandler(IJSRuntime jsRuntime)
 		{
 			_jsRuntime = jsRuntime;
-			_registeredElements = new List<ElementReference>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<ClickBoundariesEventInfo>>();
 		}
 
 		public async Task RegisterClickBoundariesAsync(ElementReference elementRef, 
@@ -30,11 +30,11 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 		{
 			await CheckJsObjectAsync();
 
-			var info = new ClickBoundariesEventInfo(outsideClickCallback, insideClickCallback);
+			var info = new ClickBoundariesEventInfo(elementRef, outsideClickCallback, insideClickCallback);
 			var dotnetRef = DotNetObjectReference.Create<ClickBoundariesEventInfo>(info);
+			_dotNetObjectReferences.Add(dotnetRef);
 
 			await _clickJs.InvokeVoidAsync("addClickBoundariesHandler", elementRef, dotnetRef);
-			_registeredElements.Add(elementRef);
 		}
 
 		public async Task RemoveClickBoundariesAsync(ElementReference elementRef)
@@ -47,9 +47,13 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 
 		private void RemoveElement(ElementReference elementRef)
 		{
-			var items = _registeredElements.Where(x => x.Equals(elementRef));
+			var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.ElementRef.Equals(elementRef));
+			_dotNetObjectReferences = _dotNetObjectReferences.Except(dotNetRefs).ToList();
 
-			_registeredElements = _registeredElements.Except(items).ToList();
+			foreach (var item in dotNetRefs)
+			{
+				item.Dispose();
+			}
 		}
 
 		private async Task CheckJsObjectAsync()
@@ -68,9 +72,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 		{
 			if (_clickJs is not null)
 			{
-				await _clickJs.InvokeVoidAsync("dispose", (object)_registeredElements.ToArray());
+				await _clickJs.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.ElementRef).ToArray());
 
 				await _clickJs.DisposeAsync();
+			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
 			}
 		}
 	}

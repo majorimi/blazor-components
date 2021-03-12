@@ -12,12 +12,12 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 	internal sealed class PageMouseEventInfo
 	{
 		private readonly Func<MouseEventArgs, Task> _mouseEventCallback;
-		private readonly string _eventId;
+		internal string EventId { get; }
 
 		public PageMouseEventInfo(Func<MouseEventArgs, Task> mouseEventCallback, string eventId)
 		{
 			_mouseEventCallback = mouseEventCallback;
-			_eventId = eventId;
+			EventId = eventId;
 		}
 
 		[JSInvokable("GlobalMouseMove")]

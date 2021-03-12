@@ -1,464 +1,72 @@
 ﻿<style>
-.logText {
-	height: 150px !important;
-}
+    .logText {
+        height: 150px !important;
+    }
 </style>
 
 <h1>Js Interop controls and extensions</h1>
 <p>
-	Blazor components and extensions that provide useful functionality which can be achieved only with Js Interop. For usege see soruce code and docs on
-	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
-	<br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
+    Blazor components, injectable services and extensions that provides useful functionality and event notifications which can be achieved only with JS Interop e.g.
+    scroll, clipboard, focus, resize, language detection, Geolocation, HTML Head (title, meta, SEO), etc..
+    <br />
+    <strong>Note: all injected JS services must be disposed!</strong> For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md" target="_blank">Github</a>.
+    <br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
 
+@*Later add scroll components here*@
+<hr />
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 
 <div>
-	<h3>JS Interop features:</h3>
-	<ul>
-		<li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
-		<li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
-		<li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
-		<li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
-		<li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
-		<li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
-		<li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
-	</ul>
+    <h3>JS Interop features:</h3>
+    <ul>
+        <li><NavLink href="jsinterop#click-js">Click Js</NavLink></li>
+        <li><NavLink href="jsinterop#mouse-js">Mouse Js</NavLink></li>
+        <li><NavLink href="jsinterop#focus-js">Focus Js</NavLink></li>
+        <li><NavLink href="jsinterop#info-js">Element info Js</NavLink></li>
+        <li><NavLink href="jsinterop#scroll-js">Scroll Js</NavLink></li>
+        <li><NavLink href="jsinterop#resize-js">Resize Js</NavLink></li>
+        <li><NavLink href="jsinterop#clipboard-js">Clipboard Js</NavLink></li>
+        <li><NavLink href="jsinterop#lang-js">Browser Language Js</NavLink></li>
+        <li><NavLink href="jsinterop#geo-js">Geolocation Js</NavLink></li>
+        <li><NavLink href="jsinterop#head-js">Head Js</NavLink></li>
+    </ul>
 </div>
 
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="click-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Click JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Click JS</strong> is a convenient Blazor component which wraps the given content to a DIV and <strong>subscribes</strong> to all 
-		click events: <code>OnOutsideClick</code>, <code>OnInsideClick</code>. Component will also dispose resources. 
-		Also an <strong>injectable <code>IClickBoundariesHandler</code> service</strong> for callback event handlers.
-		<br />
-		<strong>
-			Blazor supports <code>@@onclick</code> event which is equivalent with <code>OnInsideClick</code>. This component useful when need to detect if click
-			happened outside of the component with <code>OnOutsideClick</code>.
-		</strong>
-	</p>
+<ClickJs />
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<div class="text-center" @ref="_clickDiv" style="margin-right:auto; margin-left:auto; width:150px; height:80px; background:lightgray;">
-				Inside A
-				<div class="text-center" style="width:150px; height:50px; background:gray;">
-					Inside B
-				</div>
-			</div>
-		</div>
-	</div>
+<MouseJs />
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>click</code></p>
-			<button class="btn btn-primary" @onclick="ClickEventHandler">@(_clickSubscribed ? "Unsubscribe from click" : "Subscribe to click")</button>
-			<br />
+<FocusJs />
 
-			<label><strong>Click boundaries log</strong>:</label>
-			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
-		</div>
-	</div>
-</div>
+<InfoJs />
 
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="mouse-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Global Mouse JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Global Mouse JS</strong> is an <strong>injectable <code>IGlobalMouseEventHandler</code> service</strong> for global mouse callback event handlers.
-		<br />
-			Blazor supports <code>@@onclick</code>, <code>@@onmousemove</code>, etc. events but only for Blazor rendered elements. With this service you can get similar event notifications
-			for the whole <strong>document/window</strong>.
-	</p>
+<ScrollJs />
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<p><code>RegisterPageMouseDownAsync()</code>, <code>RegisterPageMouseUpAsync()</code>, <code>RegisterPageMouseMoveAsync()</code> will add event listeners to HTML document/window <code>mouse</code> events.</p>
-			<button class="btn btn-primary" @onclick="GlobalClickEventHandler">@(_clickSubscribed2 ? "Unsubscribe from all event" : "Subscribe to all event")</button>
-			<br />
+<ResizeJs />
 
-			<label><strong>Global Mouse events log</strong>:</label>
-			<textarea @ref="_log3" @bind="_logMessage3" class="form-control w-100 logText" readonly></textarea>
-		</div>
-	</div>
-</div>
+<ClipboardJs />
 
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="focus-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Focus JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Focus JS</strong> is an <strong>injectable <code>IFocusHandler</code> service</strong>. Blazor supports <code>FocusAsync()</code>
-		which can be used in case of <code>ElementReference</code> is available. 
-		<br />
-		<strong>Focus JS is able to identify and restore focus on ANY DOM element without using Blazor <code>@@ref=""</code> tag.</strong> It is useful when focus should be
-		restored on a parent component but element reference not stored or it's on a different component.
-	</p>
+<LangJs />
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<button class="btn btn-primary">Click to focus</button>
-			<button class="btn btn-primary">Click to focus</button>
-			<button class="btn btn-primary">Click to focus</button>
+<GeoJs />
 
-			<div @onmouseover="StoreFocus" class="w-100 mt-2 text-center font-weight-bold" style="background:red; height:40px;">
-				<h3>Click on ANY focusable elemenet and Hover over to store actul focused element</h3>
-			</div>
-		</div>
-	</div>
+<HeadJs />
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<button class="btn btn-warning" @onclick="RestoreFocus">Restore focus</button>
-			<label class="ml-3 font-weight-bold">@_focusMsg</label>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded" @ref="_infoDiv" @onclick="InfoDivClick">
-	<PermaLinkElement PermaLinkName="info-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Element info  JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Element info JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<label>Click on different elements to read out HTML DomRect:</label>
-			<button class="btn btn-primary" @ref="_info1" @onclick="GetInfo1" @onclick:stopPropagation="true">Get element Client rect</button>
-			<button class="btn btn-primary" style="width:300px;" @ref="_info2" @onclick="GetInfo2" @onclick:stopPropagation="true">Get very  <br /> large element <br />Client rect</button>
-
-			<br />
-			<label><strong>Element info</strong>:</label>
-			<textarea @ref="_infoMsg" @onclick="InfoMsgClick" @bind="_infoMessage" @onclick:stopPropagation="true" class="form-control w-100" readonly></textarea>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="scroll-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Scroll JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Scroll JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects. 
-		Also an <strong>injectable <code>IScrollHandler</code> service</strong> for non element level functions and callback event handlers.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<label><strong><code>ScrollToElementAsync()</code> will scroll the given <code>ElementReference</code> (Button) to the visible aarea</strong>:</label>
-			<br />
-			<button class="btn btn-primary" @ref="_scrollToView" @onclick="ScrollToView">Scroll to view</button>
-		</div>
-	</div>
-
-	<hr />
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<p><code>RegisterPageScrollAsync()</code> will add event listener to HTML document/window <code>scroll</code></p>
-			<button class="btn btn-primary" @onclick="ScrollEventHandler">@(_scrollSubscribed ? "Unsubscribe from scroll" : "Subscribe to scroll")</button>
-			<br />
-			<label><strong>Scroll Events log</strong>:</label>
-			<textarea @ref="_log2" @bind="_logMessage2" class="form-control w-100 logText" readonly></textarea>
-		</div>
-	</div>
-
-	<hr />
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (textarea) to element top and bottom</strong>:</label>
-			<br />
-			<button class="btn btn-primary" @onclick="@(async () => await _log2.ScrollToTopAsync())">Scroll to textbox Top</button>
-			<button class="btn btn-primary" @onclick="@(async () => await _log2.ScrollToEndAsync())">Scroll to textbox Bottom</button>
-		</div>
-	</div>
-	
-	<hr />
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="resize-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Resize JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Resize JS</strong> is an <strong>injectable <code>IResizeHandler</code> service</strong> for Window (global) and HTML Elements resize event callback handlers.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<p><code>RegisterPageResizeAsync()</code> will add event listener to HTML document/window <code>resize events.</code></p>
-			<p><code>RegisterResizeAsync()</code> will add event listener to the given HTML Element <code>resize events.</code></p>
-			
-			<label>Resizabel Textarea with event listener:</label>
-			<br />
-			<textarea @ref="_resizeElement" style="resize:both;" readonly>Grab right bottom corner to resize element...</textarea>
-
-			<br />
-			<button class="btn btn-primary" @onclick="ResizeEventHandler">@(_resizeSubscribed ? "Unsubscribe from resize" : "Subscribe to resize")</button>
-			<br />
-			<label><strong>Resize Events log</strong>:</label>
-			<textarea @ref="_log4" @bind="_logMessage4" class="form-control w-100 logText" readonly></textarea>
-		</div>
-	</div>
-
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="clipboard-js" IconMarginTop="8" IconSize="18">
-		<Content><h3>Clipboard JS</h3></Content>
-	</PermaLinkElement>
-	<p>
-		<strong>Resize JS</strong> is an <strong>injectable <code>IClipboardHandler</code> service</strong> for accessing computer Clipboard from Blazor Application.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<input type="text" value="Hello World" @ref="_copyInput">
-			<button class="btn btn-primary" @onclick="CopyToClipboard">Copy input value to Clipboard</button>
-		</div>
-	</div>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<label>@_codedString</label>
-			<button class="btn btn-primary" @onclick="CopyTextToClipboard">Copy coded text to Clipboard</button>
-		</div>
-	</div>
-</div>
-
+@*Later add scroll components here*@
+<hr />
 <button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 
-
-@using System.Text.Json
 @implements IAsyncDisposable
-
 @inject IScrollHandler _scrollHandler
-@inject IFocusHandler _focusHandler
-@inject IResizeHandler _resizeHandler
-@inject IClickBoundariesHandler _clickHandler;
-@inject IClipboardHandler _clipboardHandler;
-@inject IGlobalMouseEventHandler _globalMouseEventHandler;
 
 @code {
-	private string _scrollEventId = null;
-	protected override async Task OnInitializedAsync()
-	{
-		await ScrollEventHandler();
-		await ClickEventHandler();
-		await GlobalClickEventHandler();
-		await ResizeEventHandler();
-	}
-
-	//Click examples
-	private ElementReference _log;
-	private ElementReference _clickDiv;
-	private string _logMessage;
-	private bool _clickSubscribed;
-	private async Task ClickEventHandler()
-	{
-		if (_clickSubscribed)
-		{
-			await _clickHandler.RemoveClickBoundariesAsync(_clickDiv);
-		}
-		else
-		{
-			await _clickHandler.RegisterClickBoundariesAsync(_clickDiv,
-			 async (args) => await PageClick(args, "OUSIDE of registered element"),
-			 async (args) => await PageClick(args, "INSIDE of registered element"));
-		}
-
-		_clickSubscribed = !_clickSubscribed;
-	}
-	private async Task PageClick(MouseEventArgs args, string message)
-	{
-		_logMessage += $"{DateTime.Now.TimeOfDay}: Page clicked {message} X pos: {args.ClientX}, Y pos: {args.ClientY}{Environment.NewLine}";
-		StateHasChanged();
-
-		await _log.ScrollToEndAsync();
-	}
-
-	//Mouse examples
-	private ElementReference _log3;
-	private string _logMessage3;
-	private bool _clickSubscribed2;
-	private string _mouseDown, _mouseUp, _mouseMove;
-	private async Task GlobalClickEventHandler()
-	{
-		if (_clickSubscribed2)
-		{
-			await _globalMouseEventHandler.RemovePageMouseDownAsync(_mouseDown);
-			await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUp);
-			await _globalMouseEventHandler.RemovePageMouseMoveAsync(_mouseMove);
-		}
-		else
-		{
-			_mouseDown = await _globalMouseEventHandler.RegisterPageMouseDownAsync(async (args) => await PageMouseEvents(args, "Mouse DOWN"));
-			_mouseUp = await _globalMouseEventHandler.RegisterPageMouseUpAsync(async (args) => await PageMouseEvents(args, "Mouse UP"));
-			_mouseMove = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(async (args) => await PageMouseEvents(args, "Mouse MOVE"));
-		}
-
-		_clickSubscribed2 = !_clickSubscribed2;
-	}
-	private async Task PageMouseEvents(MouseEventArgs args, string message)
-	{
-		_logMessage3 += $"{DateTime.Now.TimeOfDay}: Global Mouse event: {message} X pos: {args.ClientX}, Y pos: {args.ClientY}, Buttons: {args.Buttons}{Environment.NewLine}";
-		StateHasChanged();
-
-		await _log3.ScrollToEndAsync();
-	}
-
-	//Focus examples
-	private string _focusMsg;
-	private async Task StoreFocus()
-	{
-		await _focusHandler.StoreFocusedElementAsync();
-		_focusMsg = "Focused element stored, click somewhere else and do not hover on RED area.";
-	}
-	private async Task RestoreFocus()
-	{
-		await _focusHandler.RestoreStoredElementFocusAsync();
-		_focusMsg = "Focus restored to previous element.";
-	}
-
-	//Element info examples
-	private string _infoMessage;
-	private ElementReference _info1;
-	private ElementReference _info2;
-	private ElementReference _infoMsg;
-	private ElementReference _infoDiv;
-	private async Task GetInfo1()
-	{
-		var info = await _info1.GetClientRectAsync();
-		_infoMessage = JsonSerializer.Serialize(info);
-	}
-	private async Task GetInfo2()
-	{
-		var info = await _info2.GetClientRectAsync();
-		_infoMessage = JsonSerializer.Serialize(info);
-	}
-	private async Task InfoMsgClick()
-	{
-		var info = await _infoMsg.GetClientRectAsync();
-		_infoMessage = JsonSerializer.Serialize(info);
-	}
-	private async Task InfoDivClick()
-	{
-		var info = await _infoDiv.GetClientRectAsync();
-		_infoMessage = JsonSerializer.Serialize(info);
-	}
-
-	//Scroll examples
-	private ElementReference _scrollToView;
-	private async Task ScrollToView()
-	{
-		await _scrollToView.ScrollToElementAsync();
-	}
-
-	private ElementReference _log2;
-	private string _logMessage2;
-	private async Task PageScrolled(ScrollEventArgs args)
-	{
-		_logMessage2 += $"{DateTime.Now.TimeOfDay}: Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
-		StateHasChanged();
-
-		await _log2.ScrollToEndAsync();
-	}
-
-	private bool _scrollSubscribed = false;
-	private async Task ScrollEventHandler()
-	{
-		if (_scrollSubscribed)
-		{
-			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
-		}
-		else
-		{
-			_scrollEventId = await _scrollHandler.RegisterPageScrollAsync(PageScrolled);
-		}
-
-		_scrollSubscribed = !_scrollSubscribed;
-	}
-
-	//Resize JS
-	private bool _resizeSubscribed;
-	private async Task ResizeEventHandler()
-	{
-		if (_resizeSubscribed)
-		{
-			await _resizeHandler.RemovePageResizeAsync(_scrollEventId);
-			await _resizeHandler.RemoveResizeAsync(_resizeElement);
-		}
-		else
-		{
-			_scrollEventId = await _resizeHandler.RegisterPageResizeAsync(arg => Resized(arg, "Window resized"));
-			await _resizeHandler.RegisterResizeAsync(_resizeElement, arg => Resized(arg, "Textarea resized"));
-		}
-
-		_resizeSubscribed = !_resizeSubscribed;
-	}
-
-	private ElementReference _resizeElement;
-	private ElementReference _log4;
-	private string _logMessage4;
-	private async Task Resized(ResizeEventArgs args, string message)
-	{
-		_logMessage4 += $"{DateTime.Now.TimeOfDay}: {message} - Width: {args.Width}, Height: {args.Height}{Environment.NewLine}";
-		StateHasChanged();
-
-		await _log4.ScrollToEndAsync();
-	}
-
-	//Clipboard JS
-	private ElementReference _copyInput;
-	private string _codedString = "Copy string value form C# code...";
-	private async Task CopyToClipboard()
-	{
-		await _copyInput.CopyElementTextToClipboardAsync();
-		@*await _clipboardHandler.CopyElementTextToClipboardAsync(_copyInput);*@
-	}
-	private async Task CopyTextToClipboard()
-	{
-		await _clipboardHandler.CopyTextToClipboardAsync(_codedString);
-	}
-
-	public async ValueTask DisposeAsync()
-	{
-		if(_scrollHandler is not null)
-		{
-			await _scrollHandler.RemovePageScrollAsync(_scrollEventId);
-			await _scrollHandler.DisposeAsync();
-		}
-
-		if(_focusHandler is not null)
-		{
-			await _focusHandler.DisposeAsync();
-		}
-
-		if(_clickHandler is not null)
-		{
-			await _clickHandler.DisposeAsync();
-		}
-
-		if(_clipboardHandler is not null)
-		{
-			await _clipboardHandler.DisposeAsync();
-		}
-
-		if(_globalMouseEventHandler is not null)
-		{
-			await _globalMouseEventHandler.DisposeAsync();
-		}
-
-		if (_resizeHandler is not null)
-		{
-			await _resizeHandler.DisposeAsync();
-		}
-	}
+    public async ValueTask DisposeAsync()
+    {
+        if (_scrollHandler is not null)
+        {
+            await _scrollHandler.DisposeAsync();
+        }
+    }
 }

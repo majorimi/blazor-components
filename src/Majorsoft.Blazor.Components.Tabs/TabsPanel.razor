@@ -2,6 +2,11 @@
 	<div class="tabsHeader @TabPositon.ToString().ToLower()">
 		@foreach (var tab in _tabs)
 		{
+			if(tab.Hidden)
+			{
+				continue;
+			}
+
 			<button type="button" parent="@($"tabsPanel_{_componentId}")" class="@GetButtonClass(tab)" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled"
 					style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto");">
 				@tab.Header
@@ -141,6 +146,15 @@
 	internal void TabDisabled(TabItem tabPage)
 	{
 		if (ActiveTab == tabPage && tabPage.Disabled && _tabs.Count > 1)
+		{
+			var index = _tabs.IndexOf(tabPage);
+			ActiveTab = _tabs[index == 0 ? 1 : --index];
+		}
+		StateHasChanged();
+	}
+	internal void TabHidden(TabItem tabPage)
+	{
+		if (ActiveTab == tabPage && tabPage.Hidden && _tabs.Count > 1)
 		{
 			var index = _tabs.IndexOf(tabPage);
 			ActiveTab = _tabs[index == 0 ? 1 : --index];

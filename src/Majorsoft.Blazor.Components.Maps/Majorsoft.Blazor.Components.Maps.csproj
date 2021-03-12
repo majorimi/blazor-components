@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<nullable>enable</nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Majorsoft.Blazor.Components.Maps</PackageId>
+		<Version>1.0.0.0</Version>
+		<Authors>Imre Toth</Authors>
+		<Company>Majorsoft</Company>
+		<Product>Blazor Components</Product>
+		<Copyright>©2021 Imre Toth</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<RepositoryType>Git</RepositoryType>
+		<Description>Blazor component that renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net code. Part of Majorsoft Blazor library.</Description>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+		<PackageTags>.Net5 Blazor Maps Google Bing Pins Cluster Geo Location Geolocation Position GPS</PackageTags>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<Title>Blazor Components Maps</Title>  
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DocumentationFile>.\Majorsoft.Blazor.Components.Maps.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="bundleconfig.json" />
+	</ItemGroup>
+
+	
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\.github\Images\blazor.components.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	  <None Include="..\..\.github\License.txt">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	  <None Include="bundleconfig.json" />
+	</ItemGroup>
+
+	<!--Include project DLL output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Bing\" />
+	</ItemGroup>
+
+</Project>

@@ -19,8 +19,18 @@ variables:
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
   AssemblyCopyright: 'Copyright © 2020 Majorsoft'
-  #AssemblyVersion: '$(Build.BuildNumber)'
-  #PreviewPackageVersion: '-rc.2.20479.15'
+  AssemblyVersion: '${{ parameters.AssemblyVersion }}'
+  PreviewPackageVersion: '${{ parameters.PreviewPackageVersion }}'
+
+parameters:
+- name: AssemblyVersion
+  displayName: 'Required Nuget package version e.g. "1.0.0"'
+  type: string
+  default: ''
+- name: PreviewPackageVersion
+  displayName: 'Optional Preview version e.g. "-rc.2.20479.15"'
+  type: string
+  default: ' '
 
 jobs:
   - job: BuildAndPublish
