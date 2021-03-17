@@ -1080,7 +1080,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapZoomLevelChanged">
             <summary>
             Callback function for Google Map zoom level changed event.
-            Can be used for Two-way binding: @bind-ZoomLevel="{variable}" @bind-ZoomLevel:event="OnMapZoomLevelChanged".
+            Can be used for Two-way binding: @bind-Zoom="{variable}" @bind-Zoom:event="OnMapZoomLevelChanged".
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.OnMapTypeChanged">
