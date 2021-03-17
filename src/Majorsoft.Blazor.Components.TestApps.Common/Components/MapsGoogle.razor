@@ -692,7 +692,7 @@
 	}
 	private async Task OnMapZoomLevelChanged(byte zoom)
 	{
-		//Can be used with Binding and custom event: @bind-ZoomLevel="_jsMapZoomLevel" @bind-ZoomLevel:event="OnMapZoomLevelChanged"
+		//Can be used with Binding and custom event: @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 		if (_logOtherEvents)
 		{
 			_mapsLog = await WriteLog(_mapsLog, $"Map Zoom level changed to: {zoom}");
