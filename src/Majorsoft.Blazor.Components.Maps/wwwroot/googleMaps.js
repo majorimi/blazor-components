@@ -15,6 +15,9 @@
 	});
 
 	if (scriptsIncluded) { //Prevent adding JS scripts to page multiple times.
+		if (window.google) {
+			window.initGoogleMaps(); //Page was navigated
+		}
 		return;
 	}
 
@@ -36,6 +39,10 @@ window.initGoogleMaps = () => {
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
 		let mapInfo = _mapsElementDict[i].value;
+
+		if (_mapsElementDict[i].value.map) { //Map already created
+			continue;
+		}
 
 		//Create Map
 		let map = new google.maps.Map(document.getElementById(elementId), {
@@ -573,16 +580,5 @@ export function dispose(elementId) {
 		mapWithDotnetRef.ref = null;
 
 		removeElementIdWithDotnetRef(_mapsElementDict, elementId);
-
-		if (_mapsElementDict.length === 0) { //Last item cleanup headers.
-			let scriptTags = document.querySelectorAll('head > script');
-			scriptTags.forEach(scriptTag => {
-				if (scriptTag.getAttribute('src').startsWith("https://maps.googleapis.com/maps")) {
-					document.head.removeChild(scriptTag);
-				}
-			});
-
-			google = null;
-		}
 	}
 }
