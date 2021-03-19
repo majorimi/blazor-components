@@ -572,6 +572,17 @@ export function dispose(elementId) {
 		mapWithDotnetRef.map = null;
 		mapWithDotnetRef.ref = null;
 
-		removeElementIdWithDotnetRef(elementId);
+		removeElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (_mapsElementDict.length === 0) { //Last item cleanup headers.
+			let scriptTags = document.querySelectorAll('head > script');
+			scriptTags.forEach(scriptTag => {
+				if (scriptTag.getAttribute('src').startsWith("https://maps.googleapis.com/maps")) {
+					document.head.removeChild(scriptTag);
+				}
+			});
+
+			google = null;
+		}
 	}
 }
