@@ -124,8 +124,10 @@ Scrolls to top of the page (X top).
 Scrolls to X position on the page.
 - **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y)`**<br />
 Scrolls to Y position on the page.
-- **`GetPageScrollPosAsync`**: **`Task<ScrollEventArgs> GetPageScrollPosAsync()`**<br />
-Returns page X,Y scroll position as `ScrollEventArgs`.
+- **`GetPageScrollPosAsync`**: **`Task<ScrollResult> GetPageScrollPosAsync()`**<br />
+Returns page X,Y scroll current position as `ScrollResult`.
+- **`GetPageScrollSizeAsync`**: **`Task<ScrollResult> GetPageScrollSizeAsync()`**<br />
+Returns page X,Y scroll size (max values) as `ScrollResult`.
 - **`RegisterPageScrollAsync`**: **`Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)`**<br />
 Adds event listener for 'scroll' HTML event for the whole document/window. **Also returns with Event Id event id to unsubscribe from event.**
 - **`RemovePageScrollAsync`**: **`Task RemovePageScrollAsync(string eventId)`**<br />

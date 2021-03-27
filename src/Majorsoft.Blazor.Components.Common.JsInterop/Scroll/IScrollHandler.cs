@@ -52,10 +52,15 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// <returns>Async Task</returns>
 		Task ScrollToPageYAsync(double y);
 		/// <summary>
-		/// Returns page X,Y scroll position as <see cref="ScrollEventArgs"/>.
+		/// Returns page X,Y scroll current position as <see cref="ScrollResult"/>.
 		/// </summary>
 		/// <returns>Async Task</returns>
-		Task<ScrollEventArgs> GetPageScrollPosAsync();
+		Task<ScrollResult> GetPageScrollPosAsync();
+		/// <summary>
+		/// Returns page X,Y scroll size (max values) as <see cref="ScrollResult"/>.
+		/// </summary>
+		/// <returns>Async Task</returns>
+		Task<ScrollResult> GetPageScrollSizeAsync();
 
 		/// <summary>
 		/// Adds event listener for 'scroll' HTML event for the whole document/window.

@@ -43,10 +43,15 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 			await CheckJsObjectAsync();
 			await _scrollJs.InvokeVoidAsync("scrollToPageY", y);
 		}
-		public async Task<ScrollEventArgs> GetPageScrollPosAsync()
+		public async Task<ScrollResult> GetPageScrollPosAsync()
 		{
 			await CheckJsObjectAsync();
-			return await _scrollJs.InvokeAsync<ScrollEventArgs>("getPageScrollPosition");
+			return await _scrollJs.InvokeAsync<ScrollResult>("getPageScrollPosition");
+		}
+		public async Task<ScrollResult> GetPageScrollSizeAsync()
+		{
+			await CheckJsObjectAsync();
+			return await _scrollJs.InvokeAsync<ScrollResult>("getPageScrollSize");
 		}
 
 		public async Task ScrollToElementAsync(ElementReference elementReference)

@@ -525,7 +525,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetPageSizeAsync">
             <summary>
-            Returns Browser Window size (height and width in Pixel).
+            Returns Browser Window inner size (height and width in Pixel).
+            </summary>
+            <returns>Async Task with Window size</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetScreenSizeAsync">
+            <summary>
+            Returns Browser Window screen size (height and width in Pixel).
             </summary>
             <returns>Async Task with Window size</returns>
         </member>
@@ -718,7 +724,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.GetPageScrollPosAsync">
             <summary>
-            Returns page X,Y scroll position as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs"/>.
+            Returns page X,Y scroll current position as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult"/>.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.GetPageScrollSizeAsync">
+            <summary>
+            Returns page X,Y scroll size (max values) as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult"/>.
             </summary>
             <returns>Async Task</returns>
         </member>
@@ -741,9 +753,54 @@
             PageScrollEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs">
+            <summary>
+            Scroll event args
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs.X">
+            <summary>
+            Scroll X position
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs.Y">
+            <summary>
+            Scroll Y position
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollHandler">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult">
+            <summary>
+            Scroll result
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.X">
+            <summary>
+            Scroll X value
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.Y">
+            <summary>
+            Scroll Y value
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.VisibleFromPagePercentage">
+            <summary>
+            
             </summary>
         </member>
     </members>

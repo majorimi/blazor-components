@@ -1,6 +1,9 @@
-﻿<div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync()">
-    @Content
-</div>
+﻿@if (_isVisible)
+{
+    <div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync()">
+        @Content
+    </div>
+}
 
 <style>
     .scrollToPageTop {
@@ -14,18 +17,34 @@
 
 @implements IAsyncDisposable
 
-@inject IScrollHandler _scrollHandler;
+@inject IScrollHandler _scrollHandler
+@inject ILogger<ScrollToPageTop> _logger
 
 @code { 
+    private bool _isVisible = false;
+
     protected override async Task OnInitializedAsync()
     {
         await _scrollHandler.RegisterPageScrollAsync(async (e) =>
         {
+            var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
+            var percentage = (e.Y / scrollSize.Y) * 100;
 
+            _isVisible = percentage >= VisibleFromPagePercentage;
+            StateHasChanged();
         });
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Parameter] public RenderFragment Content { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public byte VisibleFromPagePercentage { get; set; } = 30;
+
 
     public async ValueTask DisposeAsync()
     {
