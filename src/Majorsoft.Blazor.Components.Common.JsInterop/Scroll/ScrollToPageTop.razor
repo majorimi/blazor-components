@@ -1,0 +1,37 @@
+﻿<div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync()">
+    @Content
+</div>
+
+<style>
+    .scrollToPageTop {
+        position: fixed;
+        bottom: 1.2rem;
+        right: 1.5rem;
+        z-index: 20;
+        cursor: pointer;
+    }
+</style>
+
+@implements IAsyncDisposable
+
+@inject IScrollHandler _scrollHandler;
+
+@code { 
+    protected override async Task OnInitializedAsync()
+    {
+        await _scrollHandler.RegisterPageScrollAsync(async (e) =>
+        {
+
+        });
+    }
+
+    [Parameter] public RenderFragment Content { get; set; }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_scrollHandler is not null)
+        {
+            await _scrollHandler.DisposeAsync();
+        }
+    }
+}
