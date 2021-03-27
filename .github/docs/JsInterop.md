@@ -152,7 +152,10 @@ Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### Functions
 - **`GetPageSizeAsync`**: **`Task<PageSize> GetPageSizeAsync()`**<br />
-Returns Browser Window size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+Returns Browser Window inner size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+on each page resize.
+- **`GetScreenSizeAsync`**: **`Task<PageSize> GetScreenSizeAsync()`**<br />
+Returns Browser Window screen size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
 on each page resize.
 - **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
 Adds event listener for 'resize' HTML event for the whole document/window.
