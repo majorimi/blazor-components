@@ -116,13 +116,13 @@ Scrolls the given element into the page view area.
 Finds element by Id and scrolls the given element into the page view area.
 - **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name)`**<br />
 Finds element by name and scrolls the given element into the page view area.
-- **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync()`**<br />
+- **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync(bool smooth)`**<br />
 Scrolls to end of the page (X bottom).
-- **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync()`**<br />
+- **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync(bool smooth)`**<br />
 Scrolls to top of the page (X top).
-- **`ScrollToPageXAsync`**: **`Task ScrollToPageXAsync(double x)`**<br />
+- **`ScrollToPageXAsync`**: **`Task ScrollToPageXAsync(double x, bool smooth)`**<br />
 Scrolls to X position on the page.
-- **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y)`**<br />
+- **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y, bool smooth)`**<br />
 Scrolls to Y position on the page.
 - **`GetPageScrollPosAsync`**: **`Task<ScrollResult> GetPageScrollPosAsync()`**<br />
 Returns page X,Y scroll current position as `ScrollResult`.

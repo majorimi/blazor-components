@@ -32,25 +32,29 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// <summary>
 		/// Scrolls to end of the page (X bottom).
 		/// </summary>
+		/// <param name="smooth">Scroll should jump or smoothly scroll</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToPageEndAsync();
+		Task ScrollToPageEndAsync(bool smooth = false);
 		/// <summary>
 		/// Scrolls to top of the page (X top).
 		/// </summary>
+		/// <param name="smooth">Scroll should jump or smoothly scroll</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToPageTopAsync();
+		Task ScrollToPageTopAsync(bool smooth = false);
 		/// <summary>
 		/// Scrolls to X position on the page.
 		/// </summary>
 		/// <param name="x">Scroll top x value</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToPageXAsync(double x);
+		Task ScrollToPageXAsync(double x, bool smooth = false);
 		/// <summary>
 		/// Scrolls to Y position on the page.
 		/// </summary>
-		/// <param name="x">Scroll top x value</param>
+		/// <param name="y">Scroll top x value</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToPageYAsync(double y);
+		Task ScrollToPageYAsync(double y, bool smooth = false);
 		/// <summary>
 		/// Returns page X,Y scroll current position as <see cref="ScrollResult"/>.
 		/// </summary>

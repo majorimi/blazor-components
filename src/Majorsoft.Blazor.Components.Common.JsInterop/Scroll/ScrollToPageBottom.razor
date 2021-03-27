@@ -1,6 +1,6 @@
 ﻿@if (_isVisible)
 {
-    <div class="scrollToPageBottom" @onclick="async () => await _scrollHandler.ScrollToPageEndAsync()">
+    <div class="scrollToPageBottom" @onclick="async () => await _scrollHandler.ScrollToPageEndAsync(SmootScroll)">
         @Content
     </div>
 }
@@ -19,7 +19,7 @@
 @inject IScrollHandler _scrollHandler;
 
 @code { 
-    private bool _isVisible = false;
+    private bool _isVisible = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,6 +33,11 @@
     /// 
     /// </summary>
     [Parameter] public RenderFragment Content { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public bool SmootScroll { get; set; } = true;
 
     public async ValueTask DisposeAsync()
     {

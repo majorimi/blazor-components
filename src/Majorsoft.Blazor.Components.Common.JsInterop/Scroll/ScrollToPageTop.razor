@@ -1,9 +1,6 @@
-﻿@if (_isVisible)
-{
-    <div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync()">
-        @Content
-    </div>
-}
+﻿<div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync(SmootScroll)">
+    @Content
+</div>
 
 <style>
     .scrollToPageTop {
@@ -12,6 +9,8 @@
         right: 1.5rem;
         z-index: 20;
         cursor: pointer;
+        opacity: @(_isVisible ? 1 : 0);
+        transition: opacity 0.2s linear;
     }
 </style>
 
@@ -20,8 +19,20 @@
 @inject IScrollHandler _scrollHandler
 @inject ILogger<ScrollToPageTop> _logger
 
-@code { 
+@code {
     private bool _isVisible = false;
+    private bool IsVisible
+    {
+        get => _isVisible;
+        set
+        {
+            if (value != _isVisible)
+            {
+                _isVisible = value;
+                StateHasChanged();
+            }
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,20 +41,24 @@
             var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
             var percentage = (e.Y / scrollSize.Y) * 100;
 
-            _isVisible = percentage >= VisibleFromPagePercentage;
-            StateHasChanged();
+            IsVisible = percentage >= VisibleFromPagePercentage;
         });
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [Parameter] public RenderFragment Content { get; set; }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [Parameter] public byte VisibleFromPagePercentage { get; set; } = 30;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public bool SmootScroll { get; set; } = true;
 
 
     public async ValueTask DisposeAsync()

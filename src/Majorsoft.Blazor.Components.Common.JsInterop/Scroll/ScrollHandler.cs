@@ -23,25 +23,25 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 			_dotNetObjectReferences = new List<DotNetObjectReference<PageScrollEventInfo>>();
 		}
 
-		public async Task ScrollToPageEndAsync()
+		public async Task ScrollToPageEndAsync(bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToPageEnd");
+			await _scrollJs.InvokeVoidAsync("scrollToPageEnd", smooth);
 		}
-		public async Task ScrollToPageTopAsync()
+		public async Task ScrollToPageTopAsync(bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToPageTop");
+			await _scrollJs.InvokeVoidAsync("scrollToPageTop", smooth);
 		}
-		public async Task ScrollToPageXAsync(double x)
+		public async Task ScrollToPageXAsync(double x, bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToPageX", x);
+			await _scrollJs.InvokeVoidAsync("scrollToPageX", x, smooth);
 		}
-		public async Task ScrollToPageYAsync(double y)
+		public async Task ScrollToPageYAsync(double y, bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToPageY", y);
+			await _scrollJs.InvokeVoidAsync("scrollToPageY", y, smooth);
 		}
 		public async Task<ScrollResult> GetPageScrollPosAsync()
 		{

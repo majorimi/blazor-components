@@ -696,30 +696,34 @@
             <param name="name">DOM element name</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageEndAsync">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageEndAsync(System.Boolean)">
             <summary>
             Scrolls to end of the page (X bottom).
             </summary>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageTopAsync">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageTopAsync(System.Boolean)">
             <summary>
             Scrolls to top of the page (X top).
             </summary>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageXAsync(System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageXAsync(System.Double,System.Boolean)">
             <summary>
             Scrolls to X position on the page.
             </summary>
             <param name="x">Scroll top x value</param>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageYAsync(System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageYAsync(System.Double,System.Boolean)">
             <summary>
             Scrolls to Y position on the page.
             </summary>
-            <param name="x">Scroll top x value</param>
+            <param name="y">Scroll top x value</param>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.GetPageScrollPosAsync">
@@ -793,12 +797,22 @@
             
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.Content">
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.SmootScroll">
             <summary>
             
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.Content">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.VisibleFromPagePercentage">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.SmootScroll">
             <summary>
             
             </summary>
