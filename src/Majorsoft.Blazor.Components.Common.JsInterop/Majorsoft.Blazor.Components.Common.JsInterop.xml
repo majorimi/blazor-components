@@ -807,14 +807,44 @@
             Scroll Y value
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.Content">
             <summary>
-            
+            HTML Content of the scroll panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.VisibleFromPagePercentage">
+            <summary>
+            Element should be visible when scroll reached page % of given value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.VisibleUntilPagePercentage">
+            <summary>
+            Element should be visible untill scroll reached page % of given value.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.SmootScroll">
             <summary>
-            
+            Scroll shold be jump or smoothly scroll.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromTop">
+            <summary>
+            Required space from page bottom in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromSide">
+            <summary>
+            Required space from page (left/right) side in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.HorizontalOrientation">
+            <summary>
+            Element orientation on page.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.InnerElementReference">

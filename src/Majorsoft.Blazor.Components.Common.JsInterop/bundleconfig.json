@@ -64,5 +64,11 @@
     "inputFiles": [
       "Scroll/ScrollToPageTop.razor.css"
     ]
+  },
+  {
+    "outputFileName": "Scroll/ScrollToPageBottom.razor.min.css",
+    "inputFiles": [
+      "Scroll/ScrollToPageBottom.razor.css"
+    ]
   }
 ]
