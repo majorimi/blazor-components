@@ -14,24 +14,11 @@
     <br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
 
-<ScrollToPageBottom>
-    <Content>
-        <div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
-            <i class="fas fa-2x fa-chevron-down p-1"></i>
-        </div>
-    </Content>
-</ScrollToPageBottom>
-
-<ScrollToPageTop>
-    <Content>
-        <div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
-            <i class="fas fa-2x fa-chevron-up p-1"></i>
-        </div>
-    </Content>
-</ScrollToPageTop>
-
 <hr />
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
+@*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageBottom*@
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync(_smmothScroll))">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
+Smooth scroll:
+<input type="checkbox" @bind="_smmothScroll" />
 
 <div>
     <h3>JS Interop features:</h3>
@@ -70,7 +57,10 @@
 <HeadJs />
 
 <hr />
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+@*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageTop*@
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync(_smmothScroll))">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+Smooth scroll:
+<input type="checkbox" @bind="_smmothScroll" />
 
 @implements IAsyncDisposable
 @inject IScrollHandler _scrollHandler
@@ -83,4 +73,6 @@
             await _scrollHandler.DisposeAsync();
         }
     }
+
+    private bool _smmothScroll = true;
 }

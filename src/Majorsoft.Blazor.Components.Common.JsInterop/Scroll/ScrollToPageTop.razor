@@ -1,16 +1,18 @@
-﻿<div class="scrollToPageTop" @onclick="async () => await _scrollHandler.ScrollToPageTopAsync(SmootScroll)">
+﻿<div @ref="_inputRef" class="scrollToPageTop @HorizontalOrientation.ToString().ToLower()" tabindex="500"
+     @onclick="async () => await _scrollHandler.ScrollToPageTopAsync(SmootScroll)">
     @Content
 </div>
 
 <style>
     .scrollToPageTop {
-        position: fixed;
-        bottom: 1.2rem;
-        right: 1.5rem;
-        z-index: 20;
-        cursor: pointer;
+        bottom: @(PaddingFromBottom)px;
         opacity: @(_isVisible ? 1 : 0);
-        transition: opacity 0.2s linear;
+    }
+    .scrollToPageTop.right {
+        right: @(PaddingFromSide)px;
+    }
+    .scrollToPageTop.left {
+        left: @(PaddingFromSide)px;
     }
 </style>
 
@@ -21,45 +23,66 @@
 
 @code {
     private bool _isVisible = false;
-    private bool IsVisible
-    {
-        get => _isVisible;
-        set
-        {
-            if (value != _isVisible)
-            {
-                _isVisible = value;
-                StateHasChanged();
-            }
-        }
-    }
 
     protected override async Task OnInitializedAsync()
     {
+        WriteDiag("Component initialized...");
+
         await _scrollHandler.RegisterPageScrollAsync(async (e) =>
         {
             var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
             var percentage = (e.Y / scrollSize.Y) * 100;
 
-            IsVisible = percentage >= VisibleFromPagePercentage;
+            var visible = percentage >= VisibleFromPagePercentage;
+            if (visible != _isVisible)
+            {
+                _isVisible = visible;
+                StateHasChanged();
+
+                WriteDiag($"Component visibilit changed visible: {_isVisible}.");
+            }
         });
     }
 
+    private ElementReference _inputRef;
     /// <summary>
-    ///
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    /// <summary>
+    /// HTML Content of the scroll panel.
     /// </summary>
     [Parameter] public RenderFragment Content { get; set; }
 
     /// <summary>
-    ///
+    /// Element should be visible when scroll reached page % of given value.
     /// </summary>
     [Parameter] public byte VisibleFromPagePercentage { get; set; } = 30;
 
     /// <summary>
-    /// 
+    /// Scroll shold be jump or smoothly scroll.
     /// </summary>
     [Parameter] public bool SmootScroll { get; set; } = true;
 
+    /// <summary>
+    /// Required space from page bottom in px.
+    /// </summary>
+    [Parameter] public int PaddingFromBottom { get; set; } = 20;
+    /// <summary>
+    /// Required space from page (left/right) side in px.
+    /// </summary>
+    [Parameter] public int PaddingFromSide { get; set; } = 24;
+    /// <summary>
+    /// Element orientation on page.
+    /// </summary>
+    [Parameter] public PageScrollHorizontalOrientation HorizontalOrientation { get; set; } = PageScrollHorizontalOrientation.Right;
+
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
 
     public async ValueTask DisposeAsync()
     {

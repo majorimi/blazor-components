@@ -1,0 +1,6 @@
+﻿.scrollToPageTop {
+    position: fixed;
+    z-index: 20;
+    cursor: pointer;
+    transition: opacity 0.25s linear;
+}

@@ -1,4 +1,21 @@
-﻿<div class="container-fluid p-3 mb-3 border rounded">
+﻿@*Scroll on page components, can be placed anywhere on a page but should be used one per page*@
+<ScrollToPageBottom>
+	<Content>
+		<div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
+			<i class="fas fa-2x fa-chevron-down p-1"></i>
+		</div>
+	</Content>
+</ScrollToPageBottom>
+
+<ScrollToPageTop>
+	<Content>
+		<div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
+			<i class="fas fa-2x fa-chevron-up p-1"></i>
+		</div>
+	</Content>
+</ScrollToPageTop>
+
+<div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="scroll-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Scroll JS</h3></Content>
 	</PermaLinkElement>
