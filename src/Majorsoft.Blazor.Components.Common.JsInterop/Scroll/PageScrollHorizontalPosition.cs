@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Page scroll elements orientation on page <see cref="ScrollToPageBottom"/> and <see cref="ScrollToPageTop"/> elements
 	/// </summary>
-	public enum PageScrollHorizontalOrientation
+	public enum PageScrollHorizontalPosition
 	{
 		/// <summary>
 		/// Element placed to the Right side 

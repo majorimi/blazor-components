@@ -16,9 +16,9 @@
 
 <hr />
 @*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageBottom*@
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync(_smmothScroll))">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync(_smoothScroll))">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
 Smooth scroll:
-<input type="checkbox" @bind="_smmothScroll" />
+<input type="checkbox" @bind="_smoothScroll" />
 
 <div>
     <h3>JS Interop features:</h3>
@@ -58,9 +58,9 @@ Smooth scroll:
 
 <hr />
 @*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageTop*@
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync(_smmothScroll))">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync(_smoothScroll))">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
 Smooth scroll:
-<input type="checkbox" @bind="_smmothScroll" />
+<input type="checkbox" @bind="_smoothScroll" />
 
 @implements IAsyncDisposable
 @inject IScrollHandler _scrollHandler
@@ -74,5 +74,5 @@ Smooth scroll:
         }
     }
 
-    private bool _smmothScroll = true;
+    private bool _smoothScroll = true;
 }

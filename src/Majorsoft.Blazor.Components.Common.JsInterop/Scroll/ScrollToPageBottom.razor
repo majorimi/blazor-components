@@ -1,4 +1,4 @@
-﻿<div @ref="_inputRef" class="scrollToPageBottom @HorizontalOrientation.ToString().ToLower()" tabindex="500"
+﻿<div @ref="_inputRef" class="scrollToPageBottom @HorizontalPosition.ToString().ToLower()" tabindex="500"
      @onclick="async () => await _scrollHandler.ScrollToPageEndAsync(SmootScroll)">
     @Content
 </div>
@@ -78,9 +78,9 @@
     /// </summary>
     [Parameter] public int PaddingFromSide { get; set; } = 24;
     /// <summary>
-    /// Element orientation on page.
+    /// Element position on page.
     /// </summary>
-    [Parameter] public PageScrollHorizontalOrientation HorizontalOrientation { get; set; } = PageScrollHorizontalOrientation.Right;
+    [Parameter] public PageScrollHorizontalPosition HorizontalPosition { get; set; } = PageScrollHorizontalPosition.Right;
 
 
     private void WriteDiag(string message)

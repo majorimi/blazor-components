@@ -1,5 +1,10 @@
 ﻿@*Scroll on page components, can be placed anywhere on a page but should be used one per page*@
-<ScrollToPageBottom>
+<ScrollToPageBottom PaddingFromTop="@_scrcollTopBottonMargin"
+					PaddingFromSide="@_scrcollTopSideMargin"
+					HorizontalPosition="@_scrollHorizontalPosition"
+					SmootScroll="@_smoothScroll"
+					VisibleFromPagePercentage="5"
+					VisibleUntilPagePercentage="70">
 	<Content>
 		<div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
 			<i class="fas fa-2x fa-chevron-down p-1"></i>
@@ -7,7 +12,11 @@
 	</Content>
 </ScrollToPageBottom>
 
-<ScrollToPageTop>
+<ScrollToPageTop PaddingFromBottom="@_scrcollTopBottonMargin"
+				 PaddingFromSide="@_scrcollTopSideMargin"
+				 HorizontalPosition="@_scrollHorizontalPosition"
+				 SmootScroll="@_smoothScroll"
+				 VisibleFromPagePercentage="30">
 	<Content>
 		<div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
 			<i class="fas fa-2x fa-chevron-up p-1"></i>
@@ -29,6 +38,47 @@
 			<label><strong><code>ScrollToElementAsync()</code> will scroll the given <code>ElementReference</code> (Button) to the visible aarea</strong>:</label>
 			<br />
 			<button class="btn btn-primary" @ref="_scrollToView" @onclick="ScrollToView">Scroll to view</button>
+		</div>
+	</div>
+
+	<hr />
+
+	<p>
+		<label>
+			<strong><code>ScrollToPageBottom</code> and <code>ScrollToPageTop</code></strong> components will render "floating" element with customizable placing and content
+			for wrapping <strong>Scroll JS</strong> scroll to page top or bottom functions.
+			<strong>Both component can be set inside ANY components which will apply for the whole page. Hence both components should be added only once per page!</strong>
+		</label>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Top/Bottom margin (can be set separately for both types of controls): @(_scrcollTopBottonMargin)px
+			<input type="range" class="w-100" min="0" max="100" @bind="_scrcollTopBottonMargin" @oninput="(e => _scrcollTopBottonMargin = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Side right/left margin (can be set separately for both types of controls): @(_scrcollTopSideMargin)px
+			<input type="range" class="w-100" min="0" max="100" @bind="_scrcollTopSideMargin" @oninput="(e => _scrcollTopSideMargin = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Smooth scroll (can be set separately for both types of controls): <input type="checkbox" @bind="_smoothScroll" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Horizontal Position right/left (can be set separately for both types of controls): <select class="form-control selectpicker w-100" @bind="_scrollHorizontalPosition">
+				@foreach (var item in Enum.GetValues(typeof(PageScrollHorizontalPosition)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
 		</div>
 	</div>
 
@@ -100,6 +150,13 @@
 
 		_scrollSubscribed = !_scrollSubscribed;
 	}
+
+	//Page scroll elements
+	private int _scrcollTopBottonMargin = 20;
+	private int _scrcollTopSideMargin = 24;
+	private byte _scrcollBefore = 5;
+	private PageScrollHorizontalPosition _scrollHorizontalPosition = PageScrollHorizontalPosition.Right;
+	private bool _smoothScroll = true;
 
 	public async ValueTask DisposeAsync()
 	{

@@ -757,17 +757,17 @@
             PageScrollEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalOrientation">
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition">
             <summary>
             Page scroll elements orientation on page <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom"/> and <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop"/> elements
             </summary>
         </member>
-        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalOrientation.Right">
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition.Right">
             <summary>
             Element placed to the Right side 
             </summary>
         </member>
-        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalOrientation.Left">
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition.Left">
             <summary>
             Element placed to the Left side 
             </summary>
@@ -842,9 +842,9 @@
             Required space from page (left/right) side in px.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.HorizontalOrientation">
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.HorizontalPosition">
             <summary>
-            Element orientation on page.
+            Element position on page.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.InnerElementReference">
@@ -877,9 +877,9 @@
             Required space from page (left/right) side in px.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.HorizontalOrientation">
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.HorizontalPosition">
             <summary>
-            Element orientation on page.
+            Element position on page.
             </summary>
         </member>
     </members>
