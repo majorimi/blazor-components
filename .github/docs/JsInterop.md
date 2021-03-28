@@ -21,7 +21,8 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
-- **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+- **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. **`IScrollHandler` injectable service** for non element level functions and callback event handlers.
+ Also `ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping Scroll JS scroll to page top or bottom functions.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
@@ -108,6 +109,57 @@ Returns the given HTML element ClintBoundRect data as `DomRect`.
 ## Scroll JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#scroll-js))
 **Scroll JS** is a set of **Extension methods** for `ElementReference` objects. 
 Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+`ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping `Scroll JS` scroll to page top or bottom functions. 
+**Note**: Both component can be set inside ANY components which will apply for the whole page. Hence both components should be added only once per page!
+
+### `ScrollToPageBottom` component
+`ScrollToPageBottom` component will render "floating" element with customizable placing and content for wrapping Scroll JS **scroll to page bottom** function.
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`VisibleFromPagePercentage`: `byte { get; set; }` (default: 5)** <br />
+Element should be visible when scroll reached page % of given value.
+- **`VisibleUntilPagePercentage`: `byte { get; set; }` (default: 80)** <br />
+Element should be visible until scroll reached page % of given value.
+- **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
+Scroll should be jump or smoothly scroll.
+- **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
+Required space from page bottom in px.
+- **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
+Required space from page (left/right) side in px.
+- **`HorizontalPosition`: `PageScrollHorizontalPosition { get; set; }` (default: 24)** <br />
+Element position on page {Right, Left}.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+### `ScrollToPageTop` component
+`ScrollToPageTop` component will render "floating" element with customizable placing and content for wrapping Scroll JS **scroll to page top** function.
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`VisibleFromPagePercentage`: `byte { get; set; }` (default: 30)** <br />
+Element should be visible when scroll reached page % of given value.
+- **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
+Scroll should be jump or smoothly scroll.
+- **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
+Required space from page bottom in px.
+- **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
+Required space from page (left/right) side in px.
+- **`HorizontalPosition`: `PageScrollHorizontalPosition { get; set; }` (default: 24)** <br />
+Element position on page {Right, Left}.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
 
 ### `IScrollHandler` Functions
 - **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference)`**<br />

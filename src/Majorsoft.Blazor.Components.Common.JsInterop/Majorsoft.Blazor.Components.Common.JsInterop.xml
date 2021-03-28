@@ -824,12 +824,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.VisibleUntilPagePercentage">
             <summary>
-            Element should be visible untill scroll reached page % of given value.
+            Element should be visible until scroll reached page % of given value.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.SmootScroll">
             <summary>
-            Scroll shold be jump or smoothly scroll.
+            Scroll should be jump or smoothly scroll.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromTop">
@@ -844,7 +844,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.HorizontalPosition">
             <summary>
-            Element position on page.
+            Element position on page {Right, Left}.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.InnerElementReference">
@@ -864,7 +864,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.SmootScroll">
             <summary>
-            Scroll shold be jump or smoothly scroll.
+            Scroll should be jump or smoothly scroll.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.PaddingFromBottom">
@@ -879,7 +879,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.HorizontalPosition">
             <summary>
-            Element position on page.
+            Element position on page {Right, Left}.
             </summary>
         </member>
     </members>
