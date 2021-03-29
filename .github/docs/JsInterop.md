@@ -16,13 +16,16 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Features
 
-- **Click JS**: `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
- Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
+- **Click JS**: 
+  - `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+  - Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
-- **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. **`IScrollHandler` injectable service** for non element level functions and callback event handlers.
- Also `ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping Scroll JS scroll to page top or bottom functions.
+- **Scroll JS**: 
+  - Set of **Extension methods** for `ElementReference` objects. 
+  - **`IScrollHandler` injectable service** for non element level functions and callback event handlers.
+  - Also `ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping Scroll JS scroll to page top or bottom functions.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
