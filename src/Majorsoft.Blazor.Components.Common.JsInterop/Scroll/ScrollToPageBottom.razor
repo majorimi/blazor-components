@@ -1,0 +1,98 @@
+﻿<div @ref="_inputRef" class="scrollToPageBottom @HorizontalPosition.ToString().ToLower() @(_isVisible ? "" : "hidden")" tabindex="500"
+     @onclick="async () => await _scrollHandler.ScrollToPageEndAsync(SmootScroll)">
+    @Content
+</div>
+
+<style>
+    .scrollToPageBottom {
+        top: @(PaddingFromTop)px;
+        opacity: @(_isVisible ? 1 : 0);
+    }
+    .scrollToPageBottom.right {
+        right: @(PaddingFromSide)px;
+    }
+    .scrollToPageBottom.left {
+        left: @(PaddingFromSide)px;
+    }
+</style>
+
+@implements IAsyncDisposable
+
+@inject IScrollHandler _scrollHandler
+@inject ILogger<ScrollToPageBottom> _logger
+
+@code {
+    private bool _isVisible = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        WriteDiag("Component initialized...");
+
+        await _scrollHandler.RegisterPageScrollAsync(async (e) =>
+        {
+            var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
+            var percentage = (e.Y / scrollSize.Y) * 100;
+
+            var visible = percentage >= VisibleFromPagePercentage && percentage <= VisibleUntilPagePercentage;
+            if (visible != _isVisible)
+            {
+                _isVisible = visible;
+                StateHasChanged();
+
+                WriteDiag($"Component visibilit changed visible: {_isVisible}.");
+            }
+        });
+    }
+
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    /// <summary>
+    /// HTML Content of the scroll panel.
+    /// </summary>
+    [Parameter] public RenderFragment Content { get; set; }
+
+    /// <summary>
+    /// Element should be visible when scroll reached page % of given value.
+    /// </summary>
+    [Parameter] public byte VisibleFromPagePercentage { get; set; } = 5;
+    /// <summary>
+    /// Element should be visible until scroll reached page % of given value.
+    /// </summary>
+    [Parameter] public byte VisibleUntilPagePercentage { get; set; } = 80;
+
+    /// <summary>
+    /// Scroll should be jump or smoothly scroll.
+    /// </summary>
+    [Parameter] public bool SmootScroll { get; set; } = true;
+
+    /// <summary>
+    /// Required space from page bottom in px.
+    /// </summary>
+    [Parameter] public int PaddingFromTop { get; set; } = 24;
+    /// <summary>
+    /// Required space from page (left/right) side in px.
+    /// </summary>
+    [Parameter] public int PaddingFromSide { get; set; } = 24;
+    /// <summary>
+    /// Element position on page {Right, Left}.
+    /// </summary>
+    [Parameter] public PageScrollHorizontalPosition HorizontalPosition { get; set; } = PageScrollHorizontalPosition.Right;
+
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_scrollHandler is not null)
+        {
+            await _scrollHandler.DisposeAsync();
+        }
+    }
+}

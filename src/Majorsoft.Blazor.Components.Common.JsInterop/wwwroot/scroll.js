@@ -103,29 +103,57 @@ export function getScrollXPosition(element) {
 
 /* Injectable functions */
 //HTLM page scroll
-export function scrollToPageEnd() {
-    document.body.scrollTop = document.body.scrollHeight;
-    document.documentElement.scrollTop = document.body.scrollHeight;
+export function scrollToPageEnd(smooth) {
+    if (!smooth) {
+        document.body.scrollTop = document.body.scrollHeight;
+        document.documentElement.scrollTop = document.body.scrollHeight;
+    }
+    else {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
 }
-export function scrollToPageTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+export function scrollToPageTop(smooth) {
+    if (!smooth) {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
-export function scrollToPageX(x) {
-    document.body.scrollTop = x;
-    document.documentElement.scrollTop = x;
+export function scrollToPageX(x, smooth) {
+    if (!smooth) {
+        document.body.scrollLeft = x;
+        document.documentElement.scrollLeft = x;
+    }
+    else {
+        window.scrollTo({ left: 0, behavior: 'smooth' });
+    }
 }
-export function scrollToPageY(y) {
-    document.body.scrollLeft = y;
-    document.documentElement.scrollLeft = y;
+export function scrollToPageY(y, smooth) {
+    if (!smooth) {
+        document.body.scrollTop = y;
+        document.documentElement.scrollTop = y;
+    }
+    else {
+        window.scrollTo({ top: y, behavior: 'smooth' });
+    }
 }
 export function getPageScrollPosition() {
     let top = window.pageYOffset || document.documentElement.scrollTop;
     let left = window.pageXOffset || document.documentElement.scrollLeft;
 
     let args = {
-        X: top,
-        Y: left
+        X: left,
+        Y: top
+    };
+
+    return args;
+}
+export function getPageScrollSize() {
+    let args = {
+        X: document.body.scrollWidth,
+        Y: document.body.scrollHeight
     };
 
     return args;
@@ -138,8 +166,8 @@ function createScrollEventHandler(dotnetRef) {
         let left = window.pageXOffset || document.documentElement.scrollLeft;
 
         let args = {
-            X: top,
-            Y: left
+            X: left,
+            Y: top
         };
 
         dotnetRef.invokeMethodAsync("PageScroll", args);

@@ -525,7 +525,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetPageSizeAsync">
             <summary>
-            Returns Browser Window size (height and width in Pixel).
+            Returns Browser Window inner size (height and width in Pixel).
+            </summary>
+            <returns>Async Task with Window size</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler.GetScreenSizeAsync">
+            <summary>
+            Returns Browser Window screen size (height and width in Pixel).
             </summary>
             <returns>Async Task with Window size</returns>
         </member>
@@ -690,35 +696,45 @@
             <param name="name">DOM element name</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageEndAsync">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageEndAsync(System.Boolean)">
             <summary>
             Scrolls to end of the page (X bottom).
             </summary>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageTopAsync">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageTopAsync(System.Boolean)">
             <summary>
             Scrolls to top of the page (X top).
             </summary>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageXAsync(System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageXAsync(System.Double,System.Boolean)">
             <summary>
             Scrolls to X position on the page.
             </summary>
             <param name="x">Scroll top x value</param>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageYAsync(System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageYAsync(System.Double,System.Boolean)">
             <summary>
             Scrolls to Y position on the page.
             </summary>
-            <param name="x">Scroll top x value</param>
+            <param name="y">Scroll top x value</param>
+            <param name="smooth">Scroll should jump or smoothly scroll</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.GetPageScrollPosAsync">
             <summary>
-            Returns page X,Y scroll position as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs"/>.
+            Returns page X,Y scroll current position as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult"/>.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.GetPageScrollSizeAsync">
+            <summary>
+            Returns page X,Y scroll size (max values) as <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult"/>.
             </summary>
             <returns>Async Task</returns>
         </member>
@@ -741,9 +757,129 @@
             PageScrollEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition">
+            <summary>
+            Page scroll elements orientation on page <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom"/> and <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop"/> elements
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition.Right">
+            <summary>
+            Element placed to the Right side 
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.PageScrollHorizontalPosition.Left">
+            <summary>
+            Element placed to the Left side 
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs">
+            <summary>
+            Scroll event args
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs.X">
+            <summary>
+            Scroll X position
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollEventArgs.Y">
+            <summary>
+            Scroll Y position
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollHandler">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult">
+            <summary>
+            Scroll result
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.X">
+            <summary>
+            Scroll X value
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.Y">
+            <summary>
+            Scroll Y value
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.Content">
+            <summary>
+            HTML Content of the scroll panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.VisibleFromPagePercentage">
+            <summary>
+            Element should be visible when scroll reached page % of given value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.VisibleUntilPagePercentage">
+            <summary>
+            Element should be visible until scroll reached page % of given value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.SmootScroll">
+            <summary>
+            Scroll should be jump or smoothly scroll.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromTop">
+            <summary>
+            Required space from page bottom in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromSide">
+            <summary>
+            Required space from page (left/right) side in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.HorizontalPosition">
+            <summary>
+            Element position on page {Right, Left}.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.Content">
+            <summary>
+            HTML Content of the scroll panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.VisibleFromPagePercentage">
+            <summary>
+            Element should be visible when scroll reached page % of given value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.SmootScroll">
+            <summary>
+            Scroll should be jump or smoothly scroll.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.PaddingFromBottom">
+            <summary>
+            Required space from page bottom in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.PaddingFromSide">
+            <summary>
+            Required space from page (left/right) side in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.HorizontalPosition">
+            <summary>
+            Element position on page {Right, Left}.
             </summary>
         </member>
     </members>
