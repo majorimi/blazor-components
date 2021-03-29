@@ -1,4 +1,4 @@
-﻿<div @ref="_inputRef" class="scrollToPageTop @HorizontalPosition.ToString().ToLower()" tabindex="501"
+﻿<div @ref="_inputRef" class="scrollToPageTop @HorizontalPosition.ToString().ToLower() @(_isVisible ? "" : "hidden")" tabindex="501"
      @onclick="async () => await _scrollHandler.ScrollToPageTopAsync(SmootScroll)">
     @Content
 </div>

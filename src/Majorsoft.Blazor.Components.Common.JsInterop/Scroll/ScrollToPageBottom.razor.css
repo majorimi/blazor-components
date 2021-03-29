@@ -5,3 +5,8 @@
     transition: opacity 0.25s linear;
     outline: 0px;
 }
+
+.scrollToPageBottom.hidden {
+    cursor: pointer;
+    pointer-events: none;
+}
