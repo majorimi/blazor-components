@@ -4,5 +4,15 @@
         <name>Majorsoft.Blazor.Extensions.Analytics</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsService">
+            <summary>
+            
+            </summary>
+        </member>
     </members>
 </doc>

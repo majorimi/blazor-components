@@ -9,11 +9,24 @@
     </p>
 
     <div>
-        <h3>Browser Storage features:</h3>
+        <h3>Supported Analytics service providers:</h3>
         <ul>
             <li><NavLink href="analytics#google">Google Analytics</NavLink></li>
         </ul>
     </div>
+
+    <div class="container-fluid p-3 mb-3 border rounded">
+        <PermaLinkElement PermaLinkName="google" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+            <Content><h3>Google Analytics</h3></Content>
+        </PermaLinkElement>
+        <p>
+            <strong>Google Analytics</strong> is a web analytics service offered by Google that tracks and reports website traffic, etc. inside the Google Marketing Platform.
+            <br />
+            <strong><code>IGoogleAnalyticsService</code> is an injectable service</strong> for enabling
+            <a href="https://support.google.com/analytics/answer/1008015?hl=en#" target="_blank">Google Analytics</a> page tracking in Blazor Apps.
+        </p>
+    </div>
+
 </div>
 
 @code {
