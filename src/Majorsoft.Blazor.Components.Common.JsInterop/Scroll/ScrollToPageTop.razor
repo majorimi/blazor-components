@@ -6,7 +6,10 @@
 <style>
     .scrollToPageTop {
         bottom: @(PaddingFromBottom)px;
-        opacity: @(_isVisible ? 1 : 0);
+        opacity: @(_isVisible ? (AnimateOnHover ? 0.7 : 1) : 0);
+    }
+    .scrollToPageTop:hover {
+         opacity: @(_isVisible ?  1 : 0);
     }
     .scrollToPageTop.right {
         right: @(PaddingFromSide)px;
@@ -64,6 +67,11 @@
     /// Scroll should be jump or smoothly scroll.
     /// </summary>
     [Parameter] public bool SmootScroll { get; set; } = true;
+
+    /// <summary>
+    /// Apply animation (opacity) on icon when mouse hovered.
+    /// </summary>
+    [Parameter] public bool AnimateOnHover { get; set; } = true;
 
     /// <summary>
     /// Required space from page bottom in px.

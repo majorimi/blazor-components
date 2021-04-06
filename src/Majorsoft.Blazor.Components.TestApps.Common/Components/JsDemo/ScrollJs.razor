@@ -3,6 +3,7 @@
 					PaddingFromSide="@_scrcollTopSideMargin"
 					HorizontalPosition="@_scrollHorizontalPosition"
 					SmootScroll="@_smoothScroll"
+					AnimateOnHover="@_animateOnHover"
 					VisibleFromPagePercentage="2"
 					VisibleUntilPagePercentage="75">
 	<Content>
@@ -16,6 +17,7 @@
 				 PaddingFromSide="@_scrcollTopSideMargin"
 				 HorizontalPosition="@_scrollHorizontalPosition"
 				 SmootScroll="@_smoothScroll"
+				 AnimateOnHover="@_animateOnHover"
 				 VisibleFromPagePercentage="30">
 	<Content>
 		<div style="background:dodgerblue; color:white; width: 36px; height:40px; box-shadow: 1px 2px #e1dddd;">
@@ -67,7 +69,8 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Smooth scroll (can be set separately for both types of controls): <input type="checkbox" @bind="_smoothScroll" />
+			Smooth scroll (can be set separately for both types of controls): <input class="mr-3" type="checkbox" @bind="_smoothScroll" />
+			Animate on Hover (can be set separately for both types of controls): <input type="checkbox" @bind="_animateOnHover" />
 		</div>
 	</div>
 
@@ -157,6 +160,7 @@
 	private byte _scrcollBefore = 5;
 	private PageScrollHorizontalPosition _scrollHorizontalPosition = PageScrollHorizontalPosition.Right;
 	private bool _smoothScroll = true;
+	private bool _animateOnHover = true;
 
 	public async ValueTask DisposeAsync()
 	{

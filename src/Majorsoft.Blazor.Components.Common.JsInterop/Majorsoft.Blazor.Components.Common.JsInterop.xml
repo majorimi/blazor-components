@@ -832,6 +832,11 @@
             Scroll should be jump or smoothly scroll.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.AnimateOnHover">
+            <summary>
+            Apply animation (opacity) on icon when mouse hovered.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.PaddingFromTop">
             <summary>
             Required space from page bottom in px.
@@ -865,6 +870,11 @@
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.SmootScroll">
             <summary>
             Scroll should be jump or smoothly scroll.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.AnimateOnHover">
+            <summary>
+            Apply animation (opacity) on icon when mouse hovered.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageTop.PaddingFromBottom">

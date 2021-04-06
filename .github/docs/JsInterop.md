@@ -127,6 +127,8 @@ Element should be visible when scroll reached page % of given value.
 Element should be visible until scroll reached page % of given value.
 - **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
 Scroll should be jump or smoothly scroll.
+- **`AnimateOnHover`: `bool { get; set; }` (default: true)** <br />
+Apply animation (opacity) on icon when mouse hovered.
 - **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
 Required space from page bottom in px.
 - **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
@@ -150,6 +152,8 @@ Required HTML content which will be wrapped into a `<span>` which has the Click 
 Element should be visible when scroll reached page % of given value.
 - **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
 Scroll should be jump or smoothly scroll.
+- **`AnimateOnHover`: `bool { get; set; }` (default: true)** <br />
+Apply animation (opacity) on icon when mouse hovered.
 - **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
 Required space from page bottom in px.
 - **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
