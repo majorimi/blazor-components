@@ -487,6 +487,7 @@
             Registers required JS Interop services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
+            <returns>IServiceCollection</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService">
             <summary>

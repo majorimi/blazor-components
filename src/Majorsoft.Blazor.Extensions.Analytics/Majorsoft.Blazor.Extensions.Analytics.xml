@@ -4,6 +4,19 @@
         <name>Majorsoft.Blazor.Extensions.Analytics</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension">
+            <summary>
+            Extension methods to register required Analytic services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalytics(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Registers required Analytic services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <param name="trackingId">Google Tracking Id</param>
+            <returns>IServiceCollection</returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
             <summary>
             

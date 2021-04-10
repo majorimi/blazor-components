@@ -10,7 +10,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 	/// </summary>
 	public interface IGoogleAnalyticsService : IAsyncDisposable
 	{
-
+		ValueTask Initialize(string trackingId);
 	}
 
 	/// <summary>
@@ -22,14 +22,26 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 
 		public GoogleAnalyticsService(IJSRuntime jsRuntime)
 		{
-			moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-			   "import", "./_content/Majorsoft.Blazor.Analytics/googleAnalytics.js").AsTask());
+			string js = "";
+#if DEBUG
+			js = "./_content/Majorsoft.Blazor.Extensions.Analytics/googleAnalytics.js";
+#else
+			js = "./_content/Majorsoft.Blazor.Extensions.Analytics/googleAnalytics.min.js";
+#endif
+
+			moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", js).AsTask());
 		}
 
 		public async ValueTask Configure(string trackingId)
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("configure", trackingId);
+		}
+
+		public async ValueTask Initialize(string trackingId)
+		{
+			var module = await moduleTask.Value;
+			await module.InvokeVoidAsync("init", trackingId);
 		}
 
 		public async ValueTask DisposeAsync()
