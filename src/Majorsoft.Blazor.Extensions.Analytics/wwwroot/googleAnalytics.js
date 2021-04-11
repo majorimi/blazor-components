@@ -28,3 +28,27 @@ export function init(trackingId) {
 		gtag('config', '{0}');`.replace("{0}", trackingId);
 	document.head.appendChild(importedGtagInline);
 }
+
+//Google Gtag API: https://developers.google.com/gtagjs/reference/api
+export function config(trackingId, data) {
+	if (trackingId && window.gtag) {
+		gtag('config', trackingId, data);
+	}
+}
+export function get(trackingId, fieldName) {
+	if (trackingId && window.gtag) {
+		gtag('get', trackingId, fieldName, (result) => {
+			//callback method here...
+		});
+	}
+}
+export function set(data) {
+	if (window.gtag && data) {
+		gtag('set', trackingId, data);
+	}
+}
+export function event(eventName, data) {
+	if (window.gtag && eventName && data) {
+		gtag('event', eventName, data);
+	}
+}

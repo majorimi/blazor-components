@@ -11,20 +11,64 @@
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalytics(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
             <summary>
-            Registers required Analytic services into IServiceCollection
+            Registers required Google Analytic services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
-            <param name="trackingId">Google Tracking Id</param>
+            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> will be called.</param>
             <returns>IServiceCollection</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
             <summary>
-            
+            Injectable service to handle Google analytics gtag.js.
             </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.TrackingId">
+            <summary>
+            Google analytics uniquely Id which was used in <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> method.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)">
+            <summary>
+            Initialize Google analytics by registering gtag.js to the HTML document. Should be called once.
+            </summary>
+            <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
+            <returns>Async ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Config(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Allows you to add additional configuration information to targets. This is typically product-specific configuration for a product
+            such as Google Ads or Google Analytics.
+            </summary>
+            <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
+            <param name="configInfo">Is one or more optional parameter-value pairs</param>
+            <returns>Async ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Get(System.String,System.String)">
+            <summary>
+            Allows you to get various values from gtag.js including values set with the set command.
+            </summary>
+            <param name="fieldName">The name of the field to get.</param>
+            <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
+            <returns>Async ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Set(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Allows you to set values that persist across all the subsequent gtag() calls on the page.
+            </summary>
+            <param name="parameterValuePair">Is a key name and the value that is to persist across gtag() calls.</param>
+            <returns>Async ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Event(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Use the event command to send event data.
+            </summary>
+            <param name="eventName">A recommended event or a custom event name.</param>
+            <param name="eventParams">Is one or more parameter-value pairs.</param>
+            <returns>Async ValueTask</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsService">
             <summary>
-            
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService"/>
             </summary>
         </member>
     </members>

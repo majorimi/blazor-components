@@ -10,10 +10,10 @@ namespace Majorsoft.Blazor.Extensions.Analytics
 	public static class AnalyticsExtension
 	{
 		/// <summary>
-		/// Registers required Analytic services into IServiceCollection
+		/// Registers required Google Analytic services into IServiceCollection
 		/// </summary>
 		/// <param name="services">IServiceCollection instance</param>
-		/// <param name="trackingId">Google Tracking Id</param>
+		/// <param name="trackingId">Google Tracking Id when provided <see cref="IGoogleAnalyticsService.Initialize(string)"/> will be called.</param>
 		/// <returns>IServiceCollection</returns>
 		public static IServiceCollection AddGoogleAnalytics(this IServiceCollection services, string trackingId = null)
 		{
