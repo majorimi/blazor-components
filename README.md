@@ -73,3 +73,7 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.Collapse**: [Collapse components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md) that renders customizable Collapsable/Expandable panel and Accordion with many but only one active panel also custom content and header.
 - **Majorsoft.Blazor.Components.Maps**: [Google/Bing Maps components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md) that renders **Google/Bing maps** wrapped into Blazor components allowing to control and mange maps with .Net code.
 
+## Other info
+- [Contributing](CONTRIBUTING.md)
+- [Docs](.github/docs)
+- [License](LICENSE)
