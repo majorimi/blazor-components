@@ -1,4 +1,4 @@
-<img align="left" width="110" height="110" src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" />
+<img align="left" width="140" height="140" src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" />
 
 Majorsoft Blazor Components
 ============
