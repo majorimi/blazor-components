@@ -23,6 +23,7 @@ Injecting and protecting this _Token_ or _API Key_ in your Blazor application is
 
 - **`GoogleStaticMap`**: component is wrapping **Google Static Maps services** into Blazor components.
 - **`GoogleMap`**: component is wrapping **Google JavaScript Maps services** into Blazor components.
+- **`BindMap`**: _Planned in release v1.4.0_
 
 Maps using `IGeolocationService` (see "Dependences") to center current position.
 It can be omitted and injected separately to your components as well to get or track device location. 
