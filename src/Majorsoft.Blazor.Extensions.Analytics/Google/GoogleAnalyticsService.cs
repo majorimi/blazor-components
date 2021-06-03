@@ -31,7 +31,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
 		/// <param name="configInfo">Is one or more optional parameter-value pairs</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Config(string trackingId = "", Dictionary<string, object> configInfo = null);
+		ValueTask Config(string trackingId = "", Dictionary<string, object>? configInfo = null);
 
 		/// <summary>
 		/// Allows you to get various values from gtag.js including values set with the set command.
@@ -46,7 +46,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// </summary>
 		/// <param name="parameterValuePair">Is a key name and the value that is to persist across gtag() calls.</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Set(Dictionary<string, object> parameterValuePair = null);
+		ValueTask Set(Dictionary<string, object>? parameterValuePair = null);
 
 		/// <summary>
 		/// Use the event command to send event data.
@@ -91,7 +91,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 			await module.InvokeVoidAsync("init", trackingId);
 		}
 
-		public async ValueTask Config(string trackingId = "", Dictionary<string, object> configInfo = null)
+		public async ValueTask Config(string trackingId = "", Dictionary<string, object>? configInfo = null)
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("config", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, configInfo?.ToList());
@@ -101,7 +101,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("get", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, fieldName); //TODO: callback results
 		}
-		public async ValueTask Set(Dictionary<string, object> parameterValuePair = null)
+		public async ValueTask Set(Dictionary<string, object>? parameterValuePair = null)
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("set", parameterValuePair?.ToList());
