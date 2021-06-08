@@ -124,8 +124,8 @@ export function getPageScrollPosition() {
     let left = window.pageXOffset || document.documentElement.scrollLeft;
 
     let args = {
-        X: top,
-        Y: left
+        X: left,
+        Y: top
     };
 
     return args;
@@ -138,8 +138,8 @@ function createScrollEventHandler(dotnetRef) {
         let left = window.pageXOffset || document.documentElement.scrollLeft;
 
         let args = {
-            X: top,
-            Y: left
+            X: left,
+            Y: top
         };
 
         dotnetRef.invokeMethodAsync("PageScroll", args);
