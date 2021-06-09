@@ -14,9 +14,11 @@
     <br /><strong>Majorsoft.Blazor.Components.Common.JsInterop</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop" target="_blank">Nuget</a>
 </p>
 
-@*Later add scroll components here*@
 <hr />
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync())">Scroll to Page bottom <i class="fas fa-arrow-down"></i></button>
+@*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageBottom*@
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageEndAsync(_smoothScroll))">Scroll to Page bottom <i class="fas fa-arrow-down"></i> (See floating components)</button>
+Smooth scroll:
+<input type="checkbox" @bind="_smoothScroll" />
 
 <div>
     <h3>JS Interop features:</h3>
@@ -54,9 +56,11 @@
 
 <HeadJs />
 
-@*Later add scroll components here*@
 <hr />
-<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync())">Scroll to Page top <i class="fas fa-arrow-up"></i></button>
+@*Scroll to page end with ScrollHandler for custom floating component see ScrollToPageTop*@
+<button class="btn btn-link" @onclick="@(async () => await _scrollHandler.ScrollToPageTopAsync(_smoothScroll))">Scroll to Page top <i class="fas fa-arrow-up"></i> (See floating components)</button>
+Smooth scroll:
+<input type="checkbox" @bind="_smoothScroll" />
 
 @implements IAsyncDisposable
 @inject IScrollHandler _scrollHandler
@@ -69,4 +73,6 @@
             await _scrollHandler.DisposeAsync();
         }
     }
+
+    private bool _smoothScroll = true;
 }

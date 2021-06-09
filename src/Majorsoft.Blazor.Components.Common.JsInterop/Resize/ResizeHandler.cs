@@ -57,6 +57,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 			return size;
 		}
 
+		public async Task<PageSize> GetScreenSizeAsync()
+		{
+			await CheckJsObjectAsync();
+
+			var size = await _resizeJs.InvokeAsync<PageSize>("getScreenSize");
+			return size;
+		}
+
 		public async Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null)
 		{
 			await CheckJsObjectAsync();

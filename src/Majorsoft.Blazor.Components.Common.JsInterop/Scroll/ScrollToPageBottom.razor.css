@@ -1,0 +1,12 @@
+﻿.scrollToPageBottom {
+    position: fixed;
+    z-index: 20;
+    cursor: pointer;
+    transition: opacity 0.25s linear;
+    outline: 0px;
+}
+
+.scrollToPageBottom.hidden {
+    cursor: pointer;
+    pointer-events: none;
+}

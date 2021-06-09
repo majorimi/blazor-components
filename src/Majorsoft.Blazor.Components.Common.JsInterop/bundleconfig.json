@@ -58,5 +58,17 @@
     "inputFiles": [
       "wwwroot/head.js"
     ]
+  },
+  {
+    "outputFileName": "Scroll/ScrollToPageTop.razor.min.css",
+    "inputFiles": [
+      "Scroll/ScrollToPageTop.razor.css"
+    ]
+  },
+  {
+    "outputFileName": "Scroll/ScrollToPageBottom.razor.min.css",
+    "inputFiles": [
+      "Scroll/ScrollToPageBottom.razor.css"
+    ]
   }
 ]
