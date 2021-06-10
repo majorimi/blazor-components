@@ -27,7 +27,12 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			_clipboardJsMock = new Mock<IClipboardHandler>();
 
 			_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
+
+#if DEBUG
 			_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.js");
+#else
+			_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.min.js");
+#endif
 			_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
 
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<PermaLinkElement>), mock.Object));
