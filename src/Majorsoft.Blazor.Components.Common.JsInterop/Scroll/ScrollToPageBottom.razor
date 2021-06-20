@@ -36,7 +36,7 @@
             var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
             var percentage = (e.Y / scrollSize.Y) * 100;
 
-            var visible = percentage >= VisibleFromPagePercentage && percentage <= VisibleUntilPagePercentage;
+            var visible = percentage >= VisibleFromPagePercentage && percentage <= VisibleUntilPagePercentage && !scrollSize.IsPageBottom;
             if (visible != _isVisible)
             {
                 _isVisible = visible;

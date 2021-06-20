@@ -808,6 +808,16 @@
             Scroll Y value
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.IsPageTop">
+            <summary>
+            Is scroll at page top
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollResult.IsPageBottom">
+            <summary>
+            Is scroll at page bottom.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ScrollToPageBottom.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.

@@ -15,7 +15,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics
 		/// <param name="services">IServiceCollection instance</param>
 		/// <param name="trackingId">Google Tracking Id when provided <see cref="IGoogleAnalyticsService.Initialize(string)"/> will be called.</param>
 		/// <returns>IServiceCollection</returns>
-		public static IServiceCollection AddGoogleAnalytics(this IServiceCollection services, string trackingId = null)
+		public static IServiceCollection AddGoogleAnalytics(this IServiceCollection services, string trackingId = "")
 		{
 			services.AddSingleton<IGoogleAnalyticsService, GoogleAnalyticsService>();
 			if (!string.IsNullOrWhiteSpace(trackingId))
