@@ -4,12 +4,22 @@ export function init(trackingId) {
 	}
 
 	let src = "https://www.googletagmanager.com/gtag/js?id=";
+	let scriptsIncluded = false;
+
 	let scriptTags = document.querySelectorAll('head > script');
 	scriptTags.forEach(scriptTag => {
-		if (scriptTag.getAttribute('src').startsWith(src)) {
-			return;
+		if (scriptTag) {
+			let srcAttribute = scriptTag.getAttribute('src');
+			if (srcAttribute && srcAttribute.startsWith(src)) {
+				scriptsIncluded = true;
+				return;
+			}
 		}
 	});
+
+	if (scriptsIncluded && window.gtag) { //Prevent adding JS scripts to page multiple times.
+		return;
+	}
 
 	//Inject required Google JS scripts to HTML (only once!)
 	document.head.appendChild(document.createComment("Global site tag (gtag.js) - Google Analytics"));
@@ -38,13 +48,14 @@ export function config(trackingId, data) {
 export function get(trackingId, fieldName) {
 	if (trackingId && window.gtag) {
 		gtag('get', trackingId, fieldName, (result) => {
-			//callback method here...
+			//TOOD: callback method here...
+			console.log(result);
 		});
 	}
 }
 export function set(data) {
 	if (window.gtag && data) {
-		gtag('set', trackingId, data);
+		gtag('set', data);
 	}
 }
 export function event(eventName, data) {

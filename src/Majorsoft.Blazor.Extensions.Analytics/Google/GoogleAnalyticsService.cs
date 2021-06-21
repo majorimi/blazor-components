@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,9 +45,9 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// <summary>
 		/// Allows you to set values that persist across all the subsequent gtag() calls on the page.
 		/// </summary>
-		/// <param name="parameterValuePair">Is a key name and the value that is to persist across gtag() calls.</param>
+		/// <param name="parameters">Is a key name and the value that is to persist across gtag() calls.</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Set(Dictionary<string, object>? parameterValuePair = null);
+		ValueTask Set(ExpandoObject parameters);
 
 		/// <summary>
 		/// Use the event command to send event data.
@@ -101,10 +102,10 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("get", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, fieldName); //TODO: callback results
 		}
-		public async ValueTask Set(Dictionary<string, object>? parameterValuePair = null)
+		public async ValueTask Set(ExpandoObject parameters)
 		{
 			var module = await moduleTask.Value;
-			await module.InvokeVoidAsync("set", parameterValuePair?.ToList());
+			await module.InvokeVoidAsync("set", parameters);
 		}
 		public async ValueTask Event(string eventName, Dictionary<string, object> eventParams)
 		{

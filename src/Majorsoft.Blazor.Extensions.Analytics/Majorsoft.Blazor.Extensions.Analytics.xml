@@ -14,7 +14,7 @@
             Registers required Google Analytic services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
-            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> will be called.</param>
+            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> will be called. DO NOT CALL with value in case of Blazor Server!</param>
             <returns>IServiceCollection</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
@@ -51,11 +51,11 @@
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Set(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Set(System.Dynamic.ExpandoObject)">
             <summary>
             Allows you to set values that persist across all the subsequent gtag() calls on the page.
             </summary>
-            <param name="parameterValuePair">Is a key name and the value that is to persist across gtag() calls.</param>
+            <param name="parameters">Is a key name and the value that is to persist across gtag() calls.</param>
             <returns>Async ValueTask</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Event(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
