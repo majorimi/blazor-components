@@ -27,24 +27,27 @@
 @code {
     private bool _isVisible = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        WriteDiag("Component initialized...");
-
-        await _scrollHandler.RegisterPageScrollAsync(async (e) =>
+        if (firstRender)
         {
-            var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
-            var percentage = (e.Y / scrollSize.Y) * 100;
+            WriteDiag("Component rendered...");
 
-            var visible = percentage >= VisibleFromPagePercentage;
-            if (visible != _isVisible)
+            await _scrollHandler.RegisterPageScrollAsync(async (e) =>
             {
-                _isVisible = visible;
-                StateHasChanged();
+                var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
+                var percentage = (e.Y / scrollSize.Y) * 100;
 
-                WriteDiag($"Component visibilit changed visible: {_isVisible}.");
-            }
-        });
+                var visible = percentage >= VisibleFromPagePercentage;
+                if (visible != _isVisible)
+                {
+                    _isVisible = visible;
+                    StateHasChanged();
+
+                    WriteDiag($"Component visibilit changed visible: {_isVisible}.");
+                }
+            });
+        }
     }
 
     private ElementReference _inputRef;
