@@ -45,11 +45,11 @@ export function config(trackingId, data) {
 		gtag('config', trackingId, data);
 	}
 }
-export function get(trackingId, fieldName) {
+export function get(trackingId, fieldName, dotnetRef) {
 	if (trackingId && window.gtag) {
 		gtag('get', trackingId, fieldName, (result) => {
-			//TOOD: callback method here...
-			console.log(result);
+			dotnetRef.invokeMethodAsync("GoogleAnalyticsResult", result);
+			//console.log(result);
 		});
 	}
 }

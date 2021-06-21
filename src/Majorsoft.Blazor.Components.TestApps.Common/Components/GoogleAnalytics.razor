@@ -25,12 +25,18 @@
 			<strong><code>IGoogleAnalyticsService</code> is an injectable service</strong> for enabling
 			<a href="https://support.google.com/analytics/answer/1008015?hl=en#" target="_blank">Google Analytics</a> page tracking in Blazor Apps.
 		</p>
+
+		<p>
+			<strong>To see how Majorsoft.Blazor.Extensions.Analytics works please check the demo code. And Google 
+				<a href="https://developers.google.com/gtagjs/reference/api#get">analytics features</a>.</strong>
+		</p>
 	</div>
 
 </div>
 
 @using System.Dynamic
 @inject IGoogleAnalyticsService _googleAnalytincsService
+@inject ILogger<GoogleAnalytics> _logger
 @implements IAsyncDisposable
 
 @code { 
@@ -38,19 +44,17 @@
 	{
 		if(firstRender)
 		{
-			/*var sessionId = */
-			await _googleAnalytincsService.GetAsync("session_id");
+			await _googleAnalytincsService.GetAsync("session_id", async (res) => { _logger.LogInformation($"Google analytics Get result: {res}"); });
 
 			//custom set/get
 			dynamic exp = new ExpandoObject();
 			exp.test = 27;
 
 			await _googleAnalytincsService.SetAsync(exp);
-			/*var test =*/
-			await _googleAnalytincsService.GetAsync("test");
+			await _googleAnalytincsService.GetAsync("test", async (res) => { _logger.LogInformation($"Google analytics Get result: {res}"); });
 
 			dynamic exp2 = new ExpandoObject();
-			exp2.search_term = "heeeeeeeeeeee";
+			exp2.search_term = "Searching custom event...";
 			await _googleAnalytincsService.EventAsync(GoogleAnalyticsEventTypes.search, exp2);
 
 			await _googleAnalytincsService.CustomEventAsync("testEvent", new GoogleAnalyticsCustomEventArgs()

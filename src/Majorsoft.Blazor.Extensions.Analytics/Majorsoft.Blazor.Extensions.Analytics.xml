@@ -57,6 +57,16 @@
             for event and parameter details see: https://developers.google.com/gtagjs/reference/event
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsGetEventInfo">
+            <summary>
+            Google analytics Get response event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
             <summary>
             Injectable service to handle Google analytics gtag.js.
@@ -74,7 +84,7 @@
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.ConfigAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.ConfigAsync(System.String,System.Dynamic.ExpandoObject)">
             <summary>
             Allows you to add additional configuration information to targets. This is typically product-specific configuration for a product
             such as Google Ads or Google Analytics.
@@ -83,11 +93,12 @@
             <param name="configInfo">Is one or more optional parameter-value pairs</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.GetAsync(System.String,System.String)">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.GetAsync(System.String,System.Func{System.Object,System.Threading.Tasks.Task},System.String)">
             <summary>
             Allows you to get various values from gtag.js including values set with the set command.
             </summary>
             <param name="fieldName">The name of the field to get.</param>
+            <param name="callback">A function that will be invoked with the requested field, or undefined if it is unset.</param>
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
         </member>
@@ -113,11 +124,6 @@
             <param name="customEventName">Custom event name.</param>
             <param name="eventData">Custom event data</param>
             <returns>Async ValueTask</returns>
-        </member>
-        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsService">
-            <summary>
-            Implementation of <see cref="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService"/>
-            </summary>
         </member>
     </members>
 </doc>
