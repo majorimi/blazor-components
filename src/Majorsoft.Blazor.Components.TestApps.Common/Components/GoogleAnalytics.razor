@@ -29,21 +29,45 @@
 
 </div>
 
-@using System.Dynamic;
-@inject IGoogleAnalyticsService _googleAnalytincsService;
+@using System.Dynamic
+@inject IGoogleAnalyticsService _googleAnalytincsService
+@implements IAsyncDisposable
 
 @code { 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(firstRender)
 		{
-			await _googleAnalytincsService.Initialize("G-1QD2VGTEWX");
+			/*var sessionId = */
+			await _googleAnalytincsService.GetAsync("session_id");
 
+			//custom set/get
 			dynamic exp = new ExpandoObject();
 			exp.test = 27;
 
-			await _googleAnalytincsService.Set(exp);
-			await _googleAnalytincsService.Get("test");
+			await _googleAnalytincsService.SetAsync(exp);
+			/*var test =*/
+			await _googleAnalytincsService.GetAsync("test");
+
+			dynamic exp2 = new ExpandoObject();
+			exp2.search_term = "heeeeeeeeeeee";
+			await _googleAnalytincsService.EventAsync(GoogleAnalyticsEventTypes.search, exp2);
+
+			await _googleAnalytincsService.CustomEventAsync("testEvent", new GoogleAnalyticsCustomEventArgs()
+			{
+				Action = "Test action",
+				Category = "cat",
+				Label = "label",
+				Value = 22
+			});
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_googleAnalytincsService is not null)
+		{
+			await _googleAnalytincsService.DisposeAsync();
 		}
 	}
 }

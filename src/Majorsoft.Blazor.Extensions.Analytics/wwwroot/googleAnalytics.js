@@ -63,3 +63,13 @@ export function event(eventName, data) {
 		gtag('event', eventName, data);
 	}
 }
+export function customEvent(eventName, data) {
+	if (window.gtag && eventName && data) {
+		gtag('event', eventName, {
+			'event_action': data.Action,
+			'event_category': data.Category,
+			'event_label': data.Label,
+			'value': data.Value
+		});
+	}
+}

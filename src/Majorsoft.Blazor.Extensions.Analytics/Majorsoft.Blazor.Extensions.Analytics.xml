@@ -12,10 +12,50 @@
         <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalytics(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
             <summary>
             Registers required Google Analytic services into IServiceCollection
+            DO NOT CALL with <see cref="!:trackingId"/> value in case of Blazor Server!
             </summary>
             <param name="services">IServiceCollection instance</param>
-            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> will be called. DO NOT CALL with value in case of Blazor Server!</param>
+            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.InitializeAsync(System.String)"/> will be called. DO NOT CALL with value in case of Blazor Server!</param>
             <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalyticsForBlazorServer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required Google Analytic services into IServiceCollection for Blazor Server
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs">
+            <summary>
+            Data for custom event.
+            For more details see: https://developers.google.com/analytics/devguides/collection/gtagjs/events
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs.Action">
+            <summary>
+            The value that will appear as the event action in Google Analytics Event reports.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs.Category">
+            <summary>
+            The category of the event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs.Label">
+            <summary>
+            The label of the event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs.Value">
+            <summary>
+            A non-negative integer that will appear as the event value.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsEventTypes">
+            <summary>
+            Event types for Google Analytics
+            for event and parameter details see: https://developers.google.com/gtagjs/reference/event
+            </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService">
             <summary>
@@ -24,17 +64,17 @@
         </member>
         <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.TrackingId">
             <summary>
-            Google analytics uniquely Id which was used in <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)"/> method.
+            Google analytics uniquely Id which was used in <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.InitializeAsync(System.String)"/> method.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Initialize(System.String)">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.InitializeAsync(System.String)">
             <summary>
             Initialize Google analytics by registering gtag.js to the HTML document. Should be called once.
             </summary>
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Config(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.ConfigAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             Allows you to add additional configuration information to targets. This is typically product-specific configuration for a product
             such as Google Ads or Google Analytics.
@@ -43,7 +83,7 @@
             <param name="configInfo">Is one or more optional parameter-value pairs</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Get(System.String,System.String)">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.GetAsync(System.String,System.String)">
             <summary>
             Allows you to get various values from gtag.js including values set with the set command.
             </summary>
@@ -51,19 +91,27 @@
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Set(System.Dynamic.ExpandoObject)">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.SetAsync(System.Dynamic.ExpandoObject)">
             <summary>
             Allows you to set values that persist across all the subsequent gtag() calls on the page.
             </summary>
             <param name="parameters">Is a key name and the value that is to persist across gtag() calls.</param>
             <returns>Async ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.Event(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.EventAsync(Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsEventTypes,System.Dynamic.ExpandoObject)">
             <summary>
             Use the event command to send event data.
             </summary>
-            <param name="eventName">A recommended event or a custom event name.</param>
+            <param name="eventType">A recommended event</param>
             <param name="eventParams">Is one or more parameter-value pairs.</param>
+            <returns>Async ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.CustomEventAsync(System.String,Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsCustomEventArgs)">
+            <summary>
+            Use the event command to send custom event data.
+            </summary>
+            <param name="customEventName">Custom event name.</param>
+            <param name="eventData">Custom event data</param>
             <returns>Async ValueTask</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsService">

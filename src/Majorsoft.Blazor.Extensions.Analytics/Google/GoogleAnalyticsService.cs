@@ -14,7 +14,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 	public interface IGoogleAnalyticsService : IAsyncDisposable
 	{
 		/// <summary>
-		/// Google analytics uniquely Id which was used in <see cref="Initialize(string)"/> method.
+		/// Google analytics uniquely Id which was used in <see cref="InitializeAsync(string)"/> method.
 		/// </summary>
 		string TrackingId { get; }
 
@@ -23,7 +23,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// </summary>
 		/// <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Initialize(string trackingId);
+		ValueTask InitializeAsync(string trackingId);
 
 		/// <summary>
 		/// Allows you to add additional configuration information to targets. This is typically product-specific configuration for a product
@@ -32,7 +32,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
 		/// <param name="configInfo">Is one or more optional parameter-value pairs</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Config(string trackingId = "", Dictionary<string, object>? configInfo = null);
+		ValueTask ConfigAsync(string trackingId = "", Dictionary<string, object>? configInfo = null);
 
 		/// <summary>
 		/// Allows you to get various values from gtag.js including values set with the set command.
@@ -40,22 +40,30 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		/// <param name="fieldName">The name of the field to get.</param>
 		/// <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Get(string fieldName, string trackingId = "");
+		ValueTask GetAsync(string fieldName, string trackingId = "");
 
 		/// <summary>
 		/// Allows you to set values that persist across all the subsequent gtag() calls on the page.
 		/// </summary>
 		/// <param name="parameters">Is a key name and the value that is to persist across gtag() calls.</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Set(ExpandoObject parameters);
+		ValueTask SetAsync(ExpandoObject parameters);
 
 		/// <summary>
 		/// Use the event command to send event data.
 		/// </summary>
-		/// <param name="eventName">A recommended event or a custom event name.</param>
+		/// <param name="eventType">A recommended event</param>
 		/// <param name="eventParams">Is one or more parameter-value pairs.</param>
 		/// <returns>Async ValueTask</returns>
-		ValueTask Event(string eventName, Dictionary<string, object> eventParams);
+		ValueTask EventAsync(GoogleAnalyticsEventTypes eventType, ExpandoObject eventParams);
+
+		/// <summary>
+		/// Use the event command to send custom event data.
+		/// </summary>
+		/// <param name="customEventName">Custom event name.</param>
+		/// <param name="eventData">Custom event data</param>
+		/// <returns>Async ValueTask</returns>
+		ValueTask CustomEventAsync(string customEventName, GoogleAnalyticsCustomEventArgs eventData);
 	}
 
 	/// <summary>
@@ -64,8 +72,9 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 	public class GoogleAnalyticsService : IGoogleAnalyticsService
 	{
 		private readonly Lazy<Task<IJSObjectReference>> moduleTask;
+		private static string _trackingId; //Service cannot registered as Singleton.
 
-		public string TrackingId { get; private set; }
+		public string TrackingId => _trackingId;
 
 		public GoogleAnalyticsService(IJSRuntime jsRuntime)
 		{
@@ -79,38 +88,44 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 			moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", js).AsTask());
 		}
 
-		public async ValueTask Initialize(string trackingId)
+		public async ValueTask InitializeAsync(string trackingId)
 		{
 			if(!string.IsNullOrWhiteSpace(TrackingId) || string.IsNullOrWhiteSpace(trackingId)) //Already initializer or wrong id
 			{
 				return;
 			}
 
-			TrackingId = trackingId;
+			_trackingId = trackingId;
 
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("init", trackingId);
 		}
 
-		public async ValueTask Config(string trackingId = "", Dictionary<string, object>? configInfo = null)
+		public async ValueTask ConfigAsync(string trackingId = "", Dictionary<string, object>? configInfo = null)
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("config", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, configInfo?.ToList());
 		}
-		public async ValueTask Get(string fieldName, string trackingId = "")
+		public async ValueTask GetAsync(string fieldName, string trackingId = "")
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("get", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, fieldName); //TODO: callback results
 		}
-		public async ValueTask Set(ExpandoObject parameters)
+		public async ValueTask SetAsync(ExpandoObject parameters)
 		{
 			var module = await moduleTask.Value;
 			await module.InvokeVoidAsync("set", parameters);
 		}
-		public async ValueTask Event(string eventName, Dictionary<string, object> eventParams)
+		public async ValueTask EventAsync(GoogleAnalyticsEventTypes eventType, ExpandoObject eventParams)
 		{
 			var module = await moduleTask.Value;
-			await module.InvokeVoidAsync("event", eventName, eventParams?.ToList());
+			await module.InvokeVoidAsync("event", eventType.ToString(), eventParams);
+		}
+
+		public async ValueTask CustomEventAsync(string customEventName, GoogleAnalyticsCustomEventArgs eventData)
+		{
+			var module = await moduleTask.Value;
+			await module.InvokeVoidAsync("customEvent", customEventName, eventData);
 		}
 
 		public async ValueTask DisposeAsync()
