@@ -16,22 +16,13 @@
     </div>
 </div>
 
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermaLinkInitializer />
+
 @* Google Analytics initialize*@
 @using Majorsoft.Blazor.Extensions.Analytics.Google
 <GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />
 
-@using Majorsoft.Blazor.Components.PermaLink
-@inject IPermaLinkWatcherService _permalinkWatcher
-@implements IDisposable
-
 @code {
-    protected override void OnInitialized()
-    {
-        _permalinkWatcher.WatchPermaLinks();
-    }
-
-    public void Dispose()
-    {
-        _permalinkWatcher.Dispose();
-    }
 }
