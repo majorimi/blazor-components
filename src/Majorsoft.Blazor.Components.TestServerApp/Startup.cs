@@ -37,7 +37,7 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			services.AddMapExtensions();
 			services.AddBrowserStorage();
 
-			services.AddGoogleAnalyticsForBlazorServer();
+			services.AddGoogleAnalytics();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

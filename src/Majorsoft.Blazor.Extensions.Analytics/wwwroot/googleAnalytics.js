@@ -49,7 +49,6 @@ export function get(trackingId, fieldName, dotnetRef) {
 	if (trackingId && window.gtag) {
 		gtag('get', trackingId, fieldName, (result) => {
 			dotnetRef.invokeMethodAsync("GoogleAnalyticsResult", result);
-			//console.log(result);
 		});
 	}
 }

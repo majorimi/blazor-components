@@ -1,0 +1,27 @@
+﻿@inject IGoogleAnalyticsService _googleAnalytincsService
+
+@implements IAsyncDisposable
+
+@code {
+    /// <summary>
+    /// Google Analytics Tracking id
+    /// </summary>
+    [Parameter] public string TrackingId { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //Initialize Google Analytics once
+            await _googleAnalytincsService.InitializeAsync(TrackingId);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_googleAnalytincsService is not null)
+        {
+            await _googleAnalytincsService.DisposeAsync();
+        }
+    }
+}

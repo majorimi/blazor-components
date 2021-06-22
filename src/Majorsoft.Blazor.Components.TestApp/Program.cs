@@ -29,7 +29,7 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddMapExtensions();
 			builder.Services.AddBrowserStorage();
 
-			builder.Services.AddGoogleAnalytics("G-1QD2VGTEWX");
+			builder.Services.AddGoogleAnalytics();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);

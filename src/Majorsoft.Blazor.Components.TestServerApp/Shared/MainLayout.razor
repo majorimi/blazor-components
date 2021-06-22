@@ -27,8 +27,9 @@
 @using Majorsoft.Blazor.Server.Logging.Console
 @inject IBrowserConsoleLoggerService _browserConsoleLogger
 
-@* Google Analytics *@
-@inject IGoogleAnalyticsService _googleAnalytincsService
+@* Google Analytics initialize*@
+@using Majorsoft.Blazor.Extensions.Analytics.Google
+<GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />
 
 @implements IDisposable
 @implements IAsyncDisposable
@@ -46,9 +47,6 @@
 
 			//setup console log
 			await _browserConsoleLogger.StartLoggerAsync();
-
-			//setup Google analitics
-			await _googleAnalytincsService.InitializeAsync("G-1QD2VGTEWX");
 		}
 	}
 
@@ -62,11 +60,6 @@
 		if (_browserConsoleLogger is not null)
 		{
 			await _browserConsoleLogger.DisposeAsync();
-		}
-
-		if(_googleAnalytincsService is not null)
-		{
-			await _googleAnalytincsService.DisposeAsync();
 		}
 	}
 }

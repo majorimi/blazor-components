@@ -9,18 +9,9 @@
             Extension methods to register required Analytic services into IServiceCollection
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalytics(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+        <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalytics(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Registers required Google Analytic services into IServiceCollection
-            DO NOT CALL with <see cref="!:trackingId"/> value in case of Blazor Server!
-            </summary>
-            <param name="services">IServiceCollection instance</param>
-            <param name="trackingId">Google Tracking Id when provided <see cref="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.InitializeAsync(System.String)"/> will be called. DO NOT CALL with value in case of Blazor Server!</param>
-            <returns>IServiceCollection</returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Extensions.Analytics.AnalyticsExtension.AddGoogleAnalyticsForBlazorServer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers required Google Analytic services into IServiceCollection for Blazor Server
             </summary>
             <param name="services">IServiceCollection instance</param>
             <returns>IServiceCollection</returns>
@@ -124,6 +115,11 @@
             <param name="customEventName">Custom event name.</param>
             <param name="eventData">Custom event data</param>
             <returns>Async ValueTask</returns>
+        </member>
+        <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsInitializer.TrackingId">
+            <summary>
+            Google Analytics Tracking id
+            </summary>
         </member>
     </members>
 </doc>
