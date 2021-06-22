@@ -15,7 +15,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 	{
 		private List<DotNetObjectReference<GoogleAnalyticsGetEventInfo>> _dotNetObjectReferences;
 		private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-		private static string _trackingId; //Service cannot registered as Singleton.
+		private static string _trackingId = ""; //Service cannot registered as Singleton.
 
 		public string TrackingId => _trackingId;
 

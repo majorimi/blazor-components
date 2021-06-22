@@ -16,6 +16,7 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 
 		/// <summary>
 		/// Initialize Google analytics by registering gtag.js to the HTML document. Should be called once.
+		/// Do not call this method if you used <see cref="GoogleAnalyticsInitializer"/>.
 		/// </summary>
 		/// <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
 		/// <returns>Async ValueTask</returns>

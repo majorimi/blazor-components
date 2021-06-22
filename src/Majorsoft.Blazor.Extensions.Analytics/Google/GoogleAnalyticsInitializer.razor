@@ -4,9 +4,9 @@
 
 @code {
     /// <summary>
-    /// Google Analytics Tracking id
+    /// Google Analytics TrackingId.
     /// </summary>
-    [Parameter] public string TrackingId { get; set; }
+    [Parameter] public string TrackingId { get; set; } = "";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

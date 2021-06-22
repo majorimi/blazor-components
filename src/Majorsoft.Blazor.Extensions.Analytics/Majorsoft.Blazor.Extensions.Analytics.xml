@@ -71,6 +71,7 @@
         <member name="M:Majorsoft.Blazor.Extensions.Analytics.Google.IGoogleAnalyticsService.InitializeAsync(System.String)">
             <summary>
             Initialize Google analytics by registering gtag.js to the HTML document. Should be called once.
+            Do not call this method if you used <see cref="T:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsInitializer"/>.
             </summary>
             <param name="trackingId">Is an identifier that uniquely identifies the target for hits, such as a Google Analytics property</param>
             <returns>Async ValueTask</returns>
@@ -118,7 +119,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Extensions.Analytics.Google.GoogleAnalyticsInitializer.TrackingId">
             <summary>
-            Google Analytics Tracking id
+            Google Analytics TrackingId.
             </summary>
         </member>
     </members>

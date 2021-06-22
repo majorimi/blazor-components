@@ -55,7 +55,7 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Server.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
 - **Majorsoft.Blazor.WebAssembly.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
 - **Majorsoft.Blazor.Extensions.BrowserStorage**: Enables [Browser Local and Session storages and Cookies store](https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md) access for Blazor applications.
-- **Majorsoft.Blazor.Extensions.Analytics**: Enables [Analytics services usage](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Analytics.md) in WebAssemply Apps e.g. Google Analytics, etc.
+- **Majorsoft.Blazor.Extensions.Analytics**: Enables [Analytics services usage](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Analytics.md) for Blazor applications e.g. Google Analytics, etc.
 
 ### **Majorsoft Blazor Components**
 
