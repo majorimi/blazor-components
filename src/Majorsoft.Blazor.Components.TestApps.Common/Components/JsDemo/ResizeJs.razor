@@ -33,8 +33,11 @@
 @code {
 	private string _resizeEventId = null;
 
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (!firstRender)
+			return;
+
 		await ResizeEventHandler();
 		_pageSize = await _resizeHandler.GetPageSizeAsync();
 	}
