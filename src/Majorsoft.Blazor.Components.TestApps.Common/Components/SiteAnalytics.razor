@@ -3,7 +3,7 @@
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h1>Website Analytics extensions</h1>
 	<p>
-		Blazor extension that enables WebAssemply site analytics e.g. Google, etc. For usage see source code and docs on
+		Blazor extension that enables analytics services usage in WebAssemply Apps e.g. Google Analytics, etc. For usage see source code and docs on
 		<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Analytics.md" target="_blank">Github</a>.
 		<br /><strong>Majorsoft.Blazor.Extensions.Analytics</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics" target="_blank">Nuget</a>
 	</p>
@@ -28,7 +28,7 @@
 
 		<p>
 			<strong>To see how Majorsoft.Blazor.Extensions.Analytics works please check the demo code. And Google 
-				<a href="https://developers.google.com/gtagjs/reference/api#get">analytics features</a>.</strong>
+				<a href="https://developers.google.com/gtagjs/reference/api">analytics features</a> since this extension mostly a JS wrapper for <code>gtag JS</code>.</strong>
 		</p>
 	</div>
 
@@ -36,7 +36,7 @@
 
 @using System.Dynamic
 @inject IGoogleAnalyticsService _googleAnalytincsService
-@inject ILogger<GoogleAnalytics> _logger
+@inject ILogger<SiteAnalytics> _logger
 @implements IAsyncDisposable
 
 @code { 
