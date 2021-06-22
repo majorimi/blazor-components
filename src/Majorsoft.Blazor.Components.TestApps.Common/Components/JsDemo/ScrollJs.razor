@@ -117,8 +117,11 @@
 @code {
 	private string _scrollEventId = null;
 
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (!firstRender)
+			return;
+
 		await ScrollEventHandler();
 	}
 
