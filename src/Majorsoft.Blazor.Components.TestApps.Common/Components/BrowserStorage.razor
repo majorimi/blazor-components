@@ -193,8 +193,11 @@
 		public int Age { get; set; }
 	}
 
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (!firstRender)
+			return;
+
 		//LocalStorage
 		await InsertLocalStorageItems();
 		_localStorageCount = await _localStorageService.CountAsync();

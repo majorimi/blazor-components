@@ -6,7 +6,10 @@
 <style>
     .scrollToPageTop {
         bottom: @(PaddingFromBottom)px;
-        opacity: @(_isVisible ? 1 : 0);
+        opacity: @(_isVisible ? (AnimateOnHover ? 0.7 : 1) : 0);
+    }
+    .scrollToPageTop:hover {
+         opacity: @(_isVisible ?  1 : 0);
     }
     .scrollToPageTop.right {
         right: @(PaddingFromSide)px;
@@ -24,24 +27,27 @@
 @code {
     private bool _isVisible = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        WriteDiag("Component initialized...");
-
-        await _scrollHandler.RegisterPageScrollAsync(async (e) =>
+        if (firstRender)
         {
-            var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
-            var percentage = (e.Y / scrollSize.Y) * 100;
+            WriteDiag("Component rendered...");
 
-            var visible = percentage >= VisibleFromPagePercentage;
-            if (visible != _isVisible)
+            await _scrollHandler.RegisterPageScrollAsync(async (e) =>
             {
-                _isVisible = visible;
-                StateHasChanged();
+                var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
+                var percentage = (e.Y / scrollSize.Y) * 100;
 
-                WriteDiag($"Component visibilit changed visible: {_isVisible}.");
-            }
-        });
+                var visible = percentage >= VisibleFromPagePercentage;
+                if (visible != _isVisible)
+                {
+                    _isVisible = visible;
+                    StateHasChanged();
+
+                    WriteDiag($"Component visibilit changed visible: {_isVisible}.");
+                }
+            });
+        }
     }
 
     private ElementReference _inputRef;
@@ -64,6 +70,11 @@
     /// Scroll should be jump or smoothly scroll.
     /// </summary>
     [Parameter] public bool SmootScroll { get; set; } = true;
+
+    /// <summary>
+    /// Apply animation (opacity) on icon when mouse hovered.
+    /// </summary>
+    [Parameter] public bool AnimateOnHover { get; set; } = true;
 
     /// <summary>
     /// Required space from page bottom in px.

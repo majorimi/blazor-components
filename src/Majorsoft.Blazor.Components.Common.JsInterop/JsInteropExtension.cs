@@ -23,6 +23,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop
 		/// Registers required JS Interop services into IServiceCollection
 		/// </summary>
 		/// <param name="services">IServiceCollection instance</param>
+		/// <returns>IServiceCollection</returns>
 		public static IServiceCollection AddJsInteropExtensions(this IServiceCollection services)
 		{
 			if (services == null)

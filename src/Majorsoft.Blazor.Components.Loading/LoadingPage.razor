@@ -57,6 +57,9 @@
 	/// </summary>
 	[Parameter] public EventCallback OnLoading { get; set; }
 
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 

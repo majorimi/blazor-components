@@ -129,14 +129,14 @@ Following code example shows how to use **`ToggleSwitch`** component in your Bla
 ```
 <ToggleSwitch
 	@ref="_toggleSwitch"
-	Value="_value"
+	Checked="_value"
 	OnColor="@_onColor"
 	OffColor="@_offColor"
 	Width="_widht"
 	Height="_height"
 	HandleStyle="_styleType"
 	Disabled="_disabled"
-	OnValueChanged="OnToggleSwitched">
+	OnToggleChanged="OnToggleSwitched">
 </ToggleSwitch>
 
 @code {

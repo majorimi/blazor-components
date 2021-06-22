@@ -43,6 +43,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Update="Pages\AnalyticsPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>

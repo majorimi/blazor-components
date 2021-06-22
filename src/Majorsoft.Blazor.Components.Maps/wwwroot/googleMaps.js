@@ -5,12 +5,17 @@
 
 	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize); //Store map info
 
+	let src = "https://maps.googleapis.com/maps/api/js?key=";
 	let scriptsIncluded = false;
+
 	let scriptTags = document.querySelectorAll('head > script');
 	scriptTags.forEach(scriptTag => {
-		if (scriptTag.getAttribute('src').startsWith("https://maps.googleapis.com/maps/api/js?key=")) {
-			scriptsIncluded = true;
-			return;
+		if (scriptTag) {
+			let srcAttribute = scriptTag.getAttribute('src');
+			if (srcAttribute && srcAttribute.startsWith(src)) {
+				scriptsIncluded = true;
+				return;
+			}
 		}
 	});
 
@@ -26,7 +31,7 @@
 	importedPoly.src = "https://polyfill.io/v3/polyfill.min.js?features=default";
 	document.head.appendChild(importedPoly);
 
-	let src = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initGoogleMaps&libraries=&v=weekly";
+	src = src + key + "&callback=initGoogleMaps&libraries=&v=weekly";
 	let importedMaps = document.createElement('script');
 	importedMaps.src = src;
 	importedMaps.defer = true;
