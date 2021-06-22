@@ -14,7 +14,7 @@
 	</div>
 </div>
 
-@*Permalink*@
+@*Permalink initialize*@
 @using Majorsoft.Blazor.Components.PermaLink
 @using Microsoft.Extensions.Logging
 @using Majorsoft.Blazor.Components.Common.JsInterop.Scroll
@@ -23,9 +23,13 @@
 @inject NavigationManager _navigationManager
 @inject ILogger<IPermaLinkWatcherService> _logger
 
-@*Server hoster Blazor console log*@
+@*Server hosted Blazor console log*@
 @using Majorsoft.Blazor.Server.Logging.Console
 @inject IBrowserConsoleLoggerService _browserConsoleLogger
+
+@* Google Analytics initialize*@
+@using Majorsoft.Blazor.Extensions.Analytics.Google
+<GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />
 
 @implements IDisposable
 @implements IAsyncDisposable

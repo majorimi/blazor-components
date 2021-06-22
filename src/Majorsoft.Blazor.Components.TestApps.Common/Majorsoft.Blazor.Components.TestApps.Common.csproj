@@ -37,6 +37,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Typeahead\Majorsoft.Blazor.Components.Typeahead.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.Analytics\Majorsoft.Blazor.Extensions.Analytics.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
   </ItemGroup>
 

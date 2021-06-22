@@ -145,7 +145,9 @@ export function getPageScrollPosition() {
 
     let args = {
         X: left,
-        Y: top
+        Y: top,
+        IsPageTop: window.scrollY == 0,
+        IsPageBottom: (window.innerHeight + window.scrollY) >= document.body.offsetHeight
     };
 
     return args;
@@ -153,7 +155,9 @@ export function getPageScrollPosition() {
 export function getPageScrollSize() {
     let args = {
         X: document.body.scrollWidth,
-        Y: document.body.scrollHeight
+        Y: document.body.scrollHeight,
+        IsPageTop: window.scrollY == 0,
+        IsPageBottom: (window.innerHeight + window.scrollY) >= document.body.offsetHeight
     };
 
     return args;

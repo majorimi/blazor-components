@@ -16,6 +16,10 @@
     </div>
 </div>
 
+@* Google Analytics initialize*@
+@using Majorsoft.Blazor.Extensions.Analytics.Google
+<GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />
+
 @using Majorsoft.Blazor.Components.PermaLink
 @inject IPermaLinkWatcherService _permalinkWatcher
 @implements IDisposable

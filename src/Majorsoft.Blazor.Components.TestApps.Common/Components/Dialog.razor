@@ -231,7 +231,7 @@
 	}
 	private async Task AcceptDialog()
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog custom content action: 'Ok' Button click: '{nameof(AcceptDialog)}'.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog custom content action: 'Ok' Button click: '{nameof(AcceptDialog)}'.");
 
 		if(_dialog.IsOpen)
 		{
@@ -245,7 +245,7 @@
 	}
 	private async Task CancelDialog()
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog custom content action: 'Cancel' Button click: '{nameof(CancelDialog)}'.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog custom content action: 'Cancel' Button click: '{nameof(CancelDialog)}'.");
 		_yourName = "Cancel clicked You have canceled the Dialog";
 
 		await _dialog.Close();
@@ -254,38 +254,38 @@
 	//Dialog events
 	public async Task OnOpen()
 	{
-		_yourName = null;
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOpen)}' Dialog opened.");
+		_yourName = string.Empty;
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOpen)}' Dialog opened.");
 		await Task.Delay(500);
-		_modal1Log = WriteLog(_modal1Log, $"--------------- End of event handling ---------------");
+		_modal1Log = await WriteLog(_modal1Log, $"--------------- End of event handling ---------------");
 	}
 	public async Task OnClose()
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnClose)}' Dialog closed.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnClose)}' Dialog closed.");
 		await Task.Delay(500);
-		_modal1Log = WriteLog(_modal1Log, $"--------------- End of event handling ---------------");
+		_modal1Log = await WriteLog(_modal1Log, $"--------------- End of event handling ---------------");
 	}
 	private async Task OnCloseButtonClicked(MouseEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
 	}
 	private async Task OnOverlayClicked(MouseEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOverlayClicked)}', Event args: {e}.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnOverlayClicked)}', Event args: {e}.");
 	}
 	private async Task OnEscapeKeyPress(KeyboardEventArgs e)
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnEscapeKeyPress)}', Event args: {e}.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnEscapeKeyPress)}', Event args: {e}.");
 	}
 	private async Task OnTransitionEnded(TransitionEventArgs[] e)
 	{
-		_modal1Log = WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnTransitionEnded)}', Event args: {e}.");
+		_modal1Log = await WriteLog(_modal1Log, $"Modal dialog event: '{nameof(OnTransitionEnded)}', Event args: {e}.");
 	}
 
-	private string WriteLog(string log, string message)
+	private async Task<string> WriteLog(string log, string message)
 	{
 		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		log1.ScrollToEndAsync();
+		await log1.ScrollToEndAsync();
 
 		return log;
 	}

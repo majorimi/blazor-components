@@ -8,6 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
@@ -169,7 +171,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 		}
 		[TestMethod]
-		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
+		public async Task PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
 		{
 			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.OnHover));
@@ -179,9 +181,17 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			Assert.IsNotNull(input);
 			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> </div>");
 
-			//input.MouseOver();
+			await input.TriggerEventAsync("onmouseenter", new MouseEventArgs());
+			rendered.WaitForAssertion(() =>
+			{
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+			});
 
-			//TODO: finish testing on mouse hover cases...
+			await input.TriggerEventAsync("onmouseleave", new MouseEventArgs());
+			rendered.WaitForAssertion(() =>
+			{
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> </div>");
+			});
 		}
 	}
 }
