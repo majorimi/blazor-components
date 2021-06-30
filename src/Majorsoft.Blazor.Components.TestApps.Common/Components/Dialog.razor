@@ -2,14 +2,14 @@
 
 <h1>Modal Component</h1>
 <p>
-	Blazor component that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.. For usege see soruce code and docs on 
+	Blazor component that can be used to render Modal dialog window with customizable content and parameterized Overlay, etc.. For usage see source code and docs on 
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Modal.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Dialog</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Dialog" target="_blank">Nuget</a>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Modal dialog</h3>
-	<p>Renders a fully customizable Modal dialog with customizable Overlay layer and events to subscribe ...</p>
+	<p>Renders a fully customizable Modal dialog with customizable Overlay layer and events to subscribe...</p>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
 		<h4>Default <code>ModalDialog</code></h4>
@@ -27,7 +27,7 @@
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
 		<h4><code>ModalDialog</code> hidden Header and no Footer</h4>
 
-		<p>Dialog with default parameters Header hidden (by settig <code>ShowCloseButton="false"</code> and Header RenderFrangment must not present), only Content set</p>
+		<p>Dialog with default parameters Header hidden (by setting <code>ShowCloseButton="false"</code> and Header RenderFrangment must not present), only Content set</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog2.Open())">No Header dialog</button>
 
 		<ModalDialog @ref="_simpledialog2" MinHeight="50" ShowCloseButton="false">
@@ -59,7 +59,7 @@
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
 		<h4><code>ModalDialog</code> must Accept</h4>
 
-		<p>Dialog with Header and Accept button in Fotter which must be accepted. Dialog cannot be closed other way!</p>
+		<p>Dialog with Header and Accept button in Footer which must be accepted. Dialog cannot be closed other way!</p>
 		<button class="btn btn-primary mb-2" @onclick="@(() => _simpledialog4.Open())">Must accept dialog</button>
 
 		<ModalDialog @ref="_simpledialog4" MinHeight="50" ShowCloseButton="false" CloseOnOverlayClick="false" CloseOnEscapeKey="false">
@@ -136,7 +136,7 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-5">
-				Content text (form is hardcoded): <input class="form-control w-100" @bind="_modalText" />
+				Content text (form is hard-coded): <input class="form-control w-100" @bind="_modalText" />
 			</div>
 		</div>
 
