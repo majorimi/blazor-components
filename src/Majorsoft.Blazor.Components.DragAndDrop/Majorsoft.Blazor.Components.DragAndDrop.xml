@@ -4,12 +4,12 @@
         <name>Majorsoft.Blazor.Components.DragAndDrop</name>
     </assembly>
     <members>
-        <member name="P:Majorsoft.Blazor.Components.DragAndDrop.DragItem.InnerElementReference">
+        <member name="P:Majorsoft.Blazor.Components.DragAndDrop.DragItem`1.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.DragAndDrop.DragItem.AllOtherAttributes">
+        <member name="P:Majorsoft.Blazor.Components.DragAndDrop.DragItem`1.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
             </summary>
