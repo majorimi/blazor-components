@@ -12,7 +12,22 @@
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app>
+        <style>
+            .center {
+                text-align: center;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        </style>
+        <div class="center">
+            <img style="margin: 20px;" src="./blazor.components.png"/>
+            <h4>Majorsoft Blazor Component <br /> Loading Demo...</h4>
+        </div>
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
