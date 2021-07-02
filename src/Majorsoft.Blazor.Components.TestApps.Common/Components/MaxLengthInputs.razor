@@ -30,7 +30,7 @@
 
     <div class="row pb-2">
         <div class="col-12 col-lg-8 col-xl-5">
-            <MaxLengthInput id="max1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputAllowed} char(s)")"
+            <MaxLengthInput id="maxInput1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputAllowed} char(s)")"
                             @bind-Value="@_maxLengthInputValue" @bind-Value:event="OnInput"
                             MaxAllowedChars="@_maxLengthInputAllowed"
                             CountdownTextClass="@_maxLengthInputTextClass"
@@ -53,7 +53,7 @@
 
     <div class="row pb-2">
         <div class="col-12 col-lg-8 col-xl-5">
-            <MaxLengthTextarea id="max1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthTextareaAllowed} char(s)")"
+            <MaxLengthTextarea id="maxTextArea1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthTextareaAllowed} char(s)")"
                             @bind-Value="@_maxLengthTextareaValue" @bind-Value:event="OnInput"
                             MaxAllowedChars="@_maxLengthTextareaAllowed"
                             CountdownTextClass="@_maxLengthTextareaTextClass"
