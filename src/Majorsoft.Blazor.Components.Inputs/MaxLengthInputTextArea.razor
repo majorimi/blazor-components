@@ -1,0 +1,74 @@
+﻿@inherits InputTextArea
+@inject ILogger<MaxLengthInputTextArea> _logger;
+
+<textarea @ref="_inputRef" value="@CurrentValue" maxlength="@MaxAllowedChars" @oninput="OnTextChange" @attributes=AdditionalAttributes />
+<label class="@CountdownTextClass">@(CountdownText)@(_remainingChars)</label>
+
+@*
+    Diffs with DebounceTimerBase:
+    - value="@CurrentValue"
+    - remove: [Parameter] public string? Value { get; set; }
+    - remove: public Dictionary<string, object> AdditionalAttributes { get; set; }
+    - remove: [Parameter] public EventCallback<string> OnInput { get; set; }
+    - OnTextChange(): CurrentValue = e.Value?.ToString();
+*@
+
+@code {
+    protected override async Task OnParametersSetAsync()
+    {
+        await CalculateRemaining();
+    }
+
+    private int _remainingChars;
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    /// <summary>
+    /// Maximum allowed characters to type in.
+    /// </summary>
+    [Parameter] public int MaxAllowedChars { get; set; } = 50;
+
+    /// <summary>
+    /// Contdown label text to change or localize message.
+    /// </summary>
+    [Parameter] public string CountdownText { get; set; } = "Remaining characters: ";
+
+    /// <summary>
+    /// Contdown label and value CSS calss property to style message.
+    /// </summary>
+    [Parameter] public string CountdownTextClass { get; set; }
+
+    /// <summary>
+    /// Callback function called when HTML control received keyboard inputs remaining allowed chars calculated and sent as even args.
+    /// </summary>
+    [Parameter] public EventCallback<int> OnRemainingCharsChanged { get; set; }
+
+    private async Task OnTextChange(ChangeEventArgs e)
+    {
+        WriteDiag($"{nameof(OnTextChange)} event: '{e.Value}', MaxAllowedChars: '{MaxAllowedChars}'.");
+
+        CurrentValue = e.Value?.ToString();
+        await CalculateRemaining();
+    }
+
+    private async Task CalculateRemaining()
+    {
+        var tmp = _remainingChars;
+        _remainingChars = MaxAllowedChars - (CurrentValue?.Length ?? 0);
+
+        WriteDiag($"{nameof(CalculateRemaining)} event value Length: '{Value?.Length}', _remainingChars: '{_remainingChars}'.");
+
+        if (OnRemainingCharsChanged.HasDelegate && tmp != _remainingChars)
+        {
+            await OnRemainingCharsChanged.InvokeAsync(_remainingChars);
+        }
+    }
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
+}
