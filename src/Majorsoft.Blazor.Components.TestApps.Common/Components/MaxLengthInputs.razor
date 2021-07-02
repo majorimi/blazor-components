@@ -24,7 +24,7 @@
 
     <div>
         <div>
-            <input type="range" min="0" max="100" @bind="_maxLengthInputAllowed" @oninput="(e => _maxLengthInputAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputAllowed</pre>
+            <input type="range" min="0" max="50" @bind="_maxLengthInputAllowed" @oninput="(e => _maxLengthInputAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputAllowed</pre>
         </div>
     </div>
 
@@ -41,6 +41,29 @@
     <div>Actual value: @_maxLengthInputValue</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthTextarea component</h3>
+    <p>Wraps around <strong>HTML TextArea</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="100" @bind="_maxLengthTextareaAllowed" @oninput="(e => _maxLengthTextareaAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthTextareaAllowed</pre>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <MaxLengthTextarea id="max1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthTextareaAllowed} char(s)")"
+                            @bind-Value="@_maxLengthTextareaValue" @bind-Value:event="OnInput"
+                            MaxAllowedChars="@_maxLengthTextareaAllowed"
+                            CountdownTextClass="@_maxLengthTextareaTextClass"
+                            OnRemainingCharsChanged="MaxLengthTextareaRemainingCharsChanged" />
+        </div>
+    </div>
+
+    <div>Actual value: @_maxLengthTextareaValue</div>
+</div>
+
 @code {
     private int _maxLengthInputAllowed = 20;
     private string _maxLengthInputValue = "";
@@ -53,6 +76,20 @@
         if (_maxLengthInputAllowed * 0.2 >= remainingChars)
         {
             _maxLengthInputTextClass = "countDownText red";
+        }
+    }
+
+    private int _maxLengthTextareaAllowed = 20;
+    private string _maxLengthTextareaValue = "";
+    private string _maxLengthTextareaTextClass = "countDownText";
+
+    private void MaxLengthTextareaRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthTextareaTextClass = "countDownText";
+
+        if (_maxLengthTextareaAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthTextareaTextClass = "countDownText red";
         }
     }
 }
