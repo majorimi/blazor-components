@@ -1,5 +1,58 @@
-﻿<h3>MaxLengthInputs</h3>
+﻿<style>
+    .countDownText {
+        font-size: small;
+        color: gray;
+    }
+    .countDownText.red {
+        color: red;
+    }
+</style>
+
+<PageScroll />
+
+<h1>Max allowed length Input controls with Counter</h1>
+<p>
+    Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with <code>maxlength</code> set and counter to show remaining characters. For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md" target="_blank">Github</a>.
+    <br /><strong>Majorsoft.Blazor.Components.Inputs</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Inputs" target="_blank">Nuget</a>
+</p>
+
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthInput component</h3>
+    <p>Wraps around <strong>HTML Input</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="100" @bind="_maxLengthInputAllowed" @oninput="(e => _maxLengthInputAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputAllowed</pre>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <MaxLengthInput id="max1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputAllowed} char(s)")"
+                            @bind-Value="@_maxLengthInputValue" @bind-Value:event="OnInput"
+                            MaxAllowedChars="@_maxLengthInputAllowed"
+                            CountdownTextClass="@_maxLengthInputTextClass"
+                            OnRemainingCharsChanged="MaxLengthInputRemainingCharsChanged" />
+        </div>
+    </div>
+
+    <div>Actual value: @_maxLengthInputValue</div>
+</div>
 
 @code {
+    private int _maxLengthInputAllowed = 20;
+    private string _maxLengthInputValue = "";
+    private string _maxLengthInputTextClass = "countDownText";
 
+    private void MaxLengthInputRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthInputTextClass = "countDownText";
+
+        if (_maxLengthInputAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthInputTextClass = "countDownText red";
+        }
+    }
 }

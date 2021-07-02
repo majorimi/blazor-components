@@ -4,5 +4,46 @@
         <name>Majorsoft.Blazor.Components.Inputs</name>
     </assembly>
     <members>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.Value">
+            <summary>
+            Value of the rendered HTML element. Initial field value can be set to given string or omitted (leave empty). 
+            Also control actual value can be read out (useful when MinLenght not reached).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.MaxAllowedChars">
+            <summary>
+            Maximum allowed characters to type in.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.CountdownText">
+            <summary>
+            Contdown label text to change or localize message.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.CountdownTextClass">
+            <summary>
+            Contdown label and value CSS calss property to style message.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.OnInput">
+            <summary>
+            Callback function called when HTML control received keyboard inputs.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.OnRemainingCharsChanged">
+            <summary>
+            Callback function called when HTML control received keyboard inputs remaining allowed chars calculated and sent as even args.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInput.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
     </members>
 </doc>
