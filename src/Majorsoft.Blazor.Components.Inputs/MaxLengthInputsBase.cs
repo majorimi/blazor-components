@@ -37,12 +37,12 @@ namespace Majorsoft.Blazor.Components.Inputs
 		[Parameter] public int MaxAllowedChars { get; set; } = 50;
 
 		/// <summary>
-		/// Contdown label text to change or localize message.
+		/// Countdown label text to change or localize message.
 		/// </summary>
 		[Parameter] public string CountdownText { get; set; } = "Remaining characters: ";
 
 		/// <summary>
-		/// Contdown label and value CSS calss property to style message.
+		/// Countdown label and value CSS class property to style message.
 		/// </summary>
 		[Parameter] public string CountdownTextClass { get; set; }
 

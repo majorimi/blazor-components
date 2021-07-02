@@ -27,12 +27,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.CountdownText">
             <summary>
-            Contdown label text to change or localize message.
+            Countdown label text to change or localize message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.CountdownTextClass">
             <summary>
-            Contdown label and value CSS calss property to style message.
+            Countdown label and value CSS class property to style message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.OnInput">
@@ -62,12 +62,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.CountdownText">
             <summary>
-            Contdown label text to change or localize message.
+            Countdown label text to change or localize message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.CountdownTextClass">
             <summary>
-            Contdown label and value CSS calss property to style message.
+            Countdown label and value CSS class property to style message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.OnRemainingCharsChanged">
@@ -87,12 +87,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.CountdownText">
             <summary>
-            Contdown label text to change or localize message.
+            Countdown label text to change or localize message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.CountdownTextClass">
             <summary>
-            Contdown label and value CSS calss property to style message.
+            Countdown label and value CSS class property to style message.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.OnRemainingCharsChanged">
