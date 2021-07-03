@@ -1,0 +1,24 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="date-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>Browser Date JS</h3></Content>
+    </PermaLinkElement>
+
+    <strong>Browser Date JS</strong> is a simple JS call to <code>new Date();</code> to retrieve client machine date and time.
+
+    <AdvancedTimer IsEnabled="true" IntervalInMilisec="200" Occurring="Times.Infinite()" AutoStart="true" OnIntervalElapsed="@Clock" />
+    <p>
+        <span>Browser date time: <strong>@_date</strong></span>
+    </p>
+
+</div>
+
+@inject IBrowserDateService _dateService
+
+@code {
+    private System.DateTime _date;
+
+    private async Task Clock()
+    {
+        _date = await _dateService.GetBrowserDateTimeAsync();
+    }
+}

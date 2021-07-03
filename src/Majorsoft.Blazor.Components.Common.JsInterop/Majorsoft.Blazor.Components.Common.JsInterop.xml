@@ -4,6 +4,27 @@
         <name>Majorsoft.Blazor.Components.Common.JsInterop</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserColorThemes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate.BrowserDateService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate.IBrowserDateService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate.IBrowserDateService">
+            <summary>
+            Injectable service to query Browser Date with JS Interops.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate.IBrowserDateService.GetBrowserDateTimeAsync">
+            <summary>
+            Returns Date and time from browser client machine.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Click.ClickBoundariesEventInfo">
             <summary>
             ClickBoundariesEventInfo event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback

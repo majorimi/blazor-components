@@ -87,9 +87,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Extensions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Extensions.Analytics", "Majorsoft.Blazor.Extensions.Analytics\Majorsoft.Blazor.Extensions.Analytics.csproj", "{261B879A-4E63-4D4B-9B59-E8C8F84531FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Inputs", "Majorsoft.Blazor.Components.Inputs\Majorsoft.Blazor.Components.Inputs.csproj", "{A1FF7E56-1ADE-4A53-A517-A9A0F3A70ECC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Inputs", "Majorsoft.Blazor.Components.Inputs\Majorsoft.Blazor.Components.Inputs.csproj", "{A1FF7E56-1ADE-4A53-A517-A9A0F3A70ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Inputs.Tests", "Majorsoft.Blazor.Components.Inputs.Tests\Majorsoft.Blazor.Components.Inputs.Tests.csproj", "{5A9DBE07-4666-4DEF-841A-477F2A1A28B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Inputs.Tests", "Majorsoft.Blazor.Components.Inputs.Tests\Majorsoft.Blazor.Components.Inputs.Tests.csproj", "{5A9DBE07-4666-4DEF-841A-477F2A1A28B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

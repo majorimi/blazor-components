@@ -29,6 +29,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
+- **Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
 - **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
 - **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
 
@@ -253,6 +254,14 @@ Returns the given user's Browser language preference as .NET `CultureInfo`.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
+## Browser Date JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#date-js))
+**Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
+
+### Functions
+- **`GetBrowserDateTimeAsync`**: **`Task<DateTime> GetBrowserDateTimeAsync()`** <br />
+Returns Date and time from browser client machine.
+
+
 ## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
 **Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
 It is using the Geolocation API which allows users to provide their location to web applications if they desire.
@@ -324,6 +333,10 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.Geo
 @*Only if you want to use HTML Head tags*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Head
+@*Only if you want to use Browser Date*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate
+@*Only if you want to use Browser ColorTheme*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
 ```
 
 
