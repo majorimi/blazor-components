@@ -312,7 +312,10 @@
 						   OnMapIdle="@OnMapIdle"
 						   ApiKey="@_googleMapsApiKey" />
 
-				@*<GoogleMap Center="@_jsMapCenter" ApiKey="@_googleMapsApiKey" />*@
+				@*<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
+						   @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
+						   OnMapInitialized="@(() => {})"
+						   ApiKey="@_googleMapsApiKey" />*@
 
 			</div>
 		</div>
@@ -352,8 +355,11 @@
 @code {
 	private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
 
-	protected override void OnInitialized()
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (!firstRender)
+			return;
+
 		//Static map
 		_staticMapMarkers.ElementAt(0).Locations.Add(new GeolocationData(1.111, 2.222));
 		_staticMapMarkers.ElementAt(1).Locations.Add(new GeolocationData(17.111, 33.222));

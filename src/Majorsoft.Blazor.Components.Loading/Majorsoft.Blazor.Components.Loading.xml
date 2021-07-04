@@ -75,6 +75,11 @@
             Callback function called when component OnInitializedAsync Blazor event triggered.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.IsLoading">
             <summary>
             Can be set overlay to loading state  true  or remove it  false . Returns  true  if loading overlay is prompted, otherwise  false.
@@ -99,6 +104,11 @@
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.OnLoading">
             <summary>
             Callback function called when component OnInitializedAsync Blazor event triggered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingPage.IsLoading">

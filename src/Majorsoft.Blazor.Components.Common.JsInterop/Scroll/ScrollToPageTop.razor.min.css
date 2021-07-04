@@ -1,0 +1,1 @@
+.scrollToPageTop{position:fixed;z-index:20;cursor:pointer;transition:opacity .25s linear;outline:0}.scrollToPageTop.hidden{cursor:pointer;pointer-events:none}

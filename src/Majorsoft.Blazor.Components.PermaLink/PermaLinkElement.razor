@@ -38,7 +38,11 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 
 @code {
 	private string _componentId = Guid.NewGuid().ToString("n");
+
 	private ElementReference _permaDiv;
+	/// <summary>
+	/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
 	public ElementReference InnerElementReference => _permaDiv;
 
 	private DomRect _rect;
@@ -57,6 +61,9 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 
 	private bool _showIcon = false;
 	private string? _permaLinkName;
+	/// <summary>
+	/// Value of the rendered anchor HTML tag. NOTE: it is required and will be part of the URL, do not add # use non URL friendly characters!
+	/// </summary>
 	[Parameter] public string PermaLinkName
 	{ 
 		get => _permaLinkName; 
@@ -66,11 +73,22 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 		}
 	}
 
+	/// <summary>
+	/// Required HTML content to render with mouse enter/leave events to show Permalink icon. 
+	/// NOTE: it can be any arbitrary HTML elemnt but should be just a header text e.g. h1-h6 element.
+	/// </summary>
 	[Parameter] public RenderFragment Content { get; set; }
 
 	//Icon visibility, style...
+	/// <summary>
+	/// Enum value which sets how to show clickable permalink the icon.
+	/// </summary>
 	[Parameter] public ShowPermaLinkIcon ShowIcon { get; set; } = ShowPermaLinkIcon.OnHover;
 	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
+
+	/// <summary>
+	/// Enum value which sets where to show the icon.
+	/// </summary>
 	[Parameter] public PermaLinkIconPosition IconPosition 
 	{ 
 		get => _iconPosition;
@@ -84,14 +102,33 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 			}
 		}
 	}
+	/// <summary>
+	/// Sets the icon margin-top CSS property in px. With this icon can be centered.
+	/// </summary>
 	[Parameter] public double IconMarginTop { get; set; } = 0;
+	/// <summary>
+	/// Sets the icon <img width="" height="" /> values.
+	/// </summary>
 	[Parameter] public int IconSize { get; set; } = 16;
+	/// <summary>
+	/// Enum value which sets the displayed icon type.
+	/// </summary>
 	[Parameter] public PermaLinkStyle IconStyle { get; set; } = PermaLinkStyle.Normal;
+	/// <summary>
+	/// FLAG Enum value which sets the behaviour of the icon click: Copy, Navigate. 
+	/// Flag values can be combined: PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate.
+	/// </summary>
 	[Parameter] public PermaLinkIconActions IconActions { get; set; } = PermaLinkIconActions.Copy;
 
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
 
+	/// <summary>
+	/// Callback function called when Permalink icon clicked and PermaLinkIconActions.Copy feature was set.
+	/// </summary>
 	[Parameter] public EventCallback<string> OnPermaLinkCopied { get; set; }
 
 	private void MouseHover()

@@ -20,9 +20,13 @@
 @inject ILanguageService _languageService;
 
 @code {
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (!firstRender)
+			return;
+
 		_detectedBrowserLang = await _languageService.GetBrowserLanguageAsync();
+		StateHasChanged();
 	}
 
 	//Broswer lang

@@ -178,3 +178,11 @@ export function getPageSize() {
 
     return args;
 }
+export function getScreenSize() {
+    let args = {
+        Height: window.screen.height,
+        Width: window.screen.width
+    }
+
+    return args;
+}

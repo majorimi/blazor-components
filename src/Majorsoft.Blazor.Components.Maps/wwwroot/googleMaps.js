@@ -5,16 +5,24 @@
 
 	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize); //Store map info
 
+	let src = "https://maps.googleapis.com/maps/api/js?key=";
 	let scriptsIncluded = false;
+
 	let scriptTags = document.querySelectorAll('head > script');
 	scriptTags.forEach(scriptTag => {
-		if (scriptTag.getAttribute('src').startsWith("https://maps.googleapis.com/maps/api/js?key=")) {
-			scriptsIncluded = true;
-			return;
+		if (scriptTag) {
+			let srcAttribute = scriptTag.getAttribute('src');
+			if (srcAttribute && srcAttribute.startsWith(src)) {
+				scriptsIncluded = true;
+				return;
+			}
 		}
 	});
 
 	if (scriptsIncluded) { //Prevent adding JS scripts to page multiple times.
+		if (window.google) {
+			window.initGoogleMaps(); //Page was navigated
+		}
 		return;
 	}
 
@@ -23,7 +31,7 @@
 	importedPoly.src = "https://polyfill.io/v3/polyfill.min.js?features=default";
 	document.head.appendChild(importedPoly);
 
-	let src = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initGoogleMaps&libraries=&v=weekly";
+	src = src + key + "&callback=initGoogleMaps&libraries=&v=weekly";
 	let importedMaps = document.createElement('script');
 	importedMaps.src = src;
 	importedMaps.defer = true;
@@ -36,6 +44,10 @@ window.initGoogleMaps = () => {
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
 		let mapInfo = _mapsElementDict[i].value;
+
+		if (_mapsElementDict[i].value.map) { //Map already created
+			continue;
+		}
 
 		//Create Map
 		let map = new google.maps.Map(document.getElementById(elementId), {
@@ -572,6 +584,6 @@ export function dispose(elementId) {
 		mapWithDotnetRef.map = null;
 		mapWithDotnetRef.ref = null;
 
-		removeElementIdWithDotnetRef(elementId);
+		removeElementIdWithDotnetRef(_mapsElementDict, elementId);
 	}
 }

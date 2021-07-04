@@ -1089,6 +1089,11 @@
 		{
 			await _geolocationService.DisposeAsync();
 		}
+				
+		if(_mapService is not null)
+		{
+			await _mapService.DisposeAsync();
+		}
 
 		if (_markers is not null)
 		{
