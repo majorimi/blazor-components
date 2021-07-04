@@ -6,8 +6,43 @@
     <members>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserColorThemes">
             <summary>
-            
+            Browsers preferred color scheme/theme
             </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserThemeEventInfo">
+            <summary>
+            Browser color scheme queries response event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserThemeService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService">
+            <summary>
+            Injectable service to handle Browser color scheme queries and changes.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService.GetBrowserColorThemeAsync">
+            <summary>
+            Browser color scheme queries to return actual `prefers-color-scheme`.
+            </summary>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService.RegisterColorThemeChangeAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserColorThemes,System.Threading.Tasks.Task})">
+            <summary>
+            Adds event listener for `prefers-color-scheme` HTML event for the Browser.
+            </summary>
+            <param name="colorThemeChangeCallback"></param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService.RemoveColorThemeChangeAsync(System.String)">
+            <summary>
+            Removes event listener for `prefers-color-scheme` HTML event for the Browser.
+            </summary>
+            <param name="eventId">Event id from <see cref="M:Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.IBrowserThemeService.RegisterColorThemeChangeAsync(System.Func{Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme.BrowserColorThemes,System.Threading.Tasks.Task})"/></param>
+            <returns>Async Task</returns>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate.BrowserDateService">
             <summary>

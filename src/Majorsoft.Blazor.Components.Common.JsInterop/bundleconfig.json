@@ -70,5 +70,11 @@
     "inputFiles": [
       "Scroll/ScrollToPageBottom.razor.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/colorTheme.min.js",
+    "inputFiles": [
+      "wwwroot/colorTheme.js"
+    ]
   }
 ]
