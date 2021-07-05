@@ -1,22 +1,56 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<nullable>enable</nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>Majorsoft.Blazor.Components.GdprConsent</PackageId>
+	<Version>1.0.0.0</Version>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>©2021 Imre Toth</Copyright>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Gdpr.md</PackageProjectUrl>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageTags>.Net5 Blazor GDPR Consent Law Banner ModalWindow Modal Cookie Cookies</PackageTags>
+	<Title>Blazor Components GDPR Consent banner and popup</Title>
+	<Description>Blazor component that renders a customizable . Part of Majorsoft Blazor library.</Description>
   </PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Majorsoft.Blazor.Components.GdprConsent.xml</DocumentationFile>
+	</PropertyGroup>
   
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+	<SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
-    <ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
-    <ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
   </ItemGroup>
 
 </Project>
