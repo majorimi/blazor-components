@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
+    <ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
+    <ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
+  </ItemGroup>
+
+</Project>
