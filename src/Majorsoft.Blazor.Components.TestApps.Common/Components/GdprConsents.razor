@@ -1,5 +1,66 @@
-﻿<h3>GdprConsents</h3>
+﻿<PageScroll />
+
+<h1>GDPR Consents</h1>
+<p>
+	Blazor component that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage. For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md" target="_blank">Github</a>.
+	<br /><strong>Majorsoft.Blazor.Components.GdprConsent</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.GdprConsent" target="_blank">Nuget</a>
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="loading-page" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Loading page</h3></Content>
+	</PermaLinkElement>
+	<p>Renders an Overlay layer for the whole page with customizable content for showing Page loading...</p>
+
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_bannerColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Overlay opacity: @(_bannerOpacity / 1000)
+			<input type="range" class="w-100" min="0" max="1000" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+</div>
+
+<style>
+	.gdpr-banner {
+		font-size: medium;
+		font-weight: 500;
+		padding: 16px 0;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		/*border: 1px solid #e0e0e0;*/
+	}
+</style>
+<GdprBanner BannerOpacity="@(_bannerOpacity / 1000)" BannerBackgroundColor="@_bannerColor">
+	<Content>
+		<div class="gdpr-banner">
+			<span class="fa fa-lg fa-cookie-bite" aria-hidden="true"></span>
+			This demo site actually does NOT uses cookies. Only demonstrate Cookie consent banner usage in your Blazor Application.
+
+			<button type="button" class="btn btn-primary m-1">I agree</button>
+			<button type="button" class="btn btn-secondary m-1">Disagree</button>
+		</div>
+	</Content>
+</GdprBanner>
 
 @code {
+	//GDPR banner
+	private string _bannerColor = "lightblue";
+	private double _bannerOpacity = 900;
 
+	//GDPR popup
+	private string _overlayColor = "lightblue";
+	private double _overlayOpacity = 700;
 }

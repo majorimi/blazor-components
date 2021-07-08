@@ -4,5 +4,51 @@
         <name>Majorsoft.Blazor.Components.GdprConsent</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentExtension">
+            <summary>
+            Extension methods to register required JS Interop services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprConsentExtension.AddGdprConsent(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required JS Interop services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.BannerBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.BannerOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AnswerValidUntil">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+            </summary>
+        </member>
     </members>
 </doc>
