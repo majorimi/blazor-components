@@ -28,8 +28,8 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacity/1000)
-			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+			Overlay opacity: @(_overlayOpacity/100)
+			<input type="range" class="w-100" min="0" max="100" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -38,7 +38,7 @@
 		</div>
 	</div>
 
-	<LoadingPage IsLoading="@_pageIsLoading" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity / 1000)">
+	<LoadingPage IsLoading="@_pageIsLoading" OverlayBackgroundColor="@_overlayColor" OverlayOpacity="@(_overlayOpacity / 100)">
 		<LoadingContent>
 			@((MarkupString)_overlayContent)
 		</LoadingContent>
@@ -60,8 +60,8 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_overlayOpacityTable / 1000)
-			<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacityTable" @oninput="(e => _overlayOpacityTable = int.Parse(e.Value?.ToString()))" />
+			Overlay opacity: @(_overlayOpacityTable / 100)
+			<input type="range" class="w-100" min="0" max="100" @bind="_overlayOpacityTable" @oninput="(e => _overlayOpacityTable = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -70,7 +70,7 @@
 		</div>
 	</div>
 
-	<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable / 1000)">
+	<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable / 100)">
 		<LoadingContent>
 			@((MarkupString)_overlayContent2)
 		</LoadingContent>
@@ -186,7 +186,7 @@
 
 	//Page Loading
 	private string _overlayColor = "lightblue";
-	private double _overlayOpacity = 500;
+	private double _overlayOpacity = 50;
 	private string _overlayContent = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
 <h2 class=""m-3"">Refreshing...</h2>";
 
@@ -208,7 +208,7 @@
 
 	//Element Loading
 	private string _overlayColorTable = "orange";
-	private double _overlayOpacityTable = 500;
+	private double _overlayOpacityTable = 50;
 	private bool _elementIsLoading = false;
 	private string _overlayContent2 = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
 <h2 class=""m-3"">Refreshing...</h2>";

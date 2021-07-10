@@ -88,8 +88,8 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-5">
-				Overlay opacity: @(_overlayOpacity/1000) 
-				<input type="range" class="w-100" min="0" max="1000" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+				Overlay opacity: @(_overlayOpacity/100) 
+				<input type="range" class="w-100" min="0" max="100" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -142,7 +142,7 @@
 
 		<ModalDialog @ref="_dialog"
 			OverlayBackgroundColor="@_overlayColor" 
-			OverlayOpacity="@(_overlayOpacity/1000)"
+			OverlayOpacity="@(_overlayOpacity/100)"
 			Height="@_modalHeight"
 			Width="@_modalWitdth"
 			MinHeight="@_modalMinHeight"
@@ -207,7 +207,7 @@
 	
 	//Fully customized dialog
 	private string _overlayColor = "128,128,128";
-	private double _overlayOpacity = 500;
+	private double _overlayOpacity = 50;
 	private double _modalHeight = 270;
 	private double _modalWitdth = 500;
 	private double _modalMinHeight = 100;

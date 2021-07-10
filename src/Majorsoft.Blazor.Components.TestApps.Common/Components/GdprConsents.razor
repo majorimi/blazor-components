@@ -21,8 +21,8 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_bannerOpacity / 1000)
-			<input type="range" class="w-100" min="0" max="1000" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
+			Overlay opacity: @(_bannerOpacity / 100)
+			<input type="range" class="w-100" min="0" max="100" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 
@@ -43,7 +43,7 @@
 		/*border: 1px solid #e0e0e0;*/
 	}
 </style>
-<GdprBanner BannerOpacity="@(_bannerOpacity / 1000)" BannerBackgroundColor="@_bannerColor">
+<GdprBanner BannerOpacity="@(_bannerOpacity / 100)" BannerBackgroundColor="@_bannerColor">
 	<Content>
 		<div class="gdpr-banner">
 			<span class="fa fa-lg fa-cookie-bite" aria-hidden="true"></span>
@@ -58,9 +58,9 @@
 @code {
 	//GDPR banner
 	private string _bannerColor = "lightblue";
-	private double _bannerOpacity = 900;
+	private double _bannerOpacity = 90;
 
 	//GDPR popup
 	private string _overlayColor = "lightblue";
-	private double _overlayOpacity = 700;
+	private double _overlayOpacity = 70;
 }
