@@ -14,10 +14,15 @@
 	</PermaLinkElement>
 	<p>Renders a small Overlay layer at the bottom of the page with customizable content for showing the given GDPR message.</p>
 
-
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_bannerColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Consent valid: @(_bannerConsentValidDays) day(s)
+			<input type="range" class="w-100" min="1" max="1000" @bind="_bannerConsentValidDays" @oninput="(e => _bannerConsentValidDays = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -26,44 +31,104 @@
 			<input type="range" class="w-100" min="0" max="100" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
-
 </div>
 
-<style>
-	.gdpr-banner {
-		font-size: medium;
-		font-weight: 500;
-		padding: 16px 0;
-		display: flex;
-		-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		justify-content: center;
-		-webkit-box-align: center;
-		-ms-flex-align: center;
-		align-items: center;
-		/*border: 1px solid #e0e0e0;*/
-	}
-</style>
-<GdprBanner BannerOpacity="@(_bannerOpacity / 100)" BannerBackgroundColor="@_bannerColor">
-	<Content>
-		<div class="gdpr-banner">
-			<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
-			<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent banner usage in your Blazor Application.</strong>
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>GDPR Consent data</h3>
 
-			<button type="button" class="btn btn-primary m-1">I agree</button>
-			<button type="button" class="btn btn-secondary m-1">Disagree</button>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			@if (_gdprConsentData != null)
+			{
+				<label>Consent was answered at: <strong>@_gdprConsentData.AnsweredAt</strong> valid until: <strong>@_gdprConsentData.AnswerValidUntil</strong></label>
+				<table class="table table-striped">
+					<tr>
+						<th>Consent Name</th>
+						<th>IsAccepted</th>
+					</tr>
+					@foreach (var item in _gdprConsentData.GdprConsentDetails)
+					{
+						<tr>
+							<td>@item.ConsentName</td>
+							<td>@item.IsAccepted</td>
+						</tr>
+					}
+				</table>
+
+				<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprConsentService.ClearGdprConsentDataAsync()">Clear GDPR Consent</button>
+			}
+			else
+			{
+				<strong class="text-danger">GDPR Consents not yet accepted or rejected...</strong>
+			}
 		</div>
-	</Content>
-</GdprBanner>
+	</div>
+</div>
 
-@inject IGdprConsentService _gdprConsentService;
+@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
+<div>
+	<style>
+		.gdpr-banner {
+			font-size: medium;
+			font-weight: 500;
+			padding: 16px 0;
+			display: flex;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			/*border: 1px solid #e0e0e0;*/
+		}
+	</style>
+	<GdprBanner @ref="_gdprBanner" BannerOpacity="@(_bannerOpacity / 100)" BannerBackgroundColor="@_bannerColor" AnswerValidUntil="@DateTime.Now.AddDays(_bannerConsentValidDays)" ConsentName="All">
+		<Content>
+			<div class="gdpr-banner">
+				<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
+				<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent banner usage in your Blazor Application.</strong>
+
+				<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.Accepted()">I agree</button>
+				<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.Rejected()">Disagree</button>
+			</div>
+		</Content>
+	</GdprBanner>
+</div>
+
+@inject IGdprConsentService _gdprConsentService
+
+@implements IDisposable
 
 @code {
+	private GdprConsentData _gdprConsentData;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged += OnConsentChanged; //Subscribe to change event
+
+			await OnConsentChanged(); //Initial check
+		}
+	}
+
 	//GDPR banner
+	private GdprBanner _gdprBanner;
 	private string _bannerColor = "lightblue";
+	private int _bannerConsentValidDays = 20;
 	private double _bannerOpacity = 90;
 
 	//GDPR popup
 	private string _overlayColor = "lightblue";
 	private double _overlayOpacity = 70;
+
+	private async Task OnConsentChanged()
+	{
+		_gdprConsentData = await _gdprConsentService.GetGdprConsentDataAsync();
+		StateHasChanged();
+	}
+
+	public async void Dispose()
+	{
+		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= OnConsentChanged; //Unsubscribe from change event
+	}
 }

@@ -1,8 +1,11 @@
-﻿<div class="banner" @ref="_inputRef"
-	 style="background-color: rgba(@BannerBackgroundColor, @BannerOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
-	 @attributes=AllOtherAttributes>
-	@Content
-</div>
+﻿@if (_shouldShow)
+{
+	<div class="banner" @ref="_inputRef"
+		 style="background-color: rgba(@BannerBackgroundColor, @BannerOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
+		 @attributes=AllOtherAttributes>
+		@Content
+	</div>
+}
 
 @using System.Globalization
 @using Majorsoft.Blazor.Components.Core.HtmlColors
@@ -16,12 +19,21 @@
 	private static bool Initialized = false;
 	protected override void OnInitialized()
 	{
-		if(Initialized)
+		if (Initialized)
 		{
 			throw new ApplicationException($"Component: '{nameof(GdprBanner)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
 		}
 
 		Initialized = true;
+		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged += CheckConsent;
+
+		WriteDiag("Initialized successfuly.");
+	}
+
+	private bool _shouldShow = false;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await CheckConsent();
 	}
 
 	private ElementReference _inputRef;
@@ -52,7 +64,13 @@
 	[Parameter] public double BannerOpacity { get; set; } = 0.9;
 
 	/// <summary>
-	/// 
+	/// Gets or Sets Consent name Banner should be used for simple usage to accept ALL cookies. Default: `Cookies.All`
+	/// For detailed choice use GdprModal.
+	/// </summary>
+	[Parameter] public string ConsentName { get; set; } = "Cookies.All";
+
+	/// <summary>
+	/// Gets or Sets Consent choice validity date. After this date Consent will be asked again.
 	/// </summary>
 	[Parameter] public DateTime AnswerValidUntil { get; set; } = DateTime.Now.AddMonths(1);
 
@@ -62,9 +80,61 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
+	/// <summary>
+	/// Accepting GDPR Consents.
+	/// </summary>
+	/// <returns>ValueTask</returns>
+	public async ValueTask Accepted()
+	{
+		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(true));
+		WriteDiag("GDPR Consent was accepted.");
+	}
+
+	/// <summary>
+	/// Rejecting GDPR Consents.
+	/// </summary>
+	/// <returns>ValueTask</returns>
+	public async ValueTask Rejected()
+	{
+		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(false));
+		WriteDiag("GDPR Consent was rejected.");
+	}
+
+	private GdprConsentData CreateGdprConsentData(bool accepted)
+	{
+		return new GdprConsentData()
+		{
+			AnsweredAt = DateTime.Now,
+			AnswerValidUntil = AnswerValidUntil,
+			GdprConsentDetails = new List<GdprConsentDetail>()
+			{
+				new GdprConsentDetail() { IsAccepted = accepted, ConsentName = this.ConsentName }
+			}
+		};
+	}
+
+	private async Task CheckConsent()
+	{
+		var gdprConsent = await _gdprConsentService.GetGdprConsentDataAsync();
+		var show = !gdprConsent?.IsValid ?? true;
+
+		WriteDiag($"GDPR Consent value changed Banner should show: '{_shouldShow}'.");
+
+
+		if (show != _shouldShow)
+		{
+			_shouldShow = show;
+			StateHasChanged();
+		}
+	}
+
+	/// <summary>
+	/// Component dispose
+	/// </summary>
 	public async void Dispose()
 	{
 		Initialized = false;
+		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= CheckConsent;
 	}
 
 	private void WriteDiag(string message)

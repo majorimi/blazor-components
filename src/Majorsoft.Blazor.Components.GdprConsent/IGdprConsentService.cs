@@ -1,39 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Majorsoft.Blazor.Extensions.BrowserStorage;
+﻿using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.GdprConsent
 {
 	/// <summary>
 	/// 
 	/// </summary>
+	public interface IGdprConsentNotificationService
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		event ConsentNotificationEventHandler GdprConsentStateChanged;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		void OnChange();
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class GdprConsentNotificationService : IGdprConsentNotificationService
+	{
+		public event ConsentNotificationEventHandler GdprConsentStateChanged;
+
+		public void OnChange()
+		{
+			GdprConsentStateChanged?.Invoke();
+		}
+	}
+
+	/// <summary>
+	/// Injectable service to handle GDPR Consent actions.
+	/// </summary>
 	public interface IGdprConsentService
 	{
+		/// <summary>
+		/// Gets GDPR Consent Browser storage key name
+		/// </summary>
+		string ConsentStoreKeyName { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		IGdprConsentNotificationService ConsentNotificationService { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		ValueTask<GdprConsentData> GetGdprConsentDataAsync();
-	}
 
-	public class GdprConsentService : IGdprConsentService
-	{
-		private readonly ILocalStorageService _storageService;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="gdprConsentData"></param>
+		/// <returns></returns>
+		ValueTask SetGdprConsentDataAsync(GdprConsentData gdprConsentData);
 
-		public GdprConsentService(ILocalStorageService storageService)
-		{
-			_storageService = storageService;
-		}
-
-		public ValueTask<GdprConsentData> GetGdprConsentDataAsync() => throw new NotImplementedException();
-	}
-
-	public class GdprConsentData
-	{
-		public bool IsAccepted { get; set; }
-
-		public DateTime AnsweredAt { get; set; }
-
-		public DateTime AnswerValidUntil { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		ValueTask ClearGdprConsentDataAsync();
 	}
 }

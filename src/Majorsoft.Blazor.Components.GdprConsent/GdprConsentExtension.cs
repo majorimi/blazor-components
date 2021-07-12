@@ -24,6 +24,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent
 
 			services.AddBrowserStorage();
 			services.AddTransient<IGdprConsentService, GdprConsentService>();
+			services.AddSingleton<IGdprConsentNotificationService, GdprConsentNotificationService>();
 
 			return services;
 		}
