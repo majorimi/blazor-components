@@ -1,50 +1,74 @@
 ﻿<div class="banner" @ref="_inputRef"
-     style="background-color: rgba(@BannerBackgroundColor, @BannerOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
-     @attributes=AllOtherAttributes>
-    @Content
+	 style="background-color: rgba(@BannerBackgroundColor, @BannerOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
+	 @attributes=AllOtherAttributes>
+	@Content
 </div>
 
 @using System.Globalization
 @using Majorsoft.Blazor.Components.Core.HtmlColors
+
+@implements IDisposable
+
 @inject ILogger<GdprBanner> _logger
 @inject IGdprConsentService _gdprConsentService
 
 @code {
-    private ElementReference _inputRef;
-    /// <summary>
-    /// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
-    /// </summary>
-    public ElementReference InnerElementReference => _inputRef;
+	private static bool Initialized = false;
+	protected override void OnInitialized()
+	{
+		if(Initialized)
+		{
+			throw new ApplicationException($"Component: '{nameof(GdprBanner)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+		}
 
-    /// <summary>
-    /// HTML Content of the collapse panel.
-    /// </summary>
-    [Parameter] public RenderFragment Content { get; set; }
+		Initialized = true;
+	}
 
-    private string _bannerColor = "128,128,128";//gray
-    /// <summary>
-    /// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
-    /// </summary>
-    [Parameter]
-    public string BannerBackgroundColor
-    {
-        get => _bannerColor;
-        set => _bannerColor = new HtmlColor(value)?.RgbColor.ToRgbString();
-    }
+	private ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
 
-    /// <summary>
-    /// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
-    /// </summary>
-    [Parameter] public double BannerOpacity { get; set; } = 0.9;
+	/// <summary>
+	/// HTML Content of the collapse panel.
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public DateTime AnswerValidUntil { get; set; } = DateTime.Now.AddMonths(1);
+	private string _bannerColor = "128,128,128";//gray
+	/// <summary>
+	/// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+	/// </summary>
+	[Parameter]
+	public string BannerBackgroundColor
+	{
+		get => _bannerColor;
+		set => _bannerColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
 
-    /// <summary>
-    /// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AllOtherAttributes { get; set; }
+	/// <summary>
+	/// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+	/// </summary>
+	[Parameter] public double BannerOpacity { get; set; } = 0.9;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public DateTime AnswerValidUntil { get; set; } = DateTime.Now.AddMonths(1);
+
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	public async void Dispose()
+	{
+		Initialized = false;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
 }
