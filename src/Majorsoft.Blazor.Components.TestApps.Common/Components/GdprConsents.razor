@@ -9,32 +9,156 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="loading-page" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-		<Content><h3>GDPR Consent Banner</h3></Content>
-	</PermaLinkElement>
-	<p>Renders a small Overlay layer at the bottom of the page with customizable content for showing the given GDPR message.</p>
-
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_bannerColor" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Consent valid: @(_bannerConsentValidDays) day(s)
-			<input type="range" class="w-100" min="1" max="1000" @bind="_bannerConsentValidDays" @oninput="(e => _bannerConsentValidDays = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
-	<div class="row pb-2">
-		<div class="col-12 col-lg-8 col-xl-5">
-			Overlay opacity: @(_bannerOpacity / 100)
-			<input type="range" class="w-100" min="0" max="100" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
-		</div>
-	</div>
+	<strong>GDPR Component type:</strong> (only one of the GDPR components should be used by apply it on a common place in your App.)
+	<select class="form-control selectpicker w-25" @bind="_gdprControlType">
+		<option value="Banner">Banner</option>
+		<option value="Modal">Modal</option>
+	</select>
 </div>
 
+@if (_gdprControlType == "Banner")
+{
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="gdpr-banner" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>GDPR Consent Banner</h3></Content>
+		</PermaLinkElement>
+		<p>Renders a small Overlay layer at the bottom of the page with customizable content for showing the given GDPR message.</p>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Banner color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_bannerColor" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Consent valid: @(_bannerConsentValidDays) day(s)
+				<input type="range" class="w-100" min="1" max="1000" @bind="_bannerConsentValidDays" @oninput="(e => _bannerConsentValidDays = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Banner opacity: @(_bannerOpacity / 100)
+				<input type="range" class="w-100" min="0" max="100" @bind="_bannerOpacity" @oninput="(e => _bannerOpacity = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+	</div>
+
+	@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
+	<div>
+		<style>
+			.gdpr-banner {
+				font-size: medium;
+				font-weight: 500;
+				padding: 16px 0;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				/*border: 1px solid #e0e0e0;*/
+			}
+		</style>
+		<GdprBanner @ref="_gdprBanner" 
+					BannerOpacity="@(_bannerOpacity / 100)" 
+					BannerBackgroundColor="@_bannerColor" 
+					AnswerValidUntil="@DateTime.Now.AddDays(_bannerConsentValidDays)" 
+					ConsentName="All">
+			<Content>
+				<div class="gdpr-banner">
+					<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
+					<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent Banner usage in your Blazor Application.</strong>
+
+					<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.Accepted()">I agree</button>
+					<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.Rejected()">Disagree</button>
+				</div>
+			</Content>
+		</GdprBanner>
+	</div>
+}
+else if (_gdprControlType == "Modal")
+{
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="gdpr-modal" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>GDPR Consent Modal</h3></Content>
+		</PermaLinkElement>
+		<p>Renders a Modal dialog with Overlay layer for the whole page with customizable content for showing the given GDPR message.</p>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_overlayColor" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Consent valid: @(_bannerConsentValidDays) day(s)
+				<input type="range" class="w-100" min="1" max="1000" @bind="_bannerConsentValidDays" @oninput="(e => _bannerConsentValidDays = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-5">
+				Overlay opacity: @(_overlayOpacity / 100)
+				<input type="range" class="w-100" min="0" max="100" @bind="_overlayOpacity" @oninput="(e => _overlayOpacity = int.Parse(e.Value?.ToString()))" />
+			</div>
+		</div>
+	</div>
+
+	<GdprModal @ref="_gdprModal" 
+			   OverlayBackgroundColor="@_overlayColor"
+			   OverlayOpacity="@(_overlayOpacity /100)" 
+			   ConsentDetails="@_gdprConsents"
+			   Centered="true">
+		<Content>
+			<div class="container-fluid p-3 mb-3">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="" style="justify-content: center;"><span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span> Cookie Consent</h2>
+					</div>
+				</div>
+				<div class="row mt-3 mb-4">
+					<div class="col-10">
+						<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent Modal usage in your Blazor Application.</strong>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-8">
+						Accept all Cookies:
+					</div>
+					<div class="col-4">
+						<ToggleSwitch @bind-Checked="_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					</div>
+					<hr />
+				</div>
+				<div class="row mb-1">
+					<div class="col-8">
+						Session all Cookies:
+					</div>
+					<div class="col-4">
+						<ToggleSwitch @bind-Checked="_gdprConsents[1].IsAccepted" Disabled="_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					</div>
+				</div>
+				<div class="row  mb-1">
+					<div class="col-8">
+						Tracking all Cookies:
+					</div>
+					<div class="col-4">
+						<ToggleSwitch @bind-Checked="_gdprConsents[2].IsAccepted" Disabled="@_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					</div>
+				</div>
+			</div>
+		</Content>
+		<Footer>
+			<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprModal.Accepted()">I agree</button>
+			<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprModal.Rejected()">Disagree</button>
+		</Footer>
+	</GdprModal>
+}
+
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>GDPR Consent data</h3>
+	<PermaLinkElement PermaLinkName="gdpr-consent" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>GDPR Consent data</h3></Content>
+	</PermaLinkElement>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -43,7 +167,7 @@
 				<label>Consent was answered at: <strong>@_gdprConsentData.AnsweredAt</strong> valid until: <strong>@_gdprConsentData.AnswerValidUntil</strong></label>
 				<table class="table table-striped">
 					<tr>
-						<th>Consent Name</th>
+						<th>Cookie Consent Name</th>
 						<th>IsAccepted</th>
 					</tr>
 					@foreach (var item in _gdprConsentData.GdprConsentDetails)
@@ -65,36 +189,6 @@
 	</div>
 </div>
 
-@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
-<div>
-	<style>
-		.gdpr-banner {
-			font-size: medium;
-			font-weight: 500;
-			padding: 16px 0;
-			display: flex;
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
-			justify-content: center;
-			-webkit-box-align: center;
-			-ms-flex-align: center;
-			align-items: center;
-			/*border: 1px solid #e0e0e0;*/
-		}
-	</style>
-	<GdprBanner @ref="_gdprBanner" BannerOpacity="@(_bannerOpacity / 100)" BannerBackgroundColor="@_bannerColor" AnswerValidUntil="@DateTime.Now.AddDays(_bannerConsentValidDays)" ConsentName="All">
-		<Content>
-			<div class="gdpr-banner">
-				<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
-				<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent banner usage in your Blazor Application.</strong>
-
-				<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.Accepted()">I agree</button>
-				<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.Rejected()">Disagree</button>
-			</div>
-		</Content>
-	</GdprBanner>
-</div>
-
 @inject IGdprConsentService _gdprConsentService
 
 @implements IDisposable
@@ -111,6 +205,19 @@
 		}
 	}
 
+	private string _gdprControlType = "Banner";
+	private List<GdprConsentDetail> _gdprConsents;
+
+	protected override void OnInitialized()
+	{
+		_gdprConsents = new List<GdprConsentDetail>()
+		{
+			new GdprConsentDetail() { ConsentName = "All", IsAccepted = true },
+			new GdprConsentDetail() { ConsentName = "Session", IsAccepted = true },
+			new GdprConsentDetail() { ConsentName = "Tracking", IsAccepted = true },
+		};
+	}
+
 	//GDPR banner
 	private GdprBanner _gdprBanner;
 	private string _bannerColor = "lightblue";
@@ -118,7 +225,8 @@
 	private double _bannerOpacity = 90;
 
 	//GDPR popup
-	private string _overlayColor = "lightblue";
+	private GdprModal _gdprModal;
+	private string _overlayColor = "lightgray";
 	private double _overlayOpacity = 70;
 
 	private async Task OnConsentChanged()

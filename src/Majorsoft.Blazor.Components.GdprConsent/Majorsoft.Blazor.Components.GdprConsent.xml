@@ -125,6 +125,84 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Footer">
+            <summary>
+            HTML content to show on the Modal footer (bottom). Can be any valid HTML but should be only custom action buttons.
+            Must not be defined if you want to leave it out.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.OverlayBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.OverlayOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.ConsentDetails">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AnswerValidUntil">
+            <summary>
+            Gets or Sets Consent choice validity date. After this date Consent will be asked again.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Height">
+            <summary>
+            Modal dialog window Height in px if set to 0 Height is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Width">
+            <summary>
+            Modal dialog window Width in px if set to 0 Width is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.MinHeight">
+            <summary>
+            Modal dialog window minimum Height in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.MinWidth">
+            <summary>
+            Modal dialog window minimum Width in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Centered">
+            <summary>
+            When true Modal dialog will be vertically centered, otherwise shown near to the top. Modal dialog horizontally always centered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Accepted">
+            <summary>
+            Accepting GDPR Consents.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Rejected">
+            <summary>
+            Rejecting GDPR Consents.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Dispose">
+            <summary>
+            Component dispose
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.InnerElementReference">
             <summary>
             Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
