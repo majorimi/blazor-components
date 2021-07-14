@@ -35,6 +35,11 @@
             Gets weather the Consent answer is valid or not.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.AllAccepted">
+            <summary>
+            Gets weather all Consent were accepted.
+            </summary>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.#ctor">
             <summary>
             Default constructor
@@ -98,7 +103,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentStoreKeyName">
             <summary>
-            Gets GDPR Consent Browser storage key name
+            Gets GDPR Consent Browser local storage key name
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentNotificationService">
@@ -232,13 +237,13 @@
             Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Accepted">
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AcceptAll">
             <summary>
             Accepting all GDPR Consents.
             </summary>
             <returns>ValueTask</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Rejected">
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.RejectAll">
             <summary>
             Rejecting all GDPR Consents.
             </summary>

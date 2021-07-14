@@ -71,10 +71,10 @@
 					<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
 					<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent Banner usage in your Blazor Application.</strong>
 
-					<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.Accepted()">I agree</button>
-					<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.Rejected()">Disagree</button>
+					<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.AcceptAll()">I agree</button>
+					<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.RejectAll()">Disagree</button>
 
-					<button type="button" class="btn btn-warning m-1" @onclick='() => { _gdprControlType = "Modal"; }'>Customize</button>
+					<button type="button" class="btn btn-warning m-1 ml-4" @onclick='() => { _gdprControlType = "Modal"; }'>Customize</button>
 				</div>
 			</Content>
 		</GdprBanner>

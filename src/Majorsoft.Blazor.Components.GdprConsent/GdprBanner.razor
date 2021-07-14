@@ -83,7 +83,7 @@
 	/// Accepting all GDPR Consents.
 	/// </summary>
 	/// <returns>ValueTask</returns>
-	public async ValueTask Accepted()
+	public async ValueTask AcceptAll()
 	{
 		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(true));
 		WriteDiag("GDPR Consent was accepted.");
@@ -93,7 +93,7 @@
 	/// Rejecting all GDPR Consents.
 	/// </summary>
 	/// <returns>ValueTask</returns>
-	public async ValueTask Rejected()
+	public async ValueTask RejectAll()
 	{
 		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(false));
 		WriteDiag("GDPR Consent was rejected.");
@@ -129,7 +129,7 @@
 	/// <summary>
 	/// Component dispose
 	/// </summary>
-	public async void Dispose()
+	public void Dispose()
 	{
 		Initialized = false;
 		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= CheckConsent;

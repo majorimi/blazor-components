@@ -8,7 +8,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent
 	public interface IGdprConsentService
 	{
 		/// <summary>
-		/// Gets GDPR Consent Browser storage key name
+		/// Gets GDPR Consent Browser local storage key name
 		/// </summary>
 		string ConsentStoreKeyName { get; }
 

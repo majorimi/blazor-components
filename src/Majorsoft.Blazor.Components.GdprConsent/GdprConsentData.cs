@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Majorsoft.Blazor.Components.GdprConsent
 {
@@ -27,6 +28,11 @@ namespace Majorsoft.Blazor.Components.GdprConsent
 		/// Gets weather the Consent answer is valid or not.
 		/// </summary>
 		public bool IsValid => AnswerValidUntil >= DateTime.Now;
+
+		/// <summary>
+		/// Gets weather all Consent were accepted.
+		/// </summary>
+		public bool AllAccepted => (GdprConsentDetails?.Any() ?? false) && (GdprConsentDetails?.All(x => x.IsAccepted) ?? false);
 
 		/// <summary>
 		/// Default constructor
