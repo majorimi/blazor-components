@@ -64,10 +64,9 @@
 	[Parameter] public double BannerOpacity { get; set; } = 0.9;
 
 	/// <summary>
-	/// Gets or Sets Consent name Banner should be used for simple usage to accept ALL cookies. Default: `Cookies.All`
-	/// For detailed choice use GdprModal.
+	/// GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
 	/// </summary>
-	[Parameter] public string ConsentName { get; set; } = "Cookies.All";
+	[Parameter] public IEnumerable<GdprConsentDetail> ConsentDetails { get; set; } = new GdprConsentDetail[] { new GdprConsentDetail() { ConsentName = "Cookies.All" } };
 
 	/// <summary>
 	/// Gets or Sets Consent choice validity date. After this date Consent will be asked again.
@@ -102,14 +101,13 @@
 
 	private GdprConsentData CreateGdprConsentData(bool accepted)
 	{
+		ConsentDetails?.ToList().ForEach(f => f.IsAccepted = accepted);
 		return new GdprConsentData()
 		{
 			AnsweredAt = DateTime.Now,
 			AnswerValidUntil = AnswerValidUntil,
-			GdprConsentDetails = new List<GdprConsentDetail>()
-			{
-				new GdprConsentDetail() { IsAccepted = accepted, ConsentName = this.ConsentName }
-			}
+			GdprConsentDetails = ConsentDetails
+
 		};
 	}
 

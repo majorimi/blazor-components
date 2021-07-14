@@ -148,7 +148,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.ConsentDetails">
             <summary>
-            
+            GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AnswerValidUntil">
@@ -186,15 +186,9 @@
             Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Accepted">
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.SaveChoice">
             <summary>
-            Accepting GDPR Consents.
-            </summary>
-            <returns>ValueTask</returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Rejected">
-            <summary>
-            Rejecting GDPR Consents.
+            Save choiced GDPR Consents.
             </summary>
             <returns>ValueTask</returns>
         </member>
@@ -223,10 +217,9 @@
             Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.ConsentName">
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.ConsentDetails">
             <summary>
-            Gets or Sets Consent name Banner should be used for simple usage to accept ALL cookies. Default: `Cookies.All`
-            For detailed choice use GdprModal.
+            GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AnswerValidUntil">

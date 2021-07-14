@@ -1,11 +1,16 @@
-﻿<ModalDialog @ref="_modal" OverlayBackgroundColor="@OverlayBackgroundColor" OverlayOpacity="@OverlayOpacity"
-             Height="@Height" Width="@Width" MinHeight="@MinHeight" MinWidth="@MinWidth" Centered="@Centered"
-                CloseOnEscapeKey="false"
-                CloseOnOverlayClick="false"
-                ShowCloseButton="false"
-                Animate="false"
-                Focus="false"
-                @attributes=AllOtherAttributes>
+﻿<ModalDialog @ref="_modal" 
+             OverlayBackgroundColor="@OverlayBackgroundColor" 
+             OverlayOpacity="@OverlayOpacity"
+             Height="@Height" 
+             Width="@Width" 
+             MinHeight="@MinHeight" 
+             MinWidth="@MinWidth" 
+             Centered="@Centered"
+            CloseOnEscapeKey="false"
+            CloseOnOverlayClick="false"
+            ShowCloseButton="false"
+            Animate="false"
+            AllOtherAttributes="AllOtherAttributes">
     <Content>
         @Content
     </Content>
@@ -25,7 +30,7 @@
     {
         if (Initialized)
         {
-            throw new ApplicationException($"Component: '{nameof(GdprBanner)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+            throw new ApplicationException($"Component: '{nameof(GdprModal)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
         }
 
         Initialized = true;
@@ -62,9 +67,9 @@
     [Parameter] public double OverlayOpacity { get; set; } = 0.7;
 
     /// <summary>
-    /// 
+    /// GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
     /// </summary>
-    [Parameter] public IEnumerable<GdprConsentDetail> ConsentDetails { get; set; }
+    [Parameter] public IEnumerable<GdprConsentDetail> ConsentDetails { get; set; } = new GdprConsentDetail[] { new GdprConsentDetail() { ConsentName = "Cookies.All" } };
 
     /// <summary>
     /// Gets or Sets Consent choice validity date. After this date Consent will be asked again.
@@ -102,26 +107,16 @@
 
 
     /// <summary>
-    /// Accepting GDPR Consents.
+    /// Save choiced GDPR Consents.
     /// </summary>
     /// <returns>ValueTask</returns>
-    public async ValueTask Accepted()
+    public async ValueTask SaveChoice()
     {
-        await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(true));
+        await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData());
         WriteDiag("GDPR Consent was accepted.");
     }
 
-    /// <summary>
-    /// Rejecting GDPR Consents.
-    /// </summary>
-    /// <returns>ValueTask</returns>
-    public async ValueTask Rejected()
-    {
-        await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(false));
-        WriteDiag("GDPR Consent was rejected.");
-    }
-
-    private GdprConsentData CreateGdprConsentData(bool accepted)
+    private GdprConsentData CreateGdprConsentData()
     {
         return new GdprConsentData()
         {

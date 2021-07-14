@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,9 @@ namespace Majorsoft.Blazor.Components.GdprConsent
 			}
 
 			services.AddBrowserStorage();
+			services.AddJsInteropExtensions();
+			services.AddCssEvents();
+
 			services.AddTransient<IGdprConsentService, GdprConsentService>();
 			services.AddSingleton<IGdprConsentNotificationService, GdprConsentNotificationService>();
 

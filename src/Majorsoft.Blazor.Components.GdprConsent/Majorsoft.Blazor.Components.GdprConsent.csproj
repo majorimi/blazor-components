@@ -41,6 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />

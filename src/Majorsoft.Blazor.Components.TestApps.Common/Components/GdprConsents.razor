@@ -64,7 +64,7 @@
 					BannerOpacity="@(_bannerOpacity / 100)" 
 					BannerBackgroundColor="@_bannerColor" 
 					AnswerValidUntil="@DateTime.Now.AddDays(_bannerConsentValidDays)" 
-					ConsentName="All">
+					ConsentDetails="@_gdprConsents">
 			<Content>
 				<div class="gdpr-banner">
 					<span class="fa fa-lg fa-cookie-bite m-1" aria-hidden="true"></span>
@@ -72,6 +72,8 @@
 
 					<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprBanner.Accepted()">I agree</button>
 					<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprBanner.Rejected()">Disagree</button>
+
+					<button type="button" class="btn btn-warning m-1" @onclick='() => { _gdprControlType = "Modal"; }'>Customize</button>
 				</div>
 			</Content>
 		</GdprBanner>
@@ -104,6 +106,7 @@ else if (_gdprControlType == "Modal")
 		</div>
 	</div>
 
+	@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
 	<GdprModal @ref="_gdprModal" 
 			   OverlayBackgroundColor="@_overlayColor"
 			   OverlayOpacity="@(_overlayOpacity /100)" 
@@ -117,40 +120,41 @@ else if (_gdprControlType == "Modal")
 					</div>
 				</div>
 				<div class="row mt-3 mb-4">
-					<div class="col-10">
+					<div class="col-12">
 						<strong>This demo site actually does NOT uses cookies. Only demonstrate Cookie Consent Modal usage in your Blazor Application.</strong>
 					</div>
 				</div>
 				<div class="row mb-2">
-					<div class="col-8">
-						Accept all Cookies:
+					<div class="col-10">
+						Required Cookies:
 					</div>
-					<div class="col-4">
-						<ToggleSwitch @bind-Checked="_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					<div class="col-2">
+						<ToggleSwitch Checked="_gdprConsents[0].IsAccepted" Disabled="true" Width="60" Height="25" />
 					</div>
 					<hr />
 				</div>
 				<div class="row mb-1">
-					<div class="col-8">
+					<div class="col-10">
 						Session all Cookies:
 					</div>
-					<div class="col-4">
-						<ToggleSwitch @bind-Checked="_gdprConsents[1].IsAccepted" Disabled="_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					<div class="col-2">
+						<ToggleSwitch @bind-Checked="_gdprConsents[1].IsAccepted" @bind-Checked:event="OnToggleChanged" Width="60" Height="25" />
 					</div>
 				</div>
 				<div class="row  mb-1">
-					<div class="col-8">
+					<div class="col-10">
 						Tracking all Cookies:
 					</div>
-					<div class="col-4">
-						<ToggleSwitch @bind-Checked="_gdprConsents[2].IsAccepted" Disabled="@_gdprConsents[0].IsAccepted" Width="60" Height="25" />
+					<div class="col-2">
+						<ToggleSwitch @bind-Checked="_gdprConsents[2].IsAccepted" @bind-Checked:event="OnToggleChanged" Width="60" Height="25" />
 					</div>
 				</div>
 			</div>
 		</Content>
 		<Footer>
-			<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprModal.Accepted()">I agree</button>
-			<button type="button" class="btn btn-secondary m-1" @onclick="async () => await _gdprModal.Rejected()">Disagree</button>
+			<button type="button" class="btn btn-primary m-1" @onclick="async () => await _gdprModal.SaveChoice()">Confirm my choice</button>
+			<button type="button" class="btn btn-secondary m-1" 
+					@onclick="async () => { _gdprConsents.ForEach(f => f.IsAccepted = true); await _gdprModal.SaveChoice(); }">Accept all</button>
 		</Footer>
 	</GdprModal>
 }
@@ -165,6 +169,15 @@ else if (_gdprControlType == "Modal")
 			@if (_gdprConsentData != null)
 			{
 				<label>Consent was answered at: <strong>@_gdprConsentData.AnsweredAt</strong> valid until: <strong>@_gdprConsentData.AnswerValidUntil</strong></label>
+				if (_gdprConsentData.IsValid)
+				{
+					<label>Consent is: <strong>Valid</strong></label>
+				}
+				else
+				{
+					<label class="text-danger">Consent is: <strong>Invalid</strong></label>
+				}
+
 				<table class="table table-striped">
 					<tr>
 						<th>Cookie Consent Name</th>
@@ -212,7 +225,7 @@ else if (_gdprControlType == "Modal")
 	{
 		_gdprConsents = new List<GdprConsentDetail>()
 		{
-			new GdprConsentDetail() { ConsentName = "All", IsAccepted = true },
+			new GdprConsentDetail() { ConsentName = "Required", IsAccepted = true },
 			new GdprConsentDetail() { ConsentName = "Session", IsAccepted = true },
 			new GdprConsentDetail() { ConsentName = "Tracking", IsAccepted = true },
 		};
