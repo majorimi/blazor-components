@@ -9,7 +9,8 @@
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<strong>GDPR Component type:</strong> (only one of the GDPR components should be used by apply it on a common place in your App.)
+	<strong>GDPR Component type:</strong> (only <strong>one of the GDPR components should be used once</strong> by apply it on a 
+	<strong>common place in your App e.g.: MainLayout.razor</strong>!)
 	<select class="form-control selectpicker w-25" @bind="_gdprControlType">
 		<option value="Banner">Banner</option>
 		<option value="Modal">Modal</option>
@@ -43,7 +44,7 @@
 		</div>
 	</div>
 
-	@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
+	@*THIS should be in a common part of your App e.g.: MainLayout.razor!!!*@
 	<div>
 		<style>
 			.gdpr-banner {
@@ -106,7 +107,7 @@ else if (_gdprControlType == "Modal")
 		</div>
 	</div>
 
-	@*THIS should be in a common part of your App e.g.: MainLayout.razor !!!*@
+	@*THIS should be in a common part of your App e.g.: MainLayout.razor!!!*@
 	<GdprModal @ref="_gdprModal" 
 			   OverlayBackgroundColor="@_overlayColor"
 			   OverlayOpacity="@(_overlayOpacity /100)" 

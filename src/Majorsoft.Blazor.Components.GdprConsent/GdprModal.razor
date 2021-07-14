@@ -107,7 +107,7 @@
 
 
     /// <summary>
-    /// Save choiced GDPR Consents.
+    /// Save user choosen GDPR Consents.
     /// </summary>
     /// <returns>ValueTask</returns>
     public async ValueTask SaveChoice()
@@ -148,7 +148,7 @@
     /// <summary>
     /// Component dispose
     /// </summary>
-    public async void Dispose()
+    public void Dispose()
     {
         Initialized = false;
         _gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= CheckConsent;

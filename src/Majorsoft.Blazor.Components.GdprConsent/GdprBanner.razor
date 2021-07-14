@@ -80,7 +80,7 @@
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// Accepting GDPR Consents.
+	/// Accepting all GDPR Consents.
 	/// </summary>
 	/// <returns>ValueTask</returns>
 	public async ValueTask Accepted()
@@ -90,7 +90,7 @@
 	}
 
 	/// <summary>
-	/// Rejecting GDPR Consents.
+	/// Rejecting all GDPR Consents.
 	/// </summary>
 	/// <returns>ValueTask</returns>
 	public async ValueTask Rejected()

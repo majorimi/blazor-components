@@ -66,6 +66,11 @@
             </summary>
             <param name="services">IServiceCollection instance</param>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentNotificationService">
+            <summary>
+            Default implementation for <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentService">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService"/>
@@ -73,22 +78,17 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService">
             <summary>
-            
+            Injectable singleton service to handle GDPR Consent changes.
             </summary>
         </member>
         <member name="E:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService.GdprConsentStateChanged">
             <summary>
-            
+            Event handler to subscribe for GDPR Consent changes.
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService.OnChange">
             <summary>
-            
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentNotificationService">
-            <summary>
-            
+            Method called by <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService"/> to trigger Change event when GDPR Consent value was changed.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService">
@@ -103,27 +103,27 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentNotificationService">
             <summary>
-            
+            Gets a <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/> to able to subscribe on Consent changed events.
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.GetGdprConsentDataAsync">
             <summary>
-            
+            Gets the GDPR Consent data from Browser local storage if any stored.
             </summary>
-            <returns></returns>
+            <returns>ValueTask</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.SetGdprConsentDataAsync(Majorsoft.Blazor.Components.GdprConsent.GdprConsentData)">
             <summary>
-            
+            Sets or overrides the given GDPR Consent data in Browser local storage.
             </summary>
-            <param name="gdprConsentData"></param>
-            <returns></returns>
+            <param name="gdprConsentData">GDPR consent details with accepted and rejected cookies list</param>
+            <returns>ValueTask</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ClearGdprConsentDataAsync">
             <summary>
-            
+            Removes the GDPR Consent data from Browser local storage if any stored.
             </summary>
-            <returns></returns>
+            <returns>ValueTask</returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Content">
             <summary>
@@ -188,7 +188,7 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.SaveChoice">
             <summary>
-            Save choiced GDPR Consents.
+            Save user choosen GDPR Consents.
             </summary>
             <returns>ValueTask</returns>
         </member>
@@ -234,13 +234,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Accepted">
             <summary>
-            Accepting GDPR Consents.
+            Accepting all GDPR Consents.
             </summary>
             <returns>ValueTask</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Rejected">
             <summary>
-            Rejecting GDPR Consents.
+            Rejecting all GDPR Consents.
             </summary>
             <returns>ValueTask</returns>
         </member>

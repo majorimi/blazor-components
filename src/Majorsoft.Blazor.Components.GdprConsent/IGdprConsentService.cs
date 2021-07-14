@@ -3,35 +3,6 @@
 namespace Majorsoft.Blazor.Components.GdprConsent
 {
 	/// <summary>
-	/// 
-	/// </summary>
-	public interface IGdprConsentNotificationService
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		event ConsentNotificationEventHandler GdprConsentStateChanged;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		void OnChange();
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public class GdprConsentNotificationService : IGdprConsentNotificationService
-	{
-		public event ConsentNotificationEventHandler GdprConsentStateChanged;
-
-		public void OnChange()
-		{
-			GdprConsentStateChanged?.Invoke();
-		}
-	}
-
-	/// <summary>
 	/// Injectable service to handle GDPR Consent actions.
 	/// </summary>
 	public interface IGdprConsentService
@@ -42,27 +13,27 @@ namespace Majorsoft.Blazor.Components.GdprConsent
 		string ConsentStoreKeyName { get; }
 
 		/// <summary>
-		/// 
+		/// Gets a <see cref="IGdprConsentNotificationService"/> to able to subscribe on Consent changed events.
 		/// </summary>
 		IGdprConsentNotificationService ConsentNotificationService { get; }
 
 		/// <summary>
-		/// 
+		/// Gets the GDPR Consent data from Browser local storage if any stored.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>ValueTask</returns>
 		ValueTask<GdprConsentData> GetGdprConsentDataAsync();
 
 		/// <summary>
-		/// 
+		/// Sets or overrides the given GDPR Consent data in Browser local storage.
 		/// </summary>
-		/// <param name="gdprConsentData"></param>
-		/// <returns></returns>
+		/// <param name="gdprConsentData">GDPR consent details with accepted and rejected cookies list</param>
+		/// <returns>ValueTask</returns>
 		ValueTask SetGdprConsentDataAsync(GdprConsentData gdprConsentData);
 
 		/// <summary>
-		/// 
+		/// Removes the GDPR Consent data from Browser local storage if any stored.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>ValueTask</returns>
 		ValueTask ClearGdprConsentDataAsync();
 	}
 }
