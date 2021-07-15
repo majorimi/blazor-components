@@ -1,7 +1,7 @@
 ﻿namespace Majorsoft.Blazor.Components.GdprConsent
 {
 	/// <summary>
-	/// Injectable singleton service to handle GDPR Consent changes.
+	/// Injectable singleton service to handle GDPR Consent changes  with events.
 	/// </summary>
 	public interface IGdprConsentNotificationService
 	{

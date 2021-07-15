@@ -83,7 +83,7 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService">
             <summary>
-            Injectable singleton service to handle GDPR Consent changes.
+            Injectable singleton service to handle GDPR Consent changes  with events.
             </summary>
         </member>
         <member name="E:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService.GdprConsentStateChanged">
@@ -103,7 +103,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentStoreKeyName">
             <summary>
-            Gets GDPR Consent Browser local storage key name
+            Gets GDPR Consent Browser local storage key name.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentNotificationService">
@@ -153,7 +153,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.ConsentDetails">
             <summary>
-            GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
+            GDPR Cookies consent details. An enumerable list of Cookie types with Accepted flag.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AnswerValidUntil">
@@ -193,7 +193,7 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.SaveChoice">
             <summary>
-            Save user choosen GDPR Consents.
+            Saves user chosen GDPR Consent details. It should be `await`-ed.
             </summary>
             <returns>ValueTask</returns>
         </member>
@@ -239,13 +239,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AcceptAll">
             <summary>
-            Accepting all GDPR Consents.
+            Accepting all GDPR Consents. It should be `await`-ed.
             </summary>
             <returns>ValueTask</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.RejectAll">
             <summary>
-            Rejecting all GDPR Consents.
+            Rejecting all GDPR Consents. It should be `await`-ed.
             </summary>
             <returns>ValueTask</returns>
         </member>

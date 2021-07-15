@@ -67,7 +67,7 @@
     [Parameter] public double OverlayOpacity { get; set; } = 0.7;
 
     /// <summary>
-    /// GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
+    /// GDPR Cookies consent details. An enumerable list of Cookie types with Accepted flag.
     /// </summary>
     [Parameter] public IEnumerable<GdprConsentDetail> ConsentDetails { get; set; } = new GdprConsentDetail[] { new GdprConsentDetail() { ConsentName = "Cookies.All" } };
 
@@ -107,7 +107,7 @@
 
 
     /// <summary>
-    /// Save user choosen GDPR Consents.
+    /// Saves user chosen GDPR Consent details. It should be `await`-ed.
     /// </summary>
     /// <returns>ValueTask</returns>
     public async ValueTask SaveChoice()
