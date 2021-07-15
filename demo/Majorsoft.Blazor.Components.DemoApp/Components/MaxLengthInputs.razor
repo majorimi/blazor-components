@@ -1,0 +1,197 @@
+﻿<style>
+    .countDownText {
+        font-size: small;
+        color: gray;
+    }
+    .countDownText.red {
+        color: red;
+    }
+</style>
+
+<PageScroll />
+
+<h1>Max allowed length Input controls with Counter</h1>
+<p>
+    Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with <code>maxlength</code> set and counter to show remaining characters. For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md" target="_blank">Github</a>.
+    <br /><strong>Majorsoft.Blazor.Components.Inputs</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Inputs" target="_blank">Nuget</a>
+</p>
+
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthInput component</h3>
+    <p>Wraps around <strong>HTML Input</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="50" @bind="_maxLengthInputAllowed" @oninput="(e => _maxLengthInputAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputAllowed</pre>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <MaxLengthInput id="maxInput1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputAllowed} char(s)")"
+                            @bind-Value="@_maxLengthInputValue" @bind-Value:event="OnInput"
+                            MaxAllowedChars="@_maxLengthInputAllowed"
+                            CountdownTextClass="@_maxLengthInputTextClass"
+                            OnRemainingCharsChanged="MaxLengthInputRemainingCharsChanged" />
+        </div>
+    </div>
+
+    <div>Actual value: @_maxLengthInputValue</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthInputText component</h3>
+    <p>Wraps around <strong>Blazor InputText</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="50" @bind="_maxLengthInputTextAllowed" @oninput="(e => _maxLengthInputTextAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputTextAllowed</pre>
+        </div>
+    </div>
+
+    <EditForm Model="@exampleModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row pb-2">
+            <div class="col-12 col-lg-8 col-xl-5">
+                <MaxLengthInputText id="maxInput2" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputTextAllowed} char(s)")"
+                                    @bind-Value="exampleModel.Name"
+                                    MaxAllowedChars="@_maxLengthInputTextAllowed"
+                                    CountdownTextClass="@_maxLengthInputTextTextClass"
+                                    OnRemainingCharsChanged="MaxLengthInputTextRemainingCharsChanged" />
+            </div>
+        </div>
+        <div class="pb-2">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
+        
+    <div>Actual value: @(exampleModel.Name)</div>
+</div>
+
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthTextarea component</h3>
+    <p>Wraps around <strong>HTML TextArea</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="100" @bind="_maxLengthTextareaAllowed" @oninput="(e => _maxLengthTextareaAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthTextareaAllowed</pre>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            <MaxLengthTextarea id="maxTextArea1" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthTextareaAllowed} char(s)")"
+                               @bind-Value="@_maxLengthTextareaValue" @bind-Value:event="OnInput"
+                               MaxAllowedChars="@_maxLengthTextareaAllowed"
+                               CountdownTextClass="@_maxLengthTextareaTextClass"
+                               OnRemainingCharsChanged="MaxLengthTextareaRemainingCharsChanged" />
+        </div>
+    </div>
+
+    <div>Actual value: @_maxLengthTextareaValue</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>MaxLengthInputTextArea component</h3>
+    <p>Wraps around <strong>Blazor InputTextArea</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+
+    <div>
+        <div>
+            <input type="range" min="0" max="50" @bind="_maxLengthInputTextAreaAllowed" @oninput="(e => _maxLengthInputTextAllowed = int.Parse(e.Value?.ToString()))" /> <pre style="display: inline;">Max allowed chars: @_maxLengthInputTextAreaAllowed</pre>
+        </div>
+    </div>
+
+    <EditForm Model="@exampleModel2">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row pb-2">
+            <div class="col-12 col-lg-8 col-xl-5">
+                <MaxLengthInputTextArea id="maxTextArea2" class="form-control w-100" placeholder="@($"You can type maximum: {_maxLengthInputTextAreaAllowed} char(s)")"
+                                    @bind-Value="exampleModel2.Name"
+                                    MaxAllowedChars="@_maxLengthInputTextAreaAllowed"
+                                    CountdownTextClass="@_maxLengthInputTextAreaClass"
+                                    OnRemainingCharsChanged="MaxLengthInputTextAreaRemainingCharsChanged" />
+            </div>
+        </div>
+        <div class="pb-2">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
+
+    <div>Actual value: @(exampleModel2.Name)</div>
+</div>
+
+@code {
+    //MaxLengthInput
+    private int _maxLengthInputAllowed = 10;
+    private string _maxLengthInputValue = "";
+    private string _maxLengthInputTextClass = "countDownText";
+
+    private void MaxLengthInputRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthInputTextClass = "countDownText";
+
+        if (_maxLengthInputAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthInputTextClass = "countDownText red";
+        }
+    }
+
+    //MaxLengthInputText
+    private int _maxLengthInputTextAllowed = 10;
+    private string _maxLengthInputTextTextClass = "countDownText";
+
+    private void MaxLengthInputTextRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthInputTextTextClass = "countDownText";
+
+        if (_maxLengthInputTextAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthInputTextTextClass = "countDownText red";
+        }
+    }
+
+
+    //MaxLengthTextarea
+    private int _maxLengthTextareaAllowed = 20;
+    private string _maxLengthTextareaValue = "";
+    private string _maxLengthTextareaTextClass = "countDownText";
+
+    private void MaxLengthTextareaRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthTextareaTextClass = "countDownText";
+
+        if (_maxLengthTextareaAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthTextareaTextClass = "countDownText red";
+        }
+    }
+
+    //MaxLengthInputTextArea
+    private int _maxLengthInputTextAreaAllowed = 20;
+    private string _maxLengthInputTextAreaClass = "countDownText";
+
+    private void MaxLengthInputTextAreaRemainingCharsChanged(int remainingChars)
+    {
+        _maxLengthInputTextAreaClass = "countDownText";
+
+        if (_maxLengthInputTextAreaAllowed * 0.2 >= remainingChars)
+        {
+            _maxLengthInputTextAreaClass = "countDownText red";
+        }
+    }
+    
+    //Form model
+    private ExampleModel exampleModel = new ExampleModel() { Name = "" };
+    private ExampleModel exampleModel2 = new ExampleModel();
+    public class ExampleModel
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Name is too long.")]
+        public string Name { get; set; }
+    }
+}

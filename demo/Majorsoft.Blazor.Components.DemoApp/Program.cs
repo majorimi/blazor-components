@@ -12,6 +12,8 @@ using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.PermaLink;
 using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
+using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Extensions.Analytics;
 
 namespace Majorsoft.Blazor.Components.DemoApp
 {
@@ -29,6 +31,10 @@ namespace Majorsoft.Blazor.Components.DemoApp
 			builder.Services.AddPermaLinkWatcher();
 			builder.Services.AddMapExtensions();
 			builder.Services.AddBrowserStorage();
+
+			builder.Services.AddGoogleAnalytics();
+
+			builder.Services.AddGdprConsent();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
