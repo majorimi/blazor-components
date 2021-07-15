@@ -26,10 +26,16 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		Task RemovePageResizeAsync(string eventId);
 
 		/// <summary>
-		/// Returns Browser Window size (height and width in Pixel).
+		/// Returns Browser Window inner size (height and width in Pixel).
 		/// </summary>
 		/// <returns>Async Task with Window size</returns>
 		Task<PageSize> GetPageSizeAsync();
+
+		/// <summary>
+		/// Returns Browser Window screen size (height and width in Pixel).
+		/// </summary>
+		/// <returns>Async Task with Window size</returns>
+		Task<PageSize> GetScreenSizeAsync();
 
 		/// <summary>
 		/// Adds event listener for 'resize' HTML event for the given element with property filter.

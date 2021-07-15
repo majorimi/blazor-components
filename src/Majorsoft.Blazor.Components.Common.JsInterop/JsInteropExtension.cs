@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme;
+using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate;
 using Majorsoft.Blazor.Components.Common.JsInterop.Click;
 using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
 using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
@@ -23,6 +25,7 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop
 		/// Registers required JS Interop services into IServiceCollection
 		/// </summary>
 		/// <param name="services">IServiceCollection instance</param>
+		/// <returns>IServiceCollection</returns>
 		public static IServiceCollection AddJsInteropExtensions(this IServiceCollection services)
 		{
 			if (services == null)
@@ -39,6 +42,8 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop
 			services.AddTransient<ILanguageService, LanguageService>();
 			services.AddTransient<IGeolocationService, GeolocationService>();
 			services.AddTransient<IHtmlHeadService, HtmlHeadService>();
+			services.AddTransient<IBrowserDateService, BrowserDateService>();
+			services.AddTransient<IBrowserThemeService, BrowserThemeService>();
 
 			return services;
 		}

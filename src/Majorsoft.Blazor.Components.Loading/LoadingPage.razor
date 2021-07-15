@@ -1,7 +1,7 @@
 ﻿@if (_isLoading)
 {
 	<div class="loading" 
-			style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))" 
+			style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))" 
 			@attributes=AllOtherAttributes>
 		<div class="loading-content">@(LoadingContent)</div>	
 	</div>
@@ -57,6 +57,9 @@
 	/// </summary>
 	[Parameter] public EventCallback OnLoading { get; set; }
 
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 

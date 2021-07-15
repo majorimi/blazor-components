@@ -89,7 +89,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 			var div = rendered.Find("div");
 
 			Assert.IsNotNull(div);
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.1)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
+			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.12)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
 		}
 
 		[TestMethod]

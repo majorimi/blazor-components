@@ -3,6 +3,7 @@
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
 	<nullable>enable</nullable>
+	<PackageId>Majorsoft.Blazor.Components.Core</PackageId>
   </PropertyGroup>
 
 

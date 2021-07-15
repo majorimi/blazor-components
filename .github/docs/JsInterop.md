@@ -16,15 +16,21 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 # Features
 
-- **Click JS**: `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
- Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
+- **Click JS**: 
+  - `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
+  - Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
 - **Global Mouse JS**: is an **injectable `IGlobalMouseEventHandler` service** for global mouse callback event handlers.
 - **Focus JS**: is an injectable `IFocusHandler` service. **Focus JS is able to identify and restore focus on ANY DOM element without using Blazor `@ref=""` tag.**
 - **Element info JS**: is a set of **Extension methods** for `ElementReference` objects.
-- **Scroll JS**: is a set of **Extension methods** for `ElementReference` objects. Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+- **Scroll JS**: 
+  - Set of **Extension methods** for `ElementReference` objects. 
+  - **`IScrollHandler` injectable service** for non element level functions and callback event handlers.
+  - Also `ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping Scroll JS scroll to page top or bottom functions.
 - **Resize JS**: is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
 - **Clipboard JS**: is an **injectable `IClipboardHandler` service** for accessing computer Clipboard from Blazor Application.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
+- **Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
+- **Browser Theme JS**: is an **injectable `IBrowserThemeService` service** to handle Browser color scheme queries and changes.
 - **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
 - **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
 
@@ -108,6 +114,61 @@ Returns the given HTML element ClintBoundRect data as `DomRect`.
 ## Scroll JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#scroll-js))
 **Scroll JS** is a set of **Extension methods** for `ElementReference` objects. 
 Also an **injectable `IScrollHandler` service** for non element level functions and callback event handlers.
+`ScrollToPageBottom` and `ScrollToPageTop` components will render "floating" element with customizable placing and content for wrapping `Scroll JS` scroll to page top or bottom functions. 
+**Note**: Both component can be set inside ANY components which will apply for the whole page. Hence both components should be added only once per page!
+
+### `ScrollToPageBottom` component
+`ScrollToPageBottom` component will render "floating" element with customizable placing and content for wrapping Scroll JS **scroll to page bottom** function.
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`VisibleFromPagePercentage`: `byte { get; set; }` (default: 5)** <br />
+Element should be visible when scroll reached page % of given value.
+- **`VisibleUntilPagePercentage`: `byte { get; set; }` (default: 80)** <br />
+Element should be visible until scroll reached page % of given value.
+- **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
+Scroll should be jump or smoothly scroll.
+- **`AnimateOnHover`: `bool { get; set; }` (default: true)** <br />
+Apply animation (opacity) on icon when mouse hovered.
+- **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
+Required space from page bottom in px.
+- **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
+Required space from page (left/right) side in px.
+- **`HorizontalPosition`: `PageScrollHorizontalPosition { get; set; }` (default: 24)** <br />
+Element position on page {Right, Left}.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
+### `ScrollToPageTop` component
+`ScrollToPageTop` component will render "floating" element with customizable placing and content for wrapping Scroll JS **scroll to page top** function.
+
+#### Properties
+- **`Content`: `RenderFragment` HTML content - Required** <br />
+Required HTML content which will be wrapped into a `<span>` which has the Click events listener registered.
+- **`VisibleFromPagePercentage`: `byte { get; set; }` (default: 30)** <br />
+Element should be visible when scroll reached page % of given value.
+- **`SmootScroll`: `bool { get; set; }` (default: true)** <br />
+Scroll should be jump or smoothly scroll.
+- **`AnimateOnHover`: `bool { get; set; }` (default: true)** <br />
+Apply animation (opacity) on icon when mouse hovered.
+- **`PaddingFromTop`: `int { get; set; }` (default: 24)** <br />
+Required space from page bottom in px.
+- **`PaddingFromSide`: `int { get; set; }` (default: 24)** <br />
+Required space from page (left/right) side in px.
+- **`HorizontalPosition`: `PageScrollHorizontalPosition { get; set; }` (default: 24)** <br />
+Element position on page {Right, Left}.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+
+#### Functions
+- **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
+Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
+
 
 ### `IScrollHandler` Functions
 - **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference)`**<br />
@@ -116,16 +177,18 @@ Scrolls the given element into the page view area.
 Finds element by Id and scrolls the given element into the page view area.
 - **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name)`**<br />
 Finds element by name and scrolls the given element into the page view area.
-- **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync()`**<br />
+- **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync(bool smooth)`**<br />
 Scrolls to end of the page (X bottom).
-- **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync()`**<br />
+- **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync(bool smooth)`**<br />
 Scrolls to top of the page (X top).
-- **`ScrollToPageXAsync`**: **`Task ScrollToPageXAsync(double x)`**<br />
+- **`ScrollToPageXAsync`**: **`Task ScrollToPageXAsync(double x, bool smooth)`**<br />
 Scrolls to X position on the page.
-- **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y)`**<br />
+- **`ScrollToPageYAsync`**: **`Task ScrollToPageYAsync(double y, bool smooth)`**<br />
 Scrolls to Y position on the page.
-- **`GetPageScrollPosAsync`**: **`Task<ScrollEventArgs> GetPageScrollPosAsync()`**<br />
-Returns page X,Y scroll position as `ScrollEventArgs`.
+- **`GetPageScrollPosAsync`**: **`Task<ScrollResult> GetPageScrollPosAsync()`**<br />
+Returns page X,Y scroll current position as `ScrollResult`.
+- **`GetPageScrollSizeAsync`**: **`Task<ScrollResult> GetPageScrollSizeAsync()`**<br />
+Returns page X,Y scroll size (max values) as `ScrollResult`.
 - **`RegisterPageScrollAsync`**: **`Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)`**<br />
 Adds event listener for 'scroll' HTML event for the whole document/window. **Also returns with Event Id event id to unsubscribe from event.**
 - **`RemovePageScrollAsync`**: **`Task RemovePageScrollAsync(string eventId)`**<br />
@@ -152,7 +215,10 @@ Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### Functions
 - **`GetPageSizeAsync`**: **`Task<PageSize> GetPageSizeAsync()`**<br />
-Returns Browser Window size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+Returns Browser Window inner size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
+on each page resize.
+- **`GetScreenSizeAsync`**: **`Task<PageSize> GetScreenSizeAsync()`**<br />
+Returns Browser Window screen size (height and width in Pixel). It is useful to call when page loaded, then use `RegisterPageResizeAsync` to get notifications 
 on each page resize.
 - **`RegisterPageResizeAsync`**: **`Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback)`**<br />
 Adds event listener for 'resize' HTML event for the whole document/window.
@@ -188,6 +254,27 @@ Copies the given element text content to clipboard.
 Returns the given user's Browser language preference as .NET `CultureInfo`.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+## Browser Date JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#date-js))
+**Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
+
+### Functions
+- **`GetBrowserDateTimeAsync`**: **`Task<DateTime> GetBrowserDateTimeAsync()`** <br />
+Returns Date and time from browser client machine.
+
+## Browser Theme JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#theme-js))
+**Browser Theme JS** is an injectable `IBrowserThemeService` to handle Browser color scheme queries and changes.
+
+### Functions
+- **`GetBrowserColorThemeAsync`**: **`Task<BrowserColorThemes> GetBrowserColorThemeAsync()`** <br />
+Browser color scheme queries to return actual `prefers-color-scheme`.
+- **`RegisterColorThemeChangeAsync`**: **`Task<string> RegisterColorThemeChangeAsync(Func<BrowserColorThemes, Task> colorThemeChangeCallback)`** <br />
+Adds event listener for `prefers-color-scheme` HTML event for the Browser.
+- **`RemoveColorThemeChangeAsync`**: **`Task RemoveColorThemeChangeAsync()`** <br />
+Removes event listener for `prefers-color-scheme` HTML event for the Browser.
+- **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
+Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
 
 ## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
 **Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
@@ -260,6 +347,10 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.Geo
 @*Only if you want to use HTML Head tags*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.Head
+@*Only if you want to use Browser Date*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate
+@*Only if you want to use Browser ColorTheme*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
 ```
 
 

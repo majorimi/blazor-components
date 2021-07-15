@@ -1,0 +1,142 @@
+﻿@if (_shouldShow)
+{
+	<div class="banner" @ref="_inputRef"
+		 style="background-color: rgba(@BannerBackgroundColor, @BannerOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
+		 @attributes=AllOtherAttributes>
+		@Content
+	</div>
+}
+
+@using System.Globalization
+@using Majorsoft.Blazor.Components.Core.HtmlColors
+
+@implements IDisposable
+
+@inject ILogger<GdprBanner> _logger
+@inject IGdprConsentService _gdprConsentService
+
+@code {
+	private static bool Initialized = false;
+	protected override void OnInitialized()
+	{
+		if (Initialized)
+		{
+			throw new ApplicationException($"Component: '{nameof(GdprBanner)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+		}
+
+		Initialized = true;
+		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged += CheckConsent;
+
+		WriteDiag("Initialized successfuly.");
+	}
+
+	private bool _shouldShow = false;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await CheckConsent();
+	}
+
+	private ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	/// <summary>
+	/// HTML Content of the collapse panel.
+	/// </summary>
+	[Parameter] public RenderFragment Content { get; set; }
+
+	private string _bannerColor = "128,128,128";//gray
+	/// <summary>
+	/// Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+	/// </summary>
+	[Parameter]
+	public string BannerBackgroundColor
+	{
+		get => _bannerColor;
+		set => _bannerColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	/// <summary>
+	/// Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+	/// </summary>
+	[Parameter] public double BannerOpacity { get; set; } = 0.9;
+
+	/// <summary>
+	/// GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
+	/// </summary>
+	[Parameter] public IEnumerable<GdprConsentDetail> ConsentDetails { get; set; } = new GdprConsentDetail[] { new GdprConsentDetail() { ConsentName = "Cookies.All" } };
+
+	/// <summary>
+	/// Gets or Sets Consent choice validity date. After this date Consent will be asked again.
+	/// </summary>
+	[Parameter] public DateTime AnswerValidUntil { get; set; } = DateTime.Now.AddMonths(1);
+
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	/// <summary>
+	/// Accepting all GDPR Consents. It should be `await`-ed.
+	/// </summary>
+	/// <returns>ValueTask</returns>
+	public async ValueTask AcceptAll()
+	{
+		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(true));
+		WriteDiag("GDPR Consent was accepted.");
+	}
+
+	/// <summary>
+	/// Rejecting all GDPR Consents. It should be `await`-ed.
+	/// </summary>
+	/// <returns>ValueTask</returns>
+	public async ValueTask RejectAll()
+	{
+		await _gdprConsentService.SetGdprConsentDataAsync(CreateGdprConsentData(false));
+		WriteDiag("GDPR Consent was rejected.");
+	}
+
+	private GdprConsentData CreateGdprConsentData(bool accepted)
+	{
+		ConsentDetails?.ToList().ForEach(f => f.IsAccepted = accepted);
+		return new GdprConsentData()
+		{
+			AnsweredAt = DateTime.Now,
+			AnswerValidUntil = AnswerValidUntil,
+			GdprConsentDetails = ConsentDetails
+
+		};
+	}
+
+	private async Task CheckConsent()
+	{
+		var gdprConsent = await _gdprConsentService.GetGdprConsentDataAsync();
+		var show = !gdprConsent?.IsValid ?? true;
+
+		WriteDiag($"GDPR Consent value changed Banner should show: '{_shouldShow}'.");
+
+
+		if (show != _shouldShow)
+		{
+			_shouldShow = show;
+			StateHasChanged();
+		}
+	}
+
+	/// <summary>
+	/// Component dispose
+	/// </summary>
+	public void Dispose()
+	{
+		Initialized = false;
+		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= CheckConsent;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}

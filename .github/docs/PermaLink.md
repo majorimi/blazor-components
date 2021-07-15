@@ -19,8 +19,10 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **`PermaLinkElement`**: is a wrapper component it renders the given content with `<a>` tag and will add anchor icon with on hover activated Link copy function. 
 Hover over the top Header item to copy or navigate to URL as well.
-- **`IPermaLinkWatcherService`**: . It is registered as Singleton and should be injected only once for the whole application. 
+- **`IPermaLinkWatcherService`**: is registered as Singleton and should be injected only once for the whole application. 
 Best way to use `MainLayout.razor`.
+- **`PermaLinkBlazorServerInitializer`**: (from v1.4.0) convenient wrapper component to initialize navigation watcher in your Blazor Server App `MainLayout.razor` page.
+- **`PermalinkBlazorWasmInitializer`**: (from v1.4.0) convenient wrapper component to initialize navigation watcher in your Blazor WebAssembly App `MainLayout.razor` page.
 
 ## `IPermaLinkWatcherService` extension
 This is the main service which makes Permalink navigation possible. **Should be used as a Singleton** only in `MainLayout.razor` file.
@@ -125,6 +127,13 @@ Also instance should be disposed.
 }
 ```
 
+**From v1.4.0 a simpler initializer is available!**
+```
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermalinkBlazorWasmInitializer />
+```
+
 #### Server hosted projects
 
 **In case of Server hosted project register dependency services in your `Startup.cs` file:**
@@ -157,6 +166,7 @@ It has to be instantiated manually by using the following code. Also instance sh
 @inject ILogger<IPermaLinkWatcherService> _logger
 
 @implements IDisposable
+@implements IAsyncDisposable
 
 @code{
 	private IPermaLinkWatcherService _permalinkWatcher;
@@ -170,11 +180,25 @@ It has to be instantiated manually by using the following code. Also instance sh
 		}
 	}
 
+	public async ValueTask DisposeAsync()
+	{
+		if (_scrollHandler is not null)
+		{
+			await _scrollHandler.DisposeAsync();
+		}
+	}
 	public void Dispose()
 	{
 		_permalinkWatcher?.Dispose();
 	}
 }
+```
+
+**From v1.4.0 a simpler initializer is available!**
+```
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermaLinkBlazorServerInitializer />
 ```
 
 #### Creating permalink (#) navigation points inside a Blazor page
