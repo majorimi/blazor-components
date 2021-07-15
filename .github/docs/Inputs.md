@@ -13,7 +13,7 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/maxLengthInput).
 
-![Debounce demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/maxLengthInput.gif)
+![Inputs demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/maxLengthInput.gif)
 
 # Components
 

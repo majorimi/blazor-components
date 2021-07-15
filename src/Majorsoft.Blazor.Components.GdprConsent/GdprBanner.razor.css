@@ -1,0 +1,13 @@
+﻿.banner {
+    width: 100%;
+    /*border: 1px solid #e0e0e0;*/
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    display: block;
+    z-index: 1000;
+    /* text-align: center; */
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+}
