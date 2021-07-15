@@ -17,7 +17,7 @@
 	<RepositoryType>Git</RepositoryType>
 	<PackageTags>.Net5 Blazor GDPR Consent Law Banner ModalWindow Modal Cookie Cookies</PackageTags>
 	<Title>Blazor Components GDPR Consent banner and popup</Title>
-	<Description>Blazor component that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage. Part of Majorsoft Blazor library.</Description>
+	<Description>Blazor injectable IGdprConsentService service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage. To initialize GDPR Consents use GdprBanner or GdprModal only once in your Blazor App MainLayout.razor page or any common place. Part of Majorsoft Blazor library.</Description>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

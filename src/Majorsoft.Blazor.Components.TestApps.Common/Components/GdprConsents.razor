@@ -249,7 +249,7 @@ else if (_gdprControlType == "Modal")
 		StateHasChanged();
 	}
 
-	public async void Dispose()
+	public void Dispose()
 	{
 		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= OnConsentChanged; //Unsubscribe from change event
 	}
