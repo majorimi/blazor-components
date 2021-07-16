@@ -2,10 +2,15 @@
 
 <h1>GDPR Consents</h1>
 <p>
-	Blazor <strong>injectable <code>IGdprConsentService</code> service</strong> and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
+	Blazor <strong>injectable <code>IGdprConsentService</code> and <code>IGdprConsentNotificationService</code> services</strong> and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
 	To initialize GDPR Consents use <code>GdprBanner</code> or <code>GdprModal</code> <strong>only once</strong> in your Blazor App <code>MainLayout.razor</code> page or any common place.
 	For usage see source code and docs on <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.GdprConsent</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.GdprConsent" target="_blank">Nuget</a>
+</p>
+
+<p>
+	<strong>NOTE</strong>: GDPR Consents components just prompting UI elements to ask user consents. Also stores chosen values only locally in order to not prompt always. 
+	<strong>But it does not block any Cookies or Tracking scripts! Blocking all technology which was not approved by user consent is responsibility of App developers!</strong>
 </p>
 
 <div class="container-fluid p-3 mb-3 border rounded">
