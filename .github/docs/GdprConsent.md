@@ -13,14 +13,17 @@ To initialize GDPR Consents use `GdprBanner` or `GdprModal` only once in your Bl
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/GdprConsents.razor).
 
+**NOTE**: GDPR Consents components just prompting UI elements to ask user consents. Also stores chosen values only locally in order to not prompt always.
+**But it does not block any Cookies or Tracking scripts! Blocking all technology which was not approved by user consent is responsibility of App developers!**
+
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/gdpr).
 
 ![GDPR Consent demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/gdprConsents.gif)
 
 # Components and Services
 
-- **`GdprBanner`**: renders a small Overlay layer at the bottom of the page with customizable content for showing the given GDPR message.
-- **`GdprModal`**: renders a Modal dialog with Overlay layer for the whole page with customizable content for showing the given GDPR message.
+- **`GdprBanner`**: renders a small Overlay layer at the bottom of the page with customizable content for showing the given GDPR message. **Only one consent component allowed per Application.**
+- **`GdprModal`**: renders a Modal dialog with Overlay layer for the whole page with customizable content for showing the given GDPR message. **Only one consent component allowed per Application.**
 - **`IGdprConsentService`**: injectable service to handle GDPR Consent actions.
 - **`IGdprConsentNotificationService`**: injectable singleton service to handle GDPR Consent changes with events.
 
@@ -111,6 +114,8 @@ Removes the GDPR Consent data from Browser local storage if any stored.
 
 ## `IGdprConsentNotificationService`
 Injectable singleton service to handle GDPR Consent changes with events.
+This can be used to notify about User consent changes by subscribing to `GdprConsentStateChanged` event.
+When event fired change can be detected by 
 
 ### Functions
 - **`GdprConsentStateChanged()`: `event ConsentNotificationEventHandler GdprConsentStateChanged`** <br />
