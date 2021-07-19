@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.Components.GdprConsent</name>
+    </assembly>
+    <members>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.ConsentNotificationEventHandler">
+            <summary>
+            Delegate for <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/> EventHandler.
+            </summary>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData">
+            <summary>
+            GdprConsentData to store collections of <see cref="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentDetail"/> and validity date.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.GdprConsentDetails">
+            <summary>
+            Collections of <see cref="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentDetail"/>
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.AnsweredAt">
+            <summary>
+            Consent answered date.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.AnswerValidUntil">
+            <summary>
+            Consent answer validity date.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.IsValid">
+            <summary>
+            Gets weather the Consent answer is valid or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.AllAccepted">
+            <summary>
+            Gets weather all Consent were accepted.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprConsentData.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentDetail">
+            <summary>
+            GdprConsentDetail with Name and acceptance indicator.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentDetail.ConsentName">
+            <summary>
+            Name of the Consent type e.g: All, Session, Tracking.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprConsentDetail.IsAccepted">
+            <summary>
+            User accepted or rejected cookie consent.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentExtension">
+            <summary>
+            Extension methods to register required JS Interop services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprConsentExtension.AddGdprConsent(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required JS Interop services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentNotificationService">
+            <summary>
+            Default implementation for <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService">
+            <summary>
+            Injectable singleton service to handle GDPR Consent changes  with events.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService.GdprConsentStateChanged">
+            <summary>
+            Event handler to subscribe for GDPR Consent changes.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService.OnChange">
+            <summary>
+            Method called by <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService"/> to trigger Change event when GDPR Consent value was changed.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService">
+            <summary>
+            Injectable service to handle GDPR Consent actions.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentStoreKeyName">
+            <summary>
+            Gets GDPR Consent Browser local storage key name.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ConsentNotificationService">
+            <summary>
+            Gets a <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/> to able to subscribe on Consent changed events.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.GetGdprConsentDataAsync">
+            <summary>
+            Gets the GDPR Consent data from Browser local storage if any stored.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.SetGdprConsentDataAsync(Majorsoft.Blazor.Components.GdprConsent.GdprConsentData)">
+            <summary>
+            Sets or overrides the given GDPR Consent data in Browser local storage.
+            </summary>
+            <param name="gdprConsentData">GDPR consent details with accepted and rejected cookies list</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentService.ClearGdprConsentDataAsync">
+            <summary>
+            Removes the GDPR Consent data from Browser local storage if any stored.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Footer">
+            <summary>
+            HTML content to show on the Modal footer (bottom). Can be any valid HTML but should be only custom action buttons.
+            Must not be defined if you want to leave it out.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.OverlayBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.OverlayOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.ConsentDetails">
+            <summary>
+            GDPR Cookies consent details. An enumerable list of Cookie types with Accepted flag.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AnswerValidUntil">
+            <summary>
+            Gets or Sets Consent choice validity date. After this date Consent will be asked again.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Height">
+            <summary>
+            Modal dialog window Height in px if set to 0 Height is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Width">
+            <summary>
+            Modal dialog window Width in px if set to 0 Width is set auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.MinHeight">
+            <summary>
+            Modal dialog window minimum Height in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.MinWidth">
+            <summary>
+            Modal dialog window minimum Width in px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Centered">
+            <summary>
+            When true Modal dialog will be vertically centered, otherwise shown near to the top. Modal dialog horizontally always centered.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprModal.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.SaveChoice">
+            <summary>
+            Saves user chosen GDPR Consent details. It should be `await`-ed.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprModal.Dispose">
+            <summary>
+            Component dispose
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.InnerElementReference">
+            <summary>
+            Exposes a Blazor ElementReference of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.BannerBackgroundColor">
+            <summary>
+            Sets the style of the HTML div background-color. Use HTML specified: Color Names, RGB, HEX or with HSL values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.BannerOpacity">
+            <summary>
+            Opacity of the overlay div. Value should be between 0..1. Where 0 means the overlay layer is not visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.ConsentDetails">
+            <summary>
+            GDPR Cookies consent details. An enumerable list of Cookie types with Accpeted flag.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AnswerValidUntil">
+            <summary>
+            Gets or Sets Consent choice validity date. After this date Consent will be asked again.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AllOtherAttributes">
+            <summary>
+            Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.AcceptAll">
+            <summary>
+            Accepting all GDPR Consents. It should be `await`-ed.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.RejectAll">
+            <summary>
+            Rejecting all GDPR Consents. It should be `await`-ed.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.GdprConsent.GdprBanner.Dispose">
+            <summary>
+            Component dispose
+            </summary>
+        </member>
+    </members>
+</doc>

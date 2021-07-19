@@ -251,7 +251,9 @@
 	{
 		_dialogTop = _dialogDefaultTop;//Reset dialog to page top
 		_isOpened = true;
+
 		WriteDiag($"Opening dialog currently, Opacity: {_opacity}, IsOpened: '{_isOpened}'.");
+		StateHasChanged(); //Force UI to render
 
 		if (Animate)
 		{

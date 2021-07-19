@@ -8,6 +8,7 @@ Blazor Components PermaLink control and extension
 # About
 
 Blazor **injectable `IPermaLinkWatcherService` service** and `PermaLinkElement` wrapper component which allows navigation inside Blazor pages (#permalink). 
+
 **All components work with WebAssembly and Server hosted models** (Blazor server side configuration is different). 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Permalink.razor).
 
@@ -19,8 +20,10 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **`PermaLinkElement`**: is a wrapper component it renders the given content with `<a>` tag and will add anchor icon with on hover activated Link copy function. 
 Hover over the top Header item to copy or navigate to URL as well.
-- **`IPermaLinkWatcherService`**: . It is registered as Singleton and should be injected only once for the whole application. 
+- **`IPermaLinkWatcherService`**: is registered as Singleton and should be injected only once for the whole application. 
 Best way to use `MainLayout.razor`.
+- **`PermaLinkBlazorServerInitializer`**: (from v1.4.0) convenient wrapper component to initialize navigation watcher in your Blazor Server App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
+- **`PermalinkBlazorWasmInitializer`**: (from v1.4.0) convenient wrapper component to initialize navigation watcher in your Blazor WebAssembly App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
 
 ## `IPermaLinkWatcherService` extension
 This is the main service which makes Permalink navigation possible. **Should be used as a Singleton** only in `MainLayout.razor` file.
@@ -59,6 +62,12 @@ FLAG Enum value which sets the behaviour of the icon click: `Copy`, `Navigate`. 
 ### Events
 - **`OnLoading`**: **`EventCallback` delegate**  <br />
 Callback function called when Permalink icon clicked and **`PermaLinkIconActions.Copy`** feature was set.
+
+## PermaLinkBlazorServerInitializer
+Available from v1.4.0 It is convenient wrapper component to initialize navigation watcher in your Blazor Server App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
+
+## PermalinkBlazorWasmInitializer
+Available from v1.4.0 It is convenient wrapper component to initialize navigation watcher in your Blazor WebAssembly App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
 
 # Configuration
 
@@ -125,6 +134,14 @@ Also instance should be disposed.
 }
 ```
 
+**From v1.4.0 a simpler initializer is available!**
+**Only one Initializer component allowed per Application.**
+```
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermalinkBlazorWasmInitializer />
+```
+
 #### Server hosted projects
 
 **In case of Server hosted project register dependency services in your `Startup.cs` file:**
@@ -157,6 +174,7 @@ It has to be instantiated manually by using the following code. Also instance sh
 @inject ILogger<IPermaLinkWatcherService> _logger
 
 @implements IDisposable
+@implements IAsyncDisposable
 
 @code{
 	private IPermaLinkWatcherService _permalinkWatcher;
@@ -170,11 +188,25 @@ It has to be instantiated manually by using the following code. Also instance sh
 		}
 	}
 
+	public async ValueTask DisposeAsync()
+	{
+		if (_scrollHandler is not null)
+		{
+			await _scrollHandler.DisposeAsync();
+		}
+	}
 	public void Dispose()
 	{
 		_permalinkWatcher?.Dispose();
 	}
 }
+```
+
+**From v1.4.0 a simpler initializer is available!** **Only one Initializer component allowed per Application.**
+```
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermaLinkBlazorServerInitializer />
 ```
 
 #### Creating permalink (#) navigation points inside a Blazor page

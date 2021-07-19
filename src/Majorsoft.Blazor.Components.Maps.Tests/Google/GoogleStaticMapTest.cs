@@ -52,7 +52,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img id=""id1"" class=""form-control w-100"" src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img id=""id1"" class=""form-control w-100"" src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -67,7 +67,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 
 			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Once);
@@ -85,7 +85,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 
 			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
 				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Never);
@@ -100,7 +100,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key=myApikey_here"" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key=myApikey_here"" />");
 		}
 
 		[TestMethod]
@@ -113,7 +113,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key=myApikey_here&amp;signature=mySignature_here"" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key=myApikey_here&amp;signature=mySignature_here"" />");
 		}
 
 		[TestMethod]
@@ -125,7 +125,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -138,7 +138,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=0&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=0&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -152,7 +152,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=2222x1111&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=2222x1111&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -165,7 +165,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=2&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=2&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -183,7 +183,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 
 				Assert.IsNotNull(map);
 				map.MarkupMatches(
-					@$"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype={item.ToString().ToLower()}&amp;format=gif&amp;key="" />");
+					@$"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype={item.ToString().ToLower()}&amp;format=png&amp;key="" />");
 			}
 		}
 
@@ -216,7 +216,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;language=en&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;language=en&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -229,7 +229,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;region=en&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;region=en&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -242,7 +242,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;style=customStyle&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;style=customStyle&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -255,7 +255,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -272,7 +272,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;path=1.1,2.2|London&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;path=1.1,2.2|London&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -285,7 +285,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -302,7 +302,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;visible=1.1,2.2|London&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;visible=1.1,2.2|London&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -315,7 +315,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=1.1,2.2&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 		}
 
 		[TestMethod]
@@ -358,7 +358,7 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			var map = rendered.Find("img");
 
 			Assert.IsNotNull(map);
-			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=gif&amp;markers=1.111,2.222&amp;markers=anchor:left|icon:http://test.com|17.111,33.222|London&amp;markers=color:red|label:A|New York&amp;markers=size:mid|color:0xffaabb|label:2|Budapest|5.123,8.99&amp;key="" />");
+			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;markers=1.111,2.222&amp;markers=anchor:left|icon:http://test.com|17.111,33.222|London&amp;markers=color:red|label:A|New York&amp;markers=size:mid|color:0xffaabb|label:2|Budapest|5.123,8.99&amp;key="" />");
 		}
 	}
 }

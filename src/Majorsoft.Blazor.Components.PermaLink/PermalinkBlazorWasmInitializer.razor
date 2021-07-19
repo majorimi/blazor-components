@@ -1,0 +1,23 @@
+﻿@inject IPermaLinkWatcherService _permalinkWatcher
+@implements IDisposable
+
+@code {
+    private static bool Initialized = false;
+    protected override void OnInitialized()
+    {
+        if (Initialized)
+        {
+            throw new ApplicationException($"Component: '{nameof(PermalinkBlazorWasmInitializer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+        }
+
+        Initialized = true;
+
+        _permalinkWatcher.WatchPermaLinks();
+    }
+
+    public void Dispose()
+    {
+        _permalinkWatcher?.Dispose();
+        Initialized = false;
+    }
+}

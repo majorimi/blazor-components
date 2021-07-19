@@ -29,6 +29,8 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.CssEvents\Majorsoft.Blazor.Components.CssEvents.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.GdprConsent\Majorsoft.Blazor.Components.GdprConsent.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Inputs\Majorsoft.Blazor.Components.Inputs.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
@@ -37,6 +39,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Typeahead\Majorsoft.Blazor.Components.Typeahead.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.Analytics\Majorsoft.Blazor.Extensions.Analytics.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
   </ItemGroup>
 

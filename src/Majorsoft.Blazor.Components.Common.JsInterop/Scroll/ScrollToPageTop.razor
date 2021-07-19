@@ -1,0 +1,105 @@
+﻿<div @ref="_inputRef" class="scrollToPageTop @HorizontalPosition.ToString().ToLower() @(_isVisible ? "" : "hidden")" tabindex="501"
+     @onclick="async () => await _scrollHandler.ScrollToPageTopAsync(SmootScroll)">
+    @Content
+</div>
+
+<style>
+    .scrollToPageTop {
+        bottom: @(PaddingFromBottom)px;
+        opacity: @(_isVisible ? (AnimateOnHover ? 0.7 : 1) : 0);
+    }
+    .scrollToPageTop:hover {
+         opacity: @(_isVisible ?  1 : 0);
+    }
+    .scrollToPageTop.right {
+        right: @(PaddingFromSide)px;
+    }
+    .scrollToPageTop.left {
+        left: @(PaddingFromSide)px;
+    }
+</style>
+
+@implements IAsyncDisposable
+
+@inject IScrollHandler _scrollHandler
+@inject ILogger<ScrollToPageTop> _logger
+
+@code {
+    private bool _isVisible = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            WriteDiag("Component rendered...");
+
+            await _scrollHandler.RegisterPageScrollAsync(async (e) =>
+            {
+                var scrollSize = await _scrollHandler.GetPageScrollSizeAsync();
+                var percentage = (e.Y / scrollSize.Y) * 100;
+
+                var visible = percentage >= VisibleFromPagePercentage;
+                if (visible != _isVisible)
+                {
+                    _isVisible = visible;
+                    StateHasChanged();
+
+                    WriteDiag($"Component visibilit changed visible: {_isVisible}.");
+                }
+            });
+        }
+    }
+
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    /// <summary>
+    /// HTML Content of the scroll panel.
+    /// </summary>
+    [Parameter] public RenderFragment Content { get; set; }
+
+    /// <summary>
+    /// Element should be visible when scroll reached page % of given value.
+    /// </summary>
+    [Parameter] public byte VisibleFromPagePercentage { get; set; } = 30;
+
+    /// <summary>
+    /// Scroll should be jump or smoothly scroll.
+    /// </summary>
+    [Parameter] public bool SmootScroll { get; set; } = true;
+
+    /// <summary>
+    /// Apply animation (opacity) on icon when mouse hovered.
+    /// </summary>
+    [Parameter] public bool AnimateOnHover { get; set; } = true;
+
+    /// <summary>
+    /// Required space from page bottom in px.
+    /// </summary>
+    [Parameter] public int PaddingFromBottom { get; set; } = 20;
+    /// <summary>
+    /// Required space from page (left/right) side in px.
+    /// </summary>
+    [Parameter] public int PaddingFromSide { get; set; } = 24;
+    /// <summary>
+    /// Element position on page {Right, Left}.
+    /// </summary>
+    [Parameter] public PageScrollHorizontalPosition HorizontalPosition { get; set; } = PageScrollHorizontalPosition.Right;
+
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_scrollHandler is not null)
+        {
+            await _scrollHandler.DisposeAsync();
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<img align="left" width="110" height="110" src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" />
+<img align="left" width="140" height="140" src="https://github.com/majorimi/blazor-components/blob/master/.github/Images/blazor.components.png" />
 
 Majorsoft Blazor Components
 ============
@@ -14,12 +14,12 @@ Majorsoft Blazor Components
 Majorsoft Blazor Components is a set of UI Components and other useful Extensions for [Blazor](https://blazor.net) applications.
 All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 
 
-You can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/). **Note: this app is hosted on _Azure Static website_ feature. Which uses agressive caching you might have to use HARD reload (CTRL + F5 or CMD + SHIFT + R), or clear browser cache.**
+You can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/). **Note: this app is hosted on _Azure Static website_ feature. Which uses aggressive caching you might have to use HARD reload (CTRL + F5 or CMD + SHIFT + R), or clear browser cache.**
 
 ## About the project
 **Majorsoft Blazor Components** is one of the newest but the most modern Blazor library. Using the fastest ever .NET 5 Framework leveraging CSS and JS isolation. 
 The main goal of this project is to provide an easy to use, feature reach set of customizable components with other 
-useful extensions. Which can boost Blazor app developments by:
+useful extensions. Which can boost Blazor App developments by:
 
 - Providing reusable components which are the main building blocks of Blazor.
 - Hiding CSS details but allowing component customizations as well (no dependency on CSS libraries).
@@ -55,14 +55,16 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Server.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
 - **Majorsoft.Blazor.WebAssembly.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
 - **Majorsoft.Blazor.Extensions.BrowserStorage**: Enables [Browser Local and Session storages and Cookies store](https://github.com/majorimi/blazor-components/blob/master/.github/docs/BrowserStorage.md) access for Blazor applications.
+- **Majorsoft.Blazor.Extensions.Analytics**: Enables [Analytics services usage](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Analytics.md) for Blazor applications e.g. Google Analytics, etc.
 
 ### **Majorsoft Blazor Components**
 
 **Majorsoft Blazor Components are providing custom UI components to develop Balazor applications:**
 
 - **Majorsoft.Blazor.Components.Common.JsInterop**: [Js Interop components, injectable services and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, Geolocation, HTML Head (title, meta, SEO), etc..
-- **Majorsoft.Blazor.Components.Debounce**: [Debounce components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, Textarea or other element with debounced onChange.
+- **Majorsoft.Blazor.Components.Debounce**: [Debounce components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced `onChange` event.
 - **Majorsoft.Blazor.Components.Typeahead**: [Typeahead components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md) that renders an HTML Input or InputText with Typeahead panel.
+- **Majorsoft.Blazor.Components.Inputs**: [Inputs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md) renders an Input, InputText, Textarea or InputTextarea, etc. element with `maxlength` set and counter to show remaining characters.
 - **Majorsoft.Blazor.Components.Loading**: [Loading components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md) that renders Overlay for page load. HTML Button with customizable content for showing async operation in progress/loading...
 - **Majorsoft.Blazor.Components.Timer**: [Timer component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md) that can be used for scheduled and periodically repeated tasks to call custom code.
 - **Majorsoft.Blazor.Components.CssEvents**: [CSS Transition and Animation events](https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md) injectable Services and wrapper Components to notify on CSS Transition and Animation events.
@@ -72,4 +74,9 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.Tabs**: [Tabs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tabs.md) that renders customizable Tabs panel with many tabs and custom content.
 - **Majorsoft.Blazor.Components.Collapse**: [Collapse components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md) that renders customizable Collapsable/Expandable panel and Accordion with many but only one active panel also custom content and header.
 - **Majorsoft.Blazor.Components.Maps**: [Google/Bing Maps components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md) that renders **Google/Bing maps** wrapped into Blazor components allowing to control and mange maps with .Net code.
+- **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
 
+## Other info
+- [Contributing](CONTRIBUTING.md)
+- [Docs](.github/docs)
+- [License](LICENSE)

@@ -63,7 +63,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				);
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -107,7 +107,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			rendered.MarkupMatches("");
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 			Assert.AreEqual(true, rendered.Instance.IsOpen);
 
@@ -142,7 +142,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			rendered.SetParametersAndRender(parameters => parameters
 				.Add(p => p.Animate, false));
 
-			rendered.InvokeAsync(async () => await rendered.Instance.Close());
+			await rendered.InvokeAsync(async () => await rendered.Instance.Close());
 			rendered.Render();
 
 			Assert.AreEqual(false, rendered.Instance.IsOpen);
@@ -157,7 +157,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				.Add(p => p.OverlayOpacity, 0.25));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -201,7 +201,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				.Add(p => p.MinWidth, 555));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -242,7 +242,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				.Add(p => p.ShowCloseButton, false));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -277,7 +277,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				.Add(p => p.Centered, true));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -323,7 +323,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				);
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -364,7 +364,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				);
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -408,7 +408,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				);
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -448,7 +448,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 				);
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -486,7 +486,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			.Add(p => p.OnClose, args => { closed = true; }));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -519,7 +519,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			.Add(p => p.OnClose, args => { closed = true; }));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -569,7 +569,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			.Add(p => p.OnClose, args => { closed = true; }));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -602,7 +602,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			.Add(p => p.OnClose, args => { closed = true; }));
 
 			//Open
-			await rendered.Instance.Open();
+			await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
 			rendered.Render();
 
 			var div = rendered.Find("div");

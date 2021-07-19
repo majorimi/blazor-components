@@ -23,10 +23,12 @@
 	<ItemGroup>
 	  <Watch Remove="Pages\ColorPickerPage.razor" />
 	  <Watch Remove="Pages\DragAndDropPage.razor" />
+	  <Watch Remove="Pages\GdprConsentPage.razor" />
 	  <Watch Remove="Pages\IndexPage.razor" />
 	  <Watch Remove="Pages\JSInteropPage.razor" />
 	  <Watch Remove="Pages\LoadingPage.razor" />
 	  <Watch Remove="Pages\MapPage.razor" />
+	  <Watch Remove="Pages\MaxLengthInputPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
 	  <Watch Remove="Pages\PermaLinkPage.razor" />
 	  <Watch Remove="Pages\TabsPage.razor" />
@@ -43,6 +45,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Update="Pages\AnalyticsPage.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	  <Content Update="Pages\DebounceInputPage.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
