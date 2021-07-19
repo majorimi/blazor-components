@@ -1,0 +1,58 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="theme-js" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>Browser Theme JS</h3></Content>
+    </PermaLinkElement>
+
+    <strong>Browser Theme JS</strong> is an injectable <code>IBrowserThemeService</code> to handle Browser color scheme queries and changes.
+    <p>
+        <span class="@(_theme == BrowserColorThemes.Dark ? "text-dark bg-light" : "text-light bg-dark")">Browser color theme is: <strong>@_theme.ToString()</strong></span>
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <button class="btn btn-primary" @onclick="ThemeEventHandler">@(_themeSubscribed ? "Unsubscribe from Browser theme Change" : "Subscribe to Browser theme Change")</button>
+        </div>
+    </div>
+
+</div>
+
+@implements IAsyncDisposable
+@inject IBrowserThemeService _themeService
+
+@code {
+    private BrowserColorThemes _theme;
+    private string _themeEventId;
+    private bool _themeSubscribed;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _theme = await _themeService.GetBrowserColorThemeAsync();
+            StateHasChanged();
+        }
+    }
+
+
+    private async Task ThemeEventHandler()
+    {
+        if (_themeSubscribed)
+        {
+            await _themeService.RemoveColorThemeChangeAsync(_themeEventId);
+        }
+        else
+        {
+            _themeEventId = await _themeService.RegisterColorThemeChangeAsync(async (val) => { _theme = val; });
+        }
+
+        _themeSubscribed = !_themeSubscribed;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_themeService is not null)
+        {
+            await _themeService.DisposeAsync();
+        }
+    }
+}

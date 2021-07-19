@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "GdprBanner.razor.min.css",
+    "inputFiles": [
+      "GdprBanner.razor.css"
+    ]
+  }
+]

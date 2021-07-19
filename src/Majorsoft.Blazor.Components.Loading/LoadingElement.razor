@@ -1,7 +1,7 @@
 ﻿@if (_isLoading)
 {
 	<div class="loading"
-		 style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.0", CultureInfo.InvariantCulture))"
+		 style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
 		 @attributes=AllOtherAttributes>
 		<div class="loading-content">@(LoadingContent)</div>
 		@Content

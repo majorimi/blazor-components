@@ -10,6 +10,19 @@ If you want to contribute to a project and make it better, your help is very wel
 Contributing is also a great way to learn more about new technologies like WASM and Balzor. 
 You can also help by making constructive, helpful bug reports, feature requests and the noblest of all contributions: a good, clean pull request.
 
+### Project structure
+
+For better understanding of the project please check the project structure:
+
+- `Components\Majorsoft.Blazor.Components.*`: All component projects (with UI element .razor files) are here.
+- `Extensions\Majorsoft.Blazor.Extensions.*`: All non UI element projects are here.
+- `_Demo\Majorsoft.Blazor.Components.DemoApp`: Published WASM application for demo purposes and uses already published Nuget packages as it would be used by a "package consumer" projects. This project is making sure all published Nuget packages are working as expected. No direct references to any other projects in this solution.
+- `TestApps`: Test apps provide executable Blazor Sever hosted and WASM projects. To have quick development loops by modifying and running components immediatelly inside Blazor Server and WASM Apps without sample code duplication.
+  - `TestApps\Majorsoft.Blazor.Components.TestApps.Common`:  this project **has references for all Component and Extension in the solution** and provides usage examples and other components with `\page` directive for navigation. This is **shared between WASM and Server hosted Blazor app**. With this project sample code is not duplicated.
+  - `TestApps\Majorsoft.Blazor.Components.TestApp`: **Blazor WASM app using the `Common` project** and during component development can be used to make sure all components works with **Blazor WASM**.
+  - `TestApps\Majorsoft.Blazor.Components.TestServerApp`: **Blazor Server Hosted application using the `Common` project** and during component development can be used to make sure all components works with **Server side Blazor**.
+- `Tests`: All Unit and UI tests projects are here.
+
 ### How to submit new Issue or Feature request?
 
 #### Please follow these guidelines when you submit a new Issue:

@@ -8,8 +8,9 @@ textarea {
 <h1>Permalink (#link) extension and component</h1>
 
 <p>
-	Blazor <strong>injectable <code>IPermaLinkWatcherService</code> service</strong> and <code>PermaLinkElement</code> wrapper component which allows navigation inside Blazor pages (#permalink). 
-	To initialize navigation watcher use <code>PermalinkBlazorWasmInitializer</code> or <code>PermaLinkBlazorServerInitializer</code> in your Blazor app <code>MainLayout.razor</code> page.
+	Blazor <strong>injectable <code>IPermaLinkWatcherService</code> service</strong> and <code>PermaLinkElement</code> wrapper component which allows navigation inside Blazor pages (#permalink).
+	To initialize navigation watcher use <code>PermalinkBlazorWasmInitializer</code> or <code>PermaLinkBlazorServerInitializer</code> <strong>only once</strong> in your Blazor App <code>MainLayout.razor</code> page  or any common place.
+	<strong>Only one Initializer component allowed per Application.</strong>
 	For usage see source code and docs on <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.PermaLink</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink" target="_blank">Nuget</a>
 </p>

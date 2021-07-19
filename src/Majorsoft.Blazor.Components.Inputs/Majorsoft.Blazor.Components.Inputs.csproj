@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+	<PackageId>Majorsoft.Blazor.Components.Inputs</PackageId>
+	<nullable>enable</nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>1.0.0.0</Version>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>©2021 Imre Toth</Copyright>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md</PackageProjectUrl>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+	<PackageTags>.Net5 Blazor Htlm.Input Inputs MaxLength Counter</PackageTags>
+	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with maxlength set and counter to show remaining characters. Part of Majorsoft Blazor library.</Description>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Majorsoft.Blazor.Components.Inputs.xml</DocumentationFile>
+	</PropertyGroup>
+  
+  <ItemGroup>
+	<SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+  </ItemGroup>
+</Project>

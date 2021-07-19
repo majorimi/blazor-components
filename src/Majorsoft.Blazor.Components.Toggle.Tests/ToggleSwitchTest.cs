@@ -56,7 +56,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.IsFalse(input.HasAttribute("disabled"));
 
 			var style = input.GetAttribute("style");
-			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.5); ", style);
+			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.50); ", style);
 		}
 
 		[TestMethod]
@@ -95,7 +95,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.IsNotNull(input);
 
 			var style = input.GetAttribute("style");
-			Assert.AreEqual("width:110px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.5); ", style);
+			Assert.AreEqual("width:110px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.50); ", style);
 		}
 
 		[TestMethod]
@@ -108,7 +108,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.IsNotNull(input);
 
 			var style = input.GetAttribute("style");
-			Assert.AreEqual("width:80px; height:110px; cursor: pointer; border-radius: 55px; background-color: rgba(0, 0, 255, 0.5); ", style);
+			Assert.AreEqual("width:80px; height:110px; cursor: pointer; border-radius: 55px; background-color: rgba(0, 0, 255, 0.50); ", style);
 		}
 
 		[TestMethod]
@@ -121,7 +121,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.IsNotNull(input);
 
 			var style = input.GetAttribute("style");
-			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(255, 0, 0, 0.5); ", style);
+			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(255, 0, 0, 0.50); ", style);
 		}
 
 		[TestMethod]
@@ -135,7 +135,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.IsNotNull(input);
 
 			var style = input.GetAttribute("style");
-			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(240, 240, 240, 0.5); ", style);
+			Assert.AreEqual("width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(240, 240, 240, 0.50); ", style);
 		}
 
 		[TestMethod]
