@@ -95,7 +95,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.GdprConsent.Tests", "Majorsoft.Blazor.Components.GdprConsent.Tests\Majorsoft.Blazor.Components.GdprConsent.Tests.csproj", "{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Notifications", "Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj", "{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Notifications", "Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj", "{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,8 @@
-﻿<h1>Map Components</h1>
+﻿@using Majorsoft.Blazor.Components.TestApps.Common.Components.MapTypes
+<h1>Map Components</h1>
 
 <p>
-	Blazor components that renders Google/Bing maps wrapped into Blazor components allowing to control and mange maps with .Net code. For usage see source code and docs on
+	Blazor components that renders Google, Bing and Mapbox maps wrapped into Blazor components allowing to control and mange maps with .Net code. For usage see source code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Maps</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Maps" target="_blank">Nuget</a>
 </p>
@@ -17,6 +18,7 @@
 			<li><NavLink href="maps#google-js-maps">JavaScript API</NavLink></li>
 		</ul>
 		<li><NavLink href="maps#bing-maps">Bing Maps</NavLink></li>
+		<li><NavLink href="maps#mapbox-maps">Mapbox Maps</NavLink></li>
 	</ul>
 </div>
 
@@ -25,6 +27,8 @@
 <MapsGoogle />
 
 <MapsBing />
+
+<MapsMapbox />
 
 @code {
 

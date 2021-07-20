@@ -1,0 +1,24 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="mapbox-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>MapBox Maps</h3></Content>
+    </PermaLinkElement>
+
+    <p>
+
+    </p>
+    <h1 class="text-info">Under development...</h1>
+
+</div>
+
+@implements IAsyncDisposable
+@inject IGeolocationService _geolocationService;
+
+@code {
+    public async ValueTask DisposeAsync()
+    {
+        if (_geolocationService is not null)
+        {
+            await _geolocationService.DisposeAsync();
+        }
+    }
+}
