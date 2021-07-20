@@ -30,6 +30,7 @@
 	  <Watch Remove="Pages\MapPage.razor" />
 	  <Watch Remove="Pages\MaxLengthInputPage.razor" />
 	  <Watch Remove="Pages\ModalPage.razor" />
+	  <Watch Remove="Pages\NotificationsPage.razor" />
 	  <Watch Remove="Pages\PermaLinkPage.razor" />
 	  <Watch Remove="Pages\TabsPage.razor" />
 	  <Watch Remove="Pages\TimerPage.razor" />
