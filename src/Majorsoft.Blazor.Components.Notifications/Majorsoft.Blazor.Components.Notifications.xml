@@ -4,5 +4,15 @@
         <name>Majorsoft.Blazor.Components.Notifications</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel">
+            <summary>
+            Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
+            <summary>
+            
+            </summary>
+        </member>
     </members>
 </doc>
