@@ -35,6 +35,12 @@
             Countdown label and value CSS class property to style message.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.ShowRemainingChars">
+            <summary>
+            Should show remaining character values at the end of the <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.CountdownText"/> or not.
+            Note RemainingCharacters value can be acquired from <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.OnRemainingCharsChanged"/> event parameter.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputsBase.OnInput">
             <summary>
             Callback function called when HTML control received keyboard inputs.
@@ -70,6 +76,12 @@
             Countdown label and value CSS class property to style message.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.ShowRemainingChars">
+            <summary>
+            Should show remaining character values at the end of the <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.CountdownText"/> or not.
+            Note RemainingCharacters value can be acquired from <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.OnRemainingCharsChanged"/> event parameter.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputText.OnRemainingCharsChanged">
             <summary>
             Callback function called when HTML control received keyboard inputs remaining allowed chars calculated and sent as even args.
@@ -93,6 +105,12 @@
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.CountdownTextClass">
             <summary>
             Countdown label and value CSS class property to style message.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.ShowRemainingChars">
+            <summary>
+            Should show remaining character values at the end of the <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.CountdownText"/> or not.
+            Note RemainingCharacters value can be acquired from <see cref="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.OnRemainingCharsChanged"/> event parameter.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Inputs.MaxLengthInputTextArea.OnRemainingCharsChanged">
