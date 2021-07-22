@@ -1,8 +1,25 @@
-﻿<div @ref="_inputRef" id="@_componentId" class="alert" tabindex="750" @attributes=AllOtherAttributes>
-    <div class="alert-text">
-        @Content
+﻿<div @ref="_inputRef" id="@_componentId" class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
+
+    <div>
+        @if(ShowIcon)
+        { 
+            <div>
+
+            </div>
+        }
+
+        <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
+            @Content
+        </div>
     </div>
+
+    @if (ShowCloseButton)
+    {
+        <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+    }
 </div>
+
+@inject ILogger<Alert> _logger;
 
 @code {
     private string _componentId = Guid.NewGuid().ToString("n");
@@ -22,10 +39,52 @@
     /// </summary>
     [Parameter] public SeverityLevel Severity { get; set; }
 
+    /// <summary>
+    /// When true Alert will show an icon corresponding to the <see cref="SeverityLevel"/>.
+    /// </summary>
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    /// <summary>
+    /// When true Alert will show close "x" button.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
 
     /// <summary>
     /// Blazor capture for any unmatched HTML attributes.
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+    //Events
+    /// <summary>
+    /// Callback function called when the Modal dialog is opening.
+    /// </summary>
+    [Parameter] public EventCallback OnOpen { get; set; }
+    /// <summary>
+    /// Callback function called when the Modal dialog is closing.
+    /// </summary>
+    [Parameter] public EventCallback OnClose { get; set; }
+    /// <summary>
+    /// Callback function called when close x button was clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+
+    private async Task CloseClicked(MouseEventArgs e)
+    {
+        if (ShowCloseButton)
+        {
+            WriteDiag($"Close button clicked Alert closing.");
+
+            if (OnCloseButtonClicked.HasDelegate)
+            {
+                await OnCloseButtonClicked.InvokeAsync(e);
+            }
+
+            //await Close();
+        }
+    }
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
 }

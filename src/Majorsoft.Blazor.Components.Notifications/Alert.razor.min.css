@@ -1,1 +1,1 @@
-﻿@use "wwwroot/notifications";
+﻿.balert{margin-left:auto;margin-right:auto;display:flex;outline:0;position:relative;justify-content:center;}.balert-normal{background-color:#f4f4f4;}.balert-info{background-color:#f2f9ff;}.balert .balert-text{padding:.6em 0;}.balert .balert-text-normal{color:#000;}.balert .balert-text-info{color:#399ef2;}.balert .close{margin:0 0 0 auto;padding:0 .5em;outline:none;border:0;font-size:1.3rem;}

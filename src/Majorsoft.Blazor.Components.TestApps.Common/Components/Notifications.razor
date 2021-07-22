@@ -20,6 +20,29 @@
 	</PermaLinkElement>
 	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.</p>
 
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Message: <input class="form-control w-100" @bind="_alertText" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Severity Level: <select class="form-control selectpicker w-100" @bind="_severityLevel">
+				@foreach (var item in Enum.GetValues(typeof(SeverityLevel)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div>
+		<Alert Severity="@_severityLevel">
+			<Content>
+				@_alertText
+			</Content>
+		</Alert>
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -39,5 +62,6 @@
 </div>
 
 @code {
-
+	private string _alertText = @"Hello...";
+	private SeverityLevel _severityLevel = SeverityLevel.Normal;
 }

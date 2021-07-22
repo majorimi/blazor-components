@@ -29,9 +29,34 @@
             Notification severity level.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">
+            <summary>
+            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
+            <summary>
+            When true Alert will show close "x" button.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnOpen">
+            <summary>
+            Callback function called when the Modal dialog is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnClose">
+            <summary>
+            Callback function called when the Modal dialog is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnCloseButtonClicked">
+            <summary>
+            Callback function called when close x button was clicked.
             </summary>
         </member>
     </members>
