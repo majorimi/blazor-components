@@ -1,5 +1,9 @@
 ﻿@import "wwwroot/_notifications.scss";
 
+.balert-main {
+    transition: opacity 0.35s;
+}
+
 .balert {
     margin-left: auto;
     margin-right: auto;
@@ -81,5 +85,5 @@
     padding: 0 0.5em;
     outline: none;
     border: 0;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }

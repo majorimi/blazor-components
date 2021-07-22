@@ -1,4 +1,7 @@
-﻿.balert {
+﻿.balert-main {
+  transition: opacity 0.35s; }
+
+.balert {
   margin-left: auto;
   margin-right: auto;
   /*display: block;*/
@@ -69,4 +72,4 @@
   padding: 0 0.5em;
   outline: none;
   border: 0;
-  font-size: 1.3rem; }
+  font-size: 1.5rem; }

@@ -1,35 +1,40 @@
-﻿@if (IsOpen)
+﻿@if (IsVisible)
 {
-    <AdvancedTimer Occurring="Times.Once()" IntervalInMilisec="@((AutoCloseInSec * 1000) + 200)" AutoStart="true" OnIntervalElapsed="@(e => { IsOpen = false; })"/>
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" id="@_componentId" class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
-        <div>
-            @if (ShowIcon)
-            {
-                <div>
+    <div @ref="_inputRef" id="@_componentId" class="balert-main" style="opacity: @_opacity;">
+        <div class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
+            <div>
+                @if (ShowIcon)
+                {
+                    <div>
 
+                    </div>
+                }
+
+                <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
+                    @Content
                 </div>
-            }
-
-            <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
-                @Content
             </div>
-        </div>
 
-        @if (ShowCloseButton)
+            @if (ShowCloseButton)
+            {
+                <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            }
+        </div>
+        @if (AutoClose && AutoCloseInSec > 0)
         {
-            <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+            <div class="balert-progress@($" {Severity.ToString().ToLower()}" + (_animationStarted ? " start" : ""))"
+                 style="transition: width @(AutoCloseInSec)s linear;">
+            </div>
         }
     </div>
-    @if (AutoClose && AutoCloseInSec > 0)
-    {
-        <div class="balert-progress@($" {Severity.ToString().ToLower()}" + (_animationStarted ? " start" : ""))" 
-             style="transition: width @(AutoCloseInSec)s linear;">
-        </div>
-    }
 }
 
-@inject ILogger<Alert> _logger;
+@inject ILogger<Alert> _logger
+@inject ITransitionEventsService _transitionEvents
+
+@implements IAsyncDisposable
 
 @code {
     private string _componentId = Guid.NewGuid().ToString("n");
@@ -39,20 +44,46 @@
     /// </summary>
     public ElementReference InnerElementReference => _inputRef;
 
-    private bool _isOpen = false;
-    [Parameter]
-    public bool IsOpen
+    private byte _opacity = 1;
+
+    private int _delay = 100;
+    private bool _animationStarted = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        get => _isOpen;
+        if (IsVisible && !_animationStarted)
+        {
+            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
+            await Task.Delay(_delay);
+
+            _animationStarted = true;
+            StateHasChanged();
+        }
+    }
+
+    private bool _isVisible = false;
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter]
+    public bool IsVisible
+    {
+        get => _isVisible;
         set
         {
-            if(value != _isOpen)
+            if(value != _isVisible)
             {
-                _isOpen = value;
-                if (!_isOpen)
+                _opacity = 1;
+
+                if (!value) //closing
                 {
-                    _animationStarted = false;
-                    //StateHasChanged();
+                    _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
+                    {
+                        _isVisible = false;
+                        _animationStarted = false;
+
+                        StateHasChanged();
+                    }, "opacity");
+                    _opacity = 0;
 
                     if (OnClose.HasDelegate)
                     {
@@ -62,20 +93,11 @@
                         });
                     }
                 }
+                else
+                {
+                    _isVisible = value;
+                }
             }
-        }
-    }
-
-    private bool _animationStarted = false;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (IsOpen && !_animationStarted)
-        {
-            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
-            await Task.Delay(100);
-
-            _animationStarted = true;
-            StateHasChanged();
         }
     }
 
@@ -134,7 +156,15 @@
                 await OnCloseButtonClicked.InvokeAsync(e);
             }
 
-            IsOpen = false;
+            IsVisible = false;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if(_transitionEvents is not null)
+        {
+            await _transitionEvents.DisposeAsync();
         }
     }
 

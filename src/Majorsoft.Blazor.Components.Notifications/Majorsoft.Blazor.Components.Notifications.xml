@@ -19,6 +19,11 @@
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Content">
             <summary>
             HTML Content of the collapse panel.
