@@ -21,22 +21,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Watch Remove="Pages\ColorPickerPage.razor" />
-	  <Watch Remove="Pages\DragAndDropPage.razor" />
-	  <Watch Remove="Pages\GdprConsentPage.razor" />
-	  <Watch Remove="Pages\IndexPage.razor" />
-	  <Watch Remove="Pages\JSInteropPage.razor" />
-	  <Watch Remove="Pages\LoadingPage.razor" />
-	  <Watch Remove="Pages\MapPage.razor" />
-	  <Watch Remove="Pages\MaxLengthInputPage.razor" />
-	  <Watch Remove="Pages\ModalPage.razor" />
-	  <Watch Remove="Pages\NotificationsPage.razor" />
-	  <Watch Remove="Pages\PermaLinkPage.razor" />
-	  <Watch Remove="Pages\TabsPage.razor" />
-	  <Watch Remove="Pages\TimerPage.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Include="bundleconfig.json" />
 	</ItemGroup>
 
@@ -46,33 +30,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="Pages\AnalyticsPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\DebounceInputPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\DragAndDropPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\IndexPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\LoadingPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\ModalPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\PermaLinkPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\TimerPage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
-	  <Content Update="Pages\TogglePage.razor">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	  </Content>
 	  <Content Update="wwwroot\css\app.css">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
