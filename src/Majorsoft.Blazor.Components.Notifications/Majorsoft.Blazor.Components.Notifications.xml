@@ -9,14 +9,29 @@
             Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
+            <summary>
+            Notification severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Severity">
             <summary>
             Notification severity level.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
             <summary>
-            Notification severity level.
+            Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
     </members>

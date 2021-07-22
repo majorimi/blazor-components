@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/notifications.min.css",
+    "inputFiles": [
+      "wwwroot/notifications.css"
+    ]
+  }
+]

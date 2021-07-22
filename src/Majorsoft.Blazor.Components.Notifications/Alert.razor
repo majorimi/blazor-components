@@ -1,7 +1,31 @@
-﻿
+﻿<div @ref="_inputRef" id="@_componentId" class="alert" tabindex="750" @attributes=AllOtherAttributes>
+    <div class="alert-text">
+        @Content
+    </div>
+</div>
+
 @code {
+    private string _componentId = Guid.NewGuid().ToString("n");
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    /// <summary>
+    /// HTML Content of the collapse panel.
+    /// </summary>
+    [Parameter] public RenderFragment Content { get; set; }
+
     /// <summary>
     /// Notification severity level.
     /// </summary>
     [Parameter] public SeverityLevel Severity { get; set; }
+
+
+    /// <summary>
+    /// Blazor capture for any unmatched HTML attributes.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AllOtherAttributes { get; set; }
 }

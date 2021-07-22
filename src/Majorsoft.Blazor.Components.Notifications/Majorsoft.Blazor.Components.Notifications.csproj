@@ -26,6 +26,15 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>.\Majorsoft.Blazor.Components.Notifications.xml</DocumentationFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="bundleconfig.json" />
+	  <Content Remove="compilerconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="compilerconfig.json" />
+	</ItemGroup>
   
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
@@ -33,10 +42,6 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +57,8 @@
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>
 	</None>
+	<None Include="bundleconfig.json" />
+	<None Include="compilerconfig.json" />
   </ItemGroup>
 
 </Project>
