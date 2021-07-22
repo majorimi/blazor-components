@@ -39,14 +39,19 @@
             When true Alert will show close "x" button.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose">
+            <summary>
+            When true Alert will auto close after set up time in <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoCloseInSec"/> elapsed in Seconds.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoCloseInSec">
+            <summary>
+            When <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnOpen">
-            <summary>
-            Callback function called when the Modal dialog is opening.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnClose">

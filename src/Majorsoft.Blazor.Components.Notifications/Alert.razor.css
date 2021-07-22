@@ -5,7 +5,8 @@
   display: flex;
   outline: 0;
   position: relative;
-  justify-content: center; }
+  justify-content: center;
+  border-radius: 3px; }
 
 .balert-normal {
   background-color: #f4f4f4; }
@@ -13,14 +14,55 @@
 .balert-info {
   background-color: #f2f9ff; }
 
+.balert-success {
+  background-color: #f0fcf6; }
+
+.balert-warning {
+  background-color: #fff7f1; }
+
+.balert-error {
+  background-color: #fff4f2; }
+
 .balert .balert-text {
-  padding: 0.6em 0; }
+  padding: 0.6em 0;
+  margin: 0 0.7em; }
 
 .balert .balert-text-normal {
-  color: black; }
+  color: #525252; }
 
 .balert .balert-text-info {
   color: #399ef2; }
+
+.balert .balert-text-success {
+  color: #28ce73; }
+
+.balert .balert-text-warning {
+  color: #ffa42c; }
+
+.balert .balert-text-error {
+  color: #f6534a; }
+
+.balert-progress {
+  width: 0px;
+  height: 0.2em; }
+
+.balert-progress.normal {
+  background-color: #525252; }
+
+.balert-progress.info {
+  background-color: #399ef2; }
+
+.balert-progress.success {
+  background-color: #28ce73; }
+
+.balert-progress.warning {
+  background-color: #ffa42c; }
+
+.balert-progress.error {
+  background-color: #f6534a; }
+
+.balert-progress.start {
+  width: 100% !important; }
 
 .balert .close {
   margin: 0 0 0 auto;

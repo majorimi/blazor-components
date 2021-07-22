@@ -1,23 +1,33 @@
-﻿<div @ref="_inputRef" id="@_componentId" class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
+﻿@if (IsOpen)
+{
+    <AdvancedTimer Occurring="Times.Once()" IntervalInMilisec="@((AutoCloseInSec * 1000) + 200)" AutoStart="true" OnIntervalElapsed="@(e => { IsOpen = false; })"/>
 
-    <div>
-        @if(ShowIcon)
-        { 
-            <div>
+    <div @ref="_inputRef" id="@_componentId" class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
+        <div>
+            @if (ShowIcon)
+            {
+                <div>
 
+                </div>
+            }
+
+            <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
+                @Content
             </div>
-        }
-
-        <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
-            @Content
         </div>
-    </div>
 
-    @if (ShowCloseButton)
+        @if (ShowCloseButton)
+        {
+            <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+        }
+    </div>
+    @if (AutoClose && AutoCloseInSec > 0)
     {
-        <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
+        <div class="balert-progress@($" {Severity.ToString().ToLower()}" + (_animationStarted ? " start" : ""))" 
+             style="transition: width @(AutoCloseInSec)s linear;">
+        </div>
     }
-</div>
+}
 
 @inject ILogger<Alert> _logger;
 
@@ -28,6 +38,46 @@
     /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
     /// </summary>
     public ElementReference InnerElementReference => _inputRef;
+
+    private bool _isOpen = false;
+    [Parameter]
+    public bool IsOpen
+    {
+        get => _isOpen;
+        set
+        {
+            if(value != _isOpen)
+            {
+                _isOpen = value;
+                if (!_isOpen)
+                {
+                    _animationStarted = false;
+                    //StateHasChanged();
+
+                    if (OnClose.HasDelegate)
+                    {
+                        InvokeAsync(async () =>
+                        {
+                            await OnClose.InvokeAsync();
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    private bool _animationStarted = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen && !_animationStarted)
+        {
+            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
+            await Task.Delay(100);
+
+            _animationStarted = true;
+            StateHasChanged();
+        }
+    }
 
     /// <summary>
     /// HTML Content of the collapse panel.
@@ -49,16 +99,21 @@
     [Parameter] public bool ShowCloseButton { get; set; } = true;
 
     /// <summary>
+    /// When true Alert will auto close after set up time in <see cref="AutoCloseInSec"/> elapsed in Seconds.
+    /// </summary>
+    [Parameter] public bool AutoClose { get; set; } = true;
+    /// <summary>
+    /// When <see cref="AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
+    /// </summary>
+    [Parameter] public uint AutoCloseInSec { get; set; } = 10;
+
+    /// <summary>
     /// Blazor capture for any unmatched HTML attributes.
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> AllOtherAttributes { get; set; }
 
     //Events
-    /// <summary>
-    /// Callback function called when the Modal dialog is opening.
-    /// </summary>
-    [Parameter] public EventCallback OnOpen { get; set; }
     /// <summary>
     /// Callback function called when the Modal dialog is closing.
     /// </summary>
@@ -79,7 +134,7 @@
                 await OnCloseButtonClicked.InvokeAsync(e);
             }
 
-            //await Close();
+            IsOpen = false;
         }
     }
 

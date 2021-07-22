@@ -18,7 +18,16 @@
 	<PermaLinkElement PermaLinkName="alerts" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Alert</h3></Content>
 	</PermaLinkElement>
-	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.</p>
+	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with customizable header and content.</p>
+
+	
+	<div>
+		<Alert Severity="@_severityLevel" IsOpen="true">
+			<Content>
+				@_alertText
+			</Content>
+		</Alert>
+	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -34,14 +43,6 @@
 				}
 			</select>
 		</div>
-	</div>
-
-	<div>
-		<Alert Severity="@_severityLevel">
-			<Content>
-				@_alertText
-			</Content>
-		</Alert>
 	</div>
 </div>
 
