@@ -3,52 +3,39 @@
 .balert-main {
     transition: opacity 0.35s;
 }
+.balert-normal {
+    background-color: $normalBackgroundColor;
+    color: $normalTextColor;
+}
+.balert-info {
+    background-color: $infoBackgroundColor;
+    color: $infoTextColor;
+}
+.balert-success {
+    background-color: $successBackgroundColor;
+    color: $successTextColor;
+}
+.balert-warning {
+    background-color: $warningBackgroundColor;
+    color: $warningTextColor;
+}
+.balert-error {
+    background-color: $errorBackgroundColor;
+    color: $errorTextColor;
+}
 
-.balert {
+.balert-body {
     margin-left: auto;
     margin-right: auto;
-    /*display: block;*/
     display: flex;
     outline: 0;
     position: relative;
     justify-content: center;
     border-radius: 3px;
 }
-.balert-normal {
-    background-color: $normalBackgroundColor;
-}
-.balert-info {
-    background-color: $infoBackgroundColor;
-}
-.balert-success {
-    background-color: $successBackgroundColor;
-}
-.balert-warning {
-    background-color: $warningBackgroundColor;
-}
-.balert-error {
-    background-color: $errorBackgroundColor;
-}
-
-.balert .balert-text {
+.balert-body .balert-text {
     padding: 0.6em 0;
     margin: 0 0.7em;
-}
-
-.balert .balert-text-normal {
-    color: $normalTextColor;
-}
-.balert .balert-text-info {
-    color: $infoTextColor;
-}
-.balert .balert-text-success {
-    color: $successTextColor;
-}
-.balert .balert-text-warning {
-    color: $warningTextColor;
-}
-.balert .balert-text-error {
-    color: $errorTextColor;
 }
 
 
@@ -80,10 +67,15 @@
     width: 100% !important;
 }
 
-.balert .close {
+.balert-body .close {
     margin: 0 0 0 auto;
     padding: 0 0.5em;
     outline: none;
     border: 0;
     font-size: 1.5rem;
+    z-index: 5;
+    color: inherit;
+}
+.balert-body .close:hover {
+    color: black;
 }

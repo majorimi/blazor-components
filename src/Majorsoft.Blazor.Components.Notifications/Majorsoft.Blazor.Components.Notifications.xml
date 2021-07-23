@@ -59,14 +59,19 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnOpen">
+            <summary>
+            Callback function called when the Alert is opening.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnClose">
             <summary>
-            Callback function called when the Modal dialog is closing.
+            Callback function called when the Alert is closing.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnCloseButtonClicked">
             <summary>
-            Callback function called when close x button was clicked.
+            Callback function called when close `x` button was clicked.
             </summary>
         </member>
     </members>

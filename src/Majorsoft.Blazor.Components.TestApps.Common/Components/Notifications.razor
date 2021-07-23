@@ -22,9 +22,13 @@
 
 	
 	<div>
-		<Alert Severity="@_severityLevel" IsVisible="true">
+		<Alert Severity="@_severityLevel" 
+			   IsVisible="true"
+			   AutoClose="false"
+			   AutoCloseInSec="5"
+			   ShowCloseButton="true">
 			<Content>
-				@_alertText
+				<strong>Alert:</strong> @_alertText
 			</Content>
 		</Alert>
 	</div>
@@ -36,7 +40,7 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Severity Level: <select class="form-control selectpicker w-100" @bind="_severityLevel">
+			Severity Level: <select class="form-control selectpicker w-100" @onchange="@(e => { _severityLevel = Enum.Parse<SeverityLevel>(e.Value?.ToString()); _alertText = $"This is a(n) {_severityLevel} alert..."; })">
 				@foreach (var item in Enum.GetValues(typeof(SeverityLevel)))
 				{
 					<option value="@item">@item</option>
@@ -63,6 +67,6 @@
 </div>
 
 @code {
-	private string _alertText = @"Hello...";
+	private string _alertText = "This is a(n) Normal alert...";
 	private SeverityLevel _severityLevel = SeverityLevel.Normal;
 }

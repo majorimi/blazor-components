@@ -1,49 +1,38 @@
 ﻿.balert-main {
   transition: opacity 0.35s; }
 
-.balert {
+.balert-normal {
+  background-color: #f4f4f4;
+  color: #525252; }
+
+.balert-info {
+  background-color: #f2f9ff;
+  color: #399ef2; }
+
+.balert-success {
+  background-color: #f0fcf6;
+  color: #28ce73; }
+
+.balert-warning {
+  background-color: #fff7f1;
+  color: #ffa42c; }
+
+.balert-error {
+  background-color: #fff4f2;
+  color: #f6534a; }
+
+.balert-body {
   margin-left: auto;
   margin-right: auto;
-  /*display: block;*/
   display: flex;
   outline: 0;
   position: relative;
   justify-content: center;
   border-radius: 3px; }
 
-.balert-normal {
-  background-color: #f4f4f4; }
-
-.balert-info {
-  background-color: #f2f9ff; }
-
-.balert-success {
-  background-color: #f0fcf6; }
-
-.balert-warning {
-  background-color: #fff7f1; }
-
-.balert-error {
-  background-color: #fff4f2; }
-
-.balert .balert-text {
+.balert-body .balert-text {
   padding: 0.6em 0;
   margin: 0 0.7em; }
-
-.balert .balert-text-normal {
-  color: #525252; }
-
-.balert .balert-text-info {
-  color: #399ef2; }
-
-.balert .balert-text-success {
-  color: #28ce73; }
-
-.balert .balert-text-warning {
-  color: #ffa42c; }
-
-.balert .balert-text-error {
-  color: #f6534a; }
 
 .balert-progress {
   width: 0px;
@@ -67,9 +56,14 @@
 .balert-progress.start {
   width: 100% !important; }
 
-.balert .close {
+.balert-body .close {
   margin: 0 0 0 auto;
   padding: 0 0.5em;
   outline: none;
   border: 0;
-  font-size: 1.5rem; }
+  font-size: 1.5rem;
+  z-index: 5;
+  color: inherit; }
+
+.balert-body .close:hover {
+  color: black; }

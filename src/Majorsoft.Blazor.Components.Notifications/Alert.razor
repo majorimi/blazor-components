@@ -1,9 +1,9 @@
 ﻿@if (IsVisible)
 {
-    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" id="@_componentId" class="balert-main" style="opacity: @_opacity;">
-        <div class="balert@($" balert-{Severity.ToString().ToLower()}")" tabindex="750" @attributes=AllOtherAttributes>
+    <div @ref="_inputRef" id="@_componentId" class="balert-main@($" balert-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
+        <div class="balert-body" @attributes=AllOtherAttributes>
             <div>
                 @if (ShowIcon)
                 {
@@ -12,7 +12,7 @@
                     </div>
                 }
 
-                <div class="balert-text@($" balert-text-{Severity.ToString().ToLower()}")">
+                <div class="balert-text">
                     @Content
                 </div>
             </div>
@@ -95,7 +95,15 @@
                 }
                 else
                 {
-                    _isVisible = value;
+                    if (OnOpen.HasDelegate)
+                    {
+                        InvokeAsync(async () =>
+                        {
+                            await OnOpen.InvokeAsync();
+                        });
+                    }
+
+                    _isVisible = true;
                 }
             }
         }
@@ -137,11 +145,15 @@
 
     //Events
     /// <summary>
-    /// Callback function called when the Modal dialog is closing.
+    /// Callback function called when the Alert is opening.
+    /// </summary>
+    [Parameter] public EventCallback OnOpen { get; set; }
+    /// <summary>
+    /// Callback function called when the Alert is closing.
     /// </summary>
     [Parameter] public EventCallback OnClose { get; set; }
     /// <summary>
-    /// Callback function called when close x button was clicked.
+    /// Callback function called when close `x` button was clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
 
