@@ -2,7 +2,7 @@
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" id="@_componentId" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
         <div class="balert-body" @attributes=AllOtherAttributes>
             <div>
                 @if (ShowIcon)
@@ -37,7 +37,6 @@
 @implements IAsyncDisposable
 
 @code {
-    private string _componentId = Guid.NewGuid().ToString("n");
     private ElementReference _inputRef;
     /// <summary>
     /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
