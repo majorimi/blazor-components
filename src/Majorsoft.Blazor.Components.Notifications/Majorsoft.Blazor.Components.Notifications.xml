@@ -21,7 +21,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible">
             <summary>
-            
+            Determines wheatere the Alert message should be visible on UI or not.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Content">

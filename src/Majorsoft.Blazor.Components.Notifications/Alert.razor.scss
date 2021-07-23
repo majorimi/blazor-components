@@ -1,6 +1,8 @@
 ﻿@import "wwwroot/_notifications.scss";
 
 .balert-main {
+    border-radius: .25rem;
+    outline: 0;
     transition: opacity 0.35s;
 }
 .balert-normal {
@@ -30,8 +32,6 @@
     display: flex;
     outline: 0;
     position: relative;
-    justify-content: center;
-    border-radius: 3px;
 }
 .balert-body .balert-text {
     padding: 0.6em 0;

@@ -18,19 +18,36 @@
 	<PermaLinkElement PermaLinkName="alerts" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Alert</h3></Content>
 	</PermaLinkElement>
-	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with customizable header and content.</p>
+	<p>
+		Renders <strong><code>Alert</code> component </strong> which is a banner to show important system messages. 
+		Importance can be emphasized by <code>SeverityLevel</code> and styling with customizable content. Alerts can be closes automatically or let user close them, etc.
+	</p>
 
-	
-	<div>
-		<Alert Severity="@_severityLevel" 
-			   IsVisible="true"
-			   AutoClose="false"
-			   AutoCloseInSec="5"
-			   ShowCloseButton="true">
+	<div class="w-100">
+		<Alert Severity="@_alertSeverityLevel"
+			   IsVisible="@_alertIsVisible"
+			   AutoClose="@_alertAutoClose"
+			   AutoCloseInSec="@_alertAutoCloseInSec"
+			   ShowCloseButton="@_alertShowCloseButton"
+			   ShowIcon="@_alertShowIcon"
+			   OnOpen="OnOpen"
+			   OnClose="OnClose"
+			   OnCloseButtonClicked="OnCloseButtonClicked">
 			<Content>
 				<strong>Alert:</strong> @_alertText
 			</Content>
 		</Alert>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Alert is Visible: <input class="mr-2" type="checkbox" @bind="_alertIsVisible" disabled="disabled" />
+			Show Close button: <input class="mr-2" type="checkbox" @bind="_alertShowCloseButton" />
+			Show icon: <input class="mr-2" type="checkbox" @bind="_alertShowIcon" />
+			<br />
+			Auto close (after @_alertAutoCloseInSec sec): <input class="mr-2" type="checkbox" @bind="_alertAutoClose" disabled="@_alertIsVisible" />
+			<input type="range" class="w-100" min="1" max="20" @bind="_alertAutoCloseInSec" @oninput="(e => _alertAutoCloseInSec = uint.Parse(e.Value?.ToString()))" disabled="@_alertIsVisible" />
+		</div>
 	</div>
 
 	<div class="row pb-2">
@@ -40,12 +57,23 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Severity Level: <select class="form-control selectpicker w-100" @onchange="@(e => { _severityLevel = Enum.Parse<SeverityLevel>(e.Value?.ToString()); _alertText = $"This is a(n) {_severityLevel} alert..."; })">
+			Severity Level:
+			<select class="form-control selectpicker w-100"
+					@onchange="@(e => { _alertSeverityLevel = Enum.Parse<SeverityLevel>(e.Value?.ToString()); _alertText = $"This is a(n) {_alertSeverityLevel} alert..."; })">
 				@foreach (var item in Enum.GetValues(typeof(SeverityLevel)))
 				{
 					<option value="@item">@item</option>
 				}
 			</select>
+
+			<button class="btn btn-primary mt-2" disabled="@_alertIsVisible" @onclick="a => _alertIsVisible = !_alertIsVisible">Show Alert</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Event log</strong>:</label>
+			<textarea @ref="log1" @bind="_alertLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 		</div>
 	</div>
 </div>
@@ -67,6 +95,39 @@
 </div>
 
 @code {
+	private bool _alertIsVisible = false;
+	private bool _alertAutoClose = true;
+	private bool _alertShowIcon = true;
+	private bool _alertShowCloseButton = true;
+	private uint _alertAutoCloseInSec = 5;
 	private string _alertText = "This is a(n) Normal alert...";
-	private SeverityLevel _severityLevel = SeverityLevel.Normal;
+	private SeverityLevel _alertSeverityLevel = SeverityLevel.Normal;
+
+	private ElementReference log1;
+	private string _alertLog = "";
+
+	//Alert events
+	public async Task OnOpen()
+	{
+		_alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnOpen)}' Dialog opened.");
+	}
+	public async Task OnClose()
+	{
+		_alertIsVisible = false; //Or use two-way binding.
+		_alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Dialog closed.");
+	}
+	private async Task OnCloseButtonClicked(MouseEventArgs e)
+	{
+		_alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
+	}
+
+
+
+	private async Task<string> WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await log1.ScrollToEndAsync();
+
+		return log;
+	}
 }

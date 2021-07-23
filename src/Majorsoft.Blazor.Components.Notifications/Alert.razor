@@ -62,7 +62,7 @@
 
     private bool _isVisible = false;
     /// <summary>
-    /// 
+    /// Determines wheatere the Alert message should be visible on UI or not.
     /// </summary>
     [Parameter]
     public bool IsVisible
@@ -82,18 +82,15 @@
                         _animationStarted = false;
 
                         StateHasChanged();
-                    }, "opacity");
-                    _opacity = 0;
 
-                    if (OnClose.HasDelegate)
-                    {
-                        InvokeAsync(async () =>
+                        if (OnClose.HasDelegate)
                         {
                             await OnClose.InvokeAsync();
-                        });
-                    }
+                        }
+                    }, "opacity");
+                    _opacity = 0;
                 }
-                else
+                else //open
                 {
                     if (OnOpen.HasDelegate)
                     {
@@ -156,6 +153,7 @@
     /// Callback function called when close `x` button was clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+
 
     private async Task CloseClicked(MouseEventArgs e)
     {
