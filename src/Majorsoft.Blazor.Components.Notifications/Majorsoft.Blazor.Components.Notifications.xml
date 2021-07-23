@@ -4,6 +4,11 @@
         <name>Majorsoft.Blazor.Components.Notifications</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationStyles">
+            <summary>
+            Notification Styles for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel">
             <summary>
             Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
@@ -32,6 +37,11 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Severity">
             <summary>
             Notification severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.NotificationStyle">
+            <summary>
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Severity"/> Alert.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">

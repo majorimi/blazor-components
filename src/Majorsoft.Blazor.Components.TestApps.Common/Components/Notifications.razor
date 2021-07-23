@@ -19,12 +19,13 @@
 		<Content><h3>Alert</h3></Content>
 	</PermaLinkElement>
 	<p>
-		Renders <strong><code>Alert</code> component </strong> which is a banner to show important system messages. 
+		Renders <strong><code>Alert</code> component </strong> which is a banner to show important system messages.
 		Importance can be emphasized by <code>SeverityLevel</code> and styling with customizable content. Alerts can be closes automatically or let user close them, etc.
 	</p>
 
 	<div class="w-100">
 		<Alert Severity="@_alertSeverityLevel"
+			   NotificationStyle="@_alertStyle"
 			   IsVisible="@_alertIsVisible"
 			   AutoClose="@_alertAutoClose"
 			   AutoCloseInSec="@_alertAutoCloseInSec"
@@ -53,6 +54,17 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
 			Message: <input class="form-control w-100" @bind="_alertText" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Alert style: <select class="form-control selectpicker w-100" @bind="_alertStyle">
+				@foreach (var item in Enum.GetValues(typeof(NotificationStyles)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
 		</div>
 	</div>
 	<div class="row pb-2">
@@ -102,6 +114,7 @@
 	private uint _alertAutoCloseInSec = 5;
 	private string _alertText = $"This is a(n) {nameof(SeverityLevel.Primary)} alert...";
 	private SeverityLevel _alertSeverityLevel = SeverityLevel.Primary;
+	private NotificationStyles _alertStyle = NotificationStyles.Normal;
 
 	private ElementReference log1;
 	private string _alertLog = "";

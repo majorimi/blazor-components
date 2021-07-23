@@ -2,7 +2,7 @@
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" id="@_componentId" class="balert-main@($" balert-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
+    <div @ref="_inputRef" id="@_componentId" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
         <div class="balert-body" @attributes=AllOtherAttributes>
             <div>
                 @if (ShowIcon)
@@ -19,12 +19,12 @@
 
             @if (ShowCloseButton)
             {
-                <button type="button" @onclick="CloseClicked" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <button type="button" @onclick="CloseClicked" class="close@($" {NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             }
         </div>
         @if (AutoClose && AutoCloseInSec > 0)
         {
-            <div class="balert-progress@($" {Severity.ToString().ToLower()}" + (_animationStarted ? " start" : ""))"
+            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Severity.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
                  style="transition: width @(AutoCloseInSec)s linear;">
             </div>
         }
@@ -115,6 +115,11 @@
     /// Notification severity level.
     /// </summary>
     [Parameter] public SeverityLevel Severity { get; set; }
+
+    /// <summary>
+    /// Notification style to show different variant of the same <see cref="Severity"/> Alert.
+    /// </summary>
+    [Parameter] public NotificationStyles NotificationStyle { get; set; }
 
     /// <summary>
     /// When true Alert will show an icon corresponding to the <see cref="SeverityLevel"/>.
