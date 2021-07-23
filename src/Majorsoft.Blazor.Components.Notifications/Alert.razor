@@ -2,8 +2,9 @@
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
-        <div class="balert-body" @attributes=AllOtherAttributes>
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" 
+         tabindex="750" @attributes=AllOtherAttributes>
+        <div class="balert-body">
             @if (ShowIcon)
             {
                 <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
@@ -33,7 +34,6 @@
 @inject ITransitionEventsService _transitionEvents
 
 @implements IAsyncDisposable
-@using System.ComponentModel
 
 @code {
     private ElementReference _inputRef;
