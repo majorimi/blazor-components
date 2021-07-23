@@ -43,7 +43,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<textarea maxlength=""50""  id=""id1"" class=""form-control w-100"" ></textarea>");
-			label.MarkupMatches(@"<label>Remaining characters: 50</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 50</label>");
 		}
 
 		[TestMethod]
@@ -58,7 +58,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<textarea value=""test"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 46</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 46</label>");
 		}
 
 		[TestMethod]
@@ -74,7 +74,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<textarea value=""test"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining chars: 46</label>");
+			label.MarkupMatches(@"<label class="""">Remaining chars: 46</label>");
 		}
 
 		[TestMethod]
@@ -89,7 +89,22 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<textarea maxlength=""11""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 11</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 11</label>");
+		}
+
+		[TestMethod]
+		public void MaxLengthTextarea_should_rendered_without_ShowRemainingChars()
+		{
+			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+				.Add(p => p.ShowRemainingChars, false));
+
+			var input = rendered.Find("textarea");
+			var label = rendered.Find("label");
+
+			Assert.IsNotNull(input);
+			Assert.IsNotNull(label);
+			input.MarkupMatches(@"<textarea maxlength=""50""/>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: </label>");
 		}
 
 		[TestMethod]
@@ -128,7 +143,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.AreEqual(49, remaining);
 
 			input.MarkupMatches(@"<textarea value=""t"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 49</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 49</label>");
 		}
 	}
 }

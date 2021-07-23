@@ -74,7 +74,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -115,7 +115,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -168,7 +168,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -212,7 +212,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -288,7 +288,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -374,7 +374,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-header"">Header...<button type=""button"" class=""close"">
-				<span aria-hidden=""true"">x</span>
+				<span aria-hidden=""true"">×</span>
 				<span class=""sr-only"">Close</span>
 			  </button></div>
 				<div class=""bmodal-body""></div>
@@ -537,7 +537,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -620,7 +620,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">×</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
