@@ -1,9 +1,4 @@
-﻿.balert-main {
-  border-radius: .25rem;
-  outline: 0;
-  transition: opacity 0.35s; }
-
-.bnotify-normal-primary {
+﻿.bnotify-normal-primary {
   background-color: #cce5ff;
   color: #0065d2; }
 
@@ -98,6 +93,11 @@
 .bnotify-strong-dark {
   background-color: #1b1e21;
   color: #f7f7f7; }
+
+.balert-main {
+  border-radius: .25rem;
+  outline: 0;
+  transition: opacity 0.35s; }
 
 .balert-body {
   margin-left: auto;
