@@ -49,6 +49,11 @@
             When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel"/>.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
+            <summary>
+            Icon customization it accepts an SVG `Path`
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
             <summary>
             When true Alert will show close "x" button.

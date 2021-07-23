@@ -4,17 +4,15 @@
 
     <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" tabindex="750">
         <div class="balert-body" @attributes=AllOtherAttributes>
-            <div>
-                @if (ShowIcon)
-                {
-                    <div>
+            @if (ShowIcon)
+            {
+                <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+                </svg>
+            }
 
-                    </div>
-                }
-
-                <div class="balert-text">
-                    @Content
-                </div>
+            <div class="balert-text">
+                @Content
             </div>
 
             @if (ShowCloseButton)
@@ -35,6 +33,7 @@
 @inject ITransitionEventsService _transitionEvents
 
 @implements IAsyncDisposable
+@using System.ComponentModel
 
 @code {
     private ElementReference _inputRef;
@@ -125,6 +124,10 @@
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
+    /// Icon customization it accepts an SVG `Path`
+    /// </summary>
+    [Parameter] public string CustomIconSvgPath { get; set; } = "";
+    /// <summary>
     /// When true Alert will show close "x" button.
     /// </summary>
     [Parameter] public bool ShowCloseButton { get; set; } = true;
@@ -172,6 +175,21 @@
 
             IsVisible = false;
         }
+    }
+
+    private string GetSvgPath()
+    {
+        if(!string.IsNullOrWhiteSpace(CustomIconSvgPath))
+        {
+            return CustomIconSvgPath;
+        }
+
+        var property = typeof(SeverityLevel).GetMember(Severity.ToString())[0];
+        var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
+        var description = (DescriptionAttribute)attribute;
+        var path = description.Description;
+
+        return path;
     }
 
     public async ValueTask DisposeAsync()

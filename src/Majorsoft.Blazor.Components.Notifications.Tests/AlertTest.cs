@@ -19,7 +19,6 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 	{
 		private Bunit.TestContext _testContext;
 		private Mock<ITransitionEventsService> _transitionMock;
-		//private Mock<IFocusHandler> _focusHandlerMock;
 
 		[TestInitialize]
 		public void Init()
@@ -29,12 +28,10 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			var mock = new Mock<ILogger<Alert>>();
 			var mock2 = new Mock<ILogger<AdvancedTimer>>();
 			_transitionMock = new Mock<ITransitionEventsService>();
-			//_focusHandlerMock = new Mock<IFocusHandler>();
 
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Alert>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), mock2.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-			//_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
 		}
 
 		[TestCleanup]
@@ -74,12 +71,12 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
 	  <div class=""balert-body"" id=""id1"" title=""text"" >
-		<div >
-		  <div ></div>
-		  <div class=""balert-text"" ></div>
-		</div>
+		<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
+		  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""M17 13h-10v-1h10v1zm0 2h-10v1h10v-1zm0 3h-10v1h10v-1zm5-16v22h-20v-22h3v1c0 1.103.897 2 2 2s2-.897 2-2v-1h6v1c0 1.103.897 2 2 2s2-.897 2-2v-1h3zm-2 7h-16v13h16v-13zm-12-8c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2zm10 0c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2z"" ></path>
+		</svg>
+		<div class=""balert-text"" ></div>
 		<button type=""button""  class=""close normal"" >
-		  <span aria-hidden=""true"" >×</span>
+		  <span aria-hidden=""true"" >&times;</span>
 		  <span class=""sr-only"" >Close</span>
 		</button>
 	  </div>

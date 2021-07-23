@@ -15,9 +15,13 @@
 }
 .balert-body .balert-text {
     padding: 0.6em 0;
-    margin: 0 0.7em;
+    margin: 0 0.6em;
 }
-
+.balert-body .balert-img {
+    padding: 0.6em 0;
+    margin: 0 0.1em 0 0.7em;
+    width: 24px;
+}
 
 .balert-progress {
     width: 0px;
