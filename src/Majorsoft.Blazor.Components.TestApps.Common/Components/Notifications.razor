@@ -100,8 +100,8 @@
 	private bool _alertShowIcon = true;
 	private bool _alertShowCloseButton = true;
 	private uint _alertAutoCloseInSec = 5;
-	private string _alertText = "This is a(n) Normal alert...";
-	private SeverityLevel _alertSeverityLevel = SeverityLevel.Normal;
+	private string _alertText = $"This is a(n) {nameof(SeverityLevel.Primary)} alert...";
+	private SeverityLevel _alertSeverityLevel = SeverityLevel.Primary;
 
 	private ElementReference log1;
 	private string _alertLog = "";

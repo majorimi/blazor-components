@@ -5,9 +5,13 @@
     outline: 0;
     transition: opacity 0.35s;
 }
-.balert-normal {
-    background-color: $normalBackgroundColor;
-    color: $normalTextColor;
+.balert-primary {
+    background-color: $primaryBackgroundColor;
+    color: $primaryTextColor;
+}
+.balert-secondary {
+    background-color: $secondaryBackgroundColor;
+    color: $secondaryTextColor;
 }
 .balert-info {
     background-color: $infoBackgroundColor;
@@ -21,9 +25,17 @@
     background-color: $warningBackgroundColor;
     color: $warningTextColor;
 }
-.balert-error {
-    background-color: $errorBackgroundColor;
-    color: $errorTextColor;
+.balert-danger {
+    background-color: $dangerBackgroundColor;
+    color: $dangerTextColor;
+}
+.balert-light {
+    background-color: $lightBackgroundColor;
+    color: $lightTextColor;
+}
+.balert-dark {
+    background-color: $darkBackgroundColor;
+    color: $darkTextColor;
 }
 
 .balert-body {
@@ -43,24 +55,29 @@
     width: 0px;
     height: 0.2em;
 }
-.balert-progress.normal {
-    background-color: $normalTextColor;
+.balert-progress.primary {
+    background-color: $primaryTextColor;
 }
-
+.balert-progress.secondary {
+    background-color: $secondaryTextColor;
+}
 .balert-progress.info {
     background-color: $infoTextColor;
 }
-
 .balert-progress.success {
     background-color: $successTextColor;
 }
-
 .balert-progress.warning {
     background-color: $warningTextColor;
 }
-
-.balert-progress.error {
-    background-color: $errorTextColor;
+.balert-progress.danger {
+    background-color: $dangerTextColor;
+}
+.balert-progress.light {
+    background-color: $lightTextColor;
+}
+.balert-progress.dark {
+    background-color: $darkTextColor;
 }
 
 .balert-progress.start {

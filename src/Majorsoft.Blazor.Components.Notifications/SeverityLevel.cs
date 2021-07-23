@@ -5,10 +5,13 @@
 	/// </summary>
 	public enum SeverityLevel
 	{
-		Normal,
+		Primary,
+		Secondary,
 		Info,
 		Success,
 		Warning,
-		Error
+		Danger,
+		Light,
+		Dark
 	}
 }
