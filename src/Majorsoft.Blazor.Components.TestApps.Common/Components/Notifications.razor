@@ -98,7 +98,7 @@
 	<PermaLinkElement PermaLinkName="toasts" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Toast</h3></Content>
 	</PermaLinkElement>
-	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.</p>
+	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with customizable header and content.</p>
 
 </div>
 
@@ -106,11 +106,39 @@
 	<PermaLinkElement PermaLinkName="htmlnotification" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>HTML5 Notification</h3></Content>
 	</PermaLinkElement>
-	<p>Renders <strong><code>CollapsePanel</code> component </strong> which is an <strong> Expandable and Collapsible panel</strong> with custumizable header and content.</p>
+	<p>
+		Injectable <strong><code>IHtmlNotificationService</code> service </strong> which is a <strong> wrapper for Notification API</strong>
+		to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a>.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Notification consent: <strong>@_htmlNotificationPermission</strong>
+
+			@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+			{
+				<br />
+				<button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
+			}
+		</div>
+	</div>
 
 </div>
 
-@code {
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code { 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
+			StateHasChanged();
+		}
+	}
+
+	//Alert
 	private bool _alertIsVisible = false;
 	private bool _alertAutoClose = true;
 	private bool _alertShowIcon = true;
@@ -140,7 +168,19 @@
 		_alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
 	}
 
+	//Toast
 
+	//HTML5 notification
+	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+
+	private async Task RequestPermission()
+	{
+		await _notificationService.RequestPermissionAsync(async res =>
+		{
+			_htmlNotificationPermission = res;
+			StateHasChanged();
+		});
+	}
 
 	private async Task<string> WriteLog(string log, string message)
 	{
@@ -148,5 +188,12 @@
 		await log1.ScrollToEndAsync();
 
 		return log;
+	}
+	public async ValueTask DisposeAsync()
+	{
+		if(_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
 	}
 }

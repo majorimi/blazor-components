@@ -13,6 +13,7 @@ using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Majorsoft.Blazor.Extensions.Analytics;
 using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Components.Notifications;
 
 namespace Majorsoft.Blazor.Components.TestServerApp
 {
@@ -31,16 +32,13 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 		{
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
-
 			services.AddCssEvents();
 			services.AddJsInteropExtensions();
-
 			services.AddMapExtensions();
 			services.AddBrowserStorage();
-
 			services.AddGoogleAnalytics();
-
 			services.AddGdprConsent();
+			services.AddHtmlNotification();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

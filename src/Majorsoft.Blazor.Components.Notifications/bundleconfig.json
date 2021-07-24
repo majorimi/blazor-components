@@ -4,5 +4,11 @@
     "inputFiles": [
       "wwwroot/notifications.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/notification.min.js",
+    "inputFiles": [
+      "wwwroot/notification.js"
+    ]
   }
 ]

@@ -4,6 +4,197 @@
         <name>Majorsoft.Blazor.Components.Notifications</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes">
+            <summary>
+            A string representing the current permission to display notifications.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Default">
+            <summary>
+            The user choice is unknown and therefore the browser will act as if the value were denied.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Denied">
+            <summary>
+            The user refuses to have notifications displayed.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Granted">
+            <summary>
+            The user accepts having notifications displayed.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData">
+            <summary>
+            These properties are available only on instances of the `Notification` object.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Title">
+            <summary>
+            The title of the notification as specified in the first parameter of the constructor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Actions">
+            <summary>
+            The actions array of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Badge">
+            <summary>
+            The URL of the image used to represent the notification when there is not enough space to display the notification itself.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Body">
+            <summary>
+            The body string of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Data">
+            <summary>
+            The data read-only property of the Notification interface returns a structured clone of the notification's data, as specified in the data option of the Notification() constructor.
+            The notification's data can be any arbitrary data that you want associated with the notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Dir">
+            <summary>
+            The text direction of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Lang">
+            <summary>
+            The language code of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Tag">
+            <summary>
+            The ID of the notification (if any) as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Icon">
+            <summary>
+            The URL of the image used as an icon of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Image">
+            <summary>
+            The URL of an image to be displayed as part of the notification, as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Renotify">
+            <summary>
+            Specifies whether the user should be notified after a new notification replaces an old one.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.RequireInteraction">
+            <summary>
+            A Boolean indicating that a notification should remain active until the user clicks or dismisses it, rather than closing automatically.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Silent">
+            <summary>
+            Specifies whether the notification should be silent — i.e., no sounds or vibrations should be issued, regardless of the device settings.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Timestamp">
+            <summary>
+            Specifies the time at which a notification is created or applicable (past, present, or future).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Vibrate">
+            <summary>
+            Specifies a vibration pattern for devices with vibration hardware to emit.
+            An array of values describes alternating periods in which the device is vibrating and not vibrating.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService">
+            <summary>
+            Injectable service to handle Browser/HML5 notifications.
+            https://developer.mozilla.org/en-US/docs/Web/API/notification
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.RequestPermissionAsync(System.Func{Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes,System.Threading.Tasks.Task})">
+            <summary>
+            
+            </summary>
+            <param name="callback"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CheckPermissionAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CheckMaxActionsAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsAsync(Majorsoft.Blazor.Components.Notifications.HtmlNotificationData)">
+            <summary>
+            
+            </summary>
+            <param name="notificationData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CloseAsync(System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="notificationId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo">
+            <summary>
+            Html5 Notification Permission Request result event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationAction">
+            <summary>
+            The NotificationAction interface of the Notifications API is used to represent 
+            action buttons the user can click to interact with notifications. These buttons' 
+            appearance and specific functionality vary across platforms but generally they 
+            provide a way to asynchronously show actions to the user in a notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Action">
+            <summary>
+            The name of the action, which can be used to identify the clicked action similar to input names.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Title">
+            <summary>
+            The string describing the action that is displayed to the user.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Icon">
+            <summary>
+            The URL of the image used to represent the notification when there is not enough space to display the notification itself.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationExtension">
+            <summary>
+            Extension methods to register required JS Interop services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.NotificationExtension.AddHtmlNotification(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required JS Interop services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IServiceCollection</returns>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationStyles">
             <summary>
             Notification Styles for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
