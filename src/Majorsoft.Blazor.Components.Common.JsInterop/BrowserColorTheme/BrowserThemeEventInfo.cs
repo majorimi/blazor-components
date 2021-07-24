@@ -22,7 +22,10 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
 		[JSInvokable("BrowserThemeChanged")]
 		public async Task BrowserThemeChanged(int colorTheme)
 		{
-			await _browserThemeChangedEventCallback((BrowserColorThemes)colorTheme);
+			if (_browserThemeChangedEventCallback is not null)
+			{
+				await _browserThemeChangedEventCallback((BrowserColorThemes)colorTheme);
+			}
 		}
 	}
 }

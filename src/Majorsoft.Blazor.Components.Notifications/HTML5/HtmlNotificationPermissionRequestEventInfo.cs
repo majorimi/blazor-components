@@ -21,7 +21,10 @@ namespace Majorsoft.Blazor.Components.Notifications
 		[JSInvokable("PermissionResult")]
 		public async Task PermissionResult(string permission)
 		{
-			await _callback(Enum.Parse<HtmlNotificationPermissionTypes>(permission, true));
+			if (_callback is not null)
+			{
+				await _callback(Enum.Parse<HtmlNotificationPermissionTypes>(permission, true));
+			}
 
 			if(DotNetObjectReference is not null)
 			{

@@ -205,7 +205,12 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return id;
 		}
 
-		public ValueTask CloseAsync(Guid notificationId) => throw new NotImplementedException();
+		public async ValueTask CloseAsync(Guid notificationId)
+		{
+			var module = await _moduleTask.Value;
+
+			await module.InvokeVoidAsync("close", notificationId);
+		}
 
 		public async ValueTask DisposeAsync()
 		{
@@ -214,6 +219,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 				var module = await _moduleTask.Value;
 				await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.Id).ToArray());
 				await module.DisposeAsync();
+			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
 			}
 		}
 	}
@@ -235,7 +245,10 @@ namespace Majorsoft.Blazor.Components.Notifications
 		[JSInvokable("ActionsCallback")]
 		public async Task ActionsCallback(string action)
 		{
-			await _actionsCallback(action);
+			if (_actionsCallback is not null)
+			{
+				await _actionsCallback(action);
+			}
 		}
 	}
 }
