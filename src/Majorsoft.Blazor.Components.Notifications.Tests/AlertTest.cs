@@ -69,7 +69,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750"" id=""id1"" title=""text"" >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
 		  <div class=""balert-body"" >
 			<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
 			  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"" ></path>
@@ -98,7 +98,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 			<button type=""button""  class=""close normal"" >
@@ -122,7 +122,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 		  </div>
@@ -143,7 +143,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
@@ -167,7 +167,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
 			  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""svg path value"" ></path>
@@ -196,7 +196,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			{
 				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Severity, item));
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{item.ToString().ToLower()}"" style=""opacity: 1;"" tabindex=""750""  >
+				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{item.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 			  <div class=""balert-body"" >
 				<div class=""balert-text"" >
 				</div>
@@ -229,7 +229,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 					var progress = style != NotificationStyles.Strong ? $" { severity.ToString().ToLower()}" : " strong";
 
-					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{severity.ToString().ToLower()}"" style=""opacity: 1;"" tabindex=""750""  >
+					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{severity.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 				  <div class=""balert-body"" >
 					<div class=""balert-text"" >
 					</div>
@@ -238,6 +238,57 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 				</div>"));
 				}
 			}
+		}
+
+		[TestMethod]
+		public void Alert_should_not_render_ShowCloseCountdownProgress_false()
+		{
+			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.AutoClose, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseCountdownProgress, false));
+
+			var div = rendered.Find("div");
+			Assert.IsNotNull(div);
+			Assert.AreEqual(true, rendered.Instance.IsVisible);
+
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		  <div class=""balert-body"" >
+			<div class=""balert-text"" >
+			</div>
+			<button type=""button""  class=""close normal"" >
+			  <span aria-hidden=""true"" >&times;</span>
+			  <span class=""sr-only"" >Close</span>
+			</button>
+		  </div>
+		</div>"));
+		}
+
+		[TestMethod]
+		public void Alert_should_render_ShadowEffect()
+		{
+			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.AutoClose, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShadowEffect, (uint)5)
+				.Add(p => p.ShowCloseCountdownProgress, false));
+
+			var div = rendered.Find("div");
+			Assert.IsNotNull(div);
+			Assert.AreEqual(true, rendered.Instance.IsVisible);
+
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+		  <div class=""balert-body"" >
+			<div class=""balert-text"" >
+			</div>
+			<button type=""button""  class=""close normal"" >
+			  <span aria-hidden=""true"" >&times;</span>
+			  <span class=""sr-only"" >Close</span>
+			</button>
+		  </div>
+		</div>"));
 		}
 
 		[TestMethod]
@@ -255,7 +306,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
@@ -283,7 +334,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 0;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 0; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>

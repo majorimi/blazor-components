@@ -14,11 +14,6 @@
             Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
-            <summary>
-            Notification severity level.
-            </summary>
-        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -51,7 +46,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
             <summary>
-            Icon customization it accepts an SVG `Path`
+            Icon customization it accepts an SVG `Path` value to override the defualt icon.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
@@ -67,6 +62,16 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoCloseInSec">
             <summary>
             When <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseCountdownProgress">
+            <summary>
+            When true and <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShadowEffect">
+            <summary>
+            Determines the shadow effect stronges which makes Alert elevated.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
@@ -85,6 +90,71 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnCloseButtonClicked">
+            <summary>
+            Callback function called when close `x` button was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.IsVisible">
+            <summary>
+            Determines wheatere the Toast message should be visible on UI or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
+            <summary>
+            Notification severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.NotificationStyle">
+            <summary>
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity"/> Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
+            <summary>
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.CustomIconSvgPath">
+            <summary>
+            Icon customization it accepts an SVG `Path`
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowCloseButton">
+            <summary>
+            When true Toast will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AutoCloseInSec">
+            <summary>
+            When <see cref="!:AutoClose"/> set to `true` Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnOpen">
+            <summary>
+            Callback function called when the Toast is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnClose">
+            <summary>
+            Callback function called when the Toast is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnCloseButtonClicked">
             <summary>
             Callback function called when close `x` button was clicked.
             </summary>

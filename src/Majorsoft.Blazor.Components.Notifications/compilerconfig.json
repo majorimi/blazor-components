@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/notifications.css",
     "inputFile": "wwwroot/notifications.scss"
+  },
+  {
+    "outputFile": "Toast.razor.css",
+    "inputFile": "Toast.razor.scss"
   }
 ]

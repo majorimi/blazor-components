@@ -2,7 +2,8 @@
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
 
-    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" style="opacity: @_opacity;" 
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")" 
+         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;" 
          tabindex="750" @attributes=AllOtherAttributes>
         <div class="balert-body">
             @if (ShowIcon)
@@ -21,7 +22,7 @@
                 <button type="button" @onclick="CloseClicked" class="close@($" {NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             }
         </div>
-        @if (AutoClose && AutoCloseInSec > 0)
+        @if (ShowCloseCountdownProgress && AutoClose && AutoCloseInSec > 0)
         {
             <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Severity.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
                  style="transition: width @(AutoCloseInSec)s linear;">
@@ -48,7 +49,7 @@
     private bool _animationStarted = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (IsVisible && !_animationStarted)
+        if (ShowCloseCountdownProgress && AutoClose && IsVisible && !_animationStarted)
         {
             WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
             await Task.Delay(_delay);
@@ -124,7 +125,7 @@
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
-    /// Icon customization it accepts an SVG `Path`
+    /// Icon customization it accepts an SVG `Path` value to override the defualt icon.
     /// </summary>
     [Parameter] public string CustomIconSvgPath { get; set; } = "";
     /// <summary>
@@ -140,6 +141,30 @@
     /// When <see cref="AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
     /// </summary>
     [Parameter] public uint AutoCloseInSec { get; set; } = 10;
+    /// <summary>
+    /// When true and <see cref="AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+    /// </summary>
+    [Parameter] public bool ShowCloseCountdownProgress { get; set; } = true;
+
+    private uint _shadowEffect = 0;
+    /// <summary>
+    /// Determines the shadow effect stronges which makes Alert elevated.
+    /// </summary>
+    [Parameter] public uint ShadowEffect
+    {
+        get => _shadowEffect;
+        set
+        {
+            if (value > 20)
+            {
+                _shadowEffect = 20;
+            }
+            else
+            {
+                _shadowEffect = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Blazor capture for any unmatched HTML attributes.
