@@ -126,7 +126,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.CustomIconSvgPath">
             <summary>
-            Icon customization it accepts an SVG `Path`
+            Icon customization it accepts an SVG `Path` value to override the defualt icon.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowCloseButton">
@@ -137,6 +137,16 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AutoCloseInSec">
             <summary>
             When <see cref="!:AutoClose"/> set to `true` Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowCloseCountdownProgress">
+            <summary>
+            When true and <see cref="!:AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShadowEffect">
+            <summary>
+            Determines the shadow effect stronges which makes Alert elevated.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AllOtherAttributes">

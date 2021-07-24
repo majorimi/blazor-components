@@ -1,8 +1,230 @@
-﻿
+﻿@if (IsVisible)
+{
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" OnIntervalElapsed="@(e => { IsVisible = false; })" />
+
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")"
+         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
+         tabindex="750" @attributes=AllOtherAttributes>
+        <div class="balert-body">
+            @if (ShowIcon)
+            {
+                <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+                </svg>
+            }
+
+            <div class="balert-text">
+                @Content
+            </div>
+
+            @if (ShowCloseButton)
+            {
+                <button type="button" @onclick="CloseClicked" class="close@($" {NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            }
+        </div>
+        @if (ShowCloseCountdownProgress && AutoCloseInSec > 0)
+        {
+            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Severity.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+                 style="transition: width @(AutoCloseInSec)s linear;">
+            </div>
+        }
+    </div>
+}
+
+@inject ILogger<Toast> _logger
+@inject ITransitionEventsService _transitionEvents
+
+@implements IAsyncDisposable
+
 @code {
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    private byte _opacity = 1;
+
+    private int _delay = 100;
+    private bool _animationStarted = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ShowCloseCountdownProgress && IsVisible && !_animationStarted)
+        {
+            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
+            await Task.Delay(_delay);
+
+            _animationStarted = true;
+            StateHasChanged();
+        }
+    }
+
+    private bool _isVisible = false;
+    /// <summary>
+    /// Determines wheatere the Toast message should be visible on UI or not.
+    /// </summary>
+    [Parameter]
+    public bool IsVisible
+    {
+        get => _isVisible;
+        set
+        {
+            if (value != _isVisible)
+            {
+                _opacity = 1;
+
+                if (!value) //closing
+                {
+                    _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
+                    {
+                        _isVisible = false;
+                        _animationStarted = false;
+
+                        StateHasChanged();
+
+                        if (OnClose.HasDelegate)
+                        {
+                            await OnClose.InvokeAsync();
+                        }
+                    }, "opacity");
+                    _opacity = 0;
+                }
+                else //open
+                {
+                    if (OnOpen.HasDelegate)
+                    {
+                        InvokeAsync(async () =>
+                        {
+                            await OnOpen.InvokeAsync();
+                        });
+                    }
+
+                    _isVisible = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// HTML Content of the collapse panel.
+    /// </summary>
+    [Parameter] public RenderFragment Content { get; set; }
 
     /// <summary>
     /// Notification severity level.
     /// </summary>
     [Parameter] public SeverityLevel Severity { get; set; }
+
+    /// <summary>
+    /// Notification style to show different variant of the same <see cref="Severity"/> Toast.
+    /// </summary>
+    [Parameter] public NotificationStyles NotificationStyle { get; set; }
+
+    /// <summary>
+    /// When true Toast will show an icon corresponding to the <see cref="SeverityLevel"/>.
+    /// </summary>
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    /// <summary>
+    /// Icon customization it accepts an SVG `Path` value to override the defualt icon.
+    /// </summary>
+    [Parameter] public string CustomIconSvgPath { get; set; } = "";
+    /// <summary>
+    /// When true Toast will show close "x" button.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>
+    /// When <see cref="AutoClose"/> set to `true` Toast will close after set time elapsed in Sec.
+    /// </summary>
+    [Parameter] public uint AutoCloseInSec { get; set; } = 10;
+
+    /// <summary>
+    /// When true and <see cref="AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+    /// </summary>
+    [Parameter] public bool ShowCloseCountdownProgress { get; set; } = true;
+
+    private uint _shadowEffect = 0;
+    /// <summary>
+    /// Determines the shadow effect stronges which makes Alert elevated.
+    /// </summary>
+    [Parameter]
+    public uint ShadowEffect
+    {
+        get => _shadowEffect;
+        set
+        {
+            if (value > 20)
+            {
+                _shadowEffect = 20;
+            }
+            else
+            {
+                _shadowEffect = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Blazor capture for any unmatched HTML attributes.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+    //Events
+    /// <summary>
+    /// Callback function called when the Toast is opening.
+    /// </summary>
+    [Parameter] public EventCallback OnOpen { get; set; }
+    /// <summary>
+    /// Callback function called when the Toast is closing.
+    /// </summary>
+    [Parameter] public EventCallback OnClose { get; set; }
+    /// <summary>
+    /// Callback function called when close `x` button was clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+
+
+    private async Task CloseClicked(MouseEventArgs e)
+    {
+        if (ShowCloseButton)
+        {
+            WriteDiag($"Close button clicked Toast closing.");
+
+            if (OnCloseButtonClicked.HasDelegate)
+            {
+                await OnCloseButtonClicked.InvokeAsync(e);
+            }
+
+            IsVisible = false;
+        }
+    }
+
+    private string GetSvgPath()
+    {
+        if (!string.IsNullOrWhiteSpace(CustomIconSvgPath))
+        {
+            return CustomIconSvgPath;
+        }
+
+        var property = typeof(SeverityLevel).GetMember(Severity.ToString())[0];
+        var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
+        var description = (DescriptionAttribute)attribute;
+        var path = description.Description;
+
+        return path;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_transitionEvents is not null)
+        {
+            await _transitionEvents.DisposeAsync();
+        }
+    }
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
 }
