@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
@@ -147,7 +148,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// </summary>
 	public class HtmlNotificationService : IHtmlNotificationService
 	{
-		private List<DotNetObjectReference<HtmlNotificationPermissionRequestEventInfo>> _dotNetObjectReferences;
+		private List<DotNetObjectReference<HtmlNotificationEventInfo>> _dotNetObjectReferences;
 		private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 		private readonly IJSRuntime _jsRuntime;
 
@@ -163,7 +164,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 #endif
 
 			_moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", js).AsTask());
-			_dotNetObjectReferences = new List<DotNetObjectReference<HtmlNotificationPermissionRequestEventInfo>>();
+			_dotNetObjectReferences = new List<DotNetObjectReference<HtmlNotificationEventInfo>>();
 		}
 
 		public async ValueTask RequestPermissionAsync(Func<HtmlNotificationPermissionTypes, Task> callback)
@@ -172,7 +173,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 			var info = new HtmlNotificationPermissionRequestEventInfo(callback);
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationPermissionRequestEventInfo>(info);
-			_dotNetObjectReferences.Add(dotnetRef);
+			info.DotNetObjectReference = dotnetRef;
 
 			await module.InvokeVoidAsync("requestPermission", dotnetRef);
 		}
@@ -191,7 +192,18 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return await module.InvokeAsync<int>("checkMaxActions");
 		}
 
-		public ValueTask<Guid> ShowsAsync(HtmlNotificationData notificationData) => throw new NotImplementedException();
+		public async ValueTask<Guid> ShowsAsync(HtmlNotificationData notificationData)
+		{
+			var module = await _moduleTask.Value;
+
+			var id = Guid.NewGuid();
+			var info = new HtmlNotificationEventInfo(id, null);
+			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
+			_dotNetObjectReferences.Add(dotnetRef);
+
+			await module.InvokeVoidAsync("show");
+			return id;
+		}
 
 		public ValueTask CloseAsync(Guid notificationId) => throw new NotImplementedException();
 
@@ -200,7 +212,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			if (_moduleTask.IsValueCreated)
 			{
 				var module = await _moduleTask.Value;
-				//await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+				await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.Id).ToArray());
 				await module.DisposeAsync();
 			}
 		}
@@ -209,19 +221,21 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// <summary>
 	/// Html5 Notification Permission Request result event <see cref="DotNetObjectReference"/> info to handle JS callback
 	/// </summary>
-	internal sealed class HtmlNotificationPermissionRequestEventInfo
+	internal sealed class HtmlNotificationEventInfo
 	{
-		private readonly Func<HtmlNotificationPermissionTypes, Task> _callback;
+		private readonly Func<string, Task> _actionsCallback;
+		public Guid Id { get; }
 
-		public HtmlNotificationPermissionRequestEventInfo(Func<HtmlNotificationPermissionTypes, Task> callback)
+		public HtmlNotificationEventInfo(Guid id, Func<string, Task> actionsCallback)
 		{
-			_callback = callback;
+			Id = id;
+			_actionsCallback = actionsCallback;
 		}
 
-		[JSInvokable("PermissionResult")]
-		public async Task PermissionResult(string permission)
+		[JSInvokable("ActionsCallback")]
+		public async Task ActionsCallback(string action)
 		{
-			await _callback(Enum.Parse<HtmlNotificationPermissionTypes>(permission, true));
+			await _actionsCallback(action);
 		}
 	}
 }

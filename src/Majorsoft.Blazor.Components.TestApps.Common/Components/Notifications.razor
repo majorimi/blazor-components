@@ -113,7 +113,8 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Notification consent: <strong>@_htmlNotificationPermission</strong>
+			Notification user consent: 
+			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied ? "text-danger" : "text-success")">@_htmlNotificationPermission</strong>
 
 			@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
 			{

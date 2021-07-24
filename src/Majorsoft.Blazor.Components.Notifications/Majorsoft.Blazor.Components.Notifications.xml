@@ -4,6 +4,11 @@
         <name>Majorsoft.Blazor.Components.Notifications</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo">
+            <summary>
+            Html5 Notification Permission Request result event <see cref="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes">
             <summary>
             A string representing the current permission to display notifications.
@@ -155,7 +160,7 @@
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService"/>
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo">
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationEventInfo">
             <summary>
             Html5 Notification Permission Request result event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
             </summary>
