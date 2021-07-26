@@ -1,9 +1,10 @@
 ﻿@import "wwwroot/_notifications.scss";
 
 .balert-main {
-    border-radius: .25rem;
+    margin-bottom: 0.5em;
+    border-radius: 0.25rem;
     outline: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.3s;
 }
 
 .balert-body {

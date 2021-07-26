@@ -23,6 +23,27 @@
 		Importance can be emphasized by <code>SeverityLevel</code> and styling with customizable content. Alerts can be closes automatically or let user close them, etc.
 	</p>
 
+	<h4>All styles</h4>
+	<div class="row pb-2">
+		@foreach (var style in Enum.GetValues<NotificationStyles>())
+		{
+			<div class="col-4">
+				@foreach (var severity in Enum.GetValues<NotificationSeverityLevel>())
+				{
+					<Alert AutoClose="false" IsVisible="true"
+						   NotificationStyle="style"
+						   Severity="severity">
+						<Content>
+							Severity: <strong>@severity</strong> Alert style: <strong>@style</strong>
+						</Content>
+					</Alert>
+				}
+			</div>
+		}
+	</div>
+
+	<h4>Customization</h4>
+
 	<div class="w-100 mb-4">
 		<Alert Severity="@_alertSeverityLevel"
 			   NotificationStyle="@_alertStyle"
@@ -75,8 +96,8 @@
 		<div class="col-12 col-lg-8 col-xl-5">
 			Severity Level:
 			<select class="form-control selectpicker w-100"
-					@onchange="@(e => { _alertSeverityLevel = Enum.Parse<SeverityLevel>(e.Value?.ToString()); _alertText = $"This is a(n) {_alertSeverityLevel} alert..."; })">
-				@foreach (var item in Enum.GetValues(typeof(SeverityLevel)))
+					@onchange="@(e => { _alertSeverityLevel = Enum.Parse<NotificationSeverityLevel>(e.Value?.ToString()); _alertText = $"This is a(n) {_alertSeverityLevel} alert..."; })">
+				@foreach (var item in Enum.GetValues(typeof(NotificationSeverityLevel)))
 				{
 					<option value="@item">@item</option>
 				}
@@ -113,16 +134,40 @@
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			Notification user consent: 
+			HTML5 Notification supported:
+			<strong class="mr-2 @(_notificationSupported ? "text-success" : "text-danger")">@_notificationSupported</strong>
+			Notification user consent:
 			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied ? "text-danger" : "text-success")">@_htmlNotificationPermission</strong>
-
-			@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
-			{
-				<br />
-				<button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
-			}
 		</div>
 	</div>
+
+	@if (_notificationSupported)
+	{
+		@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+		{
+			<button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
+		}
+		else
+		{
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Title: <input class="form-control w-100" @bind="_notificationTitle" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Body: <input class="form-control w-100" @bind="_notificationBody" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Icon: <input class="form-control w-100" @bind="_notificationIcon" />
+				</div>
+			</div>
+
+			<button class="btn btn-primary mt-2" @onclick="Notification">Show notification</button>
+		}
+	}
 
 </div>
 
@@ -134,6 +179,7 @@
 	{
 		if (firstRender)
 		{
+			_notificationSupported = await _notificationService.IsBrowserSupportedAsync();
 			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
 			StateHasChanged();
 		}
@@ -147,8 +193,8 @@
 	private bool _alertShowCountdownProgress = true;
 	private uint _alertAutoCloseInSec = 5;
 	private uint _shadowEffect = 0;
-	private string _alertText = $"This is a(n) {nameof(SeverityLevel.Primary)} alert...";
-	private SeverityLevel _alertSeverityLevel = SeverityLevel.Primary;
+	private string _alertText = $"This is a(n) {nameof(NotificationSeverityLevel.Primary)} alert...";
+	private NotificationSeverityLevel _alertSeverityLevel = NotificationSeverityLevel.Primary;
 	private NotificationStyles _alertStyle = NotificationStyles.Normal;
 
 	private ElementReference log1;
@@ -172,7 +218,11 @@
 	//Toast
 
 	//HTML5 notification
+	private bool _notificationSupported;
 	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "https://www.google.com/favicon.ico";
 
 	private async Task RequestPermission()
 	{
@@ -182,6 +232,16 @@
 			StateHasChanged();
 		});
 	}
+	private async Task Notification()
+	{
+		var options = new HtmlNotificationData(_notificationTitle)
+		{
+			Body = _notificationBody
+		};
+
+		var id = await _notificationService.ShowsAsync(options);
+	}
+
 
 	private async Task<string> WriteLog(string log, string message)
 	{

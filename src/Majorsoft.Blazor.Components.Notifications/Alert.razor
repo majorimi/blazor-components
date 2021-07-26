@@ -113,7 +113,7 @@
     /// <summary>
     /// Notification severity level.
     /// </summary>
-    [Parameter] public SeverityLevel Severity { get; set; }
+    [Parameter] public NotificationSeverityLevel Severity { get; set; }
 
     /// <summary>
     /// Notification style to show different variant of the same <see cref="Severity"/> Alert.
@@ -121,7 +121,7 @@
     [Parameter] public NotificationStyles NotificationStyle { get; set; }
 
     /// <summary>
-    /// When true Alert will show an icon corresponding to the <see cref="SeverityLevel"/>.
+    /// When true Alert will show an icon corresponding to the <see cref="NotificationSeverityLevel"/>.
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
@@ -209,7 +209,7 @@
             return CustomIconSvgPath;
         }
 
-        var property = typeof(SeverityLevel).GetMember(Severity.ToString())[0];
+        var property = typeof(NotificationSeverityLevel).GetMember(Severity.ToString())[0];
         var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
         var description = (DescriptionAttribute)attribute;
         var path = description.Description;

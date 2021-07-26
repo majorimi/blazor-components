@@ -15,16 +15,16 @@
 
 .bnotify-normal-secondary {
   background-color: #e2e3e5;
-  color: #383d41;
-  fill: #383d41; }
+  color: #544f4f;
+  fill: #544f4f; }
 
 .bnotify-outlined-secondary {
   border: 2px solid #e2e3e5;
-  color: #383d41;
-  fill: #383d41; }
+  color: #544f4f;
+  fill: #544f4f; }
 
 .bnotify-strong-secondary {
-  background-color: #383d41;
+  background-color: #544f4f;
   color: #f7f7f7;
   fill: #f7f7f7; }
 
@@ -119,9 +119,10 @@
   fill: #f7f7f7; }
 
 .balert-main {
-  border-radius: .25rem;
+  margin-bottom: 0.5em;
+  border-radius: 0.25rem;
   outline: 0;
-  transition: opacity 0.4s; }
+  transition: opacity 0.3s; }
 
 .balert-body {
   margin-left: auto;
@@ -147,7 +148,7 @@
   background-color: #0065d2; }
 
 .balert-progress.secondary {
-  background-color: #383d41; }
+  background-color: #544f4f; }
 
 .balert-progress.info {
   background-color: #2083b3; }

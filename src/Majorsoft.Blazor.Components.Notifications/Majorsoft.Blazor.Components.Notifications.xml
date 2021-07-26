@@ -29,86 +29,91 @@
             The user accepts having notifications displayed.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData">
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions">
             <summary>
             These properties are available only on instances of the `Notification` object.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Title">
-            <summary>
-            The title of the notification as specified in the first parameter of the constructor.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Actions">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Actions">
             <summary>
             The actions array of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Badge">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Badge">
             <summary>
             The URL of the image used to represent the notification when there is not enough space to display the notification itself.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Body">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Body">
             <summary>
             The body string of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Data">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Data">
             <summary>
             The data read-only property of the Notification interface returns a structured clone of the notification's data, as specified in the data option of the Notification() constructor.
             The notification's data can be any arbitrary data that you want associated with the notification.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Dir">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Dir">
             <summary>
             The text direction of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Lang">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Lang">
             <summary>
             The language code of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Tag">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Tag">
             <summary>
             The ID of the notification (if any) as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Icon">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Icon">
             <summary>
             The URL of the image used as an icon of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Image">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Image">
             <summary>
             The URL of an image to be displayed as part of the notification, as specified in the constructor's options parameter.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Renotify">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Renotify">
             <summary>
             Specifies whether the user should be notified after a new notification replaces an old one.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.RequireInteraction">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.RequireInteraction">
             <summary>
             A Boolean indicating that a notification should remain active until the user clicks or dismisses it, rather than closing automatically.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Silent">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Silent">
             <summary>
             Specifies whether the notification should be silent — i.e., no sounds or vibrations should be issued, regardless of the device settings.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Timestamp">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Timestamp">
             <summary>
             Specifies the time at which a notification is created or applicable (past, present, or future).
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Vibrate">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Vibrate">
             <summary>
             Specifies a vibration pattern for devices with vibration hardware to emit.
             An array of values describes alternating periods in which the device is vibrating and not vibrating.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData">
+            <summary>
+            Extension for <see cref="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData"/>
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Title">
+            <summary>
+            The title of the notification as specified in the first parameter of the constructor.
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.#ctor(System.String)">
@@ -136,6 +141,12 @@
             <returns></returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CheckMaxActionsAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.IsBrowserSupportedAsync">
             <summary>
             
             </summary>
@@ -205,7 +216,7 @@
             Notification Styles for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel">
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel">
             <summary>
             Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
@@ -237,7 +248,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">
             <summary>
-            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel"/>.
+            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
@@ -317,7 +328,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
             <summary>
-            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.SeverityLevel"/>.
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.CustomIconSvgPath">

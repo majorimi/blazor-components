@@ -192,7 +192,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			foreach (var item in Enum.GetValues<SeverityLevel>())
+			foreach (var item in Enum.GetValues<NotificationSeverityLevel>())
 			{
 				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Severity, item));
 
@@ -218,7 +218,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			foreach (var severity in Enum.GetValues<SeverityLevel>())
+			foreach (var severity in Enum.GetValues<NotificationSeverityLevel>())
 			{
 				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Severity, severity));
 

@@ -14,5 +14,31 @@ export function checkPermission() {
 export function checkMaxActions() {
     return Notification.maxActions;
 }
+export function isBrowserSupported() {
+    if ("Notification" in window)
+        return true;
+    return false;
+}
 
 //Instance methods
+export function show(id, title, options, actionDotnetRef) {
+    if (!id || !options) {
+        return;
+    }
+    return new Notification(title);
+
+    //let notification = new Notification(options.title, options);
+
+    //if (actionDotnetRef) {
+    //    notification.addEventListener('notificationclick', function (event) {
+    //        if (event.action) {
+    //            actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
+    //        }
+    //    }, false);
+    //}
+
+    //return notification;
+}
+export function close() {
+
+}
