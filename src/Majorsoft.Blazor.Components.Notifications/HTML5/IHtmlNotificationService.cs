@@ -10,17 +10,12 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// <summary>
 	/// These properties are available only on instances of the `Notification` object.
 	/// </summary>
-	public class HtmlNotificationData
+	public class HtmlNotificationOptions
 	{
-		/// <summary>
-		/// The title of the notification as specified in the first parameter of the constructor.
-		/// </summary>
-		public string Title { get; set; }
-
 		/// <summary>
 		/// The actions array of the notification as specified in the constructor's options parameter.
 		/// </summary>
-		public NotificationAction[]? Actions { get; set; }
+		public NotificationAction[] Actions { get; set; } = new NotificationAction[0];
 
 		/// <summary>
 		/// The URL of the image used to represent the notification when there is not enough space to display the notification itself.
@@ -41,12 +36,12 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// The text direction of the notification as specified in the constructor's options parameter.
 		/// </summary>
-		public string Dir { get; set; } = "";
+		public string Dir { get; set; } = "auto";
 
 		/// <summary>
 		/// The language code of the notification as specified in the constructor's options parameter.
 		/// </summary>
-		public string Lang { get; set; } = "";
+		public string Lang { get; set; } = "en";
 
 		/// <summary>
 		/// The ID of the notification (if any) as specified in the constructor's options parameter.
@@ -81,13 +76,24 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// Specifies the time at which a notification is created or applicable (past, present, or future).
 		/// </summary>
-		public DateTime Timestamp { get; set; }
+		public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
 		/// <summary>
 		/// Specifies a vibration pattern for devices with vibration hardware to emit.
 		/// An array of values describes alternating periods in which the device is vibrating and not vibrating.
 		/// </summary>
-		public int[]? Vibrate { get; set; }
+		public int[] Vibrate { get; set; } = new int[0];
+	}
+
+	/// <summary>
+	/// Extension for <see cref="HtmlNotificationData"/>
+	/// </summary>
+	public class HtmlNotificationData : HtmlNotificationOptions
+	{
+		/// <summary>
+		/// The title of the notification as specified in the first parameter of the constructor.
+		/// </summary>
+		public string Title { get; set; }
 
 		/// <summary>
 		/// Default constructor.
@@ -126,6 +132,12 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <returns></returns>
 		ValueTask<int> CheckMaxActionsAsync();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		ValueTask<bool> IsBrowserSupportedAsync();
 
 		/// <summary>
 		/// 
@@ -177,7 +189,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 			await module.InvokeVoidAsync("requestPermission", dotnetRef);
 		}
-
 		public async ValueTask<HtmlNotificationPermissionTypes> CheckPermissionAsync()
 		{
 			var module = await _moduleTask.Value;
@@ -185,11 +196,15 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 			return Enum.Parse<HtmlNotificationPermissionTypes>(permission, true);
 		}
-
 		public async ValueTask<int> CheckMaxActionsAsync()
 		{
 			var module = await _moduleTask.Value;
 			return await module.InvokeAsync<int>("checkMaxActions");
+		}
+		public async ValueTask<bool> IsBrowserSupportedAsync()
+		{
+			var module = await _moduleTask.Value;
+			return await module.InvokeAsync<bool>("isBrowserSupported");
 		}
 
 		public async ValueTask<Guid> ShowsAsync(HtmlNotificationData notificationData)
@@ -201,14 +216,13 @@ namespace Majorsoft.Blazor.Components.Notifications
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 			_dotNetObjectReferences.Add(dotnetRef);
 
-			await module.InvokeVoidAsync("show");
+			await module.InvokeVoidAsync("show", id.ToString(), notificationData.Title, (HtmlNotificationOptions)notificationData);
 			return id;
 		}
 
 		public async ValueTask CloseAsync(Guid notificationId)
 		{
 			var module = await _moduleTask.Value;
-
 			await module.InvokeVoidAsync("close", notificationId);
 		}
 

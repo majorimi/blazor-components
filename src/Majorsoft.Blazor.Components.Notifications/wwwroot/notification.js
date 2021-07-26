@@ -25,7 +25,19 @@ export function show(id, title, options, actionDotnetRef) {
     if (!id || !options) {
         return;
     }
+
     return new Notification(title);
+
+
+    //navigator.serviceWorker.register('_content/Majorsoft.Blazor.Components.Notifications/sw.js');
+    //navigator.serviceWorker.ready.then(function (registration) {
+    //    registration.showNotification("Hello world", { body: "Here is the body!" });
+    //});
+
+
+    //navigator.serviceWorker.getRegistrations().then(function (registrations) {
+    //    registrations[0].showNotification(title, { body: "Here is the body!" });
+    //});
 
     //let notification = new Notification(options.title, options);
 
