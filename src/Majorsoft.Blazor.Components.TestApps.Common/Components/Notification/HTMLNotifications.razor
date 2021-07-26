@@ -1,48 +1,55 @@
 ﻿<div class="container-fluid p-3 mb-3 border rounded">
-    <PermaLinkElement PermaLinkName="htmlnotification" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-        <Content><h3>HTML5 Notification</h3></Content>
-    </PermaLinkElement>
-    <p>
-        Injectable <strong><code>IHtmlNotificationService</code> service </strong> which is a <strong> wrapper for Notification API</strong>
-        to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a>.
-    </p>
+	<PermaLinkElement PermaLinkName="htmlnotification" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>HTML5 Notification</h3></Content>
+	</PermaLinkElement>
+	<p>
+		Injectable <strong><code>IHtmlNotificationService</code> service </strong> which is a <strong> wrapper for Notification API</strong>
+		to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a>.
+	</p>
 
-    <div class="row pb-2">
-        <div class="col-12 col-lg-8 col-xl-5">
-            HTML5 Notification supported:
-            <strong class="mr-2 @(_notificationSupported ? "text-success" : "text-danger")">@_notificationSupported</strong>
-            Notification user consent:
-            <strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied ? "text-danger" : "text-success")">@_htmlNotificationPermission</strong>
-        </div>
-    </div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			HTML5 Notification supported:
+			<strong class="mr-2 @(_notificationSupported ? "text-success" : "text-danger")">@_notificationSupported</strong>
+			Notification user consent:
+			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied ? "text-danger" : "text-success")">@_htmlNotificationPermission</strong>
+		</div>
+	</div>
 
-    @if (_notificationSupported)
-    {
-        @if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
-        {
-            <button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
-        }
-        else
-        {
-            <div class="row pb-2">
-                <div class="col-12 col-lg-8 col-xl-5">
-                    Notification Title: <input class="form-control w-100" @bind="_notificationTitle" />
-                </div>
-            </div>
-            <div class="row pb-2">
-                <div class="col-12 col-lg-8 col-xl-5">
-                    Notification Body: <input class="form-control w-100" @bind="_notificationBody" />
-                </div>
-            </div>
-            <div class="row pb-2">
-                <div class="col-12 col-lg-8 col-xl-5">
-                    Notification Icon (https://www.google.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
-                </div>
-            </div>
+	@if (_notificationSupported)
+	{
+		@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+		{
+			<button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
+		}
+		else
+		{
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Title: <input class="form-control w-100" @bind="_notificationTitle" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Body: <input class="form-control w-100" @bind="_notificationBody" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Icon (https://www.google.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
+				</div>
+			</div>
 
-            <button class="btn btn-primary mt-2" @onclick="Notification">Show notification</button>
-        }
-    }
+			<button class="btn btn-primary mt-2" @onclick="Notification">Show notification</button>
+
+			<div class="row pb-2">
+				<div class="col-12">
+					<label><strong>Event log</strong>:</label>
+					<textarea @ref="log1" @bind="_alertLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+				</div>
+			</div>
+		}
+	}
 
 </div>
 
@@ -51,50 +58,74 @@
 
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _notificationSupported = await _notificationService.IsBrowserSupportedAsync();
-            _htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
-            StateHasChanged();
-        }
-    }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_notificationSupported = await _notificationService.IsBrowserSupportedAsync();
+			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
+			StateHasChanged();
+		}
+	}
+	private ElementReference log1;
+	private string _alertLog = "";
 
-    //Toast
+	//HTML5 notification
+	private bool _notificationSupported;
+	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
 
-    //HTML5 notification
-    private bool _notificationSupported;
-    private HtmlNotificationPermissionTypes _htmlNotificationPermission;
-    private string _notificationTitle = "Notification Title";
-    private string _notificationBody = "Notification Body";
-    private string _notificationIcon = "blazor.components.png";
+	private async Task RequestPermission()
+	{
+		await _notificationService.RequestPermissionAsync(async res =>
+		{
+			_htmlNotificationPermission = res;
+			StateHasChanged();
+		});
+	}
 
-    private async Task RequestPermission()
-    {
-        await _notificationService.RequestPermissionAsync(async res =>
-        {
-            _htmlNotificationPermission = res;
-            StateHasChanged();
-        });
-    }
-    private async Task Notification()
-    {
-        var options = new HtmlNotificationOptions(_notificationTitle)
-        {
-            Body = _notificationBody,
-            Icon = _notificationIcon
-        };
+	private async Task Notification()
+	{
+		var options = new HtmlNotificationOptions(_notificationTitle)
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			//actions
+			Actions = new NotificationAction[]
+			{
+			   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			   new NotificationAction() { Action = "action2", Title = "Other action"},
+			},
+			//events
+			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); },
+			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); },
+			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); },
+			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); },
+			OnActionClickCallback = async (id, action) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick' on Action: '{action}'"); }
+		};
 
-        var id = await _notificationService.ShowsAsync(options);
-    }
+		var id = await _notificationService.ShowsAsync(options);
+	}
 
+	private object _lock = new object();
+	private async Task<string> WriteLog(string log, string message)
+	{
+		lock (_lock)
+		{
+			log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		}
+		await log1.ScrollToEndAsync();
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_notificationService is not null)
-        {
-            await _notificationService.DisposeAsync();
-        }
-    }
+		StateHasChanged();
+		return log;
+	}
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
 }

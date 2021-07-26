@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
@@ -16,6 +17,17 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// The title of the notification as specified in the first parameter of the constructor.
 		/// </summary>
 		public string Title { get; set; }
+
+		[JsonIgnore]
+		public Func<Guid, Task> OnOpenCallback { get; set; } = null;
+		[JsonIgnore]
+		public Func<Guid, Task> OnClickCallback { get; set; } = null;
+		[JsonIgnore]
+		public Func<Guid, Task> OnCloseCallback { get; set; } = null;
+		[JsonIgnore]
+		public Func<Guid, Task> OnErrorCallback { get; set; } = null;
+		[JsonIgnore]
+		public Func<Guid, string, Task> OnActionClickCallback { get; set; } = null;
 
 		/// <summary>
 		/// The actions array of the notification as specified in the constructor's options parameter.
@@ -98,6 +110,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			{
 				throw new ArgumentException($"Argument: {nameof(title)} is required.");
 			}
+
 			Title = title;
 		}
 	}
@@ -137,9 +150,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="notificationData"></param>
+		/// <param name="notificationOptions"></param>
 		/// <returns></returns>
-		ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationData);
+		ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationOptions);
 
 		/// <summary>
 		/// 
@@ -202,16 +215,22 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return await module.InvokeAsync<bool>("isBrowserSupported");
 		}
 
-		public async ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationData)
+		public async ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationOptions)
 		{
 			var module = await _moduleTask.Value;
 
 			var id = Guid.NewGuid();
-			var info = new HtmlNotificationEventInfo(id, null);
+			var info = new HtmlNotificationEventInfo(id, 
+				notificationOptions.OnOpenCallback,
+				notificationOptions.OnClickCallback,
+				notificationOptions.OnCloseCallback,
+				notificationOptions.OnErrorCallback,
+				notificationOptions.OnActionClickCallback);
+
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 			_dotNetObjectReferences.Add(dotnetRef);
 
-			await module.InvokeVoidAsync("show", id.ToString(), notificationData);
+			await module.InvokeVoidAsync("show", id.ToString(), notificationOptions, dotnetRef);
 			return id;
 		}
 
@@ -242,21 +261,68 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// </summary>
 	internal sealed class HtmlNotificationEventInfo
 	{
-		private readonly Func<string, Task> _actionsCallback;
+		private readonly Func<Guid, Task> _onOpenCallback;
+		private readonly Func<Guid, Task> _onClickCallback;
+		private readonly Func<Guid, Task> _onCloseCallback;
+		private readonly Func<Guid, Task> _onErrorCallback;
+		private readonly Func<Guid, string, Task> _onActionClickCallback;
+
 		public Guid Id { get; }
 
-		public HtmlNotificationEventInfo(Guid id, Func<string, Task> actionsCallback)
+		public HtmlNotificationEventInfo(Guid id,
+			Func<Guid, Task> onOpenCallback = null,
+			Func<Guid, Task> onClickCallback = null,
+			Func<Guid, Task> onCloseCallback = null,
+			Func<Guid, Task> onErrorCallback = null,
+			Func<Guid, string, Task> onActionClickCallback = null)
 		{
 			Id = id;
-			_actionsCallback = actionsCallback;
+			_onOpenCallback = onOpenCallback;
+			_onClickCallback = onClickCallback;
+			_onCloseCallback = onCloseCallback;
+			_onErrorCallback = onErrorCallback;
+			_onActionClickCallback = onActionClickCallback;
 		}
 
 		[JSInvokable("ActionsCallback")]
 		public async Task ActionsCallback(string action)
 		{
-			if (_actionsCallback is not null)
+			if (_onActionClickCallback is not null)
 			{
-				await _actionsCallback(action);
+				await _onActionClickCallback(Id, action);
+			}
+		}
+
+		[JSInvokable("OnOpen")]
+		public async Task OnOpen()
+		{
+			if (_onOpenCallback is not null)
+			{
+				await _onOpenCallback(Id);
+			}
+		}
+		[JSInvokable("OnClick")]
+		public async Task OnClick()
+		{
+			if (_onClickCallback is not null)
+			{
+				await _onClickCallback(Id);
+			}
+		}
+		[JSInvokable("OnClose")]
+		public async Task OnClose()
+		{
+			if (_onCloseCallback is not null)
+			{
+				await _onCloseCallback(Id);
+			}
+		}
+		[JSInvokable("OnError")]
+		public async Task OnError()
+		{
+			if (_onErrorCallback is not null)
+			{
+				await _onErrorCallback(Id);
 			}
 		}
 	}

@@ -152,7 +152,7 @@
             <summary>
             
             </summary>
-            <param name="notificationData"></param>
+            <param name="notificationOptions"></param>
             <returns></returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CloseAsync(System.Guid)">

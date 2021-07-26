@@ -21,23 +21,43 @@ export function isBrowserSupported() {
 }
 
 //Instance methods
-export function show(id, options, actionDotnetRef) {
+export function show(id, options, dotnetRef) {
     if (!id || !options) {
         return;
     }
 
     let notification = new Notification(options.title, options);
 
-    if (actionDotnetRef) {
-        notification.addEventListener('notificationclick', function (event) {
+    if (dotnetRef) {
+        //notification.addEventListener('notificationclick', function (event) {
+        //    if (event.action) {
+        //        actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
+        //    }
+        //}, false);
+
+        notification.onshow = (event) => { dotnetRef.invokeMethodAsync("OnOpen"); };
+        notification.onclose = (event) => { dotnetRef.invokeMethodAsync("OnClose"); };
+        notification.onerror = (event) => { dotnetRef.invokeMethodAsync("OnError"); };
+        notification.onclick = (event) => {
             if (event.action) {
                 actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
             }
-        }, false);
+
+            dotnetRef.invokeMethodAsync("OnClick");
+        };
     }
+    //TODO: store notification
 
     return notification;
 }
-export function close() {
+export function close(id) {
+    if (!id) {
+        return;
+    }
+
+    //TODO: close and remove notification
+}
+
+export function dispose() {
 
 }
