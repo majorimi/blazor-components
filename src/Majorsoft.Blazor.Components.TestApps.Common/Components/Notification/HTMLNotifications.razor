@@ -93,11 +93,12 @@
 			Body = _notificationBody,
 			Icon = _notificationIcon,
 			//actions
-			Actions = new NotificationAction[]
-			{
-			   new NotificationAction() { Action = "action1", Title = "Custom action"},
-			   new NotificationAction() { Action = "action2", Title = "Other action"},
-			},
+			//Actions = new NotificationAction[]
+			//{
+			//   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			//   new NotificationAction() { Action = "action2", Title = "Other action"},
+			//},
+			Vibrate = new int[] { 100, 200, 100},
 			//events
 			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); },
 			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); },

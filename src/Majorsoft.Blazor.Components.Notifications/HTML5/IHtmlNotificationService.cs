@@ -230,7 +230,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 			_dotNetObjectReferences.Add(dotnetRef);
 
-			await module.InvokeVoidAsync("show", id.ToString(), notificationOptions, dotnetRef);
+			await module.InvokeVoidAsync("showSimple", id.ToString(), notificationOptions, dotnetRef);
 			return id;
 		}
 
