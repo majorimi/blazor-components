@@ -36,7 +36,7 @@
             </div>
             <div class="row pb-2">
                 <div class="col-12 col-lg-8 col-xl-5">
-                    Notification Icon: <input class="form-control w-100" @bind="_notificationIcon" />
+                    Notification Icon (https://www.google.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
                 </div>
             </div>
 
@@ -68,7 +68,7 @@
     private HtmlNotificationPermissionTypes _htmlNotificationPermission;
     private string _notificationTitle = "Notification Title";
     private string _notificationBody = "Notification Body";
-    private string _notificationIcon = "https://www.google.com/favicon.ico";
+    private string _notificationIcon = "blazor.components.png";
 
     private async Task RequestPermission()
     {
@@ -80,9 +80,10 @@
     }
     private async Task Notification()
     {
-        var options = new HtmlNotificationData(_notificationTitle)
+        var options = new HtmlNotificationOptions(_notificationTitle)
         {
-            Body = _notificationBody
+            Body = _notificationBody,
+            Icon = _notificationIcon
         };
 
         var id = await _notificationService.ShowsAsync(options);

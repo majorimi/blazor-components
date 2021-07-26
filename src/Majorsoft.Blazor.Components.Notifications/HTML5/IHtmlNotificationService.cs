@@ -13,6 +13,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 	public class HtmlNotificationOptions
 	{
 		/// <summary>
+		/// The title of the notification as specified in the first parameter of the constructor.
+		/// </summary>
+		public string Title { get; set; }
+
+		/// <summary>
 		/// The actions array of the notification as specified in the constructor's options parameter.
 		/// </summary>
 		public NotificationAction[] Actions { get; set; } = new NotificationAction[0];
@@ -83,22 +88,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// An array of values describes alternating periods in which the device is vibrating and not vibrating.
 		/// </summary>
 		public int[] Vibrate { get; set; } = new int[0];
-	}
-
-	/// <summary>
-	/// Extension for <see cref="HtmlNotificationData"/>
-	/// </summary>
-	public class HtmlNotificationData : HtmlNotificationOptions
-	{
-		/// <summary>
-		/// The title of the notification as specified in the first parameter of the constructor.
-		/// </summary>
-		public string Title { get; set; }
 
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		public HtmlNotificationData(string title)
+		public HtmlNotificationOptions(string title)
 		{
 			if (string.IsNullOrWhiteSpace(title))
 			{
@@ -110,7 +104,8 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 	/// <summary>
 	/// Injectable service to handle Browser/HML5 notifications.
-	/// https://developer.mozilla.org/en-US/docs/Web/API/notification
+	/// Docs: https://developer.mozilla.org/en-US/docs/Web/API/notification
+	/// Settings on Windows: https://stackoverflow.com/questions/51907779/browser-notification-not-showing-up#58982697
 	/// </summary>
 	public interface IHtmlNotificationService : IAsyncDisposable
 	{
@@ -144,7 +139,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <param name="notificationData"></param>
 		/// <returns></returns>
-		ValueTask<Guid> ShowsAsync(HtmlNotificationData notificationData);
+		ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationData);
 
 		/// <summary>
 		/// 
@@ -207,7 +202,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return await module.InvokeAsync<bool>("isBrowserSupported");
 		}
 
-		public async ValueTask<Guid> ShowsAsync(HtmlNotificationData notificationData)
+		public async ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationData)
 		{
 			var module = await _moduleTask.Value;
 
@@ -216,7 +211,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 			_dotNetObjectReferences.Add(dotnetRef);
 
-			await module.InvokeVoidAsync("show", id.ToString(), notificationData.Title, (HtmlNotificationOptions)notificationData);
+			await module.InvokeVoidAsync("show", id.ToString(), notificationData);
 			return id;
 		}
 

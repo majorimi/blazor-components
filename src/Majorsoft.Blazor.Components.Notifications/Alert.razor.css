@@ -59,17 +59,17 @@
   fill: #f7f7f7; }
 
 .bnotify-normal-warning {
-  background-color: #fff3cd;
-  color: #fd7e14;
-  fill: #fd7e14; }
+  background-color: #fdf2cf;
+  color: #ffa500;
+  fill: #ffa500; }
 
 .bnotify-outlined-warning {
-  border: 2px solid #fff3cd;
-  color: #fd7e14;
-  fill: #fd7e14; }
+  border: 2px solid #fdf2cf;
+  color: #ffa500;
+  fill: #ffa500; }
 
 .bnotify-strong-warning {
-  background-color: #fd7e14;
+  background-color: #ffa500;
   color: #f7f7f7;
   fill: #f7f7f7; }
 
@@ -157,7 +157,7 @@
   background-color: #0a8e28; }
 
 .balert-progress.warning {
-  background-color: #fd7e14; }
+  background-color: #ffa500; }
 
 .balert-progress.danger {
   background-color: #ff162c; }

@@ -34,6 +34,11 @@
             These properties are available only on instances of the `Notification` object.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Title">
+            <summary>
+            The title of the notification as specified in the first parameter of the constructor.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Actions">
             <summary>
             The actions array of the notification as specified in the constructor's options parameter.
@@ -106,17 +111,7 @@
             An array of values describes alternating periods in which the device is vibrating and not vibrating.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData">
-            <summary>
-            Extension for <see cref="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData"/>
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Title">
-            <summary>
-            The title of the notification as specified in the first parameter of the constructor.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.#ctor(System.String)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.#ctor(System.String)">
             <summary>
             Default constructor.
             </summary>
@@ -124,7 +119,8 @@
         <member name="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService">
             <summary>
             Injectable service to handle Browser/HML5 notifications.
-            https://developer.mozilla.org/en-US/docs/Web/API/notification
+            Docs: https://developer.mozilla.org/en-US/docs/Web/API/notification
+            Settings on Windows: https://stackoverflow.com/questions/51907779/browser-notification-not-showing-up#58982697
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.RequestPermissionAsync(System.Func{Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes,System.Threading.Tasks.Task})">
@@ -152,7 +148,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsAsync(Majorsoft.Blazor.Components.Notifications.HtmlNotificationData)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsAsync(Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions)">
             <summary>
             
             </summary>
