@@ -216,9 +216,9 @@
             Notification Styles for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel">
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes">
             <summary>
-            Severity levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
+            Notification types, levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
@@ -236,19 +236,19 @@
             HTML Content of the collapse panel.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Severity">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Type">
             <summary>
-            Notification severity level.
+            Notification type or severity level.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.NotificationStyle">
             <summary>
-            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Severity"/> Alert.
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Type"/> Alert.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">
             <summary>
-            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel"/>.
+            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
@@ -316,19 +316,19 @@
             HTML Content of the collapse panel.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Type">
             <summary>
-            Notification severity level.
+            Notification type or severity level.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.NotificationStyle">
             <summary>
-            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Severity"/> Toast.
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Type"/> Toast.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
             <summary>
-            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationSeverityLevel"/>.
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.CustomIconSvgPath">

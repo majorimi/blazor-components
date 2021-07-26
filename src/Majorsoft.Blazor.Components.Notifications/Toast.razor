@@ -2,7 +2,7 @@
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
-    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Severity.ToString().ToLower()}")"
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
          style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
          tabindex="750" @attributes=AllOtherAttributes>
         <div class="balert-body">
@@ -24,7 +24,7 @@
         </div>
         @if (ShowCloseCountdownProgress && AutoCloseInSec > 0)
         {
-            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Severity.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
                  style="transition: width @(AutoCloseInSec)s linear;">
             </div>
         }
@@ -111,17 +111,17 @@
     [Parameter] public RenderFragment Content { get; set; }
 
     /// <summary>
-    /// Notification severity level.
+    /// Notification type or severity level.
     /// </summary>
-    [Parameter] public NotificationSeverityLevel Severity { get; set; }
+    [Parameter] public NotificationTypes Type { get; set; }
 
     /// <summary>
-    /// Notification style to show different variant of the same <see cref="Severity"/> Toast.
+    /// Notification style to show different variant of the same <see cref="Type"/> Toast.
     /// </summary>
     [Parameter] public NotificationStyles NotificationStyle { get; set; }
 
     /// <summary>
-    /// When true Toast will show an icon corresponding to the <see cref="NotificationSeverityLevel"/>.
+    /// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
@@ -207,7 +207,7 @@
             return CustomIconSvgPath;
         }
 
-        var property = typeof(NotificationSeverityLevel).GetMember(Severity.ToString())[0];
+        var property = typeof(NotificationTypes).GetMember(Type.ToString())[0];
         var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
         var description = (DescriptionAttribute)attribute;
         var path = description.Description;

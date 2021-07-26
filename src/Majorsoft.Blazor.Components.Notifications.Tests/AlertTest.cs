@@ -181,7 +181,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 		}
 
 		[TestMethod]
-		public void Alert_should_render_Severity_levels()
+		public void Alert_should_render_Types()
 		{
 			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
@@ -192,16 +192,16 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			foreach (var item in Enum.GetValues<NotificationSeverityLevel>())
+			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Severity, item));
+				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{item.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 			  <div class=""balert-body"" >
 				<div class=""balert-text"" >
 				</div>
 			  </div>
-			  <div class=""balert-progress {item.ToString().ToLower()} start"" style=""transition: width 10s linear;"" ></div>
+			  <div class=""balert-progress {types.ToString().ToLower()} start"" style=""transition: width 10s linear;"" ></div>
 			</div>"));
 			}
 		}
@@ -218,18 +218,18 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			foreach (var severity in Enum.GetValues<NotificationSeverityLevel>())
+			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Severity, severity));
+				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
 
 				foreach (var style in Enum.GetValues<NotificationStyles>())
 				{
 					rendered.SetParametersAndRender(parameters => parameters
 						.Add(p => p.NotificationStyle, style));
 
-					var progress = style != NotificationStyles.Strong ? $" { severity.ToString().ToLower()}" : " strong";
+					var progress = style != NotificationStyles.Strong ? $" { types.ToString().ToLower()}" : " strong";
 
-					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{severity.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 				  <div class=""balert-body"" >
 					<div class=""balert-text"" >
 					</div>
