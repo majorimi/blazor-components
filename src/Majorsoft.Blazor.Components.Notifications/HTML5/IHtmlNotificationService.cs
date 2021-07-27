@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Notifications
 {
@@ -15,208 +11,43 @@ namespace Majorsoft.Blazor.Components.Notifications
 	public interface IHtmlNotificationService : IAsyncDisposable
 	{
 		/// <summary>
-		/// 
+		/// Prompts User Consent permission request popup to the User to decide whether to allow Notifications or not.
 		/// </summary>
-		/// <param name="callback"></param>
-		/// <returns></returns>
+		/// <param name="callback">Callback function to call when User consent result provided</param>
+		/// <returns>ValueTask</returns>
 		ValueTask RequestPermissionAsync(Func<HtmlNotificationPermissionTypes, Task> callback);
 
 		/// <summary>
-		/// 
+		/// Checks the Notification User Consent status.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>User consent value</returns>
 		ValueTask<HtmlNotificationPermissionTypes> CheckPermissionAsync();
 
 		/// <summary>
-		/// 
+		/// Returns maxActions attribute of the Notification interface returns the maximum number of actions supported by the device and the User Agent. 
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Maximum allowed Notification</returns>
 		ValueTask<int> CheckMaxActionsAsync();
 
 		/// <summary>
-		/// 
+		/// Checks if Browser supports Notification or not.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Browser supported Notification or not</returns>
 		ValueTask<bool> IsBrowserSupportedAsync();
 
 		/// <summary>
-		/// 
+		/// Shows a Notification with the given <see cref="HtmlNotificationOptions"/> options data.
 		/// </summary>
-		/// <param name="notificationOptions"></param>
-		/// <returns></returns>
+		/// <param name="notificationOptions">Notification details</param>
+		/// <returns>Reference id</returns>
 		ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationOptions);
 
 		/// <summary>
-		/// 
+		/// Registers the given ServiceWorker from the URL and prompts Notifications with Options provided.
+		/// ServiceWorker can handle Custom events with custom data provided.
 		/// </summary>
-		/// <param name="notificationOptions"></param>
+		/// <param name="notificationOptions"><see cref="HtmlServiceWorkerNotificationOptions"/> data type required for ServiceWorker Notifications</param>
 		/// <returns></returns>
 		ValueTask ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationId"></param>
-		/// <returns></returns>
-		ValueTask CloseAsync(Guid notificationId);
-
-	}
-
-	/// <summary>
-	/// Implementation of <see cref="IHtmlNotificationService"/>
-	/// </summary>
-	public class HtmlNotificationService : IHtmlNotificationService
-	{
-		private List<DotNetObjectReference<HtmlNotificationEventInfo>> _dotNetObjectReferences;
-		private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
-		private readonly IJSRuntime _jsRuntime;
-
-		public HtmlNotificationService(IJSRuntime jsRuntime)
-		{
-			_jsRuntime = jsRuntime;
-
-			string js = "";
-#if DEBUG
-			js = "./_content/Majorsoft.Blazor.Components.Notifications/notification.js";
-#else
-			js = "./_content/Majorsoft.Blazor.Components.Notifications/notification.min.js";
-#endif
-
-			_moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", js).AsTask());
-			_dotNetObjectReferences = new List<DotNetObjectReference<HtmlNotificationEventInfo>>();
-		}
-
-		public async ValueTask RequestPermissionAsync(Func<HtmlNotificationPermissionTypes, Task> callback)
-		{
-			var module = await _moduleTask.Value;
-
-			var info = new HtmlNotificationPermissionRequestEventInfo(callback);
-			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationPermissionRequestEventInfo>(info);
-			info.DotNetObjectReference = dotnetRef;
-
-			await module.InvokeVoidAsync("requestPermission", dotnetRef);
-		}
-		public async ValueTask<HtmlNotificationPermissionTypes> CheckPermissionAsync()
-		{
-			var module = await _moduleTask.Value;
-			var permission = await module.InvokeAsync<string>("checkPermission");
-
-			return Enum.Parse<HtmlNotificationPermissionTypes>(permission, true);
-		}
-		public async ValueTask<int> CheckMaxActionsAsync()
-		{
-			var module = await _moduleTask.Value;
-			return await module.InvokeAsync<int>("checkMaxActions");
-		}
-		public async ValueTask<bool> IsBrowserSupportedAsync()
-		{
-			var module = await _moduleTask.Value;
-			return await module.InvokeAsync<bool>("isBrowserSupported");
-		}
-
-		public async ValueTask<Guid> ShowsAsync(HtmlNotificationOptions notificationOptions)
-		{
-			var module = await _moduleTask.Value;
-
-			var id = Guid.NewGuid();
-			var info = new HtmlNotificationEventInfo(id, 
-				notificationOptions.OnOpenCallback,
-				notificationOptions.OnClickCallback,
-				notificationOptions.OnCloseCallback,
-				notificationOptions.OnErrorCallback);
-
-			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
-			_dotNetObjectReferences.Add(dotnetRef);
-
-			await module.InvokeVoidAsync("showSimple", id.ToString(), notificationOptions, dotnetRef);
-			return id;
-		}
-
-		public async ValueTask ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions)
-		{
-			var module = await _moduleTask.Value;
-
-			await module.InvokeVoidAsync("showWithActions", notificationOptions, notificationOptions.ServiceWorkerUrl/*, dotnetRef*/);
-		}
-
-		public async ValueTask CloseAsync(Guid notificationId)
-		{
-			var module = await _moduleTask.Value;
-			await module.InvokeVoidAsync("close", notificationId);
-		}
-
-		public async ValueTask DisposeAsync()
-		{
-			if (_moduleTask.IsValueCreated)
-			{
-				var module = await _moduleTask.Value;
-				await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.Id).ToArray());
-				await module.DisposeAsync();
-			}
-
-			foreach (var item in _dotNetObjectReferences)
-			{
-				item.Dispose();
-			}
-		}
-	}
-
-	/// <summary>
-	/// Html5 Notification Permission Request result event <see cref="DotNetObjectReference"/> info to handle JS callback
-	/// </summary>
-	internal sealed class HtmlNotificationEventInfo
-	{
-		private readonly Func<Guid, Task>? _onOpenCallback;
-		private readonly Func<Guid, Task>? _onClickCallback;
-		private readonly Func<Guid, Task>? _onCloseCallback;
-		private readonly Func<Guid, Task>? _onErrorCallback;
-
-		public Guid Id { get; }
-
-		public HtmlNotificationEventInfo(Guid id,
-			Func<Guid, Task>? onOpenCallback = null,
-			Func<Guid, Task>? onClickCallback = null,
-			Func<Guid, Task>? onCloseCallback = null,
-			Func<Guid, Task>? onErrorCallback = null)
-		{
-			Id = id;
-			_onOpenCallback = onOpenCallback;
-			_onClickCallback = onClickCallback;
-			_onCloseCallback = onCloseCallback;
-			_onErrorCallback = onErrorCallback;
-		}
-
-		[JSInvokable("OnOpen")]
-		public async Task OnOpen()
-		{
-			if (_onOpenCallback is not null)
-			{
-				await _onOpenCallback(Id);
-			}
-		}
-		[JSInvokable("OnClick")]
-		public async Task OnClick()
-		{
-			if (_onClickCallback is not null)
-			{
-				await _onClickCallback(Id);
-			}
-		}
-		[JSInvokable("OnClose")]
-		public async Task OnClose()
-		{
-			if (_onCloseCallback is not null)
-			{
-				await _onCloseCallback(Id);
-			}
-		}
-		[JSInvokable("OnError")]
-		public async Task OnError()
-		{
-			if (_onErrorCallback is not null)
-			{
-				await _onErrorCallback(Id);
-			}
-		}
 	}
 }

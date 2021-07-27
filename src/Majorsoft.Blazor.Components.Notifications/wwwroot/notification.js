@@ -20,7 +20,7 @@ export function isBrowserSupported() {
     return false;
 }
 
-export function showWithActions(options, serviceWorkerUrl) {
+export function showWithServiceWorker(options, serviceWorkerUrl) {
     if (!options || !serviceWorkerUrl) {
         return;
     }
