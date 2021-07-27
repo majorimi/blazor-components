@@ -12,7 +12,9 @@
 			HTML5 Notification supported:
 			<strong class="mr-2 @(_notificationSupported ? "text-success" : "text-danger")">@_notificationSupported</strong>
 			Notification user consent:
-			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied ? "text-danger" : "text-success")">@_htmlNotificationPermission</strong>
+			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied 
+							 ? "text-danger" 
+							 : _htmlNotificationPermission == HtmlNotificationPermissionTypes.Default ? "" : "text-success")">@_htmlNotificationPermission</strong>
 		</div>
 	</div>
 
@@ -44,7 +46,7 @@
 			<br />
 			@if (_showActions)
 			{
-				<button class="btn btn-primary mt-2" @onclick="ShowSimpeNotification">Show HTML notification with Custom actions</button>
+				<button class="btn btn-primary mt-2" @onclick="ShowWithActionsNotification">Show HTML notification with Custom actions</button>
 			}
 			else
 			{
@@ -125,14 +127,11 @@
 			},
 			Vibrate = new int[] { 100, 200, 100 },
 			//events
-			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); Console.WriteLine("OnOpenCallback"); },
-			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); Console.WriteLine("OnCloseCallback"); },
-			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); Console.WriteLine("OnErrorCallback"); },
 			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); Console.WriteLine("OnClickCallback"); },
 			OnActionClickCallback = async (id, action) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick' on Action: '{action}'"); }
 		};
 
-		var id = await _notificationService.ShowsAsync(options);
+		var id = await _notificationService.ShowsWithActionsAsync(options);
 	}
 
 	private object _lock = new object();

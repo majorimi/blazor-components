@@ -20,12 +20,12 @@ export function isBrowserSupported() {
     return false;
 }
 
-export function showWithActions(id, options, dotnetRef) {
-    if (!id || !options) {
+export function showWithActions(id, options, serviceWorkerUrl, dotnetRef) {
+    if (!id || !options || !serviceWorkerUrl) {
         return;
     }
 
-    navigator.serviceWorker.register('_content/Majorsoft.Blazor.Components.Notifications/sw.js');
+    navigator.serviceWorker.register(serviceWorkerUrl);
     ////navigator.serviceWorker.ready.then(function (registration) {
     ////    registration.showNotification("Hello world", { body: "Here is the body!" });
     ////});
@@ -36,6 +36,7 @@ export function showWithActions(id, options, dotnetRef) {
             if (dotnetRef) {
                 self.addEventListener('notificationclick', function (event) {
                     event.notification.close();
+                    console.log(event);
 
                     if (event.action) {
                         actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
@@ -70,10 +71,7 @@ export function showSimple(id, options, dotnetRef) {
         notification.onshow = (event) => { dotnetRef.invokeMethodAsync("OnOpen"); console.log(event); };
         notification.onclose = (event) => { dotnetRef.invokeMethodAsync("OnClose"); console.log(event); };
         notification.onerror = (event) => { dotnetRef.invokeMethodAsync("OnError"); console.log(event); };
-        notification.onclick = (event) => {
-            console.log(event);
-            dotnetRef.invokeMethodAsync("OnClick");
-        };
+        notification.onclick = (event) => { dotnetRef.invokeMethodAsync("OnClick"); console.log(event); };
     }
     //TODO: store notification
 
