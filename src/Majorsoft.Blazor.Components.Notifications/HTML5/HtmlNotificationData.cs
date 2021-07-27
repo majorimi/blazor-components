@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Notifications
 {
@@ -13,12 +11,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// The title of the notification as specified in the first parameter of the constructor.
 		/// </summary>
 		public string Title { get; set; }
-
-		/// <summary>
-		/// Callback method for Notification Click event.
-		/// </summary>
-		[JsonIgnore]
-		public Func<Guid, Task>? OnClickCallback { get; set; } = null;
 
 		/// <summary>
 		/// The URL of the image used to represent the notification when there is not enough space to display the notification itself.

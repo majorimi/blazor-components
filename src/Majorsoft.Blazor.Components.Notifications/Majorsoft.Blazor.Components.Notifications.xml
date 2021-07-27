@@ -14,11 +14,6 @@
             The title of the notification as specified in the first parameter of the constructor.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.OnClickCallback">
-            <summary>
-            Callback method for Notification Click event.
-            </summary>
-        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Badge">
             <summary>
             The URL of the image used to represent the notification when there is not enough space to display the notification itself.
@@ -97,6 +92,11 @@
             These properties are available only on instances of the `Notification` object.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnClickCallback">
+            <summary>
+            Callback method for Notification Click event.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnOpenCallback">
             <summary>
             Callback method for Notification Open event.
@@ -148,11 +148,6 @@
             These properties are available for Service worker `Notification`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.OnActionClickCallback">
-            <summary>
-            Callback method for Notification Click event.
-            </summary>
-        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.Actions">
             <summary>
             The actions array of the Notification as specified in the constructor's options parameter.
@@ -163,11 +158,12 @@
             Service worker must be registered to show Notifications with Actions. Service worker need a JS file to be registered.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.#ctor(System.String)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.#ctor(System.String,System.String)">
             <summary>
             Default constructor.
             </summary>
             <param name="title">Notification title</param>
+            <param name="serviceWorkerUrl">To handle Notification action a ServiceWorker must be registered with and URL to a JS file</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService">
             <summary>

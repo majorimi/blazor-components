@@ -20,40 +20,15 @@ export function isBrowserSupported() {
     return false;
 }
 
-export function showWithActions(id, options, serviceWorkerUrl, dotnetRef) {
-    if (!id || !options || !serviceWorkerUrl) {
+export function showWithActions(options, serviceWorkerUrl) {
+    if (!options || !serviceWorkerUrl) {
         return;
     }
 
     navigator.serviceWorker.register(serviceWorkerUrl);
-    ////navigator.serviceWorker.ready.then(function (registration) {
-    ////    registration.showNotification("Hello world", { body: "Here is the body!" });
-    ////});
 
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
         if (registrations) {
-
-            if (dotnetRef) {
-                self.addEventListener('notificationclick', function (event) {
-                    event.notification.close();
-                    console.log(event);
-
-                    if (event.action) {
-                        actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
-                    }
-                    dotnetRef.invokeMethodAsync("OnClick");
-
-                }, false);
-
-
-                //self.onnotificationclick = function (event) {
-                //    if (event.action) {
-                //        actionDotnetRef.invokeMethodAsync("ActionsCallback", event.action);
-                //    }
-                //    dotnetRef.invokeMethodAsync("OnClick");
-                //};
-            }
-
             registrations[0].showNotification(options.title, options);
         }
     });
@@ -73,18 +48,6 @@ export function showSimple(id, options, dotnetRef) {
         notification.onerror = (event) => { dotnetRef.invokeMethodAsync("OnError"); console.log(event); };
         notification.onclick = (event) => { dotnetRef.invokeMethodAsync("OnClick"); console.log(event); };
     }
-    //TODO: store notification
 
     return notification;
-}
-export function close(id) {
-    if (!id) {
-        return;
-    }
-
-    //TODO: close and remove notification
-}
-
-export function dispose() {
-
 }

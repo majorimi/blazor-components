@@ -4,7 +4,12 @@
 	</PermaLinkElement>
 	<p>
 		Injectable <strong><code>IHtmlNotificationService</code> service </strong> which is a <strong> wrapper for Notification API</strong>
-		to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a>.
+		to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a> and
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification">ServiceWorker Notifications</a> with Custom actions handled by registered Service Worker.
+	</p>
+	<p>
+		<strong class="text-danger">NOTE:</strong> in order to show System notifications user Consent is required for the given Website per Browser. 
+		Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...
 	</p>
 
 	<div class="row pb-2">
@@ -46,6 +51,8 @@
 			<br />
 			@if (_showActions)
 			{
+				<strong>Notifications with Custom Actions must have a <code>ServiceWorker</code> registration which can handle Custom actions!</strong>
+				<br />
 				<button class="btn btn-primary mt-2" @onclick="ShowWithActionsNotification">Show HTML notification with Custom actions</button>
 			}
 			else
@@ -115,7 +122,7 @@
 	}
 	private async Task ShowWithActionsNotification()
 	{
-		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle)
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js")
 		{
 			Body = _notificationBody,
 			Icon = _notificationIcon,
@@ -126,12 +133,10 @@
 			   new NotificationAction() { Action = "action2", Title = "Other action"},
 			},
 			Vibrate = new int[] { 100, 200, 100 },
-			//events
-			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); Console.WriteLine("OnClickCallback"); },
-			OnActionClickCallback = async (id, action) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick' on Action: '{action}'"); }
+			Data = "any type of object.."
 		};
 
-		var id = await _notificationService.ShowsWithActionsAsync(options);
+		await _notificationService.ShowsWithActionsAsync(options);
 	}
 
 	private object _lock = new object();

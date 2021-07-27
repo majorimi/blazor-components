@@ -10,6 +10,12 @@ namespace Majorsoft.Blazor.Components.Notifications
 	public class HtmlNotificationOptions : HtmlNotificationData
 	{
 		/// <summary>
+		/// Callback method for Notification Click event.
+		/// </summary>
+		[JsonIgnore]
+		public Func<Guid, Task>? OnClickCallback { get; set; } = null;
+
+		/// <summary>
 		/// Callback method for Notification Open event.
 		/// </summary>
 		[JsonIgnore]

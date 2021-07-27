@@ -51,7 +51,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <param name="notificationOptions"></param>
 		/// <returns></returns>
-		ValueTask<Guid> ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions);
+		ValueTask ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions);
 
 		/// <summary>
 		/// 
@@ -132,20 +132,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return id;
 		}
 
-		public async ValueTask<Guid> ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions)
+		public async ValueTask ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions)
 		{
 			var module = await _moduleTask.Value;
 
-			var id = Guid.NewGuid();
-			var info = new HtmlNotificationEventInfo(id, 
-				onClickCallback: notificationOptions.OnClickCallback, 
-				onActionClickCallback: notificationOptions.OnActionClickCallback);
-
-			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
-			_dotNetObjectReferences.Add(dotnetRef);
-
-			await module.InvokeVoidAsync("showWithActions", id.ToString(), notificationOptions, notificationOptions.ServiceWorkerUrl, dotnetRef);
-			return id;
+			await module.InvokeVoidAsync("showWithActions", notificationOptions, notificationOptions.ServiceWorkerUrl/*, dotnetRef*/);
 		}
 
 		public async ValueTask CloseAsync(Guid notificationId)
@@ -179,7 +170,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 		private readonly Func<Guid, Task>? _onClickCallback;
 		private readonly Func<Guid, Task>? _onCloseCallback;
 		private readonly Func<Guid, Task>? _onErrorCallback;
-		private readonly Func<Guid, string, Task>? _onActionClickCallback;
 
 		public Guid Id { get; }
 
@@ -187,24 +177,13 @@ namespace Majorsoft.Blazor.Components.Notifications
 			Func<Guid, Task>? onOpenCallback = null,
 			Func<Guid, Task>? onClickCallback = null,
 			Func<Guid, Task>? onCloseCallback = null,
-			Func<Guid, Task>? onErrorCallback = null,
-			Func<Guid, string, Task>? onActionClickCallback = null)
+			Func<Guid, Task>? onErrorCallback = null)
 		{
 			Id = id;
 			_onOpenCallback = onOpenCallback;
 			_onClickCallback = onClickCallback;
 			_onCloseCallback = onCloseCallback;
 			_onErrorCallback = onErrorCallback;
-			_onActionClickCallback = onActionClickCallback;
-		}
-
-		[JSInvokable("ActionsCallback")]
-		public async Task ActionsCallback(string action)
-		{
-			if (_onActionClickCallback is not null)
-			{
-				await _onActionClickCallback(Id, action);
-			}
 		}
 
 		[JSInvokable("OnOpen")]
