@@ -1,34 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Bunit;
-
-using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Inputs.Tests
 {
 	[TestClass]
-	public class MaxLengthInputTest
+	public class MaxLengthInputTest : ComponentsTestBase<MaxLengthInput>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<MaxLengthInput>>();
-
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<MaxLengthInput>), logger.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void MaxLengthInput_should_rendered_correctly_html_attributes()
 		{

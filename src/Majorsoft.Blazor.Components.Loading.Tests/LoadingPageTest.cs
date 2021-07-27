@@ -1,11 +1,9 @@
 using Bunit;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Moq;
+using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Threading.Tasks;
@@ -13,25 +11,8 @@ using System.Threading.Tasks;
 namespace Majorsoft.Blazor.Components.Loading.Tests
 {
 	[TestClass]
-	public class LoadingPageTest
+	public class LoadingPageTest : ComponentsTestBase<LoadingPage>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<LoadingPage>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<LoadingPage>), mock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void LoadingPage_should_not_render_by_default()
 		{

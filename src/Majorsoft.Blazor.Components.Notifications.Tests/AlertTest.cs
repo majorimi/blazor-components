@@ -12,26 +12,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Majorsoft.Blazor.Components.Timer;
 using System;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests
 {
 	[TestClass]
-	public class AlertTest
+	public class AlertTest : ComponentsTestBase<Alert>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<ITransitionEventsService> _transitionMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<Alert>>();
-			var mock2 = new Mock<ILogger<AdvancedTimer>>();
+			var logger = new Mock<ILogger<AdvancedTimer>>();
 			_transitionMock = new Mock<ITransitionEventsService>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Alert>), mock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), mock2.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
 		}
 

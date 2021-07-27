@@ -1,40 +1,28 @@
 using Majorsoft.Blazor.Components.Common.JsInterop.Click;
 using Majorsoft.Blazor.Components.Debounce;
 
-using Bunit;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Typeahead.Tests
 {
 	[TestClass]
-	public class TypeaheadInputText
+	public class TypeaheadInputText : ComponentsTestBase<TypeaheadInput<string>>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IClickBoundariesHandler> _clickBoundariesMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<TypeaheadInput<string>>>();
-			var mock2 = new Mock<ILogger<DebounceInput>>();
+			var logger = new Mock<ILogger<DebounceInput>>();
 			_clickBoundariesMock = new Mock<IClickBoundariesHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<TypeaheadInput<string>>), mock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInput>), mock2.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInput>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IClickBoundariesHandler), _clickBoundariesMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]

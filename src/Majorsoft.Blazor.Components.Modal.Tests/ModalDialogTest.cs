@@ -7,38 +7,27 @@ using Bunit;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Modal.Tests
 {
 	[TestClass]
-	public class ModalDialogTest
+	public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<ITransitionEventsService> _transitionMock;
 		private Mock<IFocusHandler> _focusHandlerMock;
 		
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<ModalDialog>>();
 			_transitionMock = new Mock<ITransitionEventsService>();
 			_focusHandlerMock = new Mock<IFocusHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]

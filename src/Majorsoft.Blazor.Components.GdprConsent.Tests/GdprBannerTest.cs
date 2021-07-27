@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 
 using Bunit;
 
+using Majorsoft.Blazor.Components.CommonTestsBase;
+
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -13,31 +14,19 @@ using Moq;
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 {
 	[TestClass]
-	public class GdprBannerTest
+	public class GdprBannerTest : ComponentsTestBase<GdprBanner>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IGdprConsentService> _dprConsentServiceMock;
 		private Mock<IGdprConsentNotificationService> _gdprConsentNotificationServiceMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
 			_gdprConsentNotificationServiceMock = new Mock<IGdprConsentNotificationService>();
 
 			_dprConsentServiceMock = new Mock<IGdprConsentService>();
 			_dprConsentServiceMock.SetupGet(g => g.ConsentNotificationService).Returns(_gdprConsentNotificationServiceMock.Object);
-
-			var mock = new Mock<ILogger<GdprBanner>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<GdprBanner>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]

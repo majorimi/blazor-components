@@ -5,30 +5,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bunit;
 
 using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Inputs.Tests
 {
 	[TestClass]
-	public class MaxLengthTextareaTest
+	public class MaxLengthTextareaTest : ComponentsTestBase<MaxLengthTextarea>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<MaxLengthTextarea>>();
-
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<MaxLengthTextarea>), logger.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_correctly_html_attributes()
 		{
