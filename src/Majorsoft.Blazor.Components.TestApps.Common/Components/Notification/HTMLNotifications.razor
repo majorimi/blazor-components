@@ -40,7 +40,16 @@
 				</div>
 			</div>
 
-			<button class="btn btn-primary mt-2" @onclick="Notification">Show notification</button>
+			<label>Show with custom Actions:</label> <input class="mr-2" type="checkbox" @bind="_showActions" />
+			<br />
+			@if (_showActions)
+			{
+				<button class="btn btn-primary mt-2" @onclick="ShowSimpeNotification">Show HTML notification with Custom actions</button>
+			}
+			else
+			{
+				<button class="btn btn-primary mt-2" @onclick="ShowSimpeNotification">Show HTML notification</button>
+			}
 
 			<div class="row pb-2">
 				<div class="col-12">
@@ -56,7 +65,6 @@
 @inject IHtmlNotificationService _notificationService
 @implements IAsyncDisposable
 
-
 @code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -67,6 +75,7 @@
 			StateHasChanged();
 		}
 	}
+	private bool _showActions = true;
 	private ElementReference log1;
 	private string _alertLog = "";
 
@@ -86,24 +95,40 @@
 		});
 	}
 
-	private async Task Notification()
+	private async Task ShowSimpeNotification()
 	{
 		var options = new HtmlNotificationOptions(_notificationTitle)
 		{
 			Body = _notificationBody,
 			Icon = _notificationIcon,
-			//actions
-			//Actions = new NotificationAction[]
-			//{
-			//   new NotificationAction() { Action = "action1", Title = "Custom action"},
-			//   new NotificationAction() { Action = "action2", Title = "Other action"},
-			//},
 			Vibrate = new int[] { 100, 200, 100},
 			//events
-			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); },
-			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); },
-			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); },
-			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); },
+			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); Console.WriteLine("OnOpenCallback"); },
+			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); Console.WriteLine("OnCloseCallback"); },
+			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); Console.WriteLine("OnErrorCallback"); },
+			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); Console.WriteLine("OnClickCallback"); },
+		};
+
+		var id = await _notificationService.ShowsAsync(options);
+	}
+	private async Task ShowWithActionsNotification()
+	{
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle)
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			//actions
+			Actions = new NotificationAction[]
+			{
+			   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			   new NotificationAction() { Action = "action2", Title = "Other action"},
+			},
+			Vibrate = new int[] { 100, 200, 100 },
+			//events
+			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); Console.WriteLine("OnOpenCallback"); },
+			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); Console.WriteLine("OnCloseCallback"); },
+			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); Console.WriteLine("OnErrorCallback"); },
+			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); Console.WriteLine("OnClickCallback"); },
 			OnActionClickCallback = async (id, action) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick' on Action: '{action}'"); }
 		};
 

@@ -1,9 +1,9 @@
 ﻿@if (IsVisible)
 {
-    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })"/>
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
-    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")" 
-         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;" 
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
+         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
          tabindex="750" @attributes=AllOtherAttributes>
         <div class="balert-body">
             @if (ShowIcon)
@@ -33,6 +33,7 @@
 
 @inject ILogger<Alert> _logger
 @inject ITransitionEventsService _transitionEvents
+@namespace Majorsoft.Blazor.Components.Notifications
 
 @implements IAsyncDisposable
 
@@ -69,7 +70,7 @@
         get => _isVisible;
         set
         {
-            if(value != _isVisible)
+            if (value != _isVisible)
             {
                 _opacity = 1;
 
@@ -150,7 +151,8 @@
     /// <summary>
     /// Determines the shadow effect stronges which makes Alert elevated.
     /// </summary>
-    [Parameter] public uint ShadowEffect
+    [Parameter]
+    public uint ShadowEffect
     {
         get => _shadowEffect;
         set
@@ -204,7 +206,7 @@
 
     private string GetSvgPath()
     {
-        if(!string.IsNullOrWhiteSpace(CustomIconSvgPath))
+        if (!string.IsNullOrWhiteSpace(CustomIconSvgPath))
         {
             return CustomIconSvgPath;
         }
@@ -219,7 +221,7 @@
 
     public async ValueTask DisposeAsync()
     {
-        if(_transitionEvents is not null)
+        if (_transitionEvents is not null)
         {
             await _transitionEvents.DisposeAsync();
         }

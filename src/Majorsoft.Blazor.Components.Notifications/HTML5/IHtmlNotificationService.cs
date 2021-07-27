@@ -9,6 +9,27 @@ using Microsoft.JSInterop;
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>
+	/// 
+	/// </summary>
+	public class HtmlServiceWorkerNotificationOptions : HtmlNotificationOptions
+	{
+		[JsonIgnore]
+		public Func<Guid, string, Task> OnActionClickCallback { get; set; } = null;
+
+		/// <summary>
+		/// The actions array of the notification as specified in the constructor's options parameter.
+		/// </summary>
+		public NotificationAction[] Actions { get; set; } = new NotificationAction[0];
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="title"></param>
+		public HtmlServiceWorkerNotificationOptions(string title)
+			:base(title)
+		{}
+	}
+	/// <summary>
 	/// These properties are available only on instances of the `Notification` object.
 	/// </summary>
 	public class HtmlNotificationOptions
@@ -26,13 +47,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 		public Func<Guid, Task> OnCloseCallback { get; set; } = null;
 		[JsonIgnore]
 		public Func<Guid, Task> OnErrorCallback { get; set; } = null;
-		[JsonIgnore]
-		public Func<Guid, string, Task> OnActionClickCallback { get; set; } = null;
-
-		/// <summary>
-		/// The actions array of the notification as specified in the constructor's options parameter.
-		/// </summary>
-		public NotificationAction[] Actions { get; set; } = new NotificationAction[0];
 
 		/// <summary>
 		/// The URL of the image used to represent the notification when there is not enough space to display the notification itself.
@@ -157,6 +171,13 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="notificationOptions"></param>
+		/// <returns></returns>
+		ValueTask<Guid> ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions);
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="notificationId"></param>
 		/// <returns></returns>
 		ValueTask CloseAsync(Guid notificationId);
@@ -224,8 +245,23 @@ namespace Majorsoft.Blazor.Components.Notifications
 				notificationOptions.OnOpenCallback,
 				notificationOptions.OnClickCallback,
 				notificationOptions.OnCloseCallback,
-				notificationOptions.OnErrorCallback,
-				notificationOptions.OnActionClickCallback);
+				notificationOptions.OnErrorCallback);
+
+			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
+			_dotNetObjectReferences.Add(dotnetRef);
+
+			await module.InvokeVoidAsync("showSimple", id.ToString(), notificationOptions, dotnetRef);
+			return id;
+		}
+
+		public async ValueTask<Guid> ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions)
+		{
+			var module = await _moduleTask.Value;
+
+			var id = Guid.NewGuid();
+			var info = new HtmlNotificationEventInfo(id, 
+				onClickCallback: notificationOptions.OnClickCallback, 
+				onActionClickCallback: notificationOptions.OnActionClickCallback);
 
 			var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 			_dotNetObjectReferences.Add(dotnetRef);
@@ -281,7 +317,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			_onClickCallback = onClickCallback;
 			_onCloseCallback = onCloseCallback;
 			_onErrorCallback = onErrorCallback;
-			_onActionClickCallback = onActionClickCallback;
+			//_onActionClickCallback = onActionClickCallback;
 		}
 
 		[JSInvokable("ActionsCallback")]

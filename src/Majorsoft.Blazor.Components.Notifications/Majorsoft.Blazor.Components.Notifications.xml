@@ -29,6 +29,22 @@
             The user accepts having notifications displayed.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.Actions">
+            <summary>
+            The actions array of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="title"></param>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions">
             <summary>
             These properties are available only on instances of the `Notification` object.
@@ -37,11 +53,6 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Title">
             <summary>
             The title of the notification as specified in the first parameter of the constructor.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Actions">
-            <summary>
-            The actions array of the notification as specified in the constructor's options parameter.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.Badge">
@@ -149,6 +160,13 @@
             <returns></returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsAsync(Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions)">
+            <summary>
+            
+            </summary>
+            <param name="notificationOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsWithActionsAsync(Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions)">
             <summary>
             
             </summary>
