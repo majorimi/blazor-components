@@ -120,12 +120,12 @@
     //Alert events
     public async Task OnOpen()
     {
-        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnOpen)}' Dialog opened.");
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnOpen)}' Alert opened.");
     }
     public async Task OnClose()
     {
         _alertIsVisible = false; //Or use two-way binding.
-        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Dialog closed.");
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Alert closed.");
     }
     private async Task OnCloseButtonClicked(MouseEventArgs e)
     {

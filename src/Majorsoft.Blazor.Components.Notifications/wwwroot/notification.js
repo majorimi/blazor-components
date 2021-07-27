@@ -43,10 +43,10 @@ export function showSimple(id, options, dotnetRef) {
     let notification = new Notification(options.title, options);
 
     if (dotnetRef) {
-        notification.onshow = (event) => { dotnetRef.invokeMethodAsync("OnOpen"); console.log(event); };
-        notification.onclose = (event) => { dotnetRef.invokeMethodAsync("OnClose"); console.log(event); };
-        notification.onerror = (event) => { dotnetRef.invokeMethodAsync("OnError"); console.log(event); };
-        notification.onclick = (event) => { dotnetRef.invokeMethodAsync("OnClick"); console.log(event); };
+        notification.onshow = (event) => { dotnetRef.invokeMethodAsync("OnOpen"); };
+        notification.onclose = (event) => { dotnetRef.invokeMethodAsync("OnClose"); };
+        notification.onerror = (event) => { dotnetRef.invokeMethodAsync("OnError"); };
+        notification.onclick = (event) => { dotnetRef.invokeMethodAsync("OnClick"); };
     }
 
     return notification;

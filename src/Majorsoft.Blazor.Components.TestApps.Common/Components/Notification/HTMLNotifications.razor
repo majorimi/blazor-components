@@ -63,12 +63,11 @@
 			<div class="row pb-2">
 				<div class="col-12">
 					<label><strong>Event log</strong>:</label>
-					<textarea @ref="log1" @bind="_alertLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+					<textarea @ref="log1" @bind="_notificationLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 				</div>
 			</div>
 		}
 	}
-
 </div>
 
 @inject IHtmlNotificationService _notificationService
@@ -86,7 +85,7 @@
 	}
 	private bool _showActions = true;
 	private ElementReference log1;
-	private string _alertLog = "";
+	private string _notificationLog = "";
 
 	//HTML5 notification
 	private bool _notificationSupported;
@@ -112,10 +111,10 @@
 			Icon = _notificationIcon,
 			Vibrate = new int[] { 100, 200, 100},
 			//events
-			OnOpenCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnOpen'"); Console.WriteLine("OnOpenCallback"); },
-			OnCloseCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClose'"); Console.WriteLine("OnCloseCallback"); },
-			OnErrorCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnError'"); Console.WriteLine("OnErrorCallback"); },
-			OnClickCallback = async (id) => { _alertLog = await WriteLog(_alertLog, $"HTML Notification '{id}' event: 'OnClick'"); Console.WriteLine("OnClickCallback"); },
+			OnOpenCallback = OnOpen,
+			OnCloseCallback = OnClose,
+			OnErrorCallback = OnError,
+			OnClickCallback = OnClick,
 		};
 
 		var id = await _notificationService.ShowsAsync(options);
@@ -139,16 +138,33 @@
 		await _notificationService.ShowsWithActionsAsync(options);
 	}
 
-	private object _lock = new object();
+	public async Task OnOpen(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnOpen'");
+		StateHasChanged();
+	}
+	public async Task OnClose(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnClose'");
+		StateHasChanged();
+	}
+	public async Task OnError(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnError'");
+		StateHasChanged();
+	}
+	public async Task OnClick(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnClick'");
+		StateHasChanged();
+	}
+
 	private async Task<string> WriteLog(string log, string message)
 	{
-		lock (_lock)
-		{
-			log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
-		}
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
 		await log1.ScrollToEndAsync();
 
-		StateHasChanged();
+		//StateHasChanged();
 		return log;
 	}
 	public async ValueTask DisposeAsync()
