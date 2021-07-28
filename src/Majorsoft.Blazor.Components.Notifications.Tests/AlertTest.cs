@@ -67,9 +67,11 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
 		  <div class=""balert-body"" >
-			<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
-			  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
-			</svg>
+			<div>
+				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
+				  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
+				</svg>
+			</div>
 			<div class=""balert-text"" ></div>
 			<button type=""button""  class=""close normal"" >
 			  <span aria-hidden=""true"" >&times;</span>
@@ -165,9 +167,11 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
-			<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
-			  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""svg path value"" ></path>
-			</svg>
+			<div>
+				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
+				  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""svg path value"" ></path>
+				</svg>
+			</div>
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
 			</div>

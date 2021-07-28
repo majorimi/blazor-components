@@ -282,6 +282,16 @@
             
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastService">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.

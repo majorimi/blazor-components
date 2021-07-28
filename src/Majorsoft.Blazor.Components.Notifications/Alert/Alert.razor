@@ -8,9 +8,11 @@
         <div class="balert-body">
             @if (ShowIcon)
             {
-                <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
-                </svg>
+                <div>
+                    <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+                    </svg>
+                </div>
             }
 
             <div class="balert-text">

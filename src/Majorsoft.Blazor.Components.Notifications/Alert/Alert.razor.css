@@ -137,8 +137,11 @@
 
 .balert-body .balert-img {
   padding: 0.6em 0;
-  margin: 0 0.1em 0 0.7em;
-  width: 24px; }
+  margin: 0 0.2em 0 0.7em;
+  width: 24px;
+  display: flex;
+  border: 0;
+  outline: none; }
 
 .balert-progress {
   width: 0px;
@@ -176,12 +179,13 @@
 
 .balert-body .close {
   margin: 0 0 0 auto;
-  padding: 0 0.5em;
+  padding: 0.4em 0.5em;
   outline: none;
   border: 0;
   font-size: 1.5rem;
   z-index: 5;
-  color: inherit; }
+  color: inherit;
+  display: flex; }
 
 .balert-body .close:hover {
   color: #1c1b1b; }
