@@ -15,7 +15,7 @@
             <div class="col-4">
                 @foreach (var types in Enum.GetValues<NotificationTypes>())
                 {
-                    <Alert AutoClose="false" IsVisible="true"
+                    <Alert AutoClose="false" IsVisible="true" 
                            NotificationStyle="style"
                            Type="types">
                         <Content>
@@ -32,7 +32,7 @@
     <div class="w-100 mb-4">
         <Alert Type="@_alertTypeLevel"
                NotificationStyle="@_alertStyle"
-               IsVisible="@_alertIsVisible"
+               @bind-IsVisible="_alertIsVisible"
                AutoClose="@_alertAutoClose"
                AutoCloseInSec="@_alertAutoCloseInSec"
                ShowCloseButton="@_alertShowCloseButton"

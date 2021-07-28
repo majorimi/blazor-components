@@ -87,7 +87,10 @@
 
                         if (OnClose.HasDelegate)
                         {
-                            await OnClose.InvokeAsync();
+                            InvokeAsync(async () =>
+                            {
+                                await OnClose.InvokeAsync();
+                            });
                         }
                     }, "opacity");
                     _opacity = 0;
@@ -103,6 +106,14 @@
                     }
 
                     _isVisible = true;
+                }
+
+                if (IsVisibleChanged.HasDelegate)
+                {
+                    InvokeAsync(async () =>
+                    {
+                        await IsVisibleChanged.InvokeAsync(_isVisible);
+                    });
                 }
             }
         }
@@ -189,6 +200,10 @@
     /// Callback function called when close `x` button was clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+    /// <summary>
+    /// Callback function for two way bindigs of <see cref="IsVisible"/> property.
+    /// </summary>
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
 
 
     private async Task CloseClicked(MouseEventArgs e)

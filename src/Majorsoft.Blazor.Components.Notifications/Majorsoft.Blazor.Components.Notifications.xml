@@ -372,6 +372,11 @@
             Callback function called when close `x` button was clicked.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisibleChanged">
+            <summary>
+            Callback function for two way bindigs of <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible"/> property.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
