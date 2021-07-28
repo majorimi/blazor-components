@@ -74,9 +74,13 @@
     color: inherit;
     display: flex;
 }
+.balert-body .close.strong {
+    color: $strongStyleColor;
+}
+
 .balert-body .close:hover {
     color: #1c1b1b;
 }
 .balert-body .close.strong:hover {
-    color: $strongStyleColor;
+    color: white;
 }
