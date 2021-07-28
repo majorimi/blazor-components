@@ -1,6 +1,7 @@
 ﻿@if (IsVisible)
 {
-    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" OnIntervalElapsed="@(e => { IsVisible = false; })" />
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" 
+                   OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
     <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
          style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
@@ -120,6 +121,11 @@
     /// Notification style to show different variant of the same <see cref="Type"/> Toast.
     /// </summary>
     [Parameter] public NotificationStyles NotificationStyle { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
 
     /// <summary>
     /// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.

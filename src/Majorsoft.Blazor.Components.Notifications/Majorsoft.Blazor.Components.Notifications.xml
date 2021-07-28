@@ -277,6 +277,11 @@
             Notification Icon is an SVG which describes icon in the Path.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastPositions">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -380,6 +385,11 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.NotificationStyle">
             <summary>
             Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Type"/> Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Position">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
