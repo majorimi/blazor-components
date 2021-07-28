@@ -188,6 +188,7 @@
   display: flex; }
 
 .balert-body .close.strong {
+  font-weight: normal;
   color: #f7f7f7; }
 
 .balert-body .close:hover {

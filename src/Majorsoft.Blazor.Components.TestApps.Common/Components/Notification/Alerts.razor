@@ -15,7 +15,7 @@
             <div class="col-4">
                 @foreach (var types in Enum.GetValues<NotificationTypes>())
                 {
-                    <Alert AutoClose="false" IsVisible="true" 
+                    <Alert AutoClose="false" IsVisible="true"  ShowCloseButton="false"
                            NotificationStyle="style"
                            Type="types">
                         <Content>
@@ -63,7 +63,7 @@
 
     <div class="row pb-2">
         <div class="col-12 col-lg-8 col-xl-5">
-            Message: <input class="form-control w-100" @bind="_alertText" />
+            Message: <textarea class="form-control w-100" @bind="_alertText" />
         </div>
     </div>
 
