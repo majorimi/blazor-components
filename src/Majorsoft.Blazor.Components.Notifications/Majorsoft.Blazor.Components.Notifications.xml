@@ -267,6 +267,16 @@
             Notification types, levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationTypesMetaData">
+            <summary>
+            Notification types extension data.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationTypesMetaData.IconSvgPath">
+            <summary>
+            Notification Icon is an SVG which describes icon in the Path.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.

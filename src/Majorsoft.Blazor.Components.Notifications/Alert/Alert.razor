@@ -212,9 +212,9 @@
         }
 
         var property = typeof(NotificationTypes).GetMember(Type.ToString())[0];
-        var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
-        var description = (DescriptionAttribute)attribute;
-        var path = description.Description;
+        var attribute = property.GetCustomAttributes(typeof(NotificationTypesMetaData), true)[0];
+        var description = (NotificationTypesMetaData)attribute;
+        var path = description.IconSvgPath;
 
         return path;
     }

@@ -43,7 +43,7 @@
                OnClose="OnClose"
                OnCloseButtonClicked="OnCloseButtonClicked">
             <Content>
-                <strong>Alert:</strong> @_alertText
+                @((MarkupString)_alertText)
             </Content>
         </Alert>
     </div>
@@ -81,7 +81,7 @@
         <div class="col-12 col-lg-8 col-xl-5">
             Type:
             <select class="form-control selectpicker w-100"
-                    @onchange="@(e => { _alertTypeLevel = Enum.Parse<NotificationTypes>(e.Value?.ToString()); _alertText = $"This is a(n) {_alertTypeLevel} alert..."; })">
+                    @onchange="@(e => { _alertTypeLevel = Enum.Parse<NotificationTypes>(e.Value?.ToString()); _alertText = $@"<strong>Alert:</strong> This is a(n) {_alertTypeLevel} alert..."; })">
                 @foreach (var item in Enum.GetValues(typeof(NotificationTypes)))
                 {
                     <option value="@item">@item</option>
@@ -110,7 +110,7 @@
     private bool _alertShowCountdownProgress = true;
     private uint _alertAutoCloseInSec = 5;
     private uint _shadowEffect = 0;
-    private string _alertText = $"This is a(n) {nameof(NotificationTypes.Primary)} alert...";
+    private string _alertText = $@"<strong>Alert:</strong> This is a(n) {nameof(NotificationTypes.Primary)} alert...";
     private NotificationTypes _alertTypeLevel = NotificationTypes.Primary;
     private NotificationStyles _alertStyle = NotificationStyles.Normal;
 
