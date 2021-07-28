@@ -8,7 +8,8 @@ Blazor Loading Components
 
 # About
 
-Blazor components that renders Overlay for page load. HTML `<button>` with customizable content to show during async operation progress/loading state. 
+Blazor components that renders Overlays for the whole page on load or for specific element on custom event. Also HTML `button` with customizable content for showing async operation in progress/loading state.
+
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Loading.razor).
 
