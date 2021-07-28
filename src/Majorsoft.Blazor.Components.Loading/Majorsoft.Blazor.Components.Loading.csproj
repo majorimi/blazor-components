@@ -19,7 +19,7 @@
 			Blazor components that renders Overlays for the whole page on load or for specific element on custom event. Also HTML Button with customizable content for showing async operation in progress/loading state. Part of Majorsoft Blazor library.
 		</Description>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-		<PackageTags>.Net5 Blazor Htlm.Button Loading Progress</PackageTags>
+		<PackageTags>.Net5 Blazor Htlm.Button Overlay PageLoading Loading Progress</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<Title>Blazor Components Loading</Title>
 	</PropertyGroup>

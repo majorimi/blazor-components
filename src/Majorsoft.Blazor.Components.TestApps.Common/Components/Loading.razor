@@ -117,7 +117,7 @@
 	<h3>Static overlay</h3>
 	<div class="row pb-1 mx-auto w-50 justify-content-center">
 		<div class="col-12">
-			<LoadingElement IsLoading="_showStaticOverlay" OnClick="OnOverlayClick">
+			<LoadingElement IsLoading="_showStaticOverlay" OnOverlayClicked="OnOverlayClick">
 				<LoadingContent>
 					<button class="btn btn-primary btn-sm" @onclick="e => _showStaticOverlay = false">Close overlay</button>
 				</LoadingContent>

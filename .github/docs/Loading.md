@@ -1,5 +1,5 @@
 
-Blazor Loading Components
+Blazor Loading and Overlay Components
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Loading?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading/)
@@ -74,7 +74,8 @@ Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means 
 ### Events
 - **`OnLoading`: `EventCallback` delegate** <br />
 Callback function called when component `OnInitializedAsync` Blazor event triggered. 
-
+- **`OnOverlayClicked`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when Overlay `div` was clicked. It can be used to close the overlay.
 
 ## `LoadingButton` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-button))
 Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
