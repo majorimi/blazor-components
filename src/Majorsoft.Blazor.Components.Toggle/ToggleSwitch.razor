@@ -58,7 +58,22 @@
 	public bool Checked
 	{
 		get { return Convert.ToBoolean(_value); }
-		set { _value = Convert.ToInt32(value); }
+		set
+		{
+			var val = Convert.ToInt32(value);
+			if(_value != val)
+			{
+				_value = val;
+
+				if (OnToggleChanged.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnToggleChanged.InvokeAsync(value);
+					});
+				}
+			}
+		}
 	}
 
 	/// <summary>

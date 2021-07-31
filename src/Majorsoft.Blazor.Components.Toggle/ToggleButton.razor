@@ -1,5 +1,5 @@
 ﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
-		@onclick="Switched" disabled="@Disabled" @attributes=AllOtherAttributes>
+		@onclick="ButtonChecked" disabled="@Disabled" @attributes=AllOtherAttributes>
 	@Content
 </button>
 
@@ -67,10 +67,28 @@
 	/// </summary>
 	[Parameter] public RenderFragment Content { get; set; }
 
+	private bool _checked = false;
 	/// <summary>
 	/// Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
 	/// </summary>
-	[Parameter] public bool Checked { get; set; } = false;
+	[Parameter] public bool Checked
+	{
+		get => _checked;
+		set
+		{
+			if(_checked != value)
+			{
+				_checked = value;
+				if(OnToggleChanged.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnToggleChanged.InvokeAsync(_checked);
+					});
+				}
+			}
+		}
+	}
 
 	/// <summary>
 	/// HTML element height in `px`.
@@ -96,10 +114,10 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	private async Task Switched()
+	private async Task ButtonChecked()
 	{
 		Checked = !Checked;
-		WriteDiag($"{nameof(Switched)} Toggle button value changed: '{Checked}'.");
+		WriteDiag($"{nameof(ButtonChecked)} Toggle button value changed: '{Checked}'.");
 
 		if (OnToggleChanged.HasDelegate)
 		{
