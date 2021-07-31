@@ -1,13 +1,15 @@
 ﻿@if (IsVisible)
 {
-    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" 
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(Settings.AutoCloseInSec * 1000)" AutoStart="true"
                    OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
-    <div @ref="_inputRef" class="btoast-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
-         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
-         tabindex="750" @attributes=AllOtherAttributes>
+    <div @ref="_inputRef" class="btoast-main@($" bnotify-{Settings.NotificationStyle.ToString().ToLower()}-{Settings.Type.ToString().ToLower()}")"
+         style="opacity: @_opacity;
+                margin-bottom: @(Settings.ShadowEffect + 12)px; 
+                box-shadow: @($"{Settings.ShadowEffect / 4}px {Settings.ShadowEffect}px {(Settings.ShadowEffect == 0 ? "0" : "20")}px {Settings.ShadowEffect / 10}px") #c7c7c7;"
+         tabindex="750">
         <div class="btoast-body">
-            @if (ShowIcon)
+            @if (Settings.ShowIcon)
             {
                 <svg class="btoast-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
@@ -15,26 +17,27 @@
             }
 
             <div class="btoast-text">
-                @Content
+                @Settings.Content
             </div>
 
-            @if (ShowCloseButton)
+            @if (Settings.ShowCloseButton)
             {
-                <button type="button" @onclick="CloseClicked" class="close@($" {NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <button type="button" @onclick="CloseClicked" class="close@($" {Settings.NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             }
         </div>
-        @if (ShowCloseCountdownProgress && AutoCloseInSec > 0)
+        @if (Settings.ShowCloseCountdownProgress && Settings.AutoCloseInSec > 0)
         {
-            <div class="btoast-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
-                 style="transition: width @(AutoCloseInSec)s linear;">
+            <div class="btoast-progress@((Settings.NotificationStyle != NotificationStyles.Strong ? $" {Settings.Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+                 style="transition: width @(Settings.AutoCloseInSec)s linear;">
             </div>
         }
     </div>
 }
 
+@namespace Majorsoft.Blazor.Components.Notifications
+
 @inject ILogger<Toast> _logger
 @inject ITransitionEventsService _transitionEvents
-@namespace Majorsoft.Blazor.Components.Notifications
 
 @implements IAsyncDisposable
 
@@ -51,7 +54,7 @@
     private bool _animationStarted = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (ShowCloseCountdownProgress && IsVisible && !_animationStarted)
+        if (Settings.ShowCloseCountdownProgress && IsVisible && !_animationStarted)
         {
             WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
             await Task.Delay(_delay);
@@ -61,12 +64,11 @@
         }
     }
 
-    private bool _isVisible = false;
+    private bool _isVisible = true;
     /// <summary>
     /// Determines wheatere the Toast message should be visible on UI or not.
     /// </summary>
-    [Parameter]
-    public bool IsVisible
+    private bool IsVisible
     {
         get => _isVisible;
         set
@@ -86,7 +88,7 @@
 
                         if (OnClose.HasDelegate)
                         {
-                            await OnClose.InvokeAsync();
+                            await OnClose.InvokeAsync(Settings.Id);
                         }
                     }, "opacity");
                     _opacity = 0;
@@ -97,7 +99,7 @@
                     {
                         InvokeAsync(async () =>
                         {
-                            await OnOpen.InvokeAsync();
+                            await OnOpen.InvokeAsync(Settings.Id);
                         });
                     }
 
@@ -108,94 +110,35 @@
     }
 
     /// <summary>
-    /// HTML Content of the collapse panel.
+    ///
     /// </summary>
-    [Parameter] public RenderFragment Content { get; set; }
+    [Parameter] public ToastSettings Settings { get; set; }
 
-    /// <summary>
-    /// Notification type or severity level.
-    /// </summary>
-    [Parameter] public NotificationTypes Type { get; set; }
-
-    /// <summary>
-    /// Notification style to show different variant of the same <see cref="Type"/> Toast.
-    /// </summary>
-    [Parameter] public NotificationStyles NotificationStyle { get; set; }
-
-    /// <summary>
-    /// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.
-    /// </summary>
-    [Parameter] public bool ShowIcon { get; set; } = true;
-    /// <summary>
-    /// Icon customization it accepts an SVG `Path` value to override the defualt icon.
-    /// </summary>
-    [Parameter] public string CustomIconSvgPath { get; set; } = "";
-    /// <summary>
-    /// When true Toast will show close "x" button.
-    /// </summary>
-    [Parameter] public bool ShowCloseButton { get; set; } = true;
-
-    /// <summary>
-    /// When <see cref="AutoClose"/> set to `true` Toast will close after set time elapsed in Sec.
-    /// </summary>
-    [Parameter] public uint AutoCloseInSec { get; set; } = 10;
-
-    /// <summary>
-    /// When true and <see cref="AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
-    /// </summary>
-    [Parameter] public bool ShowCloseCountdownProgress { get; set; } = true;
-
-    private uint _shadowEffect = 0;
-    /// <summary>
-    /// Determines the shadow effect stronges which makes Alert elevated.
-    /// </summary>
-    [Parameter]
-    public uint ShadowEffect
-    {
-        get => _shadowEffect;
-        set
-        {
-            if (value > 20)
-            {
-                _shadowEffect = 20;
-            }
-            else
-            {
-                _shadowEffect = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Blazor capture for any unmatched HTML attributes.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AllOtherAttributes { get; set; }
 
     //Events
     /// <summary>
     /// Callback function called when the Toast is opening.
     /// </summary>
-    [Parameter] public EventCallback OnOpen { get; set; }
+    [Parameter] public EventCallback<Guid> OnOpen { get; set; }
     /// <summary>
     /// Callback function called when the Toast is closing.
     /// </summary>
-    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback<Guid> OnClose { get; set; }
     /// <summary>
     /// Callback function called when close `x` button was clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+    [Parameter] public EventCallback<Guid> OnCloseButtonClicked { get; set; }
 
 
     private async Task CloseClicked(MouseEventArgs e)
     {
-        if (ShowCloseButton)
+        if (Settings.ShowCloseButton)
         {
             WriteDiag($"Close button clicked Toast closing.");
 
             if (OnCloseButtonClicked.HasDelegate)
             {
-                await OnCloseButtonClicked.InvokeAsync(e);
+                await OnCloseButtonClicked.InvokeAsync(Settings.Id);
             }
 
             IsVisible = false;
@@ -204,15 +147,15 @@
 
     private string GetSvgPath()
     {
-        if (!string.IsNullOrWhiteSpace(CustomIconSvgPath))
+        if (!string.IsNullOrWhiteSpace(Settings.CustomIconSvgPath))
         {
-            return CustomIconSvgPath;
+            return Settings.CustomIconSvgPath;
         }
 
-        var property = typeof(NotificationTypes).GetMember(Type.ToString())[0];
-        var attribute = property.GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
-        var description = (DescriptionAttribute)attribute;
-        var path = description.Description;
+        var property = typeof(NotificationTypes).GetMember(Settings.Type.ToString())[0];
+        var attribute = property.GetCustomAttributes(typeof(NotificationTypesMetaData), true)[0];
+        var description = (NotificationTypesMetaData)attribute;
+        var path = description.IconSvgPath;
 
         return path;
     }

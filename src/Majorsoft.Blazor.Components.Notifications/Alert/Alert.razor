@@ -139,7 +139,7 @@
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
-    /// Icon customization it accepts an SVG `Path` value to override the defualt icon.
+    /// Icon customization it accepts an SVG `Path` value to override the default icon.
     /// </summary>
     [Parameter] public string CustomIconSvgPath { get; set; } = "";
     /// <summary>
@@ -162,7 +162,7 @@
 
     private uint _shadowEffect = 0;
     /// <summary>
-    /// Determines the shadow effect stronges which makes Alert elevated.
+    /// Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
     /// </summary>
     [Parameter]
     public uint ShadowEffect

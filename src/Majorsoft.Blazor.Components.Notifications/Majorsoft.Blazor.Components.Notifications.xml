@@ -292,9 +292,105 @@
             
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastSettings">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts">
             <summary>
             
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,Majorsoft.Blazor.Components.Notifications.NotificationStyles)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="notificationType"></param>
+            <param name="notificationStyle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,Majorsoft.Blazor.Components.Notifications.NotificationStyles)">
+            <summary>
+            
+            </summary>
+            <param name="content"></param>
+            <param name="notificationType"></param>
+            <param name="notificationStyle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Majorsoft.Blazor.Components.Notifications.ToastSettings)">
+            <summary>
+            
+            </summary>
+            <param name="toastSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.RemoveToast(System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastSettings">
+            <summary>
+            Properties for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> Notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Id">
+            <summary>
+            Internal Toast Id
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.NotificationTime">
+            <summary>
+            Internal Toast created time
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Content">
+            <summary>
+            HTML Content of the collapse panel.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Type">
+            <summary>
+            Notification type or severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.NotificationStyle">
+            <summary>
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Type"/> Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowIcon">
+            <summary>
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.CustomIconSvgPath">
+            <summary>
+            Icon customization it accepts an SVG `Path` value to override the default icon.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowCloseButton">
+            <summary>
+            When true Toast will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.AutoCloseInSec">
+            <summary>
+            Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowCloseCountdownProgress">
+            <summary>
+            When it's true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShadowEffect">
+            <summary>
+            Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
@@ -329,7 +425,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
             <summary>
-            Icon customization it accepts an SVG `Path` value to override the defualt icon.
+            Icon customization it accepts an SVG `Path` value to override the default icon.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
@@ -354,7 +450,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShadowEffect">
             <summary>
-            Determines the shadow effect stronges which makes Alert elevated.
+            Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
@@ -392,55 +488,10 @@
             Determines wheatere the Toast message should be visible on UI or not.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Content">
-            <summary>
-            HTML Content of the collapse panel.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Type">
-            <summary>
-            Notification type or severity level.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.NotificationStyle">
-            <summary>
-            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Type"/> Toast.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
-            <summary>
-            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.CustomIconSvgPath">
-            <summary>
-            Icon customization it accepts an SVG `Path` value to override the defualt icon.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowCloseButton">
-            <summary>
-            When true Toast will show close "x" button.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AutoCloseInSec">
-            <summary>
-            When <see cref="!:AutoClose"/> set to `true` Toast will close after set time elapsed in Sec.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowCloseCountdownProgress">
-            <summary>
-            When true and <see cref="!:AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShadowEffect">
-            <summary>
-            Determines the shadow effect stronges which makes Alert elevated.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.AllOtherAttributes">
-            <summary>
-            Blazor capture for any unmatched HTML attributes.
-            </summary>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Settings">
+             <summary>
+            
+             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnOpen">
             <summary>
@@ -465,6 +516,31 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Position">
             <summary>
             
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastOpen">
+            <summary>
+            Callback function called when one of the Toast is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastClose">
+            <summary>
+            Callback function called when one of the Toast is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastCloseButtonClicked">
+            <summary>
+            Callback function called when close `x` button was clicked on one of the Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
     </members>

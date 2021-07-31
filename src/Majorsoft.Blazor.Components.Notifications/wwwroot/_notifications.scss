@@ -33,6 +33,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $primaryBackgroundColor;
     color: $primaryTextColor;
     fill: $primaryTextColor;
+    background: white;
 }
 .bnotify-strong-primary {
     background-color: $primaryTextColor;
@@ -49,6 +50,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $secondaryBackgroundColor;
     color: $secondaryTextColor;
     fill: $secondaryTextColor;
+    background: white;
 }
 .bnotify-strong-secondary {
     background-color: $secondaryTextColor;
@@ -65,6 +67,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $infoBackgroundColor;
     color: $infoTextColor;
     fill: $infoTextColor;
+    background: white;
 }
 .bnotify-strong-info {
     background-color: $infoTextColor;
@@ -81,6 +84,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $successBackgroundColor;
     color: $successTextColor;
     fill: $successTextColor;
+    background: white;
 }
 .bnotify-strong-success {
     background-color: $successTextColor;
@@ -97,6 +101,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $warningBackgroundColor;
     color: $warningTextColor;
     fill: $warningTextColor;
+    background: white;
 }
 .bnotify-strong-warning {
     background-color: $warningTextColor;
@@ -113,6 +118,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $dangerBackgroundColor;
     color: $dangerTextColor;
     fill: $dangerTextColor;
+    background: white;
 }
 .bnotify-strong-danger {
     background-color: $dangerTextColor;
@@ -129,6 +135,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $lightBackgroundColor;
     color: $lightTextColor;
     fill: $lightTextColor;
+    background: white;
 }
 .bnotify-strong-light {
     background-color: $lightTextColor;
@@ -145,6 +152,7 @@ $strongStyleColor: #f7f7f7;
     border: 2px solid $darkBackgroundColor;
     color: $darkTextColor;
     fill: $darkTextColor;
+    background: white;
 }
 .bnotify-strong-dark {
     background-color: $darkTextColor;

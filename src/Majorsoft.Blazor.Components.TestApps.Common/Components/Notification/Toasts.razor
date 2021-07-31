@@ -9,9 +9,21 @@
     </p>
 
     @*It MUST be applied only once in a common place e.g.: Layout page, etc.*@
-    <ToastContainer Position="ToastPositions.TopRight"></ToastContainer>
+    <ToastContainer Position="ToastPositions.TopRight" RemoveToastsOnNavigation="true" />
 </div>
 
-@code {
+@inject IToastService _toastService
 
-}
+@code { 
+    protected override void OnInitialized()
+    {
+        foreach (var item in Enum.GetValues<NotificationTypes>())
+        {
+            _toastService.ShowToast("heeee", item, NotificationStyles.Normal);
+
+        }
+
+        //_toastService.ShowToast("heeee", NotificationTypes.Danger, NotificationStyles.Normal);
+        //_toastService.ShowToast("heeee", NotificationTypes.Warning, NotificationStyles.Outlined);
+        //_toastService.ShowToast("heeee", NotificationTypes.Info, NotificationStyles.Strong);
+    }}

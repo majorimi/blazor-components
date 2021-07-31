@@ -1,9 +1,9 @@
 ﻿@if (_toastService.Toasts.Any())
 {
-	<div class="btoast-container @($"position-{Position.ToString().ToLower()}")">
+	<div style="max-width: @(Width)px; width: @(Width)px;" class="btoast-container @($"position-{Position.ToString().ToLower()}")" @attributes="AllOtherAttributes">
 		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
 		{
-			<Toast />
+			<Toast Settings="item" OnOpen="OnToastOpen" OnClose="OnToastClose" OnCloseButtonClicked="OnToastCloseButtonClicked"/>
 		}
 	</div>
 }
@@ -14,7 +14,7 @@
 @inject IToastService _toastService
 @inject NavigationManager _navigationManager
 
-@implements IAsyncDisposable
+@implements IDisposable
 
 @code {
 	private static bool Initialized = false;
@@ -33,8 +33,6 @@
 		{
 			_navigationManager.LocationChanged += ClearToasts;
 		}
-
-		//PositionClass = $"position-{Position.ToString().ToLower()}";
 	}
 
 	/// <summary>
@@ -46,6 +44,32 @@
 	/// 
 	/// </summary>
 	[Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public int Width { get; set; } = 400;
+
+
+	//Events
+	/// <summary>
+	/// Callback function called when one of the Toast is opening.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastOpen { get; set; }
+	/// <summary>
+	/// Callback function called when one of the Toast is closing.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastClose { get; set; }
+	/// <summary>
+	/// Callback function called when close `x` button was clicked on one of the Toast.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastCloseButtonClicked { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
 	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 	{
@@ -65,13 +89,12 @@
 		_logger.LogDebug($"Component {this.GetType()}: {message}");
 	}
 
-	public ValueTask DisposeAsync()
+	public void Dispose()
 	{
 		Initialized = false;
 
 		_navigationManager.LocationChanged -= ClearToasts;
 		_toastService.CollectionChanged -= Toasts_CollectionChanged;
-
-		return ValueTask.CompletedTask;
+		_toastService.Dispose();
 	}
 }
