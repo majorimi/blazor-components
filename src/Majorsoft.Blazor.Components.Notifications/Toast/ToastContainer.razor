@@ -17,9 +17,17 @@
 @implements IAsyncDisposable
 
 @code {
+	private static bool Initialized = false;
+
 	protected override void OnInitialized()
 	{
-		//_toastService.CollectionChanged += ShowToast;
+		if (Initialized)
+		{
+			throw new ApplicationException($"Component: '{nameof(ToastContainer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+		}
+		Initialized = true;
+
+		_toastService.CollectionChanged += Toasts_CollectionChanged;
 
 		if (RemoveToastsOnNavigation)
 		{
@@ -39,11 +47,15 @@
 	/// </summary>
 	[Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
 
-	private void ClearToasts(object sender, LocationChangedEventArgs args)
+	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+
+	}
+	private void ClearToasts(object? sender, LocationChangedEventArgs args)
 	{
 		InvokeAsync(() =>
 		{
-			//ToastList.Clear();
+			_toastService.ClearAll();
 			StateHasChanged();
 		});
 	}
@@ -55,6 +67,11 @@
 
 	public ValueTask DisposeAsync()
 	{
+		Initialized = false;
+
+		_navigationManager.LocationChanged -= ClearToasts;
+		_toastService.CollectionChanged -= Toasts_CollectionChanged;
+
 		return ValueTask.CompletedTask;
 	}
 }

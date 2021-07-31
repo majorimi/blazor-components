@@ -13,7 +13,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ToastService : IToastService
+	public class ToastService : IToastService, IDisposable
 	{
 		private readonly ObservableCollection<ToastSettings> _toasts;
 		public IEnumerable<ToastSettings> Toasts => _toasts;
@@ -23,9 +23,19 @@ namespace Majorsoft.Blazor.Components.Notifications
 		public ToastService()
 		{
 			_toasts = new ObservableCollection<ToastSettings>();
+			_toasts.CollectionChanged += Toasts_CollectionChanged;
 		}
 
-		public Guid ShowToast(MarkupString message, ToastPositions position, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles notificationStyle = NotificationStyles.Normal) => throw new NotImplementedException();
+		public Guid ShowToast(RenderFragment message, ToastPositions position, 
+			NotificationTypes notificationType = NotificationTypes.Info, 
+			NotificationStyles notificationStyle = NotificationStyles.Normal)
+		{
+			return ShowToast(new ToastSettings()
+			{
+				//
+			});
+		}
+
 		public Guid ShowToast(ToastSettings toastSettings)
 		{
 			var id = Guid.NewGuid();
@@ -35,6 +45,27 @@ namespace Majorsoft.Blazor.Components.Notifications
 			_toasts.Add(toastSettings);
 
 			return id;
+		}
+
+		public void RemoveToast(Guid id)
+		{
+			var remove = _toasts.SingleOrDefault(x => x.Id == id);
+			if(remove is not null)
+			{
+				_toasts.Remove(remove);
+			}
+		}
+
+		public void ClearAll()
+		{
+			_toasts.Clear();
+		}
+
+		private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
+
+		public void Dispose()
+		{
+			_toasts.CollectionChanged -= Toasts_CollectionChanged;
 		}
 	}
 
@@ -47,11 +78,15 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-		Guid ShowToast(MarkupString message, ToastPositions position, 
+		Guid ShowToast(RenderFragment message, ToastPositions position, 
 			NotificationTypes notificationType = NotificationTypes.Info, 
 			NotificationStyles notificationStyle = NotificationStyles.Normal);
 
 		Guid ShowToast(ToastSettings toastSettings);
+
+		void RemoveToast(Guid id);
+
+		void ClearAll();
 	}
 
 	/// <summary>

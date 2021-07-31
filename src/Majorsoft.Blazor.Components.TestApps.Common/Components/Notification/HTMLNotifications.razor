@@ -43,7 +43,7 @@
 			</div>
 			<div class="row pb-2">
 				<div class="col-12 col-lg-8 col-xl-5">
-					Notification Icon (https://www.google.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
+					Notification Icon (e.g.: https://c.s-microsoft.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
 				</div>
 			</div>
 
@@ -51,21 +51,21 @@
 			<br />
 			@if (_showActions)
 			{
-				<strong>Notifications with Custom Actions must have a <code>ServiceWorker</code> registration which can handle Custom actions!</strong>
+				<strong>Notifications with Custom Actions must have a <code>ServiceWorker</code> registration which can handle events for Custom actions!</strong>
 				<br />
 				<button class="btn btn-primary mt-2" @onclick="ShowWithActionsNotification">Show HTML notification with Custom actions</button>
 			}
 			else
 			{
 				<button class="btn btn-primary mt-2" @onclick="ShowSimpeNotification">Show HTML notification</button>
-			}
-
-			<div class="row pb-2">
-				<div class="col-12">
-					<label><strong>Event log</strong>:</label>
-					<textarea @ref="log1" @bind="_notificationLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+				
+				<div class="row pb-2">
+					<div class="col-12">
+						<label><strong>Event log</strong>:</label>
+						<textarea @ref="log1" @bind="_notificationLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+					</div>
 				</div>
-			</div>
+			}
 		}
 	}
 </div>
