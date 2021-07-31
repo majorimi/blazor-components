@@ -117,3 +117,82 @@
   background-color: #1b1e21;
   color: #f7f7f7;
   fill: #f7f7f7; }
+
+.btoast-main {
+  margin-bottom: 0.5em;
+  border-radius: 0.25rem;
+  outline: 0;
+  transition: opacity 0.3s; }
+
+.btoast-body {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  outline: 0;
+  position: relative; }
+
+.btoast-body .btoast-text {
+  padding: 0.6em 0;
+  margin: 0 0.6em; }
+
+.btoast-body .btoast-img {
+  padding: 0.6em 0;
+  margin: 0 0.2em 0 0.7em;
+  width: 24px;
+  display: flex;
+  border: 0;
+  outline: none; }
+
+.btoast-progress {
+  width: 0px;
+  height: 0.2em; }
+
+.btoast-progress.primary {
+  background-color: #0065d2; }
+
+.btoast-progress.secondary {
+  background-color: #544f4f; }
+
+.btoast-progress.info {
+  background-color: #2083b3; }
+
+.btoast-progress.success {
+  background-color: #0a8e28; }
+
+.btoast-progress.warning {
+  background-color: #ffa500; }
+
+.btoast-progress.danger {
+  background-color: #ff162c; }
+
+.btoast-progress.light {
+  background-color: #818182; }
+
+.btoast-progress.dark {
+  background-color: #1b1e21; }
+
+.btoast-progress.strong {
+  background-color: #f7f7f7; }
+
+.btoast-progress.start {
+  width: 100% !important; }
+
+.btoast-body .close {
+  margin: 0 0 0 auto;
+  padding: 0.4em 0.5em;
+  outline: none;
+  border: 0;
+  font-size: 1.5rem;
+  z-index: 5;
+  color: inherit;
+  display: flex; }
+
+.btoast-body .close.strong {
+  font-weight: normal;
+  color: #f7f7f7; }
+
+.btoast-body .close:hover {
+  color: #1c1b1b; }
+
+.btoast-body .close.strong:hover {
+  color: white; }

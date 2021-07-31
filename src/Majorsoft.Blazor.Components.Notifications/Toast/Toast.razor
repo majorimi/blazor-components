@@ -3,18 +3,18 @@
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="true" 
                    OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
-    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
+    <div @ref="_inputRef" class="btoast-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
          style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
          tabindex="750" @attributes=AllOtherAttributes>
-        <div class="balert-body">
+        <div class="btoast-body">
             @if (ShowIcon)
             {
-                <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                <svg class="btoast-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
                 </svg>
             }
 
-            <div class="balert-text">
+            <div class="btoast-text">
                 @Content
             </div>
 
@@ -25,7 +25,7 @@
         </div>
         @if (ShowCloseCountdownProgress && AutoCloseInSec > 0)
         {
-            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+            <div class="btoast-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
                  style="transition: width @(AutoCloseInSec)s linear;">
             </div>
         }
@@ -121,11 +121,6 @@
     /// Notification style to show different variant of the same <see cref="Type"/> Toast.
     /// </summary>
     [Parameter] public NotificationStyles NotificationStyle { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
 
     /// <summary>
     /// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.

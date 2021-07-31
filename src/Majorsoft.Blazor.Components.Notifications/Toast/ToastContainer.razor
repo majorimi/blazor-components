@@ -1,12 +1,13 @@
-﻿@if (true)
+﻿@if (_toastService.Toasts.Any())
 {
-	<div class="btoast-container">
+	<div class="btoast-container @($"position-{Position.ToString().ToLower()}")">
 		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
 		{
 			<Toast />
 		}
 	</div>
 }
+
 @namespace Majorsoft.Blazor.Components.Notifications
 
 @inject ILogger<ToastContainer> _logger
@@ -28,14 +29,22 @@
 		//PositionClass = $"position-{Position.ToString().ToLower()}";
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
 	[Parameter] public bool RemoveToastsOnNavigation { get; set; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
 
 	private void ClearToasts(object sender, LocationChangedEventArgs args)
 	{
 		InvokeAsync(() =>
 		{
-		//ToastList.Clear();
-		StateHasChanged();
+			//ToastList.Clear();
+			StateHasChanged();
 		});
 	}
 

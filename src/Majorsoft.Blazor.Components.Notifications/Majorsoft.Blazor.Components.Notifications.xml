@@ -407,11 +407,6 @@
             Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Toast.Type"/> Toast.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Position">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.ShowIcon">
             <summary>
             When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
@@ -460,6 +455,16 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnCloseButtonClicked">
             <summary>
             Callback function called when close `x` button was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.RemoveToastsOnNavigation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Position">
+            <summary>
+            
             </summary>
         </member>
     </members>
