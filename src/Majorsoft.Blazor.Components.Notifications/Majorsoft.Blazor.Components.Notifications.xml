@@ -247,12 +247,12 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationExtension">
             <summary>
-            Extension methods to register required JS Interop services into IServiceCollection
+            Extension methods to register required Notification services into IServiceCollection
             </summary>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.NotificationExtension.AddHtmlNotification(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            Registers required JS Interop services into IServiceCollection
+            Registers required Notification services into IServiceCollection
             </summary>
             <param name="services">IServiceCollection instance</param>
             <returns>IServiceCollection</returns>
@@ -279,7 +279,7 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastPositions">
             <summary>
-            
+            Toast notification position on screen.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastService">
@@ -288,6 +288,11 @@
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.IToastService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastSettings">
             <summary>
             
             </summary>

@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>
-	/// Extension methods to register required JS Interop services into IServiceCollection
+	/// Extension methods to register required Notification services into IServiceCollection
 	/// </summary>
 	public static class NotificationExtension
 	{
 		/// <summary>
-		/// Registers required JS Interop services into IServiceCollection
+		/// Registers required Notification services into IServiceCollection
 		/// </summary>
 		/// <param name="services">IServiceCollection instance</param>
 		/// <returns>IServiceCollection</returns>
@@ -22,6 +22,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 			}
 
 			services.AddTransient<IHtmlNotificationService, HtmlNotificationService>();
+			services.AddSingleton<IToastService, ToastService>();
 
 			return services;
 		}

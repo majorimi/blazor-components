@@ -1,0 +1,51 @@
+﻿@if (true)
+{
+	<div class="btoast-container">
+		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
+		{
+			<Toast />
+		}
+	</div>
+}
+@namespace Majorsoft.Blazor.Components.Notifications
+
+@inject ILogger<ToastContainer> _logger
+@inject IToastService _toastService
+@inject NavigationManager _navigationManager
+
+@implements IAsyncDisposable
+
+@code {
+	protected override void OnInitialized()
+	{
+		//_toastService.CollectionChanged += ShowToast;
+
+		if (RemoveToastsOnNavigation)
+		{
+			_navigationManager.LocationChanged += ClearToasts;
+		}
+
+		//PositionClass = $"position-{Position.ToString().ToLower()}";
+	}
+
+	[Parameter] public bool RemoveToastsOnNavigation { get; set; }
+
+	private void ClearToasts(object sender, LocationChangedEventArgs args)
+	{
+		InvokeAsync(() =>
+		{
+		//ToastList.Clear();
+		StateHasChanged();
+		});
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public ValueTask DisposeAsync()
+	{
+		return ValueTask.CompletedTask;
+	}
+}

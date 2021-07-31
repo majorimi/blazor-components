@@ -99,7 +99,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Notifications.Tests", "Majorsoft.Blazor.Components.Notifications.Tests\Majorsoft.Blazor.Components.Notifications.Tests.csproj", "{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.CommonTestsBase", "Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj", "{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.CommonTestsBase", "Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj", "{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

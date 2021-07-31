@@ -15,7 +15,7 @@
 	  <RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	  <PackageIcon>blazor.components.png</PackageIcon>
 	  <RepositoryType>Git</RepositoryType>
-	  <Description>Blazor injectable INotificationService service and components that renders customizable Alert and Toast notification message elements. Part of Majorsoft Blazor library.</Description>
+	  <Description>Blazor injectable INotificationService service to handle HTML5 Notifications and ServiceWorker Notifications and components that renders customizable Alert and Toast notification message elements. Part of Majorsoft Blazor library.</Description>
 	  <PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 	  <PackageTags>.Net5 Blazor Notifications Alert Toast HTML5 Notifications API</PackageTags>
 	  <PackageLicenseFile>License.txt</PackageLicenseFile>
