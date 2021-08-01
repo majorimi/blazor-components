@@ -40,7 +40,6 @@
 
 @inject ILogger<Toast> _logger
 @inject ITransitionEventsService _transitionEvents
-@inject IToastService _toastService
 
 @implements IAsyncDisposable
 
@@ -78,6 +77,8 @@
         {
             if (value != _isVisible)
             {
+                Settings.IsVisible = value;
+                WriteDiag($"Item Settings.IsVisible: '{Settings.IsVisible}'.");
                 _opacity = 1;
 
                 if (!value) //closing
@@ -86,11 +87,8 @@
                     {
                         _isVisible = false;
                         //_animationStarted = false;
-                        WriteDiag($"Remving toasts from collection Id: {Settings.Id}, Toasts count: {_toastService.Toasts.Count()}");
-                        _toastService.RemoveToast(Settings.Id);
-                        WriteDiag($"Remved toasts from collection Id: {Settings.Id}, Toasts count: {_toastService.Toasts.Count()}");
 
-                        //StateHasChanged();
+                        StateHasChanged();
 
                         if (OnClose.HasDelegate)
                         {

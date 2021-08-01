@@ -359,6 +359,26 @@
             
             </summary>
         </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.CollectionChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastOpen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastClosed">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastCloseButtonClicked">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
             <summary>
             
@@ -384,12 +404,6 @@
             <param name="toastSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.RemoveToast(System.Guid)">
-            <summary>
-            
-            </summary>
-            <param name="id"></param>
-        </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
             <summary>
             
@@ -408,6 +422,11 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.NotificationTime">
             <summary>
             Internal Toast created time
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsVisible">
+            <summary>
+            Internal visibility flag for Toast.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Content">

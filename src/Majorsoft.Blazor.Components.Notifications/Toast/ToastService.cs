@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 
 using Microsoft.AspNetCore.Components;
 
@@ -19,6 +18,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 		public ToastContainerGlobalSettings GlobalSettings { get; set; } = new ToastContainerGlobalSettings();
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
+		public event ToastEvent OnToastOpen;
+		public event ToastEvent OnToastClosed;
+		public event ToastEvent OnToastCloseButtonClicked;
 
 		public ToastService()
 		{
@@ -61,15 +63,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return toastSettings.Id;
 		}
 
-		public void RemoveToast(Guid id)
-		{
-			var remove = _toasts.SingleOrDefault(x => x.Id == id);
-			if (remove is not null)
-			{
-				_toasts.Remove(remove);
-			}
-		}
-
 		public void ClearAll()
 		{
 			_toasts.Clear();
@@ -82,6 +75,8 @@ namespace Majorsoft.Blazor.Components.Notifications
 			_toasts.CollectionChanged -= Toasts_CollectionChanged;
 		}
 	}
+		
+	public delegate void ToastEvent(Guid toastId);
 
 	/// <summary>
 	/// 
@@ -98,7 +93,23 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		ToastContainerGlobalSettings GlobalSettings { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
 		event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event ToastEvent OnToastOpen;
+		/// <summary>
+		/// 
+		/// </summary>
+		event ToastEvent OnToastClosed;
+		/// <summary>
+		/// 
+		/// </summary>
+		event ToastEvent OnToastCloseButtonClicked;
 
 		/// <summary>
 		/// 
@@ -123,12 +134,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <param name="toastSettings"></param>
 		/// <returns></returns>
 		Guid ShowToast(ToastSettings toastSettings);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		void RemoveToast(Guid id);
 
 		/// <summary>
 		/// 

@@ -52,13 +52,13 @@
         </div>
     </div>
 
-    <button class="btn btn-primary" @onclick="ShowAllToast">Show all default Toast</button>
+    <button class="btn btn-primary" @onclick="ShowAllToast">Show all Toasts with default</button>
     <hr />
 
     <h4>Toast customization:</h4>
 
     @*It MUST be applied only once in a common place e.g.: Layout page, etc.*@
-    <ToastContainer />
+    @*<ToastContainer />*@
 
     <div class="row pb-2">
         <div class="col-12 col-lg-8 col-xl-5">
@@ -101,7 +101,7 @@
     </div>
 
     <button class="btn btn-primary" @onclick="ShowCustomToast">Show Customized Toast</button>
-    <button class="btn btn-primary" @onclick="RemoveToast">Remove Toast(s)</button>
+    <button class="btn btn-primary" @onclick="RemoveToast">Remove all Toast(s)</button>
 </div>
 
 @inject IToastService _toastService

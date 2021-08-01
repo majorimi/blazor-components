@@ -18,6 +18,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		internal DateTime NotificationTime { get; set; }
 
+		/// <summary>
+		/// Internal visibility flag for Toast.
+		/// </summary>
+		public bool IsVisible { get; set; } = true;
+
 
 		/// <summary>
 		/// HTML Content of the collapse panel.

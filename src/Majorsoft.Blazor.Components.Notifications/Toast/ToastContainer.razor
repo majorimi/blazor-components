@@ -1,13 +1,13 @@
-﻿@if (_toastService.Toasts.Any())
-{
-	<div @attributes="AllOtherAttributes"
-		 style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")">
-		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
-		{
-			<Toast Settings="item" OnOpen="OnToastOpen" OnClose="OnToastClose" OnCloseButtonClicked="OnToastCloseButtonClicked"/>
-		}
-	</div>
-}
+﻿<div style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")"
+	 @attributes="AllOtherAttributes">
+
+	@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
+	{
+		WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}'."); /*Must render all item to keep item settings*/
+		<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
+
+	}
+</div>
 
 @namespace Majorsoft.Blazor.Components.Notifications
 
@@ -29,17 +29,13 @@
 		Initialized = true;
 
 		_toastService.CollectionChanged += Toasts_CollectionChanged;
-
-		if (Settings.RemoveToastsOnNavigation)
-		{
-			_navigationManager.LocationChanged += ClearToasts;
-		}
+		_navigationManager.LocationChanged += ClearToasts;
 	}
 
 	/// <summary>
 	/// Toast container settings.
 	/// </summary>
-	[Parameter] 
+	[Parameter]
 	public ToastContainerGlobalSettings Settings
 	{
 		get => _toastService.GlobalSettings;
@@ -72,12 +68,49 @@
 
 	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 	{
+		WriteDiag($"Toast collection changed: '{e.Action}', Toasts count: '{_toastService.Toasts.Count()}'.");
 		StateHasChanged();
 	}
 	private void ClearToasts(object? sender, LocationChangedEventArgs args)
 	{
-		_toastService.ClearAll();
-		StateHasChanged();
+		WriteDiag($"Page location changed: '{args.Location}', RemoveToastsOnNavigation: '{Settings.RemoveToastsOnNavigation}'.");
+
+		if (Settings.RemoveToastsOnNavigation)
+		{
+			_toastService.ClearAll();
+			StateHasChanged();
+		}
+	}
+
+	private async Task OnItemOpen(Guid id)
+	{
+		WriteDiag($"Toast Opened Id: '{id}'.");
+		if(OnToastOpen.HasDelegate)
+		{
+			await OnToastOpen.InvokeAsync(id);
+		}
+	}
+	private async Task OnItemToastCloseButtonClicked(Guid id)
+	{
+		WriteDiag($"Toast Close button clicked Id: '{id}'.");
+		if(OnToastCloseButtonClicked.HasDelegate)
+		{
+			await OnToastCloseButtonClicked.InvokeAsync(id);
+		}
+	}
+	private async Task OnItemClose(Guid id)
+	{
+		WriteDiag($"Toast Closed Id: '{id}', Count: {_toastService.Toasts.Count()}.");
+		if(_toastService.Toasts.All(x => !x.IsVisible))
+		{
+			_toastService.ClearAll();
+			WriteDiag($"All Toasts Closed and hidden, Count: {_toastService.Toasts.Count()}.");
+		}
+
+		if (OnToastClose.HasDelegate)
+		{
+			await OnToastClose.InvokeAsync(id);
+		}
 	}
 
 	private void WriteDiag(string message)
