@@ -9,7 +9,7 @@
     </p>
 
     @*It MUST be applied only once in a common place e.g.: Layout page, etc.*@
-    <ToastContainer Position="ToastPositions.TopRight" RemoveToastsOnNavigation="true" />
+    <ToastContainer/>
 </div>
 
 @inject IToastService _toastService
@@ -20,7 +20,6 @@
         foreach (var item in Enum.GetValues<NotificationTypes>())
         {
             _toastService.ShowToast("heeee", item, NotificationStyles.Normal);
-
         }
 
         //_toastService.ShowToast("heeee", NotificationTypes.Danger, NotificationStyles.Normal);

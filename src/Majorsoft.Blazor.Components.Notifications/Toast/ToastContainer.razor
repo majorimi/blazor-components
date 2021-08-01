@@ -1,6 +1,7 @@
 ﻿@if (_toastService.Toasts.Any())
 {
-	<div style="max-width: @(Width)px; width: @(Width)px;" class="btoast-container @($"position-{Position.ToString().ToLower()}")" @attributes="AllOtherAttributes">
+	<div @attributes="AllOtherAttributes"
+		 style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")">
 		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
 		{
 			<Toast Settings="item" OnOpen="OnToastOpen" OnClose="OnToastClose" OnCloseButtonClicked="OnToastCloseButtonClicked"/>
@@ -27,9 +28,9 @@
 		}
 		Initialized = true;
 
-		_toastService.CollectionChanged += Toasts_CollectionChanged;
+		//_toastService.CollectionChanged += Toasts_CollectionChanged;
 
-		if (RemoveToastsOnNavigation)
+		if (Settings.RemoveToastsOnNavigation)
 		{
 			_navigationManager.LocationChanged += ClearToasts;
 		}
@@ -38,18 +39,15 @@
 	/// <summary>
 	/// 
 	/// </summary>
-	[Parameter] public bool RemoveToastsOnNavigation { get; set; }
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Parameter] public ToastPositions Position { get; set; } = ToastPositions.TopRight;
-
-	/// <summary>
-	/// 
-	/// </summary>
-	[Parameter] public int Width { get; set; } = 400;
-
+	[Parameter] public ToastContainerGlobalSettings Settings
+	{
+		get => _toastService.GlobalSettings;
+		set
+		{
+			_toastService.GlobalSettings = value;
+			StateHasChanged();
+		}
+	}
 
 	//Events
 	/// <summary>
@@ -71,10 +69,10 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-	{
+	//private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	//{
 
-	}
+	//}
 	private void ClearToasts(object? sender, LocationChangedEventArgs args)
 	{
 		InvokeAsync(() =>
@@ -94,7 +92,7 @@
 		Initialized = false;
 
 		_navigationManager.LocationChanged -= ClearToasts;
-		_toastService.CollectionChanged -= Toasts_CollectionChanged;
-		_toastService.Dispose();
+		//_toastService.CollectionChanged -= Toasts_CollectionChanged;
+		//_toastService.Dispose();
 	}
 }

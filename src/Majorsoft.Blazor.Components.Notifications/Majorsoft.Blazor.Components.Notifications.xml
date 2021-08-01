@@ -277,6 +277,57 @@
             Notification Icon is an SVG which describes icon in the Path.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings">
+            <summary>
+            Global Toast Container and common Toasts settings with default values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.RemoveToastsOnNavigation">
+            <summary>
+            Determines if Toast notifications should be removed when user navigates to other page.
+            Note: in order make it work <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> component must be applied only once per application in a common place e.g.: Layour.razor, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.Position">
+            <summary>
+            Toast Container position on screen <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastPositions"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.Width">
+            <summary>
+            Toast Container width in `px` it will determine the shown Toast widht as well.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowIcon">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowCloseButton">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When true Toast will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When it's true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShadowEffect">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastPositions">
             <summary>
             Toast notification position on screen.
@@ -293,6 +344,11 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.GlobalSettings">
             <summary>
             
             </summary>
@@ -508,17 +564,7 @@
             Callback function called when close `x` button was clicked.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.RemoveToastsOnNavigation">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Position">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Width">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Settings">
             <summary>
             
             </summary>
