@@ -5,15 +5,17 @@
 
     <div @ref="_inputRef" class="btoast-main@($" bnotify-{Settings.NotificationStyle.ToString().ToLower()}-{Settings.Type.ToString().ToLower()}")"
          style="opacity: @_opacity;
-                margin-bottom: @(Settings.ShadowEffect + 12)px; 
+                margin-bottom: @(Settings.ShadowEffect + 12)px;
                 box-shadow: @($"{Settings.ShadowEffect / 4}px {Settings.ShadowEffect}px {(Settings.ShadowEffect == 0 ? "0" : "20")}px {Settings.ShadowEffect / 10}px") #c7c7c7;"
          tabindex="750">
         <div class="btoast-body">
             @if (Settings.ShowIcon)
             {
-                <svg class="btoast-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
-                </svg>
+                <div>
+                    <svg class="btoast-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+                    </svg>
+                </div>
             }
 
             <div class="btoast-text">
@@ -38,6 +40,7 @@
 
 @inject ILogger<Toast> _logger
 @inject ITransitionEventsService _transitionEvents
+@inject IToastService _toastService
 
 @implements IAsyncDisposable
 
@@ -56,7 +59,7 @@
     {
         if (Settings.ShowCloseCountdownProgress && IsVisible && !_animationStarted)
         {
-            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
+            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}', Id: '{Settings.Id}'.");
             await Task.Delay(_delay);
 
             _animationStarted = true;
@@ -82,9 +85,12 @@
                     _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
                     {
                         _isVisible = false;
-                        _animationStarted = false;
+                        //_animationStarted = false;
+                        WriteDiag($"Remving toasts from collection Id: {Settings.Id}, Toasts count: {_toastService.Toasts.Count()}");
+                        _toastService.RemoveToast(Settings.Id);
+                        WriteDiag($"Remved toasts from collection Id: {Settings.Id}, Toasts count: {_toastService.Toasts.Count()}");
 
-                        StateHasChanged();
+                        //StateHasChanged();
 
                         if (OnClose.HasDelegate)
                         {
@@ -110,10 +116,9 @@
     }
 
     /// <summary>
-    ///
+    /// Settings to show Toast notifications.
     /// </summary>
     [Parameter] public ToastSettings Settings { get; set; }
-
 
     //Events
     /// <summary>
@@ -162,6 +167,7 @@
 
     public async ValueTask DisposeAsync()
     {
+        WriteDiag("DisposeAsync");
         if (_transitionEvents is not null)
         {
             await _transitionEvents.DisposeAsync();

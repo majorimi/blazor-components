@@ -39,7 +39,7 @@
                AutoCloseInSec="@_alertAutoCloseInSec"
                ShowCloseButton="@_alertShowCloseButton"
                ShowIcon="@_alertShowIcon"
-               ShadowEffect="@_shadowEffect"
+               ShadowEffect="@_alertShadowEffect"
                ShowCloseCountdownProgress="@_alertShowCountdownProgress"
                OnOpen="OnOpen"
                OnClose="OnClose"
@@ -59,7 +59,7 @@
             Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="_alertShowCountdownProgress" disabled="@_alertIsVisible" />
             Auto close (after @_alertAutoCloseInSec sec): <input class="mr-2" type="checkbox" @bind="_alertAutoClose" disabled="@_alertIsVisible" />
             <input type="range" class="w-100" min="1" max="20" @bind="_alertAutoCloseInSec" @oninput="(e => _alertAutoCloseInSec = uint.Parse(e.Value?.ToString()))" disabled="@_alertIsVisible" />
-            Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_shadowEffect" @oninput="(e => _shadowEffect = uint.Parse(e.Value?.ToString()))" />
+            Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_alertShadowEffect" @oninput="(e => _alertShadowEffect = uint.Parse(e.Value?.ToString()))" />
         </div>
     </div>
 
@@ -81,7 +81,7 @@
     </div>
     <div class="row pb-2">
         <div class="col-12 col-lg-8 col-xl-5">
-            Type:
+            Alert Type:
             <select class="form-control selectpicker w-100"
                     @onchange="@(e => { _alertTypeLevel = Enum.Parse<NotificationTypes>(e.Value?.ToString()); _alertText = $@"<strong>Alert:</strong> This is a(n) {_alertTypeLevel} alert..."; })">
                 @foreach (var item in Enum.GetValues(typeof(NotificationTypes)))
@@ -111,7 +111,7 @@
     private bool _alertShowCloseButton = true;
     private bool _alertShowCountdownProgress = true;
     private uint _alertAutoCloseInSec = 5;
-    private uint _shadowEffect = 0;
+    private uint _alertShadowEffect = 0;
     private string _alertText = $@"<strong>Alert:</strong> This is a(n) {nameof(NotificationTypes.Primary)} alert...";
     private NotificationTypes _alertTypeLevel = NotificationTypes.Primary;
     private NotificationStyles _alertStyle = NotificationStyles.Normal;

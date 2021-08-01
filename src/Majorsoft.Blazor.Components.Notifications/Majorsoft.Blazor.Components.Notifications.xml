@@ -322,6 +322,12 @@
             When it's true a progress bar will show the remaining time until Alert closes.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsNotificationStyle">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Notification style to show different variant of the same <see cref="!:Type"/> Toast.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShadowEffect">
             <summary>
             Global config applied to all Toasts if not set otherwise.
@@ -353,7 +359,7 @@
             
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,Majorsoft.Blazor.Components.Notifications.NotificationStyles)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
             <summary>
             
             </summary>
@@ -362,7 +368,7 @@
             <param name="notificationStyle"></param>
             <returns></returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,Majorsoft.Blazor.Components.Notifications.NotificationStyles)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
             <summary>
             
             </summary>
@@ -545,9 +551,9 @@
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Settings">
-             <summary>
-            
-             </summary>
+            <summary>
+            Settings to show Toast notifications.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnOpen">
             <summary>
@@ -566,7 +572,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Settings">
             <summary>
-            
+            Toast container settings.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastOpen">

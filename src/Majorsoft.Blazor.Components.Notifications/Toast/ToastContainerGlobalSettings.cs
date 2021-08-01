@@ -19,13 +19,13 @@
 		/// <summary>
 		/// Toast Container width in `px` it will determine the shown Toast widht as well.
 		/// </summary>
-		public int Width { get; set; } = 350;
+		public int Width { get; set; } = 400;
 
 		/// <summary>
 		/// Global config applied to all Toasts if not set otherwise.
 		/// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.
 		/// </summary>
-		public static bool DefaultToastsShowIcon { get; set; }
+		public static bool DefaultToastsShowIcon { get; set; } = true;
 
 		/// <summary>
 		/// Global config applied to all Toasts if not set otherwise.
@@ -44,6 +44,12 @@
 		/// When it's true a progress bar will show the remaining time until Alert closes.
 		/// </summary>
 		public static bool DefaultToastsShowCloseCountdownProgress { get; set; } = true;
+
+		/// <summary>
+		/// Global config applied to all Toasts if not set otherwise.
+		/// Notification style to show different variant of the same <see cref="Type"/> Toast.
+		/// </summary>
+		public static NotificationStyles DefaultToastsNotificationStyle { get; set; } = NotificationStyles.Normal;
 
 		private static uint _shadowEffect = 5;
 		/// <summary>

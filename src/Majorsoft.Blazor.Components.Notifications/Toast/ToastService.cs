@@ -13,30 +13,30 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// </summary>
 	public class ToastService : IToastService
 	{
-		private readonly List<ToastSettings> _toasts;
+		private readonly ObservableCollection<ToastSettings> _toasts;
 		public IEnumerable<ToastSettings> Toasts => _toasts;
 
 		public ToastContainerGlobalSettings GlobalSettings { get; set; } = new ToastContainerGlobalSettings();
 
-		//public event NotifyCollectionChangedEventHandler? CollectionChanged;
+		public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
 		public ToastService()
 		{
-			_toasts = new List<ToastSettings>();
-			//_toasts.CollectionChanged += Toasts_CollectionChanged;
+			_toasts = new ObservableCollection<ToastSettings>();
+			_toasts.CollectionChanged += Toasts_CollectionChanged;
 		}
 
-		public Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles notificationStyle = NotificationStyles.Normal)
+		public Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
 		{
 			return ShowToast((MarkupString)message, notificationType, notificationStyle);
 		}
-		public Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles notificationStyle = NotificationStyles.Normal)
+		public Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
 		{
 			return ShowToast(new ToastSettings()
 			{
 				Content = content,
 				Type = notificationType,
-				NotificationStyle = notificationStyle,
+				NotificationStyle = notificationStyle ?? ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
 
 				ShowCloseButton = ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
 				ShowIcon = ToastContainerGlobalSettings.DefaultToastsShowIcon,
@@ -48,13 +48,17 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		public Guid ShowToast(ToastSettings toastSettings)
 		{
-			var id = Guid.NewGuid();
-			toastSettings.Id = id;
+			if (toastSettings is null)
+			{
+				throw new ArgumentNullException(nameof(toastSettings));
+			}
+
+			toastSettings.Id = Guid.NewGuid();
 			toastSettings.NotificationTime = DateTime.Now;
 
 			_toasts.Add(toastSettings);
 
-			return id;
+			return toastSettings.Id;
 		}
 
 		public void RemoveToast(Guid id)
@@ -71,18 +75,18 @@ namespace Majorsoft.Blazor.Components.Notifications
 			_toasts.Clear();
 		}
 
-		//private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
+		private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
 
-		//public void Dispose()
-		//{
-		//	//_toasts.CollectionChanged -= Toasts_CollectionChanged;
-		//}
+		public void Dispose()
+		{
+			_toasts.CollectionChanged -= Toasts_CollectionChanged;
+		}
 	}
 
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface IToastService// : IDisposable
+	public interface IToastService : IDisposable
 	{
 		/// <summary>
 		/// 
@@ -92,9 +96,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// 
 		/// </summary>
-		public ToastContainerGlobalSettings GlobalSettings { get; set; }
+		ToastContainerGlobalSettings GlobalSettings { get; set; }
 
-		//event NotifyCollectionChangedEventHandler? CollectionChanged;
+		event NotifyCollectionChangedEventHandler? CollectionChanged;
 
 		/// <summary>
 		/// 
@@ -103,7 +107,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <param name="notificationType"></param>
 		/// <param name="notificationStyle"></param>
 		/// <returns></returns>
-		Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles notificationStyle = NotificationStyles.Normal);
+		Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
 		/// <summary>
 		/// 
 		/// </summary>
@@ -111,7 +115,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <param name="notificationType"></param>
 		/// <param name="notificationStyle"></param>
 		/// <returns></returns>
-		Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles notificationStyle = NotificationStyles.Normal);
+		Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
 
 		/// <summary>
 		/// 

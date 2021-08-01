@@ -28,7 +28,7 @@
 		}
 		Initialized = true;
 
-		//_toastService.CollectionChanged += Toasts_CollectionChanged;
+		_toastService.CollectionChanged += Toasts_CollectionChanged;
 
 		if (Settings.RemoveToastsOnNavigation)
 		{
@@ -37,9 +37,10 @@
 	}
 
 	/// <summary>
-	/// 
+	/// Toast container settings.
 	/// </summary>
-	[Parameter] public ToastContainerGlobalSettings Settings
+	[Parameter] 
+	public ToastContainerGlobalSettings Settings
 	{
 		get => _toastService.GlobalSettings;
 		set
@@ -69,17 +70,14 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	//private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-	//{
-
-	//}
+	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		StateHasChanged();
+	}
 	private void ClearToasts(object? sender, LocationChangedEventArgs args)
 	{
-		InvokeAsync(() =>
-		{
-			_toastService.ClearAll();
-			StateHasChanged();
-		});
+		_toastService.ClearAll();
+		StateHasChanged();
 	}
 
 	private void WriteDiag(string message)
@@ -92,7 +90,7 @@
 		Initialized = false;
 
 		_navigationManager.LocationChanged -= ClearToasts;
-		//_toastService.CollectionChanged -= Toasts_CollectionChanged;
-		//_toastService.Dispose();
+		_toastService.CollectionChanged -= Toasts_CollectionChanged;
+		_toastService.Dispose();
 	}
 }

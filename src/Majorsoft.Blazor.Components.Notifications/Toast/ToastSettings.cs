@@ -22,7 +22,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// HTML Content of the collapse panel.
 		/// </summary>
-		[Parameter] public MarkupString Content { get; set; }
+		public MarkupString Content { get; set; }
 
 		/// <summary>
 		/// Notification type or severity level.
