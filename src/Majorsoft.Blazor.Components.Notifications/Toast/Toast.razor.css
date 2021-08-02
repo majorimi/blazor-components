@@ -127,7 +127,8 @@
   fill: #f7f7f7; }
 
 .btoast-main {
-  margin-bottom: 0.5em;
+  display: block;
+  position: relative;
   border-radius: 0.25rem;
   outline: 0;
   transition: opacity 0.8s; }
@@ -136,8 +137,7 @@
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  outline: 0;
-  position: relative; }
+  outline: 0; }
 
 .btoast-body .btoast-text {
   padding: 0.6em 0;

@@ -24,4 +24,9 @@
 	  <ProjectReference Include="..\Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="HTML5\" />
+	  <Folder Include="Toast\" />
+	</ItemGroup>
+
 </Project>

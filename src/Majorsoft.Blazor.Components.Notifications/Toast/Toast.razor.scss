@@ -1,7 +1,8 @@
 ﻿@import "../wwwroot/_notifications.scss";
 
 .btoast-main {
-    margin-bottom: 0.5em;
+    display: block;
+    position: relative;
     border-radius: 0.25rem;
     outline: 0;
     transition: opacity 0.8s;
@@ -12,7 +13,6 @@
     margin-right: auto;
     display: flex;
     outline: 0;
-    position: relative;
 }
 
 .btoast-body .btoast-text {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Notifications
 {

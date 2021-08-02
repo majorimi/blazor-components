@@ -3,7 +3,7 @@
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })" />
 
     <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
-         style="opacity: @_opacity; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
+         style="opacity: @_opacity; margin-bottom: @(_shadowEffect + 12)px; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
          tabindex="750" @attributes=AllOtherAttributes>
         <div class="balert-body">
             @if (ShowIcon)

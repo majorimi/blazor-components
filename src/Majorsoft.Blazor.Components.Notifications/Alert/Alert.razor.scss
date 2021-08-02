@@ -1,7 +1,7 @@
 ﻿@import "../wwwroot/_notifications.scss";
 
 .balert-main {
-    margin-bottom: 0.5em;
+    position: relative;
     border-radius: 0.25rem;
     outline: 0;
     transition: opacity 0.4s;
@@ -12,7 +12,6 @@
     margin-right: auto;
     display: flex;
     outline: 0;
-    position: relative;
 }
 .balert-body .balert-text {
     padding: 0.6em 0;
