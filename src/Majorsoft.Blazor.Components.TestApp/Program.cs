@@ -32,7 +32,7 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddBrowserStorage();
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
-			builder.Services.AddHtmlNotification();
+			builder.Services.AddNotifications();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);

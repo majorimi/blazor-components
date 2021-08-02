@@ -89,6 +89,8 @@
 		{
 			await OnToastOpen.InvokeAsync(id);
 		}
+
+		((IToastEvents)_toastService).TriggerToastOpen(id);
 	}
 	private async Task OnItemToastCloseButtonClicked(Guid id)
 	{
@@ -97,6 +99,7 @@
 		{
 			await OnToastCloseButtonClicked.InvokeAsync(id);
 		}
+		((IToastEvents)_toastService).TriggerToastCloseButtonClicked(id);
 	}
 	private async Task OnItemClose(Guid id)
 	{
@@ -111,6 +114,7 @@
 		{
 			await OnToastClose.InvokeAsync(id);
 		}
+		((IToastEvents)_toastService).TriggerToastClosed(id);
 	}
 
 	private void WriteDiag(string message)

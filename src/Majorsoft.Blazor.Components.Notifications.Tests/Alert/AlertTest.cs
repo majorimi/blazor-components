@@ -65,7 +65,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
 		  <div class=""balert-body"" >
 			<div>
 				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -96,7 +96,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 			<button type=""button""  class=""close normal"" >
@@ -120,7 +120,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 		  </div>
@@ -141,7 +141,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
@@ -165,7 +165,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div>
 				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -196,7 +196,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			{
 				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 			  <div class=""balert-body"" >
 				<div class=""balert-text"" >
 				</div>
@@ -229,7 +229,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 					var progress = style != NotificationStyles.Strong ? $" { types.ToString().ToLower()}" : " strong";
 
-					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 				  <div class=""balert-body"" >
 					<div class=""balert-text"" >
 					</div>
@@ -253,7 +253,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 			</div>
@@ -279,7 +279,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 17px; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 			</div>
@@ -306,7 +306,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
@@ -334,7 +334,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 0; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 0; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>

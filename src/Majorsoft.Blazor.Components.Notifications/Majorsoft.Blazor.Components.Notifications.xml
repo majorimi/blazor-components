@@ -250,7 +250,7 @@
             Extension methods to register required Notification services into IServiceCollection
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.NotificationExtension.AddHtmlNotification(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.NotificationExtension.AddNotifications(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Registers required Notification services into IServiceCollection
             </summary>
@@ -275,6 +275,11 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationTypesMetaData.IconSvgPath">
             <summary>
             Notification Icon is an SVG which describes icon in the Path.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastEvents">
+            <summary>
+            Internal interface to trigger individual Toast elements events.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings">
@@ -333,6 +338,12 @@
             Global config applied to all Toasts if not set otherwise.
             Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
             </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastEvent">
+            <summary>
+            Delegate for Toast items event handlers.
+            </summary>
+            <param name="toastId">Toast element Id</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastPositions">
             <summary>
@@ -562,11 +573,6 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.IsVisible">
-            <summary>
-            Determines wheatere the Toast message should be visible on UI or not.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Settings">

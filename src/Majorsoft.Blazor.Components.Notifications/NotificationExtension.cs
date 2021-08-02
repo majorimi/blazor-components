@@ -14,7 +14,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <param name="services">IServiceCollection instance</param>
 		/// <returns>IServiceCollection</returns>
-		public static IServiceCollection AddHtmlNotification(this IServiceCollection services)
+		public static IServiceCollection AddNotifications(this IServiceCollection services)
 		{
 			if (services == null)
 			{

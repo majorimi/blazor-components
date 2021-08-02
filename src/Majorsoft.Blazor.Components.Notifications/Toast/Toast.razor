@@ -1,7 +1,7 @@
-﻿@if (IsVisible)
+﻿@if (_isVisible)
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(Settings.AutoCloseInSec * 1000)" AutoStart="true"
-                   OnIntervalElapsed="@(e => { IsVisible = false; })" />
+                   OnIntervalElapsed="Hide" />
 
     <div @ref="_inputRef" class="btoast-main@($" bnotify-{Settings.NotificationStyle.ToString().ToLower()}-{Settings.Type.ToString().ToLower()}")"
          style="opacity: @_opacity;
@@ -51,65 +51,27 @@
     public ElementReference InnerElementReference => _inputRef;
 
     private byte _opacity = 1;
+    private bool _isVisible = true;
 
     private int _delay = 100;
     private bool _animationStarted = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Settings.ShowCloseCountdownProgress && IsVisible && !_animationStarted)
+        if(firstRender && _isVisible)
+        {
+            if (OnOpen.HasDelegate)
+            {
+                await OnOpen.InvokeAsync(Settings.Id);
+            }
+        }
+
+        if (Settings.ShowCloseCountdownProgress && _isVisible && !_animationStarted)
         {
             WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}', Id: '{Settings.Id}'.");
             await Task.Delay(_delay);
 
             _animationStarted = true;
             StateHasChanged();
-        }
-    }
-
-    private bool _isVisible = true;
-    /// <summary>
-    /// Determines wheatere the Toast message should be visible on UI or not.
-    /// </summary>
-    private bool IsVisible
-    {
-        get => _isVisible;
-        set
-        {
-            if (value != _isVisible)
-            {
-                Settings.IsVisible = value;
-                WriteDiag($"Item Settings.IsVisible: '{Settings.IsVisible}'.");
-                _opacity = 1;
-
-                if (!value) //closing
-                {
-                    _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
-                    {
-                        _isVisible = false;
-                        //_animationStarted = false;
-
-                        StateHasChanged();
-
-                        if (OnClose.HasDelegate)
-                        {
-                            await OnClose.InvokeAsync(Settings.Id);
-                        }
-                    }, "opacity");
-                    _opacity = 0;
-                }
-                else //open
-                {
-                    if (OnOpen.HasDelegate)
-                    {
-                        InvokeAsync(async () =>
-                        {
-                            await OnOpen.InvokeAsync(Settings.Id);
-                        });
-                    }
-
-                    _isVisible = true;
-                }
-            }
         }
     }
 
@@ -133,6 +95,24 @@
     [Parameter] public EventCallback<Guid> OnCloseButtonClicked { get; set; }
 
 
+    private async Task Hide()
+    {
+        Settings.IsVisible = false;
+        WriteDiag($"Item Settings.IsVisible: '{Settings.IsVisible}'.");
+        _opacity = 1;
+
+        await _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
+        {
+            _isVisible = false;
+            StateHasChanged();
+
+            if (OnClose.HasDelegate)
+            {
+                await OnClose.InvokeAsync(Settings.Id);
+            }
+        }, "opacity");
+        _opacity = 0;
+    }
     private async Task CloseClicked(MouseEventArgs e)
     {
         if (Settings.ShowCloseButton)
@@ -144,7 +124,7 @@
                 await OnCloseButtonClicked.InvokeAsync(Settings.Id);
             }
 
-            IsVisible = false;
+            await Hide();
         }
     }
 

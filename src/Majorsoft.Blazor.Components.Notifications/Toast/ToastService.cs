@@ -10,7 +10,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ToastService : IToastService
+	public class ToastService : IToastService, IToastEvents
 	{
 		private readonly ObservableCollection<ToastSettings> _toasts;
 		public IEnumerable<ToastSettings> Toasts => _toasts;
@@ -70,14 +70,16 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
 
+		public void TriggerToastOpen(Guid id) => OnToastOpen?.Invoke(id);
+		public void TriggerToastClosed(Guid id) => OnToastClosed?.Invoke(id);
+		public void TriggerToastCloseButtonClicked(Guid id) => OnToastCloseButtonClicked?.Invoke(id);
+
 		public void Dispose()
 		{
 			_toasts.CollectionChanged -= Toasts_CollectionChanged;
 		}
 	}
 		
-	public delegate void ToastEvent(Guid toastId);
-
 	/// <summary>
 	/// 
 	/// </summary>
