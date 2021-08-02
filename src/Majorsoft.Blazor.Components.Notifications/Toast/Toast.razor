@@ -1,4 +1,4 @@
-﻿@if (_isVisible)
+﻿@if (Settings.IsVisible)
 {
     <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(Settings.AutoCloseInSec * 1000)" AutoStart="true"
                    OnIntervalElapsed="Hide" />
@@ -51,13 +51,12 @@
     public ElementReference InnerElementReference => _inputRef;
 
     private byte _opacity = 1;
-    private bool _isVisible = true;
-
     private int _delay = 100;
     private bool _animationStarted = false;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender && _isVisible)
+        if(firstRender && Settings.IsVisible)
         {
             if (OnOpen.HasDelegate)
             {
@@ -65,7 +64,7 @@
             }
         }
 
-        if (Settings.ShowCloseCountdownProgress && _isVisible && !_animationStarted)
+        if (Settings.ShowCloseCountdownProgress && Settings.IsVisible && !_animationStarted)
         {
             WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}', Id: '{Settings.Id}'.");
             await Task.Delay(_delay);
@@ -97,13 +96,12 @@
 
     private async Task Hide()
     {
-        Settings.IsVisible = false;
         WriteDiag($"Item Settings.IsVisible: '{Settings.IsVisible}'.");
         _opacity = 1;
 
         await _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
         {
-            _isVisible = false;
+            Settings.IsVisible = false;
             StateHasChanged();
 
             if (OnClose.HasDelegate)

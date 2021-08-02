@@ -90,7 +90,7 @@
                 }
             </select>
 
-            <button class="btn btn-primary mt-2" disabled="@_alertIsVisible" @onclick="a => _alertIsVisible = !_alertIsVisible">Show Alert</button>
+            <button class="btn btn-primary mt-2" @onclick="a => _alertIsVisible = !_alertIsVisible">@(_alertIsVisible ? "Close" : "Show") Alert</button>
         </div>
     </div>
 

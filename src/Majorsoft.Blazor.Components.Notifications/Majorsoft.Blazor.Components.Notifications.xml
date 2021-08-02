@@ -282,6 +282,78 @@
             Internal interface to trigger individual Toast elements events.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastService">
+            <summary>
+            Injectable service to handle Toast notifications and settings.
+            Note: Injected as Singleton so all components use the same instance do NOT dispose manually.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts">
+            <summary>
+            Collection of Toasts notifications.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.GlobalSettings">
+            <summary>
+            Global Toast Container and common Toasts settings with default values.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.CollectionChanged">
+            <summary>
+            Event triggered when Toasts collection changed.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastOpen">
+            <summary>
+            Event triggered when one of the Toast is opening.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastClosed">
+            <summary>
+            Event triggered when the Toast is closing.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastCloseButtonClicked">
+            <summary>
+            Event triggered when close `x` button was clicked on one of the Toast.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
+            <summary>
+            Shows a new Toast notification with given parameters. Other settings applied from default values.
+            </summary>
+            <param name="message">Toast string message</param>
+            <param name="notificationType">Notification type or severity level</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="!:notificationType"/> Toast</param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
+            <summary>
+            Shows a new Toast notification with given parameters. Other settings applied from default values.
+            </summary>
+            <param name="content">Toast HTML content</param>
+            <param name="notificationType">Notification type or severity level</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="!:notificationType"/> Toast</param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Majorsoft.Blazor.Components.Notifications.ToastSettings)">
+            <summary>
+            Shows a new Toast notification with given <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastSettings"/>. It can be override all default values.
+            </summary>
+            <param name="toastSettings"></param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.RemoveToast(System.Guid)">
+            <summary>
+            Removes a Toast notification from collection and UI.
+            </summary>
+            <param name="id">Toast Id to remove</param>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
+            <summary>
+            Clears <see cref="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts"/> collections and Removes all Toast notifications from UI.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings">
             <summary>
             Global Toast Container and common Toasts settings with default values.
@@ -352,72 +424,12 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastService">
             <summary>
-            
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Notifications.IToastService"/>.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastService">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.ToastService.#ctor">
             <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.GlobalSettings">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.CollectionChanged">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastOpen">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastClosed">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastCloseButtonClicked">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-            <param name="notificationType"></param>
-            <param name="notificationStyle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
-            <summary>
-            
-            </summary>
-            <param name="content"></param>
-            <param name="notificationType"></param>
-            <param name="notificationStyle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Majorsoft.Blazor.Components.Notifications.ToastSettings)">
-            <summary>
-            
-            </summary>
-            <param name="toastSettings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
-            <summary>
-            
+            Default constructor
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastSettings">

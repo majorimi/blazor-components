@@ -124,7 +124,6 @@
 		_toastService.OnToastOpen += ToastOpen;
 		_toastService.OnToastClosed += ToastClosed;
 		_toastService.OnToastCloseButtonClicked += ToastCloseButtonClicked;
-
 	}
 
 	private string _toastText = $@"<strong>Toast:</strong> This is a(n) {NotificationTypes.Primary} notification";
@@ -149,7 +148,7 @@
 
 	private async Task ShowCustomToast()
 	{
-		_toastService.ShowToast(new ToastSettings()
+		var toastId = _toastService.ShowToast(new ToastSettings()
 		{
 			Content = (MarkupString)_toastText,
 			NotificationStyle = _toastStyle,
@@ -160,6 +159,10 @@
 			ShowCloseCountdownProgress = _toastShowCountdownProgress,
 			ShowIcon = _toastShowIcon
 		});
+
+		await Task.Delay(1500);
+
+		_toastService.RemoveToast(toastId);
 	}
 
 	private async Task RemoveAllToasts()

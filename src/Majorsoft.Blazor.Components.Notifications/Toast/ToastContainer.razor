@@ -127,7 +127,8 @@
 		Initialized = false;
 
 		_navigationManager.LocationChanged -= ClearToasts;
+
 		_toastService.CollectionChanged -= Toasts_CollectionChanged;
-		_toastService.Dispose();
+		//_toastService.Dispose();
 	}
 }

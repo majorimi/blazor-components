@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 
 using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>
-	/// 
+	/// Implementation of <see cref="IToastService"/>.
 	/// </summary>
-	public class ToastService : IToastService, IToastEvents
+	internal class ToastService : IToastService, IToastEvents
 	{
 		private readonly ObservableCollection<ToastSettings> _toasts;
 		public IEnumerable<ToastSettings> Toasts => _toasts;
@@ -22,6 +23,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 		public event ToastEvent OnToastClosed;
 		public event ToastEvent OnToastCloseButtonClicked;
 
+		/// <summary>
+		/// Default constructor
+		/// </summary>
 		public ToastService()
 		{
 			_toasts = new ObservableCollection<ToastSettings>();
@@ -63,6 +67,17 @@ namespace Majorsoft.Blazor.Components.Notifications
 			return toastSettings.Id;
 		}
 
+		public void RemoveToast(Guid id)
+		{
+			var toast = _toasts.SingleOrDefault(x => x.Id == id);
+
+			if(toast is not null)
+			{
+				toast.IsVisible = false;
+				CollectionChanged?.Invoke(_toasts, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, toast, toast));
+			}
+		}
+
 		public void ClearAll()
 		{
 			_toasts.Clear();
@@ -78,68 +93,5 @@ namespace Majorsoft.Blazor.Components.Notifications
 		{
 			_toasts.CollectionChanged -= Toasts_CollectionChanged;
 		}
-	}
-		
-	/// <summary>
-	/// 
-	/// </summary>
-	public interface IToastService : IDisposable
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		IEnumerable<ToastSettings> Toasts { get; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		ToastContainerGlobalSettings GlobalSettings { get; set; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		event ToastEvent OnToastOpen;
-		/// <summary>
-		/// 
-		/// </summary>
-		event ToastEvent OnToastClosed;
-		/// <summary>
-		/// 
-		/// </summary>
-		event ToastEvent OnToastCloseButtonClicked;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="message"></param>
-		/// <param name="notificationType"></param>
-		/// <param name="notificationStyle"></param>
-		/// <returns></returns>
-		Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="content"></param>
-		/// <param name="notificationType"></param>
-		/// <param name="notificationStyle"></param>
-		/// <returns></returns>
-		Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="toastSettings"></param>
-		/// <returns></returns>
-		Guid ShowToast(ToastSettings toastSettings);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		void ClearAll();
 	}
 }
