@@ -3,9 +3,11 @@
 		<Content><h3>Toast</h3></Content>
 	</PermaLinkElement>
 	<p>
-		Renders <strong><code>Toast</code> component </strong> which is a user friendly Notification to show important application messages.
+		Renders <strong>single <code>ToastContainer</code> component per application (place it to a global component after all HTML elements to be able to work with <code>position: relative;</code> elements)</strong> which can be placed to 6 different places of a page.
+		With <strong>injectable <code>IToastService</code> service</strong> individual <code>Toast</code> components can be added, removed or events tracked. By using Global settings or override all values per Toast notification.
 		Importance can be emphasized by <code>Type</code> and <code>NotificationStyle</code> styling with customizable content.
-		Alerts can close itself automatically or let user close them, etc.
+		<br />
+		All Toast components will close itself automatically when given timeout elapsed.
 	</p>
 
 	@*ToastContainer MUST initialized once per application in a common component at the bottom of the rendered HTML in order to work with all Relative elements!!*@
@@ -103,7 +105,10 @@
 	<div class="row pb-2">
 		<div class="col-12">
 			<button class="btn btn-primary" @onclick="ShowCustomToast">Show Customized Toast</button>
-			<button class="btn btn-primary" @onclick="RemoveAllToasts">Remove all Toast(s)</button>
+			<button class="btn btn-primary" @onclick="RemoveLastToasts" disabled="@(_lastToastId == Guid.Empty)">Remove last Toast</button>
+			<button class="btn btn-primary" @onclick="RemoveAllToasts" disabled="@(_toastService.Toasts.Count(x => x.IsVisible) == 0)">
+				Remove all (@(_toastService.Toasts.Count(x => x.IsVisible))) Toast(s)
+			</button>
 		</div>
 	</div>
 
@@ -146,9 +151,10 @@
 		}
 	}
 
+	private Guid _lastToastId;
 	private async Task ShowCustomToast()
 	{
-		var toastId = _toastService.ShowToast(new ToastSettings()
+		_lastToastId = _toastService.ShowToast(new ToastSettings()
 		{
 			Content = (MarkupString)_toastText,
 			NotificationStyle = _toastStyle,
@@ -159,15 +165,18 @@
 			ShowCloseCountdownProgress = _toastShowCountdownProgress,
 			ShowIcon = _toastShowIcon
 		});
-
-		await Task.Delay(1500);
-
-		_toastService.RemoveToast(toastId);
 	}
 
 	private async Task RemoveAllToasts()
 	{
 		_toastService.ClearAll();
+	}
+	private async Task RemoveLastToasts()
+	{
+		if(_lastToastId != Guid.Empty)
+		{
+			_toastService.RemoveToast(_lastToastId);
+		}
 	}
 
 	private void ToastOpen(Guid id)
@@ -176,6 +185,11 @@
 	}
 	private void ToastClosed(Guid id)
 	{
+		if(id == _lastToastId)
+		{
+			_lastToastId = Guid.Empty;
+		}
+
 		_toastLog = WriteLog(_toastLog, $"Toast event OnClosed Id: '{id}'.");
 	}
 	private void ToastCloseButtonClicked(Guid id)

@@ -1,13 +1,16 @@
-﻿<div style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")"
-	 @attributes="AllOtherAttributes">
+﻿@if (_toastService.Toasts.Any())
+{
+	<div style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")"
+		 @attributes="AllOtherAttributes">
 
-	@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
-	{
-		WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}'."); /*Must render all item to keep item settings*/
-		<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
+		@foreach (var item in _toastService.Toasts.OrderBy(x => x.NotificationTime))
+		{
+			WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}'."); /*Must render all item to keep item settings*/
+			<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
 
-	}
-</div>
+		}
+	</div>
+}
 
 @namespace Majorsoft.Blazor.Components.Notifications
 
@@ -90,7 +93,10 @@
 			await OnToastOpen.InvokeAsync(id);
 		}
 
-		((IToastEvents)_toastService).TriggerToastOpen(id);
+		if (_toastService is IToastEvents)
+		{
+			((IToastEvents)_toastService).TriggerToastOpen(id);
+		}
 	}
 	private async Task OnItemToastCloseButtonClicked(Guid id)
 	{
@@ -99,7 +105,11 @@
 		{
 			await OnToastCloseButtonClicked.InvokeAsync(id);
 		}
-		((IToastEvents)_toastService).TriggerToastCloseButtonClicked(id);
+
+		if (_toastService is IToastEvents)
+		{
+			((IToastEvents)_toastService).TriggerToastCloseButtonClicked(id);
+		}
 	}
 	private async Task OnItemClose(Guid id)
 	{
@@ -114,7 +124,11 @@
 		{
 			await OnToastClose.InvokeAsync(id);
 		}
-		((IToastEvents)_toastService).TriggerToastClosed(id);
+
+		if (_toastService is IToastEvents)
+		{
+			((IToastEvents)_toastService).TriggerToastClosed(id);
+		}
 	}
 
 	private void WriteDiag(string message)
@@ -129,6 +143,6 @@
 		_navigationManager.LocationChanged -= ClearToasts;
 
 		_toastService.CollectionChanged -= Toasts_CollectionChanged;
-		//_toastService.Dispose();
+		//_toastService.Dispose(); //Do not dispose singleton....
 	}
 }

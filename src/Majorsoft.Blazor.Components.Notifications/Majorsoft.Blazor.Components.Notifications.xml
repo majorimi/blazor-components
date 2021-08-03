@@ -447,6 +447,11 @@
             Internal Toast created time
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsRemove">
+            <summary>
+            Internal variable for flagging a Toast to be removed.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsVisible">
             <summary>
             Internal visibility flag for Toast.

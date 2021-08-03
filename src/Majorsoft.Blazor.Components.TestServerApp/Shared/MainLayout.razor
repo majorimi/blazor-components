@@ -1,21 +1,21 @@
 ﻿@inherits LayoutComponentBase
 
 <div>
-	<NavMenu AppName="Blazor Components (Server)"/>
+    <NavMenu AppName="Blazor Components (Server)" />
 </div>
 
 <div class="main">
-	<div class="top-row px-4">
-		<a href="https://github.com/majorimi/blazor-components" target="_blank">About</a>
-	</div>
+    <div class="top-row px-4">
+        <a href="https://github.com/majorimi/blazor-components" target="_blank">About</a>
+    </div>
 
-	<div class="content px-4">
-		@Body
-	</div>
+    <div class="content px-4">
+        @Body
+    </div>
 
 
-	@*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
-	<ToastContainer />
+    @*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+    <ToastContainer />
 </div>
 
 @*Permalink initialize*@
@@ -25,28 +25,40 @@
 @*Server hosted Blazor console log*@
 @using Majorsoft.Blazor.Server.Logging.Console
 @inject IBrowserConsoleLoggerService _browserConsoleLogger
-
 @* Google Analytics initialize*@
 @using Majorsoft.Blazor.Extensions.Analytics.Google
 @*<GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />*@
 
+@*Toasts settings*@
+@inject IToastService _toastService
+
 @implements IAsyncDisposable
 
 @code {
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			//setup console log
-			await _browserConsoleLogger.StartLoggerAsync();
-		}
-	}
+    protected override void OnInitialized()
+    {
+        //Common settings can be set globally for ToastContainer and Toasts in IToastService
+        _toastService.GlobalSettings.Position = ToastPositions.TopRight;
+        _toastService.GlobalSettings.RemoveToastsOnNavigation = true;
+        _toastService.GlobalSettings.Width = 420;
 
-	public async ValueTask DisposeAsync()
-	{
-		if (_browserConsoleLogger is not null)
-		{
-			await _browserConsoleLogger.DisposeAsync();
-		}
-	}
+        ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //setup console log
+            await _browserConsoleLogger.StartLoggerAsync();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_browserConsoleLogger is not null)
+        {
+            await _browserConsoleLogger.DisposeAsync();
+        }
+    }
 }

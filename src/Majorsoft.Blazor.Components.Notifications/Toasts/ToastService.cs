@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Components;
 
+[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.Notifications.Tests")]
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>
@@ -14,14 +16,25 @@ namespace Majorsoft.Blazor.Components.Notifications
 	internal class ToastService : IToastService, IToastEvents
 	{
 		private readonly ObservableCollection<ToastSettings> _toasts;
-		public IEnumerable<ToastSettings> Toasts => _toasts;
+		public IEnumerable<ToastSettings> Toasts
+		{
+			get
+			{
+				if (_toasts.Any() && _toasts.All(x => !x.IsVisible))
+				{
+					_toasts.Clear();
+				}
+
+				return _toasts;
+			}
+		}
 
 		public ToastContainerGlobalSettings GlobalSettings { get; set; } = new ToastContainerGlobalSettings();
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
-		public event ToastEvent OnToastOpen;
-		public event ToastEvent OnToastClosed;
-		public event ToastEvent OnToastCloseButtonClicked;
+		public event ToastEvent? OnToastOpen;
+		public event ToastEvent? OnToastClosed;
+		public event ToastEvent? OnToastCloseButtonClicked;
 
 		/// <summary>
 		/// Default constructor
@@ -73,14 +86,18 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 			if(toast is not null)
 			{
-				toast.IsVisible = false;
+				toast.IsRemove = true;
 				CollectionChanged?.Invoke(_toasts, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, toast, toast));
 			}
 		}
 
 		public void ClearAll()
 		{
-			_toasts.Clear();
+			foreach (var item in _toasts)
+			{
+				item.IsRemove = true;
+			}
+			CollectionChanged?.Invoke(_toasts, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);

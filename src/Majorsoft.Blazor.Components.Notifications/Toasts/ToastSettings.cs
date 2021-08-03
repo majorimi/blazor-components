@@ -17,6 +17,10 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// Internal Toast created time
 		/// </summary>
 		internal DateTime NotificationTime { get; set; }
+		/// <summary>
+		/// Internal variable for flagging a Toast to be removed.
+		/// </summary>
+		internal bool IsRemove { get; set; } = false;
 
 		/// <summary>
 		/// Internal visibility flag for Toast.

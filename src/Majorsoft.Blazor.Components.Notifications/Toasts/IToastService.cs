@@ -30,15 +30,15 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// Event triggered when one of the Toast is opening.
 		/// </summary>
-		event ToastEvent OnToastOpen;
+		event ToastEvent? OnToastOpen;
 		/// <summary>
 		/// Event triggered when the Toast is closing.
 		/// </summary>
-		event ToastEvent OnToastClosed;
+		event ToastEvent? OnToastClosed;
 		/// <summary>
 		/// Event triggered when close `x` button was clicked on one of the Toast.
 		/// </summary>
-		event ToastEvent OnToastCloseButtonClicked;
+		event ToastEvent? OnToastCloseButtonClicked;
 
 		/// <summary>
 		/// Shows a new Toast notification with given parameters. Other settings applied from default values.

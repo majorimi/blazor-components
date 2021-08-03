@@ -1,0 +1,177 @@
+﻿@if (Settings.IsVisible)
+{
+	<AdvancedTimer @ref="_timer" Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(Settings.AutoCloseInSec * 1000)" AutoStart="true"
+				   OnIntervalElapsed="Hide" />
+
+	<div @ref="_inputRef" class="btoast-main@($" bnotify-{Settings.NotificationStyle.ToString().ToLower()}-{Settings.Type.ToString().ToLower()}")"
+		 style="opacity: @_opacity;
+				margin-bottom: @(Settings.ShadowEffect + 12)px;
+				box-shadow: @($"{Settings.ShadowEffect / 4}px {Settings.ShadowEffect}px {(Settings.ShadowEffect == 0 ? "0" : "20")}px {Settings.ShadowEffect / 10}px") #c7c7c7;"
+		 tabindex="750">
+		<div class="btoast-body">
+			@if (Settings.ShowIcon)
+			{
+				<div>
+					<svg class="btoast-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+					</svg>
+				</div>
+			}
+
+			<div class="btoast-text">
+				@Settings.Content
+			</div>
+
+			@if (Settings.ShowCloseButton)
+			{
+				<button type="button" @onclick="CloseClicked" class="close@($" {Settings.NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			}
+		</div>
+		@if (Settings.ShowCloseCountdownProgress && Settings.AutoCloseInSec > 0)
+		{
+			<div class="btoast-progress@((Settings.NotificationStyle != NotificationStyles.Strong ? $" {Settings.Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+				 style="transition: width @(Settings.AutoCloseInSec)s linear;">
+			</div>
+		}
+	</div>
+}
+
+@namespace Majorsoft.Blazor.Components.Notifications
+
+@inject ILogger<Toast> _logger
+@inject ITransitionEventsService _transitionEvents
+
+@implements IAsyncDisposable
+
+@code {
+	private ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	private AdvancedTimer _timer;
+	private byte _opacity = 1;
+	private int _delay = 100;
+	private bool _animationStarted = false;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender && Settings.IsVisible)
+		{
+			if (OnOpen.HasDelegate)
+			{
+				await OnOpen.InvokeAsync(Settings.Id);
+			}
+		}
+
+		if (Settings.ShowCloseCountdownProgress && Settings.IsVisible && !_animationStarted)
+		{
+			WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}', Id: '{Settings.Id}'.");
+			await Task.Delay(_delay);
+
+			_animationStarted = true;
+			StateHasChanged();
+		}
+	}
+
+	private ToastSettings _settings;
+	/// <summary>
+	/// Settings to show Toast notifications.
+	/// </summary>
+	[Parameter] public ToastSettings Settings
+	{
+		get => _settings;
+		set
+		{
+			_settings = value;
+			if(_settings.IsRemove && _settings.IsVisible)
+			{
+				_timer.IsEnabled = false;
+				_settings.IsVisible = false;
+				WriteDiag($"Toast removal was requested Id: '{_settings.Id}'.");
+
+				if (OnClose.HasDelegate)
+				{
+					InvokeAsync(async () => await OnClose.InvokeAsync(Settings.Id));
+				}
+			}
+		}
+	}
+
+	//Events
+	/// <summary>
+	/// Callback function called when the Toast is opening.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnOpen { get; set; }
+	/// <summary>
+	/// Callback function called when the Toast is closing.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnClose { get; set; }
+	/// <summary>
+	/// Callback function called when close `x` button was clicked.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnCloseButtonClicked { get; set; }
+
+
+	private async Task Hide()
+	{
+		WriteDiag($"Hide Toast, Settings.IsVisible: '{Settings.IsVisible}'.");
+		_opacity = 1;
+
+		await _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
+		{
+			Settings.IsVisible = false;
+			await InvokeAsync(StateHasChanged);
+
+			if (OnClose.HasDelegate)
+			{
+				await OnClose.InvokeAsync(Settings.Id);
+			}
+		}, "opacity");
+		_opacity = 0;
+	}
+	private async Task CloseClicked(MouseEventArgs e)
+	{
+		if (Settings.ShowCloseButton)
+		{
+			WriteDiag($"Close button clicked Toast closing.");
+
+			if (OnCloseButtonClicked.HasDelegate)
+			{
+				await OnCloseButtonClicked.InvokeAsync(Settings.Id);
+			}
+
+			await Hide();
+		}
+	}
+
+	private string GetSvgPath()
+	{
+		if (!string.IsNullOrWhiteSpace(Settings.CustomIconSvgPath))
+		{
+			return Settings.CustomIconSvgPath;
+		}
+
+		var property = typeof(NotificationTypes).GetMember(Settings.Type.ToString())[0];
+		var attribute = property.GetCustomAttributes(typeof(NotificationTypesMetaData), true)[0];
+		var description = (NotificationTypesMetaData)attribute;
+		var path = description.IconSvgPath;
+
+		return path;
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		WriteDiag("DisposeAsync");
+		if (_transitionEvents is not null)
+		{
+			await _transitionEvents.DisposeAsync();
+		}
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}
