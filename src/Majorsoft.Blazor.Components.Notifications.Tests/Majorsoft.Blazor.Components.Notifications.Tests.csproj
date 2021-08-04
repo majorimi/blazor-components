@@ -26,7 +26,6 @@
 
 	<ItemGroup>
 	  <Folder Include="HTML5\" />
-	  <Folder Include="Toast\" />
 	</ItemGroup>
 
 </Project>

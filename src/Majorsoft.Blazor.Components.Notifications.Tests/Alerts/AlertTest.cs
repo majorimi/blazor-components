@@ -14,7 +14,7 @@ using Majorsoft.Blazor.Components.Timer;
 using System;
 using Majorsoft.Blazor.Components.CommonTestsBase;
 
-namespace Majorsoft.Blazor.Components.Notifications.Tests
+namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 {
 	[TestClass]
 	public class AlertTest : ComponentsTestBase<Alert>
@@ -29,12 +29,6 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]
@@ -315,11 +309,14 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 		</div>"));
 		}
 
-		[Ignore] //TODO: fix later
 		[TestMethod]
-		public async Task Alert_should_AutoClose()
+		public void Alert_should_AutoClose()
 		{
 			_transitionMock.Setup(s => s.RegisterTransitionEndedAsync(It.IsAny<ElementReference>(), It.IsAny<Func<TransitionEventArgs, Task>>(), It.IsAny<string>()))
+				.Callback<ElementReference, Func<TransitionEventArgs, Task>, string>((element, func, name) =>
+				{
+					func.Invoke(new TransitionEventArgs());
+				})
 				.Returns(Task.CompletedTask);
 
 			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
@@ -334,14 +331,14 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 0; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
 			</div>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 1s linear;"" ></div>
-		</div>"), TimeSpan.FromSeconds(2)); //
+		</div>"), TimeSpan.FromSeconds(1));
 
 			rendered.Render();
 
