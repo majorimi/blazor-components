@@ -13,10 +13,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 	/// <summary>
 	/// Implementation of <see cref="IToastService"/>.
 	/// </summary>
-	internal class ToastService : IToastService, IToastEvents
+	internal class ToastService : IToastService, IToastInternals
 	{
 		private readonly ObservableCollection<ToastSettings> _toasts;
-		public IEnumerable<ToastSettings> Toasts
+		public IEnumerable<ToastSettings> Toasts => _toasts.Where(x => x.IsVisible);
+		public IEnumerable<ToastSettings> AllToasts
 		{
 			get
 			{
@@ -30,6 +31,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		}
 
 		public ToastContainerGlobalSettings GlobalSettings { get; set; } = new ToastContainerGlobalSettings();
+
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
 		public event ToastEvent? OnToastOpen;
@@ -47,9 +49,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		public Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
 		{
-			return ShowToast((MarkupString)message, notificationType, notificationStyle);
+			return ShowToast(builder => builder.AddMarkupContent(0, message), notificationType, notificationStyle);
 		}
-		public Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
+		public Guid ShowToast(RenderFragment content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
 		{
 			return ShowToast(new ToastSettings()
 			{

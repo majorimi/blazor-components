@@ -55,7 +55,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <param name="notificationType">Notification type or severity level</param>
 		/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="notificationType"/> Toast</param>
 		/// <returns>Guid Id for the new Toast</returns>
-		Guid ShowToast(MarkupString content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
+		Guid ShowToast(RenderFragment content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
 
 		/// <summary>
 		/// Shows a new Toast notification with given <see cref="ToastSettings"/>. It can be override all default values.

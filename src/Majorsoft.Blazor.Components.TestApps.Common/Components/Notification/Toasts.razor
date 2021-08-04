@@ -47,13 +47,14 @@
 			<br />
 			Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress" />
 			Close in @(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec) sec. <input type="range" class="w-100" min="1" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
+			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsShadowEffect" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsShadowEffect = uint.Parse(e.Value?.ToString()))" />
+
 			Toasts Style: <select class="form-control selectpicker w-100" @bind="ToastContainerGlobalSettings.DefaultToastsNotificationStyle">
 				@foreach (var item in Enum.GetValues(typeof(NotificationStyles)))
 				{
 					<option value="@item">@item</option>
 				}
 			</select>
-			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsShadowEffect" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsShadowEffect = uint.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 
@@ -106,8 +107,8 @@
 		<div class="col-12">
 			<button class="btn btn-primary" @onclick="ShowCustomToast">Show Customized Toast</button>
 			<button class="btn btn-primary" @onclick="RemoveLastToasts" disabled="@(_lastToastId == Guid.Empty)">Remove last Toast</button>
-			<button class="btn btn-primary" @onclick="RemoveAllToasts" disabled="@(_toastService.Toasts.Count(x => x.IsVisible) == 0)">
-				Remove all (@(_toastService.Toasts.Count(x => x.IsVisible))) Toast(s)
+			<button class="btn btn-primary" @onclick="RemoveAllToasts" disabled="@(_toastService.Toasts.Count() == 0)">
+				Remove all (@(_toastService.Toasts.Count())) Toast(s)
 			</button>
 		</div>
 	</div>
@@ -156,7 +157,7 @@
 	{
 		_lastToastId = _toastService.ShowToast(new ToastSettings()
 		{
-			Content = (MarkupString)_toastText,
+			Content = builder => builder.AddMarkupContent(0, _toastText),
 			NotificationStyle = _toastStyle,
 			Type = _toastTypeLevel,
 			AutoCloseInSec = _toastAutoCloseInSec,

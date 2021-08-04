@@ -277,7 +277,7 @@
             Notification Icon is an SVG which describes icon in the Path.
             </summary>
         </member>
-        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastEvents">
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastInternals">
             <summary>
             Internal interface to trigger individual Toast elements events.
             </summary>
@@ -327,7 +327,7 @@
             <param name="notificationStyle">Notification style to show different variant of the same <see cref="!:notificationType"/> Toast</param>
             <returns>Guid Id for the new Toast</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.MarkupString,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.RenderFragment,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
             <summary>
             Shows a new Toast notification with given parameters. Other settings applied from default values.
             </summary>

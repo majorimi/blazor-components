@@ -21,17 +21,16 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// Internal variable for flagging a Toast to be removed.
 		/// </summary>
 		internal bool IsRemove { get; set; } = false;
-
 		/// <summary>
 		/// Internal visibility flag for Toast.
 		/// </summary>
-		public bool IsVisible { get; set; } = true;
+		internal bool IsVisible { get; set; } = true;
 
 
 		/// <summary>
 		/// HTML Content of the collapse panel.
 		/// </summary>
-		public MarkupString Content { get; set; }
+		public RenderFragment Content { get; set; }
 
 		/// <summary>
 		/// Notification type or severity level.
@@ -41,7 +40,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// Notification style to show different variant of the same <see cref="Type"/> Toast.
 		/// </summary>
-		public NotificationStyles NotificationStyle { get; set; }
+		public NotificationStyles NotificationStyle { get; set; } = ToastContainerGlobalSettings.DefaultToastsNotificationStyle;
 
 		/// <summary>
 		/// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.
@@ -54,7 +53,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// When true Toast will show close "x" button.
 		/// </summary>
-		public bool ShowCloseButton { get; set; } = true;
+		public bool ShowCloseButton { get; set; } = ToastContainerGlobalSettings.DefaultToastsShowCloseButton;
 
 		/// <summary>
 		/// Toast will close after set time elapsed in Sec.
