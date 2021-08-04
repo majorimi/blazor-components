@@ -1,4 +1,4 @@
-﻿@if (_toastInternals?.AllToasts.Any() ?? false)
+﻿@if (_toastInternals.AllToasts.Any())
 {
 	<div style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")"
 		 @attributes="AllOtherAttributes">
@@ -16,13 +16,13 @@
 
 @inject ILogger<ToastContainer> _logger
 @inject IToastService _toastService
+@inject IToastInternals _toastInternals
 @inject NavigationManager _navigationManager
 
 @implements IDisposable
 
 @code {
 	private static bool Initialized = false;
-	private IToastInternals _toastInternals;
 
 	protected override void OnInitialized()
 	{
@@ -34,7 +34,6 @@
 
 		_toastService.CollectionChanged += Toasts_CollectionChanged;
 		_navigationManager.LocationChanged += ClearToasts;
-		_toastInternals = (IToastInternals)_toastService;
 	}
 
 	/// <summary>
@@ -73,7 +72,7 @@
 
 	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 	{
-		WriteDiag($"Toast collection changed: '{e.Action}', Toasts count: '{_toastInternals?.AllToasts.Count()}'.");
+		WriteDiag($"Toast collection changed: '{e.Action}', Toasts count: '{_toastInternals.AllToasts.Count()}'.");
 		StateHasChanged();
 	}
 	private void ClearToasts(object? sender, LocationChangedEventArgs args)
@@ -95,7 +94,7 @@
 			await OnToastOpen.InvokeAsync(id);
 		}
 
-		_toastInternals?.TriggerToastOpen(id);
+		_toastInternals.TriggerToastOpen(id);
 	}
 	private async Task OnItemToastCloseButtonClicked(Guid id)
 	{
@@ -105,15 +104,15 @@
 			await OnToastCloseButtonClicked.InvokeAsync(id);
 		}
 
-		_toastInternals?.TriggerToastCloseButtonClicked(id);
+		_toastInternals.TriggerToastCloseButtonClicked(id);
 	}
 	private async Task OnItemClose(Guid id)
 	{
-		WriteDiag($"Toast Closed Id: '{id}', Count: {_toastInternals?.AllToasts.Count()}.");
-		if(_toastInternals?.AllToasts.All(x => !x.IsVisible) ?? false)
+		WriteDiag($"Toast Closed Id: '{id}', Count: {_toastInternals.AllToasts.Count()}.");
+		if(_toastInternals.AllToasts.All(x => !x.IsVisible))
 		{
 			_toastService.ClearAll();
-			WriteDiag($"All Toasts Closed and hidden, Count: {_toastInternals?.AllToasts.Count()}.");
+			WriteDiag($"All Toasts Closed and hidden, Count: {_toastInternals.AllToasts.Count()}.");
 		}
 
 		if (OnToastClose.HasDelegate)
@@ -121,7 +120,7 @@
 			await OnToastClose.InvokeAsync(id);
 		}
 
-		_toastInternals?.TriggerToastClosed(id);
+		_toastInternals.TriggerToastClosed(id);
 	}
 
 	private void WriteDiag(string message)

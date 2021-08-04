@@ -22,7 +22,10 @@ namespace Majorsoft.Blazor.Components.Notifications
 			}
 
 			services.AddTransient<IHtmlNotificationService, HtmlNotificationService>();
-			services.AddSingleton<IToastService, ToastService>();
+
+			services.AddSingleton<ToastService>();
+			services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
+			services.AddSingleton<IToastInternals>(sp => sp.GetRequiredService<ToastService>());
 
 			return services;
 		}
