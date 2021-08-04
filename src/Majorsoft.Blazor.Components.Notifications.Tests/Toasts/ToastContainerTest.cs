@@ -72,7 +72,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				  </div>
 				  <div class=""btoast-text"" ></div>
 				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >×</span>
+					<span aria-hidden=""true"" >&times;</span>
 					<span class=""sr-only"" >Close</span>
 				  </button>
 				</div>
@@ -104,7 +104,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				  </div>
 				  <div class=""btoast-text"" ></div>
 				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >×</span>
+					<span aria-hidden=""true"" >&times;</span>
 					<span class=""sr-only"" >Close</span>
 				  </button>
 				</div>
@@ -141,7 +141,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				  </div>
 				  <div class=""btoast-text"" ></div>
 				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >×</span>
+					<span aria-hidden=""true"" >&times;</span>
 					<span class=""sr-only"" >Close</span>
 				  </button>
 				</div>
@@ -174,7 +174,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				  </div>
 				  <div class=""btoast-text"" ></div>
 				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >×</span>
+					<span aria-hidden=""true"" >&times;</span>
 					<span class=""sr-only"" >Close</span>
 				  </button>
 				</div>
