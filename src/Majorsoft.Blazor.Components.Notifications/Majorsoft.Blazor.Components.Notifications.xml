@@ -372,7 +372,17 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.Width">
             <summary>
-            Toast Container width in `px` it will determine the shown Toast widht as well.
+            Toast Container width in `px` it will determine the shown Toast width as well.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.PaddingFromSide">
+            <summary>
+            Required space from page (left/right) side in px. If -1 it is not applied default CSS style will be used.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.PaddingFromTopOrBottom">
+            <summary>
+            Required space from page (Top/Bottom) side in px. If -1 it is not applied default CSS style will be used.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowIcon">

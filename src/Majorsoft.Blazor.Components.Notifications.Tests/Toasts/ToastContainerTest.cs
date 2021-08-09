@@ -36,7 +36,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_not_rendered_anything_until_has_Toasts()
+		public void ToastContainer_should_not_rendered_anything_until_has_Toasts()
 		{
 			var rendered = _testContext.RenderComponent<ToastContainer>(
 				("id", "id1"), //HTML attributes
@@ -47,7 +47,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_rendered_correctly_html_when_has_Toasts()
+		public void ToastContainer_should_rendered_correctly_html_when_has_Toasts()
 		{
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new  ToastContainerGlobalSettings());
@@ -82,7 +82,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_not_render_Settings_Width()
+		public void ToastContainer_should_not_render_Settings_Width()
 		{
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { Width = 50 });
@@ -114,7 +114,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_not_render_Settings_Position()
+		public void ToastContainer_should_not_render_Settings_Position()
 		{
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
@@ -152,7 +152,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_not_render_non_Visible_Toasts()
+		public void ToastContainer_should_not_render_non_Visible_Toasts()
 		{
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() { IsVisible = true }, new ToastSettings() { IsVisible = false } });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
@@ -184,7 +184,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		}
 
 		[TestMethod]
-		public void Alert_should_render_Toast_with_Settings()
+		public void ToastContainer_should_render_Toast_with_Settings()
 		{
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() 
 				{ 
@@ -209,6 +209,15 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				  <div class=""btoast-text"" ></div>
 			  </div>
 			</div>"));
+		}
+
+		[ExpectedException(typeof(ApplicationException))]
+		[TestMethod]
+		public void ToastContainer_should_not_rendered_mulitple_instances()
+		{
+			var rendered = _testContext.RenderComponent<ToastContainer>();
+
+			var rendered2 = _testContext.RenderComponent<ToastContainer>();
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿@if (_toastInternals.AllToasts.Any())
 {
-	<div style="max-width: @(Settings.Width)px; width: @(Settings.Width)px;" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")"
-		 @attributes="AllOtherAttributes">
+	<div style="@GetInlineStyle()" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")" @attributes="AllOtherAttributes">
 
 		@foreach (var item in _toastInternals.AllToasts.OrderBy(x => x.NotificationTime))
 		{
@@ -28,7 +27,7 @@
 	{
 		if (Initialized)
 		{
-			throw new ApplicationException($"Component: '{nameof(ToastContainer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
+			throw new ApplicationException($"Component: '{nameof(ToastContainer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place (end of the HTML page to work with Relative elements).");
 		}
 		Initialized = true;
 
@@ -63,6 +62,7 @@
 	/// Callback function called when close `x` button was clicked on one of the Toast.
 	/// </summary>
 	[Parameter] public EventCallback<Guid> OnToastCloseButtonClicked { get; set; }
+
 
 	/// <summary>
 	/// Blazor capture for any unmatched HTML attributes.
@@ -121,6 +121,37 @@
 		}
 
 		_toastInternals.TriggerToastClosed(id);
+	}
+
+	private string GetInlineStyle()
+	{
+		var style = $"max-width: {Settings.Width}px; width: {Settings.Width}px;";
+
+		if (Settings?.PaddingFromSide >= 0)
+		{
+			if (Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.TopLeft)
+			{
+				style += $" left: {Settings?.PaddingFromSide}px;";
+			}
+			else if (Settings?.Position == ToastPositions.BottomRight || Settings?.Position == ToastPositions.TopRight)
+			{
+				style += $" right: {Settings?.PaddingFromSide}px;";
+			}
+		}
+
+		if(Settings?.PaddingFromTopOrBottom >= 0)
+		{
+			if (Settings?.Position == ToastPositions.BottomCenter || Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.BottomRight)
+			{
+				style += $" bottom: {Settings?.PaddingFromSide}px;";
+			}
+			else if (Settings?.Position == ToastPositions.TopCenter || Settings?.Position == ToastPositions.TopLeft || Settings?.Position == ToastPositions.TopRight)
+			{
+				style += $" top: {Settings?.PaddingFromSide}px;";
+			}
+		}
+
+		return style;
 	}
 
 	private void WriteDiag(string message)

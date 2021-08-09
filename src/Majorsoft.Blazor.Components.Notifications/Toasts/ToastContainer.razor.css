@@ -17,8 +17,21 @@
     bottom: 0;
 }
 
-@media (min-width: 576px) {
+.position-topcenter,
+.position-bottomcenter {
+    left: 50%;
+    margin-left: -12rem;
+}
+.position-topleft,
+.position-bottomleft {
+    left: 0;
+}
+.position-topright,
+.position-bottomright {
+    right: 0;
+}
 
+@media (min-width: 576px) {
     .position-topleft {
         top: 2rem;
         left: 2rem;

@@ -27,10 +27,16 @@
 				}
 			</select>
 
-			Container Width (apply to all Toasts): @(_toastService.GlobalSettings.Width)px
+			Container Width (apply to all Toasts): @(_toastService.GlobalSettings.Width) px
 			<input type="range" class="w-100" min="200" max="450" @bind="_toastService.GlobalSettings.Width" @oninput="(e => _toastService.GlobalSettings.Width = int.Parse(e.Value?.ToString()))" />
 			<br />
 			Remove Toasts OnNavigation: <input class="mr-2" type="checkbox" @bind="_toastService.GlobalSettings.RemoveToastsOnNavigation" />
+			<br />
+			Margin from Left/Right side @(_toastService.GlobalSettings.PaddingFromSide) px (-1 use default CSS):
+			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromSide" @oninput="(e => _toastService.GlobalSettings.PaddingFromSide = int.Parse(e.Value?.ToString()))" />
+			<br />
+			Margin from Top/Bottom @(_toastService.GlobalSettings.PaddingFromTopOrBottom) px (-1 use default CSS):
+			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromTopOrBottom" @oninput="(e => _toastService.GlobalSettings.PaddingFromTopOrBottom = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 	<hr />

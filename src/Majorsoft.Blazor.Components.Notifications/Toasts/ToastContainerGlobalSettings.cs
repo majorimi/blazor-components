@@ -17,9 +17,19 @@
 		public ToastPositions Position { get; set; } = ToastPositions.TopRight;
 
 		/// <summary>
-		/// Toast Container width in `px` it will determine the shown Toast widht as well.
+		/// Toast Container width in `px` it will determine the shown Toast width as well.
 		/// </summary>
 		public int Width { get; set; } = 400;
+
+		/// <summary>
+		/// Required space from page (left/right) side in px. If -1 it is not applied default CSS style will be used.
+		/// </summary>
+		public int PaddingFromSide { get; set; } = -1;
+
+		/// <summary>
+		/// Required space from page (Top/Bottom) side in px. If -1 it is not applied default CSS style will be used.
+		/// </summary>
+		public int PaddingFromTopOrBottom { get; set; } = -1;
 
 		/// <summary>
 		/// Global config applied to all Toasts if not set otherwise.
