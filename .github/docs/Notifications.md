@@ -1,17 +1,18 @@
-Blazor Components Modal dialog control
+Blazor Components Notification controls and HTML service
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Modal?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Modal?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/)
+[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Notifications?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Notifications/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Notifications?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Notifications/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
 # About
 
-Blazor component that can be used for prompting Modal dialog window for lightboxes, user notifications or with fully customizable **Header**, **Content** and **Footer** parameterized Overlay, etc..
- **All components work with WebAssembly and Server hosted models**. 
-For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Dialog.razor).
+Blazor injectable `INotificationService` service to handle `HTML5 Notifications` and `ServiceWorker` Notifications and components that renders customizable `Alert` and `Toast` notification message elements.
 
-You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/modal).
+**All components work with WebAssembly and Server hosted models**. 
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Notifications.razor).
+
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/Notifications).
 
 ![Modal demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/modal.gif)
 
@@ -90,27 +91,27 @@ Component implements `IAsyncDisposable` interface Blazor framework will call it 
 
 ## Installation
 
-**Majorsoft.Blazor.Components.Modal** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal). 
+**Majorsoft.Blazor.Components.Notifications** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Notifications). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Modal
+dotnet add package Majorsoft.Blazor.Components.Notifications
 ```
-Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Modal/absoluteLatest) to install.
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Notifications/absoluteLatest) to install.
 
 ## Usage
 
 Add using statement to your Blazor `<component/page>.razor` file. Or globally reference it into `_Imports.razor` file.
 
 ```
-@using Majorsoft.Blazor.Components.Modal
+@using Majorsoft.Blazor.Components.Notifications
 ```
 
 ### Dependences
-**Majorsoft.Blazor.Components.Modal** package depends on other Majorsoft Nuget packages:
+**Majorsoft.Blazor.Components.Notifications** package depends on other Majorsoft Nuget packages:
 - [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/Majorsoft.Blazor.Components.CssEvents)
 which handles CSS Transition and Animation events for the dialog animation.
-- [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
-which handles JS Interop for focusing previous elements.
+- [Majorsoft.Blazor.Components.Timer](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer)
+which handles Auto close timing.
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
@@ -122,7 +123,6 @@ public static async Task Main(string[] args)
 
 	//Register dependencies
 	builder.Services.AddCssEvents();
-	builder.Services.AddJsInteropExtensions();
 }
 ```
 
@@ -135,7 +135,6 @@ public void ConfigureServices(IServiceCollection services)
 {
 	//Register dependencies
 	services.AddCssEvents();
-	services.AddJsInteropExtensions();
 }
 ```
 
