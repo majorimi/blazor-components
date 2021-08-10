@@ -75,9 +75,6 @@ namespace Majorsoft.Blazor.Components.Notifications
 				throw new ArgumentNullException(nameof(toastSettings));
 			}
 
-			toastSettings.Id = Guid.NewGuid();
-			toastSettings.NotificationTime = DateTime.Now;
-
 			_toasts.Add(toastSettings);
 
 			return toastSettings.Id;

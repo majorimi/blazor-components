@@ -60,7 +60,7 @@
             Show icon: <input class="mr-2" type="checkbox" @bind="_alertShowIcon" />
             <br />
             Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="_alertShowCountdownProgress" disabled="@_alertIsVisible" />
-            Auto close (after @_alertAutoCloseInSec sec): <input class="mr-2" type="checkbox" @bind="_alertAutoClose" disabled="@_alertIsVisible" />
+            Auto close (after <strong>@_alertAutoCloseInSec sec.</strong>): <input class="mr-2" type="checkbox" @bind="_alertAutoClose" disabled="@_alertIsVisible" />
             <input type="range" class="w-100" min="1" max="20" @bind="_alertAutoCloseInSec" @oninput="(e => _alertAutoCloseInSec = uint.Parse(e.Value?.ToString()))" disabled="@(_alertIsVisible || !_alertAutoClose)" />
             Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_alertShadowEffect" @oninput="(e => _alertShadowEffect = uint.Parse(e.Value?.ToString()))" />
         </div>

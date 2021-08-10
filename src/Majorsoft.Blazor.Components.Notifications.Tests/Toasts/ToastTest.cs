@@ -57,9 +57,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div >
 				  <svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -90,9 +88,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 				<button type=""button""  class=""close normal"" >
@@ -119,9 +115,32 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+			  <div class=""btoast-body"" >
+				<div class=""btoast-text"" ></div>
+			  </div>
+			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
+			</div>"));
+		}
+
+		[TestMethod]
+		public void Toast_should_not_render_IsLastItem_true()
+		{
+			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+				.Add(p => p.Settings, new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+					IsLastItem = true,
+				}));
+
+			var div = rendered.Find("div");
+			Assert.IsNotNull(div);
+			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
+
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 			  </div>
@@ -144,9 +163,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" >
 					<strong>Hi..</strong>
@@ -172,9 +189,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div >
 				  <svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -213,9 +228,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 					Type = types
 				}));
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 			  </div>
@@ -261,9 +274,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 
 					var progress = style != NotificationStyles.Strong ? $" { types.ToString().ToLower()}" : " strong";
 
-					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+					rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" 
+					style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 				  <div class=""btoast-body"" >
 					<div class=""btoast-text"" ></div>
 				  </div>
@@ -288,9 +300,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 				<button type=""button""  class=""close normal"" >
@@ -317,9 +328,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			Assert.IsNotNull(div);
 			Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 27px;
-					box-shadow: 3px 15px 20px 1px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary""
+			style=""opacity: 1; box-shadow: 3px 15px 20px 1px #c7c7c7; margin-bottom: 27px;""tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 				<button type=""button""  class=""close normal"" >
@@ -353,9 +363,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1;
-					margin-bottom: 17px;
-					box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" >
 					<strong>Hi..</strong>

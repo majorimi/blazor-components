@@ -10,13 +10,22 @@ namespace Majorsoft.Blazor.Components.Notifications
 	public class ToastSettings
 	{
 		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public ToastSettings()
+		{
+			Id = Guid.NewGuid();
+			NotificationTime = DateTime.Now;
+		}
+
+		/// <summary>
 		/// Internal Toast Id
 		/// </summary>
-		internal Guid Id { get; set; }
+		internal Guid Id { get; }
 		/// <summary>
 		/// Internal Toast created time
 		/// </summary>
-		internal DateTime NotificationTime { get; set; }
+		internal DateTime NotificationTime { get; }
 		/// <summary>
 		/// Internal variable for flagging a Toast to be removed.
 		/// </summary>
@@ -25,6 +34,10 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// Internal visibility flag for Toast.
 		/// </summary>
 		internal bool IsVisible { get; set; } = true;
+		/// <summary>
+		/// Determines if the Toast item is the last in the list or not.
+		/// </summary>
+		internal bool IsLastItem { get; set; } = false;
 
 
 		/// <summary>

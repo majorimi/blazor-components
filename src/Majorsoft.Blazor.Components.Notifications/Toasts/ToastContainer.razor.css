@@ -20,7 +20,6 @@
 .position-topcenter,
 .position-bottomcenter {
     left: 50%;
-    margin-left: -12rem;
 }
 .position-topleft,
 .position-bottomleft {
@@ -45,7 +44,6 @@
     .position-topcenter {
         top: 2rem;
         left: 50%;
-        margin-left: -15rem;
     }
 
     .position-bottomleft {
@@ -61,6 +59,5 @@
     .position-bottomcenter {
         bottom: 2rem;
         left: 50%;
-        margin-left: -15rem;
     }
 }

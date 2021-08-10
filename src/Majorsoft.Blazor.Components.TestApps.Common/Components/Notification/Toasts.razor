@@ -27,15 +27,15 @@
 				}
 			</select>
 
-			Container Width (apply to all Toasts): @(_toastService.GlobalSettings.Width) px
+			Container Width (apply to all Toasts): <strong>@(_toastService.GlobalSettings.Width) px</strong>
 			<input type="range" class="w-100" min="200" max="450" @bind="_toastService.GlobalSettings.Width" @oninput="(e => _toastService.GlobalSettings.Width = int.Parse(e.Value?.ToString()))" />
 			<br />
 			Remove Toasts OnNavigation: <input class="mr-2" type="checkbox" @bind="_toastService.GlobalSettings.RemoveToastsOnNavigation" />
 			<br />
-			Margin from Left/Right side @(_toastService.GlobalSettings.PaddingFromSide) px (-1 use default CSS):
+			Margin from Left/Right side <strong>@(_toastService.GlobalSettings.PaddingFromSide) px</strong> (-1 use default CSS):
 			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromSide" @oninput="(e => _toastService.GlobalSettings.PaddingFromSide = int.Parse(e.Value?.ToString()))" />
 			<br />
-			Margin from Top/Bottom @(_toastService.GlobalSettings.PaddingFromTopOrBottom) px (-1 use default CSS):
+			Margin from Top/Bottom <strong>@(_toastService.GlobalSettings.PaddingFromTopOrBottom) px</strong> (-1 use default CSS):
 			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromTopOrBottom" @oninput="(e => _toastService.GlobalSettings.PaddingFromTopOrBottom = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
@@ -52,7 +52,7 @@
 			Show icon: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowIcon" />
 			<br />
 			Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress" />
-			Close in @(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec) sec. <input type="range" class="w-100" min="1" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
+			Close in <strong>@(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec) sec.</strong> <input type="range" class="w-100" min="1" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
 			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsShadowEffect" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsShadowEffect = uint.Parse(e.Value?.ToString()))" />
 
 			Toasts Style: <select class="form-control selectpicker w-100" @bind="ToastContainerGlobalSettings.DefaultToastsNotificationStyle">
@@ -75,7 +75,7 @@
 			Show icon: <input class="mr-2" type="checkbox" @bind="_toastShowIcon" />
 			<br />
 			Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="_toastShowCountdownProgress" />
-			Close in @(_toastAutoCloseInSec) sec. <input type="range" class="w-100" min="1" max="20" @bind="_toastAutoCloseInSec" @oninput="(e => _toastAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
+			Close in <strong>@(_toastAutoCloseInSec) sec.</strong> <input type="range" class="w-100" min="1" max="20" @bind="_toastAutoCloseInSec" @oninput="(e => _toastAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
 			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_toastShadowEffect" @oninput="(e =>_toastShadowEffect = uint.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>

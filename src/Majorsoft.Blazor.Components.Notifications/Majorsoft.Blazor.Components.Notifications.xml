@@ -447,6 +447,11 @@
             Properties for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> Notification.
             </summary>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.ToastSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Id">
             <summary>
             Internal Toast Id
@@ -465,6 +470,11 @@
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsVisible">
             <summary>
             Internal visibility flag for Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsLastItem">
+            <summary>
+            Determines if the Toast item is the last in the list or not.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Content">

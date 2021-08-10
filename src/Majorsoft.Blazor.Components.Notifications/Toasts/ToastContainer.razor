@@ -4,9 +4,10 @@
 
 		@foreach (var item in _toastInternals.AllToasts.OrderBy(x => x.NotificationTime))
 		{
-			WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}'."); /*Must render all item to keep item settings*/
-			<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
+			CheckIfLastItem(item);
 
+			WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}', IsLastItem: '{item.IsLastItem}'."); /*Must render all item to keep item settings*/
+			<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
 		}
 	</div>
 }
@@ -125,17 +126,17 @@
 
 	private string GetInlineStyle()
 	{
-		var style = $"max-width: {Settings.Width}px; width: {Settings.Width}px;";
+		var style = new StringBuilder($"max-width: {Settings.Width}px; width: {Settings.Width}px;");
 
 		if (Settings?.PaddingFromSide >= 0)
 		{
 			if (Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.TopLeft)
 			{
-				style += $" left: {Settings?.PaddingFromSide}px;";
+				style.Append($" left: {Settings?.PaddingFromSide}px;");
 			}
 			else if (Settings?.Position == ToastPositions.BottomRight || Settings?.Position == ToastPositions.TopRight)
 			{
-				style += $" right: {Settings?.PaddingFromSide}px;";
+				style.Append($" right: {Settings?.PaddingFromSide}px;");
 			}
 		}
 
@@ -143,15 +144,40 @@
 		{
 			if (Settings?.Position == ToastPositions.BottomCenter || Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.BottomRight)
 			{
-				style += $" bottom: {Settings?.PaddingFromSide}px;";
+				style.Append($" bottom: {Settings?.PaddingFromTopOrBottom}px;");
 			}
 			else if (Settings?.Position == ToastPositions.TopCenter || Settings?.Position == ToastPositions.TopLeft || Settings?.Position == ToastPositions.TopRight)
 			{
-				style += $" top: {Settings?.PaddingFromSide}px;";
+				style.Append($" top: {Settings?.PaddingFromTopOrBottom}px;");
 			}
 		}
 
-		return style;
+		if(Settings?.Position == ToastPositions.BottomCenter || Settings?.Position == ToastPositions.TopCenter)
+		{
+			style.Append($" margin-left: -{Settings?.Width / 2}px;");
+		}
+
+		return style.ToString();
+	}
+	private void CheckIfLastItem(ToastSettings settings)
+	{
+		var toasts = _toastInternals.AllToasts.OrderBy(x => x.NotificationTime);
+		settings.IsLastItem = false;
+
+		if(toasts.Last() == settings)
+		{
+			settings.IsLastItem = true;
+			return;
+		}
+
+		var index = toasts.ToList().IndexOf(settings);
+		for (int i = ++index; i < toasts.Count(); i++)
+		{
+			if(toasts.ElementAt(i).IsVisible)
+				return;
+		}
+
+		settings.IsLastItem = true;
 	}
 
 	private void WriteDiag(string message)

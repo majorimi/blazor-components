@@ -4,10 +4,7 @@
 				   OnIntervalElapsed="Hide" />
 
 	<div @ref="_inputRef" class="btoast-main@($" bnotify-{Settings.NotificationStyle.ToString().ToLower()}-{Settings.Type.ToString().ToLower()}")"
-		 style="opacity: @_opacity;
-				margin-bottom: @(Settings.ShadowEffect + 12)px;
-				box-shadow: @($"{Settings.ShadowEffect / 4}px {Settings.ShadowEffect}px {(Settings.ShadowEffect == 0 ? "0" : "20")}px {Settings.ShadowEffect / 10}px") #c7c7c7;"
-		 tabindex="750">
+		 style="@GetInlineStyle()" tabindex="1000">
 		<div class="btoast-body">
 			@if (Settings.ShowIcon)
 			{
@@ -81,7 +78,7 @@
 	/// </summary>
 	[Parameter] public ToastSettings Settings
 	{
-		get => _settings;
+		get => _settings ?? new ToastSettings();
 		set
 		{
 			_settings = value;
@@ -159,6 +156,18 @@
 		var path = description.IconSvgPath;
 
 		return path;
+	}
+
+	private string GetInlineStyle()
+	{
+		var style = $"opacity: {_opacity}; box-shadow: {Settings.ShadowEffect / 4}px {Settings.ShadowEffect}px {(Settings.ShadowEffect == 0 ? "0" : "20")}px {Settings.ShadowEffect / 10}px #c7c7c7;";
+
+		if(!Settings.IsLastItem)
+		{
+			style = $"{style} margin-bottom: {Settings.ShadowEffect + 12}px;";
+		}
+
+		return style;
 	}
 
 	public async ValueTask DisposeAsync()
