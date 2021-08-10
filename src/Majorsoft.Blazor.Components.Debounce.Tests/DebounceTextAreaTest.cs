@@ -119,7 +119,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceTextArea_should_wait_debounce_time_respective_to_minChars()
 		{
-			var debounceTime = 50;
+			var debounceTime = 55;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
