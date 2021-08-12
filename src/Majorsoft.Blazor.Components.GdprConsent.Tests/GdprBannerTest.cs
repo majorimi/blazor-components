@@ -27,6 +27,8 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 			_dprConsentServiceMock = new Mock<IGdprConsentService>();
 			_dprConsentServiceMock.SetupGet(g => g.ConsentNotificationService).Returns(_gdprConsentNotificationServiceMock.Object);
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprBanner>), new SingletonComponentService<GdprBanner>()));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprModal>), new SingletonComponentService<GdprModal>()));
 		}
 
 		[TestMethod]

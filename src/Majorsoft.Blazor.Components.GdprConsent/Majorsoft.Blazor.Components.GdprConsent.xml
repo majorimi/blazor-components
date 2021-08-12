@@ -71,6 +71,13 @@
             </summary>
             <param name="services">IServiceCollection instance</param>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.GdprConsent.SingletonComponentService`1">
+            <summary>
+            Service for checking component was used only once and to be registered as Scoped. 
+            In WASM it is Singleton, in Server side it will be per 'Session'
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.GdprConsent.GdprConsentNotificationService">
             <summary>
             Default implementation for <see cref="T:Majorsoft.Blazor.Components.GdprConsent.IGdprConsentNotificationService"/>

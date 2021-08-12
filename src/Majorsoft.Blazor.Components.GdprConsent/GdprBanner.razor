@@ -14,17 +14,17 @@
 
 @inject ILogger<GdprBanner> _logger
 @inject IGdprConsentService _gdprConsentService
+@inject SingletonComponentService<GdprBanner> _singleton
 
 @code {
-	private static bool Initialized = false;
 	protected override void OnInitialized()
 	{
-		if (Initialized)
+		if (_singleton.Initialized)
 		{
 			throw new ApplicationException($"Component: '{nameof(GdprBanner)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
 		}
 
-		Initialized = true;
+		_singleton.Initialized = true;
 		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged += CheckConsent;
 
 		WriteDiag("Initialized successfuly.");
@@ -131,7 +131,7 @@
 	/// </summary>
 	public void Dispose()
 	{
-		Initialized = false;
+		_singleton.Initialized = false;
 		_gdprConsentService.ConsentNotificationService.GdprConsentStateChanged -= CheckConsent;
 	}
 
