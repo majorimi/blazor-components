@@ -93,7 +93,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.GdprConsent", "Majorsoft.Blazor.Components.GdprConsent\Majorsoft.Blazor.Components.GdprConsent.csproj", "{E3B6CBB8-619B-4F09-93F2-BA97BFD3C0EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.GdprConsent.Tests", "Majorsoft.Blazor.Components.GdprConsent.Tests\Majorsoft.Blazor.Components.GdprConsent.Tests.csproj", "{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.GdprConsent.Tests", "Majorsoft.Blazor.Components.GdprConsent.Tests\Majorsoft.Blazor.Components.GdprConsent.Tests.csproj", "{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Notifications", "Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj", "{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Notifications.Tests", "Majorsoft.Blazor.Components.Notifications.Tests\Majorsoft.Blazor.Components.Notifications.Tests.csproj", "{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.CommonTestsBase", "Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj", "{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -245,6 +251,18 @@ Global
 		{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA17B593-E6E3-48A9-9FD3-1B441E8FD180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,6 +303,9 @@ Global
 		{5A9DBE07-4666-4DEF-841A-477F2A1A28B9} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
 		{E3B6CBB8-619B-4F09-93F2-BA97BFD3C0EC} = {B6905E0B-759A-4928-B38A-9210B5CC8988}
 		{D7481B09-8B56-4FC7-BDE3-EEE54AB841AC} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
+		{DA17B593-E6E3-48A9-9FD3-1B441E8FD180} = {B6905E0B-759A-4928-B38A-9210B5CC8988}
+		{91C7529C-A5A2-41A8-BAD1-D12F98C93D9E} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
+		{8FD0C677-5013-4EF9-B994-F38ACAEB9A26} = {020CAF9C-D289-470A-BB97-E58D73DDCE70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3E8B7F7-3F7C-4D6C-8B7B-48F1AF4694B9}

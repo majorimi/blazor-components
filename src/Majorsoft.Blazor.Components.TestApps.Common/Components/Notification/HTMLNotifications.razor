@@ -1,0 +1,177 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="htmlnotification" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>HTML5 Notification</h3></Content>
+	</PermaLinkElement>
+	<p>
+		Injectable <strong><code>IHtmlNotificationService</code> service </strong> which is a <strong> wrapper for Notification API</strong>
+		to handle <a href="https://developer.mozilla.org/en-US/docs/Web/API/notification" target="_blank">HTML5 notifications</a> and
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification">ServiceWorker Notifications</a> with Custom actions handled by registered Service Worker.
+	</p>
+	<p>
+		<strong class="text-danger">NOTE:</strong> in order to show System notifications user Consent is required for the given Website per Browser. 
+		Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			HTML5 Notification supported:
+			<strong class="mr-2 @(_notificationSupported ? "text-success" : "text-danger")">@_notificationSupported</strong>
+			Notification user consent:
+			<strong class="@(_htmlNotificationPermission == HtmlNotificationPermissionTypes.Denied 
+							 ? "text-danger" 
+							 : _htmlNotificationPermission == HtmlNotificationPermissionTypes.Default ? "" : "text-success")">@_htmlNotificationPermission</strong>
+		</div>
+	</div>
+
+	@if (_notificationSupported)
+	{
+		@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+		{
+			<button class="btn btn-primary mt-2" @onclick="RequestPermission">Request user Permission</button>
+		}
+		else
+		{
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Title: <input class="form-control w-100" @bind="_notificationTitle" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Body: <input class="form-control w-100" @bind="_notificationBody" />
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-12 col-lg-8 col-xl-5">
+					Notification Icon (e.g.: https://c.s-microsoft.com/favicon.ico): <input class="form-control w-100" @bind="_notificationIcon" />
+				</div>
+			</div>
+
+			<label>Show with custom Actions:</label> <input class="mr-2" type="checkbox" @bind="_showActions" />
+			<br />
+			@if (_showActions)
+			{
+				<strong>Notifications with Custom Actions must have a <code>ServiceWorker</code> registration which can handle events for Custom actions!</strong>
+				<br />
+				<button class="btn btn-primary mt-2" @onclick="ShowWithActionsNotification">Show HTML notification with Custom actions</button>
+			}
+			else
+			{
+				<button class="btn btn-primary mt-2" @onclick="ShowSimpeNotification">Show HTML notification</button>
+				
+				<div class="row pb-2">
+					<div class="col-12">
+						<label><strong>Event log</strong>:</label>
+						<textarea @ref="log1" @bind="_notificationLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+					</div>
+				</div>
+			}
+		}
+	}
+</div>
+
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_notificationSupported = await _notificationService.IsBrowserSupportedAsync();
+			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
+			StateHasChanged();
+		}
+	}
+	private bool _showActions = true;
+	private ElementReference log1;
+	private string _notificationLog = "";
+
+	//HTML5 notification
+	private bool _notificationSupported;
+	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
+
+	private async Task RequestPermission()
+	{
+		await _notificationService.RequestPermissionAsync(async res =>
+		{
+			_htmlNotificationPermission = res;
+			StateHasChanged();
+		});
+	}
+
+	private async Task ShowSimpeNotification()
+	{
+		var options = new HtmlNotificationOptions(_notificationTitle)
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			Vibrate = new int[] { 100, 200, 100},
+			//events
+			OnOpenCallback = OnOpen,
+			OnCloseCallback = OnClose,
+			OnErrorCallback = OnError,
+			OnClickCallback = OnClick,
+		};
+
+		var id = await _notificationService.ShowsAsync(options);
+	}
+	private async Task ShowWithActionsNotification()
+	{
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js")
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			//actions
+			Actions = new NotificationAction[]
+			{
+			   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			   new NotificationAction() { Action = "action2", Title = "Other action"},
+			},
+			Vibrate = new int[] { 100, 200, 100 },
+			Data = "any type of object.."
+		};
+
+		await _notificationService.ShowsWithActionsAsync(options);
+	}
+
+	public async Task OnOpen(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnOpen'");
+		StateHasChanged();
+	}
+	public async Task OnClose(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnClose'");
+		StateHasChanged();
+	}
+	public async Task OnError(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnError'");
+		StateHasChanged();
+	}
+	public async Task OnClick(Guid id)
+	{
+		_notificationLog = await WriteLog(_notificationLog, $"HTML Notification Id: '{id}' event: 'OnClick'");
+		StateHasChanged();
+	}
+
+	private async Task<string> WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await log1.ScrollToEndAsync();
+
+		//StateHasChanged();
+		return log;
+	}
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
+}

@@ -44,7 +44,14 @@ namespace Majorsoft.Blazor.Components.Inputs
 		/// <summary>
 		/// Countdown label and value CSS class property to style message.
 		/// </summary>
-		[Parameter] public string CountdownTextClass { get; set; }
+		[Parameter] public string CountdownTextClass { get; set; } = "";
+
+		/// <summary>
+		/// Should show remaining character values at the end of the <see cref="CountdownText"/> or not.
+		/// Note RemainingCharacters value can be acquired from <see cref="OnRemainingCharsChanged"/> event parameter.
+		/// </summary>
+		[Parameter] public bool ShowRemainingChars { get; set; } = true;
+
 
 		//Events
 		/// <summary>

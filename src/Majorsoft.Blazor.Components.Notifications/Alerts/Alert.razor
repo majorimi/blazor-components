@@ -1,0 +1,251 @@
+﻿@if (IsVisible)
+{
+    <AdvancedTimer Occurring="Times.Once()" DelayInMilisec="@_delay" IntervalInMilisec="@(AutoCloseInSec * 1000)" AutoStart="@AutoClose" OnIntervalElapsed="@(e => { IsVisible = false; })" />
+
+    <div @ref="_inputRef" class="balert-main@($" bnotify-{NotificationStyle.ToString().ToLower()}-{Type.ToString().ToLower()}")"
+         style="opacity: @_opacity; margin-bottom: @(_shadowEffect + 12)px; box-shadow: @($"{_shadowEffect / 4}px {_shadowEffect}px {(_shadowEffect == 0 ? "0" : "20")}px {_shadowEffect / 10}px") #c7c7c7;"
+         tabindex="750" @attributes=AllOtherAttributes>
+        <div class="balert-body">
+            @if (ShowIcon)
+            {
+                <div>
+                    <svg class="balert-img" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="@GetSvgPath()"></path>
+                    </svg>
+                </div>
+            }
+
+            <div class="balert-text">
+                @Content
+            </div>
+
+            @if (ShowCloseButton)
+            {
+                <button type="button" @onclick="CloseClicked" class="close@($" {NotificationStyle.ToString().ToLower()}")"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            }
+        </div>
+        @if (ShowCloseCountdownProgress && AutoClose && AutoCloseInSec > 0)
+        {
+            <div class="balert-progress@((NotificationStyle != NotificationStyles.Strong ? $" {Type.ToString().ToLower()}" : " strong") + (_animationStarted ? " start" : ""))"
+                 style="transition: width @(AutoCloseInSec)s linear;">
+            </div>
+        }
+    </div>
+}
+
+@inject ILogger<Alert> _logger
+@inject ITransitionEventsService _transitionEvents
+@namespace Majorsoft.Blazor.Components.Notifications
+
+@implements IAsyncDisposable
+
+@code {
+    private ElementReference _inputRef;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _inputRef;
+
+    private byte _opacity = 1;
+
+    private int _delay = 100;
+    private bool _animationStarted = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ShowCloseCountdownProgress && AutoClose && IsVisible && !_animationStarted)
+        {
+            WriteDiag($"Rendered firstRender: '{firstRender}' _animationStarted: '{_animationStarted}'.");
+            await Task.Delay(_delay);
+
+            _animationStarted = true;
+            StateHasChanged();
+        }
+    }
+
+    private bool _isVisible = false;
+    /// <summary>
+    /// Determines weather the Alert message should be visible on UI or not.
+    /// </summary>
+    [Parameter]
+    public bool IsVisible
+    {
+        get => _isVisible;
+        set
+        {
+            if (value != _isVisible)
+            {
+                _opacity = 1;
+
+                if (!value) //closing
+                {
+                    _transitionEvents.RegisterTransitionEndedAsync(_inputRef, async args =>
+                    {
+                        _isVisible = false;
+                        _animationStarted = false;
+
+                        StateHasChanged();
+
+                        if (OnClose.HasDelegate)
+                        {
+                            InvokeAsync(async () =>
+                            {
+                                await OnClose.InvokeAsync();
+                            });
+                        }
+                    }, "opacity");
+                    _opacity = 0;
+                }
+                else //open
+                {
+                    if (OnShow.HasDelegate)
+                    {
+                        InvokeAsync(async () =>
+                        {
+                            await OnShow.InvokeAsync();
+                        });
+                    }
+
+                    _isVisible = true;
+                }
+
+                if (IsVisibleChanged.HasDelegate)
+                {
+                    InvokeAsync(async () =>
+                    {
+                        await IsVisibleChanged.InvokeAsync(_isVisible);
+                    });
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Required HTML Content of the Alert notification. Can be any valid HTML.
+    /// </summary>
+    [Parameter] public RenderFragment Content { get; set; }
+
+    /// <summary>
+    /// Notification type or severity level.
+    /// </summary>
+    [Parameter] public NotificationTypes Type { get; set; } = NotificationTypes.Primary;
+
+    /// <summary>
+    /// Notification style to show different variant of the same <see cref="Type"/> of Alert.
+    /// </summary>
+    [Parameter] public NotificationStyles NotificationStyle { get; set; } = NotificationStyles.Normal;
+
+    /// <summary>
+    /// When true Alert will show an icon corresponding to the <see cref="NotificationTypes"/>. Default icon can be overwritten.
+    /// </summary>
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    /// <summary>
+    /// Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
+    /// </summary>
+    [Parameter] public string CustomIconSvgPath { get; set; } = "";
+    /// <summary>
+    /// When true Alert will show close "x" button.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>
+    /// When true Alert will auto close after set up time in <see cref="AutoCloseInSec"/> elapsed in Seconds.
+    /// </summary>
+    [Parameter] public bool AutoClose { get; set; } = true;
+    /// <summary>
+    /// When <see cref="AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
+    /// </summary>
+    [Parameter] public uint AutoCloseInSec { get; set; } = 10;
+    /// <summary>
+    /// When true and <see cref="AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+    /// </summary>
+    [Parameter] public bool ShowCloseCountdownProgress { get; set; } = true;
+
+    private uint _shadowEffect = 0;
+    /// <summary>
+    /// Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
+    /// </summary>
+    [Parameter]
+    public uint ShadowEffect
+    {
+        get => _shadowEffect;
+        set
+        {
+            if (value > 20)
+            {
+                _shadowEffect = 20;
+            }
+            else
+            {
+                _shadowEffect = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Blazor capture for any unmatched HTML attributes.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+    //Events
+    /// <summary>
+    /// Callback function called when the Alert is showing.
+    /// </summary>
+    [Parameter] public EventCallback OnShow { get; set; }
+    /// <summary>
+    /// Callback function called when the Alert is closing.
+    /// </summary>
+    [Parameter] public EventCallback OnClose { get; set; }
+    /// <summary>
+    /// Callback function called when close `x` button was clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
+    /// <summary>
+    /// Callback function for two way bindings of <see cref="IsVisible"/> property.
+    /// </summary>
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+
+
+    private async Task CloseClicked(MouseEventArgs e)
+    {
+        if (ShowCloseButton)
+        {
+            WriteDiag($"Close button clicked Alert closing.");
+
+            if (OnCloseButtonClicked.HasDelegate)
+            {
+                await OnCloseButtonClicked.InvokeAsync(e);
+            }
+
+            IsVisible = false;
+        }
+    }
+
+    private string GetSvgPath()
+    {
+        if (!string.IsNullOrWhiteSpace(CustomIconSvgPath))
+        {
+            return CustomIconSvgPath;
+        }
+
+        var property = typeof(NotificationTypes).GetMember(Type.ToString())[0];
+        var attribute = property.GetCustomAttributes(typeof(NotificationTypesMetaData), true)[0];
+        var description = (NotificationTypesMetaData)attribute;
+        var path = description.IconSvgPath;
+
+        return path;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_transitionEvents is not null)
+        {
+            await _transitionEvents.DisposeAsync();
+        }
+    }
+
+    private void WriteDiag(string message)
+    {
+        _logger.LogDebug($"Component {this.GetType()}: {message}");
+    }
+}

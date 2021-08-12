@@ -3,6 +3,7 @@
 using Bunit;
 
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,30 +14,23 @@ using Moq;
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
-	public class PermaLinkBlazorServerInitializerTest
+	public class PermaLinkBlazorServerInitializerTest : ComponentsTestBase<PermaLinkBlazorServerInitializer>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IPermaLinkWatcherService> _permaLinkWatcherServiceMock;
 		private Mock<IScrollHandler> _scrollHandlerMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<IPermaLinkWatcherService>>();
+			var logger = new Mock<ILogger<IPermaLinkWatcherService>>();
 			_permaLinkWatcherServiceMock = new Mock<IPermaLinkWatcherService>();
 			_scrollHandlerMock = new Mock<IScrollHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), mock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IScrollHandler), _scrollHandlerMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
 		}
 
 		[TestMethod]

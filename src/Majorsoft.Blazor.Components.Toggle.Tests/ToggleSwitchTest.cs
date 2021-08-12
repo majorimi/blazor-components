@@ -1,33 +1,14 @@
 using Bunit;
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Moq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Toggle.Tests
 {
 	[TestClass]
-	public class ToggleSwitchTest
+	public class ToggleSwitchTest : ComponentsTestBase<ToggleSwitch>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<ToggleSwitch>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ToggleSwitch>), mock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_html_attributes()
 		{
