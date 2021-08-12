@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Components;
 
-[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.Notifications.Tests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 using Microsoft.Extensions.DependencyInjection;
 
+[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.Notifications.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>

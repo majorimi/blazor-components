@@ -29,6 +29,8 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IScrollHandler), _scrollHandlerMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
 		}
 
 		[TestMethod]
