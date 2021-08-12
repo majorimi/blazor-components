@@ -65,13 +65,13 @@ namespace Majorsoft.Blazor.Components.Notifications
 		Guid ShowToast(ToastSettings toastSettings);
 
 		/// <summary>
-		/// Removes a Toast notification from collection and UI.
+		/// Removes a <see cref="Toast"/> notification from collection and UI with given Id.
 		/// </summary>
 		/// <param name="id">Toast Id to remove</param>
 		void RemoveToast(Guid id);
 
 		/// <summary>
-		/// Clears <see cref="Toasts"/> collections and Removes all Toast notifications from UI.
+		/// Clears <see cref="Toast"/> collections and Removes all Toast notifications from UI.
 		/// </summary>
 		void ClearAll();
 	}

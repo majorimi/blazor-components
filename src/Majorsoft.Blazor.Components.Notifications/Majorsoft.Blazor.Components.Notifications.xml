@@ -345,13 +345,13 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.RemoveToast(System.Guid)">
             <summary>
-            Removes a Toast notification from collection and UI.
+            Removes a <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> notification from collection and UI with given Id.
             </summary>
             <param name="id">Toast Id to remove</param>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
             <summary>
-            Clears <see cref="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts"/> collections and Removes all Toast notifications from UI.
+            Clears <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> collections and Removes all Toast notifications from UI.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings">
