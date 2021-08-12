@@ -7,7 +7,7 @@
 			CheckIfLastItem(item);
 
 			WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}', IsLastItem: '{item.IsLastItem}'."); /*Must render all item to keep item settings*/
-			<Toast Settings="item" OnOpen="OnItemOpen" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
+			<Toast Settings="item" OnShow="OnItemShow" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
 		}
 	</div>
 }
@@ -87,7 +87,7 @@
 		}
 	}
 
-	private async Task OnItemOpen(Guid id)
+	private async Task OnItemShow(Guid id)
 	{
 		WriteDiag($"Toast Opened Id: '{id}'.");
 		if(OnToastOpen.HasDelegate)
@@ -95,7 +95,7 @@
 			await OnToastOpen.InvokeAsync(id);
 		}
 
-		_toastInternals.TriggerToastOpen(id);
+		_toastInternals.TriggerToastShow(id);
 	}
 	private async Task OnItemToastCloseButtonClicked(Guid id)
 	{

@@ -56,9 +56,9 @@
 	{
 		if(firstRender && Settings.IsVisible)
 		{
-			if (OnOpen.HasDelegate)
+			if (OnShow.HasDelegate)
 			{
-				await OnOpen.InvokeAsync(Settings.Id);
+				await OnShow.InvokeAsync(Settings.Id);
 			}
 		}
 
@@ -100,7 +100,7 @@
 	/// <summary>
 	/// Callback function called when the Toast is opening.
 	/// </summary>
-	[Parameter] public EventCallback<Guid> OnOpen { get; set; }
+	[Parameter] public EventCallback<Guid> OnShow { get; set; }
 	/// <summary>
 	/// Callback function called when the Toast is closing.
 	/// </summary>

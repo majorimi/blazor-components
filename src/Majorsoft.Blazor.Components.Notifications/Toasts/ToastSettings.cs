@@ -41,7 +41,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 
 		/// <summary>
-		/// HTML Content of the collapse panel.
+		/// HTML Content of the<see cref="Toast"/> notification.
 		/// </summary>
 		public RenderFragment Content { get; set; }
 
@@ -56,11 +56,11 @@ namespace Majorsoft.Blazor.Components.Notifications
 		public NotificationStyles NotificationStyle { get; set; } = ToastContainerGlobalSettings.DefaultToastsNotificationStyle;
 
 		/// <summary>
-		/// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>.
+		/// When true Toast will show an icon corresponding to the <see cref="NotificationTypes"/>. Default icon can be overwritten.
 		/// </summary>
 		public bool ShowIcon { get; set; } = ToastContainerGlobalSettings.DefaultToastsShowIcon;
 		/// <summary>
-		/// Icon customization it accepts an SVG `Path` value to override the default icon.
+		/// Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
 		/// </summary>
 		public string CustomIconSvgPath { get; set; } = "";
 		/// <summary>

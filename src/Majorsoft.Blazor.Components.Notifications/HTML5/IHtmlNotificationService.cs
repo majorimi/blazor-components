@@ -30,7 +30,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		ValueTask<int> CheckMaxActionsAsync();
 
 		/// <summary>
-		/// Checks if Browser supports Notification or not.
+		/// Checks if Browser supports HTML Notifications API or not.
 		/// </summary>
 		/// <returns>Browser supported Notification or not</returns>
 		ValueTask<bool> IsBrowserSupportedAsync();

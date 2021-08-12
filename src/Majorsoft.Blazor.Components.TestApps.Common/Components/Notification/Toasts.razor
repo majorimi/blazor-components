@@ -133,7 +133,7 @@
 @code { 
 	protected override void OnInitialized()
 	{
-		_toastService.OnToastOpen += ToastOpen;
+		_toastService.OnToastShow += ToastShow;
 		_toastService.OnToastClosed += ToastClosed;
 		_toastService.OnToastCloseButtonClicked += ToastCloseButtonClicked;
 	}
@@ -186,9 +186,9 @@
 		}
 	}
 
-	private void ToastOpen(Guid id)
+	private void ToastShow(Guid id)
 	{
-		_toastLog = WriteLog(_toastLog, $"Toast event OnOpen Id: '{id}'.");
+		_toastLog = WriteLog(_toastLog, $"Toast event OnShow Id: '{id}'");
 	}
 	private void ToastClosed(Guid id)
 	{
@@ -197,11 +197,11 @@
 			_lastToastId = Guid.Empty;
 		}
 
-		_toastLog = WriteLog(_toastLog, $"Toast event OnClosed Id: '{id}'.");
+		_toastLog = WriteLog(_toastLog, $"Toast event OnClosed Id: '{id}'");
 	}
 	private void ToastCloseButtonClicked(Guid id)
 	{
-		_toastLog = WriteLog(_toastLog, $"Toast event OnCloseButtonClicked Id: '{id}'.");
+		_toastLog = WriteLog(_toastLog, $"Toast event OnCloseButtonClicked Id: '{id}'");
 	}
 
 	private string WriteLog(string log, string message)
@@ -216,7 +216,10 @@
 
 		return log;
 	}
+
 	public void Dispose()
 	{
-		_toastService.OnToastOpen -= ToastOpen;
+		_toastService.OnToastShow -= ToastShow;
+		_toastService.OnToastClosed -= ToastClosed;
+		_toastService.OnToastCloseButtonClicked -= ToastCloseButtonClicked;
 	}}

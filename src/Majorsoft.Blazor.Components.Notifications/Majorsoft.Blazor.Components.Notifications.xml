@@ -203,7 +203,7 @@
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.IsBrowserSupportedAsync">
             <summary>
-            Checks if Browser supports Notification or not.
+            Checks if Browser supports HTML Notifications API or not.
             </summary>
             <returns>Browser supported Notification or not</returns>
         </member>
@@ -303,9 +303,9 @@
             Event triggered when Toasts collection changed.
             </summary>
         </member>
-        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastOpen">
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastShow">
             <summary>
-            Event triggered when one of the Toast is opening.
+            Event triggered when one of the Toast is showing.
             </summary>
         </member>
         <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastClosed">
@@ -324,7 +324,7 @@
             </summary>
             <param name="message">Toast string message</param>
             <param name="notificationType">Notification type or severity level</param>
-            <param name="notificationStyle">Notification style to show different variant of the same <see cref="!:notificationType"/> Toast</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/> Toast</param>
             <returns>Guid Id for the new Toast</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.RenderFragment,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
@@ -333,7 +333,7 @@
             </summary>
             <param name="content">Toast HTML content</param>
             <param name="notificationType">Notification type or severity level</param>
-            <param name="notificationStyle">Notification style to show different variant of the same <see cref="!:notificationType"/> Toast</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/> Toast</param>
             <returns>Guid Id for the new Toast</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Majorsoft.Blazor.Components.Notifications.ToastSettings)">
@@ -479,7 +479,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Content">
             <summary>
-            HTML Content of the collapse panel.
+            HTML Content of the<see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> notification.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Type">
@@ -494,12 +494,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowIcon">
             <summary>
-            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>. Default icon can be overwritten.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.CustomIconSvgPath">
             <summary>
-            Icon customization it accepts an SVG `Path` value to override the default icon.
+            Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowCloseButton">
@@ -529,12 +529,12 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible">
             <summary>
-            Determines wheatere the Alert message should be visible on UI or not.
+            Determines weather the Alert message should be visible on UI or not.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Content">
             <summary>
-            HTML Content of the collapse panel.
+            Required HTML Content of the Alert notification. Can be any valid HTML.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Type">
@@ -544,17 +544,17 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.NotificationStyle">
             <summary>
-            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Type"/> Alert.
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Type"/> of Alert.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">
             <summary>
-            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
+            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>. Default icon can be overwritten.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
             <summary>
-            Icon customization it accepts an SVG `Path` value to override the default icon.
+            Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
@@ -587,9 +587,9 @@
             Blazor capture for any unmatched HTML attributes.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnOpen">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnShow">
             <summary>
-            Callback function called when the Alert is opening.
+            Callback function called when the Alert is showing.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnClose">
@@ -604,7 +604,7 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisibleChanged">
             <summary>
-            Callback function for two way bindigs of <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible"/> property.
+            Callback function for two way bindings of <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible"/> property.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.InnerElementReference">
@@ -617,7 +617,7 @@
             Settings to show Toast notifications.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnOpen">
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnShow">
             <summary>
             Callback function called when the Toast is opening.
             </summary>

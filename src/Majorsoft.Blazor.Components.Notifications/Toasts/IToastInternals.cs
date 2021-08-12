@@ -10,7 +10,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 	{
 		IEnumerable<ToastSettings> AllToasts { get; }
 
-		void TriggerToastOpen(Guid id);
+		void TriggerToastShow(Guid id);
 		void TriggerToastClosed(Guid id);
 		void TriggerToastCloseButtonClicked(Guid id);
 	}

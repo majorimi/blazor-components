@@ -44,7 +44,7 @@
                ShadowEffect="@_alertShadowEffect"
                ShowCloseCountdownProgress="@_alertShowCountdownProgress"
                CustomIconSvgPath="@_alertCustomSvg"
-               OnOpen="OnOpen"
+               OnShow="OnShow"
                OnClose="OnClose"
                OnCloseButtonClicked="OnCloseButtonClicked">
             <Content>
@@ -130,18 +130,18 @@
     private string _alertLog = "";
 
     //Alert events
-    public async Task OnOpen()
+    public async Task OnShow()
     {
-        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnOpen)}' Alert opened.");
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnShow)}' Alert showed");
     }
     public async Task OnClose()
     {
         _alertIsVisible = false; //Or use two-way binding.
-        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Alert closed.");
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Alert closed");
     }
     private async Task OnCloseButtonClicked(MouseEventArgs e)
     {
-        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnCloseButtonClicked)}', Event args: {e}.");
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnCloseButtonClicked)}', Event args: {e}");
     }
 
     private async Task<string> WriteLog(string log, string message)

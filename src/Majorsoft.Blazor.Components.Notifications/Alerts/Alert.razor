@@ -64,7 +64,7 @@
 
     private bool _isVisible = false;
     /// <summary>
-    /// Determines wheatere the Alert message should be visible on UI or not.
+    /// Determines weather the Alert message should be visible on UI or not.
     /// </summary>
     [Parameter]
     public bool IsVisible
@@ -97,11 +97,11 @@
                 }
                 else //open
                 {
-                    if (OnOpen.HasDelegate)
+                    if (OnShow.HasDelegate)
                     {
                         InvokeAsync(async () =>
                         {
-                            await OnOpen.InvokeAsync();
+                            await OnShow.InvokeAsync();
                         });
                     }
 
@@ -120,26 +120,26 @@
     }
 
     /// <summary>
-    /// HTML Content of the collapse panel.
+    /// Required HTML Content of the Alert notification. Can be any valid HTML.
     /// </summary>
     [Parameter] public RenderFragment Content { get; set; }
 
     /// <summary>
     /// Notification type or severity level.
     /// </summary>
-    [Parameter] public NotificationTypes Type { get; set; }
+    [Parameter] public NotificationTypes Type { get; set; } = NotificationTypes.Primary;
 
     /// <summary>
-    /// Notification style to show different variant of the same <see cref="Type"/> Alert.
+    /// Notification style to show different variant of the same <see cref="Type"/> of Alert.
     /// </summary>
-    [Parameter] public NotificationStyles NotificationStyle { get; set; }
+    [Parameter] public NotificationStyles NotificationStyle { get; set; } = NotificationStyles.Normal;
 
     /// <summary>
-    /// When true Alert will show an icon corresponding to the <see cref="NotificationTypes"/>.
+    /// When true Alert will show an icon corresponding to the <see cref="NotificationTypes"/>. Default icon can be overwritten.
     /// </summary>
     [Parameter] public bool ShowIcon { get; set; } = true;
     /// <summary>
-    /// Icon customization it accepts an SVG `Path` value to override the default icon.
+    /// Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
     /// </summary>
     [Parameter] public string CustomIconSvgPath { get; set; } = "";
     /// <summary>
@@ -189,9 +189,9 @@
 
     //Events
     /// <summary>
-    /// Callback function called when the Alert is opening.
+    /// Callback function called when the Alert is showing.
     /// </summary>
-    [Parameter] public EventCallback OnOpen { get; set; }
+    [Parameter] public EventCallback OnShow { get; set; }
     /// <summary>
     /// Callback function called when the Alert is closing.
     /// </summary>
@@ -201,7 +201,7 @@
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnCloseButtonClicked { get; set; }
     /// <summary>
-    /// Callback function for two way bindigs of <see cref="IsVisible"/> property.
+    /// Callback function for two way bindings of <see cref="IsVisible"/> property.
     /// </summary>
     [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
 

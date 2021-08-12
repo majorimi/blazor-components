@@ -35,7 +35,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
-		public event ToastEvent? OnToastOpen;
+		public event ToastEvent? OnToastShow;
 		public event ToastEvent? OnToastClosed;
 		public event ToastEvent? OnToastCloseButtonClicked;
 
@@ -102,7 +102,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
 
-		public void TriggerToastOpen(Guid id) => OnToastOpen?.Invoke(id);
+		public void TriggerToastShow(Guid id) => OnToastShow?.Invoke(id);
 		public void TriggerToastClosed(Guid id) => OnToastClosed?.Invoke(id);
 		public void TriggerToastCloseButtonClicked(Guid id) => OnToastCloseButtonClicked?.Invoke(id);
 

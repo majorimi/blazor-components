@@ -28,9 +28,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 		event NotifyCollectionChangedEventHandler? CollectionChanged;
 
 		/// <summary>
-		/// Event triggered when one of the Toast is opening.
+		/// Event triggered when one of the Toast is showing.
 		/// </summary>
-		event ToastEvent? OnToastOpen;
+		event ToastEvent? OnToastShow;
 		/// <summary>
 		/// Event triggered when the Toast is closing.
 		/// </summary>
@@ -45,7 +45,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <param name="message">Toast string message</param>
 		/// <param name="notificationType">Notification type or severity level</param>
-		/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="notificationType"/> Toast</param>
+		/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="NotificationTypes"/> Toast</param>
 		/// <returns>Guid Id for the new Toast</returns>
 		Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// </summary>
 		/// <param name="content">Toast HTML content</param>
 		/// <param name="notificationType">Notification type or severity level</param>
-		/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="notificationType"/> Toast</param>
+		/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="NotificationTypes"/> Toast</param>
 		/// <returns>Guid Id for the new Toast</returns>
 		Guid ShowToast(RenderFragment content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
 
