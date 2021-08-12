@@ -33,6 +33,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastInternals), _toastInternalsMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<ToastContainer>), new SingletonComponentService<ToastContainer>()));
 		}
 
 		[TestMethod]

@@ -18,19 +18,18 @@
 @inject IToastService _toastService
 @inject IToastInternals _toastInternals
 @inject NavigationManager _navigationManager
+@inject SingletonComponentService<ToastContainer> _singleton
 
 @implements IDisposable
 
 @code {
-	private static bool Initialized = false;
-
 	protected override void OnInitialized()
 	{
-		if (Initialized)
+		if (_singleton.Initialized)
 		{
 			throw new ApplicationException($"Component: '{nameof(ToastContainer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place (end of the HTML page to work with Relative elements).");
 		}
-		Initialized = true;
+		_singleton.Initialized = true;
 
 		_toastService.CollectionChanged += Toasts_CollectionChanged;
 		_navigationManager.LocationChanged += ClearToasts;
@@ -187,7 +186,7 @@
 
 	public void Dispose()
 	{
-		Initialized = false;
+		_singleton.Initialized = false;
 
 		_navigationManager.LocationChanged -= ClearToasts;
 
