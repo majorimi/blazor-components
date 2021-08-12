@@ -14,6 +14,7 @@ using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Majorsoft.Blazor.Extensions.Analytics;
 using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Components.Notifications;
+using Majorsoft.Blazor.Components.PermaLink;
 
 namespace Majorsoft.Blazor.Components.TestServerApp
 {
@@ -34,6 +35,7 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			services.AddServerSideBlazor();
 			services.AddCssEvents();
 			services.AddJsInteropExtensions();
+			services.AddPermaLinkWatcher();
 			services.AddMapExtensions();
 			services.AddBrowserStorage();
 			services.AddGoogleAnalytics();

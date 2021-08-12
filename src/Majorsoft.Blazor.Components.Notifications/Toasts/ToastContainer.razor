@@ -73,7 +73,8 @@
 	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 	{
 		WriteDiag($"Toast collection changed: '{e.Action}', Toasts count: '{_toastInternals.AllToasts.Count()}'.");
-		StateHasChanged();
+
+		InvokeAsync(StateHasChanged);
 	}
 	private void ClearToasts(object? sender, LocationChangedEventArgs args)
 	{

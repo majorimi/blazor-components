@@ -23,7 +23,8 @@ namespace Majorsoft.Blazor.Components.PermaLink
 				throw new ArgumentNullException(nameof(services));
 			}
 
-			services.AddSingleton<IPermaLinkWatcherService, PermaLinkWatcherService>();
+			services.AddScoped<IPermaLinkWatcherService, PermaLinkWatcherService>();
+
 			services.AddScoped<SingletonComponentService<PermaLinkBlazorServerInitializer>>();
 			services.AddScoped<SingletonComponentService<PermalinkBlazorWasmInitializer>>();
 

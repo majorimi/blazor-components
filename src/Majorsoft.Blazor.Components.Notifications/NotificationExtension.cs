@@ -26,9 +26,9 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 			services.AddTransient<IHtmlNotificationService, HtmlNotificationService>();
 
-			services.AddSingleton<ToastService>();
-			services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastService>());
-			services.AddSingleton<IToastInternals>(sp => sp.GetRequiredService<ToastService>());
+			services.AddScoped<ToastService>();
+			services.AddScoped<IToastService>(sp => sp.GetRequiredService<ToastService>());
+			services.AddScoped<IToastInternals>(sp => sp.GetRequiredService<ToastService>());
 
 			services.AddScoped<SingletonComponentService<ToastContainer>>();
 
