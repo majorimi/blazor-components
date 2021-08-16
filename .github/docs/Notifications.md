@@ -18,7 +18,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **`Alert`**: Renders `Alert` component which **is a banner to show important application messages**. Importance can be emphasized by Type and NotificationStyle styling with customizable content.
 - **`ToastContainer` and `Toast`**: Renders single `ToastContainer` **component per application** which can be placed to 6 different places of a page. With injectable `IToastService` service individual `Toast` components can be added, removed or events tracked. By using Global settings or override all values per Toast notification.
-- **`IHtmlNotificationService`**: Injectable `IHtmlNotificationService` service which is a **wrapper for Notification API** to handle HTML5 notifications and ServiceWorker Notifications with Custom actions handled by registered Service Worker.
+- **`IHtmlNotificationService`**: Injectable `IHtmlNotificationService` service which is a **wrapper for [Notification API](https://developer.mozilla.org/en-US/docs/Web/API/notification)** to handle HTML5 notifications and ServiceWorker Notifications with Custom actions handled by registered Service Worker.
 
 ## `Alert` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/notifications#alerts))
 Renders `Alert` component which is a banner to show important application messages. 
@@ -43,7 +43,7 @@ Icon customization it accepts an SVG `Path` value to override the default icon. 
 - **`ShowCloseButton`: `bool { get; set; }` (default: true)** <br />
  When `true` Alert will show close "x" button.
 
-**Arbitrary HTML attributes e.g.: `id="diag1"` will be passed to the corresponding rendered root HTML element `<div>`**.
+**Arbitrary HTML attributes e.g.: `id="alert1"` will be passed to the corresponding rendered root HTML element `<div>`**.
 
 ### Events
 - **`OnShow`: `EventCallback`** <br />
@@ -113,7 +113,7 @@ Properties are not explained see `IToastService`, `ToastContainer` and `ToastSet
 ## `IHtmlNotificationService` service (See [demo app](https://blazorextensions.z6.web.core.windows.net/notifications#htmlnotification))
 Injectable `IHtmlNotificationService` service which is a **wrapper for Notification API** to handle `HTML5 notifications` and `ServiceWorker` Notifications with Custom actions handled by registered Service Worker.
 
-**NOTE**: in order to show System notifications user Consent is required for the given Website per Browser. Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...
+**NOTE**: *in order to show system notifications user consent is required for the given website per browser. also operating system must allow notification to show e.g.: notification center turned on, focus assist allowing notifications to shown by the app in the given time, etc...*
 
 ![HTML5 Notification demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/Notification_htmlnotification.gif)
 
@@ -160,6 +160,7 @@ which handles CSS Transition and Animation events for the dialog animation.
 - [Majorsoft.Blazor.Components.Timer](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer)
 which handles Auto close timing.
 
+### Register services
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
 using Majorsoft.Blazor.Components.CssEvents;
@@ -170,6 +171,7 @@ public static async Task Main(string[] args)
 
 	//Register dependencies
 	builder.Services.AddCssEvents();
+	builder.Services.AddNotifications();
 }
 ```
 
@@ -182,24 +184,220 @@ public void ConfigureServices(IServiceCollection services)
 {
 	//Register dependencies
 	services.AddCssEvents();
+	services.AddNotifications();
 }
 ```
 
-### `ModalDialog` usage
+### `Alert` usage
 Following code example shows how to use **`Alert`** component.
 
-This example shows a simple dialog with Content message. **Blazor does not support empty content check.** Which means if you want to skip, remove **Header** and **Footer** 
-you should not define it. **To achieve this do not place Header or Footer into the HTML markup.**
-```
+`Alert` component must be placed to HTML DOM it cannot be added dynamically. But Alert can be hidden. Content of the alert with many more
+settings can be customized. See properties for more details.
 
 ```
+<Alert Type="@_alertTypeLevel"
+	NotificationStyle="@_alertStyle"
+	@bind-IsVisible="_alertIsVisible"
+	AutoClose="@_alertAutoClose"
+	AutoCloseInSec="@_alertAutoCloseInSec"
+	ShowCloseButton="@_alertShowCloseButton"
+	ShowIcon="@_alertShowIcon"
+	ShadowEffect="@_alertShadowEffect"
+	ShowCloseCountdownProgress="@_alertShowCountdownProgress"
+	CustomIconSvgPath="@_alertCustomSvg"
+	OnShow="OnShow"
+	OnClose="OnClose"
+	OnCloseButtonClicked="OnCloseButtonClicked">
+	<Content>
+		@((MarkupString)_alertText)
+	</Content>
+</Alert>
 
+@code {
+	private bool _alertIsVisible = false;
+	private bool _alertAutoClose = true;
+	private bool _alertShowIcon = true;
+	private bool _alertShowCloseButton = true;
+	private bool _alertShowCountdownProgress = true;
+	private uint _alertAutoCloseInSec = 5;
+	private uint _alertShadowEffect = 0;
+	private string _alertText = $@"<strong>Alert:</strong> This is a(n) {nameof(NotificationTypes.Primary)} alert...";
+	private string _alertCustomSvg;
+	private NotificationTypes _alertTypeLevel = NotificationTypes.Primary;
+	private NotificationStyles _alertStyle = NotificationStyles.Normal;
 
+	//Alert events
+	public async Task OnShow()
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClose()
+	{
+		//TODO: handle Alert event
+	}
+	private async Task OnCloseButtonClicked(MouseEventArgs e)
+	{
+		//TODO: handle Alert event
+	}
+}
+```
+
+### `ToastContainer` and `Toast` usage
+Following code example shows how to use **`ToastContainer` and `Toast`** component.
 
 ```
 
 
 @code {
 
+}
+```
+
+### `IHtmlNotificationService` usage
+Following code example shows how to use **`IHtmlNotificationService`** service.
+
+**NOTE**: *in order to show System notifications user Consent is required for the given Website per Browser. 
+Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...*
+
+This example shows how to **check HTML notification is supported by Browser and ask User consent (permission) to prompt HTML notification**:
+```
+HTML5 Notification supported: @_notificationSupported
+Notification user consent: @_htmlNotificationPermission
+
+@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+{
+	<button class="btn btn-primary" @onclick="RequestPermission">Request user Permission</button>
+}
+
+
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_notificationSupported = await _notificationService.IsBrowserSupportedAsync();
+			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
+			StateHasChanged();
+		}
+	}
+
+	//HTML5 notification
+	private bool _notificationSupported;
+	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+
+	private async Task RequestPermission()
+	{
+		await _notificationService.RequestPermissionAsync(async res =>
+		{
+			_htmlNotificationPermission = res;
+			StateHasChanged();
+		});
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
+```
+
+This example shows how to prompt "simple" (**without Custom Actions with callbacks**) HTML notification. In this case Notification events are available 
+(**Important NOTE: events are "non reliable" e.g. same events might not supported by some OS, or when Notification auto dismissed and later "clicked" in "Action Center" meanwhile your application already closed**).
+```
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	//HTML5 notification
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
+
+	private async Task ShowSimpeNotification()
+	{
+		var options = new HtmlNotificationOptions(_notificationTitle)
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			Vibrate = new int[] { 100, 200, 100},
+			//events
+			OnOpenCallback = OnOpen,
+			OnCloseCallback = OnClose,
+			OnErrorCallback = OnError,
+			OnClickCallback = OnClick,
+		};
+
+		var id = await _notificationService.ShowsAsync(options);
+	}
+
+	public async Task OnOpen(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClose(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnError(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClick(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
+}
+```
+
+This example shows how to prompt "simple" (**Custom Actions with callbacks are possible with registered [Service Worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification)**) 
+HTML notification.
+```
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
+
+	private async Task ShowWithActionsNotification()
+	{
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js")
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			//actions
+			Actions = new NotificationAction[]
+			{
+			   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			   new NotificationAction() { Action = "action2", Title = "Other action"},
+			},
+			Vibrate = new int[] { 100, 200, 100 },
+			Data = "any type of object.."
+		};
+
+		await _notificationService.ShowsWithActionsAsync(options);
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
 }
 ```
