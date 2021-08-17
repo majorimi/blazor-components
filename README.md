@@ -80,4 +80,5 @@ Check out our planned components and extensions on the project [Wiki page](https
 ## Other info
 - [Contributing](CONTRIBUTING.md)
 - [Docs](.github/docs)
+- [Wiki page](https://github.com/majorimi/blazor-components/wiki)
 - [License](LICENSE)
