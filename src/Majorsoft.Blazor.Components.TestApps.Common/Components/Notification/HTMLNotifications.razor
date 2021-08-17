@@ -62,6 +62,8 @@
 				<div class="row pb-2">
 					<div class="col-12">
 						<label><strong>Event log</strong>:</label>
+						<br />
+						<strong>Important NOTE:</strong> events are "non reliable" e.g. same events might not supported by some OS, or when Notification auto dismissed and later "clicked" in "Action Center" meanwhile your application might be closed.
 						<textarea @ref="log1" @bind="_notificationLog" style="height:200px;" class="form-control w-100" readonly></textarea>
 					</div>
 				</div>

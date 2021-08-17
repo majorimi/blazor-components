@@ -18,7 +18,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 
 - **`Alert`**: Renders `Alert` component which **is a banner to show important application messages**. Importance can be emphasized by Type and NotificationStyle styling with customizable content.
 - **`ToastContainer` and `Toast`**: Renders single `ToastContainer` **component per application** which can be placed to 6 different places of a page. With injectable `IToastService` service individual `Toast` components can be added, removed or events tracked. By using Global settings or override all values per Toast notification.
-- **`IHtmlNotificationService`**: Injectable `IHtmlNotificationService` service which is a **wrapper for Notification API** to handle HTML5 notifications and ServiceWorker Notifications with Custom actions handled by registered Service Worker.
+- **`IHtmlNotificationService`**: Injectable `IHtmlNotificationService` service which is a **wrapper for [Notification API](https://developer.mozilla.org/en-US/docs/Web/API/notification)** to handle HTML5 notifications and ServiceWorker Notifications with Custom actions handled by registered Service Worker.
 
 ## `Alert` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/notifications#alerts))
 Renders `Alert` component which is a banner to show important application messages. 
@@ -43,7 +43,7 @@ Icon customization it accepts an SVG `Path` value to override the default icon. 
 - **`ShowCloseButton`: `bool { get; set; }` (default: true)** <br />
  When `true` Alert will show close "x" button.
 
-**Arbitrary HTML attributes e.g.: `id="diag1"` will be passed to the corresponding rendered root HTML element `<div>`**.
+**Arbitrary HTML attributes e.g.: `id="alert1"` will be passed to the corresponding rendered root HTML element `<div>`**.
 
 ### Events
 - **`OnShow`: `EventCallback`** <br />
@@ -72,16 +72,36 @@ As the name suggests it is a container element for individual `Toast` notificati
 **Place it to a global (Layout) component after all HTML elements to be able to work with `position: relative;` elements**
 
 #### Properties
+- **`Settings`: `ToastContainerGlobalSettings { get; set; }`** <br />
+'ToastContainer` settings (default static values applied on `Toast` level).
 
 #### Events
-
-#### Functions
+- **`OnToastShow`: `ToastEvent`** <br />
+Event triggered when one of the `Toast` is showing.
+- **`OnToastClosed`: `ToastEvent`** <br />
+Event triggered when the `Toast` is closing.
+- **`OnToastCloseButtonClicked`: `ToastEvent`** <br />
+Event triggered when close `x` button was clicked on one of the `Toast`.
 
 ### IToastService
+Injectable service to handle `Toast` notifications and settings.
+**Note**: Injected as Singleton so all components use the same instance **do NOT dispose manually**.
 
 #### Properties
+- **`Toasts`: `IEnumerable<ToastSettings> { get; }`** <br />
+Collection of Toasts notifications.
+- **`GlobalSettings`: `ToastContainerGlobalSettings { get; set; }`** <br />
+Global Toast Container and common Toasts settings with default values.
 
 #### Events
+- **`CollectionChanged`: `NotifyCollectionChangedEventHandler`** <br />
+Event triggered when Toasts collection changed.
+- **`OnToastShow`: `ToastEvent`** <br />
+Event triggered when one of the `Toast` is showing.
+- **`OnToastClosed`: `ToastEvent`** <br />
+Event triggered when the `Toast` is closing.
+- **`OnToastCloseButtonClicked`: `ToastEvent`** <br />
+Event triggered when close `x` button was clicked on one of the `Toast`.
 
 #### Functions
 - **`ShowToast()`: `Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)`** <br />
@@ -95,15 +115,66 @@ Removes a `Toast` notification from collection and UI with given Id.
 - **`ClearAll()`: `void ClearAll()`** <br />
 Clears `Toast`s collections and Removes all Toast notifications from UI.
 - **`Dispose()`: `void Dispose()`** <br />
-Service implements `IDisposable` interface.
+Service implements `IDisposable` interface ().
 
-### ToastSettings
+### ToastContainerGlobalSettings
+Global Toast Container and common Toasts settings with default values. Some of settings will impact the `ToastContainer` which indirectly
+determines some `Toast` settings e.g. `Width` of `ToastContainer` is limiting the width of a `Toast` notification. 
 
 #### Properties
+- **`RemoveToastsOnNavigation`: `bool { get; set; }`  (default: true)** <br />
+Determines if Toast notifications should be removed when user navigates to other page.
+**Note**: in order make it work `ToastContainer` component must be applied only once per application in a common place e.g.: Layour.razor, etc.
+- **`Position`: `ToastPositions { get; set; }`  (default: ToastPositions.TopRight)** <br />
+Toast Container position on screen `ToastPositions`.
+- **`Width`: `int { get; set; }`  (default: 400)** <br />
+`ToastContainer` width in `px` it will determine the shown `Toast` width as well.
+- **`PaddingFromSide`: `int { get; set; }`  (default: -1)** <br />
+ Required space for `ToastContainer` from page (left/right) side in `px`. If -1 it is not applied default CSS style will be used.
+- **`PaddingFromTopOrBottom`: `int { get; set; }`  (default: -1)** <br />
+ Required space for `ToastContainer` from page (Top/Bottom) side in `px`. If -1 it is not applied default CSS style will be used.
+- **`static DefaultToastsShowIcon`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When true Toast will show an icon corresponding to the `NotificationTypes`.
+- **`static DefaultToastsShowCloseButton`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When true Toast will show close "x" button.
+- **`static DefaultToastsAutoCloseInSec`: `uint { get; set; }`  (default: 10)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+Toast will close after set time elapsed in Sec.
+- **`static DefaultToastsShowCloseCountdownProgress`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When it's true a progress bar will show the remaining time until Toast closes.
+- **`static DefaultToastsNotificationStyle`: `NotificationStyles { get; set; }`  (default: NotificationStyles.Normal)** <br />
+Global config applied to all Toasts if not set otherwise.
+Notification style to show different variant of the same Type of `Toast`.
+- **`static DefaultToastsShadowEffect`: `uint { get; set; }`  (default: 5)** <br />
+Global config applied to all Toasts if not set otherwise.
+Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
 
-#### Events
+### ToastSettings
+Properties for individual `Toast` Notifications. 
+**NOTE**: most of the properties can be used with default values from `ToastContainerGlobalSettings` static properties.
 
-#### Functions
+#### Properties
+- **`Content`: `RenderFragment { get; set; }`** <br />
+HTML Content of the<see `Toast` notification.
+- **`Type`: `NotificationTypes { get; set; }`  (default: NotificationTypes.Primary)** <br />
+Notification type or severity level.
+- **`NotificationStyle`: `NotificationStyles { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsNotificationStyle)** <br />
+Notification style to show different variant of the same `Type` Toast.
+- **`ShowIcon`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowIcon)** <br />
+When true Toast will show an icon corresponding to the `NotificationTypes`. Default icon can be overwritten.
+- **`CustomIconSvgPath`: `string { get; set; }`  (default: "")** <br />
+Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
+- **`ShowCloseButton`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowCloseButton)** <br />
+When true Toast will show close "x" button.
+- **`AutoCloseInSec`: `uint { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec)** <br />
+Toast will close after set time elapsed in Sec.
+- **`ShowCloseCountdownProgress`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress)** <br />
+When it's true a progress bar will show the remaining time until Toast closes.
+- **`ShadowEffect`: `uint { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShadowEffect)** <br />
+Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
 
 ### Toast
 An individual `Toast` showed in order of creation inside the `ToastContainer`. <br />
@@ -113,7 +184,7 @@ Properties are not explained see `IToastService`, `ToastContainer` and `ToastSet
 ## `IHtmlNotificationService` service (See [demo app](https://blazorextensions.z6.web.core.windows.net/notifications#htmlnotification))
 Injectable `IHtmlNotificationService` service which is a **wrapper for Notification API** to handle `HTML5 notifications` and `ServiceWorker` Notifications with Custom actions handled by registered Service Worker.
 
-**NOTE**: in order to show System notifications user Consent is required for the given Website per Browser. Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...
+**NOTE**: *in order to show system notifications user consent is required for the given website per browser. also operating system must allow notification to show e.g.: notification center turned on, focus assist allowing notifications to shown by the app in the given time, etc...*
 
 ![HTML5 Notification demo](https://github.com/majorimi/blazor-components-docs/raw/main/github/docs/gifs/Notification_htmlnotification.gif)
 
@@ -160,6 +231,7 @@ which handles CSS Transition and Animation events for the dialog animation.
 - [Majorsoft.Blazor.Components.Timer](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Timer)
 which handles Auto close timing.
 
+### Register services
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
 using Majorsoft.Blazor.Components.CssEvents;
@@ -170,6 +242,7 @@ public static async Task Main(string[] args)
 
 	//Register dependencies
 	builder.Services.AddCssEvents();
+	builder.Services.AddNotifications();
 }
 ```
 
@@ -182,24 +255,302 @@ public void ConfigureServices(IServiceCollection services)
 {
 	//Register dependencies
 	services.AddCssEvents();
+	services.AddNotifications();
 }
 ```
 
-### `ModalDialog` usage
+### `Alert` usage
 Following code example shows how to use **`Alert`** component.
 
-This example shows a simple dialog with Content message. **Blazor does not support empty content check.** Which means if you want to skip, remove **Header** and **Footer** 
-you should not define it. **To achieve this do not place Header or Footer into the HTML markup.**
-```
+`Alert` component must be placed to HTML DOM it cannot be added dynamically. But Alert can be hidden. Content of the alert with many more
+settings can be customized. See properties for more details.
 
 ```
-
-
-
-```
-
+<Alert Type="@_alertTypeLevel"
+	NotificationStyle="@_alertStyle"
+	@bind-IsVisible="_alertIsVisible"
+	AutoClose="@_alertAutoClose"
+	AutoCloseInSec="@_alertAutoCloseInSec"
+	ShowCloseButton="@_alertShowCloseButton"
+	ShowIcon="@_alertShowIcon"
+	ShadowEffect="@_alertShadowEffect"
+	ShowCloseCountdownProgress="@_alertShowCountdownProgress"
+	CustomIconSvgPath="@_alertCustomSvg"
+	OnShow="OnShow"
+	OnClose="OnClose"
+	OnCloseButtonClicked="OnCloseButtonClicked">
+	<Content>
+		@((MarkupString)_alertText)
+	</Content>
+</Alert>
 
 @code {
+	private bool _alertIsVisible = false;
+	private bool _alertAutoClose = true;
+	private bool _alertShowIcon = true;
+	private bool _alertShowCloseButton = true;
+	private bool _alertShowCountdownProgress = true;
+	private uint _alertAutoCloseInSec = 5;
+	private uint _alertShadowEffect = 0;
+	private string _alertText = $@"<strong>Alert:</strong> This is a(n) {nameof(NotificationTypes.Primary)} alert...";
+	private string _alertCustomSvg;
+	private NotificationTypes _alertTypeLevel = NotificationTypes.Primary;
+	private NotificationStyles _alertStyle = NotificationStyles.Normal;
 
+	//Alert events
+	public async Task OnShow()
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClose()
+	{
+		//TODO: handle Alert event
+	}
+	private async Task OnCloseButtonClicked(MouseEventArgs e)
+	{
+		//TODO: handle Alert event
+	}
+}
+```
+
+### `ToastContainer` and `Toast` usage
+Following code example shows how to use **`ToastContainer` and `Toast`** component.
+
+**First step to add a *single* `ToastContainer` to a common place e.g. MainLayour.razor**
+```
+...
+@Body
+...
+
+@*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+<ToastContainer />
+
+@inject IToastService _toastService
+@code {
+	protected override void OnInitialized()
+	{
+		//Common settings can be set globally for ToastContainer and Toasts in IToastService
+		_toastService.GlobalSettings.Position = ToastPositions.TopRight;
+		_toastService.GlobalSettings.RemoveToastsOnNavigation = true;
+		_toastService.GlobalSettings.Width = 420;
+		_toastService.GlobalSettings.PaddingFromSide = -1;
+		_toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
+
+		ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+	}
+}
+```
+
+Then `Toast` notifications can be configured, prompted, removed and listened for events via injectable `IToastService`.
+```
+
+@inject IToastService _toastService
+@implements IDisposable
+@code {
+	protected override void OnInitialized()
+	{
+		_toastService.OnToastShow += ToastShow;
+		_toastService.OnToastClosed += ToastClosed;
+		_toastService.OnToastCloseButtonClicked += ToastCloseButtonClicked;
+	}
+
+	private async Task ShowAllToast()
+	{
+		foreach (var item in Enum.GetValues<NotificationTypes>())
+		{
+			_toastService.ShowToast($@"<strong>Toast:</strong> This is a(n) {item} notification", item);
+		}
+	}
+
+	private Guid _lastToastId;
+	private string _toastText = $@"<strong>Toast:</strong> This is a(n) {NotificationTypes.Primary} notification";
+	private bool _toastShowIcon = true;
+	private bool _toastShowCloseButton = true;
+	private bool _toastShowCountdownProgress = true;
+	private uint _toastAutoCloseInSec = 5;
+	private uint _toastShadowEffect = 5;
+	private NotificationStyles _toastStyle;
+	private NotificationTypes _toastTypeLevel;
+	private async Task ShowCustomToast()
+	{
+		_lastToastId = _toastService.ShowToast(new ToastSettings()
+		{
+			Content = builder => builder.AddMarkupContent(0, _toastText),
+			NotificationStyle = _toastStyle,
+			Type = _toastTypeLevel,
+			AutoCloseInSec = _toastAutoCloseInSec,
+			ShadowEffect = _toastShadowEffect,
+			ShowCloseButton = _toastShowCloseButton,
+			ShowCloseCountdownProgress = _toastShowCountdownProgress,
+			ShowIcon = _toastShowIcon
+		});
+	}
+
+	private void ToastShow(Guid id)
+	{
+	}
+	private void ToastClosed(Guid id)
+	{
+	}
+	private void ToastCloseButtonClicked(Guid id)
+	{
+	}
+
+	public void Dispose()
+	{
+		_toastService.OnToastShow -= ToastShow;
+		_toastService.OnToastClosed -= ToastClosed;
+		_toastService.OnToastCloseButtonClicked -= ToastCloseButtonClicked;
+	}
+}
+
+```
+
+### `IHtmlNotificationService` usage
+Following code example shows how to use **`IHtmlNotificationService`** service.
+
+**NOTE**: *in order to show System notifications user Consent is required for the given Website per Browser. 
+Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...*
+
+This example shows how to **check HTML notification is supported by Browser and ask User consent (permission) to prompt HTML notification**:
+```
+HTML5 Notification supported: @_notificationSupported
+Notification user consent: @_htmlNotificationPermission
+
+@if (_htmlNotificationPermission != HtmlNotificationPermissionTypes.Granted)
+{
+	<button class="btn btn-primary" @onclick="RequestPermission">Request user Permission</button>
+}
+
+
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			_notificationSupported = await _notificationService.IsBrowserSupportedAsync();
+			_htmlNotificationPermission = await _notificationService.CheckPermissionAsync();
+			StateHasChanged();
+		}
+	}
+
+	//HTML5 notification
+	private bool _notificationSupported;
+	private HtmlNotificationPermissionTypes _htmlNotificationPermission;
+
+	private async Task RequestPermission()
+	{
+		await _notificationService.RequestPermissionAsync(async res =>
+		{
+			_htmlNotificationPermission = res;
+			StateHasChanged();
+		});
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
+```
+
+This example shows how to prompt "simple" (**without Custom Actions with callbacks**) HTML notification. In this case Notification events are available 
+(**Important NOTE: events are "non reliable" e.g. same events might not supported by some OS, or when Notification auto dismissed and later "clicked" in "Action Center" meanwhile your application already closed**).
+```
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	//HTML5 notification
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
+
+	private async Task ShowSimpeNotification()
+	{
+		var options = new HtmlNotificationOptions(_notificationTitle)
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			Vibrate = new int[] { 100, 200, 100},
+			//events
+			OnOpenCallback = OnOpen,
+			OnCloseCallback = OnClose,
+			OnErrorCallback = OnError,
+			OnClickCallback = OnClick,
+		};
+
+		var id = await _notificationService.ShowsAsync(options);
+	}
+
+	public async Task OnOpen(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClose(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnError(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+	public async Task OnClick(Guid id)
+	{
+		//TODO: handle Alert event
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
+}
+```
+
+This example shows how to prompt "simple" (**Custom Actions with callbacks are possible with registered [Service Worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification)**) 
+HTML notification.
+```
+@inject IHtmlNotificationService _notificationService
+@implements IAsyncDisposable
+
+@code {
+	private string _notificationTitle = "Notification Title";
+	private string _notificationBody = "Notification Body";
+	private string _notificationIcon = "blazor.components.png";
+
+	private async Task ShowWithActionsNotification()
+	{
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js")
+		{
+			Body = _notificationBody,
+			Icon = _notificationIcon,
+			//actions
+			Actions = new NotificationAction[]
+			{
+			   new NotificationAction() { Action = "action1", Title = "Custom action"},
+			   new NotificationAction() { Action = "action2", Title = "Other action"},
+			},
+			Vibrate = new int[] { 100, 200, 100 },
+			Data = "any type of object.."
+		};
+
+		await _notificationService.ShowsWithActionsAsync(options);
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_notificationService is not null)
+		{
+			await _notificationService.DisposeAsync();
+		}
+	}
 }
 ```
