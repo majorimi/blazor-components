@@ -286,14 +286,14 @@
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
 	/// MarkerOptions object used to define the properties that can be set on a Marker.
-	/// ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
 	{
 		get => _markers;
 		set
 		{
-			if (_mapInitialized && _markers is null && value is not null)
+			if (_markers is null && value is not null) //Subscribe to events only once!
 			{
 				_markers = value;
 				_markers.CollectionChanged += MarkersChanges;

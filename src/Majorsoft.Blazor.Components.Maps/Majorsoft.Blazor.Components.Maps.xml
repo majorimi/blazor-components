@@ -856,7 +856,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
             <summary>
             MarkerOptions object used to define the properties that can be set on a Marker.
-            ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+            ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">
