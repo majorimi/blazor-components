@@ -316,12 +316,94 @@ settings can be customized. See properties for more details.
 ### `ToastContainer` and `Toast` usage
 Following code example shows how to use **`ToastContainer` and `Toast`** component.
 
+**First step to add a *single* `ToastContainer` to a common place e.g. MainLayour.razor**
+```
+...
+@Body
+...
+
+@*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+<ToastContainer />
+
+@inject IToastService _toastService
+@code {
+	protected override void OnInitialized()
+	{
+		//Common settings can be set globally for ToastContainer and Toasts in IToastService
+		_toastService.GlobalSettings.Position = ToastPositions.TopRight;
+		_toastService.GlobalSettings.RemoveToastsOnNavigation = true;
+		_toastService.GlobalSettings.Width = 420;
+		_toastService.GlobalSettings.PaddingFromSide = -1;
+		_toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
+
+		ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+	}
+}
 ```
 
+Then `Toast` notifications can be configured, prompted, removed and listened for events via injectable `IToastService`.
+```
 
+@inject IToastService _toastService
+@implements IDisposable
 @code {
+	protected override void OnInitialized()
+	{
+		_toastService.OnToastShow += ToastShow;
+		_toastService.OnToastClosed += ToastClosed;
+		_toastService.OnToastCloseButtonClicked += ToastCloseButtonClicked;
+	}
 
+	private async Task ShowAllToast()
+	{
+		foreach (var item in Enum.GetValues<NotificationTypes>())
+		{
+			_toastService.ShowToast($@"<strong>Toast:</strong> This is a(n) {item} notification", item);
+		}
+	}
+
+	private Guid _lastToastId;
+	private string _toastText = $@"<strong>Toast:</strong> This is a(n) {NotificationTypes.Primary} notification";
+	private bool _toastShowIcon = true;
+	private bool _toastShowCloseButton = true;
+	private bool _toastShowCountdownProgress = true;
+	private uint _toastAutoCloseInSec = 5;
+	private uint _toastShadowEffect = 5;
+	private NotificationStyles _toastStyle;
+	private NotificationTypes _toastTypeLevel;
+	private async Task ShowCustomToast()
+	{
+		_lastToastId = _toastService.ShowToast(new ToastSettings()
+		{
+			Content = builder => builder.AddMarkupContent(0, _toastText),
+			NotificationStyle = _toastStyle,
+			Type = _toastTypeLevel,
+			AutoCloseInSec = _toastAutoCloseInSec,
+			ShadowEffect = _toastShadowEffect,
+			ShowCloseButton = _toastShowCloseButton,
+			ShowCloseCountdownProgress = _toastShowCountdownProgress,
+			ShowIcon = _toastShowIcon
+		});
+	}
+
+	private void ToastShow(Guid id)
+	{
+	}
+	private void ToastClosed(Guid id)
+	{
+	}
+	private void ToastCloseButtonClicked(Guid id)
+	{
+	}
+
+	public void Dispose()
+	{
+		_toastService.OnToastShow -= ToastShow;
+		_toastService.OnToastClosed -= ToastClosed;
+		_toastService.OnToastCloseButtonClicked -= ToastCloseButtonClicked;
+	}
 }
+
 ```
 
 ### `IHtmlNotificationService` usage
