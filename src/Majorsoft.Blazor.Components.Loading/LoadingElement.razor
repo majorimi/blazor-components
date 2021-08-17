@@ -1,9 +1,11 @@
 ﻿@if (_isLoading)
 {
-	<div class="loading"
-		 style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
-		 @attributes=AllOtherAttributes>
-		<div class="loading-content">@(LoadingContent)</div>
+	<div class="loading-wrapper">
+		<div class="loading" @onclick="e => OnOverlayClicked.InvokeAsync(e)"
+			 style="background-color: rgba(@OverlayBackgroundColor, @OverlayOpacity.ToString("0.00", CultureInfo.InvariantCulture))"
+			 @attributes=AllOtherAttributes>
+			<div class="loading-content">@(LoadingContent)</div>
+		</div>
 		@Content
 	</div>
 }
@@ -65,6 +67,11 @@ else
 	/// Callback function called when component OnInitializedAsync Blazor event triggered.
 	/// </summary>
 	[Parameter] public EventCallback OnLoading { get; set; }
+
+	/// <summary>
+	/// Callback function called when Overlay `div` was clicked. It can be used to close the overlay.
+	/// </summary>
+	[Parameter] public EventCallback<MouseEventArgs> OnOverlayClicked { get; set; }
 
 	/// <summary>
 	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.

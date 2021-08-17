@@ -1,10 +1,10 @@
 @echo off
 
-rem TestApp
-xcopy .\Majorsoft.Blazor.Components.TestApps.Common\Pages .\Majorsoft.Blazor.Components.TestApp\Pages /E /Y
-
-rem TestServerApp
-xcopy .\Majorsoft.Blazor.Components.TestApps.Common\Pages .\Majorsoft.Blazor.Components.TestServerApp\Pages /E /Y
+::rem TestApp
+::xcopy .\Majorsoft.Blazor.Components.TestApps.Common\Pages .\Majorsoft.Blazor.Components.TestApp\Pages /E /Y
+::
+::rem TestServerApp
+::xcopy .\Majorsoft.Blazor.Components.TestApps.Common\Pages .\Majorsoft.Blazor.Components.TestServerApp\Pages /E /Y
 
 rem DemoApp
 xcopy .\Majorsoft.Blazor.Components.TestApps.Common\Pages ..\demo\Majorsoft.Blazor.Components.DemoApp\Pages /E /Y

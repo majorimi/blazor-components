@@ -34,6 +34,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Tabs\Majorsoft.Blazor.Components.Tabs.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />

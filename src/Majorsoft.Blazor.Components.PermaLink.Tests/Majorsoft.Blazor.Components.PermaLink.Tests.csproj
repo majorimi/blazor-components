@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+    <ProjectReference Include="..\Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj" />
     <ProjectReference Include="..\Majorsoft.Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
   </ItemGroup>
 

@@ -79,6 +79,11 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
 				await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
 				await module.DisposeAsync();
 			}
+
+			foreach (var item in _dotNetObjectReferences)
+			{
+				item.Dispose();
+			}
 		}
 	}
 }

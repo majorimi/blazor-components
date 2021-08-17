@@ -1,12 +1,20 @@
 ﻿@using System.ComponentModel.DataAnnotations;
 <PageScroll />
 
-<h1>Loading Components</h1>
+<h1>Loading and Overlay Components</h1>
 <p>
-	Blazor components that renders Overlay for page load. HTML @("<button>") with customizable content for showing async operation in progress/loading state. For usage see source code and docs on
+	Blazor components that renders Overlays for the whole page on load or for specific element on custom event. 
+	Also HTML @("<button>") with customizable content for showing async operation in progress/loading state. For usage see source code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md" target="_blank">Github</a>.
 	<br /><strong>Majorsoft.Blazor.Components.Loading</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading" target="_blank">Nuget</a>
 </p>
+
+<h3>Loading and Overlay Components features:</h3>
+<ul>
+	<li><NavLink href="loading#loading-page">Loading page</NavLink></li>
+	<li><NavLink href="loading#loading-element">Loading element</NavLink></li>
+	<li><NavLink href="loading#loading-button">Loading button</NavLink></li>
+</ul>
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="loading-page" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
@@ -51,7 +59,7 @@
 	<PermaLinkElement PermaLinkName="loading-element" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Loading element</h3></Content>
 	</PermaLinkElement>
-	<p>Renders an Overlay layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...</p>
+	<p>Renders an Overlay layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading or any progress... It can be used for a 'static' overlay as well.</p>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
@@ -70,44 +78,67 @@
 		</div>
 	</div>
 
-	<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable / 100)">
-		<LoadingContent>
-			@((MarkupString)_overlayContent2)
-		</LoadingContent>
-		<Content>
-			<table class="table table-striped table-bordered">
-				<thead class="">
-					<tr>
-						<th>Company</th>
-						<th>Contact</th>
-						<th>Country</th>
-					</tr>
-				</thead>
-				<tr>
-					<td>Alfreds Futterkiste</td>
-					<td>Maria Anders</td>
-					<td>Germany</td>
-				</tr>
-				<tr>
-					<td>Centro comercial Moctezuma</td>
-					<td>Francisco Chang</td>
-					<td>Mexico</td>
-				</tr>
-				<tr>
-					<td>Ernst Handel</td>
-					<td>Roland Mendel</td>
-					<td>Austria</td>
-				</tr>
-				<tr>
-					<td>Island Trading</td>
-					<td>Helen Bennett</td>
-					<td>UK</td>
-				</tr>
-			</table>
-		</Content>
-	</LoadingElement>
+	<div class="row pb-2">
+		<div class="col-12">
+			<LoadingElement IsLoading="@_elementIsLoading" OverlayBackgroundColor="@_overlayColorTable" OverlayOpacity="@(_overlayOpacityTable / 100)">
+				<LoadingContent>
+					@((MarkupString)_overlayContent2)
+				</LoadingContent>
+				<Content>
+					<table class="table table-striped table-bordered">
+						<thead class="">
+							<tr>
+								<th>Company</th>
+								<th>Contact</th>
+								<th>Country</th>
+							</tr>
+						</thead>
+						<tr>
+							<td>Alfreds Futterkiste</td>
+							<td>Maria Anders</td>
+							<td>Germany</td>
+						</tr>
+						<tr>
+							<td>Centro comercial Moctezuma</td>
+							<td>Francisco Chang</td>
+							<td>Mexico</td>
+						</tr>
+						<tr>
+							<td>Ernst Handel</td>
+							<td>Roland Mendel</td>
+							<td>Austria</td>
+						</tr>
+						<tr>
+							<td>Island Trading</td>
+							<td>Helen Bennett</td>
+							<td>UK</td>
+						</tr>
+					</table>
+				</Content>
+			</LoadingElement>
+		</div>
+	</div>
 
-	<button class="btn btn-primary" @onclick="LoadTable">Prompt Table loader...</button>
+	<button class="btn btn-primary mb-2" @onclick="LoadTable">Prompt Table loader...</button>
+
+	<h3>Static overlay</h3>
+	<div class="row pb-1 mx-auto w-50 justify-content-center">
+		<div class="col-12">
+			<LoadingElement IsLoading="_showStaticOverlay" OnOverlayClicked="OnOverlayClick">
+				<LoadingContent>
+					<button class="btn btn-primary btn-sm" @onclick="e => _showStaticOverlay = false">Close overlay</button>
+				</LoadingContent>
+				<Content>
+					<p class="p-2 border">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget diam sed diam dignissim cursus. Donec gravida dapibus nisi eget luctus. Fusce commodo fermentum justo, at suscipit ex consequat dictum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur elit turpis, tempor vel nibh eu, feugiat porta ligula. Donec pulvinar justo vel nunc lobortis volutpat. Nulla id lectus sed dui dignissim gravida. Vivamus imperdiet nulla turpis, ac sagittis magna feugiat quis. Ut ut ornare lacus. Integer a condimentum orci. Fusce vitae bibendum justo, nec facilisis neque. Vivamus et metus vitae mauris pretium tristique. Integer eleifend dignissim blandit. Sed auctor lectus et neque tempor lacinia. Aliquam sollicitudin tincidunt commodo.
+					</p>
+				</Content>
+			</LoadingElement>
+		</div>
+	</div>
+
+	<div>Allow to close Overlay on Click: <input type="checkbox" @bind="_closeOverlayOnClick" /></div>
+	<button class="btn btn-primary mb-2" @onclick="StaticOverlay">Prompt Table loader...</button>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -116,52 +147,68 @@
 	</PermaLinkElement>
 	<p>Renders <strong>HTML Button</strong> with customizable content to show during async operation progress/loading...</p>
 
-	<div class="pb-2">
-		<div>Submit button will switch state automatically when clicked and registered callback finished executing. </div>
-		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading1"/></div>
-		<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" DisabledWhenLoading="_disabledWhenLoading1" OnClicked="@SendRequest">
-			<Content>
-				Fetch data
-			</Content>
-			<LoadingContent>
-				<i class="fa fa-spinner fa-spin"></i> Loading...
-			</LoadingContent>
-		</LoadingButton>
+	<div class="row">
+		<div class="col-12">
+			<div>Submit button will switch state automatically when clicked and registered callback finished executing. </div>
+			<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading1" /></div>
+		</div>
+
+		<div class="col-12 col-lg-8 col-xl-5">
+			Default state Content: <input class="form-control w-100" @bind="_buttonTextContent" />
+			Loading state Content: <input class="form-control w-100" @bind="_buttonLoadingContent" />
+		</div>
+
+		<div class="col-12 mt-2">
+			<LoadingButton class="btn btn-primary" Type="ButtonTypes.Submit" DisabledWhenLoading="_disabledWhenLoading1" OnClicked="@SendRequest">
+				<Content>
+					@((MarkupString)_buttonTextContent)
+				</Content>
+				<LoadingContent>
+					@((MarkupString)_buttonLoadingContent)
+				</LoadingContent>
+			</LoadingButton>
+		</div>
 	</div>
 
 	<hr />
-	<div class="pb-2">
-		<div>Simple button will switch state automatically when clicked and registered callback finished executing. </div>
-		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading2"/></div>
-		<LoadingButton class="btn btn-warning" DisabledWhenLoading="_disabledWhenLoading2" OnClicked="@SendRequest">
-			<Content>
-				Save
-				<i class="fa fa-save"></i>
-			</Content>
-			<LoadingContent>
-				<i class="fa fa-sync fa-spin"></i> Sending data...
-			</LoadingContent>
-		</LoadingButton>
+	<div class="row">
+		<div class="col-12">
+			<div>Simple button will switch state automatically when clicked and registered callback finished executing. </div>
+			<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading2" /></div>
+		</div>
+
+		<div class="col-12 mt-2">
+			<LoadingButton class="btn btn-warning" DisabledWhenLoading="_disabledWhenLoading2" OnClicked="@SendRequest">
+				<Content>
+					Save
+					<i class="fa fa-save"></i>
+				</Content>
+				<LoadingContent>
+					<i class="fa fa-sync fa-spin"></i> Sending data...
+				</LoadingContent>
+			</LoadingButton>
+		</div>
 	</div>
 
 	<hr />
-	<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
-		<div>Form Submit button without Click handler states has to be switched 'Manualy' by acquiring @@ref="" and call Set()/Reset() functions.</div>
-		<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading3"/></div>
+	<div class="row">
+		<EditForm Model="@exampleModel" OnValidSubmit="@FormOnValidSubmit">
+			<div class="col-12">
+				<div>Form Submit button without Click handler states has to be switched 'Manually' by acquiring @@ref="" and call Set()/Reset() functions.</div>
+				<div>Disabled when Loading: <input type="checkbox" @bind="_disabledWhenLoading3" /></div>
+			</div>
+			<DataAnnotationsValidator />
+			<ValidationSummary />
 
-		<DataAnnotationsValidator />
-		<ValidationSummary />
-
-		<div class="row">
 			<div class="col-12 col-lg-8 col-xl-5">
 				<div class="pb-2 pt-3">
 					<InputText @bind-Value="exampleModel.Name" class="form-control w-100" />
 				</div>
 				<div class="pb-2">
-					<LoadingButton @ref="_loadingButton" class="btn btn-secondary" 
-								   IsLoading="@_isButtonLoading"
-								   DisabledWhenLoading="_disabledWhenLoading3" 
-								   Type="ButtonTypes.Submit">
+					<LoadingButton @ref="_loadingButton" class="btn btn-secondary"
+									IsLoading="@_isButtonLoading"
+									DisabledWhenLoading="_disabledWhenLoading3"
+									Type="ButtonTypes.Submit">
 						<Content>
 							Submit
 						</Content>
@@ -171,8 +218,8 @@
 					</LoadingButton>
 				</div>
 			</div>
-		</div>
-	</EditForm>
+		</EditForm>
+	</div>
 </div>
 
 @code {
@@ -180,7 +227,7 @@
 	{
 		if (firstRender)
 		{
-			await _loadingButton.InnerElementReference.FocusAsync();
+			//await _loadingButton.InnerElementReference.FocusAsync();
 		}
 	}
 
@@ -211,7 +258,7 @@
 	private double _overlayOpacityTable = 50;
 	private bool _elementIsLoading = false;
 	private string _overlayContent2 = @"<i class=""fa fa-cog fa-3x fa-spin""></i>
-<h2 class=""m-3"">Refreshing...</h2>";
+<h2 class=""m-3"">Refreshing table...</h2>";
 
 	private async Task LoadTable()
 	{
@@ -219,7 +266,7 @@
 		{
 			_elementIsLoading = true; //Set the layout to Loading state
 
-			await Task.Delay(1000); //write your code here...
+			await Task.Delay(1500); //write your code here...
 		}
 		finally
 		{
@@ -227,11 +274,31 @@
 		}
 	}
 
+	//Static Overlay
+	private bool _showStaticOverlay = false;
+	private bool _closeOverlayOnClick = true;
+
+	private async Task StaticOverlay()
+	{
+		_showStaticOverlay = true;
+	}
+	private async Task OnOverlayClick()
+	{
+		if(_closeOverlayOnClick)
+		{
+			_showStaticOverlay = false;
+		}
+	}
+
+
 	//Button Loading
 	private async Task SendRequest()
 	{
 		await Task.Delay(1500); //write your code here...
 	}
+
+	private string _buttonTextContent= @"Fetch data";
+	private string _buttonLoadingContent = @"<i class=""fa fa-spinner fa-spin""></i> Loading...";
 
 	private bool _disabledWhenLoading1 = true;
 	private bool _disabledWhenLoading2 = true;

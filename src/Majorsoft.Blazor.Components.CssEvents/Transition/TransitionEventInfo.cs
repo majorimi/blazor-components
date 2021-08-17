@@ -27,10 +27,13 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 		[JSInvokable("TransitionEvent")]
 		public async Task TransitionEvent(TransitionEventArgs args)
 		{
-			args.Element = Element;
-			args.OriginalPropertyNameFilter = TransitionPropertyName;
+			if (_transitionEventCallback is not null)
+			{
+				args.Element = Element;
+				args.OriginalPropertyNameFilter = TransitionPropertyName;
 
-			await _transitionEventCallback(args);
+				await _transitionEventCallback(args);
+			}
 		}
 	}
 }

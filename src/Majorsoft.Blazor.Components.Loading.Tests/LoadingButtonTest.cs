@@ -3,35 +3,16 @@ using System.Threading.Tasks;
 
 using Bunit;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Moq;
+using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Loading.Tests
 {
 	[TestClass]
-	public class LoadingButtonTest
+	public class LoadingButtonTest : ComponentsTestBase<LoadingButton>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<LoadingButton>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<LoadingButton>), mock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void LoadingButton_should_rendered_correctly_html_attributes()
 		{

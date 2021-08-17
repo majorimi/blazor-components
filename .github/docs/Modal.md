@@ -112,6 +112,7 @@ which handles CSS Transition and Animation events for the dialog animation.
 - [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
 which handles JS Interop for focusing previous elements.
 
+### Register services
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
 using Majorsoft.Blazor.Components.CssEvents;

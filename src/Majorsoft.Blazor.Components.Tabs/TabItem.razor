@@ -19,9 +19,22 @@
 	}
 
 	private bool _visible = false;
-	protected override void OnAfterRender(bool firstRender)
+	private bool Visible
 	{
-		_visible = Parent.ActiveTab == this;
+		get => _visible;
+		set
+		{
+			if(value != _visible)
+			{
+				_visible = value;
+				StateHasChanged();
+			}
+		}
+	}
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await Task.Delay(100);
+		Visible = !Hidden && Parent.ActiveTab == this;
 	}
 
 	/// <summary>
