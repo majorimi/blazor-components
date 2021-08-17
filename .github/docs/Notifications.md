@@ -72,16 +72,36 @@ As the name suggests it is a container element for individual `Toast` notificati
 **Place it to a global (Layout) component after all HTML elements to be able to work with `position: relative;` elements**
 
 #### Properties
+- **`Settings`: `ToastContainerGlobalSettings { get; set; }`** <br />
+'ToastContainer` settings (default static values applied on `Toast` level).
 
 #### Events
-
-#### Functions
+- **`OnToastShow`: `ToastEvent`** <br />
+Event triggered when one of the `Toast` is showing.
+- **`OnToastClosed`: `ToastEvent`** <br />
+Event triggered when the `Toast` is closing.
+- **`OnToastCloseButtonClicked`: `ToastEvent`** <br />
+Event triggered when close `x` button was clicked on one of the `Toast`.
 
 ### IToastService
+Injectable service to handle `Toast` notifications and settings.
+**Note**: Injected as Singleton so all components use the same instance **do NOT dispose manually**.
 
 #### Properties
+- **`Toasts`: `IEnumerable<ToastSettings> { get; }`** <br />
+Collection of Toasts notifications.
+- **`GlobalSettings`: `ToastContainerGlobalSettings { get; set; }`** <br />
+Global Toast Container and common Toasts settings with default values.
 
 #### Events
+- **`CollectionChanged`: `NotifyCollectionChangedEventHandler`** <br />
+Event triggered when Toasts collection changed.
+- **`OnToastShow`: `ToastEvent`** <br />
+Event triggered when one of the `Toast` is showing.
+- **`OnToastClosed`: `ToastEvent`** <br />
+Event triggered when the `Toast` is closing.
+- **`OnToastCloseButtonClicked`: `ToastEvent`** <br />
+Event triggered when close `x` button was clicked on one of the `Toast`.
 
 #### Functions
 - **`ShowToast()`: `Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)`** <br />
@@ -95,15 +115,66 @@ Removes a `Toast` notification from collection and UI with given Id.
 - **`ClearAll()`: `void ClearAll()`** <br />
 Clears `Toast`s collections and Removes all Toast notifications from UI.
 - **`Dispose()`: `void Dispose()`** <br />
-Service implements `IDisposable` interface.
+Service implements `IDisposable` interface ().
 
-### ToastSettings
+### ToastContainerGlobalSettings
+Global Toast Container and common Toasts settings with default values. Some of settings will impact the `ToastContainer` which indirectly
+determines some `Toast` settings e.g. `Width` of `ToastContainer` is limiting the width of a `Toast` notification. 
 
 #### Properties
+- **`RemoveToastsOnNavigation`: `bool { get; set; }`  (default: true)** <br />
+Determines if Toast notifications should be removed when user navigates to other page.
+**Note**: in order make it work `ToastContainer` component must be applied only once per application in a common place e.g.: Layour.razor, etc.
+- **`Position`: `ToastPositions { get; set; }`  (default: ToastPositions.TopRight)** <br />
+Toast Container position on screen `ToastPositions`.
+- **`Width`: `int { get; set; }`  (default: 400)** <br />
+`ToastContainer` width in `px` it will determine the shown `Toast` width as well.
+- **`PaddingFromSide`: `int { get; set; }`  (default: -1)** <br />
+ Required space for `ToastContainer` from page (left/right) side in `px`. If -1 it is not applied default CSS style will be used.
+- **`PaddingFromTopOrBottom`: `int { get; set; }`  (default: -1)** <br />
+ Required space for `ToastContainer` from page (Top/Bottom) side in `px`. If -1 it is not applied default CSS style will be used.
+- **`static DefaultToastsShowIcon`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When true Toast will show an icon corresponding to the `NotificationTypes`.
+- **`static DefaultToastsShowCloseButton`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When true Toast will show close "x" button.
+- **`static DefaultToastsAutoCloseInSec`: `uint { get; set; }`  (default: 10)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+Toast will close after set time elapsed in Sec.
+- **`static DefaultToastsShowCloseCountdownProgress`: `bool { get; set; }`  (default: true)** <br />
+Global config applied to all `Toasts` if not set otherwise.
+When it's true a progress bar will show the remaining time until Toast closes.
+- **`static DefaultToastsNotificationStyle`: `NotificationStyles { get; set; }`  (default: NotificationStyles.Normal)** <br />
+Global config applied to all Toasts if not set otherwise.
+Notification style to show different variant of the same Type of `Toast`.
+- **`static DefaultToastsShadowEffect`: `uint { get; set; }`  (default: 5)** <br />
+Global config applied to all Toasts if not set otherwise.
+Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
 
-#### Events
+### ToastSettings
+Properties for individual `Toast` Notifications. 
+**NOTE**: most of the properties can be used with default values from `ToastContainerGlobalSettings` static properties.
 
-#### Functions
+#### Properties
+- **`Content`: `RenderFragment { get; set; }`** <br />
+HTML Content of the<see `Toast` notification.
+- **`Type`: `NotificationTypes { get; set; }`  (default: NotificationTypes.Primary)** <br />
+Notification type or severity level.
+- **`NotificationStyle`: `NotificationStyles { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsNotificationStyle)** <br />
+Notification style to show different variant of the same `Type` Toast.
+- **`ShowIcon`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowIcon)** <br />
+When true Toast will show an icon corresponding to the `NotificationTypes`. Default icon can be overwritten.
+- **`CustomIconSvgPath`: `string { get; set; }`  (default: "")** <br />
+Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
+- **`ShowCloseButton`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowCloseButton)** <br />
+When true Toast will show close "x" button.
+- **`AutoCloseInSec`: `uint { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec)** <br />
+Toast will close after set time elapsed in Sec.
+- **`ShowCloseCountdownProgress`: `bool { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress)** <br />
+When it's true a progress bar will show the remaining time until Toast closes.
+- **`ShadowEffect`: `uint { get; set; }`  (default: ToastContainerGlobalSettings.DefaultToastsShadowEffect)** <br />
+Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
 
 ### Toast
 An individual `Toast` showed in order of creation inside the `ToastContainer`. <br />

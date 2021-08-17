@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Components;
 namespace Majorsoft.Blazor.Components.Notifications
 {
 	/// <summary>
-	/// Properties for <see cref="Toast"/> Notification.
+	/// Properties for individual <see cref="Toast"/> Notifications. 
+	/// NOTE: most of the properties can be used with default values from <see cref="ToastContainerGlobalSettings"/> static properties.
 	/// </summary>
 	public class ToastSettings
 	{
@@ -48,7 +49,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// Notification type or severity level.
 		/// </summary>
-		public NotificationTypes Type { get; set; }
+		public NotificationTypes Type { get; set; } = NotificationTypes.Primary;
 
 		/// <summary>
 		/// Notification style to show different variant of the same <see cref="Type"/> Toast.
@@ -80,7 +81,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 
 		private uint _shadowEffect = ToastContainerGlobalSettings.DefaultToastsShadowEffect;
 		/// <summary>
-		/// Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
+		/// Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
 		/// </summary>
 		public uint ShadowEffect
 		{
