@@ -35,6 +35,17 @@
   <ItemGroup>
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
   </ItemGroup>
+	
+	<!--Include project DLL output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\.github\Images\blazor.components.png">

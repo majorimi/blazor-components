@@ -1,4 +1,4 @@
-﻿.btooltip {
+﻿.btooltip-container {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;
@@ -6,7 +6,7 @@
 }
 
 span {
-    visibility: hidden;
+    /*visibility: hidden;*/
     position: absolute;
     width: 120px;
     bottom: 100%;
@@ -31,6 +31,6 @@ span {
         border-color: #555 transparent transparent transparent;
     }
 
-.btooltip:hover span {
+/*.btooltip-container:hover span {
     visibility: visible;
-}
+}*/

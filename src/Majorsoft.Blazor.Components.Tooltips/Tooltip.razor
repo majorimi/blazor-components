@@ -1,9 +1,14 @@
-﻿<div class="btooltip">
-    <span>@Text</span>
+﻿<div class="btooltip-container"  @onmouseenter="HandleMouseOver" @onmouseleave="HandleMouseOut" @attributes=AdditionalAttributes>
+    @if (_isVisible)
+    {
+        <span>@Text</span>
+    }
     @ChildContent
 </div>
 
 @code {
+    public bool _isVisible = false;
+
     /// <summary>
     /// 
     /// </summary>
@@ -18,4 +23,13 @@
     /// 
     /// </summary>
     [Parameter] public TooltipsPositons Positon { get; set; } = TooltipsPositons.Top;
+
+    /// <summary>
+    /// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
+
+    private void HandleMouseOver() => _isVisible = true;
+    private void HandleMouseOut() => _isVisible = false;
 }
