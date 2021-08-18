@@ -101,9 +101,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.CommonTestsBase", "Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj", "{8FD0C677-5013-4EF9-B994-F38ACAEB9A26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Tooltips", "Majorsoft.Blazor.Components.Tooltips\Majorsoft.Blazor.Components.Tooltips.csproj", "{558C5E28-5E34-4466-B609-11A8E4447A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Tooltips", "Majorsoft.Blazor.Components.Tooltips\Majorsoft.Blazor.Components.Tooltips.csproj", "{558C5E28-5E34-4466-B609-11A8E4447A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Tooltips.Tests", "Majorsoft.Blazor.Components.Tooltips.Tests\Majorsoft.Blazor.Components.Tooltips.Tests.csproj", "{23854579-D4A9-4332-8173-A1BF2BF75544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Tooltips.Tests", "Majorsoft.Blazor.Components.Tooltips.Tests\Majorsoft.Blazor.Components.Tooltips.Tests.csproj", "{23854579-D4A9-4332-8173-A1BF2BF75544}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
