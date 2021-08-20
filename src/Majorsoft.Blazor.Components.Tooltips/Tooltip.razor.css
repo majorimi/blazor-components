@@ -6,7 +6,6 @@
 }
 
 span {
-    /*visibility: hidden;*/
     position: absolute;
     width: 120px;
     bottom: 100%;
@@ -30,7 +29,3 @@ span {
         border-style: solid;
         border-color: #555 transparent transparent transparent;
     }
-
-/*.btooltip-container:hover span {
-    visibility: visible;
-}*/
