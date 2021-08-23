@@ -6,7 +6,7 @@
 @inject ILogger<ToggleButton> _logger
 
 @code {
-	[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
+	[CascadingParameter] internal ToggleButtonGroup? Parent { get; set; }
 
 	protected override void OnInitialized()
 	{
