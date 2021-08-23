@@ -1,35 +1,20 @@
 ﻿<div @ref="_inputRef" class="collapsePanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
-	@if (Collapsed)
-	{
-		<div id="@($"collapse_{_componentId}")" class="collapseHeader collapsed @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+	<div id="@($"collapse_{_componentId}")" class="collapseHeader @(Animate ? "animate" : "")" style="@GetStyle()"
+		@onmouseenter="() => _hovered = true" @onmouseleave="() => _hovered = false" @onclick="ExpandCollapse">
+		@if(Collapsed)
+		{
 			@(CommonHeader ?? CollapsedHeaderContent)
-		</div>
-	}
-	else
-	{
-		<div id="@($"collapse_{_componentId}")" class="collapseHeader expanded @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+		}
+		else
+		{ 
 			@(CommonHeader ?? ExpandedHeaderContent)
-		</div>
-	}
+		}
+	</div>
 	<div class="collapseContent @(Animate ? "animate" : "")"
 		 style="opacity: @(Collapsed ? "0" : "1"); height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
 		@Content
 	</div>
 </div>
-
-<style>
-	.collapseHeader[id=@($"collapse_{_componentId}")].expanded {
-		background-color: @($"rgb({ExpandedColor})");
-	}
-	.collapseHeader[id=@($"collapse_{_componentId}")].collapsed {
-		background-color: @($"rgb({CollapsedColor})");
-	}
-	.collapseHeader[id=@($"collapse_{_componentId}")]:hover {
-		background-color: @($"rgb({HoverColor})");
-	}
-</style>
-
-@using Majorsoft.Blazor.Components.Core.HtmlColors;
 
 @inject ILogger<CollapsePanel> _logger;
 
@@ -40,6 +25,7 @@
 		Parent?.AddCollapsePanel(this);
 	}
 
+	private bool _hovered = false;
 	private string _componentId = Guid.NewGuid().ToString("n");
 	private ElementReference _inputRef;
 	/// <summary>
@@ -168,9 +154,25 @@
 	private string GetContentHeight()
 	{
 		if (Collapsed)
+		{
 			return "0px;";
+		}
 
 		return ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;";
+	}
+	private string GetStyle()
+	{
+		if(_hovered)
+		{
+			return $"background-color: rgb({HoverColor});";
+		}
+
+		if(Collapsed)
+		{
+			return $"background-color: rgb({CollapsedColor});";
+		}
+
+		return $"background-color: rgb({ExpandedColor});";
 	}
 
 	private void WriteDiag(string message)
