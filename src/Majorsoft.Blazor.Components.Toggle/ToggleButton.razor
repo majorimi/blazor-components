@@ -1,20 +1,9 @@
-﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
-		@onclick="ButtonChecked" disabled="@Disabled" @attributes=AllOtherAttributes>
+﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px; @GetStyle()"
+		@onmouseenter="() => _hovered = true" @onmouseleave="() => _hovered = false" @onclick="ButtonChecked" disabled="@Disabled" @attributes=AllOtherAttributes>
 	@Content
 </button>
 
-<style>
-	.toggleButton[id=@($"toggleButton_{_componentId}")] {
-		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
-	}
-	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
-		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
-	}
-</style>
-
-@using Majorsoft.Blazor.Components.Core.HtmlColors;
-
-@inject ILogger<ToggleButton> _logger;
+@inject ILogger<ToggleButton> _logger
 
 @code {
 	[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
@@ -24,6 +13,7 @@
 		Parent?.AddButton(this);
 	}
 
+	private bool _hovered = false;
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
@@ -128,6 +118,16 @@
 		{
 			await Parent.ButtonToggled(this);
 		}
+	}
+
+	private string GetStyle()
+	{
+		if(_hovered)
+		{
+			return $"background-color: {(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})")};";
+		}
+
+		return $"background-color: {(Checked ? $"rgb({OnColor})": $"rgb({OffColor})")};";
 	}
 
 	private void WriteDiag(string message)
