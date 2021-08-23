@@ -7,14 +7,16 @@
 
 span {
     position: absolute;
-    width: 120px;
+    min-width: 120px;
+    width: auto;
     bottom: 100%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: calc(100% * -0.5 - 0px);
+    /*transform: translateY(-50%);*/
     background-color: #363636;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px;
     border-radius: 6px;
     z-index: 10;
 }
