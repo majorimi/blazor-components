@@ -1,10 +1,7 @@
-using System.Threading.Tasks;
-
 using Bunit;
 
 using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

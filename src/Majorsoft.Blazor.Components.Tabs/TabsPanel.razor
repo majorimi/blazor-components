@@ -4,11 +4,11 @@
 		{
 			if (!tab.Hidden)
 			{
-			<button type="button" parent="@($"tabsPanel_{_componentId}")" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled" class="@GetButtonClass(tab)" 
-					style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto"); @GetStyle(tab)"
-					@onmouseenter="() => _hoveredTab = tab" @onmouseleave="() => _hoveredTab = null">
-				@tab.Header
-			</button>
+				<button type="button" parent="@($"tabsPanel_{_componentId}")" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled" class="@GetButtonClass(tab)" 
+						style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto"); @GetStyle(tab)"
+						@onmouseenter="() => _hoveredTab = tab" @onmouseleave="() => _hoveredTab = null">
+					@tab.Header
+				</button>
 			}
 		}
 	</div>
@@ -67,11 +67,12 @@
 	}
 
 	/// <summary>
-	/// Sets all <see cref="TabItem"/> elements height in `px`.
+	/// Sets all <see cref="TabItem"/> elements height in `px` (0 is `auto`).
 	/// </summary>
 	[Parameter] public int TabItemsHeight { get; set; } = 40;
 	/// <summary>
-	/// Sets all <see cref="TabItem"/> elements Width in `px`.
+	/// Sets all <see cref="TabItem"/> elements Width in `px` (0 is `auto`).
+	/// 
 	/// </summary>
 	[Parameter] public int TabItemsWidth { get; set; } = 100;
 	/// <summary>
