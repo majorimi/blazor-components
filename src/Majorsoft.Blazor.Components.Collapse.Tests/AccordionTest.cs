@@ -55,7 +55,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		}
 
 		[TestMethod]
-		public void Accordion_should_rendered_correctly__only_one_active_CollapsePanel()
+		public void Accordion_should_rendered_correctly_only_one_active_CollapsePanel()
 		{
 			var rendered = _testContext.RenderComponent<Accordion>();
 
@@ -81,6 +81,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 
 			Assert.IsFalse(c2.Instance.Collapsed);
 			Assert.AreEqual(rendered.Instance.ActiveCollapsePanel, c2.Instance);
+
+			rendered.SetParametersAndRender(parameters => parameters
+					.Add(p => p.ActiveCollapsePanel, c1.Instance));
+
+			Assert.IsFalse(c1.Instance.Collapsed);
+			Assert.IsTrue(c2.Instance.Collapsed);
+			Assert.AreEqual(rendered.Instance.ActiveCollapsePanel, c1.Instance);
 		}
 	}
 }
