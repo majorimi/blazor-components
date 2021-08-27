@@ -1,0 +1,154 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="alerts" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>Alert</h3></Content>
+    </PermaLinkElement>
+    <p>
+        Renders <strong><code>Alert</code> component </strong> which is a banner to show important application messages.
+        Importance can be emphasized by <code>Type</code> and <code>NotificationStyle</code> styling with customizable content.
+        Alerts can close itself automatically or let user close them, etc.
+    </p>
+
+    <h4>All Alerts</h4>
+    <div class="row pb-2">
+        @foreach (var style in Enum.GetValues<NotificationStyles>())
+        {
+            <div class="col-4">
+                @foreach (var types in Enum.GetValues<NotificationTypes>())
+                {
+                    <Alert AutoClose="false" IsVisible="true" ShowCloseButton="false"
+                           NotificationStyle="style"
+                           Type="types">
+                        <Content>
+                            Alert Type:
+                            <strong>@types</strong> Alert style:
+                            <strong>@style</strong>
+                        </Content>
+                    </Alert>
+                }
+            </div>
+        }
+    </div>
+
+    <hr />
+
+    <h4>Customization</h4>
+
+    <div class="w-100 mb-4">
+        <Alert Type="@_alertTypeLevel"
+               NotificationStyle="@_alertStyle"
+               @bind-IsVisible="_alertIsVisible"
+               AutoClose="@_alertAutoClose"
+               AutoCloseInSec="@_alertAutoCloseInSec"
+               ShowCloseButton="@_alertShowCloseButton"
+               ShowIcon="@_alertShowIcon"
+               ShadowEffect="@_alertShadowEffect"
+               ShowCloseCountdownProgress="@_alertShowCountdownProgress"
+               CustomIconSvgPath="@_alertCustomSvg"
+               OnShow="OnShow"
+               OnClose="OnClose"
+               OnCloseButtonClicked="OnCloseButtonClicked">
+            <Content>
+                @((MarkupString)_alertText)
+            </Content>
+        </Alert>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            Alert is Visible: <input class="mr-2" type="checkbox" @bind="_alertIsVisible" disabled="disabled" />
+            Show Close button: <input class="mr-2" type="checkbox" @bind="_alertShowCloseButton" />
+            Show icon: <input class="mr-2" type="checkbox" @bind="_alertShowIcon" />
+            <br />
+            Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="_alertShowCountdownProgress" disabled="@_alertIsVisible" />
+            Auto close (after <strong>@_alertAutoCloseInSec sec.</strong>): <input class="mr-2" type="checkbox" @bind="_alertAutoClose" disabled="@_alertIsVisible" />
+            <input type="range" class="w-100" min="1" max="20" @bind="_alertAutoCloseInSec" @oninput="(e => _alertAutoCloseInSec = uint.Parse(e.Value?.ToString()))" disabled="@(_alertIsVisible || !_alertAutoClose)" />
+            Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_alertShadowEffect" @oninput="(e => _alertShadowEffect = uint.Parse(e.Value?.ToString()))" />
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            Message: <textarea class="form-control w-100" @bind="_alertText" />
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            Custom icon SVG Path: <input class="form-control w-100" @bind="_alertCustomSvg" placeholder="SVG Path or empty to use default" />
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            Alert style: <select class="form-control selectpicker w-100" @bind="_alertStyle">
+                @foreach (var item in Enum.GetValues(typeof(NotificationStyles)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col-12 col-lg-8 col-xl-5">
+            Alert Type:
+            <select class="form-control selectpicker w-100"
+                    @onchange="@(e => { _alertTypeLevel = Enum.Parse<NotificationTypes>(e.Value?.ToString()); _alertText = $@"<strong>Alert:</strong> This is a(n) {_alertTypeLevel} alert..."; })">
+                @foreach (var item in Enum.GetValues(typeof(NotificationTypes)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+
+            <button class="btn btn-primary mt-2" @onclick="a => _alertIsVisible = !_alertIsVisible">@(_alertIsVisible ? "Close" : "Show") Alert</button>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <label><strong>Alerts Event log</strong>:</label>
+            <textarea @ref="log1" @bind="_alertLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    //Alert
+    private bool _alertIsVisible = false;
+    private bool _alertAutoClose = true;
+    private bool _alertShowIcon = true;
+    private bool _alertShowCloseButton = true;
+    private bool _alertShowCountdownProgress = true;
+    private uint _alertAutoCloseInSec = 5;
+    private uint _alertShadowEffect = 0;
+    private string _alertText = $@"<strong>Alert:</strong> This is a(n) {nameof(NotificationTypes.Primary)} alert...";
+    private string _alertCustomSvg;
+    private NotificationTypes _alertTypeLevel = NotificationTypes.Primary;
+    private NotificationStyles _alertStyle = NotificationStyles.Normal;
+
+    private ElementReference log1;
+    private string _alertLog = "";
+
+    //Alert events
+    public async Task OnShow()
+    {
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnShow)}' Alert showed");
+    }
+    public async Task OnClose()
+    {
+        _alertIsVisible = false; //Or use two-way binding.
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnClose)}' Alert closed");
+    }
+    private async Task OnCloseButtonClicked(MouseEventArgs e)
+    {
+        _alertLog = await WriteLog(_alertLog, $"Alert event: '{nameof(OnCloseButtonClicked)}', Event args: {e}");
+    }
+
+    private async Task<string> WriteLog(string log, string message)
+    {
+        log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+        await log1.ScrollToEndAsync();
+
+        return log;
+    }
+}

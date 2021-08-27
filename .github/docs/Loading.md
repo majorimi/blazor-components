@@ -1,5 +1,5 @@
 
-Blazor Loading Components
+Blazor Loading and Overlay Components
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
 [![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Loading?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Loading/)
@@ -8,7 +8,8 @@ Blazor Loading Components
 
 # About
 
-Blazor components that renders Overlay for page load. HTML `<button>` with customizable content to show during async operation progress/loading state. 
+Blazor components that renders Overlays for the whole page on load or for specific element on custom event. Also HTML `button` with customizable content for showing async operation in progress/loading state.
+
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/Loading.razor).
 
@@ -17,7 +18,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 # Components
 
 - **`LoadingPage`**: Renders an  Overlay `<div>` layer with customizable background color and content for showing Page loading...
-- **`LoadingElement`**: Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading...
+- **`LoadingElement`**: Renders an Overlay `<div>` layer for the wrapped element (Table, Grid, etc.) with customizable content for showing loading or any progress... It can be used for a 'static' overlay as well.
 - **`LoadingButton`**: Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...
 
 ## `LoadingPage` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-page))
@@ -73,7 +74,8 @@ Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means 
 ### Events
 - **`OnLoading`: `EventCallback` delegate** <br />
 Callback function called when component `OnInitializedAsync` Blazor event triggered. 
-
+- **`OnOverlayClicked`: `EventCallback<MouseEventArgs>` delegate** <br />
+Callback function called when Overlay `div` was clicked. It can be used to close the overlay.
 
 ## `LoadingButton` component (See [demo app](https://blazorextensions.z6.web.core.windows.net/loading#loading-button))
 Renders a HTML `<button>` with customizable Content and LoadingContent for showing during async operation in progress/loading...

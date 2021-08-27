@@ -1,0 +1,33 @@
+﻿.btooltip-container {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    cursor: help;
+}
+
+span {
+    position: absolute;
+    min-width: 120px;
+    width: auto;
+    bottom: 100%;
+    left: 50%;
+    margin-left: calc(100% * -0.5 - 0px);
+    /*transform: translateY(-50%);*/
+    background-color: #363636;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    z-index: 10;
+}
+
+    span::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }

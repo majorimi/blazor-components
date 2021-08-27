@@ -27,10 +27,13 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 		[JSInvokable("AnimationEvent")]
 		public async Task AnimationEvent(AnimationEventArgs args)
 		{
-			args.Element = Element;
-			args.OriginalAnimationNameFilter = AnimationName;
+			if (_animationCallback is not null)
+			{
+				args.Element = Element;
+				args.OriginalAnimationNameFilter = AnimationName;
 
-			await _animationCallback(args);
+				await _animationCallback(args);
+			}
 		}
 	}
 }

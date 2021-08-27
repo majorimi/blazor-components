@@ -14,6 +14,7 @@ using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Extensions.Analytics;
+using Majorsoft.Blazor.Components.Notifications;
 
 namespace Majorsoft.Blazor.Components.DemoApp
 {
@@ -35,6 +36,7 @@ namespace Majorsoft.Blazor.Components.DemoApp
 			builder.Services.AddGoogleAnalytics();
 
 			builder.Services.AddGdprConsent();
+			builder.Services.AddNotifications();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);

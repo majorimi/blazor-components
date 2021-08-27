@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "wwwroot/notifications.css",
+    "inputFile": "wwwroot/notifications.scss"
+  },
+  {
+    "outputFile": "Alert/Alert.razor.css",
+    "inputFile": "Alert/Alert.razor.scss"
+  },
+  {
+    "outputFile": "Toast/Toast.razor.css",
+    "inputFile": "Toast/Toast.razor.scss"
+  }
+]

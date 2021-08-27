@@ -1,0 +1,669 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Majorsoft.Blazor.Components.Notifications</name>
+    </assembly>
+    <members>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData">
+            <summary>
+            Base properties for all types of HTML notifications.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Title">
+            <summary>
+            The title of the notification as specified in the first parameter of the constructor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Badge">
+            <summary>
+            The URL of the image used to represent the notification when there is not enough space to display the notification itself.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Body">
+            <summary>
+            The body string of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Data">
+            <summary>
+            The data read-only property of the Notification interface returns a structured clone of the notification's data, as specified in the data option of the Notification() constructor.
+            The notification's data can be any arbitrary data that you want associated with the notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Dir">
+            <summary>
+            The text direction of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Lang">
+            <summary>
+            The language code of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Tag">
+            <summary>
+            The ID of the notification (if any) as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Icon">
+            <summary>
+            The URL of the image used as an icon of the notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Image">
+            <summary>
+            The URL of an image to be displayed as part of the notification, as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Renotify">
+            <summary>
+            Specifies whether the user should be notified after a new notification replaces an old one.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.RequireInteraction">
+            <summary>
+            A Boolean indicating that a notification should remain active until the user clicks or dismisses it, rather than closing automatically.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Silent">
+            <summary>
+            Specifies whether the notification should be silent — i.e., no sounds or vibrations should be issued, regardless of the device settings.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Timestamp">
+            <summary>
+            Specifies the time at which a notification is created or applicable (past, present, or future).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.Vibrate">
+            <summary>
+            Specifies a vibration pattern for devices with vibration hardware to emit.
+            An array of values describes alternating periods in which the device is vibrating and not vibrating.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationData.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="title">Notification title</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationEventInfo">
+            <summary>
+            Html5 Notification Permission Request result event <see cref="T:Microsoft.JSInterop.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions">
+            <summary>
+            These properties are available only on instances of the `Notification` object.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnClickCallback">
+            <summary>
+            Callback method for Notification Click event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnOpenCallback">
+            <summary>
+            Callback method for Notification Open event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnCloseCallback">
+            <summary>
+            Callback method for Notification Close event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.OnErrorCallback">
+            <summary>
+            Callback method for Notification on Error event.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="title">Notification title</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo">
+            <summary>
+            Html5 Notification Permission Request result event <see cref="P:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionRequestEventInfo.DotNetObjectReference"/> info to handle JS callback
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes">
+            <summary>
+            A string representing the current permission to display notifications.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Default">
+            <summary>
+            The user choice is unknown and therefore the browser will act as if the value were denied.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Denied">
+            <summary>
+            The user refuses to have notifications displayed.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes.Granted">
+            <summary>
+            The user accepts having notifications displayed.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService"/>
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions">
+            <summary>
+            These properties are available for Service worker `Notification`.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.Actions">
+            <summary>
+            The actions array of the Notification as specified in the constructor's options parameter.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.ServiceWorkerUrl">
+            <summary>
+            Service worker must be registered to show Notifications with Actions. Service worker need a JS file to be registered.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions.#ctor(System.String,System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="title">Notification title</param>
+            <param name="serviceWorkerUrl">To handle Notification action a ServiceWorker must be registered with and URL to a JS file</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService">
+            <summary>
+            Injectable service to handle Browser/HML5 notifications.
+            Docs: https://developer.mozilla.org/en-US/docs/Web/API/notification
+            Settings on Windows: https://stackoverflow.com/questions/51907779/browser-notification-not-showing-up#58982697
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.RequestPermissionAsync(System.Func{Majorsoft.Blazor.Components.Notifications.HtmlNotificationPermissionTypes,System.Threading.Tasks.Task})">
+            <summary>
+            Prompts User Consent permission request popup to the User to decide whether to allow Notifications or not.
+            </summary>
+            <param name="callback">Callback function to call when User consent result provided</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CheckPermissionAsync">
+            <summary>
+            Checks the Notification User Consent status.
+            </summary>
+            <returns>User consent value</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.CheckMaxActionsAsync">
+            <summary>
+            Returns maxActions attribute of the Notification interface returns the maximum number of actions supported by the device and the User Agent. 
+            </summary>
+            <returns>Maximum allowed Notification</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.IsBrowserSupportedAsync">
+            <summary>
+            Checks if Browser supports HTML Notifications API or not.
+            </summary>
+            <returns>Browser supported Notification or not</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsAsync(Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions)">
+            <summary>
+            Shows a Notification with the given <see cref="T:Majorsoft.Blazor.Components.Notifications.HtmlNotificationOptions"/> options data.
+            </summary>
+            <param name="notificationOptions">Notification details</param>
+            <returns>Reference id</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IHtmlNotificationService.ShowsWithActionsAsync(Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions)">
+            <summary>
+            Registers the given ServiceWorker from the URL and prompts Notifications with Options provided.
+            ServiceWorker can handle Custom events with custom data provided.
+            </summary>
+            <param name="notificationOptions"><see cref="T:Majorsoft.Blazor.Components.Notifications.HtmlServiceWorkerNotificationOptions"/> data type required for ServiceWorker Notifications</param>
+            <returns></returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationAction">
+            <summary>
+            The NotificationAction interface of the Notifications API is used to represent 
+            action buttons the user can click to interact with notifications. These buttons' 
+            appearance and specific functionality vary across platforms but generally they 
+            provide a way to asynchronously show actions to the user in a notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Action">
+            <summary>
+            The name of the action, which can be used to identify the clicked action similar to input names.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Title">
+            <summary>
+            The string describing the action that is displayed to the user.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationAction.Icon">
+            <summary>
+            The URL of the image used to represent the notification when there is not enough space to display the notification itself.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationExtension">
+            <summary>
+            Extension methods to register required Notification services into IServiceCollection
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.NotificationExtension.AddNotifications(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers required Notification services into IServiceCollection
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.SingletonComponentService`1">
+            <summary>
+            Service for checking component was used only once and to be registered as Scoped. 
+            In WASM it is Singleton, in Server side it will be per 'Session'
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationStyles">
+            <summary>
+            Notification Styles for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes">
+            <summary>
+            Notification types, levels for <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> and <see cref="T:Majorsoft.Blazor.Components.Notifications.Alert"/> components.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.NotificationTypesMetaData">
+            <summary>
+            Notification types extension data.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.NotificationTypesMetaData.IconSvgPath">
+            <summary>
+            Notification Icon is an SVG which describes icon in the Path.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastInternals">
+            <summary>
+            Internal interface to trigger individual Toast elements events.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.IToastService">
+            <summary>
+            Injectable service to handle Toast notifications and settings.
+            Note: Injected as Singleton so all components use the same instance do NOT dispose manually.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.Toasts">
+            <summary>
+            Collection of Toasts notifications.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.IToastService.GlobalSettings">
+            <summary>
+            Global Toast Container and common Toasts settings with default values.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.CollectionChanged">
+            <summary>
+            Event triggered when Toasts collection changed.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastShow">
+            <summary>
+            Event triggered when one of the Toast is showing.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastClosed">
+            <summary>
+            Event triggered when the Toast is closing.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.Notifications.IToastService.OnToastCloseButtonClicked">
+            <summary>
+            Event triggered when close `x` button was clicked on one of the Toast.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(System.String,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
+            <summary>
+            Shows a new Toast notification with given parameters. Other settings applied from default values.
+            </summary>
+            <param name="message">Toast string message</param>
+            <param name="notificationType">Notification type or severity level</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/> Toast</param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Microsoft.AspNetCore.Components.RenderFragment,Majorsoft.Blazor.Components.Notifications.NotificationTypes,System.Nullable{Majorsoft.Blazor.Components.Notifications.NotificationStyles})">
+            <summary>
+            Shows a new Toast notification with given parameters. Other settings applied from default values.
+            </summary>
+            <param name="content">Toast HTML content</param>
+            <param name="notificationType">Notification type or severity level</param>
+            <param name="notificationStyle">Notification style to show different variant of the same <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/> Toast</param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ShowToast(Majorsoft.Blazor.Components.Notifications.ToastSettings)">
+            <summary>
+            Shows a new Toast notification with given <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastSettings"/>. It can be override all default values.
+            </summary>
+            <param name="toastSettings"></param>
+            <returns>Guid Id for the new Toast</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.RemoveToast(System.Guid)">
+            <summary>
+            Removes a <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> notification from collection and UI with given Id.
+            </summary>
+            <param name="id">Toast Id to remove</param>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.IToastService.ClearAll">
+            <summary>
+            Clears <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> collections and Removes all Toast notifications from UI.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings">
+            <summary>
+            Global Toast Container and common Toasts settings with default values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.RemoveToastsOnNavigation">
+            <summary>
+            Determines if Toast notifications should be removed when user navigates to other page.
+            Note: in order make it work <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> component must be applied only once per application in a common place e.g.: Layour.razor, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.Position">
+            <summary>
+            Toast Container position on screen <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastPositions"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.Width">
+            <summary>
+            <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> width in `px` it will determine the shown <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> width as well.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.PaddingFromSide">
+            <summary>
+            Required space for <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> from page (left/right) side in `px`. If -1 it is not applied default CSS style will be used.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.PaddingFromTopOrBottom">
+            <summary>
+            Required space for <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> from page (Top/Bottom) side in `px`. If -1 it is not applied default CSS style will be used.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowIcon">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowCloseButton">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When true Toast will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            When it's true a progress bar will show the remaining time until Toast closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsNotificationStyle">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Notification style to show different variant of the same Type of <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/>.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings.DefaultToastsShadowEffect">
+            <summary>
+            Global config applied to all Toasts if not set otherwise.
+            Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastEvent">
+            <summary>
+            Delegate for Toast items event handlers.
+            </summary>
+            <param name="toastId">Toast element Id</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastPositions">
+            <summary>
+            Toast notification position on screen.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Notifications.IToastService"/>.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.ToastService.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Notifications.ToastSettings">
+            <summary>
+            Properties for individual <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> Notifications. 
+            NOTE: most of the properties can be used with default values from <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainerGlobalSettings"/> static properties.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Notifications.ToastSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Id">
+            <summary>
+            Internal Toast Id
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.NotificationTime">
+            <summary>
+            Internal Toast created time
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsRemove">
+            <summary>
+            Internal variable for flagging a Toast to be removed.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsVisible">
+            <summary>
+            Internal visibility flag for Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.IsLastItem">
+            <summary>
+            Determines if the Toast item is the last in the list or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Content">
+            <summary>
+            HTML Content of the<see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> notification.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Type">
+            <summary>
+            Notification type or severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.NotificationStyle">
+            <summary>
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.Type"/> Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowIcon">
+            <summary>
+            When true Toast will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>. Default icon can be overwritten.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.CustomIconSvgPath">
+            <summary>
+            Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowCloseButton">
+            <summary>
+            When true Toast will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.AutoCloseInSec">
+            <summary>
+            Toast will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShowCloseCountdownProgress">
+            <summary>
+            When it's true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastSettings.ShadowEffect">
+            <summary>
+            Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible">
+            <summary>
+            Determines weather the Alert message should be visible on UI or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Content">
+            <summary>
+            Required HTML Content of the Alert notification. Can be any valid HTML.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.Type">
+            <summary>
+            Notification type or severity level.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.NotificationStyle">
+            <summary>
+            Notification style to show different variant of the same <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.Type"/> of Alert.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowIcon">
+            <summary>
+            When true Alert will show an icon corresponding to the <see cref="T:Majorsoft.Blazor.Components.Notifications.NotificationTypes"/>. Default icon can be overwritten.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.CustomIconSvgPath">
+            <summary>
+            Icon customization it accepts an SVG `Path` value to override the default icon. When empty or NULL it is omitted and default used.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseButton">
+            <summary>
+            When true Alert will show close "x" button.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose">
+            <summary>
+            When true Alert will auto close after set up time in <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoCloseInSec"/> elapsed in Seconds.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoCloseInSec">
+            <summary>
+            When <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose"/> set to `true` Alert will close after set time elapsed in Sec.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShowCloseCountdownProgress">
+            <summary>
+            When true and <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.AutoClose"/> is also true a progress bar will show the remaining time until Alert closes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.ShadowEffect">
+            <summary>
+            Determines the shadow effect strongness which makes Alert elevated. Value should be between 0 and 20.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnShow">
+            <summary>
+            Callback function called when the Alert is showing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnClose">
+            <summary>
+            Callback function called when the Alert is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.OnCloseButtonClicked">
+            <summary>
+            Callback function called when close `x` button was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisibleChanged">
+            <summary>
+            Callback function for two way bindings of <see cref="P:Majorsoft.Blazor.Components.Notifications.Alert.IsVisible"/> property.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.InnerElementReference">
+            <summary>
+            Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.Settings">
+            <summary>
+            Settings to show Toast notifications.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnShow">
+            <summary>
+            Callback function called when the Toast is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnClose">
+            <summary>
+            Callback function called when the Toast is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.Toast.OnCloseButtonClicked">
+            <summary>
+            Callback function called when close `x` button was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.Settings">
+            <summary>
+            <see cref="T:Majorsoft.Blazor.Components.Notifications.ToastContainer"/> settings (default static values applied on <see cref="T:Majorsoft.Blazor.Components.Notifications.Toast"/> level).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastOpen">
+            <summary>
+            Callback function called when one of the Toast is opening.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastClose">
+            <summary>
+            Callback function called when one of the Toast is closing.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.OnToastCloseButtonClicked">
+            <summary>
+            Callback function called when close `x` button was clicked on one of the Toast.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Notifications.ToastContainer.AllOtherAttributes">
+            <summary>
+            Blazor capture for any unmatched HTML attributes.
+            </summary>
+        </member>
+    </members>
+</doc>

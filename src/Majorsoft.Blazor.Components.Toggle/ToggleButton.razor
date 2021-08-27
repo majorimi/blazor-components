@@ -1,29 +1,19 @@
-﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px;"
-		@onclick="Switched" disabled="@Disabled" @attributes=AllOtherAttributes>
+﻿<button id="@($"toggleButton_{_componentId}")" @ref="_inputRef" class="toggleButton" style="width: @(Width)px; height: @(Height)px; @GetStyle()"
+		@onmouseenter="() => _hovered = true" @onmouseleave="() => _hovered = false" @onclick="ButtonChecked" disabled="@Disabled" @attributes=AllOtherAttributes>
 	@Content
 </button>
 
-<style>
-	.toggleButton[id=@($"toggleButton_{_componentId}")] {
-		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({OffColor})");
-	}
-	.toggleButton[id=@($"toggleButton_{_componentId}")]:hover {
-		background-color: @(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})");
-	}
-</style>
-
-@using Majorsoft.Blazor.Components.Core.HtmlColors;
-
-@inject ILogger<ToggleButton> _logger;
+@inject ILogger<ToggleButton> _logger
 
 @code {
-	[CascadingParameter] private ToggleButtonGroup? Parent { get; set; }
+	[CascadingParameter] internal ToggleButtonGroup? Parent { get; set; }
 
 	protected override void OnInitialized()
 	{
 		Parent?.AddButton(this);
 	}
 
+	private bool _hovered = false;
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
@@ -67,10 +57,28 @@
 	/// </summary>
 	[Parameter] public RenderFragment Content { get; set; }
 
+	private bool _checked = false;
 	/// <summary>
 	/// Represents Toggle button value: **ON**: `true`, **OFF**: `false`.
 	/// </summary>
-	[Parameter] public bool Checked { get; set; } = false;
+	[Parameter] public bool Checked
+	{
+		get => _checked;
+		set
+		{
+			if(_checked != value)
+			{
+				_checked = value;
+				if(OnToggleChanged.HasDelegate)
+				{
+					InvokeAsync(async () =>
+					{
+						await OnToggleChanged.InvokeAsync(_checked);
+					});
+				}
+			}
+		}
+	}
 
 	/// <summary>
 	/// HTML element height in `px`.
@@ -96,10 +104,10 @@
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AllOtherAttributes { get; set; }
 
-	private async Task Switched()
+	private async Task ButtonChecked()
 	{
 		Checked = !Checked;
-		WriteDiag($"{nameof(Switched)} Toggle button value changed: '{Checked}'.");
+		WriteDiag($"{nameof(ButtonChecked)} Toggle button value changed: '{Checked}'.");
 
 		if (OnToggleChanged.HasDelegate)
 		{
@@ -110,6 +118,16 @@
 		{
 			await Parent.ButtonToggled(this);
 		}
+	}
+
+	private string GetStyle()
+	{
+		if(_hovered)
+		{
+			return $"background-color: {(Checked ? $"rgb({OnColor})": $"rgb({HoverColor})")};";
+		}
+
+		return $"background-color: {(Checked ? $"rgb({OnColor})": $"rgb({OffColor})")};";
 	}
 
 	private void WriteDiag(string message)

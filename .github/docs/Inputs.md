@@ -46,6 +46,9 @@ they have the same **properties**, **events** and **functions** as well.
   Maximum allowed characters to type in.
 - **`CountdownText`: `string { get; set; }` (default: "Remaining characters: ")** <br />
  Countdown label text to change or localize message.
+- **`ShowRemainingChars`: `bool { get; set; }` (default: true)** <br />
+Should show remaining character values at the end of the `CountdownText` or not.
+**Note**: RemainingCharacters value can be acquired from `OnRemainingCharsChanged` event parameter.
 - **`CountdownTextClass`: `string { get; set; }` (default: "")** <br />
   Countdown label and value CSS class property to style message.
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
@@ -107,6 +110,10 @@ on specific `OnInput` event. So it will enable two way binding between component
 	.countDownText.red {
 		color: red;
 	}
+	.countDownText.right {
+		width: 100%;
+		text-align: right;
+	}
 </style>
 
 <div class="row pb-2">
@@ -153,6 +160,10 @@ Following code example shows how to use **`DebounceInputText`** component with m
 	}
 	.countDownText.red {
 		color: red;
+	}
+	.countDownText.right {
+		width: 100%;
+		text-align: right;
 	}
 </style>
 

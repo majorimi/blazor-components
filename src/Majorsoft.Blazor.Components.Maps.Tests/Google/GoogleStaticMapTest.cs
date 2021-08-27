@@ -1,10 +1,10 @@
 ﻿using Bunit;
 
 using Majorsoft.Blazor.Components.Common.JsInterop.Geo;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.Maps.Google;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -12,33 +12,20 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 {
 	[TestClass]
-	public class GoogleStaticMapTest
+	public class GoogleStaticMapTest : ComponentsTestBase<GoogleStaticMap>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IGeolocationService> _geoLocationMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<GoogleStaticMap>>();
 			_geoLocationMock = new Mock<IGeolocationService>();
-
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<GoogleStaticMap>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IGeolocationService), _geoLocationMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]

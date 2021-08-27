@@ -3,29 +3,25 @@ using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
 
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
-	public class PermaLinkElementTest
+	public class PermaLinkElementTest : ComponentsTestBase<PermaLinkElement>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IClipboardHandler> _clipboardJsMock;
 		private BunitJSModuleInterop _jsInteropModul;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<PermaLinkElement>>();
 			_clipboardJsMock = new Mock<IClipboardHandler>();
 
 			_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
@@ -37,7 +33,6 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 #endif
 			_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<PermaLinkElement>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IClipboardHandler), _clipboardJsMock.Object));
 		}
 
@@ -58,7 +53,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight"" title=""Test"" style=""style""><a></a></div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" title=""Test"" style=""style""><a></a></div>");
 		}
 
 		[TestMethod]
@@ -70,7 +65,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <h2>Hower over</h2> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <h2>Hower over</h2> </div>");
 		}
 
 		[TestMethod]
@@ -82,7 +77,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a name=""#linkName""></a> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a name=""#linkName""></a> </div>");
 		}
 
 		[TestMethod]
@@ -95,7 +90,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 8px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 8px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 		}
 
 		[TestMethod]
@@ -108,7 +103,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""34"" height=""34"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 38px;""><a></a> <img style=""margin-top: 0px;"" width=""34"" height=""34"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 		}
 
 		[TestMethod]
@@ -125,8 +120,9 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 
 				Assert.IsNotNull(input);
 
+				var divStyle = item == PermaLinkIconPosition.Left ? "padding-left: 20px;" : "padding-right: 20px;";
 				var imgStyle = item == PermaLinkIconPosition.Left ? "left: 0px; position: absolute;" : "margin-top: 0px;";
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv{item}""><a></a> <img style=""{imgStyle} margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""{divStyle}""><a></a> <img style=""{imgStyle} margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 			}
 		}
 
@@ -144,7 +140,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 				Assert.IsNotNull(input);
 
 				var icon = item == PermaLinkStyle.Normal ? "link2.svg" : "link.svg";
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/{icon}""> </div>");
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/{icon}""> </div>");
 			}
 		}
 
@@ -157,7 +153,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""""><a></a> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""""><a></a> </div>");
 		}
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_Always_correctly()
@@ -168,7 +164,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 		}
 		[TestMethod]
 		public async Task PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
@@ -179,18 +175,18 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> </div>");
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> </div>");
 
 			await input.TriggerEventAsync("onmouseenter", new MouseEventArgs());
 			rendered.WaitForAssertion(() =>
 			{
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 			});
 
 			await input.TriggerEventAsync("onmouseleave", new MouseEventArgs());
 			rendered.WaitForAssertion(() =>
 			{
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDivRight""><a></a> </div>");
+				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> </div>");
 			});
 		}
 	}

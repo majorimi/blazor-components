@@ -1,0 +1,87 @@
+﻿@import "../wwwroot/_notifications.scss";
+
+.balert-main {
+    position: relative;
+    border-radius: 0.25rem;
+    outline: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.balert-body {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    outline: 0;
+}
+.balert-body .balert-text {
+    padding: 0.6em 0;
+    margin: 0 0.6em;
+}
+.balert-body .balert-img {
+    padding: 0.6em 0;
+    margin: 0 0.2em 0 0.7em;
+    width: 24px;
+    display: flex;
+    border: 0;
+    outline: none;
+}
+
+.balert-progress {
+    width: 0px;
+    height: 0.2em;
+    border-radius: 0 0 .15rem .15rem;
+}
+.balert-progress.primary {
+    background-color: $primaryTextColor;
+}
+.balert-progress.secondary {
+    background-color: $secondaryTextColor;
+}
+.balert-progress.info {
+    background-color: $infoTextColor;
+}
+.balert-progress.success {
+    background-color: $successTextColor;
+}
+.balert-progress.warning {
+    background-color: $warningTextColor;
+}
+.balert-progress.danger {
+    background-color: $dangerTextColor;
+}
+.balert-progress.light {
+    background-color: $lightTextColor;
+}
+.balert-progress.dark {
+    background-color: $darkTextColor;
+}
+
+.balert-progress.strong {
+    background-color: $strongStyleColor;
+}
+
+.balert-progress.start {
+    width: 100% !important;
+}
+
+.balert-body .close {
+    margin: 0 0 0 auto;
+    padding: 0.4em 0.5em;
+    outline: none;
+    border: 0;
+    font-size: 1.5rem;
+    z-index: 5;
+    color: inherit;
+    display: flex;
+}
+.balert-body .close.strong {
+    font-weight: normal;
+    color: $strongStyleColor;
+}
+
+.balert-body .close:hover {
+    color: #1c1b1b;
+}
+.balert-body .close.strong:hover {
+    color: white;
+}

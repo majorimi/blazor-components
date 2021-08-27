@@ -2,4 +2,4 @@
 @inject ILogger<MaxLengthTextarea> _logger;
 
 <textarea @ref="_inputRef" value="@Value" maxlength="@MaxAllowedChars" @oninput="OnTextChange" @attributes=AllOtherAttributes />
-<label class="@CountdownTextClass">@(CountdownText)@(_remainingChars)</label>
+<label class="@CountdownTextClass">@(CountdownText)@(ShowRemainingChars ? _remainingChars : "")</label>

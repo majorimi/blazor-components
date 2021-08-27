@@ -1,7 +1,11 @@
-﻿.permaLinkIcon {
+﻿.permaDiv {
+    display: flex;
+    outline: none;
+}
+
+.permaLinkIcon {
     display: block;
     margin-right: 3px;
     margin-left: 3px;
     cursor: pointer;
-    /*pointer-events:none;*/
 }

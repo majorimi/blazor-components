@@ -20,7 +20,10 @@ namespace Majorsoft.Blazor.Extensions.Analytics.Google
 		[JSInvokable("GoogleAnalyticsResult")]
 		public async Task TransitionEvent(object args)
 		{
-			await _googleAnalyticsGetEventCallback(args);
+			if (_googleAnalyticsGetEventCallback is not null)
+			{
+				await _googleAnalyticsGetEventCallback(args);
+			}
 		}
 	}
 }

@@ -1,34 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Bunit;
-
-using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Inputs.Tests
 {
 	[TestClass]
-	public class MaxLengthInputTest
+	public class MaxLengthInputTest : ComponentsTestBase<MaxLengthInput>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<MaxLengthInput>>();
-
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<MaxLengthInput>), logger.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void MaxLengthInput_should_rendered_correctly_html_attributes()
 		{
@@ -43,7 +22,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<input maxlength=""50""  id=""id1"" class=""form-control w-100"" >");
-			label.MarkupMatches(@"<label>Remaining characters: 50</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 50</label>");
 		}
 
 		[TestMethod]
@@ -58,7 +37,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<input value=""test"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 46</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 46</label>");
 		}
 
 		[TestMethod]
@@ -74,7 +53,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<input value=""test"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining chars: 46</label>");
+			label.MarkupMatches(@"<label class="""">Remaining chars: 46</label>");
 		}
 
 		[TestMethod]
@@ -89,7 +68,22 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.IsNotNull(input);
 			Assert.IsNotNull(label);
 			input.MarkupMatches(@"<input maxlength=""11""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 11</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 11</label>");
+		}
+
+		[TestMethod]
+		public void MaxLengthInput_should_rendered_without_ShowRemainingChars()
+		{
+			var rendered = _testContext.RenderComponent<MaxLengthInput>(parameters => parameters
+				.Add(p => p.ShowRemainingChars, false));
+
+			var input = rendered.Find("input");
+			var label = rendered.Find("label");
+
+			Assert.IsNotNull(input);
+			Assert.IsNotNull(label);
+			input.MarkupMatches(@"<input maxlength=""50""/>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: </label>");
 		}
 
 		[TestMethod]
@@ -128,7 +122,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			Assert.AreEqual(49, remaining);
 
 			input.MarkupMatches(@"<input value=""t"" maxlength=""50""/>");
-			label.MarkupMatches(@"<label>Remaining characters: 49</label>");
+			label.MarkupMatches(@"<label class="""">Remaining characters: 49</label>");
 		}
 	}
 }
