@@ -11,15 +11,15 @@
 		}
 	</div>
 	<div class="collapseContent @(Animate ? "animate" : "")"
-		 style="opacity: @(Collapsed ? "0" : "1"); height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
+		 style="opacity: @(Collapsed ? "0" : "1"); overflow: @(ShowContentOverflow ? "auto" : "hidden"); height: @GetContentHeight()">
 		@Content
 	</div>
 </div>
 
-@inject ILogger<CollapsePanel> _logger;
+@inject ILogger<CollapsePanel> _logger
 
 @code {
-	[CascadingParameter] private Accordion Parent { get; set; }
+	[CascadingParameter] internal Accordion Parent { get; set; }
 	protected override void OnInitialized()
 	{
 		Parent?.AddCollapsePanel(this);

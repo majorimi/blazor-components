@@ -107,7 +107,7 @@
 	public TabItem? ActiveTab
 	{
 		get => _activeTab;
-		set => ActivateTab(value);
+		set => InvokeAsync(() => ActivateTab(value));
 	}
 
 	/// <summary>
