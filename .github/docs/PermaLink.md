@@ -38,6 +38,8 @@ Component implements `IDisposable` interface Blazor framework will call it when 
 ## `PermaLinkElement` component
 
 ### Properties
+- **`Id`: `string { get; }`** <br />
+Map HTML container Id. It can be used when multiple Permalinks added to one page.
 - **`Content`**: **`RenderFragment` HTML content - Required**  <br />
 Required HTML content to render with mouse enter/leave events to show Permalink icon. **NOTE: it can be any arbitrary HTML elemnt but should be just a header text e.g. `<h1> - <h6>` element.**
 - **`PermaLinkName`**: **`string PermaLinkName { get; set; }` - Required**  <br />

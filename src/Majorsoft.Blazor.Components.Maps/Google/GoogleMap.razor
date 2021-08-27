@@ -12,6 +12,11 @@
 
 @code {
 	private string _mapContainerId = $"map_{Guid.NewGuid().ToString("n")}";
+	/// <summary>
+	/// Map HTML container Id. It can be used when multiple Maps added to one page.
+	/// </summary>
+	public string MapId => _mapContainerId;
+
 	private ElementReference _jsMap;
 	/// <summary>
 	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -1089,7 +1094,7 @@
 		{
 			await _geolocationService.DisposeAsync();
 		}
-				
+
 		if(_mapService is not null)
 		{
 			await _mapService.DisposeAsync();

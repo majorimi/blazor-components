@@ -23,10 +23,26 @@
 	/// Determines whether all the rendered HTML elements should be disabled or not.
 	/// </summary>
 	[Parameter] public bool Disabled { get; set; } = false;
+
+	private bool _mustToggled = false;
 	/// <summary>
 	/// Determines whether at least one <see cref="ToggleButton"/> must be toggled all the time or all buttons can be Off.
 	/// </summary>
-	[Parameter] public bool MustToggled { get; set; } = false;
+	[Parameter] public bool MustToggled 
+	{ 
+		get => _mustToggled;
+		set	
+		{
+			_mustToggled = value;
+			if(_mustToggled && _activeButton is null && _buttons.Count > 0)
+			{
+				var button = Buttons.First();
+				button.Checked = true;
+				
+				InvokeAsync(async() => await ButtonToggled(button));
+			}
+		}
+	}
 
 	/// <summary>
 	/// Callback function called when component toggled. Actual toggled (selected) button is the callback parameter. When nothing selected value is `NULL`.

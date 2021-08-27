@@ -14,6 +14,9 @@
             @Body
         </div>
     </div>
+
+    @*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+    <ToastContainer />
 </div>
 
 @*Permalink initialize*@
@@ -23,3 +26,20 @@
 @* Google Analytics initialize*@
 @using Majorsoft.Blazor.Extensions.Analytics.Google
 <GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />
+
+@*Toasts settings*@
+@inject IToastService _toastService
+
+@code {
+    protected override void OnInitialized()
+    {
+        //Common settings can be set globally for ToastContainer and Toasts in IToastService
+        _toastService.GlobalSettings.Position = ToastPositions.TopRight;
+        _toastService.GlobalSettings.RemoveToastsOnNavigation = true;
+        _toastService.GlobalSettings.Width = 420;
+        _toastService.GlobalSettings.PaddingFromSide = -1;
+        _toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
+
+        ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+    }
+}

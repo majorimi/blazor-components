@@ -26,11 +26,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	<Content Remove="bundleconfig.json" />
+		<Content Remove="bundleconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	<SupportedPlatform Include="browser" />
+		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,7 +38,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
+	</ItemGroup>
+	<!--Include project DLL output to Nuget package-->
+	<ItemGroup>
+		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net5.0</PackagePath>
+		</_PackageFiles>
 	</ItemGroup>
 
 	<ItemGroup>
