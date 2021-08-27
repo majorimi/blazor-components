@@ -1,7 +1,7 @@
 ﻿.tabContentAnimate {
 	opacity: 0;
-	-webkit-transition: opacity 1s; /* For Safari 3.1 to 6.0 */
-	transition: opacity 1s;
+	-webkit-transition: opacity 0.5s; /* For Safari 3.1 to 6.0 */
+	transition: opacity 0.5s;
 }
 
 .visible {

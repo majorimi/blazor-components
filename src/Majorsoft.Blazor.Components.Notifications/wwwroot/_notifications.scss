@@ -1,0 +1,161 @@
+﻿$primaryBackgroundColor: #cce5ff;
+$primaryTextColor: #0065d2;
+
+$secondaryBackgroundColor: #e2e3e5;
+$secondaryTextColor: #544f4f;
+
+$infoBackgroundColor: #bfe4ea;
+$infoTextColor: #2083b3;
+
+$successBackgroundColor: #c3e6cb;
+$successTextColor: #0a8e28;
+
+$warningBackgroundColor: #fdf2cf;
+$warningTextColor: #ffa500;
+
+$dangerBackgroundColor: #f8d7da;
+$dangerTextColor: #ff162c;
+
+$lightBackgroundColor: #fafafa;
+$lightTextColor: #818182;
+
+$darkBackgroundColor: #d0d0d0;
+$darkTextColor: #1b1e21;
+
+$strongStyleColor: #f7f7f7;
+
+.bnotify-normal-primary {
+    background-color: $primaryBackgroundColor;
+    color: $primaryTextColor;
+    fill: $primaryTextColor;
+}
+.bnotify-outlined-primary {
+    border: 2px solid $primaryBackgroundColor;
+    color: $primaryTextColor;
+    fill: $primaryTextColor;
+    background: white;
+}
+.bnotify-strong-primary {
+    background-color: $primaryTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-secondary {
+    background-color: $secondaryBackgroundColor;
+    color: $secondaryTextColor;
+    fill: $secondaryTextColor;
+}
+.bnotify-outlined-secondary {
+    border: 2px solid $secondaryBackgroundColor;
+    color: $secondaryTextColor;
+    fill: $secondaryTextColor;
+    background: white;
+}
+.bnotify-strong-secondary {
+    background-color: $secondaryTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-info {
+    background-color: $infoBackgroundColor;
+    color: $infoTextColor;
+    fill: $infoTextColor;
+}
+.bnotify-outlined-info {
+    border: 2px solid $infoBackgroundColor;
+    color: $infoTextColor;
+    fill: $infoTextColor;
+    background: white;
+}
+.bnotify-strong-info {
+    background-color: $infoTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-success {
+    background-color: $successBackgroundColor;
+    color: $successTextColor;
+    fill: $successTextColor;
+}
+.bnotify-outlined-success {
+    border: 2px solid $successBackgroundColor;
+    color: $successTextColor;
+    fill: $successTextColor;
+    background: white;
+}
+.bnotify-strong-success {
+    background-color: $successTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-warning {
+    background-color: $warningBackgroundColor;
+    color: $warningTextColor;
+    fill: $warningTextColor;
+}
+.bnotify-outlined-warning {
+    border: 2px solid $warningBackgroundColor;
+    color: $warningTextColor;
+    fill: $warningTextColor;
+    background: white;
+}
+.bnotify-strong-warning {
+    background-color: $warningTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-danger {
+    background-color: $dangerBackgroundColor;
+    color: $dangerTextColor;
+    fill: $dangerTextColor;
+}
+.bnotify-outlined-danger {
+    border: 2px solid $dangerBackgroundColor;
+    color: $dangerTextColor;
+    fill: $dangerTextColor;
+    background: white;
+}
+.bnotify-strong-danger {
+    background-color: $dangerTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-light {
+    background-color: $lightBackgroundColor;
+    color: $lightTextColor;
+    fill: $lightTextColor;
+}
+.bnotify-outlined-light {
+    border: 2px solid $lightBackgroundColor;
+    color: $lightTextColor;
+    fill: $lightTextColor;
+    background: white;
+}
+.bnotify-strong-light {
+    background-color: $lightTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}
+
+.bnotify-normal-dark {
+    background-color: $darkBackgroundColor;
+    color: $darkTextColor;
+    fill: $darkTextColor;
+}
+.bnotify-outlined-dark {
+    border: 2px solid $darkBackgroundColor;
+    color: $darkTextColor;
+    fill: $darkTextColor;
+    background: white;
+}
+.bnotify-strong-dark {
+    background-color: $darkTextColor;
+    color: $strongStyleColor;
+    fill: $strongStyleColor;
+}

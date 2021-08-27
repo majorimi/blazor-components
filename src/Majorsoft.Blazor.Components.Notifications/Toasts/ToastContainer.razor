@@ -1,0 +1,197 @@
+﻿@if (_toastInternals.AllToasts.Any())
+{
+	<div style="@GetInlineStyle()" class="btoast-container @($"position-{Settings.Position.ToString().ToLower()}")" @attributes="AllOtherAttributes">
+
+		@foreach (var item in _toastInternals.AllToasts.OrderBy(x => x.NotificationTime))
+		{
+			CheckIfLastItem(item);
+
+			WriteDiag($"Rendering Toast Id: '{item.Id}', IsVisible: '{item.IsVisible}', IsLastItem: '{item.IsLastItem}'."); /*Must render all item to keep item settings*/
+			<Toast Settings="item" OnShow="OnItemShow" OnClose="OnItemClose" OnCloseButtonClicked="OnItemToastCloseButtonClicked"/>
+		}
+	</div>
+}
+
+@namespace Majorsoft.Blazor.Components.Notifications
+
+@inject ILogger<ToastContainer> _logger
+@inject IToastService _toastService
+@inject IToastInternals _toastInternals
+@inject NavigationManager _navigationManager
+@inject SingletonComponentService<ToastContainer> _singleton
+
+@implements IDisposable
+
+@code {
+	protected override void OnInitialized()
+	{
+		if (_singleton.Initialized)
+		{
+			throw new ApplicationException($"Component: '{nameof(ToastContainer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place (end of the HTML page to work with Relative elements).");
+		}
+		_singleton.Initialized = true;
+
+		_toastService.CollectionChanged += Toasts_CollectionChanged;
+		_navigationManager.LocationChanged += ClearToasts;
+	}
+
+	/// <summary>
+	/// <see cref="ToastContainer"/> settings (default static values applied on <see cref="Toast"/> level).
+	/// </summary>
+	[Parameter]
+	public ToastContainerGlobalSettings Settings
+	{
+		get => _toastService.GlobalSettings;
+		set
+		{
+			_toastService.GlobalSettings = value;
+			StateHasChanged();
+		}
+	}
+
+	//Events
+	/// <summary>
+	/// Callback function called when one of the Toast is opening.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastOpen { get; set; }
+	/// <summary>
+	/// Callback function called when one of the Toast is closing.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastClose { get; set; }
+	/// <summary>
+	/// Callback function called when close `x` button was clicked on one of the Toast.
+	/// </summary>
+	[Parameter] public EventCallback<Guid> OnToastCloseButtonClicked { get; set; }
+
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object> AllOtherAttributes { get; set; }
+
+	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"Toast collection changed: '{e.Action}', Toasts count: '{_toastInternals.AllToasts.Count()}'.");
+
+		InvokeAsync(StateHasChanged);
+	}
+	private void ClearToasts(object? sender, LocationChangedEventArgs args)
+	{
+		WriteDiag($"Page location changed: '{args.Location}', RemoveToastsOnNavigation: '{Settings.RemoveToastsOnNavigation}'.");
+
+		if (Settings.RemoveToastsOnNavigation)
+		{
+			_toastService.ClearAll();
+			StateHasChanged();
+		}
+	}
+
+	private async Task OnItemShow(Guid id)
+	{
+		WriteDiag($"Toast Opened Id: '{id}'.");
+		if(OnToastOpen.HasDelegate)
+		{
+			await OnToastOpen.InvokeAsync(id);
+		}
+
+		_toastInternals.TriggerToastShow(id);
+	}
+	private async Task OnItemToastCloseButtonClicked(Guid id)
+	{
+		WriteDiag($"Toast Close button clicked Id: '{id}'.");
+		if(OnToastCloseButtonClicked.HasDelegate)
+		{
+			await OnToastCloseButtonClicked.InvokeAsync(id);
+		}
+
+		_toastInternals.TriggerToastCloseButtonClicked(id);
+	}
+	private async Task OnItemClose(Guid id)
+	{
+		WriteDiag($"Toast Closed Id: '{id}', Count: {_toastInternals.AllToasts.Count()}.");
+		if(_toastInternals.AllToasts.All(x => !x.IsVisible))
+		{
+			_toastService.ClearAll();
+			WriteDiag($"All Toasts Closed and hidden, Count: {_toastInternals.AllToasts.Count()}.");
+		}
+
+		if (OnToastClose.HasDelegate)
+		{
+			await OnToastClose.InvokeAsync(id);
+		}
+
+		_toastInternals.TriggerToastClosed(id);
+	}
+
+	private string GetInlineStyle()
+	{
+		var style = new StringBuilder($"max-width: {Settings.Width}px; width: {Settings.Width}px;");
+
+		if (Settings?.PaddingFromSide >= 0)
+		{
+			if (Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.TopLeft)
+			{
+				style.Append($" left: {Settings?.PaddingFromSide}px;");
+			}
+			else if (Settings?.Position == ToastPositions.BottomRight || Settings?.Position == ToastPositions.TopRight)
+			{
+				style.Append($" right: {Settings?.PaddingFromSide}px;");
+			}
+		}
+
+		if(Settings?.PaddingFromTopOrBottom >= 0)
+		{
+			if (Settings?.Position == ToastPositions.BottomCenter || Settings?.Position == ToastPositions.BottomLeft || Settings?.Position == ToastPositions.BottomRight)
+			{
+				style.Append($" bottom: {Settings?.PaddingFromTopOrBottom}px;");
+			}
+			else if (Settings?.Position == ToastPositions.TopCenter || Settings?.Position == ToastPositions.TopLeft || Settings?.Position == ToastPositions.TopRight)
+			{
+				style.Append($" top: {Settings?.PaddingFromTopOrBottom}px;");
+			}
+		}
+
+		if(Settings?.Position == ToastPositions.BottomCenter || Settings?.Position == ToastPositions.TopCenter)
+		{
+			style.Append($" margin-left: -{Settings?.Width / 2}px;");
+		}
+
+		return style.ToString();
+	}
+	private void CheckIfLastItem(ToastSettings settings)
+	{
+		var toasts = _toastInternals.AllToasts.OrderBy(x => x.NotificationTime);
+		settings.IsLastItem = false;
+
+		if(toasts.Last() == settings)
+		{
+			settings.IsLastItem = true;
+			return;
+		}
+
+		var index = toasts.ToList().IndexOf(settings);
+		for (int i = ++index; i < toasts.Count(); i++)
+		{
+			if(toasts.ElementAt(i).IsVisible)
+				return;
+		}
+
+		settings.IsLastItem = true;
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+
+	public void Dispose()
+	{
+		_singleton.Initialized = false;
+
+		_navigationManager.LocationChanged -= ClearToasts;
+
+		_toastService.CollectionChanged -= Toasts_CollectionChanged;
+		//_toastService.Dispose(); //Do not dispose singleton....
+	}
+}

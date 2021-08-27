@@ -4,6 +4,11 @@
         <name>Majorsoft.Blazor.Components.Collapse</name>
     </assembly>
     <members>
+        <member name="T:Majorsoft.Blazor.Components.Collapse.Expose">
+            <summary>
+            Empty class to expose internals to Tests
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.Accordion.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.

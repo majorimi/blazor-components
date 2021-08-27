@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.CommonTestsBase\Majorsoft.Blazor.Components.CommonTestsBase.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj" />
   </ItemGroup>
 

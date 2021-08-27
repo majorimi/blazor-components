@@ -20,7 +20,10 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		[JSInvokable("GeolocationEvent")]
 		public virtual async Task GeolocationEvent(GeolocationResult args)
 		{
-			await _locationResultCallback(args);
+			if (_locationResultCallback is not null)
+			{
+				await _locationResultCallback(args);
+			}
 		}
 	}
 }

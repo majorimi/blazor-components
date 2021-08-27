@@ -1,11 +1,9 @@
 ﻿using Bunit;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Moq;
+using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Threading.Tasks;
@@ -13,25 +11,8 @@ using System.Threading.Tasks;
 namespace Majorsoft.Blazor.Components.Loading.Tests
 {
 	[TestClass]
-	public class LoadingElementTest
+	public class LoadingElementTest : ComponentsTestBase<LoadingElement>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<LoadingElement>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<LoadingElement>), mock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void LoadingElement_should_not_render_by_default()
 		{
@@ -66,8 +47,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 			var div = rendered.Find("div");
 
 			Assert.IsNotNull(div);
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)"" id=""id1"" title=""text""><div class=""loading-content"">loading...</div></div>");
-
+			rendered.MarkupMatches(@"<div class=""loading-wrapper""><div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)"" id=""id1"" title=""text""><div class=""loading-content"">loading...</div></div></div>");
 		}
 
 		[TestMethod]
@@ -89,7 +69,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 			var div = rendered.Find("div");
 
 			Assert.IsNotNull(div);
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.12)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
+			rendered.MarkupMatches(@"<div class=""loading-wrapper""><div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.12)""><div class=""loading-content"">loading...</div></div><div>Content</div></div>");
 		}
 
 		[TestMethod]
@@ -111,7 +91,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 			var div = rendered.Find("div");
 
 			Assert.IsNotNull(div);
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(255, 0, 0, 0.9)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
+			rendered.MarkupMatches(@"<div class=""loading-wrapper""><div class=""loading"" style=""background-color: rgba(255, 0, 0, 0.9)""><div class=""loading-content"">loading...</div></div><div>Content</div></div>");
 		}
 
 		[TestMethod]
@@ -163,7 +143,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 			rendered.SetParametersAndRender(parameters => parameters
 				.Add(p => p.IsLoading, true));
 
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
+			rendered.MarkupMatches(@"<div class=""loading-wrapper""><div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)""><div class=""loading-content"">loading...</div></div><div>Content</div></div>");
 		}
 
 		[TestMethod]
@@ -182,7 +162,7 @@ namespace Majorsoft.Blazor.Components.Loading.Tests
 
 			rendered.SetParametersAndRender(parameters => parameters
 				.Add(p => p.IsLoading, true));
-			rendered.MarkupMatches(@"<div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)""><div class=""loading-content"">loading...</div><div>Content</div></div>");
+			rendered.MarkupMatches(@"<div class=""loading-wrapper""><div class=""loading"" style=""background-color: rgba(128, 128, 128, 0.9)""><div class=""loading-content"">loading...</div></div><div>Content</div></div>");
 
 			rendered.SetParametersAndRender(parameters => parameters
 				.Add(p => p.IsLoading, false));
