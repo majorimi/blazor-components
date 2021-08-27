@@ -1,4 +1,9 @@
-﻿namespace Majorsoft.Blazor.Components.Toggle
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.Toggle.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+namespace Majorsoft.Blazor.Components.Toggle
 {
 	/// <summary>
 	/// Toggle switch handle style 

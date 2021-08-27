@@ -4,8 +4,9 @@
 		{
 			if (!tab.Hidden)
 			{
-				<button type="button" parent="@($"tabsPanel_{_componentId}")" class="@GetButtonClass(tab)" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled"
-						style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto");">
+				<button type="button" parent="@($"tabsPanel_{_componentId}")" @onclick=@(() => ActivateTab(tab)) disabled="@tab.Disabled" class="@GetButtonClass(tab)" 
+						style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto"); @GetStyle(tab)"
+						@onmouseenter="() => _hoveredTab = tab" @onmouseleave="() => _hoveredTab = null">
 					@tab.Header
 				</button>
 			}
@@ -17,23 +18,11 @@
 	</CascadingValue>
 </div>
 
-<style>
-	.tabItem[parent=@($"tabsPanel_{_componentId}")] {
-		background-color: @($"rgb({InactiveColor})");
-	}
-	.tabItem[parent=@($"tabsPanel_{_componentId}")].active {
-		background-color: @($"rgb({ActiveColor})");
-	}
-	.tabItem.inactive[parent=@($"tabsPanel_{_componentId}")]:hover {
-		background-color: @($"rgb({HoverColor})");
-	}
-</style>
-
-@using Majorsoft.Blazor.Components.Core.HtmlColors;
-
-@inject ILogger<TabsPanel> _logger;
+@inject ILogger<TabsPanel> _logger
 
 @code {
+	private TabItem? _hoveredTab;
+
 	private string _componentId = Guid.NewGuid().ToString("n");
 	protected ElementReference _inputRef;
 	/// <summary>
@@ -78,11 +67,12 @@
 	}
 
 	/// <summary>
-	/// Sets all <see cref="TabItem"/> elements height in `px`.
+	/// Sets all <see cref="TabItem"/> elements height in `px` (0 is `auto`).
 	/// </summary>
 	[Parameter] public int TabItemsHeight { get; set; } = 40;
 	/// <summary>
-	/// Sets all <see cref="TabItem"/> elements Width in `px`.
+	/// Sets all <see cref="TabItem"/> elements Width in `px` (0 is `auto`).
+	/// 
 	/// </summary>
 	[Parameter] public int TabItemsWidth { get; set; } = 100;
 	/// <summary>
@@ -117,7 +107,7 @@
 	public TabItem? ActiveTab
 	{
 		get => _activeTab;
-		set => ActivateTab(value);
+		set => InvokeAsync(() => ActivateTab(value));
 	}
 
 	/// <summary>
@@ -166,11 +156,25 @@
 		var classes = new List<string>();
 		classes.Add("tabItem");
 
-		classes.Add(tab == ActiveTab ? "active" : "inactive");
+		classes.Add(tab == ActiveTab ? "active" : "");
 		classes.Add(Animate ? "animate" : "");
 
 		return string.Join(' ', classes.Where(x => !string.IsNullOrWhiteSpace(x)));
 	}
+	private string GetStyle(TabItem tab)
+	{
+		if(tab == ActiveTab)
+		{
+			return $"background-color: rgb({ActiveColor});";
+		}
+		if(_hoveredTab == tab)
+		{
+			return $"background-color: rgb({HoverColor});";
+		}
+
+		return $"background-color: rgb({InactiveColor});";
+	}
+
 	private async Task ActivateTab(TabItem tab)
 	{
 		WriteDiag($"{nameof(ActivateTab)}: {tab}");

@@ -76,12 +76,13 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabItemsHeight">
             <summary>
-            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements height in `px`.
+            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements height in `px` (0 is `auto`).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.TabItemsWidth">
             <summary>
-            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements Width in `px`.
+            Sets all <see cref="T:Majorsoft.Blazor.Components.Tabs.TabItem"/> elements Width in `px` (0 is `auto`).
+            
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Disabled">

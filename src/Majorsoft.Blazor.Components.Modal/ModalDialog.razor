@@ -34,7 +34,7 @@
 			transition: opacity @(_animationDuration.ToString().Replace(",", "."))s linear;
 		}
 		.dynamicStyle {
-			top: @(_dialogTop)
+			top: @(_dialogTop);
 			left: 50%;
 			min-width:@(MinWidth)px;
 			min-height:@(MinHeight)px;
@@ -218,7 +218,13 @@
 	private string _dialogDefaultTop => Centered ? "25%;" : "5%;";
 	private string GetDialogTop()
 	{
-		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(Height / 2)}px);";
+		var height = Height;
+		if(MinHeight > height)
+		{
+			height = MinHeight;
+		}
+
+		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(height / 2)}px);";
 	}
 
 	private async Task TransitionEnded(TransitionEventArgs[] args)

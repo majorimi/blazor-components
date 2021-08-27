@@ -1,7 +1,9 @@
 ﻿<input @ref="_inputRef" id="@($"_toggleSwitch_{_componentId}")" type="range" min="0" max="1" @bind="_value" @oninput="Switched" disabled="@Disabled"
-	   style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(HandleStyle == ToggleSwitchStyle.Square ? 0 : Height / 2)px; @GetColor(0.5)" @attributes=AllOtherAttributes />
+	   style="width:@(Width)px; height:@(Height)px; cursor: pointer; border-radius: @(HandleStyle == ToggleSwitchStyle.Square ? 0 : Height / 2)px; @GetColor(0.5)" 
+	   @attributes=AllOtherAttributes />
 
 <style>
+	/*Style cannot be cleaned up*/
 	input[id=@($"_toggleSwitch_{_componentId}")]::-webkit-slider-thumb {
 		@GetColor()
 		@GetThumbStyle()
