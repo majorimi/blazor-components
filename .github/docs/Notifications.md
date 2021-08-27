@@ -319,7 +319,7 @@ Following code example shows how to use **`ToastContainer` and `Toast`** compone
 **First step to add a *single* `ToastContainer` to a common place e.g. MainLayour.razor**
 ```
 ...
-@Body
+	@Body
 ...
 
 @*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
@@ -403,7 +403,6 @@ Then `Toast` notifications can be configured, prompted, removed and listened for
 		_toastService.OnToastCloseButtonClicked -= ToastCloseButtonClicked;
 	}
 }
-
 ```
 
 ### `IHtmlNotificationService` usage
