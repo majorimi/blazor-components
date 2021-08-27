@@ -6,6 +6,10 @@
     .countDownText.red {
         color: red;
     }
+    .countDownText.right {
+        width: 100%;
+        text-align: right;
+    }
 </style>
 
 <PageScroll />
@@ -43,7 +47,11 @@
 
 <div class="container-fluid p-3 mb-3 border rounded">
     <h3>MaxLengthInputText component</h3>
-    <p>Wraps around <strong>Blazor InputText</strong> control and sets <code>maxlength</code> property with notification onChange.</p>
+    <p>
+        Wraps around <strong>Blazor InputText</strong> control and sets <code>maxlength</code> property with notification onChange.
+        <br />
+        This demo shows usage of a full custom Countdown message (input initialized text length handled by event).
+    </p>
 
     <div>
         <div>
@@ -60,6 +68,8 @@
                                     @bind-Value="exampleModel.Name"
                                     MaxAllowedChars="@_maxLengthInputTextAllowed"
                                     CountdownTextClass="@_maxLengthInputTextTextClass"
+                                    ShowRemainingChars="false"
+                                    CountdownText="@($"{_remainingInputTextAllowed} / {_maxLengthInputTextAllowed}")"
                                     OnRemainingCharsChanged="MaxLengthInputTextRemainingCharsChanged" />
             </div>
         </div>
@@ -143,15 +153,17 @@
 
     //MaxLengthInputText
     private int _maxLengthInputTextAllowed = 10;
-    private string _maxLengthInputTextTextClass = "countDownText";
+    private string _maxLengthInputTextTextClass = "countDownText right";
+    private int _remainingInputTextAllowed = 10;
 
     private void MaxLengthInputTextRemainingCharsChanged(int remainingChars)
     {
-        _maxLengthInputTextTextClass = "countDownText";
+        _remainingInputTextAllowed = remainingChars;
+        _maxLengthInputTextTextClass = "countDownText right";
 
         if (_maxLengthInputTextAllowed * 0.2 >= remainingChars)
         {
-            _maxLengthInputTextTextClass = "countDownText red";
+            _maxLengthInputTextTextClass = "countDownText right red";
         }
     }
 
@@ -184,7 +196,7 @@
             _maxLengthInputTextAreaClass = "countDownText red";
         }
     }
-    
+
     //Form model
     private ExampleModel exampleModel = new ExampleModel() { Name = "" };
     private ExampleModel exampleModel2 = new ExampleModel();
