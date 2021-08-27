@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bunit;
 
 using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.CssEvents.Transition;
 using Majorsoft.Blazor.Components.Modal;
 
@@ -16,9 +17,8 @@ using Moq;
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 {
 	[TestClass]
-	public class GdprModalTest
+	public class GdprModalTest : ComponentsTestBase<GdprModal>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<IGdprConsentService> _dprConsentServiceMock;
 		private Mock<IGdprConsentNotificationService> _gdprConsentNotificationServiceMock;
 		private Mock<ITransitionEventsService> _transitionMock;
@@ -27,29 +27,20 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
 			_gdprConsentNotificationServiceMock = new Mock<IGdprConsentNotificationService>();
-
+			var logger = new Mock<ILogger<ModalDialog>>();
 			_dprConsentServiceMock = new Mock<IGdprConsentService>();
 			_dprConsentServiceMock.SetupGet(g => g.ConsentNotificationService).Returns(_gdprConsentNotificationServiceMock.Object);
 
-			var mock = new Mock<ILogger<GdprModal>>();
-			var logger = new Mock<ILogger<ModalDialog>>();
 			_transitionMock = new Mock<ITransitionEventsService>();
 			_focusHandlerMock = new Mock<IFocusHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<GdprModal>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprBanner>), new SingletonComponentService<GdprBanner>()));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprModal>), new SingletonComponentService<GdprModal>()));
 		}
 
 		[TestMethod]

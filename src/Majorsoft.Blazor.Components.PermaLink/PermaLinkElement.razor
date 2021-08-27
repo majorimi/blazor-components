@@ -1,34 +1,13 @@
-﻿<div @ref="_permaDiv" id="@($"_link_{_componentId}")" tabindex="1000" class="@(ShowIcon == ShowPermaLinkIcon.No ? "" : $"permaDiv{IconPosition.ToString()}")" 
-	@onmouseenter="MouseHover" @onmouseleave="MouseLeave" @attributes=AdditionalAttributes>
+﻿<div @ref="_permaDiv" id="@($"_link_{_componentId}")" tabindex="1000" class="permaDiv" style="@GetIconPositionStyle()"
+	 @onmouseenter="MouseHover" @onmouseleave="MouseLeave" @attributes=AdditionalAttributes>
 
 <a name="@_permaLinkName"></a> @Content
 
 @if(_showIcon || ShowIcon == ShowPermaLinkIcon.Always) 
 {
-	<img style="@_iconStyle" width="@IconSize" height="@IconSize" class="permaLinkIcon" src="@GetIconUrl()" @onclick="ImgClick" />
+	<img style="@GetIconStyle()" width="@IconSize" height="@IconSize" class="permaLinkIcon" src="@GetIconUrl()" @onclick="ImgClick" />
 }
 </div>
-
-@if (IconPosition == PermaLinkIconPosition.Right)
-{
-	<style>
-		.permaDivRight[id=@($"_link_{_componentId}")]  {
-			display: flex;
-			outline: none;
-			padding-right: @(IconSize + 4)px;
-		}
-	</style>
-}
-else if(IconPosition == PermaLinkIconPosition.Left) 
-{
-	<style>
-		.permaDivLeft[id=@($"_link_{_componentId}")] {
-			display: flex;
-			outline: none;
-			padding-left: @(IconSize + 4)px;
-		}
-	</style>
-}
 
 @implements IAsyncDisposable
 
@@ -38,6 +17,10 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 
 @code {
 	private string _componentId = Guid.NewGuid().ToString("n");
+	/// <summary>
+	/// Map HTML container Id. It can be used when multiple Permalinks added to one page.
+	/// </summary>
+	public string Id => _componentId;
 
 	private ElementReference _permaDiv;
 	/// <summary>
@@ -46,15 +29,11 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 	public ElementReference InnerElementReference => _permaDiv;
 
 	private DomRect _rect;
-	private string _iconStyle;
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		_rect = await _permaDiv.GetClientRectAsync();
-		
-		var tmp = GetIconStyle();
-		if(_iconStyle != tmp)
+		if(firstRender)
 		{
-			_iconStyle = tmp;
+			_rect = await _permaDiv.GetClientRectAsync();
 			StateHasChanged();
 		}
 	}
@@ -65,8 +44,8 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 	/// Value of the rendered anchor HTML tag. NOTE: it is required and will be part of the URL, do not add # use non URL friendly characters!
 	/// </summary>
 	[Parameter] public string PermaLinkName
-	{ 
-		get => _permaLinkName; 
+	{
+		get => _permaLinkName;
 		set
 		{
 			_permaLinkName = value?.Trim()?.Replace(" ", "-");
@@ -84,24 +63,11 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 	/// Enum value which sets how to show clickable permalink the icon.
 	/// </summary>
 	[Parameter] public ShowPermaLinkIcon ShowIcon { get; set; } = ShowPermaLinkIcon.OnHover;
-	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
 
 	/// <summary>
 	/// Enum value which sets where to show the icon.
 	/// </summary>
-	[Parameter] public PermaLinkIconPosition IconPosition 
-	{ 
-		get => _iconPosition;
-		set
-		{
-			if (value != _iconPosition)
-			{
-				_iconPosition = value;
-				_iconStyle = GetIconStyle();
-				StateHasChanged();
-			}
-		}
-	}
+	[Parameter] public PermaLinkIconPosition IconPosition { get; set; } = PermaLinkIconPosition.Right;
 	/// <summary>
 	/// Sets the icon margin-top CSS property in px. With this icon can be centered.
 	/// </summary>
@@ -135,7 +101,7 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 	{
 		if (_showIcon || ShowIcon != ShowPermaLinkIcon.OnHover)
 			return;
-			
+
 		WriteDiag("------------ DIV Hovered! ---------");
 
 		_showIcon = true;
@@ -176,6 +142,13 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 		}
 	}
 
+	private string GetIconPositionStyle()
+	{
+		if(ShowIcon ==ShowPermaLinkIcon.No)
+			return string.Empty;
+
+		return IconPosition == PermaLinkIconPosition.Right ? $"padding-right: {(IconSize + 4)}px;" : $"padding-left: {(IconSize + 4)}px;";
+	}
 	private string GetIconStyle()
 	{
 		var res = "";
@@ -185,7 +158,7 @@ else if(IconPosition == PermaLinkIconPosition.Left)
 		}
 
 		return $"{res} margin-top: {IconMarginTop}px;";
-	}	
+	}
 	private string GetIconUrl()
 	{
 		var img = IconStyle == PermaLinkStyle.Normal ? "link2" : "link";

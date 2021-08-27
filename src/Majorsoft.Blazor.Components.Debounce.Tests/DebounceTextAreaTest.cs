@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Bunit;
 
+using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.Timer;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -14,26 +15,13 @@ using Moq;
 namespace Majorsoft.Blazor.Components.Debounce.Tests
 {
 	[TestClass]
-	public class DebounceTextAreaTest
+	public class DebounceTextAreaTest : ComponentsTestBase<DebounceTextArea>
 	{
-		private Bunit.TestContext _testContext;
-
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<DebounceTextArea>>();
 			var logger2 = new Mock<ILogger<AdvancedTimer>>();
-
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceTextArea>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]
@@ -131,7 +119,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public async Task DebounceTextArea_should_wait_debounce_time_respective_to_minChars()
 		{
-			var debounceTime = 50;
+			var debounceTime = 55;
 			DateTime eventTime = DateTime.MinValue;
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;

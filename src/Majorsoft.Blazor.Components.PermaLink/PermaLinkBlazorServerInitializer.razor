@@ -4,21 +4,21 @@
 @inject IScrollHandler _scrollHandler
 @inject NavigationManager _navigationManager
 @inject ILogger<IPermaLinkWatcherService> _logger
+@inject SingletonComponentService<PermaLinkBlazorServerInitializer> _singleton
 
 @implements IAsyncDisposable
 
 @code {
     private IPermaLinkWatcherService _permalinkWatcher;
-    private static bool Initialized = false;
 
     protected override void OnInitialized()
     {
-        if (Initialized)
+        if (_singleton.Initialized)
         {
             throw new ApplicationException($"Component: '{nameof(PermalinkBlazorWasmInitializer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
         }
 
-        Initialized = true;
+        _singleton.Initialized = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -39,6 +39,6 @@
         }
 
         _permalinkWatcher?.Dispose();
-        Initialized = false;
+        _singleton.Initialized = false;
     }
 }

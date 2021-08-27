@@ -1,4 +1,9 @@
-﻿namespace Majorsoft.Blazor.Components.Tabs
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.Tabs.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+namespace Majorsoft.Blazor.Components.Tabs
 {
 	/// <summary>
 	/// Determines the positions of tabs.

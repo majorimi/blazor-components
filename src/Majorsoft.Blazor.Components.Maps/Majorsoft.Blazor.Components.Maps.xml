@@ -831,6 +831,11 @@
             <param name="markers">Enumerable markers removed or replaced</param>
             <returns></returns>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapId">
+            <summary>
+            Map HTML container Id. It can be used when multiple Maps added to one page.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
@@ -856,7 +861,7 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Markers">
             <summary>
             MarkerOptions object used to define the properties that can be set on a Marker.
-            ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+            ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Zoom">

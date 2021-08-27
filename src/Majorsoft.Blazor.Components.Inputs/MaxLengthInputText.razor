@@ -2,7 +2,7 @@
 @inject ILogger<MaxLengthInputText> _logger;
 
 <input @ref="_inputRef" value="@CurrentValue" maxlength="@MaxAllowedChars" @oninput="OnTextChange" @attributes=AdditionalAttributes />
-<label class="@CountdownTextClass">@(CountdownText)@(_remainingChars)</label>
+<label class="@CountdownTextClass">@(CountdownText)@(ShowRemainingChars ? _remainingChars : "")</label>
 
 @*
     Diffs with DebounceTimerBase:
@@ -39,7 +39,13 @@
     /// <summary>
     /// Countdown label and value CSS class property to style message.
     /// </summary>
-    [Parameter] public string CountdownTextClass { get; set; }
+    [Parameter] public string CountdownTextClass { get; set; } = "";
+
+    /// <summary>
+    /// Should show remaining character values at the end of the <see cref="CountdownText"/> or not.
+    /// Note RemainingCharacters value can be acquired from <see cref="OnRemainingCharsChanged"/> event parameter.
+    /// </summary>
+    [Parameter] public bool ShowRemainingChars { get; set; } = true;
 
 
     /// <summary>

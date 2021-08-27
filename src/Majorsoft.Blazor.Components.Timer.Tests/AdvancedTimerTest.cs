@@ -1,37 +1,16 @@
-using System;
 using System.Threading.Tasks;
 
 using Bunit;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
-using Moq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Timer.Tests
 {
 	[TestClass]
-	public class AdvancedTimerTest
+	public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 	{
-		private Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void Init()
-		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<AdvancedTimer>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), mock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
-
 		[TestMethod]
 		public void AdvancedTimer_should_rendered_nothing()
 		{

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 using Microsoft.Extensions.DependencyInjection;
 
+[assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.PermaLink.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace Majorsoft.Blazor.Components.PermaLink
 {
 	/// <summary>
@@ -20,9 +23,23 @@ namespace Majorsoft.Blazor.Components.PermaLink
 				throw new ArgumentNullException(nameof(services));
 			}
 
-			services.AddSingleton<IPermaLinkWatcherService, PermaLinkWatcherService>();
+			services.AddScoped<IPermaLinkWatcherService, PermaLinkWatcherService>();
+
+			services.AddScoped<SingletonComponentService<PermaLinkBlazorServerInitializer>>();
+			services.AddScoped<SingletonComponentService<PermalinkBlazorWasmInitializer>>();
 
 			return services;
 		}
+	}
+
+
+	/// <summary>
+	/// Service for checking component was used only once and to be registered as Scoped. 
+	/// In WASM it is Singleton, in Server side it will be per 'Session'
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	internal class SingletonComponentService<T>
+	{
+		public bool Initialized { get; set; } = false;
 	}
 }

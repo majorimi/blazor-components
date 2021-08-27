@@ -1,16 +1,18 @@
 ﻿@inject IPermaLinkWatcherService _permalinkWatcher
+@inject SingletonComponentService<PermalinkBlazorWasmInitializer> _singleton
+
 @implements IDisposable
 
 @code {
     private static bool Initialized = false;
     protected override void OnInitialized()
     {
-        if (Initialized)
+        if (_singleton.Initialized)
         {
             throw new ApplicationException($"Component: '{nameof(PermalinkBlazorWasmInitializer)}' is not allowed to have multiple instances. Please define it one your e.g.: 'MainLayout.razor' or some common place.");
         }
 
-        Initialized = true;
+        _singleton.Initialized = true;
 
         _permalinkWatcher.WatchPermaLinks();
     }
@@ -18,6 +20,6 @@
     public void Dispose()
     {
         _permalinkWatcher?.Dispose();
-        Initialized = false;
+        _singleton.Initialized = false;
     }
 }

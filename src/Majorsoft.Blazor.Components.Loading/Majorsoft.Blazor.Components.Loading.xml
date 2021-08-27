@@ -75,6 +75,11 @@
             Callback function called when component OnInitializedAsync Blazor event triggered.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.OnOverlayClicked">
+            <summary>
+            Callback function called when Overlay `div` was clicked. It can be used to close the overlay.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Loading.LoadingElement.AllOtherAttributes">
             <summary>
             Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.

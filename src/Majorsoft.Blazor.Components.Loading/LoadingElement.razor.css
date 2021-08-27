@@ -1,9 +1,17 @@
-﻿.loading {
+﻿.loading-wrapper {
+	position: relative;
+	display: block;
+	flex-basis: 100%;
+	flex-grow: 0;
+	flex-direction: column;
+}
+
+.loading {
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
-	position: relative;
+	position: absolute;
 	z-index: 100;
 }
 

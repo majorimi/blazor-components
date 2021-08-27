@@ -163,6 +163,7 @@ which can be used to customize `` with ON/OFF switches to allow Cookie or not.
 - [Majorsoft.Blazor.Components.CssEvents](https://www.nuget.org/packages/)
 which stores user provided Consents in the Browser's Local storage.
 
+### Register services
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
 using Majorsoft.Blazor.Components.GdprConsent;
@@ -172,6 +173,9 @@ public static async Task Main(string[] args)
 	var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 	//Register dependencies
+	builder.Services.AddCssEvents();
+	builder.Services.AddJsInteropExtensions();
+	builder.Services.AddBrowserStorage();
 	builder.Services.AddGdprConsent();
 }
 ```
@@ -184,6 +188,9 @@ using Majorsoft.Blazor.Components.GdprConsent;
 public void ConfigureServices(IServiceCollection services)
 {
 	//Register dependencies
+	services.AddCssEvents();
+	services.AddJsInteropExtensions();
+	services.AddBrowserStorage();
 	services.AddGdprConsent();
 }
 ```

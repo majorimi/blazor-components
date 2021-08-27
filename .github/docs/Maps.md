@@ -109,6 +109,8 @@ You can learn about Google JavaScript Maps features and usage [here](https://dev
 ### Properties
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
 Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+- **`MapId`: `string { get; }`** <br />
+Map HTML container Id. It can be used when multiple Maps added to one page.
 - **`Width`: `int { get; set; }` (default: 400)** <br />
 Maps image Width in px.
 - **`Height`: `int { get; set; }` (default: 300)** <br />

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Bunit;
 
+using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.Timer;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -14,26 +15,14 @@ using Moq;
 namespace Majorsoft.Blazor.Components.Debounce.Tests
 {
 	[TestClass]
-	public class DebounceInputTest
+	public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 	{
-		private Bunit.TestContext _testContext;
-
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var logger = new Mock<ILogger<DebounceInput>>();
 			var logger2 = new Mock<ILogger<AdvancedTimer>>();
 			
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInput>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]

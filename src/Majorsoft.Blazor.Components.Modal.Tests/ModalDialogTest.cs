@@ -7,38 +7,27 @@ using Bunit;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
+using Majorsoft.Blazor.Components.CommonTestsBase;
 
 namespace Majorsoft.Blazor.Components.Modal.Tests
 {
 	[TestClass]
-	public class ModalDialogTest
+	public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	{
-		private Bunit.TestContext _testContext;
 		private Mock<ITransitionEventsService> _transitionMock;
 		private Mock<IFocusHandler> _focusHandlerMock;
 		
 		[TestInitialize]
 		public void Init()
 		{
-			_testContext = new Bunit.TestContext();
-
-			var mock = new Mock<ILogger<ModalDialog>>();
 			_transitionMock = new Mock<ITransitionEventsService>();
 			_focusHandlerMock = new Mock<IFocusHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), mock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
 		}
 
 		[TestMethod]
@@ -74,7 +63,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -115,7 +104,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -168,7 +157,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -212,7 +201,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -288,7 +277,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -374,7 +363,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-header"">Header...<button type=""button"" class=""close"">
-				<span aria-hidden=""true"">x</span>
+				<span aria-hidden=""true"">&times;</span>
 				<span class=""sr-only"">Close</span>
 			  </button></div>
 				<div class=""bmodal-body""></div>
@@ -537,7 +526,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>
@@ -620,7 +609,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
-					<span aria-hidden=""true"">x</span>
+					<span aria-hidden=""true"">&times;</span>
 					<span class=""sr-only"">Close</span>
 				  </button>
 				</div>

@@ -1,0 +1,97 @@
+﻿<div class="btooltip-container"  @onmouseenter="HandleMouseOver" @onmouseleave="HandleMouseOut" @attributes=AdditionalAttributes>
+    @if (_isVisible)
+    {
+        <span>@Text</span>
+    }
+    @ChildContent
+</div>
+
+@inject IGlobalMouseEventHandler _mouseEvents
+@implements IAsyncDisposable
+
+@code {
+    public bool _isVisible = false;
+    private string _eventId;
+    private MouseEventArgs _mouseEventArgs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _eventId = await _mouseEvents.RegisterPageMouseMoveAsync(async args =>
+        {
+            _mouseEventArgs = args;
+            Console.WriteLine(_mouseEventArgs.OffsetX);
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public string Text { get; set; } = "";
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public int DelayBeforShow { get; set; } = 0;
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public int DelayBeforHide { get; set; } = 250;
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public TooltipsPositons Positon { get; set; } = TooltipsPositons.Top;
+
+    //Events
+    /// <summary>
+    /// Callback function called when the Tooltip is showing.
+    /// </summary>
+    [Parameter] public EventCallback OnShow { get; set; }
+    /// <summary>
+    /// Callback function called when the Tooltip is hiding.
+    /// </summary>
+    [Parameter] public EventCallback OnHide { get; set; }
+
+    /// <summary>
+    /// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
+
+    private async Task HandleMouseOver()
+    {
+        var cursorY = _mouseEventArgs.ScreenY;
+        var cursorX = _mouseEventArgs.ScreenY;
+
+        await Task.Delay(DelayBeforShow);
+
+        _isVisible = true;
+
+        if(OnShow.HasDelegate)
+        {
+            await OnShow.InvokeAsync();
+        }
+    }
+    private async Task HandleMouseOut()
+    {
+        await Task.Delay(DelayBeforHide);
+
+        _isVisible = false;
+
+        if (OnHide.HasDelegate)
+        {
+            await OnHide.InvokeAsync();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _mouseEvents.RemovePageMouseMoveAsync(_eventId);
+    }
+}
