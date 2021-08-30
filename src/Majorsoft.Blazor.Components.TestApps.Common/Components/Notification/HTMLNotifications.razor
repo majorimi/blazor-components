@@ -72,6 +72,9 @@
 	}
 </div>
 
+@inject NavigationManager navigationManager
+@inject HttpClient client
+
 @inject IHtmlNotificationService _notificationService
 @implements IAsyncDisposable
 
@@ -123,7 +126,17 @@
 	}
 	private async Task ShowWithActionsNotification()
 	{
-		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js")
+		//Try to load "sample" Service Worker JS path depends on the Deom app type (for prod this is not needed)
+		var js = "sw.js";
+		var uri = navigationManager.BaseUri + js;
+
+		var response = await client.GetAsync(uri);
+		if (!response.IsSuccessStatusCode)
+		{
+			js = "_content/Majorsoft.Blazor.Components.TestApps.Common/sw.js";
+		}
+
+		var options = new HtmlServiceWorkerNotificationOptions(_notificationTitle, js)
 		{
 			Body = _notificationBody,
 			Icon = _notificationIcon,
