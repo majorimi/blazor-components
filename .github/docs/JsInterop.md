@@ -169,13 +169,12 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
 Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
-
 ### `IScrollHandler` Functions
-- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference)`**<br />
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference, bool smooth)`**<br />
 Scrolls the given element into the page view area.
-- **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id)`**<br />
+- **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id, bool smooth)`**<br />
 Finds element by Id and scrolls the given element into the page view area.
-- **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name)`**<br />
+- **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name, bool smooth)`**<br />
 Finds element by name and scrolls the given element into the page view area.
 - **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync(bool smooth)`**<br />
 Scrolls to end of the page (X bottom).

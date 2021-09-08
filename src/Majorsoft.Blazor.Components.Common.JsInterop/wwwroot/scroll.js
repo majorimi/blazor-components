@@ -1,20 +1,25 @@
 ﻿/* Extensions */
 //Element scrolled to page top
-export function scrollToElement(element) {
+export function scrollToElement(element, smooth) {
     if (element && typeof element.scrollIntoView === "function") {
-        element.scrollIntoView();
+        if (smooth) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+        else {
+            element.scrollIntoView();
+        }
     }
 }
-export function scrollToElementById(id) {
+export function scrollToElementById(id, smooth) {
     if (id) {
-        scrollToElement(document.getElementById(id));
+        scrollToElement(document.getElementById(id), smooth);
     }
 }
-export function scrollToElementByName(name) {
+export function scrollToElementByName(name, smooth) {
     if (name) {
         let elements = document.getElementsByName(name)
         if (elements && elements.length > 0) {
-            scrollToElement(elements[0]);
+            scrollToElement(elements[0], smooth);
         }
     }
 }
