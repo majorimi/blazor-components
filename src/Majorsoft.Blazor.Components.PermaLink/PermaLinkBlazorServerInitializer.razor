@@ -31,6 +31,16 @@
         }
     }
 
+    /// <summary>
+    /// Gets or sets if peramlink should be scrolled smoothly into view or not.
+    /// Note: smooth scroll on element level might not supported by all Browsers.
+    /// </summary>
+    [Parameter] public bool SmoothScroll
+    {
+        get => _permalinkWatcher.SmoothScroll;
+        set { _permalinkWatcher.SmoothScroll = value; }
+    }
+
     public async ValueTask DisposeAsync()
     {
         if (_scrollHandler is not null)
