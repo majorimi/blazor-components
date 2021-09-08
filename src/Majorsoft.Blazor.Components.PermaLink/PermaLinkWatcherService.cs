@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
+using Majorsoft.Blazor.Components.Common.JsInterop.Navigation;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 
 using Microsoft.AspNetCore.Components;
@@ -19,17 +20,22 @@ namespace Majorsoft.Blazor.Components.PermaLink
 		private readonly IScrollHandler _scrollHandler;
 		private readonly NavigationManager _navigationManager;
 		private readonly ILogger<IPermaLinkWatcherService> _logger;
+		private readonly INavigationHistoryService _navigationHistoryService;
 
 		public event EventHandler<PermalinkDetectedEventArgs> PermalinkDetected;
 
 		public bool SmoothScroll { get; set; }
 
-		public PermaLinkWatcherService(IScrollHandler scrollHandler, NavigationManager navigationManager, ILogger<IPermaLinkWatcherService> logger, bool smoothScroll = false)
+		public PermaLinkWatcherService(IScrollHandler scrollHandler, 
+			NavigationManager navigationManager, 
+			ILogger<IPermaLinkWatcherService> logger,
+			INavigationHistoryService navigationHistoryService,
+			bool smoothScroll = false)
 		{
 			_scrollHandler = scrollHandler;
 			_navigationManager = navigationManager;
 			_logger = logger;
-
+			_navigationHistoryService = navigationHistoryService;
 			SmoothScroll = smoothScroll;
 		}
 
@@ -55,7 +61,7 @@ namespace Majorsoft.Blazor.Components.PermaLink
 				if(PermalinkDetected is not null)
 				{
 					PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(e, perma));
-				}	
+				}
 
 				_scrollHandler.ScrollToElementByNameAsync(perma, SmoothScroll);
 			}
@@ -90,7 +96,7 @@ namespace Majorsoft.Blazor.Components.PermaLink
 		{
 			if(doNotNavigate)
 			{
-				//TODO: history.pushState(null, '', url);
+				_navigationHistoryService?.PushStateAsync(null, "", uri);
 				return;
 			}
 
