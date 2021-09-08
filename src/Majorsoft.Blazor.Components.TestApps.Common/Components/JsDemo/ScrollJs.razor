@@ -40,6 +40,7 @@
 			<label><strong><code>ScrollToElementAsync()</code> will scroll the given <code>ElementReference</code> (Button) to the visible aarea</strong>:</label>
 			<br />
 			<button class="btn btn-primary" @ref="_scrollToView" @onclick="ScrollToView">Scroll to view</button>
+			Smooth scroll to View (might not supported by this Browser): <input type="checkbox" @bind="_smoothScrollToView" />
 		</div>
 	</div>
 
@@ -103,11 +104,11 @@
 		<div class="col-12">
 			<label><strong><code>ScrollToTopAsync()</code> and <code>ScrollToEndAsync()</code> will scroll inside the given <code>ElementReference</code> (textarea) to element top and bottom</strong>:</label>
 			<br />
-			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToTopAsync())">Scroll to textbox Top</button>
-			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToEndAsync())">Scroll to textbox Bottom</button>
+			Smooth scroll in Textbox: <input type="checkbox" @bind="_smoothScrollInTextbox" />
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToTopAsync(smooth: _smoothScrollInTextbox))">Scroll to Textbox Top</button>
+			<button class="btn btn-primary" @onclick="@(async () => await _log.ScrollToEndAsync(smooth: _smoothScrollInTextbox))">Scroll to Textbox Bottom</button>
 		</div>
 	</div>
-
 	<hr />
 </div>
 
@@ -125,11 +126,14 @@
 		await ScrollEventHandler();
 	}
 
+	private bool _smoothScrollInTextbox = true;
+
 	//Scroll examples
 	private ElementReference _scrollToView;
+	private bool _smoothScrollToView;
 	private async Task ScrollToView()
 	{
-		await _scrollToView.ScrollToElementAsync();
+		await _scrollToView.ScrollToElementAsync(_smoothScrollToView);
 	}
 
 	private ElementReference _log;
@@ -139,7 +143,7 @@
 		_logMessage += $"{DateTime.Now.TimeOfDay}: Page scrolled: X pos: {args.X}, Y pos: {args.Y}{Environment.NewLine}";
 		StateHasChanged();
 
-		await _log.ScrollToEndAsync();
+		await _log.ScrollToEndAsync(smooth: true);
 	}
 
 	private bool _scrollSubscribed = false;
