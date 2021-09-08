@@ -3,6 +3,7 @@
 
 @inject IScrollHandler _scrollHandler
 @inject NavigationManager _navigationManager
+@inject INavigationHistoryService _navigationHistoryService
 @inject ILogger<IPermaLinkWatcherService> _logger
 @inject SingletonComponentService<PermaLinkBlazorServerInitializer> _singleton
 
@@ -26,7 +27,7 @@
         if (firstRender)
         {
             //setup permalink
-            _permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger);
+            _permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger, _navigationHistoryService);
             _permalinkWatcher.WatchPermaLinks();
         }
     }

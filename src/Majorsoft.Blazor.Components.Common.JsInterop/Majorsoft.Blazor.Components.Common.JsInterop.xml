@@ -561,6 +561,66 @@
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService"/>
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService">
+            <summary>
+            Injectable service to handle Browser history JS Interops.
+            https://developer.mozilla.org/en-US/docs/Web/API/History
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GetLengthAsync">
+            <summary>
+            Returns an Integer representing the number of elements in the session history, including the currently loaded page. For example, for a page loaded in a new tab this property returns 1.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GetScrollRestorationAsync">
+            <summary>
+            Allows web applications to explicitly set default scroll restoration behavior on history navigation. This property can be either `auto` or `manual`.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.BackAsync">
+            <summary>
+            This asynchronous method goes to the previous page in session history, the same action as when the user clicks the browser's Back button. Equivalent to history.go(-1).
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.ForwardAsync">
+            <summary>
+            This asynchronous method goes to the next page in session history, the same action as when the user clicks the browser's Forward button; this is equivalent to history.go(1).
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GoAsync(System.Int32)">
+            <summary>
+            Asynchronously loads a page from the session history, identified by its relative location to the current page, for example -1 for the previous page or 1 for the next page.
+            </summary>
+            <param name="delta">The position in the history to which you want to move, relative to the current page. A negative value moves backwards, a positive value moves forwards.</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.ReplaceStateAsync(System.Dynamic.ExpandoObject,System.String,System.String)">
+            <summary>
+            Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.
+            </summary>
+            <param name="state">Arbitrary object of the page</param>
+            <param name="title">Page tile</param>
+            <param name="url">New URL to show and add to history</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.PushStateAsync(System.Dynamic.ExpandoObject,System.String,System.String)">
+            <summary>
+            Pushes the given data onto the session history stack with the specified title (and, if provided, URL).
+            </summary>
+            <param name="state">Arbitrary object of the page</param>
+            <param name="title">Page tile</param>
+            <param name="url">New URL to show and add to history</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.NavigationHistoryService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler">
             <summary>
             Injectable service to handle JS 'resize' events for HTML element or the whole document.

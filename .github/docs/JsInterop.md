@@ -15,7 +15,6 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop).
 
 # Features
-
 - **Click JS**: 
   - `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
   - Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
@@ -31,8 +30,9 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
 - **Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
 - **Browser Theme JS**: is an **injectable `IBrowserThemeService` service** to handle Browser color scheme queries and changes.
-- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
+- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) (GPS position, speed, heading, etc.).
 - **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
+- **Browser History JS**: is an **injectable `INavigationHistoryService` service** to access [HTML History API](https://developer.mozilla.org/en-US/docs/Web/API/History) functionality.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
@@ -290,7 +290,6 @@ Removes event listener for `prefers-color-scheme` HTML event for the Browser.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
-
 ## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
 **Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
 It is using the Geolocation API which allows users to provide their location to web applications if they desire.
@@ -327,6 +326,26 @@ Removes all existing fav icon "rel=icon" tags from HTML page Head and creates ne
 If you have multiple fav icon tags set in the Head first call `GetHtmlFavIconsAsync` method and change `HtmlHeadLinkTag.Href` values.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+## Browser History JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#history-js))
+**Browser History JS** is an injectable `INavigationHistoryService` service** to access HTML History API functionality. 
+It is useful when don't want to rely on Blazor `NavigationManager` which does not have access to full History list and when it navigates trigger a page load/update.
+
+### Functions
+- **`GetLengthAsync`**: **`ValueTask<int> GetLengthAsync()`** <br />
+Returns an Integer representing the number of elements in the session history, including the currently loaded page.
+- **`GetScrollRestorationAsync`**: **`ValueTask<string> GetScrollRestorationAsync()`** <br />
+Allows web applications to explicitly set default scroll restoration behavior on history navigation. This property can be either `auto` or `manual`.
+- **`BackAsync`**: **`ValueTask BackAsync()`** <br />
+This asynchronous method goes to the previous page in session history, the same action as when the user clicks the browser's Back button. Equivalent to history.go(-1).
+- **`ForwardAsync`**: **`ValueTask ForwardAsync()`** <br />
+This asynchronous method goes to the next page in session history, the same action as when the user clicks the browser's Forward button; this is equivalent to history.go(1).
+- **`GoAsync`**: **`ValueTask GoAsync(int delta)`** <br />
+Asynchronously loads a page from the session history, identified by its relative location to the current page, for example -1 for the previous page or 1 for the next page.
+- **`ReplaceStateAsync`**: **`ValueTask ReplaceStateAsync(ExpandoObject? state, string title, string url)`** <br />
+Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.
+- **`PushStateAsync`**: **`ValueTask PushStateAsync(ExpandoObject? state, string title, string url)`** <br />
+Pushes the given data onto the session history stack with the specified title (and, if provided, URL).
 
 
 # Configuration
@@ -366,6 +385,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate
 @*Only if you want to use Browser ColorTheme*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
+@*Only if you want to use Browser History*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.History
 ```
 
 

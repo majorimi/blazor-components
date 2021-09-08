@@ -2,6 +2,7 @@
 
 using Bunit;
 
+using Majorsoft.Blazor.Components.Common.JsInterop.Navigation;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 using Majorsoft.Blazor.Components.CommonTestsBase;
 
@@ -18,6 +19,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 	{
 		private Mock<IPermaLinkWatcherService> _permaLinkWatcherServiceMock;
 		private Mock<IScrollHandler> _scrollHandlerMock;
+		private Mock<INavigationHistoryService> _navigationHistoryServiceMock;
 
 		[TestInitialize]
 		public void Init()
@@ -25,10 +27,12 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var logger = new Mock<ILogger<IPermaLinkWatcherService>>();
 			_permaLinkWatcherServiceMock = new Mock<IPermaLinkWatcherService>();
 			_scrollHandlerMock = new Mock<IScrollHandler>();
+			_navigationHistoryServiceMock = new Mock<INavigationHistoryService>();
 
 			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), logger.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(IScrollHandler), _scrollHandlerMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(INavigationHistoryService), _navigationHistoryServiceMock.Object));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
 		}
