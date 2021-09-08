@@ -171,11 +171,11 @@ Component implements `IAsyncDisposable` interface Blazor framework components al
 
 ### `IScrollHandler` Functions
 - **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference, bool smooth)`**<br />
-Scrolls the given element into the page view area.
+Scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
 - **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id, bool smooth)`**<br />
-Finds element by Id and scrolls the given element into the page view area.
+Finds element by Id and scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
 - **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name, bool smooth)`**<br />
-Finds element by name and scrolls the given element into the page view area.
+Finds element by name and scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
 - **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync(bool smooth)`**<br />
 Scrolls to end of the page (X bottom).
 - **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync(bool smooth)`**<br />
@@ -196,18 +196,34 @@ Removes event listener for 'scroll' HTML event for the whole document/window by 
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### `ElementReference` extensions
-- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToEndAsync`**: **`Task ScrollToEndAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToTopAsync`**: **`Task ScrollToTopAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToXAsync`**: **`Task ScrollToXAsync(this ElementReference elementReference, double xPos)`**<br />
-- **`ScrollToYAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double yPos)`**<br />
-- **`GetScrollPositionAsync`**: **`Task<double> GetScrollPositionAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+ Scrolls HTML page to given element.  **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToEndAsync`**: **`Task ScrollToEndAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+Scrolls inside the given element to the bottom (end). **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToTopAsync`**: **`Task ScrollToTopAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+Scrolls inside the given element to the beginning (top). **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToXAsync`**: **`Task ScrollToXAsync(this ElementReference elementReference, double xPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given X position. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToYAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double yPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given Y position. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double xPos, double yPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given X and Y positions. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`GetScrollXPositionAsync`**: **`Task<double> GetScrollXPositionAsync(this ElementReference elementReference)`**<br />
+Returns given element scroll X (left) position.
+- **`GetScrollYPositionAsync`**: **`Task<double> GetScrollYPositionAsync(this ElementReference elementReference)`**<br />
+Returns given element scroll Y (top) position.
 - **`IsElementHiddenAsync`**: **`Task<bool> IsElementHiddenAsync(this ElementReference elementReference)`**<br />
+Returns given element is visible on HTML document or not.
 - **`IsElementHiddenBelowAsync`**: **`Task<bool> IsElementHiddenBelowAsync(this ElementReference elementReference)`**<br />
+Returns given element is below of the view port.
 - **`IsElementHiddenAboveAsync`**: **`Task<bool> IsElementHiddenAboveAsync(this ElementReference elementReference)`**<br />
+Returns given element is above of the view port.
 - **`ScrollToElementInParentAsync`**: **`Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)`**<br />
+Scrolls inside the given parent element to the given inner element.
 - **`ScrollInParentByIdAsync`**: **`Task ScrollInParentByIdAsync(this ElementReference parent, string id)`**<br />
+Scrolls inside the given parent element to the given inner element by Id.
 - **`ScrollInParentByClassAsync`**: **`Task ScrollInParentByClassAsync(this ElementReference parent, string className)`**<br />
+Scrolls inside the given parent element to the given first found inner element by class name.
 
 ## Resize JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#resize-js))
 **Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
