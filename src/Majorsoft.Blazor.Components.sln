@@ -107,7 +107,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Collapse.Tests", "Majorsoft.Blazor.Components.Collapse.Tests\Majorsoft.Blazor.Components.Collapse.Tests.csproj", "{A9828B4C-46C6-410C-BD56-6813E5632273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.Tabs.Tests", "Majorsoft.Blazor.Components.Tabs.Tests\Majorsoft.Blazor.Components.Tabs.Tests.csproj", "{754A241A-238E-48BA-A0F4-3A234F74CCA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Tabs.Tests", "Majorsoft.Blazor.Components.Tabs.Tests\Majorsoft.Blazor.Components.Tabs.Tests.csproj", "{754A241A-238E-48BA-A0F4-3A234F74CCA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

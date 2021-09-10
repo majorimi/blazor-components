@@ -44,6 +44,12 @@
             Determines whether the current rendered TabItem should be hidden or not.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.Permalink">
+            <summary>
+            Permalink value to append to the URL and activate the TabItem based on matching value.
+            NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST set up correctly.
+            </summary>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabItem.AllOtherAttributes">
             <summary>
             Blazor capture for any unmatched HTML attributes.
@@ -88,6 +94,12 @@
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Disabled">
             <summary>
             Determines whether all the rendered HTML elements should be disabled or not.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.AllowTabActivationByPermalink">
+            <summary>
+            Enables or disables `TabItem` activation with URL Permalink fragment.
+            NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST set up correctly.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Tabs.TabsPanel.Animate">

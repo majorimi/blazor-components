@@ -51,13 +51,11 @@ namespace Majorsoft.Blazor.Components.PermaLink
 
 		private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 		{
-			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: navigation happened new URL: {e.Location}");
+			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: navigation happened new URL: '{e.Location}'");
 			var perma = DetectPermalink(e.Location);
 
 			if(!string.IsNullOrWhiteSpace(perma))
 			{
-				_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: PermaLink found: {perma}");
-
 				if(PermalinkDetected is not null)
 				{
 					PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(e, perma));
@@ -69,14 +67,11 @@ namespace Majorsoft.Blazor.Components.PermaLink
 
 		public void ChangePermalink(string? newPermalink, bool doNotNavigate)
 		{
+			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(ChangePermalink)}: current URL: '{_navigationManager.Uri}', new URL Permalink: '{newPermalink}'");
+
 			var perma = DetectPermalink(_navigationManager.Uri);
 			if (!string.IsNullOrWhiteSpace(perma))
 			{
-				if (newPermalink?.ToLower() == perma?.ToLower()) //same
-				{
-					return;
-				}
-
 				var newUri = _navigationManager.Uri.Replace($"#{perma}", "");
 				if (string.IsNullOrWhiteSpace(newPermalink)) //remove
 				{
@@ -94,7 +89,9 @@ namespace Majorsoft.Blazor.Components.PermaLink
 
 		private void SetBrowserUrl(string uri, bool doNotNavigate)
 		{
-			if(doNotNavigate)
+			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(SetBrowserUrl)}: new URL: '{uri}', doNotNavigate: '{doNotNavigate}'");
+
+			if (doNotNavigate)
 			{
 				_navigationHistoryService?.PushStateAsync(null, "", uri);
 				return;
@@ -102,13 +99,29 @@ namespace Majorsoft.Blazor.Components.PermaLink
 
 			_navigationManager.NavigateTo(uri, false);
 		}
+		public string? CheckPermalink(bool triggerEvent)
+		{
+			var perma = DetectPermalink(_navigationManager.Uri);
+			if (!string.IsNullOrWhiteSpace(perma))
+			{
+				if (PermalinkDetected is not null)
+				{
+					PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(
+						   new LocationChangedEventArgs(_navigationManager.Uri, false), perma));
+				}
+			}
 
-		private string DetectPermalink(string uri)
+			return perma;
+		}
+
+		private string? DetectPermalink(string uri)
 		{
 			var match = _poundRegex.Match(uri);
 			if (match.Success && match.Groups.Count == 2)
 			{
 				var perma = match.Groups[1].Value;
+				_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(DetectPermalink)}: PermaLink found: '{perma}'");
+
 				return perma;
 			}
 

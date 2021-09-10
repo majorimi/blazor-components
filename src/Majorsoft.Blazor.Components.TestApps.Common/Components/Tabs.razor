@@ -48,6 +48,7 @@
 			Hidden Tab: <input class="mr-3" type="checkbox" @bind="_isTabHidden" />
 			<br />
 			Animate Tab changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
+			Allow Tab activation with Permalink URL fragment: <input class="mr-3" type="checkbox" @bind="_allowTabActivation" />
 		</div>
 	</div>
 
@@ -74,9 +75,10 @@
 					   Disabled="@_allTabsDisabled"
 					   TabPositon="@_tabPositon"
 					   Animate="@_isAnimated"
+					   AllowTabActivationByPermalink="@_allowTabActivation"
 					   OnTabChanged="OnTabChanged">
 				<TabItems>
-					<TabItem id="tab1" @ref="_tab1" Disabled="false" Hidden="false">
+					<TabItem id="tab1" @ref="_tab1" Disabled="false" Permalink="Tab1" Hidden="false">
 						<Header><strong>Tab 1</strong></Header>
 						<Content>
 							<h1>The first tab</h1>
@@ -85,7 +87,7 @@
 							</a>
 						</Content>
 					</TabItem>
-					<TabItem @ref="_tab2" Disabled="false" Hidden="false">
+					<TabItem @ref="_tab2" Disabled="false" Permalink="Tab2" Hidden="false">
 						<Header><i>Tab 2</i></Header>
 						<Content>
 							<h1>The second tab</h1>
@@ -94,7 +96,7 @@
 							</a>
 						</Content>
 					</TabItem>
-					<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled" Hidden="@_isTabHidden">
+					<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled" Permalink="Tab3" Hidden="@_isTabHidden">
 						<Header><u>Can disable</u></Header>
 						<Content>
 							<h1>This tab can be disabled</h1>
@@ -104,7 +106,7 @@
 							</a>
 						</Content>
 					</TabItem>
-					<TabItem id="tab4" @ref="_tab4" Disabled="false" Hidden="false">
+					<TabItem id="tab4" @ref="_tab4" Disabled="false" Permalink="Tab4" Hidden="false">
 						<Header>Header icon <i class="fa fa-home"></i></Header>
 						<Content>
 							<h1>Tab with icon in header</h1>
@@ -137,7 +139,6 @@
 			await _tabs.InnerElementReference.FocusAsync();
 
 			//Group
-			_activeTab = _tab2;
 			_tabsCount = _tabs.TabCount;
 		}
 	}
@@ -152,6 +153,7 @@
 	private bool _allTabsDisabled = false;
 	private bool _isTabDisabled = false;
 	private bool _isTabHidden = false;
+	private bool _allowTabActivation = true;
 
 	private int _tabsCount;
 

@@ -37,6 +37,9 @@ Sets all `TabItem` elements height in `px`.
 Sets all `TabItem` elements element width in `px`.
 - **`Disabled`: `bool { get; set; }` (default: false)** <br />
 Determines whether all the rendered HTML elements should be disabled or not.
+- **`AllowTabActivationByPermalink`: `bool { get; set; }` (default: true)** <br />
+Enables or disables `TabItem` activation with URL Permalink fragment.
+**NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST [set up correctly](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md#configuration)!**
 - **`Animate`: `bool { get; set; }` (default: true)** <br />
 Determines to apply CSS animation and transion on Tab changes or not.
 - **`TabPositon`: `TabPositons { get; set; }` (default: TabPositons.Left)** <br />
@@ -67,6 +70,9 @@ Required HTML content to show content of current TabItem.
 Determines whether the current rendered TabItem should be disabled or not.
 - **`Hidden`: `bool { get; set; }` (default: false)** <br />
 Determines whether the current rendered TabItem should be hidden or not.
+- **`Permalink`: `string { get; set; }` (default: "")** <br />
+Permalink value to append to the URL and activate the `TabItem` based on matching value.
+**NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST [set up correctly](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md#configuration)!**
 
 **Arbitrary HTML attributes e.g.: `tabindex="1"` will be passed to the corresponding rendered HTML element `<input>`**.
 
@@ -88,11 +94,42 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 @using Majorsoft.Blazor.Components.Tabs
 ```
 
+### Dependences
+**Majorsoft.Blazor.Components.Tabs** package "partially" depends on other Majorsoft Nuget packages:
+- [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
+which handles JS Interop for many features e.g. scrolling, etc.
+- [Majorsoft.Blazor.Components.Common.PermaLink](https://www.nuget.org/packages/Majorsoft.Blazor.Components.PermaLink)
+which track navigations (URL changes) and identify permalink elements.
+
+**NOTE: only TabItem activation feature depend on Permalink. If you don't want to use that feature just leave `Permalink` parameters empty and do not setup PermalinkWatcher.
+Also later this feature can be disabled by `AllowTabActivationByPermalink = false`.**
+
 ### `TabsPanel` and `TabItem` usage
 
 Following code example shows how to use **`TabsPanel`**  with **`TabItem`** component in your Blazor App. 
 
+**NOTE: to use TabActivation feature `Permalink="Tab1"` must be set and Permalink services must be [configured correctly](https://github.com/majorimi/blazor-components/blob/master/.github/docs/PermaLink.md#configuration)!**
+
 ```
+@*Simple tab usage*@
+<TabsPanel>
+	<TabItems>
+		<TabItem>
+			<Header>Tab1</Header>
+			<Content>Tab1</Content>
+		</TabItem>
+		<TabItem>
+			<Header>Tab2</Header>
+			<Content>Tab2</Content>
+		</TabItem>
+		<TabItem>
+			<Header>Tab3</Header>
+			<Content>Tab3</Content>
+		</TabItem>
+	</TabItems>
+</TabsPanel>
+
+@*Advanced tab usage*@
 <TabsPanel @ref="_tabs"
 		ActiveColor="@_activeColor"
 		InactiveColor="@_inactiveColor"
@@ -105,26 +142,26 @@ Following code example shows how to use **`TabsPanel`**  with **`TabItem`** comp
 		Animate="@_isAnimated"
 		OnTabChanged="OnTabChanged">
 	<TabItems>
-		<TabItem id="tab1" @ref="_tab1">
+		<TabItem id="tab1" @ref="_tab1" Disabled="false" Permalink="Tab1" Hidden="false">
 			<Header><strong>Tab 1</strong></Header>
 			<Content>
 				<h1>The first tab</h1>
 			</Content>
 		</TabItem>
-		<TabItem @ref="_tab2">
+		<TabItem @ref="_tab2" Disabled="false" Permalink="Tab2" Hidden="false">
 			<Header><i>Tab 2</i></Header>
 			<Content>
 				<h1>The second tab</h1>
 			</Content>
 		</TabItem>
-		<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled" Hidden="@_isTabHidden">
+		<TabItem id="tab3" @ref="_tab3" Disabled="@_isTabDisabled" Permalink="Tab3" Hidden="@_isTabHidden">
 			<Header><u>Can disable</u></Header>
 			<Content>
 				<h1>This tab can be disabled</h1>
 				<p>And also any <code>TabItem</code> can be disabled by using <code>Disabled</code> property.</p>
 			</Content>
 		</TabItem>
-		<TabItem id="tab4" @ref="_tab4">
+		<TabItem id="tab4" @ref="_tab4" Disabled="false" Permalink="Tab4" Hidden="false">
 			<Header>Header icon <i class="fa fa-home"></i></Header>
 			<Content>
 				<h1>Tab with icon in header</h1>
