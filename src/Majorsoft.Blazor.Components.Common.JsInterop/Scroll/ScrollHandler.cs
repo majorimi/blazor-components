@@ -54,22 +54,22 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 			return await _scrollJs.InvokeAsync<ScrollResult>("getPageScrollSize");
 		}
 
-		public async Task ScrollToElementAsync(ElementReference elementReference)
+		public async Task ScrollToElementAsync(ElementReference elementReference, bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToElement", elementReference);
+			await _scrollJs.InvokeVoidAsync("scrollToElement", elementReference, smooth);
 		}
 
-		public async Task ScrollToElementByIdAsync(string id)
+		public async Task ScrollToElementByIdAsync(string id, bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToElementById", id);
+			await _scrollJs.InvokeVoidAsync("scrollToElementById", id, smooth);
 		}
 
-		public async Task ScrollToElementByNameAsync(string name)
+		public async Task ScrollToElementByNameAsync(string name, bool smooth)
 		{
 			await CheckJsObjectAsync();
-			await _scrollJs.InvokeVoidAsync("scrollToElementByName", name);
+			await _scrollJs.InvokeVoidAsync("scrollToElementByName", name, smooth);
 		}
 
 		public async Task<string> RegisterPageScrollAsync(Func<ScrollEventArgs, Task> scrollCallback)

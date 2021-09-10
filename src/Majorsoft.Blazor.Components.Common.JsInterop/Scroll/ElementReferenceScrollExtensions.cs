@@ -12,17 +12,18 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 	public static class ElementReferenceScrollExtensions
 	{
 		/// <summary>
-		/// Scrolls HTML page to given element
+		/// Scrolls HTML page to given element.
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		public static async Task ScrollToElementAsync(this ElementReference elementReference)
+		public static async Task ScrollToElementAsync(this ElementReference elementReference, bool smooth = false)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollToElement", elementReference);
+					await module.InvokeVoidAsync("scrollToElement", elementReference, smooth);
 				}
 			}
 		}
@@ -31,14 +32,15 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// Scrolls inside the given element to the bottom (end).
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		public static async Task ScrollToEndAsync(this ElementReference elementReference)
+		public static async Task ScrollToEndAsync(this ElementReference elementReference, bool smooth = false)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollToEnd", elementReference);
+					await module.InvokeVoidAsync("scrollToEnd", elementReference, smooth);
 				}
 			}
 		}
@@ -47,14 +49,15 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// Scrolls inside the given element to the beginning (top).
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		public static async Task ScrollToTopAsync(this ElementReference elementReference)
+		public static async Task ScrollToTopAsync(this ElementReference elementReference, bool smooth = false)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollToTop", elementReference);
+					await module.InvokeVoidAsync("scrollToTop", elementReference, smooth);
 				}
 			}
 		}
@@ -64,14 +67,15 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
 		/// <param name="xPos">Scroll X position</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		public static async Task ScrollToXAsync(this ElementReference elementReference, double xPos)
+		public static async Task ScrollToXAsync(this ElementReference elementReference, double xPos, bool smooth = false)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollToX", elementReference, xPos);
+					await module.InvokeVoidAsync("scrollToX", elementReference, xPos, smooth);
 				}
 			}
 		}
@@ -81,20 +85,40 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
 		/// <param name="yPos">Scroll Y position</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		public static async Task ScrollToYAsync(this ElementReference elementReference, double yPos)
+		public static async Task ScrollToYAsync(this ElementReference elementReference, double yPos, bool smooth = false)
 		{
 			await using (var module = await elementReference.GetJsObject())
 			{
 				if (module is not null)
 				{
-					await module.InvokeVoidAsync("scrollToY", elementReference, yPos);
+					await module.InvokeVoidAsync("scrollToY", elementReference, yPos, smooth);
 				}
 			}
 		}
 
 		/// <summary>
-		/// Returns given element scroll X position.
+		/// Scrolls inside the given element to the given X and Y positions.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="xPos">Scroll X position</param>
+		/// <param name="yPos">Scroll Y position</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
+		/// <returns>Async Task</returns>
+		public static async Task ScrollToAsync(this ElementReference elementReference, double xPos, double yPos, bool smooth = false)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					await module.InvokeVoidAsync("scrollTo", elementReference, xPos, yPos, smooth);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns given element scroll X (left) position.
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
 		/// <returns>Async Task with X pos</returns>
@@ -105,6 +129,23 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 				if (module is not null)
 				{
 					return await module.InvokeAsync<double>("getScrollXPosition", elementReference);
+				}
+			}
+
+			return 0;
+		}
+		/// <summary>
+		/// Returns given element scroll Y (top) position.
+		/// </summary>
+		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <returns>Async Task with Y pos</returns>
+		public static async Task<double> GetScrollYPositionAsync(this ElementReference elementReference)
+		{
+			await using (var module = await elementReference.GetJsObject())
+			{
+				if (module is not null)
+				{
+					return await module.InvokeAsync<double>("getScrollYPosition", elementReference);
 				}
 			}
 
