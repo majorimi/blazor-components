@@ -27,6 +27,13 @@ namespace Majorsoft.Blazor.Components.PermaLink
 		void ChangePermalink(string? newPermalink, bool doNotNavigate);
 
 		/// <summary>
+		/// Checks the current URL for permalink again and re-triggers `PermalinkDetected` event if requested.
+		/// </summary>
+		/// <param name="triggerEvent">PermalinkDetected should be re-triggered or not</param>
+		/// <returns>Found permalink value or NULL</returns>
+		string? CheckPermalink(bool triggerEvent = false);
+
+		/// <summary>
 		/// Starts a navigation watcher which will check for Permalinks in the URLs.
 		/// </summary>
 		void WatchPermaLinks();

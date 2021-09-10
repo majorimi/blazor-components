@@ -81,6 +81,12 @@
 	}
 
 	/// <summary>
+	/// Permalink value to append to the URL and activate the TabItem based on matching value.
+	/// NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST set up correctly.
+	/// </summary>
+	[Parameter] public string Permalink { get; set; } = "";
+
+	/// <summary>
 	/// Blazor capture for any unmatched HTML attributes.
 	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)]

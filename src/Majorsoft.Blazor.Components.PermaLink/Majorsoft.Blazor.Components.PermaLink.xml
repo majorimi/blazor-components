@@ -28,6 +28,13 @@
             <param name="newPermalink">New peramlink value, NULL will remove permalink part from URL</param>
             <param name="doNotNavigate">False, will trigger a navigation. When true, just add new URL to the History</param>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.CheckPermalink(System.Boolean)">
+            <summary>
+            Checks the current URL for permalink again and re-triggers `PermalinkDetected` event if requested.
+            </summary>
+            <param name="triggerEvent">PermalinkDetected should be re-triggered or not</param>
+            <returns>Found permalink value or NULL</returns>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.WatchPermaLinks">
             <summary>
             Starts a navigation watcher which will check for Permalinks in the URLs.

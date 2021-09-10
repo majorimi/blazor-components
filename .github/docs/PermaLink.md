@@ -34,6 +34,8 @@ For more details see Usage section.
 Starts a navigation watcher which will check for Permalinks in the URLs.
 - **`ChangePermalink()`**: **`void ChangePermalink(string? newPermalink, bool doNotNavigate)`** <br />
 Modify the current URL with given new peralink value and trigger navigation or just update browser History.
+- **`CheckPermalink()`**: **`string? CheckPermalink(bool triggerEvent = false)`** <br />
+Checks the current URL for permalink again and re-triggers `PermalinkDetected` event if requested.
 - **`Dispose()`: `@implements IDisposable` interface** <br />
 Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
 

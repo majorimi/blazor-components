@@ -54,6 +54,7 @@
 	<!--Include project DLL output to Nuget package-->
 	<ItemGroup>
 		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
