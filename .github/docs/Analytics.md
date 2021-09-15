@@ -1,8 +1,8 @@
 Blazor Components Analytics extension
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Analytics?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Analytics?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/)
+[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Extensions.Analytics?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Extensions.Analytics?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
 # About
@@ -52,27 +52,27 @@ Use the event command to send custom event data.
 
 ## Installation
 
-**Majorsoft.Blazor.Components.Analytics** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/). 
+**Majorsoft.Blazor.Extensions.Analytics** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Analytics
+dotnet add package Majorsoft.Blazor.Extensions.Analytics
 ```
-Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/absoluteLatest) to install.
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Extensions/absoluteLatest) to install.
 
 ## Usage
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Majorsoft.Blazor.Components.Analytics
+@using Majorsoft.Blazor.Extensions.Analytics
 @*Google Analytics*@
-@using Majorsoft.Blazor.Components.Analytics.Google
+@using Majorsoft.Blazor.Extensions.Analytics.Google
 ```
 
 #### WebAssembly projects
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Majorsoft.Blazor.Components.Analytics;
+using Majorsoft.Blazor.Extensions.Analytics;
 ...
 public static async Task Main(string[] args)
 {
@@ -97,7 +97,7 @@ public static async Task Main(string[] args)
 **In case of Server hosted project register dependency services in your `Startup.cs` file:**
 
 ```
-@using Majorsoft.Blazor.Components.Analytics
+@using Majorsoft.Blazor.Extensions.Analytics
 ...
 
 public void ConfigureServices(IServiceCollection services)
