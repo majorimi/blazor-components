@@ -22,7 +22,7 @@ To make the initialization simple use `GoogleAnalyticsInitializer` component in 
 ## `Google Analytics` extension
 This is a JS wrapper for web analytics service offered by Google that tracks and reports website traffic, etc. inside the Google Marketing Platform.
 
-### `PermaLinkElement` component
+### `GoogleAnalyticsInitializer` component
 A convenient wrapper component for `IGoogleAnalyticsService` to make Google Analytics initialize simple.
 
 #### Properties
@@ -31,6 +31,10 @@ Google Analytics TrackingId provided on Google Analytics manage page.
 
 ### `IGoogleAnalyticsService` service
 Injectable service to handle Google analytics `gtag.js`.
+
+#### Properties
+- **`TrackingId`**: **`string TrackingId { get; set; }` - Required**  <br />
+Google analytics uniquely Id which was used in `InitializeAsync(string)` method.
 
 #### Functions
 - **`InitializeAsync()`**: **`ValueTask InitializeAsync(string trackingId)`** <br />
@@ -41,11 +45,11 @@ Allows you to add additional configuration information to targets. This is typic
 such as Google Ads or Google Analytics.
 - **`GetAsync()`**: **``** <br />
 Allows you to get various values from gtag.js including values set with the set command.
-- **`SetAsync()`**: **``** <br />
+- **`SetAsync()`**: **`ValueTask SetAsync(ExpandoObject parameters)`** <br />
  Allows you to set values that persist across all the subsequent gtag() calls on the page.
-- **`EventAsync()`**: **``** <br />
+- **`EventAsync()`**: **`ValueTask EventAsync(GoogleAnalyticsEventTypes eventType, ExpandoObject eventParams)`** <br />
 Use the event command to send event data.
-- **`CustomEventAsync()`**: **``** <br /> 
+- **`CustomEventAsync()`**: **`ValueTask CustomEventAsync(string customEventName, GoogleAnalyticsCustomEventArgs eventData)`** <br /> 
 Use the event command to send custom event data.
 
 # Configuration
@@ -88,9 +92,6 @@ public static async Task Main(string[] args)
 ```
 @*Google Analytics initialize*@
 <GoogleAnalyticsInitializer TrackingId="<TrackingId here...>" />
-
-@code {
-}
 ```
 
 #### Server hosted projects
@@ -111,9 +112,6 @@ public void ConfigureServices(IServiceCollection services)
 ```
 @*Google Analytics initialize*@
 <GoogleAnalyticsInitializer TrackingId="<TrackingId here...>" />
-
-@code {
-}
 ```
 
 #### Using `IGoogleAnalyticsService` service
@@ -126,7 +124,7 @@ For full features supported by Google Analytics please see [docs page](https://d
 @inject IGoogleAnalyticsService _googleAnalytincsService
 @implements IAsyncDisposable
 
-@code{
+@code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(firstRender)
@@ -155,7 +153,7 @@ For full features supported by Google Analytics please see [docs page](https://d
 				Label = "Test label",
 				Value = 1234
 			});
-		
+
 
 	public async ValueTask DisposeAsync()
 	{
