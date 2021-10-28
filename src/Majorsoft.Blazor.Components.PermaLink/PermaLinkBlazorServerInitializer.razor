@@ -39,7 +39,13 @@
     [Parameter] public bool SmoothScroll
     {
         get => _permalinkWatcher.SmoothScroll;
-        set { _permalinkWatcher.SmoothScroll = value; }
+        set 
+        { 
+            if(_permalinkWatcher is not null)
+            {
+                _permalinkWatcher.SmoothScroll = value;
+            }
+        }
     }
 
     public async ValueTask DisposeAsync()
