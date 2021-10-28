@@ -88,7 +88,7 @@
 	[Parameter] public int ContentHeight { get; set; } = 200;
 
 	/// <summary>
-	/// Sets the max-height if Content panel <see href="ContentHeight"> is set to 0 (auto).
+	/// Sets the max-height if Content panel <see cref="ContentHeight"/> is set to 0 (auto).
 	/// https://css-tricks.com/using-css-transitions-auto-dimensions/
 	/// </summary>
 	[Parameter] public int MaxAllowedContentHeight { get; set; } = 200;
@@ -120,7 +120,7 @@
 
 	/// <summary>
 	/// Determines to apply CSS animation and transition on Collapse state changes or not.
-	/// Note: in case of Content panel <see href="ContentHeight"> is set to 0 (auto), then use <see href="MaxAllowedContentHeight"> to set max-height CSS property which will be animated.
+	/// Note: in case of Content panel <see cref="ContentHeight"/> is set to 0 (auto), then use <see cref="MaxAllowedContentHeight"/> to set max-height CSS property which will be animated.
 	/// Also important based on max-height value transition speed for expand/collapse might differ!
 	/// </summary>
 	[Parameter] public bool Animate { get; set; } = true;

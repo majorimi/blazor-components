@@ -27,7 +27,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.FirstElementChild.GetAttribute("id");
 			div.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" title=""text""  >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""    ></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 		}
 
@@ -43,7 +43,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" disabled=""""  >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""    ></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 		}
 
@@ -61,13 +61,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Common header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Common header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -83,13 +83,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Expanded header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -105,13 +105,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Collapsed header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -128,13 +128,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(255,0,0);"">Expanded header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -151,13 +151,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(255,0,0);"">Collapsed header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -173,13 +173,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 
 			await div.TriggerEventAsync("onmouseenter", new MouseEventArgs());
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(255,0,0);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 			await div.TriggerEventAsync("onmouseleave", new MouseEventArgs());
 
@@ -187,13 +187,13 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			div.Click();
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 
 			await div.TriggerEventAsync("onmouseenter", new MouseEventArgs());
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(255,0,0);""></div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" ></div>
 			</div>");
 		}
 
@@ -211,14 +211,14 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Expanded header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 200px;"" >Content...</div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" >Content...</div>
 			</div>");
 
 			rendered.SetParametersAndRender(parameters => parameters
 					.Add(p => p.Collapsed, true));
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Collapsed header</div>
-			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; height: 0px;"" >Content...</div>
+			  <div class=""collapseContent animate"" style=""opacity: 0; overflow: hidden; max-height: 0px;"" >Content...</div>
 			</div>");
 		}
 
@@ -234,7 +234,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"" ></div>
-			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; height: 55px;"" ></div>
+			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 55px;"" ></div>
 			</div>");
 		}
 
@@ -250,7 +250,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader"" style=""background-color: rgb(211,211,211);"" ></div>
-			  <div class=""collapseContent"" style=""opacity: 1; overflow: hidden; height: 200px;"" ></div>
+			  <div class=""collapseContent"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" ></div>
 			</div>");
 		}
 
@@ -267,7 +267,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			var id = div.GetAttribute("id");
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader"" style=""background-color: rgb(211,211,211);"" ></div>
-			  <div class=""collapseContent"" style=""opacity: 1; overflow: auto; height: 200px;"" ></div>
+			  <div class=""collapseContent"" style=""opacity: 1; overflow: auto; max-height: 200px;"" ></div>
 			</div>");
 		}
 	}
