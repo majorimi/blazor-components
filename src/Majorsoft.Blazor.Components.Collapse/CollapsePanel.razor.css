@@ -22,10 +22,11 @@
 }
 
 .collapseContent {
+	height: auto;
 	outline: none;
 	display: block;
 }
 .collapseContent.animate {
-	-webkit-transition: opacity 1s, height 0.4s; /* For Safari 3.1 to 6.0 */
-	transition: opacity 1s, height 0.4s;
+	-webkit-transition: opacity 1s, max-height 0.8s; /* For Safari 3.1 to 6.0 */
+	transition: opacity 1s, max-height 0.8s;
 }

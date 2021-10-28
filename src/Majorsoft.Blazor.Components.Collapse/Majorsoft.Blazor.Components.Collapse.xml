@@ -91,9 +91,10 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ContentHeight">
             <summary>
-            Sets the height of Content panel in `px`. 0 is auto.
+            Sets the height (in reality sets max-height because of CSS transition issues) of Content panel in `px`. 0 is auto.
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.MaxAllowedContentHeight" -->
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Disabled">
             <summary>
             Determines whether all the rendered HTML elements should be disabled or not.
@@ -104,12 +105,7 @@
             Can be set if panel should be collapsed `true` or expanded `false`.
             </summary>
         </member>
-        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate">
-            <summary>
-            Determines to apply CSS animation and transition on Collapse state changes or not.
-            Note: in case of `auto` height some animation won't work.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate" -->
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ShowContentOverflow">
             <summary>
             Determines whether content overflow is visible (scrollable) or not (hidden).
