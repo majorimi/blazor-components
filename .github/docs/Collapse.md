@@ -42,10 +42,13 @@ Sets the `style` of the `background-color` when tab is not the Active tab. Use H
 - **`HoverColor`: `string { get; set; }` (default: "WhiteSmoke") - Required** <br />
 Sets the `style` of the `background-color` when button is hovered over with mouse. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
 - **`ContentHeight`: `int { get; set; }` (default: 200) - Required** <br />
-Sets the height of Content panel in `px`. 0 is auto.
+Sets the height (in reality sets max-height because of CSS transition issues) of Content panel in `px`. 0 is auto.
+- **`MaxAllowedContentHeight`: `int { get; set; }` (default: 200) - Required** <br />
+Sets the max-height if Content panel `ContentHeight` is set to 0 (auto).
 - **`Animate`: `bool { get; set; }` (default: true)** <br />
 Determines to apply CSS animation and transition on Collapse state changes or not.
-**Note: in case of `auto` height some animation won't work.**
+**Note: in case of Content panel `ContentHeight` is set to 0 (auto), then use `MaxAllowedContentHeight` to set max-height CSS property which will be animated.
+Also important based on max-height value transition speed for expand/collapse might differ!.**
 - **`Disabled`: `bool { get; set; }` (default: false)** <br />
 Determines whether the rendered HTML `<input>` element should be disabled or not.
 - **`InnerElementReference`: `ElementReference { get; }`** <br />
