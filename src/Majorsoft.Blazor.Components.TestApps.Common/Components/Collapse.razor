@@ -36,14 +36,20 @@
 	</div>
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			CollapsePanel content Height (0 is auto): @(_height)px
+			Collapse Panel Content Height (0 is auto): @(_height)px
 			<input type="range" class="w-100" min="0" max="400" @bind="_height" @oninput="(e => _height = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+		<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Collapse Panel Max Content Height (only when Content Height is 0 "auto" and collapse Animated Note: animation speed depends on max-height): @(_maxHeight)px
+			<input type="range" class="w-100" min="0" max="800" disabled="@(_height != 0 || !_isAnimated)" @bind="_maxHeight" @oninput="(e => _maxHeight = int.Parse(e.Value?.ToString()))" />
 		</div>
 	</div>
 
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-5">
-			CollapsePanel Disabled: <input class="mr-3" type="checkbox" @bind="_isCollapseDisabled" />
+			Collapse Panel Disabled: <input class="mr-3" type="checkbox" @bind="_isCollapseDisabled" />
 			Collapsed: <input class="mr-3" type="checkbox" @bind="_isCollapsed" />
 			<br />
 			Animate Collapse changes: <input class="mr-3" type="checkbox" @bind="_isAnimated" />
@@ -60,6 +66,7 @@
 						   Disabled="@_isCollapseDisabled"
 						   Collapsed="@_isCollapsed"
 						   ContentHeight="@_height"
+						   MaxAllowedContentHeight="@_maxHeight"
 						   Animate="@_isAnimated"
 						   ShowContentOverflow="@_showOverflow"
 						   OnCollapseChanged="OnCollapsed">
@@ -100,8 +107,11 @@
 			<h3>Multiple CollapsePanel items</h3>
 			<p>
 				Example usage of multiple independent <code>CollapsePanel</code>s with default settings. 
-				<br />																										 
-				<strong>Note</strong>: content <code>height: auto</code> prevents some CSS animation to work.
+				<br />
+				<span class="pt-1 text-muted">
+					<strong class="text-danger">Note</strong>: in case of Content panel <code>ContentHeight</code> is set to 0 (auto), then use <code>MaxAllowedContentHeight</code> to set max-height CSS property which will be animated.
+					Also important <strong>based on max-height value transition speed for expand/collapse might differ!</strong>
+				</span>
 			</p>
 
 			<CollapsePanel ContentHeight="0" style="margin-bottom: 10px;">
@@ -335,6 +345,7 @@
 	private bool _isCollapsed = false;
 	private bool _showOverflow = false;
 	private int _height = 200;
+	private int _maxHeight = 200;
 
 	private ElementReference _log;
 	private string _collapseLog;

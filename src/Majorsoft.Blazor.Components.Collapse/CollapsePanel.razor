@@ -11,7 +11,7 @@
 		}
 	</div>
 	<div class="collapseContent @(Animate ? "animate" : "")"
-		 style="opacity: @(Collapsed ? "0" : "1"); overflow: @(ShowContentOverflow ? "auto" : "hidden"); height: @GetContentHeight()">
+		 style="opacity: @(Collapsed ? "0" : "1"); overflow: @(ShowContentOverflow ? "auto" : "hidden"); max-height: @GetContentHeight()">
 		@Content
 	</div>
 </div>
@@ -83,9 +83,15 @@
 	}
 
 	/// <summary>
-	/// Sets the height of Content panel in `px`. 0 is auto.
+	/// Sets the height (in reality sets max-height because of CSS transition issues) of Content panel in `px`. 0 is auto.
 	/// </summary>
 	[Parameter] public int ContentHeight { get; set; } = 200;
+
+	/// <summary>
+	/// Sets the max-height if Content panel <see cref="ContentHeight"/> is set to 0 (auto).
+	/// https://css-tricks.com/using-css-transitions-auto-dimensions/
+	/// </summary>
+	[Parameter] public int MaxAllowedContentHeight { get; set; } = 200;
 
 	/// <summary>
 	/// Determines whether all the rendered HTML elements should be disabled or not.
@@ -114,7 +120,8 @@
 
 	/// <summary>
 	/// Determines to apply CSS animation and transition on Collapse state changes or not.
-	/// Note: in case of `auto` height some animation won't work.
+	/// Note: in case of Content panel <see cref="ContentHeight"/> is set to 0 (auto), then use <see cref="MaxAllowedContentHeight"/> to set max-height CSS property which will be animated.
+	/// Also important based on max-height value transition speed for expand/collapse might differ!
 	/// </summary>
 	[Parameter] public bool Animate { get; set; } = true;
 
@@ -158,7 +165,7 @@
 			return "0px;";
 		}
 
-		return ContentHeight <= 0 ? "auto;" : $"{ContentHeight}px;";
+		return ContentHeight <= 0 ? $"{MaxAllowedContentHeight}px;" : $"{ContentHeight}px;";
 	}
 	private string GetStyle()
 	{
