@@ -77,8 +77,13 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
 - **Majorsoft.Blazor.Components.Notifications**: [Notification components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Notifications.md) injectable INotificationService service to handle HTML5 Notifications and ServiceWorker Notifications and components that renders customizable Alert and Toast notification message elements.
 
-## Other info
+## Community
 - [Contributing](CONTRIBUTING.md)
+- [Report issue or ask new features](https://github.com/majorimi/blazor-components/issues/new)
+- [Give a Star](/majorimi/blazor-components/star)
+- [Support project](/majorimi/blazor-components/funding_links?fragment=1)
+
+## Other info
 - [Docs](.github/docs)
 - [Wiki page](https://github.com/majorimi/blazor-components/wiki)
 - [License](LICENSE)
