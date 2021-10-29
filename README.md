@@ -79,9 +79,9 @@ Check out our planned components and extensions on the project [Wiki page](https
 
 ## Community
 - [Contributing](CONTRIBUTING.md)
-- [Report issue or ask new features](https://github.com/majorimi/blazor-components/issues/new)
-- ⭐[Thanks for Star ⭐ giving users](https://github.com/majorimi/blazor-components/stargazers) **You can Give a star ⭐**
-- [Support project](https://github.com/majorimi/blazor-components/funding_links?fragment=1) 🙏👍
+- [Report an issue or ask new features](https://github.com/majorimi/blazor-components/issues/new)
+- ⭐[Thanks for Star ⭐ giving users](https://github.com/majorimi/blazor-components/stargazers) **You can Give a Star ⭐**
+- [Support project](https://github.com/majorimi/blazor-components/funding_links?fragment=1) 🙏👍 🍕☕
 
 ## Other info
 - [Docs](.github/docs)
