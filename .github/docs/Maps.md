@@ -502,7 +502,7 @@ See usage above with empty event handler.
 	private byte _jsMapZoomLevel = 10;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 250;
-	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which might fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
 	private int _jsHeading = 0;
