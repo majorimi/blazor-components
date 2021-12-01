@@ -507,7 +507,7 @@ textarea {
 	private async Task SelectedItemChanged(string text)
 	{
 		_selectedItem = text;
-		await WriteEventLog("TypeaheadInput: Selected item changed");
+		await WriteEventLog($"TypeaheadInput: Selected item changed, value: {text}");
 	}
 	private async Task WriteEventLog(string message)
 	{
