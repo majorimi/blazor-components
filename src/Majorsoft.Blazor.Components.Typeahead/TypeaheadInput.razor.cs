@@ -118,13 +118,13 @@ namespace Majorsoft.Blazor.Components.Typeahead
 
 				_selectedItem = value;
 				Value = GetItemText(_selectedItem);
-				//if (OnSelectedItemChanged.HasDelegate) //Immediately notify listeners for model selected
-				//{
-				//	InvokeAsync(async () =>
-				//	{
-				//		await OnSelectedItemChanged.InvokeAsync(_selectedItem);
-				//	});
-				//}
+				if (OnSelectedItemChanged.HasDelegate) //Immediately notify listeners for model selected
+				{
+					InvokeAsync(async () =>
+					{
+						await OnSelectedItemChanged.InvokeAsync(_selectedItem);
+					});
+				}
 			}
 		}
 		//[Parameter] public IEnumerable<TItem> SelectedItems {get; set; }
@@ -374,7 +374,7 @@ namespace Majorsoft.Blazor.Components.Typeahead
 		}
 		private async Task SelectItem(TItem item)
 		{
-			SelectedItem = item;
+			_selectedItem = item;
 			Value = GetItemText(item);
 			IsOpen = false;
 			try

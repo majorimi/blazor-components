@@ -486,7 +486,15 @@ textarea {
 	{
 		_testData = JsonSerializer.Deserialize<StatesWithFlags[]>(jsonData);
 	}
-	
+
+	//protected override async Task OnAfterRenderAsync(bool firstRender)
+	//{
+	//	if(firstRender)
+	//	{
+	//		_input.SelectedItem = "Texas";
+	//	}
+	//}
+
 	//TypeaheadInput
 	private string _typeaheadInputValue = "";
 	private string _selectedItem;
