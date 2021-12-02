@@ -1,8 +1,8 @@
 Blazor Components Analytics extension
 ============
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-build-check)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=6)
-[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Components.Analytics?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Components.Analytics?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/)
+[![Package Version](https://img.shields.io/nuget/v/Majorsoft.Blazor.Extensions.Analytics?label=Latest%20Version)](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Majorsoft.Blazor.Extensions.Analytics?label=Downloads)](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/majorimi/blazor-components/blob/master/LICENSE)
 
 # About
@@ -22,7 +22,7 @@ To make the initialization simple use `GoogleAnalyticsInitializer` component in 
 ## `Google Analytics` extension
 This is a JS wrapper for web analytics service offered by Google that tracks and reports website traffic, etc. inside the Google Marketing Platform.
 
-### `PermaLinkElement` component
+### `GoogleAnalyticsInitializer` component
 A convenient wrapper component for `IGoogleAnalyticsService` to make Google Analytics initialize simple.
 
 #### Properties
@@ -31,6 +31,10 @@ Google Analytics TrackingId provided on Google Analytics manage page.
 
 ### `IGoogleAnalyticsService` service
 Injectable service to handle Google analytics `gtag.js`.
+
+#### Properties
+- **`TrackingId`**: **`string TrackingId { get; set; }` - Required**  <br />
+Google analytics uniquely Id which was used in `InitializeAsync(string)` method.
 
 #### Functions
 - **`InitializeAsync()`**: **`ValueTask InitializeAsync(string trackingId)`** <br />
@@ -41,38 +45,38 @@ Allows you to add additional configuration information to targets. This is typic
 such as Google Ads or Google Analytics.
 - **`GetAsync()`**: **``** <br />
 Allows you to get various values from gtag.js including values set with the set command.
-- **`SetAsync()`**: **``** <br />
+- **`SetAsync()`**: **`ValueTask SetAsync(ExpandoObject parameters)`** <br />
  Allows you to set values that persist across all the subsequent gtag() calls on the page.
-- **`EventAsync()`**: **``** <br />
+- **`EventAsync()`**: **`ValueTask EventAsync(GoogleAnalyticsEventTypes eventType, ExpandoObject eventParams)`** <br />
 Use the event command to send event data.
-- **`CustomEventAsync()`**: **``** <br /> 
+- **`CustomEventAsync()`**: **`ValueTask CustomEventAsync(string customEventName, GoogleAnalyticsCustomEventArgs eventData)`** <br /> 
 Use the event command to send custom event data.
 
 # Configuration
 
 ## Installation
 
-**Majorsoft.Blazor.Components.Analytics** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/). 
+**Majorsoft.Blazor.Extensions.Analytics** is available on [NuGet](https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics/). 
 
 ```sh
-dotnet add package Majorsoft.Blazor.Components.Analytics
+dotnet add package Majorsoft.Blazor.Extensions.Analytics
 ```
-Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Analytics/absoluteLatest) to install.
+Use the `--version` option to specify a [preview version](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Extensions/absoluteLatest) to install.
 
 ## Usage
 
 Add using statement to your Blazor <component/page>.razor file. Or globally reference it into `_Imports.razor` file.
 ```
-@using Majorsoft.Blazor.Components.Analytics
+@using Majorsoft.Blazor.Extensions.Analytics
 @*Google Analytics*@
-@using Majorsoft.Blazor.Components.Analytics.Google
+@using Majorsoft.Blazor.Extensions.Analytics.Google
 ```
 
 #### WebAssembly projects
 
 **In case of WebAssembly project register services in your `Program.cs` file:**
 ```
-using Majorsoft.Blazor.Components.Analytics;
+using Majorsoft.Blazor.Extensions.Analytics;
 ...
 public static async Task Main(string[] args)
 {
@@ -88,16 +92,13 @@ public static async Task Main(string[] args)
 ```
 @*Google Analytics initialize*@
 <GoogleAnalyticsInitializer TrackingId="<TrackingId here...>" />
-
-@code {
-}
 ```
 
 #### Server hosted projects
 **In case of Server hosted project register dependency services in your `Startup.cs` file:**
 
 ```
-@using Majorsoft.Blazor.Components.Analytics
+@using Majorsoft.Blazor.Extensions.Analytics
 ...
 
 public void ConfigureServices(IServiceCollection services)
@@ -111,9 +112,6 @@ public void ConfigureServices(IServiceCollection services)
 ```
 @*Google Analytics initialize*@
 <GoogleAnalyticsInitializer TrackingId="<TrackingId here...>" />
-
-@code {
-}
 ```
 
 #### Using `IGoogleAnalyticsService` service
@@ -126,7 +124,7 @@ For full features supported by Google Analytics please see [docs page](https://d
 @inject IGoogleAnalyticsService _googleAnalytincsService
 @implements IAsyncDisposable
 
-@code{
+@code {
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(firstRender)
@@ -155,7 +153,7 @@ For full features supported by Google Analytics please see [docs page](https://d
 				Label = "Test label",
 				Value = 1234
 			});
-		
+
 
 	public async ValueTask DisposeAsync()
 	{
