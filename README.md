@@ -12,7 +12,7 @@ Majorsoft Blazor Components
 [![Build Status](https://dev.azure.com/major-soft/GitHub/_apis/build/status/blazor-components/blazor-components-Nuget?branchName=master)](https://dev.azure.com/major-soft/GitHub/_build/latest?definitionId=7&branchName=master)
 
 Majorsoft Blazor Components is a set of UI Components and other useful Extensions for [Blazor](https://blazor.net) applications.
-All components are available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 
+All components are free and available on [NuGet](https://www.nuget.org/profiles/Blazor.Components). 
 
 You can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/). **Note: this app is hosted on _Azure Static website_ feature. Which uses aggressive caching you might have to use HARD reload (CTRL + F5 or CMD + SHIFT + R), or clear browser cache.**
 
@@ -77,8 +77,13 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
 - **Majorsoft.Blazor.Components.Notifications**: [Notification components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Notifications.md) injectable INotificationService service to handle HTML5 Notifications and ServiceWorker Notifications and components that renders customizable Alert and Toast notification message elements.
 
-## Other info
+## Community
 - [Contributing](CONTRIBUTING.md)
+- [Report an issue or ask new features](https://github.com/majorimi/blazor-components/issues/new)
+- ⭐[Thanks for Star ⭐ giving users](https://github.com/majorimi/blazor-components/stargazers) **You can Give a Star ⭐**
+- [Support project](https://github.com/majorimi/blazor-components/funding_links?fragment=1) 🙏👍 🍕☕
+
+## Other info
 - [Docs](.github/docs)
 - [Wiki page](https://github.com/majorimi/blazor-components/wiki)
 - [License](LICENSE)

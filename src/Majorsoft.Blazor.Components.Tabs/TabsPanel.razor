@@ -8,6 +8,7 @@
 						style="width: @(TabItemsWidth != 0 ? $"{TabItemsWidth}px" : "auto"); height: @(TabItemsHeight != 0 ? $"{TabItemsHeight}px" : "auto"); @GetStyle(tab)"
 						@onmouseenter="() => _hoveredTab = tab" @onmouseleave="() => _hoveredTab = null">
 					@tab.Header
+					@*<a name="@tab.Permalink"></a>*@
 				</button>
 			}
 		}
@@ -18,9 +19,34 @@
 	</CascadingValue>
 </div>
 
+@implements IDisposable
+
+@inject IServiceProvider _serviceProvider
 @inject ILogger<TabsPanel> _logger
 
-@code {
+@code { 
+	private IPermaLinkWatcherService? PermalinkWatcherService = null; //Should be injected but do not break existing Tabs usage!!
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if(firstRender)
+		{
+			PermalinkWatcherService = _serviceProvider.GetService<IPermaLinkWatcherService>();
+			if(PermalinkWatcherService is not null)
+			{
+				WriteDiag($"OnInitialized {nameof(IPermaLinkWatcherService)} was found subscribing to events.");
+				PermalinkWatcherService.PermalinkDetected += PermalinkDetected;
+
+				PermalinkWatcherService.CheckPermalink(true); //Permalink detection could already happened so need to retrigger permalink event. 
+			}
+
+			if (ActiveTab is null)
+			{
+				ActiveTab = _tabs.FirstOrDefault();
+				StateHasChanged();
+			}
+		}
+	}
+
 	private TabItem? _hoveredTab;
 
 	private string _componentId = Guid.NewGuid().ToString("n");
@@ -81,6 +107,12 @@
 	[Parameter] public bool Disabled { get; set; } = false;
 
 	/// <summary>
+	/// Enables or disables `TabItem` activation with URL Permalink fragment.
+	/// NOTE: in order to make TabActivation work `Majorsoft.Blazor.Components.PermaLink` component is used and it MUST set up correctly.
+	/// </summary>
+	[Parameter] public bool AllowTabActivationByPermalink { get; set; } = true;
+
+	/// <summary>
 	/// Determines to apply CSS animation and transion on Tab changes or not.
 	/// </summary>
 	[Parameter] public bool Animate { get; set; } = true;
@@ -126,10 +158,6 @@
 		WriteDiag($"{nameof(AddTab)}: {tabPage}");
 
 		_tabs.Add(tabPage);
-		if (_tabs.Count == 1)
-		{
-			ActiveTab = tabPage;
-		}
 		StateHasChanged();
 	}
 	internal void TabDisabled(TabItem tabPage)
@@ -175,18 +203,46 @@
 		return $"background-color: rgb({InactiveColor});";
 	}
 
-	private async Task ActivateTab(TabItem tab)
+	private async Task ActivateTab(TabItem? tab)
 	{
 		WriteDiag($"{nameof(ActivateTab)}: {tab}");
 
-		if (_activeTab != tab)
+		if (_activeTab != tab && (!tab?.Disabled ?? true))
 		{
 			_activeTab = tab;
+
 			if (OnTabChanged.HasDelegate)
 			{
 				await OnTabChanged.InvokeAsync(ActiveTab);
 			}
+
+			if (AllowTabActivationByPermalink && !string.IsNullOrWhiteSpace(_activeTab?.Permalink))
+			{
+				PermalinkWatcherService?.ChangePermalink(_activeTab?.Permalink, true);
+			}
 		}
+	}
+
+	private void PermalinkDetected(object? sender, PermalinkDetectedEventArgs args)
+	{
+		if(!AllowTabActivationByPermalink)
+		{ 
+			return;
+		}
+
+		var tabToActivate = _tabs.FirstOrDefault(x => x.Permalink?.ToLower().Equals(args.Permalink.ToLower()) ?? false);
+		if(tabToActivate is not null)
+		{
+			InvokeAsync(() => ActivateTab(tabToActivate));
+		}
+	}
+
+	public void Dispose()
+	{
+		if(PermalinkWatcherService is not null)
+		{
+			PermalinkWatcherService.PermalinkDetected -= PermalinkDetected;
+		}	
 	}
 
 	private void WriteDiag(string message)

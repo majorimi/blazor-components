@@ -91,7 +91,13 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ContentHeight">
             <summary>
-            Sets the height of Content panel in `px`. 0 is auto.
+            Sets the height (in reality sets max-height because of CSS transition issues) of Content panel in `px`. 0 is auto.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.MaxAllowedContentHeight">
+            <summary>
+            Sets the max-height if Content panel <see cref="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ContentHeight"/> is set to 0 (auto).
+            https://css-tricks.com/using-css-transitions-auto-dimensions/
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Disabled">
@@ -107,7 +113,8 @@
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.Animate">
             <summary>
             Determines to apply CSS animation and transition on Collapse state changes or not.
-            Note: in case of `auto` height some animation won't work.
+            Note: in case of Content panel <see cref="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ContentHeight"/> is set to 0 (auto), then use <see cref="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.MaxAllowedContentHeight"/> to set max-height CSS property which will be animated.
+            Also important based on max-height value transition speed for expand/collapse might differ!
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Collapse.CollapsePanel.ShowContentOverflow">

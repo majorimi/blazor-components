@@ -15,7 +15,6 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop).
 
 # Features
-
 - **Click JS**: 
   - `ClickBoundariesElement` is a component which wraps the given content to a DIV and subscribes to all click events: `OnOutsideClick`, `OnInsideClick`. 
   - Also an **injectable `IClickBoundariesHandler` service** for callback event handlers.
@@ -31,8 +30,9 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **Language JS**: is an **injectable `ILanguageService` service** for detect the browser language preference.
 - **Browser Date JS**: is an **injectable `IBrowserDateService` service** is a simple JS call to `new Date();` to retrieve client machine date and time.
 - **Browser Theme JS**: is an **injectable `IBrowserThemeService` service** to handle Browser color scheme queries and changes.
-- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device Geolocation (GPS position, speed, heading, etc.).
+- **Geo JS**: is an **injectable `IGeolocationService` service** for detect the device [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) (GPS position, speed, heading, etc.).
 - **Head JS**: is an **injectable `IHtmlHeadService` service** for accessing and setting HTML document `Head tags`.
+- **Browser History JS**: is an **injectable `INavigationHistoryService` service** to access [HTML History API](https://developer.mozilla.org/en-US/docs/Web/API/History) functionality.
 
 ## Click JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#click-js))
 **NOTE: Blazor supports `@onclick` event which is equivalent with `OnInsideClick`. 
@@ -169,14 +169,13 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 - **`DisposeAsync()`: `ValueTask IAsyncDisposable()` interface** <br />
 Component implements `IAsyncDisposable` interface Blazor framework components also can `@implements IAsyncDisposable` where the injected service should be Disposed.
 
-
 ### `IScrollHandler` Functions
-- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference)`**<br />
-Scrolls the given element into the page view area.
-- **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id)`**<br />
-Finds element by Id and scrolls the given element into the page view area.
-- **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name)`**<br />
-Finds element by name and scrolls the given element into the page view area.
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(ElementReference elementReference, bool smooth)`**<br />
+Scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToElementByIdAsync`**: **`Task ScrollToElementByIdAsync(string id, bool smooth)`**<br />
+Finds element by Id and scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToElementByNameAsync`**: **`Task ScrollToElementByNameAsync(string name, bool smooth)`**<br />
+Finds element by name and scrolls the given element into the page view area. **Note: smooth scroll on element level might not supported by all browsers.**
 - **`ScrollToPageEndAsync`**: **`Task ScrollToPageEndAsync(bool smooth)`**<br />
 Scrolls to end of the page (X bottom).
 - **`ScrollToPageTopAsync`**: **`Task ScrollToPageTopAsync(bool smooth)`**<br />
@@ -197,18 +196,34 @@ Removes event listener for 'scroll' HTML event for the whole document/window by 
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
 ### `ElementReference` extensions
-- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToEndAsync`**: **`Task ScrollToEndAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToTopAsync`**: **`Task ScrollToTopAsync(this ElementReference elementReference)`**<br />
-- **`ScrollToXAsync`**: **`Task ScrollToXAsync(this ElementReference elementReference, double xPos)`**<br />
-- **`ScrollToYAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double yPos)`**<br />
-- **`GetScrollPositionAsync`**: **`Task<double> GetScrollPositionAsync(this ElementReference elementReference)`**<br />
+- **`ScrollToElementAsync`**: **`Task ScrollToElementAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+ Scrolls HTML page to given element.  **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToEndAsync`**: **`Task ScrollToEndAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+Scrolls inside the given element to the bottom (end). **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToTopAsync`**: **`Task ScrollToTopAsync(this ElementReference elementReference, bool smooth = false)`**<br />
+Scrolls inside the given element to the beginning (top). **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToXAsync`**: **`Task ScrollToXAsync(this ElementReference elementReference, double xPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given X position. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToYAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double yPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given Y position. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`ScrollToAsync`**: **`Task ScrollToYAsync(this ElementReference elementReference, double xPos, double yPos, bool smooth = false)`**<br />
+Scrolls inside the given element to the given X and Y positions. **Note: smooth scroll on element level might not supported by all browsers.**
+- **`GetScrollXPositionAsync`**: **`Task<double> GetScrollXPositionAsync(this ElementReference elementReference)`**<br />
+Returns given element scroll X (left) position.
+- **`GetScrollYPositionAsync`**: **`Task<double> GetScrollYPositionAsync(this ElementReference elementReference)`**<br />
+Returns given element scroll Y (top) position.
 - **`IsElementHiddenAsync`**: **`Task<bool> IsElementHiddenAsync(this ElementReference elementReference)`**<br />
+Returns given element is visible on HTML document or not.
 - **`IsElementHiddenBelowAsync`**: **`Task<bool> IsElementHiddenBelowAsync(this ElementReference elementReference)`**<br />
+Returns given element is below of the view port.
 - **`IsElementHiddenAboveAsync`**: **`Task<bool> IsElementHiddenAboveAsync(this ElementReference elementReference)`**<br />
+Returns given element is above of the view port.
 - **`ScrollToElementInParentAsync`**: **`Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)`**<br />
+Scrolls inside the given parent element to the given inner element.
 - **`ScrollInParentByIdAsync`**: **`Task ScrollInParentByIdAsync(this ElementReference parent, string id)`**<br />
+Scrolls inside the given parent element to the given inner element by Id.
 - **`ScrollInParentByClassAsync`**: **`Task ScrollInParentByClassAsync(this ElementReference parent, string className)`**<br />
+Scrolls inside the given parent element to the given first found inner element by class name.
 
 ## Resize JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#resize-js))
 **Resize JS** is an **injectable `IResizeHandler` service** for Window (global) and HTML Elements resize event callback handlers.
@@ -275,7 +290,6 @@ Removes event listener for `prefers-color-scheme` HTML event for the Browser.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
 
-
 ## Geolocation JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js))
 **Geolocation JS** is an injectable `IGeolocationService` service for **detect the device Geolocation (GPS position, speed, heading, etc.)**. 
 It is using the Geolocation API which allows users to provide their location to web applications if they desire.
@@ -312,6 +326,26 @@ Removes all existing fav icon "rel=icon" tags from HTML page Head and creates ne
 If you have multiple fav icon tags set in the Head first call `GetHtmlFavIconsAsync` method and change `HtmlHeadLinkTag.Href` values.
 - **`DisposeAsync`: `ValueTask IAsyncDisposable()` interface** <br />
 Implements `IAsyncDisposable` interface the injected service should be Disposed.
+
+## Browser History JS (See: [demo app](https://blazorextensions.z6.web.core.windows.net/jsinterop#history-js))
+**Browser History JS** is an injectable `INavigationHistoryService` service** to access HTML History API functionality. 
+It is useful when don't want to rely on Blazor `NavigationManager` which does not have access to full History list and when it navigates trigger a page load/update.
+
+### Functions
+- **`GetLengthAsync`**: **`ValueTask<int> GetLengthAsync()`** <br />
+Returns an Integer representing the number of elements in the session history, including the currently loaded page.
+- **`GetScrollRestorationAsync`**: **`ValueTask<string> GetScrollRestorationAsync()`** <br />
+Allows web applications to explicitly set default scroll restoration behavior on history navigation. This property can be either `auto` or `manual`.
+- **`BackAsync`**: **`ValueTask BackAsync()`** <br />
+This asynchronous method goes to the previous page in session history, the same action as when the user clicks the browser's Back button. Equivalent to history.go(-1).
+- **`ForwardAsync`**: **`ValueTask ForwardAsync()`** <br />
+This asynchronous method goes to the next page in session history, the same action as when the user clicks the browser's Forward button; this is equivalent to history.go(1).
+- **`GoAsync`**: **`ValueTask GoAsync(int delta)`** <br />
+Asynchronously loads a page from the session history, identified by its relative location to the current page, for example -1 for the previous page or 1 for the next page.
+- **`ReplaceStateAsync`**: **`ValueTask ReplaceStateAsync(ExpandoObject? state, string title, string url)`** <br />
+Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.
+- **`PushStateAsync`**: **`ValueTask PushStateAsync(ExpandoObject? state, string title, string url)`** <br />
+Pushes the given data onto the session history stack with the specified title (and, if provided, URL).
 
 
 # Configuration
@@ -351,6 +385,8 @@ Add using statement to your Blazor <component/page>.razor file. Or globally refe
 @using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate
 @*Only if you want to use Browser ColorTheme*@
 @using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
+@*Only if you want to use Browser History*@
+@using Majorsoft.Blazor.Components.Common.JsInterop.History
 ```
 
 

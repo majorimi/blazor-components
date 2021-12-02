@@ -32,8 +32,16 @@ For more details see Usage section.
 ### Functions
 - **`WatchPermaLinks()`**: **`void WatchPermaLinks()`** <br />
 Starts a navigation watcher which will check for Permalinks in the URLs.
+- **`ChangePermalink()`**: **`void ChangePermalink(string? newPermalink, bool doNotNavigate)`** <br />
+Modify the current URL with given new peralink value and trigger navigation or just update browser History.
+- **`CheckPermalink()`**: **`string? CheckPermalink(bool triggerEvent = false)`** <br />
+Checks the current URL for permalink again and re-triggers `PermalinkDetected` event if requested.
 - **`Dispose()`: `@implements IDisposable` interface** <br />
 Component implements `IDisposable` interface Blazor framework will call it when parent removed from render tree.
+
+### Events
+- **`PermalinkDetected`: `event EventHandler<PermalinkDetectedEventArgs>** <br />
+Event handler for parmalinks detected on navigation.
 
 ## `PermaLinkElement` component
 
@@ -68,8 +76,16 @@ Callback function called when Permalink icon clicked and **`PermaLinkIconActions
 ## PermaLinkBlazorServerInitializer
 Available from v1.4.0 It is convenient wrapper component to initialize navigation watcher in your Blazor Server App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
 
+### Properties
+- **`SmootScroll`: `bool { get; set; }` (default: false)** <br />
+Scroll should be jump or smoothly scroll. **Note: smooth scroll on element level might not supported by all browsers.**
+
 ## PermalinkBlazorWasmInitializer
 Available from v1.4.0 It is convenient wrapper component to initialize navigation watcher in your Blazor WebAssembly App `MainLayout.razor` page. **Only one Initializer component allowed per Application.**
+
+### Properties
+- **`SmootScroll`: `bool { get; set; }` (default: false)** <br />
+Scroll should be jump or smoothly scroll. **Note: smooth scroll on element level might not supported by all browsers.**
 
 # Configuration
 
@@ -141,7 +157,7 @@ Also instance should be disposed.
 ```
 @*Permalink initialize*@
 @using Majorsoft.Blazor.Components.PermaLink
-<PermalinkBlazorWasmInitializer />
+<PermalinkBlazorWasmInitializer  SmoothScroll="false" />
 ```
 
 #### Server hosted projects
@@ -208,7 +224,7 @@ It has to be instantiated manually by using the following code. Also instance sh
 ```
 @*Permalink initialize*@
 @using Majorsoft.Blazor.Components.PermaLink
-<PermaLinkBlazorServerInitializer />
+<PermaLinkBlazorServerInitializer SmoothScroll="false" />
 ```
 
 #### Creating permalink (#) navigation points inside a Blazor page

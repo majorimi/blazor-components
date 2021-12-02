@@ -561,6 +561,66 @@
             Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Language.ILanguageService"/>
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService">
+            <summary>
+            Injectable service to handle Browser history JS Interops.
+            https://developer.mozilla.org/en-US/docs/Web/API/History
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GetLengthAsync">
+            <summary>
+            Returns an Integer representing the number of elements in the session history, including the currently loaded page. For example, for a page loaded in a new tab this property returns 1.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GetScrollRestorationAsync">
+            <summary>
+            Allows web applications to explicitly set default scroll restoration behavior on history navigation. This property can be either `auto` or `manual`.
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.BackAsync">
+            <summary>
+            This asynchronous method goes to the previous page in session history, the same action as when the user clicks the browser's Back button. Equivalent to history.go(-1).
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.ForwardAsync">
+            <summary>
+            This asynchronous method goes to the next page in session history, the same action as when the user clicks the browser's Forward button; this is equivalent to history.go(1).
+            </summary>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.GoAsync(System.Int32)">
+            <summary>
+            Asynchronously loads a page from the session history, identified by its relative location to the current page, for example -1 for the previous page or 1 for the next page.
+            </summary>
+            <param name="delta">The position in the history to which you want to move, relative to the current page. A negative value moves backwards, a positive value moves forwards.</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.ReplaceStateAsync(System.Dynamic.ExpandoObject,System.String,System.String)">
+            <summary>
+            Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.
+            </summary>
+            <param name="state">Arbitrary object of the page</param>
+            <param name="title">Page tile</param>
+            <param name="url">New URL to show and add to history</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService.PushStateAsync(System.Dynamic.ExpandoObject,System.String,System.String)">
+            <summary>
+            Pushes the given data onto the session history stack with the specified title (and, if provided, URL).
+            </summary>
+            <param name="state">Arbitrary object of the page</param>
+            <param name="title">Page tile</param>
+            <param name="url">New URL to show and add to history</param>
+            <returns>ValueTask</returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.NavigationHistoryService">
+            <summary>
+            Implementation of <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Navigation.INavigationHistoryService"/>
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Common.JsInterop.Resize.IResizeHandler">
             <summary>
             Injectable service to handle JS 'resize' events for HTML element or the whole document.
@@ -638,49 +698,71 @@
             Extensions for <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> HTML elements.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToElementAsync(Microsoft.AspNetCore.Components.ElementReference)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToElementAsync(Microsoft.AspNetCore.Components.ElementReference,System.Boolean)">
             <summary>
-            Scrolls HTML page to given element
+            Scrolls HTML page to given element.
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToEndAsync(Microsoft.AspNetCore.Components.ElementReference)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToEndAsync(Microsoft.AspNetCore.Components.ElementReference,System.Boolean)">
             <summary>
             Scrolls inside the given element to the bottom (end).
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToTopAsync(Microsoft.AspNetCore.Components.ElementReference)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToTopAsync(Microsoft.AspNetCore.Components.ElementReference,System.Boolean)">
             <summary>
             Scrolls inside the given element to the beginning (top).
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToXAsync(Microsoft.AspNetCore.Components.ElementReference,System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToXAsync(Microsoft.AspNetCore.Components.ElementReference,System.Double,System.Boolean)">
             <summary>
             Scrolls inside the given element to the given X position.
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
             <param name="xPos">Scroll X position</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToYAsync(Microsoft.AspNetCore.Components.ElementReference,System.Double)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToYAsync(Microsoft.AspNetCore.Components.ElementReference,System.Double,System.Boolean)">
             <summary>
             Scrolls inside the given element to the given Y position.
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
             <param name="yPos">Scroll Y position</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.ScrollToAsync(Microsoft.AspNetCore.Components.ElementReference,System.Double,System.Double,System.Boolean)">
+            <summary>
+            Scrolls inside the given element to the given X and Y positions.
+            </summary>
+            <param name="elementReference">Blazor reference to an HTML element</param>
+            <param name="xPos">Scroll X position</param>
+            <param name="yPos">Scroll Y position</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.GetScrollXPositionAsync(Microsoft.AspNetCore.Components.ElementReference)">
             <summary>
-            Returns given element scroll X position.
+            Returns given element scroll X (left) position.
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
             <returns>Async Task with X pos</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.GetScrollYPositionAsync(Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Returns given element scroll Y (top) position.
+            </summary>
+            <param name="elementReference">Blazor reference to an HTML element</param>
+            <returns>Async Task with Y pos</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.ElementReferenceScrollExtensions.IsElementHiddenAsync(Microsoft.AspNetCore.Components.ElementReference)">
             <summary>
@@ -732,25 +814,28 @@
             Injectable service to handle JS document/window 'scroll' events for the whole document.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementAsync(Microsoft.AspNetCore.Components.ElementReference)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementAsync(Microsoft.AspNetCore.Components.ElementReference,System.Boolean)">
             <summary>
             Scrolls the given element into the page view area.
             </summary>
             <param name="elementReference">Blazor reference to an HTML element</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementByIdAsync(System.String)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementByIdAsync(System.String,System.Boolean)">
             <summary>
             Finds element by Id and scrolls the given element into the page view area.
             </summary>
-            <param name="name">DOM element id</param>
+            <param name="id">DOM element id</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementByNameAsync(System.String)">
+        <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToElementByNameAsync(System.String,System.Boolean)">
             <summary>
             Finds element by name and scrolls the given element into the page view area.
             </summary>
             <param name="name">DOM element name</param>
+            <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
             <returns>Async Task</returns>
         </member>
         <member name="M:Majorsoft.Blazor.Components.Common.JsInterop.Scroll.IScrollHandler.ScrollToPageEndAsync(System.Boolean)">

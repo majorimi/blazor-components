@@ -486,7 +486,15 @@ textarea {
 	{
 		_testData = JsonSerializer.Deserialize<StatesWithFlags[]>(jsonData);
 	}
-	
+
+	//protected override async Task OnAfterRenderAsync(bool firstRender)
+	//{
+	//	if(firstRender)
+	//	{
+	//		_input.SelectedItem = "Texas";
+	//	}
+	//}
+
 	//TypeaheadInput
 	private string _typeaheadInputValue = "";
 	private string _selectedItem;
@@ -507,7 +515,7 @@ textarea {
 	private async Task SelectedItemChanged(string text)
 	{
 		_selectedItem = text;
-		await WriteEventLog("TypeaheadInput: Selected item changed");
+		await WriteEventLog($"TypeaheadInput: Selected item changed, value: {text}");
 	}
 	private async Task WriteEventLog(string message)
 	{

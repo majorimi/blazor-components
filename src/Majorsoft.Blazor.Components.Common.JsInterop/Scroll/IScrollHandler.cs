@@ -14,20 +14,23 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		/// Scrolls the given element into the page view area.
 		/// </summary>
 		/// <param name="elementReference">Blazor reference to an HTML element</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToElementAsync(ElementReference elementReference);
+		Task ScrollToElementAsync(ElementReference elementReference, bool smooth = false);
 		/// <summary>
 		/// Finds element by Id and scrolls the given element into the page view area.
 		/// </summary>
-		/// <param name="name">DOM element id</param>
+		/// <param name="id">DOM element id</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToElementByIdAsync(string id);
+		Task ScrollToElementByIdAsync(string id, bool smooth = false);
 		/// <summary>
 		/// Finds element by name and scrolls the given element into the page view area.
 		/// </summary>
 		/// <param name="name">DOM element name</param>
+		/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 		/// <returns>Async Task</returns>
-		Task ScrollToElementByNameAsync(string name);
+		Task ScrollToElementByNameAsync(string name, bool smooth = false);
 
 		/// <summary>
 		/// Scrolls to end of the page (X bottom).

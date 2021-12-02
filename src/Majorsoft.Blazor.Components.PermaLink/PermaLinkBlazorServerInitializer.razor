@@ -3,6 +3,7 @@
 
 @inject IScrollHandler _scrollHandler
 @inject NavigationManager _navigationManager
+@inject INavigationHistoryService _navigationHistoryService
 @inject ILogger<IPermaLinkWatcherService> _logger
 @inject SingletonComponentService<PermaLinkBlazorServerInitializer> _singleton
 
@@ -26,8 +27,24 @@
         if (firstRender)
         {
             //setup permalink
-            _permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger);
+            _permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger, _navigationHistoryService);
             _permalinkWatcher.WatchPermaLinks();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets if peramlink should be scrolled smoothly into view or not.
+    /// Note: smooth scroll on element level might not supported by all Browsers.
+    /// </summary>
+    [Parameter] public bool SmoothScroll
+    {
+        get => _permalinkWatcher.SmoothScroll;
+        set 
+        { 
+            if(_permalinkWatcher is not null)
+            {
+                _permalinkWatcher.SmoothScroll = value;
+            }
         }
     }
 
