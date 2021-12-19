@@ -236,6 +236,25 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			}
 		}
 
+		public async ValueTask<GoogleMapLatLngBounds> GetBoundsAsync()
+		{
+			await CheckJsObjectAsync();
+			return await _mapsJs.InvokeAsync<GoogleMapLatLngBounds>("getBounds", MapContainerId);
+		}
+
+		public async ValueTask<GoogleMapLatLng> GetCenterAsync()
+		{
+			await CheckJsObjectAsync();
+			return await _mapsJs.InvokeAsync<GoogleMapLatLng>("getCenter", MapContainerId);
+		}
+
+		public async ValueTask<IJSObjectReference> GetDivAsync()
+		{
+			await CheckJsObjectAsync();
+			return await _mapsJs.InvokeAsync<IJSObjectReference>("getDiv", MapContainerId);
+		}
+
+
 		private async Task CheckJsObjectAsync()
 		{
 			if (_mapsJs is null)
