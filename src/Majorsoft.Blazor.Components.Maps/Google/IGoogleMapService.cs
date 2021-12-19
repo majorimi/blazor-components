@@ -1,13 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
+using Microsoft.JSInterop;
+
 namespace Majorsoft.Blazor.Components.Maps.Google
 {
 	/// <summary>
-	/// Injectable service to handle Google JavaScript Maps functionalities.
+	/// Injectable service to handle Google JavaScript Maps functionalities. Available on the instance of <see cref="GoogleMap"/> object ref as well.
 	/// </summary>
 	public interface IGoogleMapService : IAsyncDisposable
 	{
@@ -169,7 +170,29 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// </summary>
 		/// <param name="newMarkers">Enumerable new markers to add</param>
 		/// <param name="markers">Enumerable markers removed or replaced</param>
-		/// <returns></returns>
+		/// <returns>Async task</returns>
 		Task CreateMarkersAsync(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers);
+
+		/// <summary>
+		/// Returns the lat/lng bounds of the current viewport. If more than one copy of the world is visible, 
+		/// the bounds range in longitude from -180 to 180 degrees inclusive. If the map is not yet initialized or 
+		/// center and zoom have not been set then the result is undefined. For vector maps with non-zero tilt or heading, 
+		/// the returned lat/lng bounds represents the smallest bounding box that includes the visible region of the map's viewport.
+		/// </summary>
+		/// <returns>Async task</returns>
+		ValueTask<GoogleMapLatLngBounds> GetBoundsAsync();
+
+		/// <summary>
+		/// Returns the position displayed at the center of the map. Note that this LatLng object is not wrapped. See LatLng for more information. 
+		/// If the center or bounds have not been set then the result is undefined.
+		/// </summary>
+		/// <returns>Async task</returns>
+		ValueTask<GoogleMapLatLng> GetCenterAsync();
+
+		/// <summary>
+		/// Returns HTMLElement The mapDiv of the map.
+		/// </summary>
+		/// <returns>Async task</returns>
+		ValueTask<IJSObjectReference> GetDivAsync();
 	}
 }

@@ -342,6 +342,49 @@ export function panToAddress(elementId, address) {
 		}
 	}
 }
+//get methods
+export function getBounds(elementId) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			let bounds = mapWithDotnetRef.map.getBounds();
+
+			let ret = {
+				Center: convertToLatLng(bounds.getCenter()),
+				NorthEast: convertToLatLng(bounds.getNorthEast()),
+				SouthWest: convertToLatLng(bounds.getSouthWest()),
+				Span: convertToLatLng(bounds.toSpan()),
+				IsEmpty: bounds.isEmpty(),
+			};
+			return ret;
+		}
+	}
+}
+export function getCenter(elementId) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			let center = mapWithDotnetRef.map.getCenter();
+
+			let ret = convertToLatLng(center);
+			return ret;
+		}
+	}
+}
+export function getDiv(elementId) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			var ret = mapWithDotnetRef.map.getDiv();
+			return ret;
+		}
+	}
+}
+function convertToLatLng(latLngObject) {
+	let ret = { Latitude: latLngObject.lat(), Longitude: latLngObject.lng() };
+	return ret;
+}
+
 //set methods
 export function setZoom(elementId, zoom) {
 	if (elementId) {

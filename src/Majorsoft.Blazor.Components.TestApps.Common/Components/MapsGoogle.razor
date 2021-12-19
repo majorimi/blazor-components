@@ -444,19 +444,19 @@
 
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
-{
+	{
 		{ new GeolocationData("Budapest")},
 		{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
-{
+	{
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
-{
+	{
 		{ new GoogleStaticMapMarker() },
 		{ new GoogleStaticMapMarker()
 			{
@@ -590,7 +590,9 @@
 	//Events
 	private async Task OnMapInitialized(string elementId)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'");
+		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'. Map DIV can be accessed by: <mapRef>.GoogleMapService.GetDivAsync()");
+
+		var div = await _googleMap.GoogleMapService.GetDivAsync();
 	}
 	private async Task OnMapClicked(GeolocationCoordinate coordinate)
 	{
@@ -695,6 +697,9 @@
 			_mapsLog = await WriteLog(_mapsLog, $"Map Center location changed to: {coordinate.ToString()}");
 		}
 		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
+
+		//Center point can be accessed as well with method call
+		var center = await _googleMap.GoogleMapService.GetCenterAsync();
 	}
 	private async Task OnMapZoomLevelChanged(byte zoom)
 	{
@@ -737,8 +742,11 @@
 	{
 		if (_logOtherEvents)
 		{
-			_mapsLog = await WriteLog(_mapsLog, $"Map boundaries changed");
+			_mapsLog = await WriteLog(_mapsLog, $"Map boundaries changed. Bond information can be called: '<mapRef>.GoogleMapService.GetBoundsAsync()'");
 		}
+
+		//Bond information can be called:
+		var bounds = await _googleMap.GoogleMapService.GetBoundsAsync();
 	}
 	private async Task OnMapProjectionChanged()
 	{

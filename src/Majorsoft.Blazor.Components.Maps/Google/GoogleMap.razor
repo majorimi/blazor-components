@@ -23,6 +23,11 @@
 	/// </summary>
 	public ElementReference InnerElementReference => _jsMap;
 
+	/// <summary>
+	/// Exposes <see cref="IGeolocationService"/> which is handling JsInterop. This instance can be used for access more GoogleMap features.
+	/// </summary>
+	public IGoogleMapService GoogleMapService => _mapService;
+
 	private bool _mapInitialized = false;
 	private bool _isDragging = false;
 	protected override async Task OnInitializedAsync()
