@@ -76,7 +76,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task> mapDragStartCallback = null,
 			Func<Rect, Task> mapResizedCallback = null,
 			Func<Task> mapTilesLoadedCallback = null,
-			Func<Task> mapIdleCallback = null);
+			Func<Task> mapIdleCallback = null,
+			GoogleMapRestriction restriction = null);
 
 		/// <summary>
 		/// Sets the center point as coordinates of the Map.
