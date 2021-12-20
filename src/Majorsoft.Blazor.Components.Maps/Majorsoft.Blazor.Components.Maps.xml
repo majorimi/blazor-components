@@ -47,6 +47,23 @@
             </summary>
             <returns>Maps specific geo coordinates or address</returns>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.GoogleMapLatLng">
+            <summary>
+            A LatLng is a point in geographical coordinates: latitude and longitude.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.GoogleMapLatLng.Latitude">
+            <summary>
+            Latitude ranges between -90 and 90 degrees, inclusive. Values above or below this range will be clamped to the range [-90, 90]. 
+            This means that if the value specified is less than -90, it will be set to -90. And if the value is greater than 90, it will be set to 90.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.GoogleMapLatLng.Longitude">
+            <summary>
+            Longitude ranges between -180 and 180 degrees, inclusive. Values above or below this range will be wrapped so that they fall within the range.
+            For example, a value of -190 will be converted to 170. A value of 190 will be converted to -170. This reflects the fact that longitudes wrap around the globe.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions">
             <summary>
             Identifiers used to specify the placement of controls on the map. 
@@ -231,6 +248,41 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapInfoWindow.MaxWidth">
             <summary>
             Maximum allowed with of the Info Window.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds">
+            <summary>
+            A LatLngBounds instance represents a rectangle in geographical coordinates, including one that crosses the 180 degrees longitudinal meridian.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.Center">
+            <summary>
+            Computes the center of this LatLngBounds
+            Equivalent with `getCenter()` method call but it would require JsInterop.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.NorthEast">
+            <summary>
+            Returns the north-east corner of this bounds.
+            Equivalent with `getNorthEast()` method call but it would require JsInterop.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.SouthWest">
+            <summary>
+            Returns the south-west corner of this bounds.
+            Equivalent with `getSouthWest()` method call but it would require JsInterop.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.Span">
+            <summary>
+            Converts the given map bounds to a lat/lng span.
+            Equivalent with `toSpan()` method call but it would require JsInterop.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.IsEmpty">
+            <summary>
+            Returns if the bounds are empty.
+            Equivalent with `isEmpty()` method call but it would require JsInterop.
             </summary>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
@@ -694,7 +746,7 @@
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService">
             <summary>
-            Injectable service to handle Google JavaScript Maps functionalities.
+            Injectable service to handle Google JavaScript Maps functionalities. Available on the instance of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMap"/> object ref as well.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.MapContainerId">
@@ -829,7 +881,29 @@
             </summary>
             <param name="newMarkers">Enumerable new markers to add</param>
             <param name="markers">Enumerable markers removed or replaced</param>
-            <returns></returns>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.GetBoundsAsync">
+            <summary>
+            Returns the lat/lng bounds of the current viewport. If more than one copy of the world is visible, 
+            the bounds range in longitude from -180 to 180 degrees inclusive. If the map is not yet initialized or 
+            center and zoom have not been set then the result is undefined. For vector maps with non-zero tilt or heading, 
+            the returned lat/lng bounds represents the smallest bounding box that includes the visible region of the map's viewport.
+            </summary>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.GetCenterAsync">
+            <summary>
+            Returns the position displayed at the center of the map. Note that this LatLng object is not wrapped. See LatLng for more information. 
+            If the center or bounds have not been set then the result is undefined.
+            </summary>
+            <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.GetDivAsync">
+            <summary>
+            Returns HTMLElement The mapDiv of the map.
+            </summary>
+            <returns>Async task</returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapId">
             <summary>
@@ -839,6 +913,11 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.InnerElementReference">
             <summary>
             Exposes a Blazor <see cref="T:Microsoft.AspNetCore.Components.ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.GoogleMapService">
+            <summary>
+            Exposes <see cref="T:Majorsoft.Blazor.Components.Common.JsInterop.Geo.IGeolocationService"/> which is handling JsInterop. This instance can be used for access more GoogleMap features.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.BackgroundColor">
