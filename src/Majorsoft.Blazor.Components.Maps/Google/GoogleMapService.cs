@@ -51,7 +51,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task>? mapDragStartCallback = null,
 			Func<Rect, Task>? mapResizedCallback = null,
 			Func<Task>? mapTilesLoadedCallback = null,
-			Func<Task>? mapIdleCallback = null)
+			Func<Task>? mapIdleCallback = null,
+			GoogleMapRestriction restriction = null)
 		{
 			if(MapContainerId == mapContainerId)
 			{
@@ -89,7 +90,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapEventInfo>(info);
 
-			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize);
+			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize, restriction);
 		}
 
 		public async Task SetCenterAsync(double latitude, double longitude)

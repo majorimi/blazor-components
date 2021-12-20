@@ -6,6 +6,24 @@
     public class GoogleMapLatLngBounds
     {
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public GoogleMapLatLngBounds()
+        {
+        }
+
+        /// <summary>
+        /// Initialize object for Map restrictions
+        /// </summary>
+        /// <param name="southWest">The south-west corner of this bounds.</param>
+        /// <param name="northEast">The north-east corner of this bounds.</param>
+        public GoogleMapLatLngBounds(GoogleMapLatLng southWest, GoogleMapLatLng northEast)
+        {
+            SouthWest = southWest;
+            NorthEast = northEast;
+        }
+
+        /// <summary>
         /// Computes the center of this LatLngBounds
         /// Equivalent with `getCenter()` method call but it would require JsInterop.
         /// </summary>

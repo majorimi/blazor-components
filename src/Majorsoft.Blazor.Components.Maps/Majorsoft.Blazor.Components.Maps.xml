@@ -255,6 +255,18 @@
             A LatLngBounds instance represents a rectangle in geographical coordinates, including one that crosses the 180 degrees longitudinal meridian.
             </summary>
         </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.#ctor(Majorsoft.Blazor.Components.Maps.GoogleMapLatLng,Majorsoft.Blazor.Components.Maps.GoogleMapLatLng)">
+            <summary>
+            Initialize object for Map restrictions
+            </summary>
+            <param name="southWest">The south-west corner of this bounds.</param>
+            <param name="northEast">The north-east corner of this bounds.</param>
+        </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapLatLngBounds.Center">
             <summary>
             Computes the center of this LatLngBounds
@@ -596,6 +608,21 @@
             Default scale value is 1; accepted values are 1, 2, and 4.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction">
+            <summary>
+            Restrictions coordinates for <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMap"/>
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction.LatLngBounds">
+            <summary>
+            Latitude and Longitude SW/NE corners of the bound.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction.StrictBounds">
+            <summary>
+            Is restriction strict.
+            </summary>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapService">
             <summary>
             Default implementation of <see cref="T:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService"/>
@@ -751,10 +778,10 @@
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.MapContainerId">
             <summary>
-            HTML Div Id which was set when Maps initialized with <see cref="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})"/> method.
+            HTML Div Id which was set when Maps initialized with <see cref="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction)"/> method.
             </summary>
         </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.InitMapAsync(System.String,System.String,System.String,System.Int32,System.Func{System.String,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Google.GoogleMapTypes,System.Threading.Tasks.Task},System.Func{System.Int32,System.Threading.Tasks.Task},System.Func{System.Byte,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.GeolocationCoordinate,System.Threading.Tasks.Task},System.Func{Majorsoft.Blazor.Components.Maps.Rect,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction)">
             <summary>
             This function must be called only once to initialize Google JavaScript Maps with ApiKey and event callbacks.
             </summary>
@@ -934,6 +961,12 @@
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.CustomControls">
             <summary>
             Custom controls to add to the Map that will execute callbacks for events.
+            This option can only be set when the map is initialized. Use <see cref="!:OnInitialized"/> method to set it up.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.Restriction">
+            <summary>
+            Restrictions for Maps by coordinates SW/NE.
             This option can only be set when the map is initialized. Use <see cref="!:OnInitialized"/> method to set it up.
             </summary>
         </member>
