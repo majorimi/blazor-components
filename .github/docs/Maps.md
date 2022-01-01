@@ -34,6 +34,7 @@ Maps using `IGeolocationService` (see "Dependences") to center current position.
 It can be omitted and injected separately to your components as well to get or track device location. 
 To see how it works please check **Geo JS** [documentation](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md#geolocation-js-see-demo-app) and [demo](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js).
 
+
 ## `GoogleStaticMap` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/maps#google-static-maps))
 
 :warning: **To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.**
@@ -97,7 +98,6 @@ Starts an async operation to try to detect device location by using `IGeolocatio
 Once operation has finished successfully `OnLocationDetected` event will be fired.
 - **`DisposeAsync()`: `Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
-
 
 ## `GoogleMap` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/maps#google-js-maps))
 

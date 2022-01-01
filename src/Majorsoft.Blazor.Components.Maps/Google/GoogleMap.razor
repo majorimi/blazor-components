@@ -137,7 +137,7 @@
 				},
 				mapZoomChangedCallback: async (zoom) =>
 				{
-					WriteDiag($"Map Zoom level changed to: '{zoom}'.");
+					WriteDiag($"Map Zoom level callback changed to: '{zoom}'.");
 					if (_zoomLevel == zoom)
 						return;
 
@@ -336,6 +336,8 @@
 			if (_mapInitialized && value != _zoomLevel)
 			{
 				_zoomLevel = value;
+
+				WriteDiag($"Map Zoom level property Set to: '{_zoomLevel}'.");
 				InvokeAsync(async () => await _mapService.SetZoomAsync(_zoomLevel));
 			}
 		}

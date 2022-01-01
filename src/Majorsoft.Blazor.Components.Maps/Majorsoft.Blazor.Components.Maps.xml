@@ -611,6 +611,8 @@
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction">
             <summary>
             Restrictions coordinates for <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMap"/>
+            NOTE: Google Maps restriction is basically a MAX Zoom level. So it does not allow users to zoom out (zoom level value forced). 
+            In order to notify Blazor about the maximum Zoom level two-way binding MUST be used: `@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"`
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction.LatLngBounds">
