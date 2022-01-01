@@ -1,9 +1,9 @@
-﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize) {
+﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
 	if (!key || !elementId || !dotnetRef) {
 		return;
 	}
 
-	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize); //Store map info
+	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize, restriction); //Store map info
 
 	let src = "https://maps.googleapis.com/maps/api/js?key=";
 	let scriptsIncluded = false;
@@ -50,9 +50,25 @@ window.initGoogleMaps = () => {
 		}
 
 		//Create Map
+		let restrict = null;
+		if (mapInfo.restriction && mapInfo.restriction.latLngBounds
+			&& mapInfo.restriction.latLngBounds.northEast && mapInfo.restriction.latLngBounds.southWest) {
+			restrict =
+			{
+				latLngBounds: {
+					south: mapInfo.restriction.latLngBounds.southWest.latitude,
+					west: mapInfo.restriction.latLngBounds.southWest.longitude,
+					north: mapInfo.restriction.latLngBounds.northEast.latitude,
+					east: mapInfo.restriction.latLngBounds.northEast.longitude
+				},
+				strictBounds: mapInfo.restriction.strictBounds,
+			};
+		}
+
 		let map = new google.maps.Map(document.getElementById(elementId), {
 			backgroundColor: mapInfo.bgColor,
 			controlSize: mapInfo.ctrSize,
+			restriction: restrict,
 		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
@@ -265,7 +281,7 @@ window.initGoogleMaps = () => {
 };
 
 //Store elementId with .NET Ref
-function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize) {
+function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
 	let elementFound = false;
 	for (let i = 0; i < dict.length; i++) {
 		if (dict[i].key === elementId) {
@@ -276,7 +292,7 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize }
+			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize, restriction: restriction }
 		});
 	}
 }
