@@ -255,6 +255,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			return await _mapsJs.InvokeAsync<IJSObjectReference>("getDiv", MapContainerId);
 		}
 
+		public async Task AddPolyline(params GoogleMapPolylineOptions[] googleMapPolylineOptions)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeAsync<IJSObjectReference>("polylineSetMap", MapContainerId, googleMapPolylineOptions);
+		}
+
 
 		private async Task CheckJsObjectAsync()
 		{

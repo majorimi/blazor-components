@@ -608,6 +608,164 @@
             Default scale value is 1; accepted values are 1, 2, and 4.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions">
+            <summary>
+            PolylineOptions object used to define the properties that can be set on a Polyline.
+            https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Clickable">
+            <summary>
+            Indicates whether this Polyline handles mouse events. Defaults to true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Draggable">
+            <summary>
+            If set to true, the user can drag this shape over the map. The geodesic property defines the mode of dragging. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Editable">
+            <summary>
+            If set to true, the user can edit this shape by dragging the control points shown at the vertices and on each segment. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Geodesic">
+            <summary>
+            When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth. When false, edges of the polygon are rendered as 
+            straight lines in screen space. Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions are maintained relative to
+            the surface of the earth. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Icons">
+            <summary>
+            The icons to be rendered along the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Path">
+            <summary>
+            The ordered sequence of coordinates of the Polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeColor">
+            <summary>
+            The stroke color. All CSS3 colors are supported except for extended named colors.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeOpacity">
+            <summary>
+            The stroke opacity between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeWeight">
+            <summary>
+            The stroke width in pixels.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Visible">
+            <summary>
+            Whether this polyline is visible on the map. Defaults to true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.ZIndex">
+            <summary>
+            The zIndex compared to other polys.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence">
+            <summary>
+            Describes how icons are to be rendered on a line.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.FixedRotation">
+            <summary>
+            If true, each icon in the sequence has the same fixed rotation regardless of the angle of the edge on which it lies. Defaults to false, 
+            in which case each icon in the sequence is rotated to align with its edge.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Icon">
+            <summary>
+            The icon to render on the line.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Offset">
+            <summary>
+            The distance from the start of the line at which an icon is to be rendered. This distance may be expressed as a percentage of line's length 
+            (e.g. '50%') or in pixels (e.g. '50px'). Defaults to '100%'.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Repeat">
+            <summary>
+            The distance between consecutive icons on the line. This distance may be expressed as a percentage of the line's length (e.g. '50%') or in pixels 
+            (e.g. '50px'). To disable repeating of the icon, specify '0'. Defaults to '0'.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol">
+            <summary>
+            Describes a symbol, which consists of a vector path with styling. A symbol can be used as the icon of a marker, or placed on a polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Path">
+            <summary>
+            The symbol's path, which is a built-in symbol path, or a custom path expressed using SVG path notation. Required.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Anchor">
+            <summary>
+            The position at which to anchor an image in correspondence to the location of the marker on the map.
+            By default, the anchor is located along the center point of the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillColor">
+            <summary>
+            The symbol's fill color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+            For symbols on polylines, this defaults to the stroke color of the corresponding polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillOpacity">
+            <summary>
+            The symbol's fill opacity. Defaults to 0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.LabelOrigin">
+            <summary>
+            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+            By default, the origin is located in the center point of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Rotation">
+            <summary>
+            The angle by which to rotate the symbol, expressed clockwise in degrees. Defaults to 0. A symbol in an IconSequence where fixedRotation is false 
+            is rotated relative to the angle of the edge on which it lies.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Scale">
+            <summary>
+            The amount by which the symbol is scaled in size. For symbol markers, this defaults to 1; after scaling, the symbol may be of any size. For symbols on a polyline, 
+            this defaults to the stroke weight of the polyline; after scaling, the symbol must lie inside a square 22 pixels in size centered at the symbol's anchor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeColor">
+            <summary>
+            The symbol's stroke color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+            For symbols on a polyline, this defaults to the stroke color of the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeOpacity">
+            <summary>
+            The symbol's stroke opacity. For symbol markers, this defaults to 1. For symbols on a polyline, this defaults to the stroke opacity of the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeWeight">
+            <summary>
+            The symbol's stroke weight. Defaults to the scale of the symbol.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="path">The symbol's path</param>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction">
             <summary>
             Restrictions coordinates for <see cref="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMap"/>
@@ -933,6 +1091,13 @@
             Returns HTMLElement The mapDiv of the map.
             </summary>
             <returns>Async task</returns>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.IGoogleMapService.AddPolyline(Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions[])">
+            <summary>
+            
+            </summary>
+            <param name="googleMapPolylineOptions"></param>
+            <returns></returns>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapId">
             <summary>

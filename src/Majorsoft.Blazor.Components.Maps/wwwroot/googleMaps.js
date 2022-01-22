@@ -613,6 +613,27 @@ function setMarkerData(markerData, marker) {
 	marker.setZIndex(markerData.zIndex);
 }
 
+//Drawing
+export function polylineSetMap(elementId, polylineOptions) {
+	if (elementId && polylineOptions && polylineOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < polylineOptions.length; i++) {
+				let markerData = polylineOptions[i];
+
+				//_mapsMarkers.forEach((element, index) => {
+				//	if (markerData.id == element.id) {
+				//		element.setMap(null);
+				//		_mapsMarkers.splice(index, 1);
+				//		return;
+				//	}
+				//});
+			}
+		}
+	}
+}
+
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {
 	geocodeAddress(address, function (results) {
