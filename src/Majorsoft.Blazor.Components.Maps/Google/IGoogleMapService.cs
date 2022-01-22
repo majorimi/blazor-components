@@ -195,5 +195,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// </summary>
 		/// <returns>Async task</returns>
 		ValueTask<IJSObjectReference> GetDivAsync();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="googleMapPolylineOptions"></param>
+		/// <returns></returns>
+		Task AddPolyline(params GoogleMapPolylineOptions[] googleMapPolylineOptions);
 	}
 }
