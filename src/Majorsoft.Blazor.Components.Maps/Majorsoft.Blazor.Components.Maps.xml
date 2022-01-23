@@ -64,6 +64,164 @@
             For example, a value of -190 will be converted to 170. A value of 190 will be converted to -170. This reflects the fact that longitudes wrap around the globe.
             </summary>
         </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions">
+            <summary>
+            PolylineOptions object used to define the properties that can be set on a Polyline.
+            https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Clickable">
+            <summary>
+            Indicates whether this Polyline handles mouse events. Defaults to true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Draggable">
+            <summary>
+            If set to true, the user can drag this shape over the map. The geodesic property defines the mode of dragging. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Editable">
+            <summary>
+            If set to true, the user can edit this shape by dragging the control points shown at the vertices and on each segment. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Geodesic">
+            <summary>
+            When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth. When false, edges of the polygon are rendered as 
+            straight lines in screen space. Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions are maintained relative to
+            the surface of the earth. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Icons">
+            <summary>
+            The icons to be rendered along the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Path">
+            <summary>
+            The ordered sequence of coordinates of the Polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeColor">
+            <summary>
+            The stroke color. All CSS3 colors are supported except for extended named colors.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeOpacity">
+            <summary>
+            The stroke opacity between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeWeight">
+            <summary>
+            The stroke width in pixels.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Visible">
+            <summary>
+            Whether this polyline is visible on the map. Defaults to true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.ZIndex">
+            <summary>
+            The zIndex compared to other polys.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence">
+            <summary>
+            Describes how icons are to be rendered on a line.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.FixedRotation">
+            <summary>
+            If true, each icon in the sequence has the same fixed rotation regardless of the angle of the edge on which it lies. Defaults to false, 
+            in which case each icon in the sequence is rotated to align with its edge.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Icon">
+            <summary>
+            The icon to render on the line.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Offset">
+            <summary>
+            The distance from the start of the line at which an icon is to be rendered. This distance may be expressed as a percentage of line's length 
+            (e.g. '50%') or in pixels (e.g. '50px'). Defaults to '100%'.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Repeat">
+            <summary>
+            The distance between consecutive icons on the line. This distance may be expressed as a percentage of the line's length (e.g. '50%') or in pixels 
+            (e.g. '50px'). To disable repeating of the icon, specify '0'. Defaults to '0'.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol">
+            <summary>
+            Describes a symbol, which consists of a vector path with styling. A symbol can be used as the icon of a marker, or placed on a polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Path">
+            <summary>
+            The symbol's path, which is a built-in symbol path, or a custom path expressed using SVG path notation. Required.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Anchor">
+            <summary>
+            The position at which to anchor an image in correspondence to the location of the marker on the map.
+            By default, the anchor is located along the center point of the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillColor">
+            <summary>
+            The symbol's fill color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+            For symbols on polylines, this defaults to the stroke color of the corresponding polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillOpacity">
+            <summary>
+            The symbol's fill opacity. Defaults to 0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.LabelOrigin">
+            <summary>
+            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+            By default, the origin is located in the center point of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Rotation">
+            <summary>
+            The angle by which to rotate the symbol, expressed clockwise in degrees. Defaults to 0. A symbol in an IconSequence where fixedRotation is false 
+            is rotated relative to the angle of the edge on which it lies.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Scale">
+            <summary>
+            The amount by which the symbol is scaled in size. For symbol markers, this defaults to 1; after scaling, the symbol may be of any size. For symbols on a polyline, 
+            this defaults to the stroke weight of the polyline; after scaling, the symbol must lie inside a square 22 pixels in size centered at the symbol's anchor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeColor">
+            <summary>
+            The symbol's stroke color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+            For symbols on a polyline, this defaults to the stroke color of the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeOpacity">
+            <summary>
+            The symbol's stroke opacity. For symbol markers, this defaults to 1. For symbols on a polyline, this defaults to the stroke opacity of the polyline.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeWeight">
+            <summary>
+            The symbol's stroke weight. Defaults to the scale of the symbol.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="path">The symbol's path</param>
+        </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapControlPositions">
             <summary>
             Identifiers used to specify the placement of controls on the map. 
@@ -296,475 +454,6 @@
             Returns if the bounds are empty.
             Equivalent with `isEmpty()` method call but it would require JsInterop.
             </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
-            <summary>
-            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
-            <summary>
-            Callback function called when Marker was clicked.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
-            <summary>
-            Callback function called when Marker dragging.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
-            <summary>
-            Callback function called when Marker drag ended.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
-            <summary>
-            Callback function called when Marker drag started.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="position">Marker position on the Map</param>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
-            <summary>
-            Animations that can be played on a marker.
-            </summary>
-        </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
-            <summary>
-            No animation.
-            </summary>
-        </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
-            <summary>
-            Marker bounces until animation is stopped.
-            </summary>
-        </member>
-        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
-            <summary>
-            Marker falls from the top of the map ending with a small bounce.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase">
-            <summary>
-            MarkerOptions object used to define the properties that can be set on a Marker.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Id">
-            <summary>
-            Id of the Custom control.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.AnchorPoint">
-            <summary>
-            The offset from the marker's position to the tip of an InfoWindow that has been opened with the marker as anchor.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Animation">
-            <summary>
-            Which animation to play when marker is added to a map.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Clickable">
-            <summary>
-            If true, the marker receives mouse and touch events. Default value is true.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.CrossOnDrag">
-            <summary>
-            If false, disables cross that appears beneath the marker when dragging. This option is true by default.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Cursor">
-            <summary>
-            Mouse cursor to show on hover.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Draggable">
-            <summary>
-            If true, the marker can be dragged. Default value is false.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Label">
-            <summary>
-            Adds a label to the marker. The label can either be a string, or a MarkerLabel object.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Icon">
-            <summary>
-            Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Opacity">
-            <summary>
-            The marker's opacity between 0.0 and 1.0.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Optimized">
-            <summary>
-            Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
-            Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Position">
-            <summary>
-            Marker position. Required in order to display the marker.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Shape">
-            <summary>
-            Image map region definition used for drag/click.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Title">
-            <summary>
-            Rollover text. If provided, an accessibility text (e.g. for use with screen readers) 
-            will be added to the marker with the provided value.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Visible">
-            <summary>
-            If true, the marker is visible.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.ZIndex">
-            <summary>
-            All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.InfoWindow">
-            <summary>
-            Info Window to show for Marker on click.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="position">Marker position on the Map</param>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
-            <summary>
-            Rather than use Google's marker icons, you are free to use your own custom icons instead.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.IconUrl">
-            <summary>
-            Custom icon URL.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.Anchor">
-            <summary>
-            Icon is position in relation to the specified markers locations.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
-            <summary>
-            The anchor point sets how the icon is placed in relation to the specified markers locations.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel">
-            <summary>
-            These options specify the appearance of a marker label. 
-            A marker label is a string (often a single character) which will appear inside the marker.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Text">
-            <summary>
-            The text to be displayed in the label.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.ClassName">
-            <summary>
-            The className property of the label's element (equivalent to the element's class attribute). 
-            Multiple space-separated CSS classes can be added.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Color">
-            <summary>
-            The color of the label text. Default color is black.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontFamily">
-            <summary>
-            The font family of the label text (equivalent to the CSS font-family property).
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontSize">
-            <summary>
-            The font size of the label text (equivalent to the CSS font-size property). Default size is 14px.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontWeight">
-            <summary>
-            The font weight of the label text (equivalent to the CSS font-weight property).
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="text">Label text</param>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon">
-            <summary>
-            A structure representing a Marker icon image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Url">
-            <summary>
-            The URL of the image or sprite sheet.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Anchor">
-            <summary>
-            The position at which to anchor an image in correspondence to the location of the marker on the map.
-            By default, the anchor is located along the center point of the bottom of the image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.LabelOrigin">
-            <summary>
-            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
-            By default, the origin is located in the center point of the image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Origin">
-            <summary>
-            The position of the image within a sprite, if any. 
-            By default, the origin is located at the top left corner of the image (0, 0).
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.ScaledSize">
-            <summary>
-            The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Size">
-            <summary>
-            The display size of the sprite or image. When using sprites, you must specify the sprite size. 
-            If the size is not provided, it will be set when the image loads.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="url">Icon Url</param>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
-            <summary>
-            This object defines the clickable region of a marker image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
-            <summary>
-            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
-            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
-            <summary>
-            Describes the shape's type and can be circle, poly or rect.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
-            <summary>
-            Describes the shape's type and can be circle, poly or rect.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">
-            <summary>
-            Specifies the size of marker
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle">
-            <summary>
-            The set of marker style descriptors is a series of value assignments separated by the pipe (|) character. 
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Size">
-            <summary>
-            Specifies the size of marker from the set {tiny, mid, small}. 
-            If no size parameter is set, the marker will appear in its default (normal) size.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Color">
-            <summary>
-            Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set 
-            {black, brown, green, purple, yellow, blue, gray, orange, red, white}.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Label">
-            <summary>
-            Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Scale">
-            <summary>
-            Scale value is multiplied with the marker image size to produce the actual output size of the marker in pixels. 
-            Default scale value is 1; accepted values are 1, 2, and 4.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions">
-            <summary>
-            PolylineOptions object used to define the properties that can be set on a Polyline.
-            https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Clickable">
-            <summary>
-            Indicates whether this Polyline handles mouse events. Defaults to true.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Draggable">
-            <summary>
-            If set to true, the user can drag this shape over the map. The geodesic property defines the mode of dragging. Defaults to false.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Editable">
-            <summary>
-            If set to true, the user can edit this shape by dragging the control points shown at the vertices and on each segment. Defaults to false.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Geodesic">
-            <summary>
-            When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth. When false, edges of the polygon are rendered as 
-            straight lines in screen space. Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions are maintained relative to
-            the surface of the earth. Defaults to false.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Icons">
-            <summary>
-            The icons to be rendered along the polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Path">
-            <summary>
-            The ordered sequence of coordinates of the Polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeColor">
-            <summary>
-            The stroke color. All CSS3 colors are supported except for extended named colors.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeOpacity">
-            <summary>
-            The stroke opacity between 0.0 and 1.0.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.StrokeWeight">
-            <summary>
-            The stroke width in pixels.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.Visible">
-            <summary>
-            Whether this polyline is visible on the map. Defaults to true.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapPolylineOptions.ZIndex">
-            <summary>
-            The zIndex compared to other polys.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence">
-            <summary>
-            Describes how icons are to be rendered on a line.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.FixedRotation">
-            <summary>
-            If true, each icon in the sequence has the same fixed rotation regardless of the angle of the edge on which it lies. Defaults to false, 
-            in which case each icon in the sequence is rotated to align with its edge.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Icon">
-            <summary>
-            The icon to render on the line.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Offset">
-            <summary>
-            The distance from the start of the line at which an icon is to be rendered. This distance may be expressed as a percentage of line's length 
-            (e.g. '50%') or in pixels (e.g. '50px'). Defaults to '100%'.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequence.Repeat">
-            <summary>
-            The distance between consecutive icons on the line. This distance may be expressed as a percentage of the line's length (e.g. '50%') or in pixels 
-            (e.g. '50px'). To disable repeating of the icon, specify '0'. Defaults to '0'.
-            </summary>
-        </member>
-        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol">
-            <summary>
-            Describes a symbol, which consists of a vector path with styling. A symbol can be used as the icon of a marker, or placed on a polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Path">
-            <summary>
-            The symbol's path, which is a built-in symbol path, or a custom path expressed using SVG path notation. Required.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Anchor">
-            <summary>
-            The position at which to anchor an image in correspondence to the location of the marker on the map.
-            By default, the anchor is located along the center point of the bottom of the image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillColor">
-            <summary>
-            The symbol's fill color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
-            For symbols on polylines, this defaults to the stroke color of the corresponding polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.FillOpacity">
-            <summary>
-            The symbol's fill opacity. Defaults to 0.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.LabelOrigin">
-            <summary>
-            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
-            By default, the origin is located in the center point of the image.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Rotation">
-            <summary>
-            The angle by which to rotate the symbol, expressed clockwise in degrees. Defaults to 0. A symbol in an IconSequence where fixedRotation is false 
-            is rotated relative to the angle of the edge on which it lies.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.Scale">
-            <summary>
-            The amount by which the symbol is scaled in size. For symbol markers, this defaults to 1; after scaling, the symbol may be of any size. For symbols on a polyline, 
-            this defaults to the stroke weight of the polyline; after scaling, the symbol must lie inside a square 22 pixels in size centered at the symbol's anchor.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeColor">
-            <summary>
-            The symbol's stroke color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
-            For symbols on a polyline, this defaults to the stroke color of the polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeOpacity">
-            <summary>
-            The symbol's stroke opacity. For symbol markers, this defaults to 1. For symbols on a polyline, this defaults to the stroke opacity of the polyline.
-            </summary>
-        </member>
-        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.StrokeWeight">
-            <summary>
-            The symbol's stroke weight. Defaults to the scale of the symbol.
-            </summary>
-        </member>
-        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapIconSequenceSymbol.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-            <param name="path">The symbol's path</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction">
             <summary>
@@ -1098,6 +787,317 @@
             </summary>
             <param name="googleMapPolylineOptions"></param>
             <returns></returns>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnClickCallback">
+            <summary>
+            Callback function called when Marker was clicked.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragCallback">
+            <summary>
+            Callback function called when Marker dragging.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragEndCallback">
+            <summary>
+            Callback function called when Marker drag ended.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.OnDragStartCallback">
+            <summary>
+            Callback function called when Marker drag started.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarker.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="position">Marker position on the Map</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes">
+            <summary>
+            Animations that can be played on a marker.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.None">
+            <summary>
+            No animation.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.BOUNCE">
+            <summary>
+            Marker bounces until animation is stopped.
+            </summary>
+        </member>
+        <member name="F:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerAnimationTypes.DROP">
+            <summary>
+            Marker falls from the top of the map ending with a small bounce.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase">
+            <summary>
+            MarkerOptions object used to define the properties that can be set on a Marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Id">
+            <summary>
+            Id of the Custom control.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.AnchorPoint">
+            <summary>
+            The offset from the marker's position to the tip of an InfoWindow that has been opened with the marker as anchor.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Animation">
+            <summary>
+            Which animation to play when marker is added to a map.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Clickable">
+            <summary>
+            If true, the marker receives mouse and touch events. Default value is true.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.CrossOnDrag">
+            <summary>
+            If false, disables cross that appears beneath the marker when dragging. This option is true by default.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Cursor">
+            <summary>
+            Mouse cursor to show on hover.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Draggable">
+            <summary>
+            If true, the marker can be dragged. Default value is false.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Label">
+            <summary>
+            Adds a label to the marker. The label can either be a string, or a MarkerLabel object.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Icon">
+            <summary>
+            Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Opacity">
+            <summary>
+            The marker's opacity between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Optimized">
+            <summary>
+            Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
+            Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Position">
+            <summary>
+            Marker position. Required in order to display the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Shape">
+            <summary>
+            Image map region definition used for drag/click.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Title">
+            <summary>
+            Rollover text. If provided, an accessibility text (e.g. for use with screen readers) 
+            will be added to the marker with the provided value.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.Visible">
+            <summary>
+            If true, the marker is visible.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.ZIndex">
+            <summary>
+            All markers are displayed on the map in order of their zIndex, with higher values displaying in front of markers with lower values.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.InfoWindow">
+            <summary>
+            Info Window to show for Marker on click.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerBase.#ctor(Majorsoft.Blazor.Components.Maps.GeolocationCoordinate)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="position">Marker position on the Map</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon">
+            <summary>
+            Rather than use Google's marker icons, you are free to use your own custom icons instead.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.IconUrl">
+            <summary>
+            Custom icon URL.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIcon.Anchor">
+            <summary>
+            Icon is position in relation to the specified markers locations.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerCustomIconAnchors">
+            <summary>
+            The anchor point sets how the icon is placed in relation to the specified markers locations.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel">
+            <summary>
+            These options specify the appearance of a marker label. 
+            A marker label is a string (often a single character) which will appear inside the marker.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Text">
+            <summary>
+            The text to be displayed in the label.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.ClassName">
+            <summary>
+            The className property of the label's element (equivalent to the element's class attribute). 
+            Multiple space-separated CSS classes can be added.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.Color">
+            <summary>
+            The color of the label text. Default color is black.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontFamily">
+            <summary>
+            The font family of the label text (equivalent to the CSS font-family property).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontSize">
+            <summary>
+            The font size of the label text (equivalent to the CSS font-size property). Default size is 14px.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.FontWeight">
+            <summary>
+            The font weight of the label text (equivalent to the CSS font-weight property).
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabel.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="text">Label text</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon">
+            <summary>
+            A structure representing a Marker icon image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Url">
+            <summary>
+            The URL of the image or sprite sheet.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Anchor">
+            <summary>
+            The position at which to anchor an image in correspondence to the location of the marker on the map.
+            By default, the anchor is located along the center point of the bottom of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.LabelOrigin">
+            <summary>
+            The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+            By default, the origin is located in the center point of the image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Origin">
+            <summary>
+            The position of the image within a sprite, if any. 
+            By default, the origin is located at the top left corner of the image (0, 0).
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.ScaledSize">
+            <summary>
+            The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.Size">
+            <summary>
+            The display size of the sprite or image. When using sprites, you must specify the sprite size. 
+            If the size is not provided, it will be set when the image loads.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerLabelIcon.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="url">Icon Url</param>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape">
+            <summary>
+            This object defines the clickable region of a marker image.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.Coords">
+            <summary>
+            The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
+            at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShape.ShapeType">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerShapeTypes">
+            <summary>
+            Describes the shape's type and can be circle, poly or rect.
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerSizes">
+            <summary>
+            Specifies the size of marker
+            </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle">
+            <summary>
+            The set of marker style descriptors is a series of value assignments separated by the pipe (|) character. 
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Size">
+            <summary>
+            Specifies the size of marker from the set {tiny, mid, small}. 
+            If no size parameter is set, the marker will appear in its default (normal) size.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Color">
+            <summary>
+            Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set 
+            {black, brown, green, purple, yellow, blue, gray, orange, red, white}.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Label">
+            <summary>
+            Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMapMarkerStyle.Scale">
+            <summary>
+            Scale value is multiplied with the marker image size to produce the actual output size of the marker in pixels. 
+            Default scale value is 1; accepted values are 1, 2, and 4.
+            </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.Maps.Google.GoogleMap.MapId">
             <summary>
