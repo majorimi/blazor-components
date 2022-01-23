@@ -1,20 +1,25 @@
 ﻿/* Extensions */
 //Element scrolled to page top
-export function scrollToElement(element) {
+export function scrollToElement(element, smooth) {
     if (element && typeof element.scrollIntoView === "function") {
-        element.scrollIntoView();
+        if (smooth) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+        else {
+            element.scrollIntoView();
+        }
     }
 }
-export function scrollToElementById(id) {
+export function scrollToElementById(id, smooth) {
     if (id) {
-        scrollToElement(document.getElementById(id));
+        scrollToElement(document.getElementById(id), smooth);
     }
 }
-export function scrollToElementByName(name) {
+export function scrollToElementByName(name, smooth) {
     if (name) {
         let elements = document.getElementsByName(name)
         if (elements && elements.length > 0) {
-            scrollToElement(elements[0]);
+            scrollToElement(elements[0], smooth);
         }
     }
 }
@@ -75,27 +80,46 @@ export function isElementHiddenAbove(element) {
 }
 
 //Scrolling inside an element use it for e.g. Textarea
-export function scrollToEnd(element) {
+export function scrollToEnd(element, smooth) {
     if (element && typeof element.scrollTop !== undef && typeof element.scrollHeight !== undef) {
-        element.scrollTop = element.scrollHeight;
+        scrollTo(element, element.scrollLeft, element.scrollHeight, smooth);
     }
 }
-export function scrollToTop(element) {
+export function scrollToTop(element, smooth) {
     if (element && typeof element.scrollTop !== undef) {
-        element.scrollTop = 0;
+        scrollTo(element, element.scrollLeft, 0, smooth);
     }
 }
-export function scrollToX(element, x) {
+export function scrollToX(element, x, smooth) {
     if (element && typeof element.scrollTop !== undef) {
-        element.scrollTop = x;
+        scrollTo(element, x, element.scrollTop, smooth);
     }
 }
-export function scrollToY(element, y) {
+export function scrollToY(element, y, smooth) {
     if (element && typeof element.scrollLeft !== undef) {
-        element.scrollLeft = y;
+        scrollTo(element, element.scrollLeft, y, smooth);
+    }
+}
+export function scrollTo(element, x, y, smooth) {
+    if (element) {
+        if (smooth) {
+            element.scroll({
+                top: y,
+                left: x,
+                behavior: 'smooth'});
+        }
+        else {
+            element.scrollTop = y;
+            element.scrollLeft = x;
+        }
     }
 }
 export function getScrollXPosition(element) {
+    if (element && typeof element.scrollLeft !== undef) {
+        return element.scrollLeft;
+    }
+}
+export function getScrollYPosition(element) {
     if (element && typeof element.scrollTop !== undef) {
         return element.scrollTop;
     }

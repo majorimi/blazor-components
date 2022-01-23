@@ -10,10 +10,57 @@
             and should be injected only once for the whole application. Best way to use MainLayout.razor.
             </summary>
         </member>
+        <member name="P:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.SmoothScroll">
+            <summary>
+            Should scroll smoothly to the found permalink element or jump.
+            Note: smooth scroll on element level might not supported by all Browsers.
+            </summary>
+        </member>
+        <member name="E:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.PermalinkDetected">
+            <summary>
+            Event handler for parmalinks detected on navigation.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.ChangePermalink(System.String,System.Boolean)">
+            <summary>
+            Modify the current URL with given new peralink value and trigger navigation or just update browser History.
+            </summary>
+            <param name="newPermalink">New peramlink value, NULL will remove permalink part from URL</param>
+            <param name="doNotNavigate">False, will trigger a navigation. When true, just add new URL to the History</param>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.CheckPermalink(System.Boolean)">
+            <summary>
+            Checks the current URL for permalink again and re-triggers `PermalinkDetected` event if requested.
+            </summary>
+            <param name="triggerEvent">PermalinkDetected should be re-triggered or not</param>
+            <returns>Found permalink value or NULL</returns>
+        </member>
         <member name="M:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService.WatchPermaLinks">
             <summary>
             Starts a navigation watcher which will check for Permalinks in the URLs.
             </summary>
+        </member>
+        <member name="T:Majorsoft.Blazor.Components.PermaLink.PermalinkDetectedEventArgs">
+            <summary>
+            Event arguments for <see cref="T:Majorsoft.Blazor.Components.PermaLink.PermaLinkWatcherService"/> PermalinkDetected event.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.PermaLink.PermalinkDetectedEventArgs.LocationChangedEventArgs">
+            <summary>
+            System.EventArgs for Microsoft.AspNetCore.Components.NavigationManager.LocationChanged.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.PermaLink.PermalinkDetectedEventArgs.Permalink">
+            <summary>
+            Detected permalink value.
+            </summary>
+        </member>
+        <member name="M:Majorsoft.Blazor.Components.PermaLink.PermalinkDetectedEventArgs.#ctor(Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs,System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="locationChangedEventArgs">NavigationManager event</param>
+            <param name="permalink">Detected permalink value</param>
         </member>
         <member name="T:Majorsoft.Blazor.Components.PermaLink.PermaLinkExtensions">
             <summary>
@@ -36,6 +83,18 @@
         <member name="T:Majorsoft.Blazor.Components.PermaLink.PermaLinkWatcherService">
             <summary>
             Implementation of <see cref="T:Majorsoft.Blazor.Components.PermaLink.IPermaLinkWatcherService"/>
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.PermaLink.PermaLinkBlazorServerInitializer.SmoothScroll">
+            <summary>
+            Gets or sets if peramlink should be scrolled smoothly into view or not.
+            Note: smooth scroll on element level might not supported by all Browsers.
+            </summary>
+        </member>
+        <member name="P:Majorsoft.Blazor.Components.PermaLink.PermalinkBlazorWasmInitializer.SmoothScroll">
+            <summary>
+            Gets or sets if peramlink should be scrolled smoothly into view or not.
+            Note: smooth scroll on element level might not supported by all Browsers.
             </summary>
         </member>
         <member name="P:Majorsoft.Blazor.Components.PermaLink.PermaLinkElement.Id">

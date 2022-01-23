@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using Majorsoft.Blazor.Components.Common.JsInterop.Click;
 using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 using Majorsoft.Blazor.Components.Core.HtmlColors;
@@ -375,7 +374,7 @@ namespace Majorsoft.Blazor.Components.Typeahead
 		}
 		private async Task SelectItem(TItem item)
 		{
-			SelectedItem = item;
+			_selectedItem = item;
 			Value = GetItemText(item);
 			IsOpen = false;
 			try

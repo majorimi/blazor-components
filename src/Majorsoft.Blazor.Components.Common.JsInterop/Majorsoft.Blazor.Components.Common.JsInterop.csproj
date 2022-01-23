@@ -17,7 +17,7 @@
 		<RepositoryType>Git</RepositoryType>
 		<Description>Blazor component that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, GEO location, etc. Part of Majorsoft Blazor library.</Description>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-		<PackageTags>.Net5 Blazor Js Interop Click Scroll Focus BoundRect</PackageTags>
+		<PackageTags>.Net5 Blazor Js Interop Click Scroll Resize Focus BoundRect Browser Geolocation Head History ColorTheme</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<Title>Blazor Components JsInterop</Title>
 	</PropertyGroup>

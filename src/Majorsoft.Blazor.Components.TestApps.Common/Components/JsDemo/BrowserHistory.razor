@@ -1,0 +1,69 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+    <PermaLinkElement PermaLinkName="history-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>Browser History JS</h3></Content>
+    </PermaLinkElement>
+
+    <p>
+        <strong>Browser History JS</strong> is an injectable <code>INavigationHistoryService</code> to access
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/History" target="_blank">HTML History API</a> functionality.
+        It is useful when don't want to rely on Blazor <code>NavigationManager</code> which does not have access to full History list and when it navigates trigger a page load/update.
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <p>
+                Number of History items: <strong>@_historyCount</strong>
+                <br />
+                Scroll restoration behavior: <strong>@_scrollRestore</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <h5>History manipulation:</h5>
+
+            History Title: <input type="text" class="form-control w-100 mb-2" @bind="_title" />
+            History URL: <input type="text" class="form-control w-100 mb-2" @bind="_url" />
+
+            <button class="btn btn-primary" @onclick="async () => await _navigationHistoryService.PushStateAsync(null, _title, _url)">Push to history</button>
+            <button class="btn btn-primary" @onclick="async () => await _navigationHistoryService.ReplaceStateAsync(null, _title, _url)">Replace history</button>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <h5>Navigations:</h5>
+            Go with Delta: @_goDelta
+            <input type="range" class="w-100" min="-20" max="20" @bind="_goDelta" @oninput="(e => _goDelta = int.Parse(e.Value?.ToString()))" />
+            <button class="btn btn-primary" @onclick="async () => await _navigationHistoryService.BackAsync()">Go Back</button>
+            <button class="btn btn-primary" @onclick="async () => await _navigationHistoryService.ForwardAsync()">Go Forward</button>
+            <button class="btn btn-primary" @onclick="async () => await _navigationHistoryService.GoAsync(_goDelta)">Go (@_goDelta)</button>
+        </div>
+    </div>
+</div>
+
+@inject INavigationHistoryService _navigationHistoryService
+@inject NavigationManager _navigationManager
+
+@code {
+    private int _historyCount = 0;
+    private string _scrollRestore = "";
+    private int _goDelta = 0;
+    private string _title = "";
+    private string _url = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            _historyCount = await _navigationHistoryService.GetLengthAsync();
+            _scrollRestore = await _navigationHistoryService.GetScrollRestorationAsync();
+
+            _url = _navigationManager.Uri;
+
+            StateHasChanged();
+        }
+    }
+
+}

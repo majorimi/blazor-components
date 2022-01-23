@@ -49,6 +49,7 @@ textarea {
 
 <div class="container-fluid p-3 mb-3 border rounded">
 	<h3>Internal page Permalink examles:</h3>
+	Smooth scroll: <input type="checkbox" @bind="_permalinkWatcher.SmoothScroll"/>
 	<ul>
 		<li><NavLink href="permalink">No permalink</NavLink></li>
 		<li><NavLink href="permalink#does-not_exists">Non existing permalink</NavLink></li>
@@ -148,7 +149,9 @@ textarea {
 	</div>
 </div>
 
-@code{
+@inject IPermaLinkWatcherService _permalinkWatcher
+
+@code {
 	private ShowPermaLinkIcon _showIcon = ShowPermaLinkIcon.OnHover;
 	private PermaLinkIconPosition _iconPosition = PermaLinkIconPosition.Right;
 	private PermaLinkStyle _iconStyle;

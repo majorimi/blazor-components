@@ -19,15 +19,21 @@ It is available in the service provider (Google, Microsoft, etc.) developer site
 **NOTE: None of the Majorsoft Maps component tracking or exposing you _Token_ or _API Key_!
 Injecting and protecting this _Token_ or _API Key_ in your Blazor application is YOUR responsibility!**
 
-# Components
+# Components and Services
 
+
+#### Google:
 - **`GoogleStaticMap`**: component is wrapping **Google Static Maps services** into Blazor components.
 - **`GoogleMap`**: component is wrapping **Google JavaScript Maps services** into Blazor components.
-- **`BindMap`**: _Planned in release v1.4.0_
+- **`IGoogleMapService`**: Injectable service to handle Google JavaScript Maps functionalities. Available on the instance of `GoogleMap` object ref as well.
+
+#### Bing:
+- **`BindMap`**: _Planned in release v1.6.0_
 
 Maps using `IGeolocationService` (see "Dependences") to center current position.
 It can be omitted and injected separately to your components as well to get or track device location. 
 To see how it works please check **Geo JS** [documentation](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md#geolocation-js-see-demo-app) and [demo](https://blazorextensions.z6.web.core.windows.net/jsinterop#geo-js).
+
 
 ## `GoogleStaticMap` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/maps#google-static-maps))
 
@@ -93,7 +99,6 @@ Once operation has finished successfully `OnLocationDetected` event will be fire
 - **`DisposeAsync()`: `Task DisposeAsync()`** <br />
 Component implements `IAsyncDisposable` interface Blazor framework will call it when parent removed from render tree.
 
-
 ## `GoogleMap` component (See: [demo app](https://blazorextensions.z6.web.core.windows.net/maps#google-js-maps))
 
 :warning: **To use Google Maps Platform, you must have a billing account. The billing account is used to track costs associated with your projects.**
@@ -111,6 +116,8 @@ You can learn about Google JavaScript Maps features and usage [here](https://dev
 Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
 - **`MapId`: `string { get; }`** <br />
 Map HTML container Id. It can be used when multiple Maps added to one page.
+- **`GoogleMapService`: `string { get; }`** <br />
+Exposes `IGeolocationService` which is handling JsInterop. This instance can be used for access more GoogleMap features.
 - **`Width`: `int { get; set; }` (default: 400)** <br />
 Maps image Width in px.
 - **`Height`: `int { get; set; }` (default: 300)** <br />

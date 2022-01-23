@@ -241,8 +241,12 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<p>
-					<strong>Maps Pre-render settings</strong>: Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong>
-					Control size: <strong>@(_jsMapControlSize)px</strong>
+					<h5>Maps Pre-render settings:</h5> 
+					<ul>
+						<li>Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong></li>
+						<li>Control size: <strong>@(_jsMapControlSize)px</strong></li>
+						<li>Restrict map to New Zealand: <input class="mr-2" type="checkbox" @bind="_jsRestrictMap" disabled="disabled" /></li>
+					</ul>
 				</p>
 			</div>
 		</div>
@@ -255,10 +259,11 @@
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
 						   BackgroundColor="@_jsMapBackgroundColor"
+						   Restriction="@(_jsRestrictMap ? _restriction : null)"
 						   ControlSize="@_jsMapControlSize"
 						   Center="@_jsMapCenter"
 						   AnimateCenterChange="@_jsMapAnimateCenterChange"
-						   Zoom="@_jsMapZoomLevel"
+						   @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 						   ZoomControl="@_jsZoomControl"
 						   ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
 						   MaxZoom="null"
@@ -296,7 +301,6 @@
 						   OnMapMouseOver="@OnMapMouseOver"
 						   OnMapMouseOut="@OnMapMouseOut"
 						   OnMapCenterChanged="@OnMapCenterChanged"
-						   OnMapZoomLevelChanged="@OnMapZoomLevelChanged"
 						   OnMapTypeChanged="@OnMapTypeChanged"
 						   OnMapHeadingChanged="@OnMapHeadingChanged"
 						   OnMapTiltChanged="@OnMapTiltChanged"
@@ -444,19 +448,19 @@
 
 	private bool _staticMapShowPath = false;
 	private IEnumerable<GeolocationData> _staticMapPaths = new List<GeolocationData>()
-{
+	{
 		{ new GeolocationData("Budapest")},
 		{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowVisiblePoints = false;
 	private IEnumerable<GeolocationData> _staticMapVisiblePoints = new List<GeolocationData>()
-{
+	{
 			{ new GeolocationData("Budapest" )},
 			{ new GeolocationData("London")}
 	};
 	private bool _staticMapShowMarkers = false;
 	private IEnumerable<GoogleStaticMapMarker> _staticMapMarkers = new List<GoogleStaticMapMarker>()
-{
+	{
 		{ new GoogleStaticMapMarker() },
 		{ new GoogleStaticMapMarker()
 			{
@@ -501,6 +505,11 @@
 	private GoogleMap _googleMap;
 	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
 	private string _jsMapBackgroundColor = "lightblue";
+	private GoogleMapRestriction _restriction = new GoogleMapRestriction()
+	{
+		LatLngBounds = new GoogleMapLatLngBounds(new GoogleMapLatLng() { Latitude = -47.35, Longitude = 166.28 },
+				new GoogleMapLatLng() { Latitude = -34.36, Longitude = -175.81 })
+	};
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
 	private int _jsMapWidth = 450;
@@ -526,6 +535,7 @@
 	private bool _jsScaleControl = true;
 	private bool _jsStreetViewControl = true;
 	private bool _jsZoomControl = true;
+	private bool _jsRestrictMap = false; //must be set before Init...
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers = new ObservableRangeCollection<GoogleMapMarker>();
@@ -590,7 +600,9 @@
 	//Events
 	private async Task OnMapInitialized(string elementId)
 	{
-		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'");
+		_mapsLog = await WriteLog(_mapsLog, $"Map was initialized container DIV Id: '{elementId}'. Map DIV can be accessed by: <mapRef>.GoogleMapService.GetDivAsync()");
+
+		var div = await _googleMap.GoogleMapService.GetDivAsync();
 	}
 	private async Task OnMapClicked(GeolocationCoordinate coordinate)
 	{
@@ -695,15 +707,9 @@
 			_mapsLog = await WriteLog(_mapsLog, $"Map Center location changed to: {coordinate.ToString()}");
 		}
 		_jsMapCenter = new GeolocationData(coordinate.Latitude, coordinate.Longitude); //Two-way binding with event value
-	}
-	private async Task OnMapZoomLevelChanged(byte zoom)
-	{
-		//Can be used with Binding and custom event: @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
-		if (_logOtherEvents)
-		{
-			_mapsLog = await WriteLog(_mapsLog, $"Map Zoom level changed to: {zoom}");
-		}
-		_jsMapZoomLevel = zoom;  //Two-way binding with event value
+
+		//Center point can be accessed as well with method call
+		var center = await _googleMap.GoogleMapService.GetCenterAsync();
 	}
 	private async Task OnMapTypeChanged(GoogleMapTypes googleMapTypes)
 	{
@@ -737,8 +743,11 @@
 	{
 		if (_logOtherEvents)
 		{
-			_mapsLog = await WriteLog(_mapsLog, $"Map boundaries changed");
+			_mapsLog = await WriteLog(_mapsLog, $"Map boundaries changed. Bond information can be called: '<mapRef>.GoogleMapService.GetBoundsAsync()'");
 		}
+
+		//Bond information can be called:
+		var bounds = await _googleMap.GoogleMapService.GetBoundsAsync();
 	}
 	private async Task OnMapProjectionChanged()
 	{
