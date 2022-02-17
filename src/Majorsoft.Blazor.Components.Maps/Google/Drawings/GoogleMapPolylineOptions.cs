@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Google
 {
@@ -44,27 +40,27 @@ namespace Majorsoft.Blazor.Components.Maps.Google
         /// <summary>
         /// The ordered sequence of coordinates of the Polyline.
         /// </summary>
-        public GoogleMapLatLng Path { get; set; }
+        public GoogleMapLatLng[] Path { get; set; }
 
         /// <summary>
         /// The stroke color. All CSS3 colors are supported except for extended named colors.
         /// </summary>
-        public string StrokeColor { get; set; }
+        public string StrokeColor { get; set; } = "black";
 
         /// <summary>
         /// The stroke opacity between 0.0 and 1.0.
         /// </summary>
-        public double StrokeOpacity { get; set; }
+        public double StrokeOpacity { get; set; } = 1.0;
 
         /// <summary>
         /// The stroke width in pixels.
         /// </summary>
-        public double StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; } = 2;
 
         /// <summary>
         /// Whether this polyline is visible on the map. Defaults to true.
         /// </summary>
-        public bool Visible { get; set; }
+        public bool Visible { get; set; } = true;
 
         /// <summary>
         /// The zIndex compared to other polys.

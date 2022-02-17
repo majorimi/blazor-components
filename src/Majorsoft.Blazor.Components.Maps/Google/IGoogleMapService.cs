@@ -167,7 +167,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		Task CreateCustomControlsAsync(IEnumerable<GoogleMapCustomControl> mapCustomControls);
 
 		/// <summary>
-		/// Creates markers on the Map with InfoWindows on the given position with event callbacks.
+		/// Creates and removes Markers on the Map with InfoWindows on the given position with event callbacks.
 		/// </summary>
 		/// <param name="newMarkers">Enumerable new markers to add</param>
 		/// <param name="markers">Enumerable markers removed or replaced</param>
@@ -197,7 +197,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		ValueTask<IJSObjectReference> GetDivAsync();
 
 		/// <summary>
-		/// 
+		/// Creates and removes Polyline on the Map with given values and event callbacks.
 		/// </summary>
 		/// <param name="googleMapPolylineOptions"></param>
 		/// <returns></returns>
