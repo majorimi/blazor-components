@@ -56,10 +56,10 @@ window.initGoogleMaps = () => {
 			restrict =
 			{
 				latLngBounds: {
-					south: mapInfo.restriction.latLngBounds.southWest.latitude,
-					west: mapInfo.restriction.latLngBounds.southWest.longitude,
-					north: mapInfo.restriction.latLngBounds.northEast.latitude,
-					east: mapInfo.restriction.latLngBounds.northEast.longitude
+					south: mapInfo.restriction.latLngBounds.southWest.lat,
+					west: mapInfo.restriction.latLngBounds.southWest.lng,
+					north: mapInfo.restriction.latLngBounds.northEast.lat,
+					east: mapInfo.restriction.latLngBounds.northEast.lng
 				},
 				strictBounds: mapInfo.restriction.strictBounds,
 			};
@@ -397,7 +397,7 @@ export function getDiv(elementId) {
 	}
 }
 function convertToLatLng(latLngObject) {
-	let ret = { Latitude: latLngObject.lat(), Longitude: latLngObject.lng() };
+	let ret = { lat: latLngObject.lat(), lng: latLngObject.lng() };
 	return ret;
 }
 
@@ -620,15 +620,10 @@ export function polylineSetMap(elementId, polylineOptions) {
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 
 			for (var i = 0; i < polylineOptions.length; i++) {
-				let markerData = polylineOptions[i];
+				let options = polylineOptions[i];
 
-				//_mapsMarkers.forEach((element, index) => {
-				//	if (markerData.id == element.id) {
-				//		element.setMap(null);
-				//		_mapsMarkers.splice(index, 1);
-				//		return;
-				//	}
-				//});
+				let polyline = new google.maps.Polyline(options);
+				polyline.setMap(mapWithDotnetRef.map);
 			}
 		}
 	}

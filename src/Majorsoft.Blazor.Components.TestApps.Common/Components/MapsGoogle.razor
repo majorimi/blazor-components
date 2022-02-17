@@ -241,7 +241,7 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<p>
-					<h5>Maps Pre-render settings:</h5> 
+					<h5>Maps Pre-render settings:</h5>
 					<ul>
 						<li>Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong></li>
 						<li>Control size: <strong>@(_jsMapControlSize)px</strong></li>
@@ -317,9 +317,9 @@
 						   ApiKey="@_googleMapsApiKey" />
 
 				@*<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
-						   @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
-						   OnMapInitialized="@(() => {})"
-						   ApiKey="@_googleMapsApiKey" />*@
+				@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
+				OnMapInitialized="@(() => {})"
+				ApiKey="@_googleMapsApiKey" />*@
 
 			</div>
 		</div>
@@ -329,6 +329,15 @@
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.Clear(); _jsMarkersTmp.Clear(); _jsPhotosAdded = false; })">Remove Markers</button>
 				<button class="btn btn-primary" @onclick="@AddPhotos">Add photo Markers</button>
+
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<button class="btn btn-primary" @onclick="@AddMapDrawings">Add drawings:</button>
+				<select style="display: inline" class="form-control selectpicker w-25">
+					<option>Polyline</option>
+				</select>
 			</div>
 		</div>
 
@@ -350,7 +359,6 @@
 		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
 		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
 	</div>
-
 </div>
 
 @implements IAsyncDisposable
@@ -595,6 +603,28 @@
 				MaxWidth = 400
 			},
 		});
+	}
+
+	public async Task AddMapDrawings()
+	{
+		var polylines = new GoogleMapPolylineOptions()
+		{
+			Path = new GoogleMapLatLng[] 
+				{
+					new GoogleMapLatLng() { Latitude = 37.772, Longitude = -122.214 },
+					new GoogleMapLatLng() { Latitude = 21.291, Longitude = -157.821 },
+					new GoogleMapLatLng() { Latitude = -18.142, Longitude = 178.431 },
+					new GoogleMapLatLng() { Latitude = -27.467, Longitude = 153.027 },
+				},
+			Geodesic = true,
+			Draggable = true,
+			Clickable = true,
+			StrokeColor = "#FF0000",
+			StrokeOpacity = 0.5,
+			StrokeWeight = 5
+		};
+
+		await _googleMap.GoogleMapService.AddPolyline(polylines);
 	}
 
 	//Events

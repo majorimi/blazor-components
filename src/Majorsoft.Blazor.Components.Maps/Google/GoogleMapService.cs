@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿
+using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
@@ -258,7 +259,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		public async Task AddPolyline(params GoogleMapPolylineOptions[] googleMapPolylineOptions)
 		{
 			await CheckJsObjectAsync();
-			await _mapsJs.InvokeAsync<IJSObjectReference>("polylineSetMap", MapContainerId, googleMapPolylineOptions);
+			await _mapsJs.InvokeVoidAsync("polylineSetMap", MapContainerId, googleMapPolylineOptions);
 		}
 
 
