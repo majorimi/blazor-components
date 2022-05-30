@@ -104,6 +104,8 @@ Optional HTML content to show when **Search** is in progress.
   Callback function called when typeahead dropdown panel opened.
 - **`OnDropdownClose`: `EventCallback` delegate** <br />
   Callback function called when typeahead dropdown panel opened.
+- **`OnFocus`: `EventCallback<FocusEventArgs>` delegate** <br />
+  Callback function called when typeahead textbox got focus.
 
 ### Functions
 - **`DisposeAsync()`: `@implements IAsyncDisposable` interface** <br />
