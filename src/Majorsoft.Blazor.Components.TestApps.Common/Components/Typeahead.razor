@@ -89,7 +89,8 @@ textarea {
 							AccentColor="@_accentColor" 
 							OnSelectedItemChanged="@(text => SelectedItemChanged(text))"
 							OnDropdownOpen="@(() => WriteEventLog("TypeaheadInput: dropdown opened"))"
-							OnDropdownClose="@(() => WriteEventLog("TypeaheadInput: dropdown closed"))">
+							OnDropdownClose="@(() => WriteEventLog("TypeaheadInput: dropdown closed"))"
+							OnFocus="@(() => WriteEventLog("TypeaheadInput: textbox focused"))">
 			</TypeaheadInput>
 		</div>
 	</div>
