@@ -292,6 +292,29 @@ Add using statement to your Blazor `<component/page>.razor` file. Or globally re
 @using Majorsoft.Blazor.Components.Core.Extensions
 ```
 
+**In case of WebAssembly project register CSS events services in your `Program.cs` file:**
+```
+using Majorsoft.Blazor.Components.CssEvents;
+...
+public static async Task Main(string[] args)
+{
+	var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+	builder.Services.AddMapExtensions();
+}
+```
+
+**In case of Server hosted project register CSS events services in your `Startup.cs` file:**
+```
+using Majorsoft.Blazor.Components.CssEvents;
+...
+
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddMapExtensions();
+}
+```
+
 ### Dependences
 **Majorsoft.Blazor.Components.Maps** package depends on other Majorsoft Nuget packages:
 - [Majorsoft.Blazor.Components.Common.JsInterop](https://www.nuget.org/packages/Majorsoft.Blazor.Components.Common.JsInterop)
