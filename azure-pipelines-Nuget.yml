@@ -18,7 +18,7 @@ variables:
   AssemblyCompany: 'Majorsoft'
   AssemblyAuthor: 'Imre Toth'
   AssemblyProduct: 'Majorsoft Blazor Components'
-  AssemblyCopyright: 'Copyright © 2020 Majorsoft'
+  AssemblyCopyright: 'Copyright © 2022 Majorsoft'
   AssemblyVersion: '${{ parameters.AssemblyVersion }}'
   PreviewPackageVersion: '${{ parameters.PreviewPackageVersion }}'
 
