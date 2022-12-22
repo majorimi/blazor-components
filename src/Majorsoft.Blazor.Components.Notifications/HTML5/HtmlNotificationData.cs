@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Majorsoft.Blazor.Components.Notifications
 {
@@ -71,6 +72,7 @@ namespace Majorsoft.Blazor.Components.Notifications
 		/// <summary>
 		/// Specifies the time at which a notification is created or applicable (past, present, or future).
 		/// </summary>
+		[JsonConverter(typeof(EpochTimestampDateTimeConverter))]
 		public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
 		/// <summary>
