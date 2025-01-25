@@ -38,8 +38,8 @@ useful extensions. Which can boost Blazor App developments by:
 :warning: For the full **release history with detailed change description and _breaking change announcements_** please see: [release notes](https://github.com/majorimi/blazor-components/releases).  
 
 ## Prerequisites
-- .NET 5
-- Visual Studio 2019/Visual Studio Code.
+- .NET 8
+- Visual Studio 2022/Visual Studio Code.
 
 ## Majorsoft Blazor Components and Extensions
 
