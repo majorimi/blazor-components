@@ -215,7 +215,7 @@
 
 	//Dialog style animation params
 	private string _dialogTop;
-	private string _dialogDefaultTop => Centered ? "25%;" : "5%;";
+	private string _dialogDefaultTop => Centered ? "25%" : "5%";
 	private string GetDialogTop()
 	{
 		var height = Height;
@@ -224,7 +224,7 @@
 			height = MinHeight;
 		}
 
-		return Centered ? "50%;" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(height / 2)}px);";
+		return Centered ? "50%" : $"calc({(Height == 0 ? 15 : 2)}% + {(int)(height / 2)}px)";
 	}
 
 	private async Task TransitionEnded(TransitionEventArgs[] args)

@@ -79,7 +79,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -129,7 +129,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -188,7 +188,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -242,7 +242,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(2% + 499px);
 					left: 50%;
 					min-width:555px;
 					min-height:999px;
@@ -286,7 +286,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -391,7 +391,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -449,7 +449,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -503,7 +503,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -558,7 +558,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -666,7 +666,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -774,7 +774,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
