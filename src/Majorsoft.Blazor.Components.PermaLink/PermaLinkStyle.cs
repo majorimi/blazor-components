@@ -1,8 +1,7 @@
-﻿namespace Majorsoft.Blazor.Components.PermaLink
+﻿namespace Majorsoft.Blazor.Components.PermaLink;
+
+public enum PermaLinkStyle
 {
-	public enum PermaLinkStyle
-	{
-		Normal = 0,
-		Bold = 1,
-	}
+	Normal = 0,
+	Bold = 1,
 }

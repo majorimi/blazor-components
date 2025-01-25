@@ -1,21 +1,20 @@
-﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.Head
+﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.Head;
+
+public enum HtmlHeadLinkTagRelTypes
 {
-	public enum HtmlHeadLinkTagRelTypes
-	{
-		Alternate,
-		Author,
-		Dnsprefetch,
-		Help,
-		Icon,
-		License,
-		Next,
-		Pingback,
-		Preconnect,
-		Prefetch,
-		Preload,
-		Prerender,
-		Prev,
-		Search,
-		Stylesheet,
-	}
+	Alternate,
+	Author,
+	Dnsprefetch,
+	Help,
+	Icon,
+	License,
+	Next,
+	Pingback,
+	Preconnect,
+	Prefetch,
+	Preload,
+	Prerender,
+	Prev,
+	Search,
+	Stylesheet,
 }

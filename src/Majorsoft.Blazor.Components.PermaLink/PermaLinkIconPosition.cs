@@ -1,8 +1,7 @@
-﻿namespace Majorsoft.Blazor.Components.PermaLink
+﻿namespace Majorsoft.Blazor.Components.PermaLink;
+
+public enum PermaLinkIconPosition
 {
-	public enum PermaLinkIconPosition
-	{
-		Left = 0,
-		Right = 1,
-	}
+	Left = 0,
+	Right = 1,
 }

@@ -3,29 +3,28 @@ using System.Threading.Tasks;
 
 using Microsoft.JSInterop;
 
-namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
+namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme;
+
+/// <summary>
+/// Browser color scheme queries response event <see cref="DotNetObjectReference"/> info to handle JS callback
+/// </summary>
+internal sealed class BrowserThemeEventInfo
 {
-	/// <summary>
-	/// Browser color scheme queries response event <see cref="DotNetObjectReference"/> info to handle JS callback
-	/// </summary>
-	internal sealed class BrowserThemeEventInfo
+	private readonly Func<BrowserColorThemes, Task> _browserThemeChangedEventCallback;
+	internal string EventId { get; }
+
+	public BrowserThemeEventInfo(Func<BrowserColorThemes, Task> browserThemeChangedEventCallback, string eventId)
 	{
-		private readonly Func<BrowserColorThemes, Task> _browserThemeChangedEventCallback;
-		internal string EventId { get; }
+		_browserThemeChangedEventCallback = browserThemeChangedEventCallback;
+		EventId = eventId;
+	}
 
-		public BrowserThemeEventInfo(Func<BrowserColorThemes, Task> browserThemeChangedEventCallback, string eventId)
+	[JSInvokable("BrowserThemeChanged")]
+	public async Task BrowserThemeChanged(int colorTheme)
+	{
+		if (_browserThemeChangedEventCallback is not null)
 		{
-			_browserThemeChangedEventCallback = browserThemeChangedEventCallback;
-			EventId = eventId;
-		}
-
-		[JSInvokable("BrowserThemeChanged")]
-		public async Task BrowserThemeChanged(int colorTheme)
-		{
-			if (_browserThemeChangedEventCallback is not null)
-			{
-				await _browserThemeChangedEventCallback((BrowserColorThemes)colorTheme);
-			}
+			await _browserThemeChangedEventCallback((BrowserColorThemes)colorTheme);
 		}
 	}
 }

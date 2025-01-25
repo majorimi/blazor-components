@@ -1,10 +1,9 @@
-﻿namespace Majorsoft.Blazor.Components.Tooltips
+﻿namespace Majorsoft.Blazor.Components.Tooltips;
+
+public enum TooltipsPositons
 {
-	public enum TooltipsPositons
-	{
-		Top,
-		Right,
-		Bottom,
-		Left
-	}
+	Top,
+	Right,
+	Bottom,
+	Left
 }

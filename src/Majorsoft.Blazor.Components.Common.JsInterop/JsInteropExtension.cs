@@ -15,39 +15,38 @@ using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Majorsoft.Blazor.Components.Common.JsInterop
+namespace Majorsoft.Blazor.Components.Common.JsInterop;
+
+/// <summary>
+/// Extension methods to register required JS Interop services into IServiceCollection
+/// </summary>
+public static class JsInteropExtension
 {
 	/// <summary>
-	/// Extension methods to register required JS Interop services into IServiceCollection
+	/// Registers required JS Interop services into IServiceCollection
 	/// </summary>
-	public static class JsInteropExtension
+	/// <param name="services">IServiceCollection instance</param>
+	/// <returns>IServiceCollection</returns>
+	public static IServiceCollection AddJsInteropExtensions(this IServiceCollection services)
 	{
-		/// <summary>
-		/// Registers required JS Interop services into IServiceCollection
-		/// </summary>
-		/// <param name="services">IServiceCollection instance</param>
-		/// <returns>IServiceCollection</returns>
-		public static IServiceCollection AddJsInteropExtensions(this IServiceCollection services)
+		if (services == null)
 		{
-			if (services == null)
-			{
-				throw new ArgumentNullException(nameof(services));
-			}
-
-			services.AddTransient<IClickBoundariesHandler, ClickBoundariesHandler>();
-			services.AddTransient<IFocusHandler, FocusHandler>();
-			services.AddTransient<IScrollHandler, ScrollHandler>();
-			services.AddTransient<IClipboardHandler, ClipboardHandler>();
-			services.AddTransient<IGlobalMouseEventHandler, GlobalMouseEventHandler>();
-			services.AddTransient<IResizeHandler, ResizeHandler>();
-			services.AddTransient<ILanguageService, LanguageService>();
-			services.AddTransient<IGeolocationService, GeolocationService>();
-			services.AddTransient<IHtmlHeadService, HtmlHeadService>();
-			services.AddTransient<IBrowserDateService, BrowserDateService>();
-			services.AddTransient<IBrowserThemeService, BrowserThemeService>();
-			services.AddTransient<INavigationHistoryService, NavigationHistoryService>();
-
-			return services;
+			throw new ArgumentNullException(nameof(services));
 		}
+
+		services.AddTransient<IClickBoundariesHandler, ClickBoundariesHandler>();
+		services.AddTransient<IFocusHandler, FocusHandler>();
+		services.AddTransient<IScrollHandler, ScrollHandler>();
+		services.AddTransient<IClipboardHandler, ClipboardHandler>();
+		services.AddTransient<IGlobalMouseEventHandler, GlobalMouseEventHandler>();
+		services.AddTransient<IResizeHandler, ResizeHandler>();
+		services.AddTransient<ILanguageService, LanguageService>();
+		services.AddTransient<IGeolocationService, GeolocationService>();
+		services.AddTransient<IHtmlHeadService, HtmlHeadService>();
+		services.AddTransient<IBrowserDateService, BrowserDateService>();
+		services.AddTransient<IBrowserThemeService, BrowserThemeService>();
+		services.AddTransient<INavigationHistoryService, NavigationHistoryService>();
+
+		return services;
 	}
 }

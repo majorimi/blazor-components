@@ -1,29 +1,27 @@
-﻿using Microsoft.JSInterop;
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
-namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
+namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo;
+
+/// <summary>
+/// Base class for Geolocation event <see cref="DotNetObjectReference"/> info to handle JS callback
+/// </summary>
+internal abstract class GeolocationEventInfo
 {
-	/// <summary>
-	/// Base class for Geolocation event <see cref="DotNetObjectReference"/> info to handle JS callback
-	/// </summary>
-	internal abstract class GeolocationEventInfo
+	private readonly Func<GeolocationResult, Task> _locationResultCallback;
+
+	public GeolocationEventInfo(Func<GeolocationResult, Task> locationResultCallback)
 	{
-		private readonly Func<GeolocationResult, Task> _locationResultCallback;
+		_locationResultCallback = locationResultCallback;
+	}
 
-		public GeolocationEventInfo(Func<GeolocationResult, Task> locationResultCallback)
+	[JSInvokable("GeolocationEvent")]
+	public virtual async Task GeolocationEvent(GeolocationResult args)
+	{
+		if (_locationResultCallback is not null)
 		{
-			_locationResultCallback = locationResultCallback;
-		}
-
-		[JSInvokable("GeolocationEvent")]
-		public virtual async Task GeolocationEvent(GeolocationResult args)
-		{
-			if (_locationResultCallback is not null)
-			{
-				await _locationResultCallback(args);
-			}
+			await _locationResultCallback(args);
 		}
 	}
 }

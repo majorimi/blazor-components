@@ -1,11 +1,10 @@
-﻿namespace Majorsoft.Blazor.Extensions.BrowserStorage
+﻿namespace Majorsoft.Blazor.Extensions.BrowserStorage;
+
+/// <summary>
+/// Supported Browser storage types.
+/// </summary>
+public enum StorageTypes
 {
-	/// <summary>
-	/// Supported Browser storage types.
-	/// </summary>
-	public enum StorageTypes
-	{
-		LocalStorage = 0,
-		SessionStorage = 1
-	}
+	LocalStorage = 0,
+	SessionStorage = 1
 }

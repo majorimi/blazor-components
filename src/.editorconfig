@@ -15,10 +15,6 @@ trim_trailing_whitespace = true
 [project.json]
 indent_size = 2
 
-# Generated code
-[*{_AssemblyInfo.cs,.notsupported.cs}]
-generated_code = true
-
 # C# files
 [*.cs]
 # New line preferences

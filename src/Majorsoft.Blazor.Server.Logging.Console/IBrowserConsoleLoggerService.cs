@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Majorsoft.Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console;
+
+public interface IBrowserConsoleLoggerService : IAsyncDisposable
 {
-	public interface IBrowserConsoleLoggerService : IAsyncDisposable
-	{
-		Task StartLoggerAsync();
-	}
+	Task StartLoggerAsync();
 }

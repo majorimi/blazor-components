@@ -1,68 +1,65 @@
-using Majorsoft.Blazor.Components.CssEvents.Transition;
-
+using System;
 using Bunit;
+using Majorsoft.Blazor.Components.CommonTestsBase;
+using Majorsoft.Blazor.Components.CssEvents.Transition;
+using Majorsoft.Blazor.Components.Timer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
-using Majorsoft.Blazor.Components.Timer;
-using System;
-using Majorsoft.Blazor.Components.CommonTestsBase;
 using NSubstitute;
 
-namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
+namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts;
+
+[TestClass]
+public class ToastContainerTest : ComponentsTestBase<ToastContainer>
 {
-	[TestClass]
-	public class ToastContainerTest : ComponentsTestBase<ToastContainer>
+	private ITransitionEventsService _transitionMock;
+	private IToastService _toastServiceMock;
+	private IToastInternals _toastInternalsMock;
+
+	[TestInitialize]
+	public void Init()
 	{
-		private ITransitionEventsService _transitionMock;
-		private IToastService _toastServiceMock;
-		private IToastInternals _toastInternalsMock;
+		var logger = Substitute.For<ILogger<AdvancedTimer>>();
+		var logger2 = Substitute.For<ILogger<Toast>>();
+		_transitionMock = Substitute.For<ITransitionEventsService>();
+		_toastServiceMock = Substitute.For<IToastService>();
+		_toastInternalsMock = Substitute.For<IToastInternals>();
 
-		[TestInitialize]
-		public void Init()
-		{
-			var logger = Substitute.For<ILogger<AdvancedTimer>>();
-			var logger2 = Substitute.For<ILogger<Toast>>();
-			_transitionMock = Substitute.For<ITransitionEventsService>();
-			_toastServiceMock = Substitute.For<IToastService>();
-			_toastInternalsMock = Substitute.For<IToastInternals>();
+		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
+		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Toast>), logger2));
+		_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+		_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock));
+		_testContext.Services.Add(new ServiceDescriptor(typeof(IToastInternals), _toastInternalsMock));
+		_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<ToastContainer>), new SingletonComponentService<ToastContainer>()));
+	}
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Toast>), logger2));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastInternals), _toastInternalsMock));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<ToastContainer>), new SingletonComponentService<ToastContainer>()));
-		}
+	[TestMethod]
+	public void ToastContainer_should_not_rendered_anything_until_has_Toasts()
+	{
+		var rendered = _testContext.RenderComponent<ToastContainer>(
+			("id", "id1"), //HTML attributes
+			("title", "text") //HTML attributes
+			);
 
-		[TestMethod]
-		public void ToastContainer_should_not_rendered_anything_until_has_Toasts()
-		{
-			var rendered = _testContext.RenderComponent<ToastContainer>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
-				);
+		rendered.MarkupMatches("");
+	}
 
-			rendered.MarkupMatches("");
-		}
+	[TestMethod]
+	public void ToastContainer_should_not_rendered_html_when_has_no_Toasts()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
-		[TestMethod]
-		public void ToastContainer_should_not_rendered_html_when_has_no_Toasts()
-		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
+		var rendered = _testContext.RenderComponent<ToastContainer>(
+			("id", "id1"), //HTML attributes
+			("title", "text") //HTML attributes
+			);
 
-			var rendered = _testContext.RenderComponent<ToastContainer>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
-				);
+		var div = rendered.Find("div");
+		Assert.IsNotNull(div);
 
-			var div = rendered.Find("div");
-			Assert.IsNotNull(div);
-
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" id=""id1"" title=""text"" >
+		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" id=""id1"" title=""text"" >
 			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 				<div class=""btoast-body"" >
 				  <div >
@@ -79,20 +76,20 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
 			</div>"));
-		}
+	}
 
-		[TestMethod]
-		public void ToastContainer_should_not_render_Settings_Width()
-		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Width = 50 });
+	[TestMethod]
+	public void ToastContainer_should_not_render_Settings_Width()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Width = 50 });
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+		var rendered = _testContext.RenderComponent<ToastContainer>();
 
-			var div = rendered.Find("div");
-			Assert.IsNotNull(div);
+		var div = rendered.Find("div");
+		Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 50px; width: 50px;"" class=""btoast-container position-topright"" >
+		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 50px; width: 50px;"" class=""btoast-container position-topright"" >
 			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 				<div class=""btoast-body"" >
 				  <div >
@@ -109,90 +106,90 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
 			</div>"));
-		}
+	}
 
-		[TestMethod]
-		public void ToastContainer_should_not_render_Settings_PaddingFromSide()
+	[TestMethod]
+	public void ToastContainer_should_not_render_Settings_PaddingFromSide()
+	{
+		var settings = new ToastContainerGlobalSettings() { PaddingFromSide = 25 };
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+		_toastServiceMock.GlobalSettings.Returns(settings);
+
+		var rendered = _testContext.RenderComponent<ToastContainer>();
+
+		foreach (var item in Enum.GetValues<ToastPositions>())
 		{
-			var settings = new ToastContainerGlobalSettings() { PaddingFromSide = 25 };
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			settings.Position = item;
 			_toastServiceMock.GlobalSettings.Returns(settings);
+			rendered.Render();
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var div = rendered.Find("div");
+			Assert.IsNotNull(div);
 
-			foreach (var item in Enum.GetValues<ToastPositions>())
+			string side = "";
+			string center = "";
+			if (!item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
 			{
-				settings.Position = item;
-				_toastServiceMock.GlobalSettings.Returns(settings);
-				rendered.Render();
-
-				var div = rendered.Find("div");
-				Assert.IsNotNull(div);
-
-				string side = "";
-				string center = "";
-				if (!item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
-				{
-					side = item.ToString().Contains("left", StringComparison.OrdinalIgnoreCase)
-						? "left"
-						: "right";
-					side = $"{side}: {settings.PaddingFromSide}px;";
-				}
-				else
-				{
-					center = "margin-left: -200px;";
-				}
-
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {side} {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
-			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
-				<div class=""btoast-body"" >
-				  <div >
-					<svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
-					  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
-					</svg>
-				  </div>
-				  <div class=""btoast-text"" ></div>
-				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >&times;</span>
-					<span class=""sr-only"" >Close</span>
-				  </button>
-				</div>
-				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			  </div>
-			</div>"));
+				side = item.ToString().Contains("left", StringComparison.OrdinalIgnoreCase)
+					? "left"
+					: "right";
+				side = $"{side}: {settings.PaddingFromSide}px;";
 			}
-		}
-
-		[TestMethod]
-		public void ToastContainer_should_not_render_Settings_PaddingFromTopOrBottom()
-		{
-			var settings = new ToastContainerGlobalSettings() { PaddingFromTopOrBottom = 22 };
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.GlobalSettings.Returns(settings);
-
-			var rendered = _testContext.RenderComponent<ToastContainer>();
-
-			foreach (var item in Enum.GetValues<ToastPositions>())
+			else
 			{
-				settings.Position = item;
-				_toastServiceMock.GlobalSettings.Returns(settings);
-				rendered.Render();
+				center = "margin-left: -200px;";
+			}
 
-				var div = rendered.Find("div");
-				Assert.IsNotNull(div);
-				
-				string center = "";
-				if (item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
-				{
-					center = "margin-left: -200px;";
-				}
+			rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {side} {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
+			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
+				<div class=""btoast-body"" >
+				  <div >
+					<svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
+					  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
+					</svg>
+				  </div>
+				  <div class=""btoast-text"" ></div>
+				  <button type=""button""  class=""close normal"" >
+					<span aria-hidden=""true"" >&times;</span>
+					<span class=""sr-only"" >Close</span>
+				  </button>
+				</div>
+				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
+			  </div>
+			</div>"));
+		}
+	}
 
-				var topBottom = item.ToString().Contains("top", StringComparison.OrdinalIgnoreCase)
-					? "top"
-					: "bottom";
-				topBottom = $"{topBottom}: {settings.PaddingFromTopOrBottom}px;";
+	[TestMethod]
+	public void ToastContainer_should_not_render_Settings_PaddingFromTopOrBottom()
+	{
+		var settings = new ToastContainerGlobalSettings() { PaddingFromTopOrBottom = 22 };
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+		_toastServiceMock.GlobalSettings.Returns(settings);
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {topBottom} {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
+		var rendered = _testContext.RenderComponent<ToastContainer>();
+
+		foreach (var item in Enum.GetValues<ToastPositions>())
+		{
+			settings.Position = item;
+			_toastServiceMock.GlobalSettings.Returns(settings);
+			rendered.Render();
+
+			var div = rendered.Find("div");
+			Assert.IsNotNull(div);
+
+			string center = "";
+			if (item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
+			{
+				center = "margin-left: -200px;";
+			}
+
+			var topBottom = item.ToString().Contains("top", StringComparison.OrdinalIgnoreCase)
+				? "top"
+				: "bottom";
+			topBottom = $"{topBottom}: {settings.PaddingFromTopOrBottom}px;";
+
+			rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {topBottom} {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
 			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000"" >
 				<div class=""btoast-body"" >
 				  <div >
@@ -209,68 +206,32 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
 			</div>"));
-			}
 		}
+	}
 
-		[TestMethod]
-		public void ToastContainer_should_not_render_Settings_Position()
+	[TestMethod]
+	public void ToastContainer_should_not_render_Settings_Position()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
+
+		var rendered = _testContext.RenderComponent<ToastContainer>();
+
+		foreach (var item in Enum.GetValues<ToastPositions>())
 		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
-
-			var rendered = _testContext.RenderComponent<ToastContainer>();
-
-			foreach (var item in Enum.GetValues<ToastPositions>())
-			{
-				_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Position = item });
-				rendered.Render();
-
-				var div = rendered.Find("div");
-				Assert.IsNotNull(div);
-
-				string center = "";
-				if (item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
-				{
-					center = "margin-left: -200px;";
-				}
-
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
-			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
-				<div class=""btoast-body"" >
-				  <div >
-					<svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
-					  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
-					</svg>
-				  </div>
-				  <div class=""btoast-text"" ></div>
-				  <button type=""button""  class=""close normal"" >
-					<span aria-hidden=""true"" >&times;</span>
-					<span class=""sr-only"" >Close</span>
-				  </button>
-				</div>
-				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			  </div>
-			</div>"));
-			}
-		}
-
-		[TestMethod]
-		public void ToastContainer_should_not_render_non_Visible_Toasts()
-		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
-			{
-				new ToastSettings() { IsVisible = true },
-				new ToastSettings() { IsVisible = false },
-				new ToastSettings() { IsVisible = false }
-			});
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
-
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Position = item });
+			rendered.Render();
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
+			string center = "";
+			if (item.ToString().Contains("center", StringComparison.OrdinalIgnoreCase))
+			{
+				center = "margin-left: -200px;";
+			}
+
+			rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div style=""max-width: 400px; width: 400px; {center}"" class=""btoast-container position-{item.ToString().ToLower()}"" >
 			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 				<div class=""btoast-body"" >
 				  <div >
@@ -288,24 +249,60 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			  </div>
 			</div>"));
 		}
+	}
 
-		[TestMethod]
-		public void ToastContainer_should_not_render_multiple_Visible_Toasts()
+	[TestMethod]
+	public void ToastContainer_should_not_render_non_Visible_Toasts()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
 		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
-			{
-				new ToastSettings() { IsVisible = true },
-				new ToastSettings() { IsVisible = false },
-				new ToastSettings() { IsVisible = true }
-			});
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
+			new ToastSettings() { IsVisible = true },
+			new ToastSettings() { IsVisible = false },
+			new ToastSettings() { IsVisible = false }
+		});
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+		var rendered = _testContext.RenderComponent<ToastContainer>();
 
-			var div = rendered.Find("div");
-			Assert.IsNotNull(div);
+		var div = rendered.Find("div");
+		Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
+		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
+			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
+				<div class=""btoast-body"" >
+				  <div >
+					<svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
+					  <path fill-rule=""evenodd"" clip-rule=""evenodd"" d=""m18.598 2.865c0-0.552-0.447-1-1-1s-1 0.448-1 1v2c0 0.552 0.447 1 1 1s1-0.448 1-1v-2zm-12 2c0 0.552-0.447 1-1 1s-1-0.448-1-1v-2c0-0.552 0.447-1 1-1s1 0.448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-8v1c0 1.103-0.897 2-2 2s-2-0.897-2-2v-1h-2v18h20v-18zm-13 10h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4h-2v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"" ></path>
+					</svg>
+				  </div>
+				  <div class=""btoast-text"" ></div>
+				  <button type=""button""  class=""close normal"" >
+					<span aria-hidden=""true"" >&times;</span>
+					<span class=""sr-only"" >Close</span>
+				  </button>
+				</div>
+				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
+			  </div>
+			</div>"));
+	}
+
+	[TestMethod]
+	public void ToastContainer_should_not_render_multiple_Visible_Toasts()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
+		{
+			new ToastSettings() { IsVisible = true },
+			new ToastSettings() { IsVisible = false },
+			new ToastSettings() { IsVisible = true }
+		});
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
+
+		var rendered = _testContext.RenderComponent<ToastContainer>();
+
+		var div = rendered.Find("div");
+		Assert.IsNotNull(div);
+
+		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
 			  <div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 				<div class=""btoast-body"" >
 				  <div >
@@ -337,41 +334,40 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
 			</div>"));
-		}
+	}
 
-		[TestMethod]
-		public void ToastContainer_should_render_Toast_with_Settings()
-		{
-			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings()
-				{
-					ShowIcon = false,
-					NotificationStyle = NotificationStyles.Outlined,
-					ShowCloseCountdownProgress = false,
-					ShowCloseButton = false
-				}
-			});
-			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { });
+	[TestMethod]
+	public void ToastContainer_should_render_Toast_with_Settings()
+	{
+		_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings()
+			{
+				ShowIcon = false,
+				NotificationStyle = NotificationStyles.Outlined,
+				ShowCloseCountdownProgress = false,
+				ShowCloseButton = false
+			}
+		});
+		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { });
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+		var rendered = _testContext.RenderComponent<ToastContainer>();
 
-			var div = rendered.Find("div");
-			Assert.IsNotNull(div);
+		var div = rendered.Find("div");
+		Assert.IsNotNull(div);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
+		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div style=""max-width: 400px; width: 400px;"" class=""btoast-container position-topright"" >
 			  <div class=""btoast-main bnotify-outlined-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 				<div class=""btoast-body"" >
 				  <div class=""btoast-text"" ></div>
 			  </div>
 			</div>"));
-		}
+	}
 
-		[ExpectedException(typeof(ApplicationException))]
-		[TestMethod]
-		public void ToastContainer_should_not_rendered_mulitple_instances()
-		{
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+	[ExpectedException(typeof(ApplicationException))]
+	[TestMethod]
+	public void ToastContainer_should_not_rendered_mulitple_instances()
+	{
+		var rendered = _testContext.RenderComponent<ToastContainer>();
 
-			var rendered2 = _testContext.RenderComponent<ToastContainer>();
-		}
+		var rendered2 = _testContext.RenderComponent<ToastContainer>();
 	}
 }

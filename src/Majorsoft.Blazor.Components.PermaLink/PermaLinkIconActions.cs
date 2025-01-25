@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Majorsoft.Blazor.Components.PermaLink
+namespace Majorsoft.Blazor.Components.PermaLink;
+
+[Flags]
+public enum PermaLinkIconActions
 {
-	[Flags]
-	public enum PermaLinkIconActions
-	{
-		Copy = 1,
-		Navigate = 2,
-	}
+	Copy = 1,
+	Navigate = 2,
 }

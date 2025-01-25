@@ -1,9 +1,8 @@
-﻿namespace Majorsoft.Blazor.Components.CssEvents.Transition
-{
-	public sealed class TransitionEventArgs : CssBaseEventArgs
-	{
-		public string OriginalPropertyNameFilter { get; set; }
+﻿namespace Majorsoft.Blazor.Components.CssEvents.Transition;
 
-		public string PropertyName { get; set; }
-	}
+public sealed class TransitionEventArgs : CssBaseEventArgs
+{
+	public string OriginalPropertyNameFilter { get; set; }
+
+	public string PropertyName { get; set; }
 }

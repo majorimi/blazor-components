@@ -1,17 +1,16 @@
-﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
+﻿namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
+
+/// <summary>
+/// Page scroll elements orientation on page <see cref="ScrollToPageBottom"/> and <see cref="ScrollToPageTop"/> elements
+/// </summary>
+public enum PageScrollHorizontalPosition
 {
 	/// <summary>
-	/// Page scroll elements orientation on page <see cref="ScrollToPageBottom"/> and <see cref="ScrollToPageTop"/> elements
+	/// Element placed to the Right side 
 	/// </summary>
-	public enum PageScrollHorizontalPosition
-	{
-		/// <summary>
-		/// Element placed to the Right side 
-		/// </summary>
-		Right,
-		/// <summary>
-		/// Element placed to the Left side 
-		/// </summary>
-		Left
-	}
+	Right,
+	/// <summary>
+	/// Element placed to the Left side 
+	/// </summary>
+	Left
 }

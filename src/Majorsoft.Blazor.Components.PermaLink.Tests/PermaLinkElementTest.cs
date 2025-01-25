@@ -1,194 +1,190 @@
-using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
-using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
-
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Web;
+using Bunit;
+using Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;
+using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Majorsoft.Blazor.Components.PermaLink.Tests
+namespace Majorsoft.Blazor.Components.PermaLink.Tests;
+
+[TestClass]
+public class PermaLinkElementTest : ComponentsTestBase<PermaLinkElement>
 {
-	[TestClass]
-	public class PermaLinkElementTest : ComponentsTestBase<PermaLinkElement>
+	private IClipboardHandler _clipboardJsMock;
+	private BunitJSModuleInterop _jsInteropModul;
+
+	[TestInitialize]
+	public void Init()
 	{
-		private IClipboardHandler _clipboardJsMock;
-		private BunitJSModuleInterop _jsInteropModul;
+		_clipboardJsMock = Substitute.For<IClipboardHandler>();
 
-		[TestInitialize]
-		public void Init()
-		{
-			_clipboardJsMock = Substitute.For<IClipboardHandler>();
-
-			_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
+		_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
 
 #if DEBUG
-			_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.js");
+		_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.js");
 #else
-			_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.min.js");
+		_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.min.js");
 #endif
-			_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
+		_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IClipboardHandler), _clipboardJsMock));
-		}
+		_testContext.Services.Add(new ServiceDescriptor(typeof(IClipboardHandler), _clipboardJsMock));
+	}
 
-		[TestCleanup]
-		public void Cleanup()
-		{
-			_testContext?.Dispose();
-		}
+	[TestCleanup]
+	public void Cleanup()
+	{
+		_testContext?.Dispose();
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_correctly_html_attributes()
-		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(
-				("title", "Test"), //HTML attributes
-				("style", "style") //HTML attributes
-				);
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_correctly_html_attributes()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(
+			("title", "Test"), //HTML attributes
+			("style", "style") //HTML attributes
+			);
 
-			var input = rendered.Find("div");
+		var input = rendered.Find("div");
 
-			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" title=""Test"" style=""style""><a></a></div>");
-		}
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" title=""Test"" style=""style""><a></a></div>");
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_Content_correctly()
-		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.Content, "<h2>Hower over</h2>"));
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_Content_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.Content, "<h2>Hower over</h2>"));
 
-			var input = rendered.Find("div");
+		var input = rendered.Find("div");
 
-			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <h2>Hower over</h2> </div>");
-		}
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <h2>Hower over</h2> </div>");
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_PermaLinkName_correctly()
-		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.PermaLinkName, "#linkName"));
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_PermaLinkName_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.PermaLinkName, "#linkName"));
 
-			var input = rendered.Find("div");
+		var input = rendered.Find("div");
 
-			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a name=""#linkName""></a> </div>");
-		}
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a name=""#linkName""></a> </div>");
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_IconMarginTop_correctly()
-		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
-					.Add(p => p.IconMarginTop, 8));
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_IconMarginTop_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
+				.Add(p => p.IconMarginTop, 8));
 
-			var input = rendered.Find("div");
+		var input = rendered.Find("div");
 
-			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 8px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
-		}
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 8px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_IconSize_correctly()
-		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
-					.Add(p => p.IconSize, 34));
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_IconSize_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
+				.Add(p => p.IconSize, 34));
 
-			var input = rendered.Find("div");
+		var input = rendered.Find("div");
 
-			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 38px;""><a></a> <img style=""margin-top: 0px;"" width=""34"" height=""34"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
-		}
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 38px;""><a></a> <img style=""margin-top: 0px;"" width=""34"" height=""34"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+	}
 
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_IconPosition_correctly()
-		{
-			foreach (var item in Enum.GetValues<PermaLinkIconPosition>())
-			{
-				var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
-					.Add(p => p.IconPosition, item));
-
-				//rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IconPosition, item));
-				var input = rendered.Find("div");
-
-				Assert.IsNotNull(input);
-
-				var divStyle = item == PermaLinkIconPosition.Left ? "padding-left: 20px;" : "padding-right: 20px;";
-				var imgStyle = item == PermaLinkIconPosition.Left ? "left: 0px; position: absolute;" : "margin-top: 0px;";
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""{divStyle}""><a></a> <img style=""{imgStyle} margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
-			}
-		}
-
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_IconStyle_correctly()
-		{
-			foreach (var item in Enum.GetValues<PermaLinkStyle>())
-			{
-				var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
-					.Add(p => p.IconStyle, item));
-
-				var input = rendered.Find("div");
-
-				Assert.IsNotNull(input);
-
-				var icon = item == PermaLinkStyle.Normal ? "link2.svg" : "link.svg";
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/{icon}""> </div>");
-			}
-		}
-
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_No_correctly()
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_IconPosition_correctly()
+	{
+		foreach (var item in Enum.GetValues<PermaLinkIconPosition>())
 		{
 			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.No));
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
+				.Add(p => p.IconPosition, item));
 
+			//rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IconPosition, item));
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
-			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""""><a></a> </div>");
+
+			var divStyle = item == PermaLinkIconPosition.Left ? "padding-left: 20px;" : "padding-right: 20px;";
+			var imgStyle = item == PermaLinkIconPosition.Left ? "left: 0px; position: absolute;" : "margin-top: 0px;";
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""{divStyle}""><a></a> <img style=""{imgStyle} margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
 		}
-		[TestMethod]
-		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_Always_correctly()
+	}
+
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_IconStyle_correctly()
+	{
+		foreach (var item in Enum.GetValues<PermaLinkStyle>())
 		{
 			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always));
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
+				.Add(p => p.IconStyle, item));
 
 			var input = rendered.Find("div");
 
 			Assert.IsNotNull(input);
+
+			var icon = item == PermaLinkStyle.Normal ? "link2.svg" : "link.svg";
+			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/{icon}""> </div>");
+		}
+	}
+
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_No_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.No));
+
+		var input = rendered.Find("div");
+
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""""><a></a> </div>");
+	}
+	[TestMethod]
+	public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_Always_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always));
+
+		var input = rendered.Find("div");
+
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
+	}
+	[TestMethod]
+	public async Task PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
+	{
+		var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				.Add(p => p.ShowIcon, ShowPermaLinkIcon.OnHover));
+
+		var input = rendered.Find("div");
+
+		Assert.IsNotNull(input);
+		input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> </div>");
+
+		await input.TriggerEventAsync("onmouseenter", new MouseEventArgs());
+		rendered.WaitForAssertion(() =>
+		{
 			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
-		}
-		[TestMethod]
-		public async Task PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
+		});
+
+		await input.TriggerEventAsync("onmouseleave", new MouseEventArgs());
+		rendered.WaitForAssertion(() =>
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
-					.Add(p => p.ShowIcon, ShowPermaLinkIcon.OnHover));
-
-			var input = rendered.Find("div");
-
-			Assert.IsNotNull(input);
 			input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> </div>");
-
-			await input.TriggerEventAsync("onmouseenter", new MouseEventArgs());
-			rendered.WaitForAssertion(() =>
-			{
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> <img style=""margin-top: 0px;"" width=""16"" height=""16"" class=""permaLinkIcon"" src=""_content/Majorsoft.Blazor.Components.PermaLink/link2.svg""> </div>");
-			});
-
-			await input.TriggerEventAsync("onmouseleave", new MouseEventArgs());
-			rendered.WaitForAssertion(() =>
-			{
-				input.MarkupMatches(@$"<div id=""{input.Id}"" tabindex=""1000"" class=""permaDiv"" style=""padding-right: 20px;""><a></a> </div>");
-			});
-		}
+		});
 	}
 }

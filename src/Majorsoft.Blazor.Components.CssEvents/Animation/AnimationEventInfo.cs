@@ -4,36 +4,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Majorsoft.Blazor.Components.CssEvents.Animation
+namespace Majorsoft.Blazor.Components.CssEvents.Animation;
+
+/// <summary>
+/// Animation event <see cref="DotNetObjectReference"/> info to handle JS callback
+/// </summary>
+internal sealed class AnimationEventInfo
 {
-	/// <summary>
-	/// Animation event <see cref="DotNetObjectReference"/> info to handle JS callback
-	/// </summary>
-	internal sealed class AnimationEventInfo
+	private readonly Func<AnimationEventArgs, Task> _animationCallback;
+
+	public ElementReference Element { get; init; }
+	public string AnimationName { get; init; }
+
+	public AnimationEventInfo(ElementReference element, Func<AnimationEventArgs, Task> animationEventCallback, string animationName)
 	{
-		private readonly Func<AnimationEventArgs, Task> _animationCallback;
+		Element = element;
+		AnimationName = animationName;
 
-		public ElementReference Element { get; init; }
-		public string AnimationName { get; init; }
+		_animationCallback = animationEventCallback;
+	}
 
-		public AnimationEventInfo(ElementReference element, Func<AnimationEventArgs, Task> animationEventCallback, string animationName)
+	[JSInvokable("AnimationEvent")]
+	public async Task AnimationEvent(AnimationEventArgs args)
+	{
+		if (_animationCallback is not null)
 		{
-			Element = element;
-			AnimationName = animationName;
+			args.Element = Element;
+			args.OriginalAnimationNameFilter = AnimationName;
 
-			_animationCallback = animationEventCallback;
-		}
-
-		[JSInvokable("AnimationEvent")]
-		public async Task AnimationEvent(AnimationEventArgs args)
-		{
-			if (_animationCallback is not null)
-			{
-				args.Element = Element;
-				args.OriginalAnimationNameFilter = AnimationName;
-
-				await _animationCallback(args);
-			}
+			await _animationCallback(args);
 		}
 	}
 }

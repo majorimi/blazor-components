@@ -16,32 +16,30 @@ using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Extensions.Analytics;
 using Majorsoft.Blazor.Components.Notifications;
 
-namespace Majorsoft.Blazor.Components.DemoApp
+namespace Majorsoft.Blazor.Components.DemoApp;
+public class Program
 {
-	public class Program
+	public static async Task Main(string[] args)
 	{
-		public static async Task Main(string[] args)
-		{
-			var builder = WebAssemblyHostBuilder.CreateDefault(args);
-			builder.RootComponents.Add<App>("#app");
+		var builder = WebAssemblyHostBuilder.CreateDefault(args);
+		builder.RootComponents.Add<App>("#app");
 
-			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+		builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-			builder.Services.AddCssEvents();
-			builder.Services.AddJsInteropExtensions();
-			builder.Services.AddPermaLinkWatcher();
-			builder.Services.AddMapExtensions();
-			builder.Services.AddBrowserStorage();
+		builder.Services.AddCssEvents();
+		builder.Services.AddJsInteropExtensions();
+		builder.Services.AddPermaLinkWatcher();
+		builder.Services.AddMapExtensions();
+		builder.Services.AddBrowserStorage();
 
-			builder.Services.AddGoogleAnalytics();
+		builder.Services.AddGoogleAnalytics();
 
-			builder.Services.AddGdprConsent();
-			builder.Services.AddNotifications();
+		builder.Services.AddGdprConsent();
+		builder.Services.AddNotifications();
 
-			builder.Logging.AddBrowserConsole()
-				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
+		builder.Logging.AddBrowserConsole()
+			.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
 
-			await builder.Build().RunAsync();
-		}
+		await builder.Build().RunAsync();
 	}
 }

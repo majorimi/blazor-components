@@ -3,56 +3,55 @@ using System.Collections.Concurrent;
 
 using Microsoft.Extensions.Logging;
 
-namespace Majorsoft.Blazor.Server.Logging.Console
+namespace Majorsoft.Blazor.Server.Logging.Console;
+
+[ProviderAlias("ServerBrowserConsole")]
+public class BrowserConsoleLoggerProvider : ILoggerProvider
 {
-	[ProviderAlias("ServerBrowserConsole")]
-	public class BrowserConsoleLoggerProvider : ILoggerProvider
+	private static readonly Func<string, LogLevel, bool> TrueFilter = (cat, level) => true;
+
+	private readonly static ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
+	private readonly Func<string, LogLevel, bool> _filter;
+
+	private readonly IServiceProvider _serviceProvider;
+
+	public BrowserConsoleLoggerProvider(IServiceProvider serviceProvider)
 	{
-		private static readonly Func<string, LogLevel, bool> TrueFilter = (cat, level) => true;
+		_serviceProvider = serviceProvider;
+	}
 
-		private readonly static ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
-		private readonly Func<string, LogLevel, bool> _filter;
+	public BrowserConsoleLoggerProvider(Func<string, LogLevel, bool> filter)
+	{
+		_filter = filter ?? throw new ArgumentNullException(nameof(filter));
+	}
 
-		private readonly IServiceProvider _serviceProvider;
-
-		public BrowserConsoleLoggerProvider(IServiceProvider serviceProvider)
+	public ILogger CreateLogger(string categoryName)
+	{
+		if (string.IsNullOrWhiteSpace(categoryName))
 		{
-			_serviceProvider = serviceProvider;
+			throw new ArgumentNullException(nameof(categoryName));
 		}
 
-		public BrowserConsoleLoggerProvider(Func<string, LogLevel, bool> filter)
+		return _loggers.GetOrAdd(categoryName, CreateLoggerImplementation);
+	}
+
+	private BrowserConsoleLogger CreateLoggerImplementation(string name)
+	{
+		return new BrowserConsoleLogger(_serviceProvider, name, GetFilter());
+	}
+
+	private Func<string, LogLevel, bool> GetFilter()
+	{
+		if (_filter != null)
 		{
-			_filter = filter ?? throw new ArgumentNullException(nameof(filter));
+			return _filter;
 		}
 
-		public ILogger CreateLogger(string categoryName)
-		{
-			if (string.IsNullOrWhiteSpace(categoryName))
-			{
-				throw new ArgumentNullException(nameof(categoryName));
-			}
+		return TrueFilter;
+	}
 
-			return _loggers.GetOrAdd(categoryName, CreateLoggerImplementation);
-		}
-
-		private BrowserConsoleLogger CreateLoggerImplementation(string name)
-		{
-			return new BrowserConsoleLogger(_serviceProvider, name, GetFilter());
-		}
-
-		private Func<string, LogLevel, bool> GetFilter()
-		{
-			if (_filter != null)
-			{
-				return _filter;
-			}
-
-			return TrueFilter;
-		}
-
-		public void Dispose()
-		{
-			_loggers?.Clear();
-		}
+	public void Dispose()
+	{
+		_loggers?.Clear();
 	}
 }

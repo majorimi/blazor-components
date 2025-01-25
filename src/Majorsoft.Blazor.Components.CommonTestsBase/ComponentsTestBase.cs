@@ -4,34 +4,33 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using NSubstitute;
 
-namespace Majorsoft.Blazor.Components.CommonTestsBase
+namespace Majorsoft.Blazor.Components.CommonTestsBase;
+
+[TestClass]
+public abstract class ComponentsTestBase
 {
-	[TestClass]
-	public abstract class ComponentsTestBase
+	protected Bunit.TestContext _testContext;
+
+	[TestInitialize]
+	public void InitBase()
 	{
-		protected Bunit.TestContext _testContext;
-
-		[TestInitialize]
-		public void InitBase()
-		{
-			_testContext = new Bunit.TestContext();
-		}
-
-		[TestCleanup]
-		public void CleanupBase()
-		{
-			_testContext?.Dispose();
-		}
+		_testContext = new Bunit.TestContext();
 	}
 
-	public abstract class ComponentsTestBase<T> : ComponentsTestBase
-		where T : class
+	[TestCleanup]
+	public void CleanupBase()
 	{
-		[TestInitialize]
-		public void InitGenericBase()
-		{
-			var logger = Substitute.For<ILogger<T>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<T>), logger));
-		}
+		_testContext?.Dispose();
+	}
+}
+
+public abstract class ComponentsTestBase<T> : ComponentsTestBase
+	where T : class
+{
+	[TestInitialize]
+	public void InitGenericBase()
+	{
+		var logger = Substitute.For<ILogger<T>>();
+		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<T>), logger));
 	}
 }

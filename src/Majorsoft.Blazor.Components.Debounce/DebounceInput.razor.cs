@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Majorsoft.Blazor.Components.Debounce
+namespace Majorsoft.Blazor.Components.Debounce;
+
+public sealed partial class DebounceInput : DebounceTimerBase
 {
-	public sealed partial class DebounceInput : DebounceTimerBase
+	protected override ILogger BaseLogger
 	{
-		protected override ILogger BaseLogger
-		{
-			get { return _logger; }
-		}
+		get { return _logger; }
 	}
 }

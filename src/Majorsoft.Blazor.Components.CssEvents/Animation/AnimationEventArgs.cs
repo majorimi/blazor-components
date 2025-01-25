@@ -1,9 +1,8 @@
-﻿namespace Majorsoft.Blazor.Components.CssEvents.Animation
-{
-	public sealed class AnimationEventArgs : CssBaseEventArgs
-	{
-		public string OriginalAnimationNameFilter { get; set; }
+﻿namespace Majorsoft.Blazor.Components.CssEvents.Animation;
 
-		public string AnimationName { get; set; }
-	}
+public sealed class AnimationEventArgs : CssBaseEventArgs
+{
+	public string OriginalAnimationNameFilter { get; set; }
+
+	public string AnimationName { get; set; }
 }

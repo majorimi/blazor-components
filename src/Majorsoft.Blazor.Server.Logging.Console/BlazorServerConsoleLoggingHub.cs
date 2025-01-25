@@ -3,15 +3,14 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
-namespace Majorsoft.Blazor.Server.Logging.Console
-{
-	public class BlazorServerConsoleLoggingHub : Hub
-	{
-		public const string HubUrl = "/logging";
+namespace Majorsoft.Blazor.Server.Logging.Console;
 
-		public async Task WriteConsoleLogAsync(string message, LogLevel logLevel)
-		{
-			await Clients.All.SendAsync("WriteConsoleLogAsync", message, logLevel);
-		}
+public class BlazorServerConsoleLoggingHub : Hub
+{
+	public const string HubUrl = "/logging";
+
+	public async Task WriteConsoleLogAsync(string message, LogLevel logLevel)
+	{
+		await Clients.All.SendAsync("WriteConsoleLogAsync", message, logLevel);
 	}
 }

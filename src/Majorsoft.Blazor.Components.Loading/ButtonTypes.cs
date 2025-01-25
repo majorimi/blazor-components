@@ -1,9 +1,8 @@
-﻿namespace Majorsoft.Blazor.Components.Loading
+﻿namespace Majorsoft.Blazor.Components.Loading;
+
+public enum ButtonTypes
 {
-	public enum ButtonTypes
-	{
-		Button,
-		Submit,
-		Reset
-	}
+	Button,
+	Submit,
+	Reset
 }
