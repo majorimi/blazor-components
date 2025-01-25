@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests;
@@ -21,7 +20,7 @@ public class GdprConsentDataTest
 		var data = new GdprConsentData()
 		{
 			AnsweredAt = DateTime.Now,
-			AnswerValidUntil = DateTime.Now.AddHours(1)
+			AnswerValidUntil = DateTime.Now.AddHours(1),
 		};
 
 		Assert.AreEqual(true, data.IsValid);
@@ -33,7 +32,7 @@ public class GdprConsentDataTest
 		var data = new GdprConsentData()
 		{
 			AnsweredAt = DateTime.Now,
-			AnswerValidUntil = DateTime.Now.AddHours(-1)
+			AnswerValidUntil = DateTime.Now.AddHours(-1),
 		};
 
 		Assert.AreEqual(false, data.IsValid);
@@ -49,7 +48,7 @@ public class GdprConsentDataTest
 				new GdprConsentDetail() { IsAccepted = true },
 				new GdprConsentDetail() { IsAccepted = true },
 				new GdprConsentDetail() { IsAccepted = true },
-			}
+			},
 		};
 
 		Assert.AreEqual(true, data.AllAccepted);
@@ -65,7 +64,7 @@ public class GdprConsentDataTest
 				new GdprConsentDetail() { IsAccepted = true },
 				new GdprConsentDetail() { IsAccepted = true },
 				new GdprConsentDetail(),
-			}
+			},
 		};
 
 		Assert.AreEqual(false, new GdprConsentData().AllAccepted);

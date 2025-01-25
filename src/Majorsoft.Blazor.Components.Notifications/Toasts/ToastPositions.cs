@@ -10,5 +10,5 @@ public enum ToastPositions
 	TopRight,
 	BottomLeft,
 	BottomCenter,
-	BottomRight
+	BottomRight,
 }

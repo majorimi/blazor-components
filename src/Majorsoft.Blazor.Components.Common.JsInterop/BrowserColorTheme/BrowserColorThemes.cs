@@ -6,5 +6,5 @@
 public enum BrowserColorThemes
 {
 	Dark = 0,
-	Light = 1
+	Light = 1,
 }

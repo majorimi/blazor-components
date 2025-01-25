@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.Language;
@@ -31,9 +30,15 @@ public sealed class LanguageService : ILanguageService
 		if (_langJs is null)
 		{
 #if DEBUG
-			_langJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/lang.js");
+			_langJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/lang.js"
+			);
 #else
-			_langJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/lang.min.js");
+			_langJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/lang.min.js"
+			);
 #endif
 		}
 	}

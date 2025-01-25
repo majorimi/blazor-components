@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo;
@@ -12,7 +11,5 @@ internal sealed class GeolocationEventWatcherInfo : GeolocationEventInfo
 	public int HandlerId { get; set; }
 
 	public GeolocationEventWatcherInfo(Func<GeolocationResult, Task> locationResultCallback)
-		: base(locationResultCallback)
-	{
-	}
+		: base(locationResultCallback) { }
 }

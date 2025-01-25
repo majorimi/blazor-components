@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-
 using Majorsoft.Blazor.Extensions.BrowserStorage;
 
 namespace Majorsoft.Blazor.Components.GdprConsent;
@@ -15,19 +14,24 @@ public class GdprConsentService : IGdprConsentService
 
 	public IGdprConsentNotificationService ConsentNotificationService { get; }
 
-	public GdprConsentService(ILocalStorageService storageService,
-		IGdprConsentNotificationService gdprConsentNotificationService)
+	public GdprConsentService(
+		ILocalStorageService storageService,
+		IGdprConsentNotificationService gdprConsentNotificationService
+	)
 	{
 		_storageService = storageService;
 		ConsentNotificationService = gdprConsentNotificationService;
 	}
 
-	public async ValueTask<GdprConsentData> GetGdprConsentDataAsync() => await _storageService.GetItemAsync<GdprConsentData>(ConsentStoreKeyName);
+	public async ValueTask<GdprConsentData> GetGdprConsentDataAsync() =>
+		await _storageService.GetItemAsync<GdprConsentData>(ConsentStoreKeyName);
+
 	public async ValueTask SetGdprConsentDataAsync(GdprConsentData gdprConsentData)
 	{
 		await _storageService.SetItemAsync<GdprConsentData>(ConsentStoreKeyName, gdprConsentData);
 		ConsentNotificationService.OnChange();
 	}
+
 	public async ValueTask ClearGdprConsentDataAsync()
 	{
 		await _storageService.RemoveItemAsync(ConsentStoreKeyName);

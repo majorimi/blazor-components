@@ -24,6 +24,7 @@ public class HtmlHeadService : IHtmlHeadService
 
 		return await _headJs.InvokeAsync<string>("getHtmlTitle");
 	}
+
 	public async Task SetHtmlTitleAsync(string title)
 	{
 		await CheckJsObjectAsync();
@@ -31,18 +32,26 @@ public class HtmlHeadService : IHtmlHeadService
 		await _headJs.InvokeVoidAsync("setHtmlTitle", title);
 	}
 
-	public async Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(HtmlHeadLinkTagRelTypes? linkType)
+	public async Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(
+		HtmlHeadLinkTagRelTypes? linkType
+	)
 	{
 		await CheckJsObjectAsync();
 
-		return await _headJs.InvokeAsync<IEnumerable<HtmlHeadLinkTag>>("getAllLinkHeadTags", linkType?.ToString()?.ToLower());
+		return await _headJs.InvokeAsync<IEnumerable<HtmlHeadLinkTag>>(
+			"getAllLinkHeadTags",
+			linkType?.ToString()?.ToLower()
+		);
 	}
 
 	public async Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlFavIconsAsync()
 	{
 		await CheckJsObjectAsync();
 
-		return await _headJs.InvokeAsync<IEnumerable<HtmlHeadLinkTag>>("getAllLinkHeadTags", HtmlHeadLinkTagRelTypes.Icon.ToString().ToLower());
+		return await _headJs.InvokeAsync<IEnumerable<HtmlHeadLinkTag>>(
+			"getAllLinkHeadTags",
+			HtmlHeadLinkTagRelTypes.Icon.ToString().ToLower()
+		);
 	}
 
 	public async Task SetHtmlFavIconsAsync(IEnumerable<HtmlHeadLinkTag> favIcons)
@@ -57,9 +66,15 @@ public class HtmlHeadService : IHtmlHeadService
 		if (_headJs is null)
 		{
 #if DEBUG
-			_headJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/head.js");
+			_headJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/head.js"
+			);
 #else
-			_headJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/head.min.js");
+			_headJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/head.min.js"
+			);
 #endif
 		}
 	}

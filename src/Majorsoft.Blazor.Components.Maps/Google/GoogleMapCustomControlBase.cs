@@ -21,6 +21,7 @@ public abstract class GoogleMapCustomControlBase
 	/// HTML content to render as Custom Control button.
 	/// </summary>
 	public string Content { get; init; }
+
 	//public RenderFragment Content { get; set; }
 
 	/// <summary>
@@ -31,7 +32,10 @@ public abstract class GoogleMapCustomControlBase
 	{
 		if (string.IsNullOrWhiteSpace(htmlContent))
 		{
-			throw new ArgumentException($"'{nameof(htmlContent)}' cannot be null or whitespace", nameof(htmlContent));
+			throw new ArgumentException(
+				$"'{nameof(htmlContent)}' cannot be null or whitespace",
+				nameof(htmlContent)
+			);
 		}
 
 		Content = htmlContent;

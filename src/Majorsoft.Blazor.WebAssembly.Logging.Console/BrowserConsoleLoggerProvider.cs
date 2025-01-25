@@ -9,13 +9,12 @@ public class BrowserConsoleLoggerProvider : ILoggerProvider
 {
 	private static readonly Func<string, LogLevel, bool> TrueFilter = (cat, level) => true;
 
-	private readonly ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
+	private readonly ConcurrentDictionary<string, BrowserConsoleLogger> _loggers =
+		new ConcurrentDictionary<string, BrowserConsoleLogger>();
 	private readonly Func<string, LogLevel, bool> _filter;
 
 	public BrowserConsoleLoggerProvider()
-		: this(TrueFilter)
-	{
-	}
+		: this(TrueFilter) { }
 
 	public BrowserConsoleLoggerProvider(Func<string, LogLevel, bool> filter)
 	{

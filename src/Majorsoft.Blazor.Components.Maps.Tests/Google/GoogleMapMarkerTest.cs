@@ -1,5 +1,4 @@
 ﻿using Majorsoft.Blazor.Components.Maps.Google;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Maps.Tests.Google;
@@ -23,7 +22,7 @@ public class GoogleMapMarkerTest
 		var marker = new GoogleStaticMapMarker()
 		{
 			CustomIcon = new GoogleMapMarkerCustomIcon(),
-			Style = new GoogleMapMarkerStyle()
+			Style = new GoogleMapMarkerStyle(),
 		};
 
 		Assert.IsNotNull(marker.ToString());
@@ -36,7 +35,7 @@ public class GoogleMapMarkerTest
 		var marker = new GoogleStaticMapMarker()
 		{
 			CustomIcon = new GoogleMapMarkerCustomIcon(),
-			Style = new GoogleMapMarkerStyle()
+			Style = new GoogleMapMarkerStyle(),
 		};
 		marker.Locations.Add(null);
 		marker.Locations.Add(null);
@@ -51,7 +50,7 @@ public class GoogleMapMarkerTest
 		var marker = new GoogleStaticMapMarker()
 		{
 			CustomIcon = new GoogleMapMarkerCustomIcon(),
-			Style = new GoogleMapMarkerStyle()
+			Style = new GoogleMapMarkerStyle(),
 		};
 		marker.Locations.Add(new GeolocationData(null, null));
 		marker.Locations.Add(new GeolocationData(null, null));
@@ -63,11 +62,7 @@ public class GoogleMapMarkerTest
 	[TestMethod]
 	public void GoogleMapMarker_should_handle_location_with_no_styling()
 	{
-		var marker = new GoogleStaticMapMarker()
-		{
-			CustomIcon = null,
-			Style = null
-		};
+		var marker = new GoogleStaticMapMarker() { CustomIcon = null, Style = null };
 
 		marker.Locations.Add(new GeolocationData(4.123, 5.123));
 
@@ -81,7 +76,7 @@ public class GoogleMapMarkerTest
 		var marker = new GoogleStaticMapMarker()
 		{
 			CustomIcon = new GoogleMapMarkerCustomIcon(),
-			Style = new GoogleMapMarkerStyle()
+			Style = new GoogleMapMarkerStyle(),
 		};
 
 		marker.Locations.Add(new GeolocationData(1.123, 7.123));
@@ -101,15 +96,18 @@ public class GoogleMapMarkerTest
 				Color = "red",
 				Label = 'a',
 				Size = GoogleMapMarkerSizes.Mid,
-				Scale = 2
-			}
+				Scale = 2,
+			},
 		};
 
 		marker.Locations.Add(new GeolocationData(1.123, 7.123));
 		marker.Locations.Add(new GeolocationData(4.123, 5.123));
 
 		Assert.IsNotNull(marker.ToString());
-		Assert.AreEqual("markers=scale:2|size:mid|color:red|label:A|1.123,7.123|4.123,5.123", marker.ToString());
+		Assert.AreEqual(
+			"markers=scale:2|size:mid|color:red|label:A|1.123,7.123|4.123,5.123",
+			marker.ToString()
+		);
 	}
 
 	[TestMethod]
@@ -120,15 +118,18 @@ public class GoogleMapMarkerTest
 			CustomIcon = new GoogleMapMarkerCustomIcon()
 			{
 				Anchor = GoogleMapMarkerCustomIconAnchors.Center,
-				IconUrl = "http://test.org"
-			}
+				IconUrl = "http://test.org",
+			},
 		};
 
 		marker.Locations.Add(new GeolocationData(1.123, 7.123));
 		marker.Locations.Add(new GeolocationData(4.123, 5.123));
 
 		Assert.IsNotNull(marker.ToString());
-		Assert.AreEqual("markers=anchor:center|icon:http://test.org|1.123,7.123|4.123,5.123", marker.ToString());
+		Assert.AreEqual(
+			"markers=anchor:center|icon:http://test.org|1.123,7.123|4.123,5.123",
+			marker.ToString()
+		);
 	}
 
 	[TestMethod]
@@ -141,7 +142,7 @@ public class GoogleMapMarkerTest
 				Color = "red",
 				Label = 'a',
 				Size = GoogleMapMarkerSizes.Mid,
-				Scale = 2
+				Scale = 2,
 			},
 			CustomIcon = new GoogleMapMarkerCustomIcon(),
 		};

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Extensions.BrowserStorage;
@@ -27,7 +26,8 @@ public abstract class StorageServiceBase : IStorageService
 
 	public async Task ClearAsync() => await _jSRuntime.InvokeVoidAsync($"{_storageName}.clear");
 
-	public async Task<bool> ContainKeyAsync(string key) => await _jSRuntime.InvokeAsync<bool>($"{_storageName}.hasOwnProperty", key);
+	public async Task<bool> ContainKeyAsync(string key) =>
+		await _jSRuntime.InvokeAsync<bool>($"{_storageName}.hasOwnProperty", key);
 
 	public async Task<string?> GetItemAsStringAsync(string key)
 	{
@@ -63,7 +63,8 @@ public abstract class StorageServiceBase : IStorageService
 		}
 	}
 
-	public async Task<string?> GetKeyByIndexAsync(int index) => await _jSRuntime.InvokeAsync<string>($"{_storageName}.key", index);
+	public async Task<string?> GetKeyByIndexAsync(int index) =>
+		await _jSRuntime.InvokeAsync<string>($"{_storageName}.key", index);
 
 	public async IAsyncEnumerable<string> GetAllKeysAsync()
 	{
@@ -74,7 +75,8 @@ public abstract class StorageServiceBase : IStorageService
 		}
 	}
 
-	public async Task<int> CountAsync() => await _jSRuntime.InvokeAsync<int>("eval", $"{_storageName}.length");
+	public async Task<int> CountAsync() =>
+		await _jSRuntime.InvokeAsync<int>("eval", $"{_storageName}.length");
 
 	public async Task RemoveItemAsync(string key)
 	{

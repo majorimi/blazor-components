@@ -9,6 +9,7 @@ public class GoogleMapInfoWindow
 	/// HTML content of the Info Window.
 	/// </summary>
 	public string Content { get; set; }
+
 	//public RenderFragment Content { get; set; }
 
 	/// <summary>

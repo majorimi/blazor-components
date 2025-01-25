@@ -6,11 +6,12 @@
 public enum PageScrollHorizontalPosition
 {
 	/// <summary>
-	/// Element placed to the Right side 
+	/// Element placed to the Right side
 	/// </summary>
 	Right,
+
 	/// <summary>
-	/// Element placed to the Left side 
+	/// Element placed to the Left side
 	/// </summary>
-	Left
+	Left,
 }

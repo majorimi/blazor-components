@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme;
 using Majorsoft.Blazor.Components.Common.JsInterop.BrowserDate;
 using Majorsoft.Blazor.Components.Common.JsInterop.Click;
@@ -12,7 +11,6 @@ using Majorsoft.Blazor.Components.Common.JsInterop.Language;
 using Majorsoft.Blazor.Components.Common.JsInterop.Navigation;
 using Majorsoft.Blazor.Components.Common.JsInterop.Resize;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop;

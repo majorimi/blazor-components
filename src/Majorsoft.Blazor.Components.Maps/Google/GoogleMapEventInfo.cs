@@ -71,7 +71,8 @@ internal sealed class GoogleMapEventInfo
 	/// <param name="mapResizedCallback">Callback function for Map resized event</param>
 	/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 	/// <param name="mapIdleCallback">Callback function for Map idle event</param>
-	public GoogleMapEventInfo(string mapContainerId,
+	public GoogleMapEventInfo(
+		string mapContainerId,
 		Func<string, Task>? mapInitializedCallback = null,
 		Func<GeolocationCoordinate, Task>? mapClickedCallback = null,
 		Func<GeolocationCoordinate, Task>? mapDoubleClickedCallback = null,
@@ -95,7 +96,8 @@ internal sealed class GoogleMapEventInfo
 		Func<GeolocationCoordinate, Task>? mapDragStartCallback = null,
 		Func<Rect, Task>? mapResizedCallback = null,
 		Func<Task>? mapTilesLoadedCallback = null,
-		Func<Task>? mapIdleCallback = null)
+		Func<Task>? mapIdleCallback = null
+	)
 	{
 		_mapContainerId = mapContainerId;
 
@@ -149,6 +151,7 @@ internal sealed class GoogleMapEventInfo
 			}
 		}
 	}
+
 	public void RemoveMarkers(IEnumerable<GoogleMapMarker> markers)
 	{
 		foreach (var item in markers)
@@ -166,7 +169,9 @@ internal sealed class GoogleMapEventInfo
 	{
 		if (_mapContainerId != mapContainerId)
 		{
-			throw new InvalidProgramException($"{nameof(MapInitialized)} method was called with invalid Map container Div Id: {mapContainerId}, expected Id isL {_mapContainerId}.");
+			throw new InvalidProgramException(
+				$"{nameof(MapInitialized)} method was called with invalid Map container Div Id: {mapContainerId}, expected Id isL {_mapContainerId}."
+			);
 		}
 
 		if (_mapInitializedCallback is not null)
@@ -174,6 +179,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapInitializedCallback.Invoke(mapContainerId);
 		}
 	}
+
 	//Mouse
 	[JSInvokable("MapClicked")]
 	public async Task MapClicked(GeolocationCoordinate geolocationCoordinate)
@@ -183,6 +189,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapClickedCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapMouseUp")]
 	public async Task MapMouseUp(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -191,6 +198,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapMouseUpCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapMouseDown")]
 	public async Task MapMouseDown(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -199,6 +207,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapMouseDownCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapDoubleClicked")]
 	public async Task MapDoubleClicked(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -207,6 +216,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapDoubleClickedCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapContextMenu")]
 	public async Task MapContextMenu(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -215,6 +225,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapContextMenuCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapMouseMove")]
 	public async Task MapMouseMove(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -223,6 +234,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapMouseMoveCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapMouseOver")]
 	public async Task MapMouseOver()
 	{
@@ -231,6 +243,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapMouseOverCallback.Invoke();
 		}
 	}
+
 	[JSInvokable("MapMouseOut")]
 	public async Task MapMouseOut()
 	{
@@ -239,6 +252,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapMouseOutCallback.Invoke();
 		}
 	}
+
 	//Changes
 	[JSInvokable("MapCenterChanged")]
 	public async Task MapCenterChanged(GeolocationCoordinate geolocationCoordinate)
@@ -248,6 +262,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapCenterChangedCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapZoomChanged")]
 	public async Task MapZoomChanged(byte zoom)
 	{
@@ -256,6 +271,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapZoomChangedCallback.Invoke(zoom);
 		}
 	}
+
 	[JSInvokable("MapTypeIdChanged")]
 	public async Task MapTypeIdChanged(string mapTypeId)
 	{
@@ -265,6 +281,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapTypeChangedCallback.Invoke(mapType);
 		}
 	}
+
 	[JSInvokable("MapHeadingChanged")]
 	public async Task MapHeadingChanged(int heading)
 	{
@@ -273,6 +290,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapHeadingChangedCallback.Invoke(heading);
 		}
 	}
+
 	[JSInvokable("MapTiltChanged")]
 	public async Task MapTiltChanged(byte tilt)
 	{
@@ -281,6 +299,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapTiltChangedCallback.Invoke(tilt);
 		}
 	}
+
 	[JSInvokable("MapBoundsChanged")]
 	public async Task MapBoundsChanged()
 	{
@@ -289,6 +308,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapBoundsChangedCallback.Invoke();
 		}
 	}
+
 	[JSInvokable("MapProjectionChanged")]
 	public async Task MapProjectionChanged()
 	{
@@ -297,6 +317,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapProjectionChangedCallback.Invoke();
 		}
 	}
+
 	[JSInvokable("MapDraggableChanged")]
 	public async Task MapDraggableChanged()
 	{
@@ -305,6 +326,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapDraggableChangedCallback.Invoke();
 		}
 	}
+
 	[JSInvokable("MapStreetviewChanged")]
 	public async Task MapStreetviewChanged()
 	{
@@ -313,6 +335,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapStreetviewChangedCallback.Invoke();
 		}
 	}
+
 	//Drag
 	[JSInvokable("MapDrag")]
 	public async Task MapDrag(GeolocationCoordinate geolocationCoordinate)
@@ -322,6 +345,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapDragCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapDragEnd")]
 	public async Task MapDragEnd(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -330,6 +354,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapDragEndCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapDragStart")]
 	public async Task MapDragStart(GeolocationCoordinate geolocationCoordinate)
 	{
@@ -338,6 +363,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapDragStartCallback.Invoke(geolocationCoordinate);
 		}
 	}
+
 	[JSInvokable("MapResized")]
 	public async Task MapResized(Rect size)
 	{
@@ -346,6 +372,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapResizedCallback.Invoke(size);
 		}
 	}
+
 	[JSInvokable("MapTilesLoaded")]
 	public async Task MapTilesLoaded()
 	{
@@ -354,6 +381,7 @@ internal sealed class GoogleMapEventInfo
 			await _mapTilesLoadedCallback.Invoke();
 		}
 	}
+
 	[JSInvokable("MapIdle")]
 	public async Task MapIdle()
 	{
@@ -384,6 +412,7 @@ internal sealed class GoogleMapEventInfo
 			await CustomEvent(callback, id);
 		}
 	}
+
 	[JSInvokable("MarkerDrag")]
 	public async Task MarkerDrag(string id, GeolocationCoordinate geolocation)
 	{
@@ -393,6 +422,7 @@ internal sealed class GoogleMapEventInfo
 			await CustomEvent(callback, id, geolocation);
 		}
 	}
+
 	[JSInvokable("MarkerDragEnd")]
 	public async Task MarkerDragEnd(string id, GeolocationCoordinate geolocation)
 	{
@@ -402,6 +432,7 @@ internal sealed class GoogleMapEventInfo
 			await CustomEvent(callback, id, geolocation);
 		}
 	}
+
 	[JSInvokable("MarkerDragStart")]
 	public async Task MarkerDragStart(string id, GeolocationCoordinate geolocation)
 	{
@@ -419,7 +450,12 @@ internal sealed class GoogleMapEventInfo
 			await callback.Invoke(id);
 		}
 	}
-	private async Task CustomEvent(Func<string, GeolocationCoordinate, Task>? callback, string id, GeolocationCoordinate geolocation)
+
+	private async Task CustomEvent(
+		Func<string, GeolocationCoordinate, Task>? callback,
+		string id,
+		GeolocationCoordinate geolocation
+	)
 	{
 		if (callback is not null)
 		{

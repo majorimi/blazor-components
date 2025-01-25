@@ -33,7 +33,5 @@ public class GoogleMapMarker : GoogleMapMarkerBase
 	/// </summary>
 	/// <param name="position">Marker position on the Map</param>
 	public GoogleMapMarker(GeolocationCoordinate position)
-		: base(position)
-	{
-	}
+		: base(position) { }
 }

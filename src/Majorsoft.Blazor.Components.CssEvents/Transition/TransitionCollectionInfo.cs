@@ -19,13 +19,22 @@ internal sealed class TransitionCollectionInfo : Collection<TransitionEventInfo>
 	}
 
 	private List<TransitionEventArgs> _finishedTransitions = new List<TransitionEventArgs>();
+
 	public async Task WhenAllFinished(TransitionEventArgs args)
 	{
 		_finishedTransitions.Add(args);
 
-		if (Count == _finishedTransitions.Count
-			&& !_finishedTransitions.Select(s => s.PropertyName).Except(this.Select(s => s.TransitionPropertyName)).Any()
-			&& !_finishedTransitions.Select(s => s.Element).Except(this.Select(s => s.Element)).Any())
+		if (
+			Count == _finishedTransitions.Count
+			&& !_finishedTransitions
+				.Select(s => s.PropertyName)
+				.Except(this.Select(s => s.TransitionPropertyName))
+				.Any()
+			&& !_finishedTransitions
+				.Select(s => s.Element)
+				.Except(this.Select(s => s.Element))
+				.Any()
+		)
 		{
 			await _transitionEndedCallback(_finishedTransitions.ToArray());
 			_finishedTransitions.Clear();

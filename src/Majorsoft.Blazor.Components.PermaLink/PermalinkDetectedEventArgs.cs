@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.AspNetCore.Components.Routing;
 
 namespace Majorsoft.Blazor.Components.PermaLink;
@@ -24,7 +23,10 @@ public class PermalinkDetectedEventArgs : EventArgs
 	/// </summary>
 	/// <param name="locationChangedEventArgs">NavigationManager event</param>
 	/// <param name="permalink">Detected permalink value</param>
-	public PermalinkDetectedEventArgs(LocationChangedEventArgs locationChangedEventArgs, string permalink)
+	public PermalinkDetectedEventArgs(
+		LocationChangedEventArgs locationChangedEventArgs,
+		string permalink
+	)
 	{
 		LocationChangedEventArgs = locationChangedEventArgs;
 		Permalink = permalink;

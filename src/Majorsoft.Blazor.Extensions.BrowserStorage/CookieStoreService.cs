@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Extensions.BrowserStorage;
@@ -23,12 +22,14 @@ public class CookieStoreService : ICookieStoreService
 		return ret;
 	}
 
-	public async Task<IEnumerable<Cookie>> GetAllAsync() => await _jSRuntime.InvokeAsync<IEnumerable<Cookie>>("cookieStore.getAll");
+	public async Task<IEnumerable<Cookie>> GetAllAsync() =>
+		await _jSRuntime.InvokeAsync<IEnumerable<Cookie>>("cookieStore.getAll");
 
 	public async Task SetAsync(Cookie cookie)
 	{
 		await _jSRuntime.InvokeVoidAsync("cookieStore.set", cookie);
 	}
 
-	public async Task DeleteAsync(string name) => await _jSRuntime.InvokeAsync<Cookie>("cookieStore.delete", name);
+	public async Task DeleteAsync(string name) =>
+		await _jSRuntime.InvokeAsync<Cookie>("cookieStore.delete", name);
 }

@@ -6,15 +6,13 @@
 public sealed class GeolocationData : GeolocationCoordinate
 {
 	/// <summary>
-	/// Represents a secondary location as a string address. 
+	/// Represents a secondary location as a string address.
 	/// It will be omitted if <see cref="Latitude"/> and <see cref="Longitude"/> coordinates are defined.
 	/// </summary>
 	public string? Address { get; init; }
 
 	public GeolocationData(double? latitude, double? longitude)
-		: base(latitude, longitude)
-	{
-	}
+		: base(latitude, longitude) { }
 
 	public GeolocationData(string address)
 		: base(null, null)
@@ -28,8 +26,6 @@ public sealed class GeolocationData : GeolocationCoordinate
 	/// <returns>Maps specific geo coordinates or address</returns>
 	public override string ToString()
 	{
-		return HasCoordinates
-			? base.ToString()
-			: Address ?? string.Empty;
+		return HasCoordinates ? base.ToString() : Address ?? string.Empty;
 	}
 }

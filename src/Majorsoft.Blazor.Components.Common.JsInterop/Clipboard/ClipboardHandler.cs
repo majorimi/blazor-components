@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -35,9 +34,15 @@ public class ClipboardHandler : IClipboardHandler
 		if (_clipboardJs is null)
 		{
 #if DEBUG
-			_clipboardJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/clipboard.js");
+			_clipboardJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/clipboard.js"
+			);
 #else
-			_clipboardJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/clipboard.min.js");
+			_clipboardJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/clipboard.min.js"
+			);
 #endif
 		}
 	}

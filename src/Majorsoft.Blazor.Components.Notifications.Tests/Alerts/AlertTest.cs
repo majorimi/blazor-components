@@ -24,7 +24,9 @@ public class AlertTest : ComponentsTestBase<Alert>
 		_transitionMock = Substitute.For<ITransitionEventsService>();
 
 		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock)
+		);
 	}
 
 	[TestMethod]
@@ -34,7 +36,7 @@ public class AlertTest : ComponentsTestBase<Alert>
 			("id", "id1"), //HTML attributes
 			("title", "text"), //HTML attributes
 			(nameof(Alert.AutoClose), false)
-			);
+		);
 
 		Assert.AreEqual(false, rendered.Instance.IsVisible);
 		rendered.MarkupMatches("");
@@ -46,7 +48,7 @@ public class AlertTest : ComponentsTestBase<Alert>
 		var rendered = _testContext.RenderComponent<Alert>(
 			("id", "id1"), //HTML attributes
 			("title", "text") //HTML attributes
-			);
+		);
 
 		//Open
 		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IsVisible, true));
@@ -55,7 +57,10 @@ public class AlertTest : ComponentsTestBase<Alert>
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750"" id=""id1"" title=""text"" >
 		  <div class=""balert-body"" >
 			<div>
 				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -69,14 +74,17 @@ public class AlertTest : ComponentsTestBase<Alert>
 			</button>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 10s linear;"" ></div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_not_render_ShowIcon_false()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.ShowIcon, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters.Add(p => p.ShowIcon, false)
+		);
 
 		//Open
 		rendered.Instance.IsVisible = true;
@@ -86,7 +94,10 @@ public class AlertTest : ComponentsTestBase<Alert>
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 			<button type=""button""  class=""close normal"" >
@@ -95,67 +106,88 @@ public class AlertTest : ComponentsTestBase<Alert>
 			</button>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 10s linear;"" ></div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_not_render_ShowCloseButton_false()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" ></div>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 10s linear;"" ></div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_render_Content()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.Content, "<strong>Hi..</strong>"));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+				.Add(p => p.Content, "<strong>Hi..</strong>")
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
 			</div>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 10s linear;"" ></div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_render_CustomIconSvgPath()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, true)
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.Content, "<strong>Hi..</strong>")
-			.Add(p => p.CustomIconSvgPath, "svg path value"));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, true)
+				.Add(p => p.ShowCloseButton, false)
+				.Add(p => p.Content, "<strong>Hi..</strong>")
+				.Add(p => p.CustomIconSvgPath, "svg path value")
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div>
 				<svg class=""balert-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -167,16 +199,20 @@ public class AlertTest : ComponentsTestBase<Alert>
 			</div>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 10s linear;"" ></div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_render_Types()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
@@ -186,23 +222,30 @@ public class AlertTest : ComponentsTestBase<Alert>
 		{
 			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+			rendered.WaitForAssertion(
+				() =>
+					rendered.MarkupMatches(
+						$@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 			  <div class=""balert-body"" >
 				<div class=""balert-text"" >
 				</div>
 			  </div>
 			  <div class=""balert-progress {types.ToString().ToLower()} start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+					)
+			);
 		}
 	}
 
 	[TestMethod]
 	public void Alert_should_render_NotificationStyles()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
@@ -214,18 +257,27 @@ public class AlertTest : ComponentsTestBase<Alert>
 
 			foreach (var style in Enum.GetValues<NotificationStyles>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters
-					.Add(p => p.NotificationStyle, style));
+				rendered.SetParametersAndRender(parameters =>
+					parameters.Add(p => p.NotificationStyle, style)
+				);
 
-				var progress = style != NotificationStyles.Strong ? $" {types.ToString().ToLower()}" : " strong";
+				var progress =
+					style != NotificationStyles.Strong
+						? $" {types.ToString().ToLower()}"
+						: " strong";
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+				rendered.WaitForAssertion(
+					() =>
+						rendered.MarkupMatches(
+							$@"<div class=""balert-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 				  <div class=""balert-body"" >
 					<div class=""balert-text"" >
 					</div>
 				  </div>
 				  <div class=""balert-progress {progress} start"" style=""transition: width 10s linear;"" ></div>
-				</div>"));
+				</div>"
+						)
+				);
 			}
 		}
 	}
@@ -233,17 +285,22 @@ public class AlertTest : ComponentsTestBase<Alert>
 	[TestMethod]
 	public void Alert_should_not_render_ShowCloseCountdownProgress_false()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.AutoClose, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseCountdownProgress, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.AutoClose, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseCountdownProgress, false)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 			</div>
@@ -252,24 +309,31 @@ public class AlertTest : ComponentsTestBase<Alert>
 			  <span class=""sr-only"" >Close</span>
 			</button>
 		  </div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_render_ShadowEffect()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.AutoClose, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShadowEffect, (uint)5)
-			.Add(p => p.ShowCloseCountdownProgress, false));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.AutoClose, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShadowEffect, (uint)5)
+				.Add(p => p.ShowCloseCountdownProgress, false)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 17px; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 17px; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 			</div>
@@ -278,37 +342,51 @@ public class AlertTest : ComponentsTestBase<Alert>
 			  <span class=""sr-only"" >Close</span>
 			</button>
 		  </div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_not_AutoClose()
 	{
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.AutoClose, false)
-			.Add(p => p.AutoCloseInSec, (uint)1)
-			.Add(p => p.Content, "<strong>Hi..</strong>"));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+				.Add(p => p.AutoClose, false)
+				.Add(p => p.AutoCloseInSec, (uint)1)
+				.Add(p => p.Content, "<strong>Hi..</strong>")
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
 			</div>
 		  </div>
-		</div>"));
+		</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Alert_should_AutoClose()
 	{
-		_transitionMock.RegisterTransitionEndedAsync(Arg.Any<ElementReference>(), Arg.Any<Func<TransitionEventArgs, Task>>(), Arg.Any<string>())
+		_transitionMock
+			.RegisterTransitionEndedAsync(
+				Arg.Any<ElementReference>(),
+				Arg.Any<Func<TransitionEventArgs, Task>>(),
+				Arg.Any<string>()
+			)
 			.Returns(args =>
 			{
 				var func = args.ArgAt<Func<TransitionEventArgs, Task>>(1);
@@ -316,32 +394,43 @@ public class AlertTest : ComponentsTestBase<Alert>
 				return Task.CompletedTask;
 			});
 
-		var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
-			.Add(p => p.IsVisible, true)
-			.Add(p => p.ShowIcon, false)
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.AutoClose, true)
-			.Add(p => p.AutoCloseInSec, (uint)1)
-			.Add(p => p.Content, "<strong>Hi..</strong>"));
+		var rendered = _testContext.RenderComponent<Alert>(parameters =>
+			parameters
+				.Add(p => p.IsVisible, true)
+				.Add(p => p.ShowIcon, false)
+				.Add(p => p.ShowCloseButton, false)
+				.Add(p => p.AutoClose, true)
+				.Add(p => p.AutoCloseInSec, (uint)1)
+				.Add(p => p.Content, "<strong>Hi..</strong>")
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""balert-main bnotify-normal-primary"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 		  <div class=""balert-body"" >
 			<div class=""balert-text"" >
 				<strong>Hi..</strong>
 			</div>
 		  </div>
 		  <div class=""balert-progress primary start"" style=""transition: width 1s linear;"" ></div>
-		</div>"), TimeSpan.FromSeconds(1));
+		</div>"
+				),
+			TimeSpan.FromSeconds(1)
+		);
 
 		rendered.Render();
 
-		rendered.WaitForAssertion(() =>
-		{
-			rendered.MarkupMatches("");
-		}, TimeSpan.FromSeconds(2));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				rendered.MarkupMatches("");
+			},
+			TimeSpan.FromSeconds(2)
+		);
 	}
 }

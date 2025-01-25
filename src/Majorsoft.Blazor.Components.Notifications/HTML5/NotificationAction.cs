@@ -1,9 +1,9 @@
 ﻿namespace Majorsoft.Blazor.Components.Notifications;
 
 /// <summary>
-/// The NotificationAction interface of the Notifications API is used to represent 
-/// action buttons the user can click to interact with notifications. These buttons' 
-/// appearance and specific functionality vary across platforms but generally they 
+/// The NotificationAction interface of the Notifications API is used to represent
+/// action buttons the user can click to interact with notifications. These buttons'
+/// appearance and specific functionality vary across platforms but generally they
 /// provide a way to asynchronously show actions to the user in a notification.
 /// </summary>
 public class NotificationAction

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme;
@@ -39,7 +38,9 @@ public class BrowserThemeService : IBrowserThemeService
 		return ret == 0 ? BrowserColorThemes.Dark : BrowserColorThemes.Light;
 	}
 
-	public async Task<string> RegisterColorThemeChangeAsync(Func<BrowserColorThemes, Task> colorThemeChangeCallback)
+	public async Task<string> RegisterColorThemeChangeAsync(
+		Func<BrowserColorThemes, Task> colorThemeChangeCallback
+	)
 	{
 		var module = await _moduleTask.Value;
 
@@ -76,7 +77,10 @@ public class BrowserThemeService : IBrowserThemeService
 		if (_moduleTask.IsValueCreated)
 		{
 			var module = await _moduleTask.Value;
-			await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+			await module.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray()
+			);
 			await module.DisposeAsync();
 		}
 

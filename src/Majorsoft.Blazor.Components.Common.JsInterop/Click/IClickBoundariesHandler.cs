@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -18,7 +17,11 @@ public interface IClickBoundariesHandler : IAsyncDisposable
 	/// <param name="outsideClickCallback">Func to call when clicked outside of the given element</param>
 	/// <param name="insideClickCallback">Func to call when clicked inside of the given element</param>
 	/// <returns>Async Task</returns>
-	Task RegisterClickBoundariesAsync(ElementReference elementRef, Func<MouseEventArgs, Task> outsideClickCallback = null, Func<MouseEventArgs, Task> insideClickCallback = null);
+	Task RegisterClickBoundariesAsync(
+		ElementReference elementRef,
+		Func<MouseEventArgs, Task> outsideClickCallback = null,
+		Func<MouseEventArgs, Task> insideClickCallback = null
+	);
 
 	/// <summary>
 	/// Removes event listener for 'click' HTML event for the given element.

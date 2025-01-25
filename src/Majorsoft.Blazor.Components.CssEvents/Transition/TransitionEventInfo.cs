@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -16,7 +15,11 @@ internal sealed class TransitionEventInfo
 	public ElementReference Element { get; init; }
 	public string TransitionPropertyName { get; init; }
 
-	public TransitionEventInfo(ElementReference element, Func<TransitionEventArgs, Task> transitionEventCallback, string transitionPropertyName)
+	public TransitionEventInfo(
+		ElementReference element,
+		Func<TransitionEventArgs, Task> transitionEventCallback,
+		string transitionPropertyName
+	)
 	{
 		Element = element;
 		TransitionPropertyName = transitionPropertyName;

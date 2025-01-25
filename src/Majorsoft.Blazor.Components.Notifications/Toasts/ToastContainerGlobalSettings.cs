@@ -59,9 +59,11 @@ public class ToastContainerGlobalSettings
 	/// Global config applied to all Toasts if not set otherwise.
 	/// Notification style to show different variant of the same Type of <see cref="Toast"/>.
 	/// </summary>
-	public static NotificationStyles DefaultToastsNotificationStyle { get; set; } = NotificationStyles.Normal;
+	public static NotificationStyles DefaultToastsNotificationStyle { get; set; } =
+		NotificationStyles.Normal;
 
 	private static uint _shadowEffect = 5;
+
 	/// <summary>
 	/// Global config applied to all Toasts if not set otherwise.
 	/// Determines the shadow effect strongness which makes Toast elevated. Value should be between 0 and 20.

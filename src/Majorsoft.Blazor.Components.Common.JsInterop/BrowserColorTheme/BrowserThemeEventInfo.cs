@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme;
@@ -13,7 +12,10 @@ internal sealed class BrowserThemeEventInfo
 	private readonly Func<BrowserColorThemes, Task> _browserThemeChangedEventCallback;
 	internal string EventId { get; }
 
-	public BrowserThemeEventInfo(Func<BrowserColorThemes, Task> browserThemeChangedEventCallback, string eventId)
+	public BrowserThemeEventInfo(
+		Func<BrowserColorThemes, Task> browserThemeChangedEventCallback,
+		string eventId
+	)
 	{
 		_browserThemeChangedEventCallback = browserThemeChangedEventCallback;
 		EventId = eventId;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Maps.Google;
@@ -49,7 +48,8 @@ public interface IGoogleMapService : IAsyncDisposable
 	/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 	/// <param name="mapIdleCallback">Callback function for Map idle event</param>
 	/// <returns>Async task</returns>
-	Task InitMapAsync(string apiKey,
+	Task InitMapAsync(
+		string apiKey,
 		string mapContainerId,
 		string backgroundColor = "lightgray",
 		int controlSize = 40,
@@ -77,7 +77,8 @@ public interface IGoogleMapService : IAsyncDisposable
 		Func<Rect, Task> mapResizedCallback = null,
 		Func<Task> mapTilesLoadedCallback = null,
 		Func<Task> mapIdleCallback = null,
-		GoogleMapRestriction restriction = null);
+		GoogleMapRestriction restriction = null
+	);
 
 	/// <summary>
 	/// Sets the center point as coordinates of the Map.
@@ -131,8 +132,8 @@ public interface IGoogleMapService : IAsyncDisposable
 	Task SetHeadingAsync(int heading);
 
 	/// <summary>
-	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport. 
-	/// setTilt(45) causes the tilt angle to automatically switch to 45 whenever 45° imagery is available for the current zoom level and viewport, and switch back to 0 whenever 45° imagery is not available (this is the default behavior). 
+	/// Controls the automatic switching behavior for the angle of incidence of the map. The only allowed values are 0 and 45. setTilt(0) causes the map to always use a 0° overhead view regardless of the zoom level and viewport.
+	/// setTilt(45) causes the tilt angle to automatically switch to 45 whenever 45° imagery is available for the current zoom level and viewport, and switch back to 0 whenever 45° imagery is not available (this is the default behavior).
 	/// </summary>
 	/// <param name="tilt">Required tilt 0 or 45</param>
 	/// <returns>Async task</returns>
@@ -145,7 +146,7 @@ public interface IGoogleMapService : IAsyncDisposable
 	Task ResizeMapAsync();
 
 	/// <summary>
-	/// Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI. 
+	/// Controls whether the map icons are clickable or not. A map icon represents a point of interest, also known as a POI.
 	/// To disable the clickability of map icons, pass a value of false to this method.
 	/// </summary>
 	/// <param name="isClickable">Icons are clickable or not</param>
@@ -172,19 +173,22 @@ public interface IGoogleMapService : IAsyncDisposable
 	/// <param name="newMarkers">Enumerable new markers to add</param>
 	/// <param name="markers">Enumerable markers removed or replaced</param>
 	/// <returns>Async task</returns>
-	Task CreateMarkersAsync(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers);
+	Task CreateMarkersAsync(
+		IEnumerable<GoogleMapMarker>? newMarkers,
+		IEnumerable<GoogleMapMarker>? markers
+	);
 
 	/// <summary>
-	/// Returns the lat/lng bounds of the current viewport. If more than one copy of the world is visible, 
-	/// the bounds range in longitude from -180 to 180 degrees inclusive. If the map is not yet initialized or 
-	/// center and zoom have not been set then the result is undefined. For vector maps with non-zero tilt or heading, 
+	/// Returns the lat/lng bounds of the current viewport. If more than one copy of the world is visible,
+	/// the bounds range in longitude from -180 to 180 degrees inclusive. If the map is not yet initialized or
+	/// center and zoom have not been set then the result is undefined. For vector maps with non-zero tilt or heading,
 	/// the returned lat/lng bounds represents the smallest bounding box that includes the visible region of the map's viewport.
 	/// </summary>
 	/// <returns>Async task</returns>
 	ValueTask<GoogleMapLatLngBounds> GetBoundsAsync();
 
 	/// <summary>
-	/// Returns the position displayed at the center of the map. Note that this LatLng object is not wrapped. See LatLng for more information. 
+	/// Returns the position displayed at the center of the map. Note that this LatLng object is not wrapped. See LatLng for more information.
 	/// If the center or bounds have not been set then the result is undefined.
 	/// </summary>
 	/// <returns>Async task</returns>

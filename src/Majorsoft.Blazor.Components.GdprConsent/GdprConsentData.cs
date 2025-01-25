@@ -32,7 +32,9 @@ public class GdprConsentData
 	/// <summary>
 	/// Gets weather all Consent were accepted.
 	/// </summary>
-	public bool AllAccepted => (GdprConsentDetails?.Any() ?? false) && (GdprConsentDetails?.All(x => x.IsAccepted) ?? false);
+	public bool AllAccepted =>
+		(GdprConsentDetails?.Any() ?? false)
+		&& (GdprConsentDetails?.All(x => x.IsAccepted) ?? false);
 
 	/// <summary>
 	/// Default constructor

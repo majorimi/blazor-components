@@ -5,5 +5,5 @@ public enum TooltipsPositons
 	Top,
 	Right,
 	Bottom,
-	Left
+	Left,
 }

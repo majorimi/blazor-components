@@ -9,6 +9,7 @@ public class Point
 	/// Point x
 	/// </summary>
 	public double X { get; set; }
+
 	/// <summary>
 	/// Point y
 	/// </summary>

@@ -24,15 +24,25 @@ public class TypeaheadInputTextTest : ComponentsTestBase<TypeaheadInput<string>>
 		var logger2 = Substitute.For<ILogger<TypeaheadInputText<string>>>();
 		_clickBoundariesMock = Substitute.For<IClickBoundariesHandler>();
 
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInputText>), logger));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<TypeaheadInputText<string>>), logger2));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(IClickBoundariesHandler), _clickBoundariesMock));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ILogger<DebounceInputText>), logger)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ILogger<TypeaheadInputText<string>>), logger2)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(IClickBoundariesHandler), _clickBoundariesMock)
+		);
 
 		_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
 #if DEBUG
-		_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.js");
+		_jsInteropModul = _testContext.JSInterop.SetupModule(
+			"./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.js"
+		);
 #else
-		_jsInteropModul = _testContext.JSInterop.SetupModule("./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.min.js");
+		_jsInteropModul = _testContext.JSInterop.SetupModule(
+			"./_content/Majorsoft.Blazor.Components.Common.JsInterop/elementInfo.min.js"
+		);
 #endif
 		_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
 	}

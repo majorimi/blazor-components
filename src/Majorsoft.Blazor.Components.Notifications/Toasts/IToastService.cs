@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-
 using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.Notifications;
@@ -31,10 +30,12 @@ public interface IToastService : IDisposable
 	/// Event triggered when one of the Toast is showing.
 	/// </summary>
 	event ToastEvent? OnToastShow;
+
 	/// <summary>
 	/// Event triggered when the Toast is closing.
 	/// </summary>
 	event ToastEvent? OnToastClosed;
+
 	/// <summary>
 	/// Event triggered when close `x` button was clicked on one of the Toast.
 	/// </summary>
@@ -47,7 +48,12 @@ public interface IToastService : IDisposable
 	/// <param name="notificationType">Notification type or severity level</param>
 	/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="NotificationTypes"/> Toast</param>
 	/// <returns>Guid Id for the new Toast</returns>
-	Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
+	Guid ShowToast(
+		string message,
+		NotificationTypes notificationType = NotificationTypes.Info,
+		NotificationStyles? notificationStyle = null
+	);
+
 	/// <summary>
 	/// Shows a new Toast notification with given parameters. Other settings applied from default values.
 	/// </summary>
@@ -55,7 +61,11 @@ public interface IToastService : IDisposable
 	/// <param name="notificationType">Notification type or severity level</param>
 	/// <param name="notificationStyle">Notification style to show different variant of the same <see cref="NotificationTypes"/> Toast</param>
 	/// <returns>Guid Id for the new Toast</returns>
-	Guid ShowToast(RenderFragment content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null);
+	Guid ShowToast(
+		RenderFragment content,
+		NotificationTypes notificationType = NotificationTypes.Info,
+		NotificationStyles? notificationStyle = null
+	);
 
 	/// <summary>
 	/// Shows a new Toast notification with given <see cref="ToastSettings"/>. It can be override all default values.

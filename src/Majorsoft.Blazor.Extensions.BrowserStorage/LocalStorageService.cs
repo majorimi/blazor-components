@@ -1,5 +1,4 @@
-﻿
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Extensions.BrowserStorage;
 
@@ -9,7 +8,5 @@ namespace Majorsoft.Blazor.Extensions.BrowserStorage;
 public class LocalStorageService : StorageServiceBase, ILocalStorageService
 {
 	public LocalStorageService(IJSRuntime jSRuntime)
-		: base(jSRuntime, StorageTypes.LocalStorage)
-	{
-	}
+		: base(jSRuntime, StorageTypes.LocalStorage) { }
 }

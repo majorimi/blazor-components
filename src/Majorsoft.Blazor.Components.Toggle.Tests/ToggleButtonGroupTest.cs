@@ -1,12 +1,8 @@
 using Bunit;
-
 using Majorsoft.Blazor.Components.CommonTestsBase;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
 using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Toggle.Tests;
@@ -26,7 +22,7 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	{
 		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(
 			("title", "text") //HTML attributes
-			);
+		);
 
 		var div = rendered.Find("div");
 
@@ -38,8 +34,9 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	[TestMethod]
 	public void ToggleButtonGroup_should_rendered_Disabled_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
-				.Add(p => p.Disabled, true));
+		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters =>
+			parameters.Add(p => p.Disabled, true)
+		);
 
 		var div = rendered.Find("div");
 
@@ -51,13 +48,16 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	[TestMethod]
 	public void ToggleButtonGroup_should_add_Buttons_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
-				.Add(p => p.Disabled, true));
+		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters =>
+			parameters.Add(p => p.Disabled, true)
+		);
 
-		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
-		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
+		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
+		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
 
 		var div = rendered.Find("div");
 
@@ -69,13 +69,16 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	[TestMethod]
 	public void ToggleButtonGroup_should_MustToggled_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
-				.Add(p => p.MustToggled, true));
+		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters =>
+			parameters.Add(p => p.MustToggled, true)
+		);
 
-		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
-		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
+		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
+		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
 
 		var div = rendered.Find("div");
 
@@ -93,13 +96,16 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	[TestMethod]
 	public void ToggleButtonGroup_should_have_only_one_active_button()
 	{
-		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
-				.Add(p => p.MustToggled, false));
+		var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters =>
+			parameters.Add(p => p.MustToggled, false)
+		);
 
-		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
-		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
-				.Add(p => p.Parent, rendered.Instance));
+		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
+		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters.Add(p => p.Parent, rendered.Instance)
+		);
 
 		var div = rendered.Find("div");
 
@@ -124,15 +130,21 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 	public void ToggleButtonGroup_should_rendered_ToggleButtons_correctly()
 	{
 		var rendered = _testContext.RenderComponent<ToggleButtonGroup>();
-		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+		var btn1 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters
 				.Add(p => p.Parent, rendered.Instance)
-				.Add(p => p.Content, "<strong>1</strong>"));
-		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+				.Add(p => p.Content, "<strong>1</strong>")
+		);
+		var btn2 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters
 				.Add(p => p.Parent, rendered.Instance)
-				.Add(p => p.Content, "<strong>2</strong>"));
-		var btn3 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+				.Add(p => p.Content, "<strong>2</strong>")
+		);
+		var btn3 = _testContext.RenderComponent<ToggleButton>(parameters =>
+			parameters
 				.Add(p => p.Parent, rendered.Instance)
-				.Add(p => p.Content, "<strong>3</strong>"));
+				.Add(p => p.Content, "<strong>3</strong>")
+		);
 
 		var div = rendered.Find("div");
 		Assert.AreEqual(3, rendered.Instance.ButtonCount);
@@ -144,7 +156,8 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 		Assert.IsFalse(div.HasAttribute("disabled"));
 
 		var id = div.GetAttribute("id");
-		div.MarkupMatches(@$"<div id=""{id}"" tabindex=""99""  >
+		div.MarkupMatches(
+			@$"<div id=""{id}"" tabindex=""99""  >
 				<button>
 				  <strong>1</strong>
 				</button>
@@ -154,6 +167,7 @@ public class ToggleButtonGroupTest : ComponentsTestBase<ToggleButtonGroup>
 				<button>
 				  <strong>3</strong>
 				</button>
-			</div>");
+			</div>"
+		);
 	}
 }

@@ -9,6 +9,7 @@ public class PageSize
 	/// Browser Window height
 	/// </summary>
 	public double Height { get; set; }
+
 	/// <summary>
 	/// Browser Window width
 	/// </summary>

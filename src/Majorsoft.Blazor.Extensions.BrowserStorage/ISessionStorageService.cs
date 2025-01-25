@@ -3,5 +3,4 @@
 /// <summary>
 /// Injectable service for Session Storage
 /// </summary>
-public interface ISessionStorageService : IStorageService
-{ }
+public interface ISessionStorageService : IStorageService { }

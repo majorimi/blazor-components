@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -17,9 +16,11 @@ internal sealed class ClickBoundariesEventInfo
 
 	public ElementReference ElementRef { get; }
 
-	public ClickBoundariesEventInfo(ElementReference elementRef,
+	public ClickBoundariesEventInfo(
+		ElementReference elementRef,
 		Func<MouseEventArgs, Task> outsideClickCallback = null,
-		Func<MouseEventArgs, Task> insideClickCallback = null)
+		Func<MouseEventArgs, Task> insideClickCallback = null
+	)
 	{
 		ElementRef = elementRef;
 		_outsideClickCallback = outsideClickCallback;

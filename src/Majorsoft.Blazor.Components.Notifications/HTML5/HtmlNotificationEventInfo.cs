@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Notifications;
@@ -17,11 +16,13 @@ internal sealed class HtmlNotificationEventInfo
 
 	public Guid Id { get; }
 
-	public HtmlNotificationEventInfo(Guid id,
+	public HtmlNotificationEventInfo(
+		Guid id,
 		Func<Guid, Task>? onOpenCallback = null,
 		Func<Guid, Task>? onClickCallback = null,
 		Func<Guid, Task>? onCloseCallback = null,
-		Func<Guid, Task>? onErrorCallback = null)
+		Func<Guid, Task>? onErrorCallback = null
+	)
 	{
 		Id = id;
 		_onOpenCallback = onOpenCallback;
@@ -38,6 +39,7 @@ internal sealed class HtmlNotificationEventInfo
 			await _onOpenCallback(Id);
 		}
 	}
+
 	[JSInvokable("OnClick")]
 	public async Task OnClick()
 	{
@@ -46,6 +48,7 @@ internal sealed class HtmlNotificationEventInfo
 			await _onClickCallback(Id);
 		}
 	}
+
 	[JSInvokable("OnClose")]
 	public async Task OnClose()
 	{
@@ -54,6 +57,7 @@ internal sealed class HtmlNotificationEventInfo
 			await _onCloseCallback(Id);
 		}
 	}
+
 	[JSInvokable("OnError")]
 	public async Task OnError()
 	{

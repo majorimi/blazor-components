@@ -10,6 +10,7 @@ public sealed class GeolocationError
 	/// Represents the reason of an error occurring.
 	/// </summary>
 	public GeolocationPositionErrorCodes ErrorCode { get; set; }
+
 	/// <summary>
 	/// Returns a human-readable DOMString describing the details of the error.
 	/// </summary>

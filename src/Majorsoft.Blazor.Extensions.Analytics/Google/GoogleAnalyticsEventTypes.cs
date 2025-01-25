@@ -28,5 +28,5 @@ public enum GoogleAnalyticsEventTypes
 	view_item,
 	view_item_list,
 	view_promotion,
-	view_search_results
+	view_search_results,
 }

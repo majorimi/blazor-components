@@ -46,6 +46,7 @@ public class Cookie
 	/// Gets or sets the expiration date and time for the Cookie
 	/// </summary>
 	public double? Expires { get; set; }
+
 	/// <summary>
 	/// Gets the expiration date and time for the Cookie as a System.DateTime.
 	/// </summary>
@@ -57,7 +58,9 @@ public class Cookie
 			{
 				if (Expires.HasValue)
 				{
-					return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(Expires.Value);
+					return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(
+						Expires.Value
+					);
 				}
 
 				return DateTime.MinValue;
@@ -70,7 +73,7 @@ public class Cookie
 	}
 
 	/// <summary>
-	///  Gets or sets Cookie SameSite which allows you to declare if your cookie should be 
+	///  Gets or sets Cookie SameSite which allows you to declare if your cookie should be
 	///  restricted to a first-party or same-site context.
 	///  Values should be "strict", "lax", "none".
 	/// </summary>

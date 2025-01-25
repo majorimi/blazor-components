@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -17,7 +16,10 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="elementReference">Blazor reference to an HTML element</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToElementAsync(this ElementReference elementReference, bool smooth = false)
+	public static async Task ScrollToElementAsync(
+		this ElementReference elementReference,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -34,7 +36,10 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="elementReference">Blazor reference to an HTML element</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToEndAsync(this ElementReference elementReference, bool smooth = false)
+	public static async Task ScrollToEndAsync(
+		this ElementReference elementReference,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -51,7 +56,10 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="elementReference">Blazor reference to an HTML element</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToTopAsync(this ElementReference elementReference, bool smooth = false)
+	public static async Task ScrollToTopAsync(
+		this ElementReference elementReference,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -69,7 +77,11 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="xPos">Scroll X position</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToXAsync(this ElementReference elementReference, double xPos, bool smooth = false)
+	public static async Task ScrollToXAsync(
+		this ElementReference elementReference,
+		double xPos,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -87,7 +99,11 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="yPos">Scroll Y position</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToYAsync(this ElementReference elementReference, double yPos, bool smooth = false)
+	public static async Task ScrollToYAsync(
+		this ElementReference elementReference,
+		double yPos,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -106,7 +122,12 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="yPos">Scroll Y position</param>
 	/// <param name="smooth">Scroll should jump or smoothly scroll Note: might not all browsers support it</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToAsync(this ElementReference elementReference, double xPos, double yPos, bool smooth = false)
+	public static async Task ScrollToAsync(
+		this ElementReference elementReference,
+		double xPos,
+		double yPos,
+		bool smooth = false
+	)
 	{
 		await using (var module = await elementReference.GetJsObject())
 		{
@@ -134,6 +155,7 @@ public static class ElementReferenceScrollExtensions
 
 		return 0;
 	}
+
 	/// <summary>
 	/// Returns given element scroll Y (top) position.
 	/// </summary>
@@ -169,6 +191,7 @@ public static class ElementReferenceScrollExtensions
 
 		return false;
 	}
+
 	/// <summary>
 	/// Returns given element is below of the view port.
 	/// </summary>
@@ -186,6 +209,7 @@ public static class ElementReferenceScrollExtensions
 
 		return false;
 	}
+
 	/// <summary>
 	/// Returns given element is above of the view port.
 	/// </summary>
@@ -210,7 +234,10 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="parent">Blazor reference to an HTML (outer/wrapper) element</param>
 	/// <param name="innerElement">Blazor reference to an inner HTML element to scroll to</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollToElementInParentAsync(this ElementReference parent, ElementReference innerElement)
+	public static async Task ScrollToElementInParentAsync(
+		this ElementReference parent,
+		ElementReference innerElement
+	)
 	{
 		await using (var module = await parent.GetJsObject())
 		{
@@ -244,7 +271,10 @@ public static class ElementReferenceScrollExtensions
 	/// <param name="parent">Blazor reference to an HTML (outer/wrapper) element</param>
 	/// <param name="className">Inner element CSS class to scroll to</param>
 	/// <returns>Async Task</returns>
-	public static async Task ScrollInParentByClassAsync(this ElementReference parent, string className)
+	public static async Task ScrollInParentByClassAsync(
+		this ElementReference parent,
+		string className
+	)
 	{
 		await using (var module = await parent.GetJsObject())
 		{
@@ -255,7 +285,9 @@ public static class ElementReferenceScrollExtensions
 		}
 	}
 
-	private static async Task<IJSObjectReference?> GetJsObject(this ElementReference elementReference)
+	private static async Task<IJSObjectReference?> GetJsObject(
+		this ElementReference elementReference
+	)
 	{
 		var jsRuntime = elementReference.GetJSRuntime();
 

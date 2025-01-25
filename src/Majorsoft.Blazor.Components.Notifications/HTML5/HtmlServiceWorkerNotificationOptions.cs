@@ -33,7 +33,10 @@ public class HtmlServiceWorkerNotificationOptions : HtmlNotificationData
 	{
 		if (string.IsNullOrWhiteSpace(serviceWorkerUrl))
 		{
-			throw new ArgumentException($"'{nameof(serviceWorkerUrl)}' cannot be null or whitespace.", nameof(serviceWorkerUrl));
+			throw new ArgumentException(
+				$"'{nameof(serviceWorkerUrl)}' cannot be null or whitespace.",
+				nameof(serviceWorkerUrl)
+			);
 		}
 		ServiceWorkerUrl = serviceWorkerUrl;
 	}

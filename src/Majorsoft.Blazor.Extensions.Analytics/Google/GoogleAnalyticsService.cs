@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Extensions.Analytics.Google;
@@ -48,9 +47,18 @@ public class GoogleAnalyticsService : IGoogleAnalyticsService
 	public async ValueTask ConfigAsync(string trackingId = "", ExpandoObject? configInfo = null)
 	{
 		var module = await moduleTask.Value;
-		await module.InvokeVoidAsync("config", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, configInfo?.ToList());
+		await module.InvokeVoidAsync(
+			"config",
+			string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId,
+			configInfo?.ToList()
+		);
 	}
-	public async ValueTask GetAsync(string fieldName, Func<object, Task> callback, string trackingId = "")
+
+	public async ValueTask GetAsync(
+		string fieldName,
+		Func<object, Task> callback,
+		string trackingId = ""
+	)
 	{
 		var module = await moduleTask.Value;
 
@@ -59,20 +67,33 @@ public class GoogleAnalyticsService : IGoogleAnalyticsService
 
 		_dotNetObjectReferences.Add(dotnetRef);
 
-		await module.InvokeVoidAsync("get", string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId, fieldName, dotnetRef);
+		await module.InvokeVoidAsync(
+			"get",
+			string.IsNullOrWhiteSpace(trackingId) ? TrackingId : trackingId,
+			fieldName,
+			dotnetRef
+		);
 	}
+
 	public async ValueTask SetAsync(ExpandoObject parameters)
 	{
 		var module = await moduleTask.Value;
 		await module.InvokeVoidAsync("set", parameters);
 	}
-	public async ValueTask EventAsync(GoogleAnalyticsEventTypes eventType, ExpandoObject eventParams)
+
+	public async ValueTask EventAsync(
+		GoogleAnalyticsEventTypes eventType,
+		ExpandoObject eventParams
+	)
 	{
 		var module = await moduleTask.Value;
 		await module.InvokeVoidAsync("event", eventType.ToString(), eventParams);
 	}
 
-	public async ValueTask CustomEventAsync(string customEventName, GoogleAnalyticsCustomEventArgs eventData)
+	public async ValueTask CustomEventAsync(
+		string customEventName,
+		GoogleAnalyticsCustomEventArgs eventData
+	)
 	{
 		var module = await moduleTask.Value;
 		await module.InvokeVoidAsync("customEvent", customEventName, eventData);

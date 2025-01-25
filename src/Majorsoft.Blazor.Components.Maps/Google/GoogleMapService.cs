@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -24,7 +23,8 @@ public sealed class GoogleMapService : IGoogleMapService
 		_jsRuntime = jsRuntime;
 	}
 
-	public async Task InitMapAsync(string apiKey,
+	public async Task InitMapAsync(
+		string apiKey,
 		string mapContainerId,
 		string backgroundColor,
 		int controlSize,
@@ -52,7 +52,8 @@ public sealed class GoogleMapService : IGoogleMapService
 		Func<Rect, Task>? mapResizedCallback = null,
 		Func<Task>? mapTilesLoadedCallback = null,
 		Func<Task>? mapIdleCallback = null,
-		GoogleMapRestriction restriction = null)
+		GoogleMapRestriction restriction = null
+	)
 	{
 		if (MapContainerId == mapContainerId)
 		{
@@ -62,7 +63,8 @@ public sealed class GoogleMapService : IGoogleMapService
 		MapContainerId = mapContainerId;
 		await CheckJsObjectAsync();
 
-		var info = new GoogleMapEventInfo(mapContainerId,
+		var info = new GoogleMapEventInfo(
+			mapContainerId,
 			mapInitializedCallback: mapInitializedCallback,
 			mapClickedCallback: mapClickedCallback,
 			mapDoubleClickedCallback: mapDoubleClickedCallback,
@@ -86,11 +88,20 @@ public sealed class GoogleMapService : IGoogleMapService
 			mapDragStartCallback: mapDragStartCallback,
 			mapResizedCallback: mapResizedCallback,
 			mapTilesLoadedCallback: mapTilesLoadedCallback,
-			mapIdleCallback: mapIdleCallback);
+			mapIdleCallback: mapIdleCallback
+		);
 
 		_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapEventInfo>(info);
 
-		await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize, restriction);
+		await _mapsJs.InvokeVoidAsync(
+			"init",
+			apiKey,
+			mapContainerId,
+			_dotNetObjectReference,
+			backgroundColor,
+			controlSize,
+			restriction
+		);
 	}
 
 	public async Task SetCenterAsync(double latitude, double longitude)
@@ -126,7 +137,11 @@ public sealed class GoogleMapService : IGoogleMapService
 	public async Task SetMapTypeAsync(GoogleMapTypes googleMapType)
 	{
 		await CheckJsObjectAsync();
-		await _mapsJs.InvokeVoidAsync("setMapType", MapContainerId, googleMapType.ToString().ToLower());
+		await _mapsJs.InvokeVoidAsync(
+			"setMapType",
+			MapContainerId,
+			googleMapType.ToString().ToLower()
+		);
 	}
 
 	public async Task SetHeadingAsync(int heading)
@@ -159,28 +174,42 @@ public sealed class GoogleMapService : IGoogleMapService
 		await _mapsJs.InvokeVoidAsync("setOptions", MapContainerId, options);
 	}
 
-	public async Task CreateCustomControlsAsync(IEnumerable<GoogleMapCustomControl> mapCustomControls)
+	public async Task CreateCustomControlsAsync(
+		IEnumerable<GoogleMapCustomControl> mapCustomControls
+	)
 	{
 		await CheckJsObjectAsync();
 		_dotNetObjectReference.Value.AddCustomControls(mapCustomControls);
 
-		await _mapsJs.InvokeVoidAsync("createCustomControls", MapContainerId,
-			(object)mapCustomControls.Cast<GoogleMapCustomControlBase>().ToArray());
+		await _mapsJs.InvokeVoidAsync(
+			"createCustomControls",
+			MapContainerId,
+			(object)mapCustomControls.Cast<GoogleMapCustomControlBase>().ToArray()
+		);
 	}
 
-	public async Task CreateMarkersAsync(IEnumerable<GoogleMapMarker>? newMarkers, IEnumerable<GoogleMapMarker>? markers)
+	public async Task CreateMarkersAsync(
+		IEnumerable<GoogleMapMarker>? newMarkers,
+		IEnumerable<GoogleMapMarker>? markers
+	)
 	{
 		await CheckJsObjectAsync();
 
 		if (newMarkers is null && markers is null) //Clear
 		{
-			await _mapsJs.InvokeVoidAsync("removeMarkers", MapContainerId,
-				(object)_dotNetObjectReference.Value.Markers
-					.Select(s => s.Value)
-					.Cast<GoogleMapMarkerBase>()
-					.ToArray());
+			await _mapsJs.InvokeVoidAsync(
+				"removeMarkers",
+				MapContainerId,
+				(object)
+					_dotNetObjectReference
+						.Value.Markers.Select(s => s.Value)
+						.Cast<GoogleMapMarkerBase>()
+						.ToArray()
+			);
 
-			_dotNetObjectReference.Value.RemoveMarkers(_dotNetObjectReference.Value.Markers.Select(s => s.Value));
+			_dotNetObjectReference.Value.RemoveMarkers(
+				_dotNetObjectReference.Value.Markers.Select(s => s.Value)
+			);
 
 			return;
 		}
@@ -191,37 +220,53 @@ public sealed class GoogleMapService : IGoogleMapService
 			_dotNetObjectReference.Value.AddMarkers(newMarkers);
 			if (newMarkers.Count() > 0)
 			{
-				await _mapsJs.InvokeVoidAsync("createMarkers", MapContainerId,
-					(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+				await _mapsJs.InvokeVoidAsync(
+					"createMarkers",
+					MapContainerId,
+					(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray()
+				);
 			}
 		}
 
 		if (markers is not null)
 		{
 			//Detect switched objects add new markers to the map
-			newMarkers = markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x))
+			newMarkers = markers
+				.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x))
 				.Except(_dotNetObjectReference.Value.Markers)
-				.Distinct().Select(s => s.Value).ToList();
+				.Distinct()
+				.Select(s => s.Value)
+				.ToList();
 
 			if (newMarkers.Count() > 0)
 			{
 				_dotNetObjectReference.Value.AddMarkers(newMarkers);
 
-				await _mapsJs.InvokeVoidAsync("createMarkers", MapContainerId,
-					(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+				await _mapsJs.InvokeVoidAsync(
+					"createMarkers",
+					MapContainerId,
+					(object)newMarkers.Cast<GoogleMapMarkerBase>().ToArray()
+				);
 			}
 
 			//Detect removed markers from the map
-			var removedMarkers = _dotNetObjectReference.Value.Markers
-				.Except(markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x)))
-				.Distinct().Select(s => s.Value).ToList();
+			var removedMarkers = _dotNetObjectReference
+				.Value.Markers.Except(
+					markers.Select(x => new KeyValuePair<string, GoogleMapMarker>(x.Id, x))
+				)
+				.Distinct()
+				.Select(s => s.Value)
+				.ToList();
 
 			if (removedMarkers.Count() > 0)
 			{
 				_dotNetObjectReference.Value.RemoveMarkers(removedMarkers);
 
-				await _mapsJs.InvokeVoidAsync("removeMarkers", MapContainerId,
-					(object)removedMarkers.Cast<GoogleMapMarkerBase>().ToArray());
+				await _mapsJs.InvokeVoidAsync(
+					"removeMarkers",
+					MapContainerId,
+					(object)removedMarkers.Cast<GoogleMapMarkerBase>().ToArray()
+				);
 			}
 
 			////Update markers NOT SUPPORTED
@@ -261,15 +306,20 @@ public sealed class GoogleMapService : IGoogleMapService
 		await _mapsJs.InvokeVoidAsync("polylineSetMap", MapContainerId, googleMapPolylineOptions);
 	}
 
-
 	private async Task CheckJsObjectAsync()
 	{
 		if (_mapsJs is null)
 		{
 #if DEBUG
-			_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.js");
+			_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Maps/googleMaps.js"
+			);
 #else
-			_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.min.js");
+			_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Maps/googleMaps.min.js"
+			);
 #endif
 		}
 	}

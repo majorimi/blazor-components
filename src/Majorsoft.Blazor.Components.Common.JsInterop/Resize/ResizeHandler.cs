@@ -63,7 +63,10 @@ public sealed class ResizeHandler : IResizeHandler
 		return size;
 	}
 
-	public async Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null)
+	public async Task RegisterResizeAsync(
+		ElementReference elementRef,
+		Func<ResizeEventArgs, Task> resizeCallback = null
+	)
 	{
 		await CheckJsObjectAsync();
 
@@ -81,7 +84,9 @@ public sealed class ResizeHandler : IResizeHandler
 
 		await _resizeJs.InvokeVoidAsync("removeResizeEventHandler", elementRef);
 
-		var dotNetRefs = _dotNetObjectReferences.Where(x => x.Value.ElementReference.Equals(elementRef));
+		var dotNetRefs = _dotNetObjectReferences.Where(x =>
+			x.Value.ElementReference.Equals(elementRef)
+		);
 		RemoveElement(dotNetRefs);
 	}
 
@@ -100,9 +105,15 @@ public sealed class ResizeHandler : IResizeHandler
 		if (_resizeJs is null)
 		{
 #if DEBUG
-			_resizeJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/resize.js");
+			_resizeJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/resize.js"
+			);
 #else
-			_resizeJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/resize.min.js");
+			_resizeJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/resize.min.js"
+			);
 #endif
 		}
 	}
@@ -111,10 +122,14 @@ public sealed class ResizeHandler : IResizeHandler
 	{
 		if (_resizeJs is not null)
 		{
-			await _resizeJs.InvokeVoidAsync("dispose",
-				(object)_dotNetObjectReferences.Select(s => s.Value.ElementReference).ToArray());
-			await _resizeJs.InvokeVoidAsync("disposeGlobal",
-				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+			await _resizeJs.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.ElementReference).ToArray()
+			);
+			await _resizeJs.InvokeVoidAsync(
+				"disposeGlobal",
+				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray()
+			);
 
 			await _resizeJs.DisposeAsync();
 		}

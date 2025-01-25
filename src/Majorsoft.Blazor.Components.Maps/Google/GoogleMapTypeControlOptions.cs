@@ -21,7 +21,8 @@ public class GoogleMapTypeControlOptions
 	/// <summary>
 	/// Style id. Used to select what style of map type control to display.
 	/// </summary>
-	public GoogleMapTypeControlStyles MapTypeControlStyle { get; set; } = GoogleMapTypeControlStyles.DEFAULT;
+	public GoogleMapTypeControlStyles MapTypeControlStyle { get; set; } =
+		GoogleMapTypeControlStyles.DEFAULT;
 
 	/// <summary>
 	/// Default constructor

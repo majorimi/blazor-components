@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Majorsoft.Blazor.Extensions.BrowserStorage;

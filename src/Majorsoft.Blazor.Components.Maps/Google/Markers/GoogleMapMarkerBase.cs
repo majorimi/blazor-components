@@ -58,7 +58,7 @@ public abstract class GoogleMapMarkerBase
 	public double Opacity { get; set; } = 1.0;
 
 	/// <summary>
-	/// Optimization renders many markers as a single static element. Optimized rendering is enabled by default. 
+	/// Optimization renders many markers as a single static element. Optimized rendering is enabled by default.
 	/// Disable optimized rendering for animated GIFs or PNGs, or when each marker must be rendered as a separate DOM element (advanced usage only).
 	/// </summary>
 	public bool Optimized { get; set; } = true;
@@ -74,7 +74,7 @@ public abstract class GoogleMapMarkerBase
 	public GoogleMapMarkerShape? Shape { get; set; }
 
 	/// <summary>
-	/// Rollover text. If provided, an accessibility text (e.g. for use with screen readers) 
+	/// Rollover text. If provided, an accessibility text (e.g. for use with screen readers)
 	/// will be added to the marker with the provided value.
 	/// </summary>
 	public string? Title { get; set; }

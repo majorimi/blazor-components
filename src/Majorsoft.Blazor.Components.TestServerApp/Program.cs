@@ -1,5 +1,4 @@
 using Majorsoft.Blazor.Server.Logging.Console;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,8 +16,10 @@ public class Program
 		Host.CreateDefaultBuilder(args)
 			.ConfigureLogging(logger =>
 			{
-				logger.AddBrowserConsole()
-					.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
+				logger
+					.AddBrowserConsole()
+					.SetMinimumLevel(LogLevel.Trace)
+					.AddFilter("Microsoft", LogLevel.Information);
 			})
 			.ConfigureWebHostDefaults(webBuilder =>
 			{

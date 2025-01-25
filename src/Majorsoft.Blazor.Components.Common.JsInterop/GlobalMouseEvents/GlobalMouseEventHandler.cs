@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -23,7 +22,9 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 		_dotNetObjectReferences = new List<DotNetObjectReference<PageMouseEventInfo>>();
 	}
 
-	public async Task<string> RegisterPageMouseDownAsync(Func<MouseEventArgs, Task> mouseDownCallback)
+	public async Task<string> RegisterPageMouseDownAsync(
+		Func<MouseEventArgs, Task> mouseDownCallback
+	)
 	{
 		await CheckJsObjectAsync();
 
@@ -36,6 +37,7 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 
 		return id;
 	}
+
 	public async Task RemovePageMouseDownAsync(string eventId)
 	{
 		await CheckJsObjectAsync();
@@ -44,7 +46,9 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 		RemoveElement(eventId);
 	}
 
-	public async Task<string> RegisterPageMouseMoveAsync(Func<MouseEventArgs, Task> mouseMoveCallback)
+	public async Task<string> RegisterPageMouseMoveAsync(
+		Func<MouseEventArgs, Task> mouseMoveCallback
+	)
 	{
 		await CheckJsObjectAsync();
 
@@ -57,6 +61,7 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 
 		return id;
 	}
+
 	public async Task RemovePageMouseMoveAsync(string eventId)
 	{
 		await CheckJsObjectAsync();
@@ -78,6 +83,7 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 
 		return id;
 	}
+
 	public async Task RemovePageMouseUpAsync(string eventId)
 	{
 		await CheckJsObjectAsync();
@@ -102,9 +108,15 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 		if (_mouseJs is null)
 		{
 #if DEBUG
-			_mouseJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/globalMouseEvents.js");
+			_mouseJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/globalMouseEvents.js"
+			);
 #else
-			_mouseJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/globalMouseEvents.min.js");
+			_mouseJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/globalMouseEvents.min.js"
+			);
 #endif
 		}
 	}
@@ -113,8 +125,10 @@ public sealed class GlobalMouseEventHandler : IGlobalMouseEventHandler
 	{
 		if (_mouseJs is not null)
 		{
-			await _mouseJs.InvokeVoidAsync("dispose",
-				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).Distinct().ToArray());
+			await _mouseJs.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).Distinct().ToArray()
+			);
 			await _mouseJs.DisposeAsync();
 		}
 

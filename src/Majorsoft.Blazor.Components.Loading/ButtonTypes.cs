@@ -4,5 +4,5 @@ public enum ButtonTypes
 {
 	Button,
 	Submit,
-	Reset
+	Reset,
 }

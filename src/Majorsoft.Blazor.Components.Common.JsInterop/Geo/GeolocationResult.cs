@@ -11,6 +11,7 @@ public sealed class GeolocationResult
 	/// Represents the position, if any.
 	/// </summary>
 	public GeolocationCoordinates? Coordinates { get; set; }
+
 	/// <summary>
 	/// Represents the reason of an error occurring, if any.
 	/// </summary>

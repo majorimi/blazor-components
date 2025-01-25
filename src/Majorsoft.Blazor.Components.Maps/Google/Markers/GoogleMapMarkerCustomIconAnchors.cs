@@ -13,5 +13,5 @@ public enum GoogleMapMarkerCustomIconAnchors
 	Topleft,
 	Topright,
 	Bottomleft,
-	Bottomright
+	Bottomright,
 }

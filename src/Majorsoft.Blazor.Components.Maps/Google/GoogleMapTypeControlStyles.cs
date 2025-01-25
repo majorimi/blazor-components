@@ -6,7 +6,7 @@
 public enum GoogleMapTypeControlStyles
 {
 	/// <summary>
-	/// When the DEFAULT control is shown, it will vary according to window size and other factors. 
+	/// When the DEFAULT control is shown, it will vary according to window size and other factors.
 	/// The DEFAULT control may change in future versions of the API.
 	/// </summary>
 	DEFAULT = 0,

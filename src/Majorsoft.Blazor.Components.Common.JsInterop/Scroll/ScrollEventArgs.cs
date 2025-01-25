@@ -11,6 +11,7 @@ public sealed class ScrollEventArgs : EventArgs
 	/// Scroll X position
 	/// </summary>
 	public double X { get; set; }
+
 	/// <summary>
 	/// Scroll Y position
 	/// </summary>

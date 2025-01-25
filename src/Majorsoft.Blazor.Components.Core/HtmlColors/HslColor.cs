@@ -45,7 +45,9 @@ public class HslColor
 
 	private static Color HslToRgb(double hue, double saturation, double luminosity)
 	{
-		double red, green, blue;
+		double red,
+			green,
+			blue;
 
 		var h = hue / 360.0;
 		var s = saturation / 100.0;
@@ -83,6 +85,7 @@ public class HslColor
 
 		return Color.FromArgb(nRed, nGreen, nBlue);
 	}
+
 	private static double Hue2Rgb(double v1, double v2, double vH)
 	{
 		if (vH < 0.0)
@@ -127,7 +130,9 @@ public class HslColor
 		double v;
 		double m;
 		double vm;
-		double r2, g2, b2;
+		double r2,
+			g2,
+			b2;
 
 		var h = 0.0;
 		var s = 0.0;

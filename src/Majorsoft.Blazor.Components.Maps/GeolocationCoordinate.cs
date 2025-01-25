@@ -11,6 +11,7 @@ public class GeolocationCoordinate
 	/// Representing the latitude of the position in decimal degrees.
 	/// </summary>
 	public double? Latitude { get; init; }
+
 	/// <summary>
 	/// Represents the longitude of a geographical position, specified in decimal degrees.
 	/// </summary>

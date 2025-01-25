@@ -1,5 +1,4 @@
 ﻿using Majorsoft.Blazor.Components.Maps.Google;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Maps.Tests.Google;
@@ -19,10 +18,7 @@ public class GoogleMapMarkerStyleTest
 	[TestMethod]
 	public void GoogleMapMarkerStyle_should_generate_only_size()
 	{
-		var style = new GoogleMapMarkerStyle()
-		{
-			Size = GoogleMapMarkerSizes.Mid
-		};
+		var style = new GoogleMapMarkerStyle() { Size = GoogleMapMarkerSizes.Mid };
 
 		Assert.AreEqual("size:mid", style.ToString());
 	}
@@ -30,10 +26,7 @@ public class GoogleMapMarkerStyleTest
 	[TestMethod]
 	public void GoogleMapMarkerStyle_should_generate_only_color()
 	{
-		var style = new GoogleMapMarkerStyle()
-		{
-			Color = "white"
-		};
+		var style = new GoogleMapMarkerStyle() { Color = "white" };
 
 		Assert.AreEqual("color:white", style.ToString());
 	}
@@ -41,10 +34,7 @@ public class GoogleMapMarkerStyleTest
 	[TestMethod]
 	public void GoogleMapMarkerStyle_should_generate_only_label()
 	{
-		var style = new GoogleMapMarkerStyle()
-		{
-			Label = 'a',
-		};
+		var style = new GoogleMapMarkerStyle() { Label = 'a' };
 
 		Assert.AreEqual("label:A", style.ToString());
 	}
@@ -52,10 +42,7 @@ public class GoogleMapMarkerStyleTest
 	[TestMethod]
 	public void GoogleMapMarkerStyle_should_generate_only_scale()
 	{
-		var style = new GoogleMapMarkerStyle()
-		{
-			Scale = 4
-		};
+		var style = new GoogleMapMarkerStyle() { Scale = 4 };
 
 		Assert.AreEqual("scale:4", style.ToString());
 	}
@@ -82,7 +69,7 @@ public class GoogleMapMarkerStyleTest
 			Color = "red",
 			Size = GoogleMapMarkerSizes.Tiny,
 			Label = 'X',
-			Scale = 4
+			Scale = 4,
 		};
 
 		Assert.AreEqual("scale:4|size:tiny|color:red|label:X", style.ToString());

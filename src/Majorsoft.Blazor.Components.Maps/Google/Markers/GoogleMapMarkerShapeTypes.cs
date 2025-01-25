@@ -7,5 +7,5 @@ public enum GoogleMapMarkerShapeTypes
 {
 	Circle,
 	Poly,
-	Rect
+	Rect,
 }

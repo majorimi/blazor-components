@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-
 using Majorsoft.Blazor.Components.Core.Extensions;
 using Majorsoft.Blazor.Components.Core.HtmlColors;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Core.Tests.Extensions;
@@ -20,7 +18,18 @@ public class MathExtensionsTest
 
 		var r = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
 		var g = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
-		var b = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 255, 0);
+		var b = MathExtensions.BilinearInterpolationCalculator(
+			0,
+			0,
+			450,
+			250,
+			x,
+			y,
+			255,
+			0,
+			255,
+			0
+		);
 
 		Assert.AreEqual(255, r);
 		Assert.AreEqual(255, g);
@@ -36,7 +45,18 @@ public class MathExtensionsTest
 
 		var r = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
 		var g = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
-		var b = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 255, 0);
+		var b = MathExtensions.BilinearInterpolationCalculator(
+			0,
+			0,
+			450,
+			250,
+			x,
+			y,
+			255,
+			0,
+			255,
+			0
+		);
 
 		Assert.AreEqual(0, r);
 		Assert.AreEqual(0, g);
@@ -52,7 +72,18 @@ public class MathExtensionsTest
 
 		var r = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
 		var g = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
-		var b = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 255, 0);
+		var b = MathExtensions.BilinearInterpolationCalculator(
+			0,
+			0,
+			450,
+			250,
+			x,
+			y,
+			255,
+			0,
+			255,
+			0
+		);
 
 		Assert.AreEqual(0, r);
 		Assert.AreEqual(0, g);
@@ -68,7 +99,18 @@ public class MathExtensionsTest
 
 		var r = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
 		var g = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
-		var b = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 255, 0);
+		var b = MathExtensions.BilinearInterpolationCalculator(
+			0,
+			0,
+			450,
+			250,
+			x,
+			y,
+			255,
+			0,
+			255,
+			0
+		);
 
 		Assert.AreEqual(0, r);
 		Assert.AreEqual(0, g);
@@ -84,7 +126,18 @@ public class MathExtensionsTest
 
 		var r = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
 		var g = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 0, 0);
-		var b = MathExtensions.BilinearInterpolationCalculator(0, 0, 450, 250, x, y, 255, 0, 255, 0);
+		var b = MathExtensions.BilinearInterpolationCalculator(
+			0,
+			0,
+			450,
+			250,
+			x,
+			y,
+			255,
+			0,
+			255,
+			0
+		);
 
 		Assert.AreEqual(151.39, Math.Round(r, 2));
 		Assert.AreEqual(151.39, Math.Round(g, 2));
@@ -129,13 +182,49 @@ public class MathExtensionsTest
 		var hslColor = new HslColor(hue, 100, 50);
 		var hueColor = (Color)hslColor;
 
-		var rx = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, 450, hueColor.R, color.R);
-		var gx = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, 450, hueColor.G, color.G);
-		var bx = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, 450, hueColor.B, color.B);
+		var rx = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			255,
+			450,
+			hueColor.R,
+			color.R
+		);
+		var gx = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			255,
+			450,
+			hueColor.G,
+			color.G
+		);
+		var bx = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			255,
+			450,
+			hueColor.B,
+			color.B
+		);
 
-		var ry = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.R, 250, 0, color.R);
-		var gy = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.G, 250, 0, color.G);
-		var by = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.B, 250, 0, color.B);
+		var ry = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			hueColor.R,
+			250,
+			0,
+			color.R
+		);
+		var gy = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			hueColor.G,
+			250,
+			0,
+			color.G
+		);
+		var by = MathExtensions.ReverseLinearInterpolationCalculator(
+			0,
+			hueColor.B,
+			250,
+			0,
+			color.B
+		);
 
 		//X: '329', Y: '9,40625'
 		Assert.AreEqual(333.53, Math.Round(rx, 2)); //Correct when Hue RGB component is 0

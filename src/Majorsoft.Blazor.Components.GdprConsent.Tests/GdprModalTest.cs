@@ -1,17 +1,13 @@
 using System;
 using System.Threading.Tasks;
-
 using Bunit;
-
 using Majorsoft.Blazor.Components.Common.JsInterop.Focus;
 using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.CssEvents.Transition;
 using Majorsoft.Blazor.Components.Modal;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests;
@@ -30,28 +26,47 @@ public class GdprModalTest : ComponentsTestBase<GdprModal>
 		_gdprConsentNotificationServiceMock = Substitute.For<IGdprConsentNotificationService>();
 		var logger = Substitute.For<ILogger<ModalDialog>>();
 		_dprConsentServiceMock = Substitute.For<IGdprConsentService>();
-		_dprConsentServiceMock.ConsentNotificationService.Returns(_gdprConsentNotificationServiceMock);
+		_dprConsentServiceMock.ConsentNotificationService.Returns(
+			_gdprConsentNotificationServiceMock
+		);
 
 		_transitionMock = Substitute.For<ITransitionEventsService>();
 		_focusHandlerMock = Substitute.For<IFocusHandler>();
 
 		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), logger));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock)
+		);
 		_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprBanner>), new SingletonComponentService<GdprBanner>()));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprModal>), new SingletonComponentService<GdprModal>()));
+		_testContext.Services.Add(
+			new ServiceDescriptor(
+				typeof(SingletonComponentService<GdprBanner>),
+				new SingletonComponentService<GdprBanner>()
+			)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(
+				typeof(SingletonComponentService<GdprModal>),
+				new SingletonComponentService<GdprModal>()
+			)
+		);
 	}
 
 	[TestMethod]
 	public void GdprBanner_should_not_render_anything_if_consent_valid()
 	{
-		_dprConsentServiceMock.GetGdprConsentDataAsync()
-			.Returns(new GdprConsentData
-			{
-				AnsweredAt = DateTime.Now,
-				AnswerValidUntil = DateTime.Now.AddDays(1),
-			});
+		_dprConsentServiceMock
+			.GetGdprConsentDataAsync()
+			.Returns(
+				new GdprConsentData
+				{
+					AnsweredAt = DateTime.Now,
+					AnswerValidUntil = DateTime.Now.AddDays(1),
+				}
+			);
 
 		var rendered = _testContext.RenderComponent<GdprModal>();
 		rendered.MarkupMatches("");
@@ -67,15 +82,17 @@ public class GdprModalTest : ComponentsTestBase<GdprModal>
 			("id", "id1"), //HTML attributes
 			("title", "text"), //HTML attributes
 			(nameof(ModalDialog.OverlayOpacity), 0.5)
-			);
-
+		);
 
 		var div = rendered.Find("div");
 		rendered.Render();
 
 		Assert.IsNotNull(div);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"" id=""id1"" title=""text"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"" id=""id1"" title=""text"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
@@ -99,30 +116,42 @@ public class GdprModalTest : ComponentsTestBase<GdprModal>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task GdprModal_should_SaveChoice_as_user_choosen_ConsentDetails()
 	{
-		_dprConsentServiceMock.GetGdprConsentDataAsync()
-			.Returns(new GdprConsentData
-			{
-				AnsweredAt = DateTime.Now,
-				AnswerValidUntil = DateTime.Now.AddDays(1),
-			});
+		_dprConsentServiceMock
+			.GetGdprConsentDataAsync()
+			.Returns(
+				new GdprConsentData
+				{
+					AnsweredAt = DateTime.Now,
+					AnswerValidUntil = DateTime.Now.AddDays(1),
+				}
+			);
 		var details = new GdprConsentDetail[]
-			{
-				new GdprConsentDetail() { ConsentName = "All", IsAccepted = false },
-				new GdprConsentDetail() { ConsentName = "Tracking", IsAccepted = true },
-				new GdprConsentDetail() { ConsentName = "Session", IsAccepted = true },
-			};
+		{
+			new GdprConsentDetail() { ConsentName = "All", IsAccepted = false },
+			new GdprConsentDetail() { ConsentName = "Tracking", IsAccepted = true },
+			new GdprConsentDetail() { ConsentName = "Session", IsAccepted = true },
+		};
 
-		var rendered = _testContext.RenderComponent<GdprModal>(parameters => parameters
-			.Add(p => p.ConsentDetails, details));
+		var rendered = _testContext.RenderComponent<GdprModal>(parameters =>
+			parameters.Add(p => p.ConsentDetails, details)
+		);
 
 		await rendered.Instance.SaveChoice();
 
-		await _dprConsentServiceMock.Received(1).SetGdprConsentDataAsync(Arg.Is<GdprConsentData>(v => !details[0].IsAccepted && details[1].IsAccepted && details[2].IsAccepted));
+		await _dprConsentServiceMock
+			.Received(1)
+			.SetGdprConsentDataAsync(
+				Arg.Is<GdprConsentData>(v =>
+					!details[0].IsAccepted && details[1].IsAccepted && details[2].IsAccepted
+				)
+			);
 	}
 }

@@ -6,7 +6,9 @@ namespace Majorsoft.Blazor.Components.Core.HtmlColors;
 
 public static class HtmlColorHelper
 {
-	private static readonly Dictionary<string, string> _names = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+	private static readonly Dictionary<string, string> _names = new Dictionary<string, string>(
+		StringComparer.OrdinalIgnoreCase
+	)
 	{
 		{ "AliceBlue", "F0F8FF" },
 		{ "AntiqueWhite", "FAEBD7" },
@@ -158,5 +160,6 @@ public static class HtmlColorHelper
 		{ "YellowGreen", "9ACD32" },
 	};
 
-	public static readonly ReadOnlyDictionary<string, string> NamedHtmlColors = new ReadOnlyDictionary<string, string>(_names);
+	public static readonly ReadOnlyDictionary<string, string> NamedHtmlColors =
+		new ReadOnlyDictionary<string, string>(_names);
 }

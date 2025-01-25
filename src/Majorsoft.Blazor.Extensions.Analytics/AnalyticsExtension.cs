@@ -1,5 +1,4 @@
 ﻿using Majorsoft.Blazor.Extensions.Analytics.Google;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Majorsoft.Blazor.Extensions.Analytics;

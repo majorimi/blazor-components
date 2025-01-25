@@ -1,7 +1,5 @@
 ﻿using System;
-
 using Majorsoft.Blazor.Components.Core.HtmlColors;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Core.Tests.HtmlColors;

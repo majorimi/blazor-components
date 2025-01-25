@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -29,7 +28,9 @@ public static class ElementReferenceInfoExtensions
 		return new DomRect();
 	}
 
-	private static async Task<IJSObjectReference?> GetJsObject(this ElementReference elementReference)
+	private static async Task<IJSObjectReference?> GetJsObject(
+		this ElementReference elementReference
+	)
 	{
 		var jsRuntime = elementReference.GetJSRuntime();
 

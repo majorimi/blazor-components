@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -8,10 +7,13 @@ namespace Majorsoft.Blazor.Server.Logging.Console;
 
 internal class BrowserConsoleLogger<T> : BrowserConsoleLogger, ILogger<T>
 {
-	public BrowserConsoleLogger(IServiceProvider serviceProvider, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
-		: base(serviceProvider, name, filter, scopeProvider)
-	{
-	}
+	public BrowserConsoleLogger(
+		IServiceProvider serviceProvider,
+		string name,
+		Func<string, LogLevel, bool> filter,
+		IExternalScopeProvider scopeProvider = null
+	)
+		: base(serviceProvider, name, filter, scopeProvider) { }
 }
 
 internal class BrowserConsoleLogger : ILogger
@@ -36,7 +38,12 @@ internal class BrowserConsoleLogger : ILogger
 		}
 	}
 
-	public BrowserConsoleLogger(IServiceProvider serviceProvider, string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
+	public BrowserConsoleLogger(
+		IServiceProvider serviceProvider,
+		string name,
+		Func<string, LogLevel, bool> filter,
+		IExternalScopeProvider scopeProvider = null
+	)
 	{
 		if (serviceProvider is null)
 		{
@@ -63,7 +70,13 @@ internal class BrowserConsoleLogger : ILogger
 		return Filter(Name, logLevel);
 	}
 
-	public async void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+	public async void Log<TState>(
+		LogLevel logLevel,
+		EventId eventId,
+		TState state,
+		Exception exception,
+		Func<TState, Exception, string> formatter
+	)
 	{
 		if (!IsEnabled(logLevel))
 		{
@@ -81,7 +94,9 @@ internal class BrowserConsoleLogger : ILogger
 		{
 			try
 			{
-				var hub = _serviceProvider.GetService(typeof(IHubContext<BlazorServerConsoleLoggingHub>)) as IHubContext<BlazorServerConsoleLoggingHub>;
+				var hub =
+					_serviceProvider.GetService(typeof(IHubContext<BlazorServerConsoleLoggingHub>))
+					as IHubContext<BlazorServerConsoleLoggingHub>;
 				hub?.Clients.All.SendAsync("WriteConsoleLogAsync", message, logLevel);
 			}
 			catch (Exception ex)
@@ -91,5 +106,6 @@ internal class BrowserConsoleLogger : ILogger
 		}
 	}
 
-	public IDisposable BeginScope<TState>(TState state) => ScopeProvider?.Push(state) ?? NullScope.Instance;
+	public IDisposable BeginScope<TState>(TState state) =>
+		ScopeProvider?.Push(state) ?? NullScope.Instance;
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.Clipboard;

@@ -9,6 +9,7 @@ public class Rect
 	/// Rect height
 	/// </summary>
 	public double Height { get; set; }
+
 	/// <summary>
 	/// Rect width
 	/// </summary>

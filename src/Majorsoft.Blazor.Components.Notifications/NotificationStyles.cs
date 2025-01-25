@@ -7,5 +7,5 @@ public enum NotificationStyles
 {
 	Normal,
 	Outlined,
-	Strong
+	Strong,
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-
 using Majorsoft.Blazor.Components.Common.JsInterop.Navigation;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Logging;
@@ -16,7 +14,10 @@ namespace Majorsoft.Blazor.Components.PermaLink;
 public class PermaLinkWatcherService : IPermaLinkWatcherService
 {
 	private bool _subscribed = false;
-	private readonly Regex _poundRegex = new Regex("#(.*)$", RegexOptions.Singleline | RegexOptions.Compiled);
+	private readonly Regex _poundRegex = new Regex(
+		"#(.*)$",
+		RegexOptions.Singleline | RegexOptions.Compiled
+	);
 	private readonly IScrollHandler _scrollHandler;
 	private readonly NavigationManager _navigationManager;
 	private readonly ILogger<IPermaLinkWatcherService> _logger;
@@ -26,11 +27,13 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 
 	public bool SmoothScroll { get; set; }
 
-	public PermaLinkWatcherService(IScrollHandler scrollHandler,
+	public PermaLinkWatcherService(
+		IScrollHandler scrollHandler,
 		NavigationManager navigationManager,
 		ILogger<IPermaLinkWatcherService> logger,
 		INavigationHistoryService navigationHistoryService,
-		bool smoothScroll = false)
+		bool smoothScroll = false
+	)
 	{
 		_scrollHandler = scrollHandler;
 		_navigationManager = navigationManager;
@@ -45,13 +48,18 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 		{
 			_navigationManager.LocationChanged += HandleLocationChanged;
 			_subscribed = true;
-			HandleLocationChanged(this, new LocationChangedEventArgs(_navigationManager.Uri, false));
+			HandleLocationChanged(
+				this,
+				new LocationChangedEventArgs(_navigationManager.Uri, false)
+			);
 		}
 	}
 
 	private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 	{
-		_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: navigation happened new URL: '{e.Location}'");
+		_logger.LogDebug(
+			$"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: navigation happened new URL: '{e.Location}'"
+		);
 		var perma = DetectPermalink(e.Location);
 
 		if (!string.IsNullOrWhiteSpace(perma))
@@ -67,7 +75,9 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 
 	public void ChangePermalink(string? newPermalink, bool doNotNavigate)
 	{
-		_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(ChangePermalink)}: current URL: '{_navigationManager.Uri}', new URL Permalink: '{newPermalink}'");
+		_logger.LogDebug(
+			$"{nameof(PermaLinkWatcherService)} - {nameof(ChangePermalink)}: current URL: '{_navigationManager.Uri}', new URL Permalink: '{newPermalink}'"
+		);
 
 		var perma = DetectPermalink(_navigationManager.Uri);
 		if (!string.IsNullOrWhiteSpace(perma))
@@ -89,7 +99,9 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 
 	private void SetBrowserUrl(string uri, bool doNotNavigate)
 	{
-		_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(SetBrowserUrl)}: new URL: '{uri}', doNotNavigate: '{doNotNavigate}'");
+		_logger.LogDebug(
+			$"{nameof(PermaLinkWatcherService)} - {nameof(SetBrowserUrl)}: new URL: '{uri}', doNotNavigate: '{doNotNavigate}'"
+		);
 
 		if (doNotNavigate)
 		{
@@ -99,6 +111,7 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 
 		_navigationManager.NavigateTo(uri, false);
 	}
+
 	public string? CheckPermalink(bool triggerEvent)
 	{
 		var perma = DetectPermalink(_navigationManager.Uri);
@@ -106,8 +119,13 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 		{
 			if (PermalinkDetected is not null)
 			{
-				PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(
-					   new LocationChangedEventArgs(_navigationManager.Uri, false), perma));
+				PermalinkDetected.Invoke(
+					this,
+					new PermalinkDetectedEventArgs(
+						new LocationChangedEventArgs(_navigationManager.Uri, false),
+						perma
+					)
+				);
 			}
 		}
 
@@ -120,7 +138,9 @@ public class PermaLinkWatcherService : IPermaLinkWatcherService
 		if (match.Success && match.Groups.Count == 2)
 		{
 			var perma = match.Groups[1].Value;
-			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(DetectPermalink)}: PermaLink found: '{perma}'");
+			_logger.LogDebug(
+				$"{nameof(PermaLinkWatcherService)} - {nameof(DetectPermalink)}: PermaLink found: '{perma}'"
+			);
 
 			return perma;
 		}

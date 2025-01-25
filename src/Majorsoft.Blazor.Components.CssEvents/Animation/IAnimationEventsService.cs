@@ -19,7 +19,11 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onStartedCallback">Func to call when Animation event has started fired</param>
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAnimationStartedAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onStartedCallback, string animationName = "");
+	Task RegisterAnimationStartedAsync(
+		ElementReference elementRef,
+		Func<AnimationEventArgs, Task> onStartedCallback,
+		string animationName = ""
+	);
 
 	/// <summary>
 	/// Removes event listener for 'animationstart' HTML event for the given element with Animation name filter.
@@ -36,7 +40,11 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onIterationCallback">Func to call when Animation event has started new iteration fired</param>
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAnimationIterationAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onIterationCallback, string animationName = "");
+	Task RegisterAnimationIterationAsync(
+		ElementReference elementRef,
+		Func<AnimationEventArgs, Task> onIterationCallback,
+		string animationName = ""
+	);
 
 	/// <summary>
 	/// Removes event listener for 'animationiteration' HTML event for the given element with Animation name filter.
@@ -53,7 +61,11 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onEndedCallback">Func to call when Animation event has finished fired</param>
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAnimationEndedAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onEndedCallback, string animationName = "");
+	Task RegisterAnimationEndedAsync(
+		ElementReference elementRef,
+		Func<AnimationEventArgs, Task> onEndedCallback,
+		string animationName = ""
+	);
 
 	/// <summary>
 	/// Removes event listener for 'animationend' HTML event for the given element with Animation name filter.
@@ -62,7 +74,6 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
 	Task RemoveAnimationEndedAsync(ElementReference elementRef, string animationName = "");
-
 
 	//Composits
 
@@ -73,7 +84,11 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onEventCallback">Func to call when any Animation event fired</param>
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAllAnimationEventsAsync(ElementReference elementRef, Func<AnimationEventArgs, Task> onEventCallback, string animationName = "");
+	Task RegisterAllAnimationEventsAsync(
+		ElementReference elementRef,
+		Func<AnimationEventArgs, Task> onEventCallback,
+		string animationName = ""
+	);
 
 	/// <summary>
 	/// Adds event listeners with different callbacks for all supported HTML events for the given element with Animation name filter.
@@ -84,11 +99,13 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onEndedCallback">Func to call when Animation event has finished fired</param>
 	/// <param name="animationName">Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAllAnimationEventsAsync(ElementReference elementRef,
+	Task RegisterAllAnimationEventsAsync(
+		ElementReference elementRef,
 		Func<AnimationEventArgs, Task> onStartedCallback,
 		Func<AnimationEventArgs, Task> onIterationCallback,
 		Func<AnimationEventArgs, Task> onEndedCallback,
-		string animationName = "");
+		string animationName = ""
+	);
 
 	/// <summary>
 	/// Removes event listener for all supported HTML event for the given element with Animation name filter.
@@ -104,12 +121,17 @@ public interface IAnimationEventsService : IAsyncDisposable
 	/// <param name="onEndedCallback">Func to call when ALL Animation events has finished</param>
 	/// <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RegisterAnimationsWhenAllEndedAsync(Func<AnimationEventArgs[], Task> onEndedCallback, params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+	Task RegisterAnimationsWhenAllEndedAsync(
+		Func<AnimationEventArgs[], Task> onEndedCallback,
+		params KeyValuePair<ElementReference, string>[] elementRefsWithProperties
+	);
 
 	/// <summary>
 	/// Removes event listeners for 'animationend' HTML event for the given elements with Animation names filters.
 	/// </summary>
 	/// <param name="elementRefsWithProperties">Params KeyValuePair with Blazor reference to an HTML element and Animation name for filter event</param>
 	/// <returns>Async Task</returns>
-	Task RemoveAnimationsWhenAllEndedAsync(params KeyValuePair<ElementReference, string>[] elementRefsWithProperties);
+	Task RemoveAnimationsWhenAllEndedAsync(
+		params KeyValuePair<ElementReference, string>[] elementRefsWithProperties
+	);
 }

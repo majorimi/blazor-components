@@ -6,7 +6,11 @@ namespace Majorsoft.Blazor.Server.Logging.Console;
 
 internal class ServerConsoleLogging
 {
-	public static ValueTask LogConsole(IJSObjectReference jSObjectReference, string message, LogLevel logLevel)
+	public static ValueTask LogConsole(
+		IJSObjectReference jSObjectReference,
+		string message,
+		LogLevel logLevel
+	)
 	{
 		if (jSObjectReference != null)
 		{

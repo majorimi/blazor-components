@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -28,26 +27,31 @@ public sealed class ScrollHandler : IScrollHandler
 		await CheckJsObjectAsync();
 		await _scrollJs.InvokeVoidAsync("scrollToPageEnd", smooth);
 	}
+
 	public async Task ScrollToPageTopAsync(bool smooth)
 	{
 		await CheckJsObjectAsync();
 		await _scrollJs.InvokeVoidAsync("scrollToPageTop", smooth);
 	}
+
 	public async Task ScrollToPageXAsync(double x, bool smooth)
 	{
 		await CheckJsObjectAsync();
 		await _scrollJs.InvokeVoidAsync("scrollToPageX", x, smooth);
 	}
+
 	public async Task ScrollToPageYAsync(double y, bool smooth)
 	{
 		await CheckJsObjectAsync();
 		await _scrollJs.InvokeVoidAsync("scrollToPageY", y, smooth);
 	}
+
 	public async Task<ScrollResult> GetPageScrollPosAsync()
 	{
 		await CheckJsObjectAsync();
 		return await _scrollJs.InvokeAsync<ScrollResult>("getPageScrollPosition");
 	}
+
 	public async Task<ScrollResult> GetPageScrollSizeAsync()
 	{
 		await CheckJsObjectAsync();
@@ -110,9 +114,15 @@ public sealed class ScrollHandler : IScrollHandler
 		if (_scrollJs is null)
 		{
 #if DEBUG
-			_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.js");
+			_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.js"
+			);
 #else
-			_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.min.js");
+			_scrollJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/scroll.min.js"
+			);
 #endif
 		}
 	}
@@ -121,8 +131,10 @@ public sealed class ScrollHandler : IScrollHandler
 	{
 		if (_scrollJs is not null)
 		{
-			await _scrollJs.InvokeVoidAsync("dispose",
-				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+			await _scrollJs.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray()
+			);
 
 			await _scrollJs.DisposeAsync();
 		}

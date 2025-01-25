@@ -24,7 +24,12 @@ public sealed class GeolocationService : IGeolocationService
 		_dotNetObjectReferences = new List<DotNetObjectReference<GeolocationEventWatcherInfo>>();
 	}
 
-	public async Task GetCurrentPositionAsync(Func<GeolocationResult, Task> locationResultCallback, bool highAccuracy, TimeSpan? timeout, TimeSpan? cacheTime)
+	public async Task GetCurrentPositionAsync(
+		Func<GeolocationResult, Task> locationResultCallback,
+		bool highAccuracy,
+		TimeSpan? timeout,
+		TimeSpan? cacheTime
+	)
 	{
 		await CheckJsObjectAsync();
 
@@ -32,23 +37,34 @@ public sealed class GeolocationService : IGeolocationService
 		var dotnetRef = DotNetObjectReference.Create<GeolocationEventCurrentPositionInfo>(info);
 		info.DotNetObjectReference = dotnetRef; //Store ref to self dispose.
 
-		await _geoJs.InvokeVoidAsync("getCurrentPosition", dotnetRef,
+		await _geoJs.InvokeVoidAsync(
+			"getCurrentPosition",
+			dotnetRef,
 			highAccuracy,
 			timeout?.TotalMilliseconds ?? DefaultTimeOut,
-			cacheTime?.TotalMilliseconds ?? DefaultCacheTime);
+			cacheTime?.TotalMilliseconds ?? DefaultCacheTime
+		);
 	}
 
-	public async Task<int> AddGeolocationWatcherAsync(Func<GeolocationResult, Task> locationEventsCallback, bool highAccuracy = false, TimeSpan? timeout = null, TimeSpan? cacheTime = null)
+	public async Task<int> AddGeolocationWatcherAsync(
+		Func<GeolocationResult, Task> locationEventsCallback,
+		bool highAccuracy = false,
+		TimeSpan? timeout = null,
+		TimeSpan? cacheTime = null
+	)
 	{
 		await CheckJsObjectAsync();
 
 		var info = new GeolocationEventWatcherInfo(locationEventsCallback);
 		var dotnetRef = DotNetObjectReference.Create<GeolocationEventWatcherInfo>(info);
 
-		var id = await _geoJs.InvokeAsync<int>("addGeolocationWatcher", dotnetRef,
+		var id = await _geoJs.InvokeAsync<int>(
+			"addGeolocationWatcher",
+			dotnetRef,
 			highAccuracy,
 			timeout?.TotalMilliseconds ?? DefaultTimeOut,
-			cacheTime?.TotalMilliseconds ?? DefaultCacheTime);
+			cacheTime?.TotalMilliseconds ?? DefaultCacheTime
+		);
 
 		dotnetRef.Value.HandlerId = id;
 		_dotNetObjectReferences.Add(dotnetRef);
@@ -75,9 +91,15 @@ public sealed class GeolocationService : IGeolocationService
 		if (_geoJs is null)
 		{
 #if DEBUG
-			_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.js");
+			_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.js"
+			);
 #else
-			_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.min.js");
+			_geoJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/geo.min.js"
+			);
 #endif
 		}
 	}
@@ -86,8 +108,10 @@ public sealed class GeolocationService : IGeolocationService
 	{
 		if (_geoJs is not null)
 		{
-			await _geoJs.InvokeVoidAsync("dispose",
-				(object)_dotNetObjectReferences.Select(s => s.Value.HandlerId).Distinct().ToArray());
+			await _geoJs.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.HandlerId).Distinct().ToArray()
+			);
 
 			await _geoJs.DisposeAsync();
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Notifications;
@@ -30,16 +29,21 @@ public class HtmlNotificationService : IHtmlNotificationService
 		_dotNetObjectReferences = new List<DotNetObjectReference<HtmlNotificationEventInfo>>();
 	}
 
-	public async ValueTask RequestPermissionAsync(Func<HtmlNotificationPermissionTypes, Task> callback)
+	public async ValueTask RequestPermissionAsync(
+		Func<HtmlNotificationPermissionTypes, Task> callback
+	)
 	{
 		var module = await _moduleTask.Value;
 
 		var info = new HtmlNotificationPermissionRequestEventInfo(callback);
-		var dotnetRef = DotNetObjectReference.Create<HtmlNotificationPermissionRequestEventInfo>(info);
+		var dotnetRef = DotNetObjectReference.Create<HtmlNotificationPermissionRequestEventInfo>(
+			info
+		);
 		info.DotNetObjectReference = dotnetRef;
 
 		await module.InvokeVoidAsync("requestPermission", dotnetRef);
 	}
+
 	public async ValueTask<HtmlNotificationPermissionTypes> CheckPermissionAsync()
 	{
 		var module = await _moduleTask.Value;
@@ -47,11 +51,13 @@ public class HtmlNotificationService : IHtmlNotificationService
 
 		return Enum.Parse<HtmlNotificationPermissionTypes>(permission, true);
 	}
+
 	public async ValueTask<int> CheckMaxActionsAsync()
 	{
 		var module = await _moduleTask.Value;
 		return await module.InvokeAsync<int>("checkMaxActions");
 	}
+
 	public async ValueTask<bool> IsBrowserSupportedAsync()
 	{
 		var module = await _moduleTask.Value;
@@ -63,11 +69,13 @@ public class HtmlNotificationService : IHtmlNotificationService
 		var module = await _moduleTask.Value;
 
 		var id = Guid.NewGuid();
-		var info = new HtmlNotificationEventInfo(id,
+		var info = new HtmlNotificationEventInfo(
+			id,
 			notificationOptions.OnOpenCallback,
 			notificationOptions.OnClickCallback,
 			notificationOptions.OnCloseCallback,
-			notificationOptions.OnErrorCallback);
+			notificationOptions.OnErrorCallback
+		);
 
 		var dotnetRef = DotNetObjectReference.Create<HtmlNotificationEventInfo>(info);
 		_dotNetObjectReferences.Add(dotnetRef);
@@ -76,11 +84,17 @@ public class HtmlNotificationService : IHtmlNotificationService
 		return id;
 	}
 
-	public async ValueTask ShowsWithActionsAsync(HtmlServiceWorkerNotificationOptions notificationOptions)
+	public async ValueTask ShowsWithActionsAsync(
+		HtmlServiceWorkerNotificationOptions notificationOptions
+	)
 	{
 		var module = await _moduleTask.Value;
 
-		await module.InvokeVoidAsync("showWithServiceWorker", notificationOptions, notificationOptions.ServiceWorkerUrl/*, dotnetRef*/);
+		await module.InvokeVoidAsync(
+			"showWithServiceWorker",
+			notificationOptions,
+			notificationOptions.ServiceWorkerUrl /*, dotnetRef*/
+		);
 	}
 
 	public async ValueTask DisposeAsync()

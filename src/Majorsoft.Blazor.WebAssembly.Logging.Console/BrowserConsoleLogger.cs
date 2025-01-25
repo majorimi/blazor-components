@@ -5,10 +5,12 @@ namespace Majorsoft.Blazor.WebAssembly.Logging.Console;
 
 internal class BrowserConsoleLogger<T> : BrowserConsoleLogger, ILogger<T>
 {
-	public BrowserConsoleLogger(string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
-		: base(name, filter, scopeProvider)
-	{
-	}
+	public BrowserConsoleLogger(
+		string name,
+		Func<string, LogLevel, bool> filter,
+		IExternalScopeProvider scopeProvider = null
+	)
+		: base(name, filter, scopeProvider) { }
 }
 
 internal class BrowserConsoleLogger : ILogger
@@ -31,7 +33,11 @@ internal class BrowserConsoleLogger : ILogger
 		}
 	}
 
-	public BrowserConsoleLogger(string name, Func<string, LogLevel, bool> filter, IExternalScopeProvider scopeProvider = null)
+	public BrowserConsoleLogger(
+		string name,
+		Func<string, LogLevel, bool> filter,
+		IExternalScopeProvider scopeProvider = null
+	)
 	{
 		if (name == null)
 		{
@@ -53,7 +59,13 @@ internal class BrowserConsoleLogger : ILogger
 		return Filter(Name, logLevel);
 	}
 
-	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+	public void Log<TState>(
+		LogLevel logLevel,
+		EventId eventId,
+		TState state,
+		Exception exception,
+		Func<TState, Exception, string> formatter
+	)
 	{
 		if (!IsEnabled(logLevel))
 		{
@@ -74,5 +86,6 @@ internal class BrowserConsoleLogger : ILogger
 		}
 	}
 
-	public IDisposable BeginScope<TState>(TState state) => ScopeProvider?.Push(state) ?? NullScope.Instance;
+	public IDisposable BeginScope<TState>(TState state) =>
+		ScopeProvider?.Push(state) ?? NullScope.Instance;
 }

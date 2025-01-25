@@ -22,10 +22,9 @@ internal class BrowserConsoleLoggerService : IBrowserConsoleLoggerService
 	public async Task StartLoggerAsync()
 	{
 		//setup SignalR
-		var _hubUrl = _navigationManager.BaseUri.TrimEnd('/') + BlazorServerConsoleLoggingHub.HubUrl;
-		_hubConnection = new HubConnectionBuilder()
-			.WithUrl(_hubUrl)
-			.Build();
+		var _hubUrl =
+			_navigationManager.BaseUri.TrimEnd('/') + BlazorServerConsoleLoggingHub.HubUrl;
+		_hubConnection = new HubConnectionBuilder().WithUrl(_hubUrl).Build();
 
 		_hubConnection.On<string, LogLevel>("WriteConsoleLogAsync", WriteBrowserLog);
 		await _hubConnection.StartAsync();
@@ -38,7 +37,12 @@ internal class BrowserConsoleLoggerService : IBrowserConsoleLoggerService
 #else
 		var jsName = "Majorsoft.Blazor.Server.Logging.Console/blazor.server.logging.console.min.js";
 #endif
-		await using (var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{jsName}"))
+		await using (
+			var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				$"./_content/{jsName}"
+			)
+		)
 		{
 			await ServerConsoleLogging.LogConsole(module, message, logLevel);
 		}

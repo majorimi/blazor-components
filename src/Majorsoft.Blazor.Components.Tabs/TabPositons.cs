@@ -14,10 +14,12 @@ public enum TabPositons
 	/// Left side
 	/// </summary>
 	Left = 0,
+
 	/// <summary>
 	/// Centered
 	/// </summary>
 	Center = 1,
+
 	/// <summary>
 	/// Right side
 	/// </summary>

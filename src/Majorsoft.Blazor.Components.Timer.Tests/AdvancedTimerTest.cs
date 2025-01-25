@@ -1,9 +1,6 @@
 using System.Threading.Tasks;
-
 using Bunit;
-
 using Majorsoft.Blazor.Components.CommonTestsBase;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Timer.Tests;
@@ -25,9 +22,17 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var debounceTime = 30;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * 10); //wait for debounce
 
@@ -43,10 +48,18 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var required = 3;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.Occurring, Times.Exactly((ulong)required))
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(p => p.Occurring, Times.Exactly((ulong)required))
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * (10 * required)); //wait for debounce
 
@@ -61,10 +74,18 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var debounceTime = 30;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.Occurring, Times.Infinite())
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(p => p.Occurring, Times.Infinite())
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * (50)); //wait for debounce
 
@@ -79,10 +100,18 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var debounceTime = 30;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.AutoStart, false)
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(p => p.AutoStart, false)
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * 10); //wait for debounce
 
@@ -97,20 +126,26 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var debounceTime = 30;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.IsEnabled, false)
-			.Add(p => p.AutoStart, false)
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(p => p.IsEnabled, false)
+				.Add(p => p.AutoStart, false)
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * 10); //wait for debounce
 
 		rendered.MarkupMatches("");
 		Assert.AreEqual(0, count);
 
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.IsEnabled, true)
-		);
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IsEnabled, true));
 
 		await Task.Delay(debounceTime * 10); //wait for debounce
 		Assert.AreEqual(1, count);
@@ -123,10 +158,18 @@ public class AdvancedTimerTest : ComponentsTestBase<AdvancedTimer>
 		var debounceTime = 30;
 		var count = 0;
 
-		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
-			.Add(p => p.DelayInMilisec, debounceTime)
-			.Add(p => p.Occurring, Times.Infinite())
-			.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
+		var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters =>
+			parameters
+				.Add(p => p.DelayInMilisec, debounceTime)
+				.Add(p => p.Occurring, Times.Infinite())
+				.Add(
+					p => p.OnIntervalElapsed,
+					c =>
+					{
+						count = (int)c;
+					}
+				)
+		);
 
 		await Task.Delay(debounceTime * (100)); //wait for debounce
 

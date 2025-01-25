@@ -9,6 +9,7 @@ public sealed class ScrollResult
 	/// Scroll X value
 	/// </summary>
 	public double X { get; set; }
+
 	/// <summary>
 	/// Scroll Y value
 	/// </summary>

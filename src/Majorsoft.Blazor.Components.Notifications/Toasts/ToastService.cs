@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-
 using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.Notifications;
@@ -28,8 +27,8 @@ internal class ToastService : IToastService, IToastInternals
 		}
 	}
 
-	public ToastContainerGlobalSettings GlobalSettings { get; set; } = new ToastContainerGlobalSettings();
-
+	public ToastContainerGlobalSettings GlobalSettings { get; set; } =
+		new ToastContainerGlobalSettings();
 
 	public event NotifyCollectionChangedEventHandler? CollectionChanged;
 	public event ToastEvent? OnToastShow;
@@ -45,24 +44,42 @@ internal class ToastService : IToastService, IToastInternals
 		_toasts.CollectionChanged += Toasts_CollectionChanged;
 	}
 
-	public Guid ShowToast(string message, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
+	public Guid ShowToast(
+		string message,
+		NotificationTypes notificationType = NotificationTypes.Info,
+		NotificationStyles? notificationStyle = null
+	)
 	{
-		return ShowToast(builder => builder.AddMarkupContent(0, message), notificationType, notificationStyle);
+		return ShowToast(
+			builder => builder.AddMarkupContent(0, message),
+			notificationType,
+			notificationStyle
+		);
 	}
-	public Guid ShowToast(RenderFragment content, NotificationTypes notificationType = NotificationTypes.Info, NotificationStyles? notificationStyle = null)
-	{
-		return ShowToast(new ToastSettings()
-		{
-			Content = content,
-			Type = notificationType,
-			NotificationStyle = notificationStyle ?? ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
 
-			ShowCloseButton = ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
-			ShowIcon = ToastContainerGlobalSettings.DefaultToastsShowIcon,
-			AutoCloseInSec = ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
-			ShadowEffect = ToastContainerGlobalSettings.DefaultToastsShadowEffect,
-			ShowCloseCountdownProgress = ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress
-		});
+	public Guid ShowToast(
+		RenderFragment content,
+		NotificationTypes notificationType = NotificationTypes.Info,
+		NotificationStyles? notificationStyle = null
+	)
+	{
+		return ShowToast(
+			new ToastSettings()
+			{
+				Content = content,
+				Type = notificationType,
+				NotificationStyle =
+					notificationStyle
+					?? ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
+
+				ShowCloseButton = ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+				ShowIcon = ToastContainerGlobalSettings.DefaultToastsShowIcon,
+				AutoCloseInSec = ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+				ShadowEffect = ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+				ShowCloseCountdownProgress =
+					ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			}
+		);
 	}
 
 	public Guid ShowToast(ToastSettings toastSettings)
@@ -84,7 +101,14 @@ internal class ToastService : IToastService, IToastInternals
 		if (toast is not null)
 		{
 			toast.IsRemove = true;
-			CollectionChanged?.Invoke(_toasts, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, toast, toast));
+			CollectionChanged?.Invoke(
+				_toasts,
+				new NotifyCollectionChangedEventArgs(
+					NotifyCollectionChangedAction.Replace,
+					toast,
+					toast
+				)
+			);
 		}
 	}
 
@@ -94,13 +118,19 @@ internal class ToastService : IToastService, IToastInternals
 		{
 			item.IsRemove = true;
 		}
-		CollectionChanged?.Invoke(_toasts, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+		CollectionChanged?.Invoke(
+			_toasts,
+			new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+		);
 	}
 
-	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(sender, e);
+	private void Toasts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) =>
+		CollectionChanged?.Invoke(sender, e);
 
 	public void TriggerToastShow(Guid id) => OnToastShow?.Invoke(id);
+
 	public void TriggerToastClosed(Guid id) => OnToastClosed?.Invoke(id);
+
 	public void TriggerToastCloseButtonClicked(Guid id) => OnToastCloseButtonClicked?.Invoke(id);
 
 	public void Dispose()

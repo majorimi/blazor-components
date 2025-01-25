@@ -38,6 +38,5 @@ public class HtmlNotificationOptions : HtmlNotificationData
 	/// </summary>
 	/// <param name="title">Notification title</param>
 	public HtmlNotificationOptions(string title)
-		: base(title)
-	{ }
+		: base(title) { }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -8,12 +7,13 @@ namespace Majorsoft.Blazor.Server.Logging.Console;
 
 public static class BrowserConsoleLoggerExtensions
 {
-
 	/// <summary>
 	/// Adds a <see cref="IBrowserConsoleLoggerService"/> as injectable service.
 	/// </summary>
 	/// <param name="builder">The <see cref="IServiceCollection"/> to use.</param>
-	public static IServiceCollection AddBrowserConsoleLoggerService(this IServiceCollection services)
+	public static IServiceCollection AddBrowserConsoleLoggerService(
+		this IServiceCollection services
+	)
 	{
 		services.AddTransient<IBrowserConsoleLoggerService, BrowserConsoleLoggerService>();
 		return services;
@@ -25,7 +25,9 @@ public static class BrowserConsoleLoggerExtensions
 	/// <param name="builder">The <see cref="ILoggingBuilder"/> to use.</param>
 	public static ILoggingBuilder AddBrowserConsole(this ILoggingBuilder builder)
 	{
-		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, BrowserConsoleLoggerProvider>());
+		builder.Services.TryAddEnumerable(
+			ServiceDescriptor.Singleton<ILoggerProvider, BrowserConsoleLoggerProvider>()
+		);
 
 		builder.Services.AddBrowserConsoleLoggerService();
 		return builder;
@@ -57,7 +59,10 @@ public static class BrowserConsoleLoggerExtensions
 	/// <param name="factory">The <see cref="ILoggerFactory"/> to use.</param>
 	/// <param name="filter">The category filter to apply to logs.</param>
 	/// in the output.</param>
-	public static ILoggerFactory AddBrowserConsole(this ILoggerFactory factory, Func<string, LogLevel, bool> filter)
+	public static ILoggerFactory AddBrowserConsole(
+		this ILoggerFactory factory,
+		Func<string, LogLevel, bool> filter
+	)
 	{
 		factory.AddProvider(new BrowserConsoleLoggerProvider(filter));
 		return factory;

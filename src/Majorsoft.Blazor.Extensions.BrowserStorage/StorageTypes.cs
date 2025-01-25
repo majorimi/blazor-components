@@ -6,5 +6,5 @@
 public enum StorageTypes
 {
 	LocalStorage = 0,
-	SessionStorage = 1
+	SessionStorage = 1,
 }

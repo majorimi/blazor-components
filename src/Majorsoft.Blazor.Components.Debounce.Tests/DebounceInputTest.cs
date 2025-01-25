@@ -1,16 +1,11 @@
 using System;
 using System.Threading.Tasks;
-
 using Bunit;
-
 using Majorsoft.Blazor.Components.CommonTestsBase;
 using Majorsoft.Blazor.Components.Timer;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
 using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Debounce.Tests;
@@ -32,7 +27,7 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		var rendered = _testContext.RenderComponent<DebounceInput>(
 			("id", "id1"), //HTML attributes
 			("class", "form-control w-100") //HTML attributes
-			);
+		);
 
 		var input = rendered.Find("input");
 
@@ -43,8 +38,9 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 	[TestMethod]
 	public void DebounceInput_should_rendered_initial_value()
 	{
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "test"));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters.Add(p => p.Value, "test")
+		);
 
 		var input = rendered.Find("input");
 
@@ -60,11 +56,26 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -75,12 +86,17 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(debounceTime * 4); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("c", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("c", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(
+					(valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9)
+				);
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 
 	[TestMethod]
@@ -91,12 +107,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.MinLength, 2)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(p => p.MinLength, 2)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -107,14 +138,18 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(debounceTime * 4); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(
+					(valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9)
+				);
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
-
 
 	[TestMethod]
 	public async Task DebounceInput_should_wait_debounce_time_respective_to_minChars()
@@ -124,12 +159,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.MinLength, 2)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(p => p.MinLength, 2)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("cat");
@@ -140,12 +190,17 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(debounceTime * 4); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("cat", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("cat", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(
+					(valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9)
+				);
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 
 	[TestMethod]
@@ -156,11 +211,26 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -172,12 +242,15 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(50); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("c", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("c", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 
 	[TestMethod]
@@ -188,12 +261,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.MinLength, 2)
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.MinLength, 2)
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -205,12 +293,15 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(50); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 
 	[TestMethod]
@@ -221,12 +312,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.ForceNotifyByEnter, false)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(p => p.ForceNotifyByEnter, false)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -238,14 +344,18 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(debounceTime * 4); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("c", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("c", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(
+					(valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9)
+				);
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
-
 
 	[TestMethod]
 	public async Task DebounceInput_should_not_wait_debounce_time_on_force_blur()
@@ -255,11 +365,26 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -271,12 +396,15 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(50); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("c", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("c", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 
 	[TestMethod]
@@ -287,12 +415,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.MinLength, 2)
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.MinLength, 2)
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -304,14 +447,16 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(50); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(valueEventTime - inputTime < TimeSpan.FromMilliseconds(debounceTime));
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
-
 
 	[TestMethod]
 	public async Task DebounceInput_should_wait_debounce_time_on_disabled_force_blur()
@@ -321,12 +466,27 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		DateTime valueEventTime = DateTime.MinValue;
 		string notifiedValue = null;
 
-		var rendered = _testContext.RenderComponent<DebounceInput>(parameters => parameters
-			.Add(p => p.Value, "")
-			.Add(p => p.ForceNotifyOnBlur, false)
-			.Add(p => p.DebounceTime, debounceTime)
-			.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
-			.Add(p => p.OnValueChanged, val => { valueEventTime = DateTime.Now; notifiedValue = val; }));
+		var rendered = _testContext.RenderComponent<DebounceInput>(parameters =>
+			parameters
+				.Add(p => p.Value, "")
+				.Add(p => p.ForceNotifyOnBlur, false)
+				.Add(p => p.DebounceTime, debounceTime)
+				.Add(
+					p => p.OnInput,
+					val =>
+					{
+						eventTime = DateTime.Now;
+					}
+				)
+				.Add(
+					p => p.OnValueChanged,
+					val =>
+					{
+						valueEventTime = DateTime.Now;
+						notifiedValue = val;
+					}
+				)
+		);
 
 		var input = rendered.Find("input");
 		input.Input("c");
@@ -338,11 +498,16 @@ public class DebounceInputTest : ComponentsTestBase<DebounceInput>
 		Assert.IsTrue(eventTime > DateTime.MinValue);
 
 		await Task.Delay(debounceTime * 4); //wait for debounce
-		rendered.WaitForAssertion(() =>
-		{
-			Assert.AreEqual("c", notifiedValue);
-			Assert.IsTrue(valueEventTime > DateTime.MinValue);
-			Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-		}, timeout: TimeSpan.FromSeconds(1));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				Assert.AreEqual("c", notifiedValue);
+				Assert.IsTrue(valueEventTime > DateTime.MinValue);
+				Assert.IsTrue(
+					(valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9)
+				);
+			},
+			timeout: TimeSpan.FromSeconds(1)
+		);
 	}
 }

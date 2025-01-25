@@ -38,7 +38,8 @@ public sealed class GoogleStaticMapMarker
 
 	public override string ToString()
 	{
-		var loc = Locations.Where(x => !string.IsNullOrWhiteSpace(x?.ToString()))
+		var loc = Locations
+			.Where(x => !string.IsNullOrWhiteSpace(x?.ToString()))
 			.Select(s => s.ToString());
 
 		if (!loc.Any())
@@ -47,7 +48,9 @@ public sealed class GoogleStaticMapMarker
 		}
 
 		var style = HasStyleDefined
-			? CustomIcon is not null ? CustomIcon?.ToString() : Style?.ToString()
+			? CustomIcon is not null
+				? CustomIcon?.ToString()
+				: Style?.ToString()
 			: null;
 
 		if (!string.IsNullOrWhiteSpace(style))

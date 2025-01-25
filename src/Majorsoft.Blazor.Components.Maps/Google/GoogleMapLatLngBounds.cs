@@ -8,9 +8,7 @@ public class GoogleMapLatLngBounds
 	/// <summary>
 	/// Default constructor
 	/// </summary>
-	public GoogleMapLatLngBounds()
-	{
-	}
+	public GoogleMapLatLngBounds() { }
 
 	/// <summary>
 	/// Initialize object for Map restrictions

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -24,13 +23,19 @@ public sealed class ClickBoundariesHandler : IClickBoundariesHandler
 		_dotNetObjectReferences = new List<DotNetObjectReference<ClickBoundariesEventInfo>>();
 	}
 
-	public async Task RegisterClickBoundariesAsync(ElementReference elementRef,
+	public async Task RegisterClickBoundariesAsync(
+		ElementReference elementRef,
 		Func<MouseEventArgs, Task> outsideClickCallback = null,
-		Func<MouseEventArgs, Task> insideClickCallback = null)
+		Func<MouseEventArgs, Task> insideClickCallback = null
+	)
 	{
 		await CheckJsObjectAsync();
 
-		var info = new ClickBoundariesEventInfo(elementRef, outsideClickCallback, insideClickCallback);
+		var info = new ClickBoundariesEventInfo(
+			elementRef,
+			outsideClickCallback,
+			insideClickCallback
+		);
 		var dotnetRef = DotNetObjectReference.Create<ClickBoundariesEventInfo>(info);
 		_dotNetObjectReferences.Add(dotnetRef);
 
@@ -61,9 +66,15 @@ public sealed class ClickBoundariesHandler : IClickBoundariesHandler
 		if (_clickJs is null)
 		{
 #if DEBUG
-			_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.js");
+			_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.js"
+			);
 #else
-			_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.min.js");
+			_clickJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/click.min.js"
+			);
 #endif
 		}
 	}
@@ -72,7 +83,10 @@ public sealed class ClickBoundariesHandler : IClickBoundariesHandler
 	{
 		if (_clickJs is not null)
 		{
-			await _clickJs.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.ElementRef).ToArray());
+			await _clickJs.InvokeVoidAsync(
+				"dispose",
+				(object)_dotNetObjectReferences.Select(s => s.Value.ElementRef).ToArray()
+			);
 
 			await _clickJs.DisposeAsync();
 		}

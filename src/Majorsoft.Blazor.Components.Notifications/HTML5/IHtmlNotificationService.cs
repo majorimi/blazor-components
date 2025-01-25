@@ -24,7 +24,7 @@ public interface IHtmlNotificationService : IAsyncDisposable
 	ValueTask<HtmlNotificationPermissionTypes> CheckPermissionAsync();
 
 	/// <summary>
-	/// Returns maxActions attribute of the Notification interface returns the maximum number of actions supported by the device and the User Agent. 
+	/// Returns maxActions attribute of the Notification interface returns the maximum number of actions supported by the device and the User Agent.
 	/// </summary>
 	/// <returns>Maximum allowed Notification</returns>
 	ValueTask<int> CheckMaxActionsAsync();

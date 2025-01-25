@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -16,7 +15,11 @@ internal sealed class AnimationEventInfo
 	public ElementReference Element { get; init; }
 	public string AnimationName { get; init; }
 
-	public AnimationEventInfo(ElementReference element, Func<AnimationEventArgs, Task> animationEventCallback, string animationName)
+	public AnimationEventInfo(
+		ElementReference element,
+		Func<AnimationEventArgs, Task> animationEventCallback,
+		string animationName
+	)
 	{
 		Element = element;
 		AnimationName = animationName;

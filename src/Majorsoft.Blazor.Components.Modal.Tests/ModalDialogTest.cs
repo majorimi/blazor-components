@@ -22,7 +22,9 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		_transitionMock = Substitute.For<ITransitionEventsService>();
 		_focusHandlerMock = Substitute.For<IFocusHandler>();
 
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock)
+		);
 		_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock));
 	}
 
@@ -33,7 +35,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 			("id", "id1"), //HTML attributes
 			("title", "text"), //HTML attributes
 			(nameof(ModalDialog.OverlayOpacity), 0.5)
-			);
+		);
 
 		Assert.AreEqual(false, rendered.Instance.IsOpen);
 		rendered.MarkupMatches("");
@@ -45,17 +47,23 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		var rendered = _testContext.RenderComponent<ModalDialog>(
 			("id", "id1"), //HTML attributes
 			("title", "text") //HTML attributes
-			);
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"" id=""id1"" title=""text"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"" id=""id1"" title=""text"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
@@ -79,24 +87,33 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_remove_dialog_from_DOM_when_closed()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.Animate, true));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters.Add(p => p.Animate, true)
+		);
 
 		Assert.AreEqual(false, rendered.Instance.IsOpen);
 		rendered.MarkupMatches("");
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
@@ -120,12 +137,12 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
-
+			</style>"
+				)
+		);
 
 		//Close
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.Animate, false));
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Animate, false));
 
 		await rendered.InvokeAsync(async () => await rendered.Instance.Close());
 		rendered.Render();
@@ -137,19 +154,25 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_background_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.OverlayBackgroundColor, "red")
-			.Add(p => p.OverlayOpacity, 0.25));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters.Add(p => p.OverlayBackgroundColor, "red").Add(p => p.OverlayOpacity, 0.25)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(255, 0, 0, 0.25)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(255, 0, 0, 0.25)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
@@ -173,27 +196,37 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_dimensions_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.Height, 155)
-			.Add(p => p.Width, 188)
-			.Add(p => p.MinHeight, 999)
-			.Add(p => p.MinWidth, 555));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.Height, 155)
+				.Add(p => p.Width, 188)
+				.Add(p => p.MinHeight, 999)
+				.Add(p => p.MinWidth, 555)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
@@ -217,24 +250,33 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:155px;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_not_rendered_close_button_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.ShowCloseButton, false));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters.Add(p => p.ShowCloseButton, false)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-body""></div>
 			  </div>
@@ -252,24 +294,33 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_dialog_centered_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.Centered, true));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters.Add(p => p.Centered, true)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type=""button"" class=""close"">
@@ -293,29 +344,43 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_not_rendered_close_button_but_render_haeder_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.Header, (RenderFragment)(builder =>
-				{
-					builder.AddMarkupContent(1, "Header...");
-				}))
-			);
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.ShowCloseButton, false)
+				.Add(
+					p => p.Header,
+					(RenderFragment)(
+						builder =>
+						{
+							builder.AddMarkupContent(1, "Header...");
+						}
+					)
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-header"">Header...</div>
 				<div class=""bmodal-body""></div>
@@ -334,29 +399,43 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_close_button_with_haeder_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.ShowCloseButton, true)
-			.Add(p => p.Header, (RenderFragment)(builder =>
-			{
-				builder.AddMarkupContent(1, "Header...");
-			}))
-			);
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.ShowCloseButton, true)
+				.Add(
+					p => p.Header,
+					(RenderFragment)(
+						builder =>
+						{
+							builder.AddMarkupContent(1, "Header...");
+						}
+					)
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-header"">Header...<button type=""button"" class=""close"">
 				<span aria-hidden=""true"">&times;</span>
@@ -378,29 +457,43 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_content_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.Content, (RenderFragment)(builder =>
-				{
-					builder.AddMarkupContent(1, "Dialog content...");
-				}))
-			);
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.ShowCloseButton, false)
+				.Add(
+					p => p.Content,
+					(RenderFragment)(
+						builder =>
+						{
+							builder.AddMarkupContent(1, "Dialog content...");
+						}
+					)
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-body"">Dialog content...</div>
 			  </div>
@@ -418,29 +511,43 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_rendered_footer_correctly()
 	{
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-			.Add(p => p.ShowCloseButton, false)
-			.Add(p => p.Footer, (RenderFragment)(builder =>
-			{
-				builder.AddMarkupContent(1, "Dialog footer...");
-			}))
-			);
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.ShowCloseButton, false)
+				.Add(
+					p => p.Footer,
+					(RenderFragment)(
+						builder =>
+						{
+							builder.AddMarkupContent(1, "Dialog footer...");
+						}
+					)
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal fade"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 				<div class=""bmodal-body""></div>
 				<div class=""bmodal-footer"">Dialog footer...</div>
@@ -459,19 +566,32 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_close_on_overlay_click()
 	{
 		var closed = false;
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-		.Add(p => p.CloseOnOverlayClick, true)
-		.Add(p => p.OnClose, args => { closed = true; }));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.CloseOnOverlayClick, true)
+				.Add(
+					p => p.OnClose,
+					args =>
+					{
+						closed = true;
+					}
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
@@ -479,8 +599,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 		//tr to close
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.Animate, false));
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Animate, false));
 
 		try
 		{
@@ -499,12 +618,23 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	public async Task ModalDialog_should_not_close_on_overlay_click()
 	{
 		var closed = false;
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-		.Add(p => p.CloseOnOverlayClick, false)
-		.Add(p => p.OnClose, args => { closed = true; }));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.CloseOnOverlayClick, false)
+				.Add(
+					p => p.OnClose,
+					args =>
+					{
+						closed = true;
+					}
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
@@ -512,13 +642,15 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 		//tr to close
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.Animate, false));
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Animate, false));
 
 		div.Click();
 		rendered.Render();
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
@@ -542,19 +674,32 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public async Task ModalDialog_should_close_on_escape_key()
 	{
 		var closed = false;
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-		.Add(p => p.CloseOnEscapeKey, true)
-		.Add(p => p.OnClose, args => { closed = true; }));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.CloseOnEscapeKey, true)
+				.Add(
+					p => p.OnClose,
+					args =>
+					{
+						closed = true;
+					}
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
@@ -562,8 +707,7 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 		//tr to close
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.Animate, false));
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Animate, false));
 
 		try
 		{
@@ -582,12 +726,23 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	public async Task ModalDialog_should_not_close_on_escape_key()
 	{
 		var closed = false;
-		var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
-		.Add(p => p.CloseOnEscapeKey, false)
-		.Add(p => p.OnClose, args => { closed = true; }));
+		var rendered = _testContext.RenderComponent<ModalDialog>(parameters =>
+			parameters
+				.Add(p => p.CloseOnEscapeKey, false)
+				.Add(
+					p => p.OnClose,
+					args =>
+					{
+						closed = true;
+					}
+				)
+		);
 
 		//Open
-		await rendered.InvokeAsync(async () => { await rendered.Instance.Open(); });
+		await rendered.InvokeAsync(async () =>
+		{
+			await rendered.Instance.Open();
+		});
 		rendered.Render();
 
 		var div = rendered.Find("div");
@@ -595,13 +750,15 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 		Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 		//tr to close
-		rendered.SetParametersAndRender(parameters => parameters
-			.Add(p => p.Animate, false));
+		rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Animate, false));
 
 		div.KeyUp(Key.Escape);
 		rendered.Render();
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""bmodal"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""bmodal"" style=""opacity: 1; background-color: rgba(128, 128, 128, 0.90)"">
 		  <div class=""bmodal-content dynamicStyle"" tabindex=""100"">
 			<div class=""bmodal-header"">
 				  <button type = ""button""  class=""close"">
@@ -625,6 +782,8 @@ public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 					height:auto;
 					transition: top 0.25s ease-in-out;
 				}
-			</style>"));
+			</style>"
+				)
+		);
 	}
 }

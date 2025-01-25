@@ -4,12 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using Majorsoft.Blazor.Components.Common.JsInterop.ElementInfo;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
 using Majorsoft.Blazor.Components.Core.HtmlColors;
 using Majorsoft.Blazor.Components.Debounce;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
@@ -27,6 +25,7 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 			CheckRequiredPropertySelector();
 		}
 	}
+
 	private string _componentId = Guid.NewGuid().ToString("n");
 	private DomRect _rect;
 
@@ -73,16 +72,14 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 	private TItem ActiveItem
 	{
 		get => _activeItem;
-		set
-		{
-			_activeItem = value;
-		}
+		set { _activeItem = value; }
 	}
 
 	public ElementReference InnerElementReference => _typeahead.InnerElementReference;
 
 	//Values
 	private string _value;
+
 	[Parameter]
 	public string Value
 	{
@@ -105,6 +102,7 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 		}
 	}
 	private TItem _selectedItem;
+
 	[Parameter]
 	public TItem SelectedItem
 	{
@@ -127,20 +125,32 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 			}
 		}
 	}
+
 	//[Parameter] public IEnumerable<TItem> SelectedItems {get; set; }
 
 	//Data
-	[Parameter] public IEnumerable<TItem> Data { get; set; } //Data for static values
-	[Parameter] public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
-	[Parameter] public Func<TItem, string> LabelPropertySelector { get; set; } //When TItem is not string
+	[Parameter]
+	public IEnumerable<TItem> Data { get; set; } //Data for static values
+
+	[Parameter]
+	public Func<string, Task<IEnumerable<TItem>>> DataSource { get; set; } //Async Func to provide data
+
+	[Parameter]
+	public Func<TItem, string> LabelPropertySelector { get; set; } //When TItem is not string
 
 	//Behaviors
-	[Parameter] public bool SelectOnBlur { get; set; } = true;
-	[Parameter] public bool ShowAllOnEmptyInput { get; set; } = true;
-	[Parameter] public bool ChangeActiveItemOnHover { get; set; } = true;
+	[Parameter]
+	public bool SelectOnBlur { get; set; } = true;
+
+	[Parameter]
+	public bool ShowAllOnEmptyInput { get; set; } = true;
+
+	[Parameter]
+	public bool ChangeActiveItemOnHover { get; set; } = true;
+
 	//[Parameter] public bool MultiSelect { get; set; } = false;
 
-	private string _accentColor = "230, 230, 230";//gray
+	private string _accentColor = "230, 230, 230"; //gray
 
 	[Parameter]
 	public string AccentColor
@@ -150,9 +160,14 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 	}
 
 	//Size
-	[Parameter] public double DropdownHeight { get; set; } = 150;
-	[Parameter] public double DropdownWidth { get; set; } = 0; //auto
-	[Parameter] public bool FitDropdownWidth { get; set; } = false;
+	[Parameter]
+	public double DropdownHeight { get; set; } = 150;
+
+	[Parameter]
+	public double DropdownWidth { get; set; } = 0; //auto
+
+	[Parameter]
+	public bool FitDropdownWidth { get; set; } = false;
 
 	private string GetDropdownWidth()
 	{
@@ -167,36 +182,62 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 	}
 
 	//Templates
-	[Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-	[Parameter] public RenderFragment NoResultContent { get; set; }
-	[Parameter] public RenderFragment InProgressContent { get; set; }
+	[Parameter]
+	public RenderFragment<TItem> ItemTemplate { get; set; }
+
+	[Parameter]
+	public RenderFragment NoResultContent { get; set; }
+
+	[Parameter]
+	public RenderFragment InProgressContent { get; set; }
 
 	//Debounce
-	[Parameter] public double DebounceTime { get; set; } = 0;
-	[Parameter] public int MinLength { get; set; } = 0;
+	[Parameter]
+	public double DebounceTime { get; set; } = 0;
+
+	[Parameter]
+	public int MinLength { get; set; } = 0;
 
 	//Events
-	[Parameter] public EventCallback<string> OnInput { get; set; }
-	[Parameter] public EventCallback<TItem> OnSelectedItemChanged { get; set; }
-	[Parameter] public EventCallback OnDropdownOpen { get; set; }
-	[Parameter] public EventCallback OnDropdownClose { get; set; }
-	[Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+	[Parameter]
+	public EventCallback<string> OnInput { get; set; }
+
+	[Parameter]
+	public EventCallback<TItem> OnSelectedItemChanged { get; set; }
+
+	[Parameter]
+	public EventCallback OnDropdownOpen { get; set; }
+
+	[Parameter]
+	public EventCallback OnDropdownClose { get; set; }
+
+	[Parameter]
+	public EventCallback<FocusEventArgs> OnFocus { get; set; }
 
 	[Parameter(CaptureUnmatchedValues = true)]
 	public Dictionary<string, object> AdditionalAttributes { get; set; }
 
 	private async Task OnValueChanged(string value)
 	{
-		WriteDiag($"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
+		WriteDiag(
+			$"{nameof(OnValueChanged)} event new Value: '{value}', ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'."
+		);
 
 		_hasNoResult = false;
 		IsOpen = false;
 
-		if (string.IsNullOrEmpty(value) && DataSource is null && ShowAllOnEmptyInput && (Data?.Any() ?? false)) //ShowAllOnEmptyInput
+		if (
+			string.IsNullOrEmpty(value)
+			&& DataSource is null
+			&& ShowAllOnEmptyInput
+			&& (Data?.Any() ?? false)
+		) //ShowAllOnEmptyInput
 		{
 			if (MinLength == 0)
 			{
-				WriteDiag($"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'.");
+				WriteDiag(
+					$"{nameof(OnValueChanged)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}'."
+				);
 				_data = Data;
 				IsOpen = true;
 				ActiveItem = _data.First();
@@ -210,25 +251,37 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 
 			if (DataSource is not null) //Priority is async search
 			{
-				WriteDiag($"{nameof(OnValueChanged)} DataSource is defined, async search Func will be called search Value: '{value}'.");
+				WriteDiag(
+					$"{nameof(OnValueChanged)} DataSource is defined, async search Func will be called search Value: '{value}'."
+				);
 				IsOpen = false;
 				_data = await DataSource(value);
 			}
 			else if ((Data?.Any() ?? false) && !string.IsNullOrEmpty(value)) //Search in data with given query value
 			{
-				WriteDiag($"{nameof(OnValueChanged)} DataSource NOT is defined, filtering static data Type: '{typeof(TItem)}', LabelPropertySelector: '{LabelPropertySelector}'  search Value: '{value}'.");
+				WriteDiag(
+					$"{nameof(OnValueChanged)} DataSource NOT is defined, filtering static data Type: '{typeof(TItem)}', LabelPropertySelector: '{LabelPropertySelector}'  search Value: '{value}'."
+				);
 				if (typeof(TItem) == typeof(string)) //Data is string
-					_data = Data.Cast<string>().Where(x => x?.ToLower().Contains(value.ToLower()) ?? false).Cast<TItem>();
+					_data = Data.Cast<string>()
+						.Where(x => x?.ToLower().Contains(value.ToLower()) ?? false)
+						.Cast<TItem>();
 				else
-					_data = Data.Where(x => LabelPropertySelector(x)?.ToLower().Contains(value.ToLower()) ?? false);
+					_data = Data.Where(x =>
+						LabelPropertySelector(x)?.ToLower().Contains(value.ToLower()) ?? false
+					);
 			}
 			else
 			{
-				WriteDiag($"{nameof(OnValueChanged)} no search term met data set to NULL search Value: '{value}'.");
+				WriteDiag(
+					$"{nameof(OnValueChanged)} no search term met data set to NULL search Value: '{value}'."
+				);
 				_data = null;
 			}
 
-			WriteDiag($"{nameof(OnValueChanged)} event data filtered result Count: '{_data?.Count()}' handling dropdown.");
+			WriteDiag(
+				$"{nameof(OnValueChanged)} event data filtered result Count: '{_data?.Count()}' handling dropdown."
+			);
 			if (_data?.Count() > 0)
 			{
 				IsOpen = true;
@@ -307,12 +360,17 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 			}
 		}
 	}
+
 	private async Task OnFocused(FocusEventArgs e)
 	{
 		WriteDiag($"{nameof(OnFocused)} event: '{e.Type}'.");
 		_hasNoResult = false;
 
-		await _clickHandler.RegisterClickBoundariesAsync(_typeahead.InnerElementReference, OnOutsideClick, OnInsideClick);
+		await _clickHandler.RegisterClickBoundariesAsync(
+			_typeahead.InnerElementReference,
+			OnOutsideClick,
+			OnInsideClick
+		);
 
 		await Activate();
 
@@ -322,6 +380,7 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 			await OnFocus.InvokeAsync(e);
 		}
 	}
+
 	private async Task OnOutsideClick(MouseEventArgs e)
 	{
 		WriteDiag($"{nameof(OnOutsideClick)} event button: '{e.Button}'.");
@@ -336,6 +395,7 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 		IsOpen = false;
 		StateHasChanged(); //textbox re-rendered but dropdown not
 	}
+
 	private async Task OnInsideClick(MouseEventArgs e)
 	{
 		WriteDiag($"{nameof(OnInsideClick)} event button: '{e.Button}'.");
@@ -346,12 +406,15 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 
 	private void ItemHover(int index, TItem item)
 	{
-		WriteDiag($"{nameof(ItemHover)} event index: '{index}', item: '{item}', ChangeActiveItemOnHover: {ChangeActiveItemOnHover}.");
+		WriteDiag(
+			$"{nameof(ItemHover)} event index: '{index}', item: '{item}', ChangeActiveItemOnHover: {ChangeActiveItemOnHover}."
+		);
 		if (ChangeActiveItemOnHover)
 		{
 			ActiveItem = item;
 		}
 	}
+
 	private async Task ItemClicked(int index, TItem item)
 	{
 		WriteDiag($"{nameof(ItemClicked)} event index: '{index}', item: '{item}'.");
@@ -363,7 +426,9 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 	{
 		if (!IsOpen && DataSource is null && ShowAllOnEmptyInput && MinLength == 0)
 		{
-			WriteDiag($"{nameof(Activate)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}', IsOpen: '{IsOpen}'.");
+			WriteDiag(
+				$"{nameof(Activate)} event opening dropdown DataSource is NULL and ShowAllOnEmptyInput: '{ShowAllOnEmptyInput}', MinLength: '{MinLength}', IsOpen: '{IsOpen}'."
+			);
 			if (string.IsNullOrWhiteSpace(Value))
 			{
 				_data = Data;
@@ -380,6 +445,7 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 			}
 		}
 	}
+
 	private async Task SelectItem(TItem item)
 	{
 		_selectedItem = item;
@@ -396,18 +462,26 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 	}
 
 	private bool IsLabelSelectorRequired() => typeof(TItem) != typeof(string);
+
 	private bool IsDefaultSearchUsed() => Data is not null && DataSource is null;
 
 	private void CheckRequiredPropertySelector()
 	{
 		if (IsLabelSelectorRequired() && LabelPropertySelector == null)
 		{
-			throw new Exception($"Data type: {typeof(TItem)} is not Sytem.String. You must provide a string property selector use '{LabelPropertySelector}'");
+			throw new Exception(
+				$"Data type: {typeof(TItem)} is not Sytem.String. You must provide a string property selector use '{LabelPropertySelector}'"
+			);
 		}
 	}
+
 	private MarkupString HighlightItems(string text)
 	{
-		if (IsDefaultSearchUsed() && !string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(Value))
+		if (
+			IsDefaultSearchUsed()
+			&& !string.IsNullOrWhiteSpace(text)
+			&& !string.IsNullOrWhiteSpace(Value)
+		)
 		{
 			var pattern = $"({Value})";
 			var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -419,11 +493,13 @@ public partial class TypeaheadInputText<TItem> : ComponentBase, IAsyncDisposable
 
 		return (MarkupString)(text ?? string.Empty);
 	}
+
 	private string GetItemText(TItem item)
 	{
-		string text = IsLabelSelectorRequired() && LabelPropertySelector is not null
-			? LabelPropertySelector(item)
-			: item.ToString();
+		string text =
+			IsLabelSelectorRequired() && LabelPropertySelector is not null
+				? LabelPropertySelector(item)
+				: item.ToString();
 
 		return text;
 	}

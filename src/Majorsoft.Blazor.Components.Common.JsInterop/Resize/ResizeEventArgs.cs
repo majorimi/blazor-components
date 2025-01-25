@@ -11,6 +11,7 @@ public class ResizeEventArgs : EventArgs
 	/// Element or Window height
 	/// </summary>
 	public double Height { get; set; }
+
 	/// <summary>
 	/// Element or Window width
 	/// </summary>

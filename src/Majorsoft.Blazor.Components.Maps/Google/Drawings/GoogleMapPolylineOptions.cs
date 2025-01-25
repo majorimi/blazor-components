@@ -26,7 +26,7 @@ public class GoogleMapPolylineOptions
 	public bool Editable { get; set; }
 
 	/// <summary>
-	/// When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth. When false, edges of the polygon are rendered as 
+	/// When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth. When false, edges of the polygon are rendered as
 	/// straight lines in screen space. Note that the shape of a geodesic polygon may appear to change when dragged, as the dimensions are maintained relative to
 	/// the surface of the earth. Defaults to false.
 	/// </summary>
@@ -79,7 +79,7 @@ public class GoogleMapPolylineOptions
 public class GoogleMapIconSequence
 {
 	/// <summary>
-	/// If true, each icon in the sequence has the same fixed rotation regardless of the angle of the edge on which it lies. Defaults to false, 
+	/// If true, each icon in the sequence has the same fixed rotation regardless of the angle of the edge on which it lies. Defaults to false,
 	/// in which case each icon in the sequence is rotated to align with its edge.
 	/// </summary>
 	public bool FixedRotation { get; set; }
@@ -90,13 +90,13 @@ public class GoogleMapIconSequence
 	public GoogleMapIconSequenceSymbol Icon { get; set; }
 
 	/// <summary>
-	/// The distance from the start of the line at which an icon is to be rendered. This distance may be expressed as a percentage of line's length 
+	/// The distance from the start of the line at which an icon is to be rendered. This distance may be expressed as a percentage of line's length
 	/// (e.g. '50%') or in pixels (e.g. '50px'). Defaults to '100%'.
 	/// </summary>
 	public string Offset { get; set; }
 
 	/// <summary>
-	/// The distance between consecutive icons on the line. This distance may be expressed as a percentage of the line's length (e.g. '50%') or in pixels 
+	/// The distance between consecutive icons on the line. This distance may be expressed as a percentage of the line's length (e.g. '50%') or in pixels
 	/// (e.g. '50px'). To disable repeating of the icon, specify '0'. Defaults to '0'.
 	/// </summary>
 	public string Repeat { get; set; }
@@ -119,7 +119,7 @@ public class GoogleMapIconSequenceSymbol
 	public Point? Anchor { get; set; }
 
 	/// <summary>
-	/// The symbol's fill color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+	/// The symbol's fill color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'.
 	/// For symbols on polylines, this defaults to the stroke color of the corresponding polyline.
 	/// </summary>
 	public string FillColor { get; set; }
@@ -130,25 +130,25 @@ public class GoogleMapIconSequenceSymbol
 	public double FillOpacity { get; set; }
 
 	/// <summary>
-	/// The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+	/// The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker.
 	/// By default, the origin is located in the center point of the image.
 	/// </summary>
 	public Point? LabelOrigin { get; set; }
 
 	/// <summary>
-	/// The angle by which to rotate the symbol, expressed clockwise in degrees. Defaults to 0. A symbol in an IconSequence where fixedRotation is false 
+	/// The angle by which to rotate the symbol, expressed clockwise in degrees. Defaults to 0. A symbol in an IconSequence where fixedRotation is false
 	/// is rotated relative to the angle of the edge on which it lies.
 	/// </summary>
 	public double Rotation { get; set; }
 
 	/// <summary>
-	/// The amount by which the symbol is scaled in size. For symbol markers, this defaults to 1; after scaling, the symbol may be of any size. For symbols on a polyline, 
+	/// The amount by which the symbol is scaled in size. For symbol markers, this defaults to 1; after scaling, the symbol may be of any size. For symbols on a polyline,
 	/// this defaults to the stroke weight of the polyline; after scaling, the symbol must lie inside a square 22 pixels in size centered at the symbol's anchor.
 	/// </summary>
 	public double Scale { get; set; }
 
 	/// <summary>
-	/// The symbol's stroke color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'. 
+	/// The symbol's stroke color. All CSS3 colors are supported except for extended named colors. For symbol markers, this defaults to 'black'.
 	/// For symbols on a polyline, this defaults to the stroke color of the polyline.
 	/// </summary>
 	public string StrokeColor { get; set; }
@@ -171,7 +171,10 @@ public class GoogleMapIconSequenceSymbol
 	{
 		if (string.IsNullOrWhiteSpace(path))
 		{
-			throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace", nameof(path));
+			throw new ArgumentException(
+				$"'{nameof(path)}' cannot be null or whitespace",
+				nameof(path)
+			);
 		}
 
 		Path = path;

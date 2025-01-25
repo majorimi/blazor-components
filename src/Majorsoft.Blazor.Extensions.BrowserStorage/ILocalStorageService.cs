@@ -3,5 +3,4 @@
 /// <summary>
 /// Injectable service for Local Storage
 /// </summary>
-public interface ILocalStorageService : IStorageService
-{ }
+public interface ILocalStorageService : IStorageService { }

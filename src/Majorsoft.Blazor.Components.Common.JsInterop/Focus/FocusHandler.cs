@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -17,6 +16,7 @@ public sealed class FocusHandler : IFocusHandler
 	{
 		_jsRuntime = jsRuntime;
 	}
+
 	public async Task<IJSObjectReference> GetFocusedElementAsync()
 	{
 		await CheckJsObjectAsync();
@@ -28,6 +28,7 @@ public sealed class FocusHandler : IFocusHandler
 		await CheckJsObjectAsync();
 		await _focusJs.InvokeVoidAsync("focusElement", objectReference);
 	}
+
 	public async Task FocusElementAsync(ElementReference elementReference)
 	{
 		await CheckJsObjectAsync();
@@ -51,9 +52,15 @@ public sealed class FocusHandler : IFocusHandler
 		if (_focusJs is null)
 		{
 #if DEBUG
-			_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.js");
+			_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.js"
+			);
 #else
-			_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.min.js");
+			_focusJs = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+				"import",
+				"./_content/Majorsoft.Blazor.Components.Common.JsInterop/focus.min.js"
+			);
 #endif
 		}
 	}

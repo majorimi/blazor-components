@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-
 using Microsoft.Extensions.Logging;
 
 namespace Majorsoft.Blazor.Server.Logging.Console;
@@ -10,7 +9,8 @@ public class BrowserConsoleLoggerProvider : ILoggerProvider
 {
 	private static readonly Func<string, LogLevel, bool> TrueFilter = (cat, level) => true;
 
-	private readonly static ConcurrentDictionary<string, BrowserConsoleLogger> _loggers = new ConcurrentDictionary<string, BrowserConsoleLogger>();
+	private static readonly ConcurrentDictionary<string, BrowserConsoleLogger> _loggers =
+		new ConcurrentDictionary<string, BrowserConsoleLogger>();
 	private readonly Func<string, LogLevel, bool> _filter;
 
 	private readonly IServiceProvider _serviceProvider;

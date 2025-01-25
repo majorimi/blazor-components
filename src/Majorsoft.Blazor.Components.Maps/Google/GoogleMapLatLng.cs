@@ -8,7 +8,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google;
 public class GoogleMapLatLng
 {
 	/// <summary>
-	/// Latitude ranges between -90 and 90 degrees, inclusive. Values above or below this range will be clamped to the range [-90, 90]. 
+	/// Latitude ranges between -90 and 90 degrees, inclusive. Values above or below this range will be clamped to the range [-90, 90].
 	/// This means that if the value specified is less than -90, it will be set to -90. And if the value is greater than 90, it will be set to 90.
 	/// </summary>
 	[JsonPropertyName("lat")]

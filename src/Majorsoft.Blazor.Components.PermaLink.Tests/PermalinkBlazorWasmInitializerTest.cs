@@ -1,13 +1,8 @@
 ﻿using System;
-
 using Bunit;
-
 using Majorsoft.Blazor.Components.CommonTestsBase;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
 using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests;
@@ -23,9 +18,21 @@ public class PermalinkBlazorWasmInitializerTest : ComponentsTestBase<PermalinkBl
 		_permaLinkWatcherServiceMock = Substitute.For<IPermaLinkWatcherService>();
 		_permaLinkWatcherServiceMock.When(s => s.WatchPermaLinks()).DoNotCallBase();
 
-		_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(
+				typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>),
+				new SingletonComponentService<PermaLinkBlazorServerInitializer>()
+			)
+		);
+		_testContext.Services.Add(
+			new ServiceDescriptor(
+				typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>),
+				new SingletonComponentService<PermalinkBlazorWasmInitializer>()
+			)
+		);
 	}
 
 	[TestMethod]

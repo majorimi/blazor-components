@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.JSInterop;
 
 namespace Majorsoft.Blazor.Components.Notifications;
@@ -13,7 +12,9 @@ internal sealed class HtmlNotificationPermissionRequestEventInfo
 	private readonly Func<HtmlNotificationPermissionTypes, Task> _callback;
 	internal DotNetObjectReference<HtmlNotificationPermissionRequestEventInfo> DotNetObjectReference { get; set; }
 
-	public HtmlNotificationPermissionRequestEventInfo(Func<HtmlNotificationPermissionTypes, Task> callback)
+	public HtmlNotificationPermissionRequestEventInfo(
+		Func<HtmlNotificationPermissionTypes, Task> callback
+	)
 	{
 		_callback = callback;
 	}

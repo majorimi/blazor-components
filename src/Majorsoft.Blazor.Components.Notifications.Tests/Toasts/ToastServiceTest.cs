@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts;
@@ -74,7 +73,11 @@ public class ToastServiceTest
 		ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 55;
 		ToastContainerGlobalSettings.DefaultToastsShadowEffect = 22;
 
-		var id1 = _toastService.ShowToast("msg1", NotificationTypes.Danger, NotificationStyles.Strong);
+		var id1 = _toastService.ShowToast(
+			"msg1",
+			NotificationTypes.Danger,
+			NotificationStyles.Strong
+		);
 		var id2 = _toastService.ShowToast("msg2", NotificationTypes.Info);
 
 		Assert.IsNotNull(_toastService.Toasts);
@@ -86,26 +89,68 @@ public class ToastServiceTest
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(0).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(0).Content);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Danger, _toastService.Toasts.ElementAt(0).Type);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, _toastService.Toasts.ElementAt(0).ShowIcon);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, _toastService.Toasts.ElementAt(0).ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseButton, _toastService.Toasts.ElementAt(0).ShowCloseButton);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, _toastService.Toasts.ElementAt(0).AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, _toastService.Toasts.ElementAt(0).ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowIcon,
+			_toastService.Toasts.ElementAt(0).ShowIcon
+		);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			_toastService.Toasts.ElementAt(0).ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+			_toastService.Toasts.ElementAt(0).ShowCloseButton
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			_toastService.Toasts.ElementAt(0).AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			_toastService.Toasts.ElementAt(0).ShadowEffect
+		);
 
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(1).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(1).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(1).Content);
-		Assert.AreEqual(NotificationStyles.Outlined, _toastService.Toasts.ElementAt(1).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Outlined,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Info, _toastService.Toasts.ElementAt(1).Type);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, _toastService.Toasts.ElementAt(1).ShowIcon);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsNotificationStyle, _toastService.Toasts.ElementAt(1).NotificationStyle);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, _toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseButton, _toastService.Toasts.ElementAt(1).ShowCloseButton);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, _toastService.Toasts.ElementAt(1).AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, _toastService.Toasts.ElementAt(1).ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowIcon,
+			_toastService.Toasts.ElementAt(1).ShowIcon
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			_toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+			_toastService.Toasts.ElementAt(1).ShowCloseButton
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			_toastService.Toasts.ElementAt(1).AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			_toastService.Toasts.ElementAt(1).ShadowEffect
+		);
 	}
 
 	[TestMethod]
@@ -118,8 +163,15 @@ public class ToastServiceTest
 		ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 55;
 		ToastContainerGlobalSettings.DefaultToastsShadowEffect = 22;
 
-		var id1 = _toastService.ShowToast(builder => builder.AddMarkupContent(0, "msg1"), NotificationTypes.Danger, NotificationStyles.Strong);
-		var id2 = _toastService.ShowToast(builder => builder.AddMarkupContent(0, "msg2"), NotificationTypes.Info);
+		var id1 = _toastService.ShowToast(
+			builder => builder.AddMarkupContent(0, "msg1"),
+			NotificationTypes.Danger,
+			NotificationStyles.Strong
+		);
+		var id2 = _toastService.ShowToast(
+			builder => builder.AddMarkupContent(0, "msg2"),
+			NotificationTypes.Info
+		);
 
 		Assert.IsNotNull(_toastService.Toasts);
 		Assert.AreEqual(2, _toastService.AllToasts.Count());
@@ -130,26 +182,68 @@ public class ToastServiceTest
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(0).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(0).Content);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Danger, _toastService.Toasts.ElementAt(0).Type);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, _toastService.Toasts.ElementAt(0).ShowIcon);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, _toastService.Toasts.ElementAt(0).ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseButton, _toastService.Toasts.ElementAt(0).ShowCloseButton);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, _toastService.Toasts.ElementAt(0).AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, _toastService.Toasts.ElementAt(0).ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowIcon,
+			_toastService.Toasts.ElementAt(0).ShowIcon
+		);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			_toastService.Toasts.ElementAt(0).ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+			_toastService.Toasts.ElementAt(0).ShowCloseButton
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			_toastService.Toasts.ElementAt(0).AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			_toastService.Toasts.ElementAt(0).ShadowEffect
+		);
 
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(1).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(1).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(1).Content);
-		Assert.AreEqual(NotificationStyles.Outlined, _toastService.Toasts.ElementAt(1).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Outlined,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Info, _toastService.Toasts.ElementAt(1).Type);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, _toastService.Toasts.ElementAt(1).ShowIcon);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsNotificationStyle, _toastService.Toasts.ElementAt(1).NotificationStyle);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, _toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseButton, _toastService.Toasts.ElementAt(1).ShowCloseButton);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, _toastService.Toasts.ElementAt(1).AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, _toastService.Toasts.ElementAt(1).ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowIcon,
+			_toastService.Toasts.ElementAt(1).ShowIcon
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			_toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+			_toastService.Toasts.ElementAt(1).ShowCloseButton
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			_toastService.Toasts.ElementAt(1).AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			_toastService.Toasts.ElementAt(1).ShadowEffect
+		);
 	}
 
 	[TestMethod]
@@ -162,22 +256,26 @@ public class ToastServiceTest
 		ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 55;
 		ToastContainerGlobalSettings.DefaultToastsShadowEffect = 22;
 
-		var id1 = _toastService.ShowToast(new ToastSettings()
-		{
-			Content = builder => builder.AddMarkupContent(0, "msg1"),
-			Type = NotificationTypes.Primary,
-			NotificationStyle = NotificationStyles.Strong,
-			ShowIcon = true,
-			ShowCloseButton = true,
-			ShowCloseCountdownProgress = true,
-			AutoCloseInSec = 11,
-			ShadowEffect = 15,
-		});
-		var id2 = _toastService.ShowToast(new ToastSettings()
-		{
-			Content = builder => builder.AddMarkupContent(0, "msg2"),
-			Type = NotificationTypes.Info,
-		});
+		var id1 = _toastService.ShowToast(
+			new ToastSettings()
+			{
+				Content = builder => builder.AddMarkupContent(0, "msg1"),
+				Type = NotificationTypes.Primary,
+				NotificationStyle = NotificationStyles.Strong,
+				ShowIcon = true,
+				ShowCloseButton = true,
+				ShowCloseCountdownProgress = true,
+				AutoCloseInSec = 11,
+				ShadowEffect = 15,
+			}
+		);
+		var id2 = _toastService.ShowToast(
+			new ToastSettings()
+			{
+				Content = builder => builder.AddMarkupContent(0, "msg2"),
+				Type = NotificationTypes.Info,
+			}
+		);
 
 		Assert.IsNotNull(_toastService.Toasts);
 		Assert.AreEqual(2, _toastService.AllToasts.Count());
@@ -185,14 +283,19 @@ public class ToastServiceTest
 		Assert.AreNotEqual(Guid.Empty, id1);
 		Assert.AreNotEqual(Guid.Empty, id2);
 
-
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(0).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(0).Content);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Primary, _toastService.Toasts.ElementAt(0).Type);
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).ShowIcon);
-		Assert.AreEqual(NotificationStyles.Strong, _toastService.Toasts.ElementAt(0).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Strong,
+			_toastService.Toasts.ElementAt(0).NotificationStyle
+		);
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).ShowCloseCountdownProgress);
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(0).ShowCloseButton);
 		Assert.AreEqual((uint)11, _toastService.Toasts.ElementAt(0).AutoCloseInSec);
@@ -201,14 +304,35 @@ public class ToastServiceTest
 		Assert.AreEqual(true, _toastService.Toasts.ElementAt(1).IsVisible);
 		Assert.AreEqual(false, _toastService.Toasts.ElementAt(1).IsRemove);
 		Assert.IsNotNull(_toastService.Toasts.ElementAt(1).Content);
-		Assert.AreEqual(NotificationStyles.Outlined, _toastService.Toasts.ElementAt(1).NotificationStyle);
+		Assert.AreEqual(
+			NotificationStyles.Outlined,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
 		Assert.AreEqual(NotificationTypes.Info, _toastService.Toasts.ElementAt(1).Type);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, _toastService.Toasts.ElementAt(1).ShowIcon);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsNotificationStyle, _toastService.Toasts.ElementAt(1).NotificationStyle);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, _toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseButton, _toastService.Toasts.ElementAt(1).ShowCloseButton);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, _toastService.Toasts.ElementAt(1).AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, _toastService.Toasts.ElementAt(1).ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowIcon,
+			_toastService.Toasts.ElementAt(1).ShowIcon
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsNotificationStyle,
+			_toastService.Toasts.ElementAt(1).NotificationStyle
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			_toastService.Toasts.ElementAt(1).ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseButton,
+			_toastService.Toasts.ElementAt(1).ShowCloseButton
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			_toastService.Toasts.ElementAt(1).AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			_toastService.Toasts.ElementAt(1).ShadowEffect
+		);
 	}
 
 	[TestMethod]

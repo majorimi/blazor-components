@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -28,6 +27,7 @@ internal sealed class PageMouseEventInfo
 			await _mouseEventCallback.Invoke(args);
 		}
 	}
+
 	[JSInvokable("GlobalMouseDown")]
 	public async Task GlobalMouseDown(MouseEventArgs args)
 	{
@@ -36,6 +36,7 @@ internal sealed class PageMouseEventInfo
 			await _mouseEventCallback.Invoke(args);
 		}
 	}
+
 	[JSInvokable("GlobalMouseUp")]
 	public async Task GlobalMouseUp(MouseEventArgs args)
 	{

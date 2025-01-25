@@ -16,6 +16,7 @@ public interface IResizeHandler : IAsyncDisposable
 	/// <param name="resizeCallback">Func to call when page resize happened</param>
 	/// <returns>Async Task with event id to unsubscribe from event</returns>
 	Task<string> RegisterPageResizeAsync(Func<ResizeEventArgs, Task> resizeCallback);
+
 	/// <summary>
 	/// Removes event listener for 'resize' HTML event for the whole document/window by the given event Id.
 	/// </summary>
@@ -41,7 +42,10 @@ public interface IResizeHandler : IAsyncDisposable
 	/// <param name="elementRef">Blazor reference to an HTML element</param>
 	/// <param name="resizeCallback">Func to call when the given element was resized</param>
 	/// <returns>Async Task</returns>
-	Task RegisterResizeAsync(ElementReference elementRef, Func<ResizeEventArgs, Task> resizeCallback = null);
+	Task RegisterResizeAsync(
+		ElementReference elementRef,
+		Func<ResizeEventArgs, Task> resizeCallback = null
+	);
 
 	/// <summary>
 	/// Removes event listener for 'resize' HTML event for the given element.

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
-
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: InternalsVisibleTo("Majorsoft.Blazor.Components.GdprConsent.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
 namespace Majorsoft.Blazor.Components.GdprConsent;
 
 /// <summary>
@@ -41,9 +40,8 @@ public static class GdprConsentExtension
 	}
 }
 
-
 /// <summary>
-/// Service for checking component was used only once and to be registered as Scoped. 
+/// Service for checking component was used only once and to be registered as Scoped.
 /// In WASM it is Singleton, in Server side it will be per 'Session'
 /// </summary>
 /// <typeparam name="T"></typeparam>

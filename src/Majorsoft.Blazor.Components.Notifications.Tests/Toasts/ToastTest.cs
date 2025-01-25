@@ -28,15 +28,18 @@ public class ToastTest : ComponentsTestBase<Toast>
 		_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { });
 
 		_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
-		_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+		_testContext.Services.Add(
+			new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock)
+		);
 		_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock));
 	}
 
 	[TestMethod]
 	public void Toast_should_not_rendered_html_when_not_IsVisible()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings() { IsVisible = false }));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(p => p.Settings, new ToastSettings() { IsVisible = false })
+		);
 
 		Assert.AreEqual(false, rendered.Instance.Settings.IsVisible);
 
@@ -46,14 +49,18 @@ public class ToastTest : ComponentsTestBase<Toast>
 	[TestMethod]
 	public void Toast_should_rendered_correctly_html_when_IsVisible()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings() { IsVisible = true }));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(p => p.Settings, new ToastSettings() { IsVisible = true })
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div >
 				  <svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -67,24 +74,29 @@ public class ToastTest : ComponentsTestBase<Toast>
 				</button>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_not_render_ShowIcon_false()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings() { IsVisible = true, ShowIcon = false }
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 				<button type=""button""  class=""close normal"" >
@@ -93,99 +105,135 @@ public class ToastTest : ComponentsTestBase<Toast>
 				</button>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_not_render_ShowCloseButton_false()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_not_render_IsLastItem_true()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false,
-				IsLastItem = true,
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+					IsLastItem = true,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" 
 			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_render_Content()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false,
-				Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>")
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+					Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>"),
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" >
 					<strong>Hi..</strong>
 				</div>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_render_CustomIconSvgPath()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = true,
-				ShowCloseButton = false,
-				Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>"),
-				CustomIconSvgPath = "svg path value"
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = true,
+					ShowCloseButton = false,
+					Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>"),
+					CustomIconSvgPath = "svg path value",
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div >
 				  <svg class=""btoast-img"" focusable=""false"" viewBox=""0 0 24 24"" aria-hidden=""true"" >
@@ -197,86 +245,124 @@ public class ToastTest : ComponentsTestBase<Toast>
 				</div>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_render_Types()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 
 		foreach (var types in Enum.GetValues<NotificationTypes>())
 		{
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false,
-				Type = types
-			}));
+			rendered.SetParametersAndRender(parameters =>
+				parameters.Add(
+					p => p.Settings,
+					new ToastSettings()
+					{
+						IsVisible = true,
+						ShowIcon = false,
+						ShowCloseButton = false,
+						Type = types,
+					}
+				)
+			);
 
-			rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
+			rendered.WaitForAssertion(
+				() =>
+					rendered.MarkupMatches(
+						$@"<div class=""btoast-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
 			  </div>
 			  <div class=""btoast-progress {types.ToString().ToLower()} start"" style=""transition: width 10s linear;"" ></div>
-			</div>"));
+			</div>"
+					)
+			);
 		}
 	}
 
 	[TestMethod]
 	public void Toast_should_render_NotificationStyles()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 
 		foreach (var types in Enum.GetValues<NotificationTypes>())
 		{
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false,
-				Type = types
-			}));
+			rendered.SetParametersAndRender(parameters =>
+				parameters.Add(
+					p => p.Settings,
+					new ToastSettings()
+					{
+						IsVisible = true,
+						ShowIcon = false,
+						ShowCloseButton = false,
+						Type = types,
+					}
+				)
+			);
 
 			foreach (var style in Enum.GetValues<NotificationStyles>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
-				{
-					IsVisible = true,
-					ShowIcon = false,
-					ShowCloseButton = false,
-					Type = types,
-					NotificationStyle = style,
-				}));
+				rendered.SetParametersAndRender(parameters =>
+					parameters.Add(
+						p => p.Settings,
+						new ToastSettings()
+						{
+							IsVisible = true,
+							ShowIcon = false,
+							ShowCloseButton = false,
+							Type = types,
+							NotificationStyle = style,
+						}
+					)
+				);
 
-				var progress = style != NotificationStyles.Strong ? $" {types.ToString().ToLower()}" : " strong";
+				var progress =
+					style != NotificationStyles.Strong
+						? $" {types.ToString().ToLower()}"
+						: " strong";
 
-				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""btoast-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" 
+				rendered.WaitForAssertion(
+					() =>
+						rendered.MarkupMatches(
+							$@"<div class=""btoast-main bnotify-{style.ToString().ToLower()}-{types.ToString().ToLower()}"" 
 					style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 				  <div class=""btoast-body"" >
 					<div class=""btoast-text"" ></div>
 				  </div>
 				  <div class=""btoast-progress {progress} start"" style=""transition: width 10s linear;"" ></div>
-				</div>"));
+				</div>"
+						)
+				);
 			}
 		}
 	}
@@ -284,19 +370,26 @@ public class ToastTest : ComponentsTestBase<Toast>
 	[TestMethod]
 	public void Toast_should_not_render_ShowCloseCountdownProgress_false()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseCountdownProgress = false
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseCountdownProgress = false,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" 
 			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
@@ -305,26 +398,35 @@ public class ToastTest : ComponentsTestBase<Toast>
 				  <span class=""sr-only"" >Close</span>
 				</button>
 			  </div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_render_ShadowEffect()
 	{
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseCountdownProgress = false,
-				ShadowEffect = 15,
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseCountdownProgress = false,
+					ShadowEffect = 15,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 		Assert.AreEqual(true, rendered.Instance.Settings.IsVisible);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary""
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary""
 			style=""opacity: 1; box-shadow: 3px 15px 20px 1px #c7c7c7; margin-bottom: 27px;""tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" ></div>
@@ -333,13 +435,20 @@ public class ToastTest : ComponentsTestBase<Toast>
 				  <span class=""sr-only"" >Close</span>
 				</button>
 			  </div>
-			</div>"));
+			</div>"
+				)
+		);
 	}
 
 	[TestMethod]
 	public void Toast_should_AutoClose()
 	{
-		_transitionMock.RegisterTransitionEndedAsync(Arg.Any<ElementReference>(), Arg.Any<Func<TransitionEventArgs, Task>>(), Arg.Any<string>())
+		_transitionMock
+			.RegisterTransitionEndedAsync(
+				Arg.Any<ElementReference>(),
+				Arg.Any<Func<TransitionEventArgs, Task>>(),
+				Arg.Any<string>()
+			)
 			.Returns(callInfo =>
 			{
 				var func = callInfo.Arg<Func<TransitionEventArgs, Task>>();
@@ -347,20 +456,27 @@ public class ToastTest : ComponentsTestBase<Toast>
 				return Task.CompletedTask;
 			});
 
-		var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
-			.Add(p => p.Settings, new ToastSettings()
-			{
-				IsVisible = true,
-				ShowIcon = false,
-				ShowCloseButton = false,
-				Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>"),
-				AutoCloseInSec = 1
-			}));
+		var rendered = _testContext.RenderComponent<Toast>(parameters =>
+			parameters.Add(
+				p => p.Settings,
+				new ToastSettings()
+				{
+					IsVisible = true,
+					ShowIcon = false,
+					ShowCloseButton = false,
+					Content = b => b.AddMarkupContent(0, @"<strong>Hi..</strong>"),
+					AutoCloseInSec = 1,
+				}
+			)
+		);
 
 		var div = rendered.Find("div");
 		Assert.IsNotNull(div);
 
-		rendered.WaitForAssertion(() => rendered.MarkupMatches(@"<div class=""btoast-main bnotify-normal-primary"" 
+		rendered.WaitForAssertion(
+			() =>
+				rendered.MarkupMatches(
+					@"<div class=""btoast-main bnotify-normal-primary"" 
 			style=""opacity: 1; box-shadow: 1px 5px 20px 0px #c7c7c7; margin-bottom: 17px;"" tabindex=""1000""  >
 			  <div class=""btoast-body"" >
 				<div class=""btoast-text"" >
@@ -368,13 +484,19 @@ public class ToastTest : ComponentsTestBase<Toast>
 				</div>
 			  </div>
 			  <div class=""btoast-progress primary start"" style=""transition: width 1s linear;"" ></div>
-			</div>"), TimeSpan.FromSeconds(1));
+			</div>"
+				),
+			TimeSpan.FromSeconds(1)
+		);
 
 		rendered.Render();
 
-		rendered.WaitForAssertion(() =>
-		{
-			rendered.MarkupMatches("");
-		}, TimeSpan.FromSeconds(2));
+		rendered.WaitForAssertion(
+			() =>
+			{
+				rendered.MarkupMatches("");
+			},
+			TimeSpan.FromSeconds(2)
+		);
 	}
 }

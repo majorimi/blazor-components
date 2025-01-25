@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents;
@@ -16,6 +15,7 @@ public interface IGlobalMouseEventHandler : IAsyncDisposable
 	/// <param name="mouseMoveCallback">Func to call when mouse move happened</param>
 	/// <returns>Async Task with event id to unsubscribe from event</returns>
 	Task<string> RegisterPageMouseMoveAsync(Func<MouseEventArgs, Task> mouseMoveCallback);
+
 	/// <summary>
 	/// Removes event listener for mouse 'move' HTML event for the whole document/window by the given event Id.
 	/// </summary>
@@ -29,6 +29,7 @@ public interface IGlobalMouseEventHandler : IAsyncDisposable
 	/// <param name="mouseDownCallback">Func to call when mouse down happened</param>
 	/// <returns>Async Task with event id to unsubscribe from event</returns>
 	Task<string> RegisterPageMouseDownAsync(Func<MouseEventArgs, Task> mouseDownCallback);
+
 	/// <summary>
 	/// Removes event listener for mouse 'down' HTML event for the whole document/window by the given event Id.
 	/// </summary>
@@ -36,13 +37,13 @@ public interface IGlobalMouseEventHandler : IAsyncDisposable
 	/// <returns>Async Task</returns>
 	Task RemovePageMouseDownAsync(string eventId);
 
-
 	/// <summary>
 	/// Adds event listener for mouse 'up' HTML event for the whole document/window.
 	/// </summary>
 	/// <param name="mouseUpCallback">Func to call when mouse move happened</param>
 	/// <returns>Async Task with event id to unsubscribe from event</returns>
 	Task<string> RegisterPageMouseUpAsync(Func<MouseEventArgs, Task> mouseUpCallback);
+
 	/// <summary>
 	/// Removes event listener for mouse 'up' HTML event for the whole document/window by the given event Id.
 	/// </summary>

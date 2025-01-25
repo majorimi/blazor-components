@@ -27,7 +27,9 @@ public interface IHtmlHeadService : IAsyncDisposable
 	/// </summary>
 	/// <param name="linkType">Allowed Link `rel` types</param>
 	/// <returns>Async Task</returns>
-	Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(HtmlHeadLinkTagRelTypes? linkType = null);
+	Task<IEnumerable<HtmlHeadLinkTag>> GetHtmlHeadLinkTagsAsync(
+		HtmlHeadLinkTagRelTypes? linkType = null
+	);
 
 	/// <summary>
 	/// Returns all existing fav icon "rel=icon" tags from HTML page Head.

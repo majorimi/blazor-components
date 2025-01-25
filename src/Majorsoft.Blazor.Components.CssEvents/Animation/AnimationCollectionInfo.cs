@@ -19,13 +19,22 @@ internal sealed class AnimationCollectionInfo : Collection<AnimationEventInfo>
 	}
 
 	private List<AnimationEventArgs> _finishedTransitions = new List<AnimationEventArgs>();
+
 	public async Task WhenAllFinished(AnimationEventArgs args)
 	{
 		_finishedTransitions.Add(args);
 
-		if (Count == _finishedTransitions.Count
-			&& !_finishedTransitions.Select(s => s.AnimationName).Except(this.Select(s => s.AnimationName)).Any()
-			&& !_finishedTransitions.Select(s => s.Element).Except(this.Select(s => s.Element)).Any())
+		if (
+			Count == _finishedTransitions.Count
+			&& !_finishedTransitions
+				.Select(s => s.AnimationName)
+				.Except(this.Select(s => s.AnimationName))
+				.Any()
+			&& !_finishedTransitions
+				.Select(s => s.Element)
+				.Except(this.Select(s => s.Element))
+				.Any()
+		)
 		{
 			await _transitionEndedCallback(_finishedTransitions.ToArray());
 			_finishedTransitions.Clear();

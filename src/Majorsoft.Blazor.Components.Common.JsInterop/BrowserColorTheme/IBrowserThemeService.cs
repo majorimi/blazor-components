@@ -19,7 +19,9 @@ public interface IBrowserThemeService : IAsyncDisposable
 	/// </summary>
 	/// <param name="colorThemeChangeCallback"></param>
 	/// <returns>Async Task</returns>
-	Task<string> RegisterColorThemeChangeAsync(Func<BrowserColorThemes, Task> colorThemeChangeCallback);
+	Task<string> RegisterColorThemeChangeAsync(
+		Func<BrowserColorThemes, Task> colorThemeChangeCallback
+	);
 
 	/// <summary>
 	/// Removes event listener for `prefers-color-scheme` HTML event for the Browser.

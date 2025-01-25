@@ -19,13 +19,13 @@ public class GoogleMapMarkerLabelIcon
 	public Point? Anchor { get; set; }
 
 	/// <summary>
-	/// The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker. 
+	/// The origin of the label relative to the top-left corner of the icon image, if a label is supplied by the marker.
 	/// By default, the origin is located in the center point of the image.
 	/// </summary>
 	public Point? LabelOrigin { get; set; }
 
 	/// <summary>
-	/// The position of the image within a sprite, if any. 
+	/// The position of the image within a sprite, if any.
 	/// By default, the origin is located at the top left corner of the image (0, 0).
 	/// </summary>
 	public Point? Origin { get; set; }
@@ -36,7 +36,7 @@ public class GoogleMapMarkerLabelIcon
 	public Rect? ScaledSize { get; set; }
 
 	/// <summary>
-	/// The display size of the sprite or image. When using sprites, you must specify the sprite size. 
+	/// The display size of the sprite or image. When using sprites, you must specify the sprite size.
 	/// If the size is not provided, it will be set when the image loads.
 	/// </summary>
 	public Rect? Size { get; set; }
@@ -49,7 +49,10 @@ public class GoogleMapMarkerLabelIcon
 	{
 		if (string.IsNullOrWhiteSpace(url))
 		{
-			throw new ArgumentException($"'{nameof(url)}' cannot be null or whitespace", nameof(url));
+			throw new ArgumentException(
+				$"'{nameof(url)}' cannot be null or whitespace",
+				nameof(url)
+			);
 		}
 
 		Url = url;

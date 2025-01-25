@@ -1,5 +1,4 @@
-﻿
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts;
 
@@ -23,9 +22,18 @@ public class ToastSettingsTest
 		var settings = new ToastSettings();
 
 		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, settings.ShowIcon);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, settings.AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, settings.ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, settings.ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			settings.AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			settings.ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			settings.ShadowEffect
+		);
 	}
 
 	[TestMethod]
@@ -39,9 +47,18 @@ public class ToastSettingsTest
 		var settings = new ToastSettings();
 
 		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowIcon, settings.ShowIcon);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec, settings.AutoCloseInSec);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress, settings.ShowCloseCountdownProgress);
-		Assert.AreEqual(ToastContainerGlobalSettings.DefaultToastsShadowEffect, settings.ShadowEffect);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec,
+			settings.AutoCloseInSec
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress,
+			settings.ShowCloseCountdownProgress
+		);
+		Assert.AreEqual(
+			ToastContainerGlobalSettings.DefaultToastsShadowEffect,
+			settings.ShadowEffect
+		);
 	}
 
 	[TestMethod]

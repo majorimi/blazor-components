@@ -3,7 +3,7 @@
 namespace Majorsoft.Blazor.Components.Maps.Google;
 
 /// <summary>
-/// These options specify the appearance of a marker label. 
+/// These options specify the appearance of a marker label.
 /// A marker label is a string (often a single character) which will appear inside the marker.
 /// </summary>
 public class GoogleMapMarkerLabel
@@ -14,7 +14,7 @@ public class GoogleMapMarkerLabel
 	public string Text { get; set; }
 
 	/// <summary>
-	/// The className property of the label's element (equivalent to the element's class attribute). 
+	/// The className property of the label's element (equivalent to the element's class attribute).
 	/// Multiple space-separated CSS classes can be added.
 	/// </summary>
 	public string? ClassName { get; set; }

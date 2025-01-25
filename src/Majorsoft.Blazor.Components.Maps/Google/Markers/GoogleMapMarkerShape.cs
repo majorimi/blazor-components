@@ -9,7 +9,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google;
 public class GoogleMapMarkerShape
 {
 	/// <summary>
-	/// The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found 
+	/// The format of this attribute depends on the value of the type and follows the w3 AREA coords specification found
 	/// at http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords.
 	/// </summary>
 	public IEnumerable<int> Coords { get; set; }
