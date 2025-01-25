@@ -16,7 +16,6 @@ public class PermalinkBlazorWasmInitializerTest : ComponentsTestBase<PermalinkBl
 	public void Init()
 	{
 		_permaLinkWatcherServiceMock = Substitute.For<IPermaLinkWatcherService>();
-		_permaLinkWatcherServiceMock.When(s => s.WatchPermaLinks()).DoNotCallBase();
 
 		_testContext.Services.Add(
 			new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock)
