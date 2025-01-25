@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.CommonTestsBase
 {
@@ -30,8 +30,8 @@ namespace Majorsoft.Blazor.Components.CommonTestsBase
 		[TestInitialize]
 		public void InitGenericBase()
 		{
-			var logger = new Mock<ILogger<T>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<T>), logger.Object));
+			var logger = Substitute.For<ILogger<T>>();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<T>), logger));
 		}
 	}
 }

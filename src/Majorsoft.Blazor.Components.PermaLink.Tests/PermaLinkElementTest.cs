@@ -5,24 +5,25 @@ using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
 	public class PermaLinkElementTest : ComponentsTestBase<PermaLinkElement>
 	{
-		private Mock<IClipboardHandler> _clipboardJsMock;
+		private IClipboardHandler _clipboardJsMock;
 		private BunitJSModuleInterop _jsInteropModul;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_clipboardJsMock = new Mock<IClipboardHandler>();
+			_clipboardJsMock = Substitute.For<IClipboardHandler>();
 
 			_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
 
@@ -33,7 +34,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 #endif
 			_jsInteropModul.Setup<DomRect>("getBoundingClientRect", _ => true).SetResult(new DomRect());
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IClipboardHandler), _clipboardJsMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IClipboardHandler), _clipboardJsMock));
 		}
 
 		[TestCleanup]

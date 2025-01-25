@@ -11,23 +11,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Tabs.Tests
 {
 	[TestClass]
 	public class TabsPanelTest : ComponentsTestBase<TabsPanel>
 	{
-		Mock<IPermaLinkWatcherService> _peramalinkMock;
+		IPermaLinkWatcherService _peramalinkMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<TabItem>>();
-			_peramalinkMock = new Mock<IPermaLinkWatcherService>();
+			var logger = Substitute.For<ILogger<TabItem>>();
+			_peramalinkMock = Substitute.For<IPermaLinkWatcherService>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<TabItem>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _peramalinkMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<TabItem>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _peramalinkMock));
 		}
 
 		[TestMethod]
@@ -429,7 +430,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public async Task TabsPanel_should_render_correct_active_Tab_on_click()
 		{
-			_peramalinkMock.Setup(s => s.ChangePermalink(It.IsAny<string?>(), It.IsAny<bool>()));
+			_peramalinkMock.Received().ChangePermalink(Arg.Any<string?>(), Arg.Any<bool>());
 
 			var rendered = _testContext.RenderComponent<TabsPanel>();
 
@@ -464,7 +465,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 				</div>");
 			});
 
-			_peramalinkMock.Verify(v => v.ChangePermalink(It.IsAny<string?>(), It.IsAny<bool>()), Times.Never);
+			_peramalinkMock.Received(0).ChangePermalink(Arg.Any<string?>(), Arg.Any<bool>());
 		}
 
 		[TestMethod]
@@ -502,9 +503,9 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabActivation()
 		{
-			_peramalinkMock.Setup(s => s.ChangePermalink(It.IsAny<string?>(), It.IsAny<bool>()));
-			_peramalinkMock.SetupAdd(s => s.PermalinkDetected += It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
-			_peramalinkMock.SetupRemove(s => s.PermalinkDetected -= It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
+			_peramalinkMock.When(x => x.ChangePermalink(Arg.Any<string?>(), Arg.Any<bool>()));
+			_peramalinkMock.When(x => x.PermalinkDetected += Arg.Any<EventHandler<PermalinkDetectedEventArgs>>());
+			_peramalinkMock.When(x => x.PermalinkDetected -= Arg.Any<EventHandler<PermalinkDetectedEventArgs>>());
 
 			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
 					.Add(p => p.AllowTabActivationByPermalink, true));
@@ -516,7 +517,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab2"));
 
-			_peramalinkMock.Raise(e => e.PermalinkDetected += null, new PermalinkDetectedEventArgs(null, "tab2"));
+			_peramalinkMock.PermalinkDetected += Raise.EventWith(new PermalinkDetectedEventArgs(null, "tab2"));
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -530,15 +531,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 			  </div>
 			</div>");
 
-			_peramalinkMock.Verify(v => v.ChangePermalink("tab2", true), Times.Once);
+			_peramalinkMock.Received(1).ChangePermalink("tab2", true);
 		}
 
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabActivation_disabled()
 		{
-			_peramalinkMock.Setup(s => s.ChangePermalink(It.IsAny<string?>(), It.IsAny<bool>()));
-			_peramalinkMock.SetupAdd(s => s.PermalinkDetected += It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
-			_peramalinkMock.SetupRemove(s => s.PermalinkDetected -= It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
+			_peramalinkMock.When(x => x.ChangePermalink(Arg.Any<string?>(), Arg.Any<bool>()));
+			_peramalinkMock.When(x => x.PermalinkDetected += Arg.Any<EventHandler<PermalinkDetectedEventArgs>>());
+			_peramalinkMock.When(x=> x.PermalinkDetected -= Arg.Any<EventHandler<PermalinkDetectedEventArgs>>());
 
 			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
 					.Add(p => p.AllowTabActivationByPermalink, false));
@@ -550,7 +551,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab2"));
 
-			_peramalinkMock.Raise(e => e.PermalinkDetected += null, new PermalinkDetectedEventArgs(null, "tab2"));
+			_peramalinkMock.PermalinkDetected += Raise.EventWith(new PermalinkDetectedEventArgs(null, "tab2"));
 			rendered.Render();
 
 			var div = rendered.Find("div");
@@ -564,7 +565,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 			  </div>
 			</div>");
 
-			_peramalinkMock.Verify(v => v.ChangePermalink("tab2", true), Times.Never);
+			_peramalinkMock.Received().ChangePermalink("tab2", true);
 		}
 	}
 }

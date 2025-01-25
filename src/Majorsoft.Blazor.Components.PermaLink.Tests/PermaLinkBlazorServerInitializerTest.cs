@@ -10,29 +10,30 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
 	public class PermaLinkBlazorServerInitializerTest : ComponentsTestBase<PermaLinkBlazorServerInitializer>
 	{
-		private Mock<IPermaLinkWatcherService> _permaLinkWatcherServiceMock;
-		private Mock<IScrollHandler> _scrollHandlerMock;
-		private Mock<INavigationHistoryService> _navigationHistoryServiceMock;
+		private IPermaLinkWatcherService _permaLinkWatcherServiceMock;
+		private IScrollHandler _scrollHandlerMock;
+		private INavigationHistoryService _navigationHistoryServiceMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<IPermaLinkWatcherService>>();
-			_permaLinkWatcherServiceMock = new Mock<IPermaLinkWatcherService>();
-			_scrollHandlerMock = new Mock<IScrollHandler>();
-			_navigationHistoryServiceMock = new Mock<INavigationHistoryService>();
+			var logger = Substitute.For<ILogger<IPermaLinkWatcherService>>();
+			_permaLinkWatcherServiceMock = Substitute.For<IPermaLinkWatcherService>();
+			_scrollHandlerMock = Substitute.For<IScrollHandler>();
+			_navigationHistoryServiceMock = Substitute.For<INavigationHistoryService>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IScrollHandler), _scrollHandlerMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(INavigationHistoryService), _navigationHistoryServiceMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<IPermaLinkWatcherService>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IScrollHandler), _scrollHandlerMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(INavigationHistoryService), _navigationHistoryServiceMock));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
 		}

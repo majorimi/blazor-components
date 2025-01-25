@@ -9,25 +9,26 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Modal.Tests
 {
 	[TestClass]
 	public class ModalDialogTest : ComponentsTestBase<ModalDialog>
 	{
-		private Mock<ITransitionEventsService> _transitionMock;
-		private Mock<IFocusHandler> _focusHandlerMock;
+		private ITransitionEventsService _transitionMock;
+		private IFocusHandler _focusHandlerMock;
 		
 		[TestInitialize]
 		public void Init()
 		{
-			_transitionMock = new Mock<ITransitionEventsService>();
-			_focusHandlerMock = new Mock<IFocusHandler>();
+			_transitionMock = Substitute.For<ITransitionEventsService>();
+			_focusHandlerMock = Substitute.For<IFocusHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock));
 		}
 
 		[TestMethod]

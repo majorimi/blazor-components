@@ -12,33 +12,33 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 {
 	[TestClass]
 	public class GdprModalTest : ComponentsTestBase<GdprModal>
 	{
-		private Mock<IGdprConsentService> _dprConsentServiceMock;
-		private Mock<IGdprConsentNotificationService> _gdprConsentNotificationServiceMock;
-		private Mock<ITransitionEventsService> _transitionMock;
-		private Mock<IFocusHandler> _focusHandlerMock;
+		private IGdprConsentService _dprConsentServiceMock;
+		private IGdprConsentNotificationService _gdprConsentNotificationServiceMock;
+		private ITransitionEventsService _transitionMock;
+		private IFocusHandler _focusHandlerMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_gdprConsentNotificationServiceMock = new Mock<IGdprConsentNotificationService>();
-			var logger = new Mock<ILogger<ModalDialog>>();
-			_dprConsentServiceMock = new Mock<IGdprConsentService>();
-			_dprConsentServiceMock.SetupGet(g => g.ConsentNotificationService).Returns(_gdprConsentNotificationServiceMock.Object);
+			_gdprConsentNotificationServiceMock = Substitute.For<IGdprConsentNotificationService>();
+			var logger = Substitute.For<ILogger<ModalDialog>>();
+			_dprConsentServiceMock = Substitute.For<IGdprConsentService>();
+			_dprConsentServiceMock.ConsentNotificationService.Returns(_gdprConsentNotificationServiceMock);
 
-			_transitionMock = new Mock<ITransitionEventsService>();
-			_focusHandlerMock = new Mock<IFocusHandler>();
+			_transitionMock = Substitute.For<ITransitionEventsService>();
+			_focusHandlerMock = Substitute.For<IFocusHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<ModalDialog>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IFocusHandler), _focusHandlerMock));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprBanner>), new SingletonComponentService<GdprBanner>()));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprModal>), new SingletonComponentService<GdprModal>()));
 		}
@@ -46,8 +46,8 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_not_render_anything_if_consent_valid()
 		{
-			_dprConsentServiceMock.Setup(s => s.GetGdprConsentDataAsync())
-				.ReturnsAsync(new GdprConsentData()
+			_dprConsentServiceMock.GetGdprConsentDataAsync()
+				.Returns(new GdprConsentData
 				{
 					AnsweredAt = DateTime.Now,
 					AnswerValidUntil = DateTime.Now.AddDays(1),
@@ -56,7 +56,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 			var rendered = _testContext.RenderComponent<GdprModal>();
 			rendered.MarkupMatches("");
 
-			_dprConsentServiceMock.Verify(v => v.GetGdprConsentDataAsync(), Times.Once);
+			_dprConsentServiceMock.Received(1).GetGdprConsentDataAsync();
 		}
 
 		[Ignore] //TODO: does not work because of StateHasChanged() and dialog opens up in Render event.
@@ -105,8 +105,8 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public async Task GdprModal_should_SaveChoice_as_user_choosen_ConsentDetails()
 		{
-			_dprConsentServiceMock.Setup(s => s.GetGdprConsentDataAsync())
-				.ReturnsAsync(new GdprConsentData()
+			_dprConsentServiceMock.GetGdprConsentDataAsync()
+				.Returns(new GdprConsentData
 				{
 					AnsweredAt = DateTime.Now,
 					AnswerValidUntil = DateTime.Now.AddDays(1),
@@ -123,8 +123,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 
 			await rendered.Instance.SaveChoice();
 
-			_dprConsentServiceMock.Verify(v => v.SetGdprConsentDataAsync(It.Is<GdprConsentData>(v => !details[0].IsAccepted && details[1].IsAccepted && details[2].IsAccepted)),
-				Times.Once);
+			await _dprConsentServiceMock.Received(1).SetGdprConsentDataAsync(Arg.Is<GdprConsentData>(v => !details[0].IsAccepted && details[1].IsAccepted && details[2].IsAccepted));
 		}
 	}
 }

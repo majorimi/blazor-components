@@ -5,34 +5,35 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using Majorsoft.Blazor.Components.Timer;
 using System;
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 {
 	[TestClass]
 	public class ToastContainerTest : ComponentsTestBase<ToastContainer>
 	{
-		private Mock<ITransitionEventsService> _transitionMock;
-		private Mock<IToastService> _toastServiceMock;
-		private Mock<IToastInternals> _toastInternalsMock;
+		private ITransitionEventsService _transitionMock;
+		private IToastService _toastServiceMock;
+		private IToastInternals _toastInternalsMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<AdvancedTimer>>();
-			var logger2 = new Mock<ILogger<Toast>>();
-			_transitionMock = new Mock<ITransitionEventsService>();
-			_toastServiceMock = new Mock<IToastService>();
-			_toastInternalsMock = new Mock<IToastInternals>();
+			var logger = Substitute.For<ILogger<AdvancedTimer>>();
+			var logger2 = Substitute.For<ILogger<Toast>>();
+			_transitionMock = Substitute.For<ITransitionEventsService>();
+			_toastServiceMock = Substitute.For<IToastService>();
+			_toastInternalsMock = Substitute.For<IToastInternals>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Toast>), logger2.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastInternals), _toastInternalsMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<Toast>), logger2));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastInternals), _toastInternalsMock));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<ToastContainer>), new SingletonComponentService<ToastContainer>()));
 		}
 
@@ -50,8 +51,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_rendered_html_when_has_no_Toasts()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new  ToastContainerGlobalSettings());
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
 			var rendered = _testContext.RenderComponent<ToastContainer>(
 				("id", "id1"), //HTML attributes
@@ -83,8 +84,8 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_render_Settings_Width()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { Width = 50 });
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Width = 50 });
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
@@ -114,15 +115,15 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		public void ToastContainer_should_not_render_Settings_PaddingFromSide()
 		{
 			var settings = new ToastContainerGlobalSettings() { PaddingFromSide = 25 };
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			_toastServiceMock.GlobalSettings.Returns(settings);
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
 				settings.Position = item;
-				_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
+				_toastServiceMock.GlobalSettings.Returns(settings);
 				rendered.Render();
 
 				var div = rendered.Find("div");
@@ -166,15 +167,15 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		public void ToastContainer_should_not_render_Settings_PaddingFromTopOrBottom()
 		{
 			var settings = new ToastContainerGlobalSettings() { PaddingFromTopOrBottom = 22 };
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			_toastServiceMock.GlobalSettings.Returns(settings);
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
 				settings.Position = item;
-				_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
+				_toastServiceMock.GlobalSettings.Returns(settings);
 				rendered.Render();
 
 				var div = rendered.Find("div");
@@ -214,14 +215,14 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_render_Settings_Position()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings() });
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
-				_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { Position = item });
+				_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { Position = item });
 				rendered.Render();
 
 				var div = rendered.Find("div");
@@ -256,13 +257,13 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_render_non_Visible_Toasts()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] 
-			{ 
-				new ToastSettings() { IsVisible = true }, 
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
+			{
+				new ToastSettings() { IsVisible = true },
 				new ToastSettings() { IsVisible = false },
 				new ToastSettings() { IsVisible = false }
 			});
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
@@ -291,13 +292,13 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_render_multiple_Visible_Toasts()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[]
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[]
 			{
 				new ToastSettings() { IsVisible = true },
 				new ToastSettings() { IsVisible = false },
 				new ToastSettings() { IsVisible = true }
 			});
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings());
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 
@@ -341,15 +342,15 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_render_Toast_with_Settings()
 		{
-			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() 
-				{ 
+			_toastInternalsMock.AllToasts.Returns(new ToastSettings[] { new ToastSettings()
+				{
 					ShowIcon = false,
 					NotificationStyle = NotificationStyles.Outlined,
 					ShowCloseCountdownProgress = false,
 					ShowCloseButton = false
-				} 
+				}
 			});
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { });
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { });
 
 			var rendered = _testContext.RenderComponent<ToastContainer>();
 

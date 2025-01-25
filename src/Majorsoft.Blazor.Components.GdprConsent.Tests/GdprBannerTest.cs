@@ -9,24 +9,24 @@ using Majorsoft.Blazor.Components.CommonTestsBase;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 {
 	[TestClass]
 	public class GdprBannerTest : ComponentsTestBase<GdprBanner>
 	{
-		private Mock<IGdprConsentService> _dprConsentServiceMock;
-		private Mock<IGdprConsentNotificationService> _gdprConsentNotificationServiceMock;
+		private IGdprConsentService _dprConsentServiceMock;
+		private IGdprConsentNotificationService _gdprConsentNotificationServiceMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_gdprConsentNotificationServiceMock = new Mock<IGdprConsentNotificationService>();
+			_gdprConsentNotificationServiceMock = Substitute.For<IGdprConsentNotificationService>();
 
-			_dprConsentServiceMock = new Mock<IGdprConsentService>();
-			_dprConsentServiceMock.SetupGet(g => g.ConsentNotificationService).Returns(_gdprConsentNotificationServiceMock.Object);
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock.Object));
+			_dprConsentServiceMock = Substitute.For<IGdprConsentService>();
+			_dprConsentServiceMock.ConsentNotificationService.Returns(_gdprConsentNotificationServiceMock);
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IGdprConsentService), _dprConsentServiceMock));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprBanner>), new SingletonComponentService<GdprBanner>()));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<GdprModal>), new SingletonComponentService<GdprModal>()));
 		}
@@ -34,8 +34,8 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_not_render_anything_if_consent_valid()
 		{
-			_dprConsentServiceMock.Setup(s => s.GetGdprConsentDataAsync())
-				.ReturnsAsync(new GdprConsentData()
+			_dprConsentServiceMock.GetGdprConsentDataAsync()
+				.Returns(new GdprConsentData
 				{
 					AnsweredAt = DateTime.Now,
 					AnswerValidUntil = DateTime.Now.AddDays(1),
@@ -44,7 +44,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 			var rendered = _testContext.RenderComponent<GdprBanner>();
 			rendered.MarkupMatches("");
 
-			_dprConsentServiceMock.Verify(v => v.GetGdprConsentDataAsync(), Times.Once);
+			_dprConsentServiceMock.Received(1).GetGdprConsentDataAsync();
 		}
 
 		[TestMethod]
@@ -111,7 +111,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 
 			await rendered.Instance.AcceptAll();
 
-			_dprConsentServiceMock.Verify(v => v.SetGdprConsentDataAsync(It.Is<GdprConsentData>(v => v.AllAccepted)), Times.Once);
+			await _dprConsentServiceMock.Received(1).SetGdprConsentDataAsync(Arg.Is<GdprConsentData>(v => v.AllAccepted));
 		}
 
 		[TestMethod]
@@ -127,7 +127,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 
 			await rendered.Instance.RejectAll();
 
-			_dprConsentServiceMock.Verify(v => v.SetGdprConsentDataAsync(It.Is<GdprConsentData>(v => v.GdprConsentDetails.All(x => !x.IsAccepted))), Times.Once);
+			await _dprConsentServiceMock.Received(1).SetGdprConsentDataAsync(Arg.Is<GdprConsentData>(v => v.GdprConsentDetails.All(x => !x.IsAccepted)));
 		}
 	}
 }

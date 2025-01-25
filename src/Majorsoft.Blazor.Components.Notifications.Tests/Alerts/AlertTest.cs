@@ -9,26 +9,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using Majorsoft.Blazor.Components.Timer;
 using System;
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 {
 	[TestClass]
 	public class AlertTest : ComponentsTestBase<Alert>
 	{
-		private Mock<ITransitionEventsService> _transitionMock;
+		private ITransitionEventsService _transitionMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<AdvancedTimer>>();
-			_transitionMock = new Mock<ITransitionEventsService>();
+			var logger = Substitute.For<ILogger<AdvancedTimer>>();
+			_transitionMock = Substitute.For<ITransitionEventsService>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
 		}
 
 		[TestMethod]
@@ -312,12 +313,13 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_AutoClose()
 		{
-			_transitionMock.Setup(s => s.RegisterTransitionEndedAsync(It.IsAny<ElementReference>(), It.IsAny<Func<TransitionEventArgs, Task>>(), It.IsAny<string>()))
-				.Callback<ElementReference, Func<TransitionEventArgs, Task>, string>((element, func, name) =>
+			_transitionMock.RegisterTransitionEndedAsync(Arg.Any<ElementReference>(), Arg.Any<Func<TransitionEventArgs, Task>>(), Arg.Any<string>())
+				.Returns(args =>
 				{
+					var func = args.ArgAt<Func<TransitionEventArgs, Task>>(1);
 					func.Invoke(new TransitionEventArgs());
-				})
-				.Returns(Task.CompletedTask);
+					return Task.CompletedTask;
+				});
 
 			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)

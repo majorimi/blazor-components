@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using Majorsoft.Blazor.Components.CommonTestsBase;
 using Bunit;
 using Majorsoft.Blazor.Components.Timer;
@@ -14,13 +14,14 @@ using System.Text.Json;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Typeahead.Tests
 {
 	[TestClass]
 	public class TypeaheadInputTest : ComponentsTestBase<TypeaheadInput<string>>
 	{
-		private Mock<IClickBoundariesHandler> _clickBoundariesMock;
+		private IClickBoundariesHandler _clickBoundariesMock;
 		private BunitJSModuleInterop _jsInteropModul;
 
 		private class StatesWithFlags
@@ -40,13 +41,13 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<DebounceInput>>();
-			var logger2 = new Mock<ILogger<AdvancedTimer>>();
-			_clickBoundariesMock = new Mock<IClickBoundariesHandler>();
+			var logger = Substitute.For<ILogger<DebounceInput>>();
+			var logger2 = Substitute.For<ILogger<AdvancedTimer>>();
+			_clickBoundariesMock = Substitute.For<IClickBoundariesHandler>();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInput>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IClickBoundariesHandler), _clickBoundariesMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<DebounceInput>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IClickBoundariesHandler), _clickBoundariesMock));
 
 			_testContext.JSInterop.Mode = JSRuntimeMode.Strict;
 #if DEBUG

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Collapse.Tests
 {
@@ -16,8 +16,8 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<CollapsePanel>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<CollapsePanel>), logger.Object));
+			var logger = Substitute.For<ILogger<CollapsePanel>>();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<CollapsePanel>), logger));
 		}
 
 		[TestMethod]

@@ -9,31 +9,32 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 using Majorsoft.Blazor.Components.Timer;
 using System;
 using Majorsoft.Blazor.Components.CommonTestsBase;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 {
 	[TestClass]
 	public class ToastTest : ComponentsTestBase<Toast>
 	{
-		private Mock<ITransitionEventsService> _transitionMock;
-		private Mock<IToastService> _toastServiceMock;
+		private ITransitionEventsService _transitionMock;
+		private IToastService _toastServiceMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			var logger = new Mock<ILogger<AdvancedTimer>>();
-			_transitionMock = new Mock<ITransitionEventsService>();
-			_toastServiceMock = new Mock<IToastService>();
+			var logger = Substitute.For<ILogger<AdvancedTimer>>();
+			_transitionMock = Substitute.For<ITransitionEventsService>();
+			_toastServiceMock = Substitute.For<IToastService>();
 
-			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { });
+			_toastServiceMock.GlobalSettings.Returns(new ToastContainerGlobalSettings() { });
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock.Object));
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ITransitionEventsService), _transitionMock));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IToastService), _toastServiceMock));
 		}
 
 		[TestMethod]
@@ -343,12 +344,13 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_AutoClose()
 		{
-			_transitionMock.Setup(s => s.RegisterTransitionEndedAsync(It.IsAny<ElementReference>(), It.IsAny<Func<TransitionEventArgs, Task>>(), It.IsAny<string>()))
-				.Callback<ElementReference, Func<TransitionEventArgs, Task>, string>((element, func, name) => 
+			_transitionMock.RegisterTransitionEndedAsync(Arg.Any<ElementReference>(), Arg.Any<Func<TransitionEventArgs, Task>>(), Arg.Any<string>())
+				.Returns(callInfo =>
 				{
+					var func = callInfo.Arg<Func<TransitionEventArgs, Task>>();
 					func.Invoke(new TransitionEventArgs());
-				})
-				.Returns(Task.CompletedTask);
+					return Task.CompletedTask;
+				});
 
 			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()

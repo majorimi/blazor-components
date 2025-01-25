@@ -10,7 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Debounce.Tests
 {
@@ -20,8 +21,8 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestInitialize]
 		public void Init()
 		{
-			var logger2 = new Mock<ILogger<AdvancedTimer>>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2.Object));
+			var logger2 = Substitute.For<ILogger<AdvancedTimer>>();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(ILogger<AdvancedTimer>), logger2));
 		}
 
 		[TestMethod]

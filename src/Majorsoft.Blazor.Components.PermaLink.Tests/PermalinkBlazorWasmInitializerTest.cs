@@ -7,22 +7,23 @@ using Majorsoft.Blazor.Components.CommonTestsBase;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.PermaLink.Tests
 {
 	[TestClass]
 	public class PermalinkBlazorWasmInitializerTest : ComponentsTestBase<PermalinkBlazorWasmInitializer>
 	{
-		private Mock<IPermaLinkWatcherService> _permaLinkWatcherServiceMock;
+		private IPermaLinkWatcherService _permaLinkWatcherServiceMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_permaLinkWatcherServiceMock = new Mock<IPermaLinkWatcherService>();
-			_permaLinkWatcherServiceMock.Setup(s => s.WatchPermaLinks());
+			_permaLinkWatcherServiceMock = Substitute.For<IPermaLinkWatcherService>();
+			_permaLinkWatcherServiceMock.When(s => s.WatchPermaLinks()).DoNotCallBase();
 
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock.Object));
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IPermaLinkWatcherService), _permaLinkWatcherServiceMock));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermaLinkBlazorServerInitializer>), new SingletonComponentService<PermaLinkBlazorServerInitializer>()));
 			_testContext.Services.Add(new ServiceDescriptor(typeof(SingletonComponentService<PermalinkBlazorWasmInitializer>), new SingletonComponentService<PermalinkBlazorWasmInitializer>()));
 		}
@@ -33,7 +34,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 			var rendered = _testContext.RenderComponent<PermalinkBlazorWasmInitializer>();
 			rendered.MarkupMatches("");
 
-			_permaLinkWatcherServiceMock.Verify(v => v.WatchPermaLinks(), Times.Once);
+			_permaLinkWatcherServiceMock.Received(1).WatchPermaLinks();
 		}
 
 		[ExpectedException(typeof(ApplicationException))]

@@ -7,25 +7,26 @@ using Majorsoft.Blazor.Components.Maps.Google;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
+
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NSubstitute;
 
 namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 {
 	[TestClass]
 	public class GoogleStaticMapTest : ComponentsTestBase<GoogleStaticMap>
 	{
-		private Mock<IGeolocationService> _geoLocationMock;
+		private IGeolocationService _geoLocationMock;
 
 		[TestInitialize]
 		public void Init()
 		{
-			_geoLocationMock = new Mock<IGeolocationService>();
-			_testContext.Services.Add(new ServiceDescriptor(typeof(IGeolocationService), _geoLocationMock.Object));
+			_geoLocationMock = Substitute.For<IGeolocationService>();
+			_testContext.Services.Add(new ServiceDescriptor(typeof(IGeolocationService), _geoLocationMock));
 		}
 
 		[TestMethod]
@@ -45,8 +46,8 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 		[TestMethod]
 		public void GoogleStaticMap_should_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
-				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
+			_geoLocationMock.GetCurrentPositionAsync(Arg.Any<Func<GeolocationResult, Task>>(),
+				Arg.Any<bool>(), Arg.Any<TimeSpan?>(), Arg.Any<TimeSpan?>());
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
 				.Add(p => p.CenterCurrentLocationOnLoad, true));
@@ -56,15 +57,15 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
-				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Once);
+			_geoLocationMock.Received(1).GetCurrentPositionAsync(Arg.Any<Func<GeolocationResult, Task>>(),
+			Arg.Any<bool>(), Arg.Any<TimeSpan?>(), Arg.Any<TimeSpan?>());
 		}
 
 		[TestMethod]
 		public void GoogleStaticMap_should_not_call_GetCurrentPosition_on_render()
 		{
-			_geoLocationMock.Setup(s => s.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
-				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()));
+            _geoLocationMock.GetCurrentPositionAsync(Arg.Any<Func<GeolocationResult, Task>>(),
+            Arg.Any<bool>(), Arg.Any<TimeSpan?>(), Arg.Any<TimeSpan?>());
 
 			var rendered = _testContext.RenderComponent<GoogleStaticMap>(parameters => parameters
 				.Add(p => p.CenterCurrentLocationOnLoad, false));
@@ -74,8 +75,8 @@ namespace Majorsoft.Blazor.Components.Maps.Tests.Google
 			Assert.IsNotNull(map);
 			map.MarkupMatches(@"<img src=""https://maps.googleapis.com/maps/api/staticmap?center=&amp;zoom=12&amp;size=400x300&amp;scale=1&amp;maptype=roadmap&amp;format=png&amp;key="" />");
 
-			_geoLocationMock.Verify(v => v.GetCurrentPositionAsync(It.IsAny<Func<GeolocationResult, Task>>(),
-				It.IsAny<bool>(), It.IsAny<TimeSpan?>(), It.IsAny<TimeSpan?>()), Times.Never);
+            _geoLocationMock.DidNotReceive().GetCurrentPositionAsync(Arg.Any<Func<GeolocationResult, Task>>(),
+            Arg.Any<bool>(), Arg.Any<TimeSpan?>(), Arg.Any<TimeSpan?>());
 		}
 
 		[TestMethod]
