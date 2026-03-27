@@ -1,33 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Majorsoft.Blazor.Components.Collapse" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Common.JsInterop" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Debounce" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.GdprConsent" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Inputs" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Maps" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Notifications" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.PermaLink" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Tabs" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Toggle" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Components.Typeahead" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Extensions.Analytics" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Extensions.BrowserStorage" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.Server.Logging.Console" Version="1.6.0" />
-    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="1.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.17" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.17" PrivateAssets="all" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Collapse" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Common.JsInterop" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Debounce" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.GdprConsent" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Inputs" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Loading" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Maps" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Notifications" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.PermaLink" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Tabs" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Timer" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Toggle" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Components.Typeahead" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Extensions.Analytics" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Extensions.BrowserStorage" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.Server.Logging.Console" Version="1.6.1" />
+    <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="1.6.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.25" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.25" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
