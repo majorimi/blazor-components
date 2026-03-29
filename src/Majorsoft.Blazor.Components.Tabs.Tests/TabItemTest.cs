@@ -9,11 +9,13 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 	[TestClass]
 	public class TabItemTest : ComponentsTestBase<TabItem>
 	{
-		[ExpectedException(typeof(ArgumentNullException), "TabItem must exist within a TabsPanel (Parameter 'Parent')")]
 		[TestMethod]
 		public void TabItem_should_not_render_without_TabsPanel()
 		{
-			var rendered = _testContext.RenderComponent<TabItem>();
+			Assert.ThrowsExactly<ArgumentNullException>(() =>
+			{
+				var rendered = _testContext.RenderComponent<TabItem>();
+			}, "TabItem must exist within a TabsPanel (Parameter 'Parent')");
 		}
 	}
 }

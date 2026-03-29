@@ -29,7 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <None Include="..\..\.github\docs\Collapse.md" Link="Collapse.md" >
+    <None Include="..\..\.github\docs\Collapse.md" Link="Collapse.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -46,7 +46,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

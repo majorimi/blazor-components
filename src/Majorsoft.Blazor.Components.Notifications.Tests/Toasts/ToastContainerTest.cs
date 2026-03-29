@@ -364,13 +364,14 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			</div>"));
 		}
 
-		[ExpectedException(typeof(ApplicationException))]
 		[TestMethod]
 		public void ToastContainer_should_not_rendered_mulitple_instances()
 		{
-			var rendered = _testContext.RenderComponent<ToastContainer>();
-
-			var rendered2 = _testContext.RenderComponent<ToastContainer>();
+			Assert.ThrowsExactly<ApplicationException>(() =>
+			{
+				var rendered = _testContext.RenderComponent<ToastContainer>();
+				var rendered2 = _testContext.RenderComponent<ToastContainer>();
+			});
 		}
 	}
 }
