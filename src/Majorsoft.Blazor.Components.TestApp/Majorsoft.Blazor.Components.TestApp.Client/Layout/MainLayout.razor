@@ -2,7 +2,7 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu app />
+        <NavMenu AppName="Blazor Components (WA)" />
     </div>
 
     <main>
@@ -12,8 +12,28 @@
 
         <article class="content px-4">
             @Body
+
+@*             <div hidden="@_isFirstRender">
+                <style>
+                        .center {
+                            text-align: center;
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            -webkit-transform: translate(-50%, -50%);
+                            transform: translate(-50%, -50%);
+                        }
+                </style>
+                <div class="center">
+                    <img style="margin: 20px;" src="./blazor.components.png" />
+                    <h4>Majorsoft Blazor Components <br /> Loading Demo...</h4>
+                </div>
+            </div> *@
         </article>
     </main>
+
+    @*Toast container initialized once per application at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+	<ToastContainer />
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -21,3 +41,28 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@*Permalink initialize*@
+@using Majorsoft.Blazor.Components.PermaLink
+<PermalinkBlazorWasmInitializer SmoothScroll="false" />
+
+@* Google Analytics initialize*@
+@using Majorsoft.Blazor.Extensions.Analytics.Google
+@*<GoogleAnalyticsInitializer TrackingId="G-1QD2VGTEWX" />*@
+
+@*Toasts settings*@
+@inject IToastService _toastService
+
+@code {
+    protected override void OnInitialized()
+    {
+        //Common settings can be set globally for ToastContainer and Toasts in IToastService
+        _toastService.GlobalSettings.Position = ToastPositions.TopRight;
+        _toastService.GlobalSettings.RemoveToastsOnNavigation = true;
+        _toastService.GlobalSettings.Width = 420;
+        _toastService.GlobalSettings.PaddingFromSide = -1;
+        _toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
+
+        ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+    }
+}

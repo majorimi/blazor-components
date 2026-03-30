@@ -13,4 +13,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Majorsoft.Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj" />
+    <ProjectReference Include="..\..\Majorsoft.Blazor.WebAssembly.Logging.Console\Majorsoft.Blazor.WebAssembly.Logging.Console.csproj" />
+  </ItemGroup>
+
 </Project>

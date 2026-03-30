@@ -1,6 +1,16 @@
 using Majorsoft.Blazor.Components.TestApp.Client.Pages;
 using Majorsoft.Blazor.Components.TestApp.Components;
 
+using Majorsoft.Blazor.WebAssembly.Logging.Console;
+using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.PermaLink;
+using Majorsoft.Blazor.Components.Maps;
+using Majorsoft.Blazor.Extensions.BrowserStorage;
+using Majorsoft.Blazor.Extensions.Analytics;
+using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Components.Notifications;
+
 namespace Majorsoft.Blazor.Components.TestApp
 {
 	public class Program
@@ -12,6 +22,15 @@ namespace Majorsoft.Blazor.Components.TestApp
 			// Add services to the container.
 			builder.Services.AddRazorComponents()
 				.AddInteractiveWebAssemblyComponents();
+
+			builder.Services.AddCssEvents();
+			builder.Services.AddJsInteropExtensions();
+			builder.Services.AddPermaLinkWatcher();
+			builder.Services.AddMapExtensions();
+			builder.Services.AddBrowserStorage();
+			builder.Services.AddGoogleAnalytics();
+			builder.Services.AddGdprConsent();
+			builder.Services.AddNotifications();
 
 			var app = builder.Build();
 

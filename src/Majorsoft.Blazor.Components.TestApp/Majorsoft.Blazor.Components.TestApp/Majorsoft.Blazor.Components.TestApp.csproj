@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Majorsoft.Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj" />
-    <ProjectReference Include="..\..\Majorsoft.Blazor.WebAssembly.Logging.Console\Majorsoft.Blazor.WebAssembly.Logging.Console.csproj" />
     <ProjectReference Include="..\Majorsoft.Blazor.Components.TestApp.Client\Majorsoft.Blazor.Components.TestApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.5" />
   </ItemGroup>
