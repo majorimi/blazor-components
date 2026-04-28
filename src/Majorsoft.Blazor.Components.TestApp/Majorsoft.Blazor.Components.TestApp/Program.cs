@@ -1,15 +1,16 @@
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Components.Maps;
+using Majorsoft.Blazor.Components.Notifications;
+using Majorsoft.Blazor.Components.PermaLink;
 using Majorsoft.Blazor.Components.TestApp.Client.Pages;
 using Majorsoft.Blazor.Components.TestApp.Components;
-
-using Majorsoft.Blazor.WebAssembly.Logging.Console;
-using Majorsoft.Blazor.Components.CssEvents;
-using Majorsoft.Blazor.Components.Common.JsInterop;
-using Majorsoft.Blazor.Components.PermaLink;
-using Majorsoft.Blazor.Components.Maps;
-using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Majorsoft.Blazor.Extensions.Analytics;
-using Majorsoft.Blazor.Components.GdprConsent;
-using Majorsoft.Blazor.Components.Notifications;
+using Majorsoft.Blazor.Extensions.BrowserStorage;
+using Majorsoft.Blazor.WebAssembly.Logging.Console;
+
+using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.TestApp
 {
@@ -23,6 +24,12 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddRazorComponents()
 				.AddInteractiveWebAssemblyComponents();
 
+			//builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+			builder.Services.AddTransient(sp =>
+			{
+				NavigationManager navigation = sp.GetRequiredService<NavigationManager>();
+				return new HttpClient { BaseAddress = new Uri(navigation.BaseUri) };
+			});
 			builder.Services.AddCssEvents();
 			builder.Services.AddJsInteropExtensions();
 			builder.Services.AddPermaLinkWatcher();

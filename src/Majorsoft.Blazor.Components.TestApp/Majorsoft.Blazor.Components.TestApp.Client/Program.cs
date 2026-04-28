@@ -18,6 +18,7 @@ namespace Majorsoft.Blazor.Components.TestApp.Client
 		{
 			var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 			builder.Services.AddCssEvents();
 			builder.Services.AddJsInteropExtensions();
 			builder.Services.AddPermaLinkWatcher();

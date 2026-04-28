@@ -26,6 +26,7 @@ namespace Majorsoft.Blazor.Server.Logging.Console
 			var _hubUrl = _navigationManager.BaseUri.TrimEnd('/') + BlazorServerConsoleLoggingHub.HubUrl;
 			_hubConnection = new HubConnectionBuilder()
 				.WithUrl(_hubUrl)
+				.WithAutomaticReconnect()
 				.Build();
 
 			_hubConnection.On<string, LogLevel>("WriteConsoleLogAsync", WriteBrowserLog);
@@ -49,6 +50,7 @@ namespace Majorsoft.Blazor.Server.Logging.Console
 		{
 			if (_hubConnection is not null)
 			{
+				await _hubConnection.StopAsync();
 				await _hubConnection.DisposeAsync();
 			}
 		}
