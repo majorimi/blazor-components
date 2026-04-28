@@ -6,6 +6,9 @@
 	<nullable>enable</nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<Version>1.0.0.0</Version>
+	<IsTrimmable>true</IsTrimmable>
+	<TrimMode>full</TrimMode>
+	<InvariantGlobalization>false</InvariantGlobalization>
 	<Authors>Imre Toth</Authors>
 	<Company>Majorsoft</Company>
 	<Product>Blazor Components</Product>

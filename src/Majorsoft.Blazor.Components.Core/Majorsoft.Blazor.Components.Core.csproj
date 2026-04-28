@@ -3,6 +3,9 @@
   <PropertyGroup>
 	<TargetFramework>net8.0</TargetFramework>
 	<nullable>enable</nullable>
+	<IsTrimmable>true</IsTrimmable>
+	<TrimMode>full</TrimMode>
+	<InvariantGlobalization>false</InvariantGlobalization>
 	<PackageId>Majorsoft.Blazor.Components.Core</PackageId>
   </PropertyGroup>
 

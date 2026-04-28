@@ -5,6 +5,9 @@
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md</PackageProjectUrl>
     <PackageReadmeFile>Typeahead.md</PackageReadmeFile>
     <Authors>Imre Toth</Authors>

@@ -8,6 +8,9 @@
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<Product>Blazor Components</Product>
 		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>

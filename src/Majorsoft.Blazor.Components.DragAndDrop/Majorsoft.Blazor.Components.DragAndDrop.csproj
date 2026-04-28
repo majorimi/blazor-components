@@ -5,6 +5,9 @@
 		<nullable>enable</nullable>
 		<Version>1.0.0.0</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<PackageId>Majorsoft.Blazor.Components.DragAndDrop</PackageId>
 		<Authors>Imre Toth</Authors>

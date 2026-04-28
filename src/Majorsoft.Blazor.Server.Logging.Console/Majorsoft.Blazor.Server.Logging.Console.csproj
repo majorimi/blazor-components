@@ -6,6 +6,9 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Server.Logging.Console</PackageId>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<Authors>Imre Toth</Authors>
 		<Product>Majorsoft Blazor Components</Product>
 		<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using Server Hosting Model! Part of Majorsoft Blazor library.</Description>
