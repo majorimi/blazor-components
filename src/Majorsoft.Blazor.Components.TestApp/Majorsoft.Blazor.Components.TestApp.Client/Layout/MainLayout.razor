@@ -11,24 +11,12 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            @if (isLoading)
+            {
+                <Loader />
+            }
 
-@*             <div hidden="@_isFirstRender">
-                <style>
-                        .center {
-                            text-align: center;
-                            position: absolute;
-                            left: 50%;
-                            top: 50%;
-                            -webkit-transform: translate(-50%, -50%);
-                            transform: translate(-50%, -50%);
-                        }
-                </style>
-                <div class="center">
-                    <img style="margin: 20px;" src="./blazor.components.png" />
-                    <h4>Majorsoft Blazor Components <br /> Loading Demo...</h4>
-                </div>
-            </div> *@
+            @Body
         </article>
     </main>
 
@@ -54,10 +42,12 @@
 @inject IToastService _toastService
 
 @code {
+    private bool isLoading = true;
+
     /// <summary>
     /// Initializes the component.
     /// </summary>
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         //Common settings can be set globally for ToastContainer and Toasts in IToastService
         _toastService.GlobalSettings.Position = ToastPositions.TopRight;
@@ -67,5 +57,11 @@
         _toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
 
         ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
+
+        // Simulate loading or perform real initialization
+        await Task.Delay(1000);
+        isLoading = false;
+
+        await base.OnInitializedAsync();
     }
 }

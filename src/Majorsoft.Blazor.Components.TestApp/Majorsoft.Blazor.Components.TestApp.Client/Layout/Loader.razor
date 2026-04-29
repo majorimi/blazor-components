@@ -1,0 +1,29 @@
+﻿<style>
+    .center {
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .loader-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+</style>
+<div class="loader-backdrop">
+    <div class="center">
+        <img style="margin: 20px;" src="./blazor.components.png" />
+        <h4>Majorsoft Blazor Components <br /> Loading Demo...</h4>
+    </div>
+</div>
