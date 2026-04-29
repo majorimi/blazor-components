@@ -10,5 +10,9 @@
   {
     "outputFile": "Toast/Toast.razor.css",
     "inputFile": "Toast/Toast.razor.scss"
+  },
+  {
+    "outputFile": "Toasts/Toast.razor.css",
+    "inputFile": "Toasts/Toast.razor.scss"
   }
 ]
