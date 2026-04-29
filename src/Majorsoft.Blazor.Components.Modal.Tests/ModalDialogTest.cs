@@ -33,10 +33,10 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public void ModalDialog_should_not_rendered_anything_until_opened()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(
-				("id", "id1"), //HTML attributes
-				("title", "text"), //HTML attributes
-				(nameof(ModalDialog.OverlayOpacity), 0.5)
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
+				.Add(p => p.OverlayOpacity, 0.5)
 				);
 
 			Assert.AreEqual(false, rendered.Instance.IsOpen);
@@ -46,9 +46,9 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_correctly_html_attributes_when_opened()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			//Open
@@ -75,7 +75,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -89,7 +89,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_remove_dialog_from_DOM_when_closed()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.Animate, true));
 
 			Assert.AreEqual(false, rendered.Instance.IsOpen);
@@ -116,7 +116,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -128,7 +128,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 
 
 			//Close
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.Animate, false));
 
 			await rendered.InvokeAsync(async () => await rendered.Instance.Close());
@@ -141,7 +141,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_background_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.OverlayBackgroundColor, "red")
 				.Add(p => p.OverlayOpacity, 0.25));
 
@@ -169,7 +169,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -183,10 +183,10 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_dimensions_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.Height, 155)
 				.Add(p => p.Width, 188)
-				.Add(p => p.MinHeight, 999)
+				.Add(p => p.MinHeight, 900)
 				.Add(p => p.MinWidth, 555));
 
 			//Open
@@ -213,10 +213,10 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(2% + 450px);
 					left: 50%;
 					min-width:555px;
-					min-height:999px;
+					min-height:900px;
 					width:188px;
 					height:155px;
 					transition: top 0.25s ease-in-out;
@@ -227,7 +227,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_not_rendered_close_button_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.ShowCloseButton, false));
 
 			//Open
@@ -248,7 +248,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -262,7 +262,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_dialog_centered_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.Centered, true));
 
 			//Open
@@ -303,7 +303,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_not_rendered_close_button_but_render_haeder_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.ShowCloseButton, false)
 				.Add(p => p.Header, (RenderFragment)(builder =>
 					{
@@ -330,7 +330,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -344,7 +344,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_close_button_with_haeder_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.ShowCloseButton, true)
 				.Add(p => p.Header, (RenderFragment)(builder =>
 				{
@@ -374,7 +374,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -388,7 +388,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_content_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.ShowCloseButton, false)
 				.Add(p => p.Content, (RenderFragment)(builder =>
 					{
@@ -414,7 +414,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -428,7 +428,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		[TestMethod]
 		public async Task ModalDialog_should_rendered_footer_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 				.Add(p => p.ShowCloseButton, false)
 				.Add(p => p.Footer, (RenderFragment)(builder =>
 				{
@@ -455,7 +455,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -470,7 +470,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		public async Task ModalDialog_should_close_on_overlay_click()
 		{
 			var closed = false;
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 			.Add(p => p.CloseOnOverlayClick, true)
 			.Add(p => p.OnClose, args => { closed = true; }));
 
@@ -483,7 +483,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 			//tr to close
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.Animate, false));
 
 			try
@@ -503,7 +503,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		public async Task ModalDialog_should_not_close_on_overlay_click()
 		{
 			var closed = false;
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 			.Add(p => p.CloseOnOverlayClick, false)
 			.Add(p => p.OnClose, args => { closed = true; }));
 
@@ -516,7 +516,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 			//tr to close
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.Animate, false));
 
 			div.Click();
@@ -538,7 +538,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;
@@ -553,7 +553,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		public async Task ModalDialog_should_close_on_escape_key()
 		{
 			var closed = false;
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 			.Add(p => p.CloseOnEscapeKey, true)
 			.Add(p => p.OnClose, args => { closed = true; }));
 
@@ -566,7 +566,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 			//tr to close
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.Animate, false));
 
 			try
@@ -586,7 +586,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 		public async Task ModalDialog_should_not_close_on_escape_key()
 		{
 			var closed = false;
-			var rendered = _testContext.RenderComponent<ModalDialog>(parameters => parameters
+			var rendered = _testContext.Render<ModalDialog>(parameters => parameters
 			.Add(p => p.CloseOnEscapeKey, false)
 			.Add(p => p.OnClose, args => { closed = true; }));
 
@@ -599,7 +599,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 			Assert.AreEqual(true, rendered.Instance.IsOpen);
 
 			//tr to close
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.Animate, false));
 
 			div.KeyUp(Key.Escape);
@@ -621,7 +621,7 @@ namespace Majorsoft.Blazor.Components.Modal.Tests
 					transition: opacity 0.25s linear;
 				}
 				.dynamicStyle {
-					top: calc(15% &#x2B; 0px);
+					top: calc(15% + 100px);
 					left: 50%;
 					min-width:200px;
 					min-height:200px;

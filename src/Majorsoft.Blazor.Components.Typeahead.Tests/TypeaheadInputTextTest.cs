@@ -44,7 +44,7 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		{
 			////TODO: needs EditContext
 			///
-			//var rendered = _testContext.RenderComponent<TypeaheadInputText<string>>(
+			//var rendered = _testContext.Render<TypeaheadInputText<string>>(
 			//	("id", "id1"), //HTML attributes
 			//	("class", "form-control w-100") //HTML attributes
 			//	);

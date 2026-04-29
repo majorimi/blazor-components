@@ -14,7 +14,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		{
 			Assert.ThrowsExactly<ArgumentNullException>(() =>
 			{
-				var rendered = _testContext.RenderComponent<TabItem>();
+				var rendered = _testContext.Render<TabItem>();
 			}, "TabItem must exist within a TabsPanel (Parameter 'Parent')");
 		}
 	}

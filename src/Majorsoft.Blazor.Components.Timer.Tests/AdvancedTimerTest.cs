@@ -14,7 +14,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 		[TestMethod]
 		public void AdvancedTimer_should_rendered_nothing()
 		{
-			var rendered = _testContext.RenderComponent<AdvancedTimer>();
+			var rendered = _testContext.Render<AdvancedTimer>();
 
 			rendered.MarkupMatches("");
 		}
@@ -25,7 +25,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var debounceTime = 30;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
 			
@@ -43,7 +43,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var required = 3;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.Occurring, Times.Exactly((ulong)required))
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
@@ -61,7 +61,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var debounceTime = 30;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.Occurring, Times.Infinite())
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
@@ -79,7 +79,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var debounceTime = 30;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.AutoStart, false)
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));
@@ -97,7 +97,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var debounceTime = 30;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.IsEnabled, false)
 				.Add(p => p.AutoStart, false)
@@ -108,7 +108,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			rendered.MarkupMatches("");
 			Assert.AreEqual(0, count);
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.IsEnabled, true)
 			);
 
@@ -123,7 +123,7 @@ namespace Majorsoft.Blazor.Components.Timer.Tests
 			var debounceTime = 30;
 			var count = 0;
 
-			var rendered = _testContext.RenderComponent<AdvancedTimer>(parameters => parameters
+			var rendered = _testContext.Render<AdvancedTimer>(parameters => parameters
 				.Add(p => p.DelayInMilisec, debounceTime)
 				.Add(p => p.Occurring, Times.Infinite())
 				.Add(p => p.OnIntervalElapsed, c => { count = (int)c; }));

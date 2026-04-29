@@ -23,8 +23,8 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>(
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<ToggleButtonGroup>(parameters => parameters
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			var div = rendered.Find("div");
@@ -37,7 +37,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_rendered_Disabled_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
+			var rendered = _testContext.Render<ToggleButtonGroup>(parameters => parameters
 					.Add(p => p.Disabled, true));
 
 			var div = rendered.Find("div");
@@ -50,12 +50,12 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_add_Buttons_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
+			var rendered = _testContext.Render<ToggleButtonGroup>(parameters => parameters
 					.Add(p => p.Disabled, true));
 
-			var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn1 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn2 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
 			var div = rendered.Find("div");
@@ -68,12 +68,12 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_MustToggled_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
+			var rendered = _testContext.Render<ToggleButtonGroup>(parameters => parameters
 					.Add(p => p.MustToggled, true));
 
-			var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn1 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn2 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
 			var div = rendered.Find("div");
@@ -92,12 +92,12 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_have_only_one_active_button()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>(parameters => parameters
+			var rendered = _testContext.Render<ToggleButtonGroup>(parameters => parameters
 					.Add(p => p.MustToggled, false));
 
-			var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn1 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn2 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
 			var div = rendered.Find("div");
@@ -122,14 +122,14 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleButtonGroup_should_rendered_ToggleButtons_correctly()
 		{
-			var rendered = _testContext.RenderComponent<ToggleButtonGroup>();
-			var btn1 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var rendered = _testContext.Render<ToggleButtonGroup>();
+			var btn1 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Content, "<strong>1</strong>"));
-			var btn2 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn2 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Content, "<strong>2</strong>"));
-			var btn3 = _testContext.RenderComponent<ToggleButton>(parameters => parameters
+			var btn3 = _testContext.Render<ToggleButton>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Content, "<strong>3</strong>"));
 
@@ -137,7 +137,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			Assert.AreEqual(3, rendered.Instance.ButtonCount);
 			Assert.IsNull(rendered.Instance.ActiveButton);
 
-			//rendered.SetParametersAndRender(); //refrsh
+			//rendered.Render(); //refrsh
 
 			Assert.IsNotNull(div);
 			Assert.IsFalse(div.HasAttribute("disabled"));

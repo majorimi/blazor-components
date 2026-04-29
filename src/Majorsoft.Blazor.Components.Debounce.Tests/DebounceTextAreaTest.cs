@@ -27,9 +27,9 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public void DebounceTextArea_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(
-				("id", "id1"), //HTML attributes
-				("class", "form-control w-100") //HTML attributes
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("class", "form-control w-100") //HTML attributes
 				);
 
 			var input = rendered.Find("textarea");
@@ -41,7 +41,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 		[TestMethod]
 		public void DebounceTextArea_should_rendered_initial_value()
 		{
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "test")
 				);
 
@@ -60,7 +60,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
@@ -91,7 +91,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.MinLength, 2)
@@ -124,7 +124,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.MinLength, 2)
@@ -156,7 +156,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
@@ -188,7 +188,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.MinLength, 2)
 				.Add(p => p.DebounceTime, debounceTime)
@@ -221,7 +221,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.ForceNotifyByEnter, false)
@@ -256,7 +256,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.DebounceTime, debounceTime)
 				.Add(p => p.OnInput, val => { eventTime = DateTime.Now; })
@@ -288,7 +288,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.MinLength, 2)
 				.Add(p => p.DebounceTime, debounceTime)
@@ -322,7 +322,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 			DateTime valueEventTime = DateTime.MinValue;
 			string notifiedValue = null;
 
-			var rendered = _testContext.RenderComponent<DebounceTextArea>(parameters => parameters
+			var rendered = _testContext.Render<DebounceTextArea>(parameters => parameters
 				.Add(p => p.Value, "")
 				.Add(p => p.ForceNotifyOnBlur, false)
 				.Add(p => p.DebounceTime, debounceTime)
