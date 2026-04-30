@@ -91,14 +91,14 @@ namespace Majorsoft.Blazor.Components.Core.HtmlColors
 				return ret;
 			}
 
-			if (IsRgbColor(value)) //RGB
-			{
-				value = value.Replace(' ', ',');
-				var parts = value.Split(',').Where(s => !string.IsNullOrEmpty(s) && s != ",")
-					.Select(s => byte.Parse(s.Trim()))
-					.ToArray();
+			value = value.Replace(' ', ',');
+			var parts = value.Split(',').Where(s => !string.IsNullOrEmpty(s) && s != ",")
+				.ToArray();
 
-				ret.RgbColor = Color.FromArgb(parts[0], parts[1], parts[2]);
+			if (parts?.Length == 3 && IsRgbColor(string.Join(",", parts))) //RGB
+			{
+				var numbers = parts.Select(s => byte.Parse(s.Trim())).ToArray();
+				ret.RgbColor = Color.FromArgb(numbers[0], numbers[1], numbers[2]);
 				ret.HexColor = ret.RgbColor.ToHtmlHex();
 				ret.HslColor = HslColor.FromRgb(ret.RgbColor);
 
@@ -117,7 +117,7 @@ namespace Majorsoft.Blazor.Components.Core.HtmlColors
 			ret.HexColor = ret.RgbColor.ToHtmlHex();
 
 			ret.ColorName = HtmlColorHelper.NamedHtmlColors
-				.SingleOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
+				.FirstOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
 
 			return ret;
 		}
@@ -145,7 +145,7 @@ namespace Majorsoft.Blazor.Components.Core.HtmlColors
 				ret.HexColor = ret.RgbColor.ToHtmlHex();
 
 				ret.ColorName = HtmlColorHelper.NamedHtmlColors
-					.SingleOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
+					.FirstOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
 			}
 
 			return ret;
@@ -157,7 +157,7 @@ namespace Majorsoft.Blazor.Components.Core.HtmlColors
 			ret.RgbColor = (Color)ret.HslColor;
 			ret.HexColor = ret.RgbColor.ToHtmlHex();
 			ret.ColorName = HtmlColorHelper.NamedHtmlColors
-				.SingleOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
+				.FirstOrDefault(x => x.Value == ret.RgbColor.ToHex()).Key;
 
 			return ret;
 		}

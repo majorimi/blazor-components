@@ -30,7 +30,7 @@
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
 	</ItemGroup>
-	
+  
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
 	</ItemGroup>
