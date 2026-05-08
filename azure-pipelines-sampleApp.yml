@@ -20,7 +20,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  project: 'demo/Majorsoft.Blazor.Components.DemoApp/Majorsoft.Blazor.Components.DemoApp.csproj'
+  project: 'demo/Majorsoft.Blazor.Components.DemoApp/Majorsoft.Blazor.Components.DemoApp/Majorsoft.Blazor.Components.DemoApp.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
