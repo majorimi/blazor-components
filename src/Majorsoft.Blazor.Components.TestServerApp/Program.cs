@@ -1,8 +1,4 @@
-using Majorsoft.Blazor.Server.Logging.Console;
-
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Majorsoft.Blazor.Components.TestServerApp.Components;
 
 namespace Majorsoft.Blazor.Components.TestServerApp
 {
@@ -10,19 +6,32 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 	{
 		public static void Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
-		}
+			var builder = WebApplication.CreateBuilder(args);
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
-				.ConfigureLogging(logger =>
-				{
-					logger.AddBrowserConsole()
-						.SetMinimumLevel(LogLevel.Trace).AddFilter("Microsoft", LogLevel.Information);
-				})
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				});
+			// Add services to the container.
+			builder.Services.AddRazorComponents()
+				.AddInteractiveServerComponents();
+
+			var app = builder.Build();
+
+			// Configure the HTTP request pipeline.
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseExceptionHandler("/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
+
+			app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+			app.UseHttpsRedirection();
+
+			app.UseAntiforgery();
+
+			app.MapStaticAssets();
+			app.MapRazorComponents<App>()
+				.AddInteractiveServerRenderMode();
+
+			app.Run();
+		}
 	}
 }
