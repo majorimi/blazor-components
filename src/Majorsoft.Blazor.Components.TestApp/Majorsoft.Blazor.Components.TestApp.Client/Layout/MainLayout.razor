@@ -6,15 +6,16 @@
     </div>
 
     <main>
+        @* Customize Splash screen here *@
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
-            @if (isLoading)
-            {
-                <Loader />
-            }
+            <AppLoader DelayTimeOut="1500">
+                <img style="margin: 20px;" src="./blazor.components.png" />
+                <h4>Majorsoft Blazor Components <br /> Loading Demo...</h4>
+            </AppLoader>
 
             @Body
         </article>
@@ -42,8 +43,6 @@
 @inject IToastService _toastService
 
 @code {
-    private bool isLoading = true;
-
     /// <summary>
     /// Initializes the component.
     /// </summary>
@@ -57,10 +56,6 @@
         _toastService.GlobalSettings.PaddingFromTopOrBottom = -1;
 
         ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = 12;
-
-        // Simulate loading or perform real initialization
-        await Task.Delay(1000);
-        isLoading = false;
 
         await base.OnInitializedAsync();
     }

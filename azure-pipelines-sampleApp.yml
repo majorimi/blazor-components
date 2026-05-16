@@ -30,10 +30,10 @@ jobs:
     steps:
 
     - task: UseDotNet@2
-      displayName: Install .NET 8
+      displayName: Install .NET 10
       inputs:
        packageType: 'sdk'
-       version: '8.0.x' # replace this value with the version that you need for your project
+       version: '10.0.x' # replace this value with the version that you need for your project
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore packages'

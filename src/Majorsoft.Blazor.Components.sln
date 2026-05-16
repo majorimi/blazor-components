@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.DemoApp.Client", "..\demo\Majorsoft.Blazor.Components.DemoApp\Majorsoft.Blazor.Components.DemoApp.Client\Majorsoft.Blazor.Components.DemoApp.Client.csproj", "{5A724605-2C93-4488-8DF0-607DBB499D66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsoft.Blazor.Components.WASM.AppLoader", "Majorsoft.Blazor.Components.WASM.AppLoader\Majorsoft.Blazor.Components.WASM.AppLoader.csproj", "{8F3C7073-D292-480D-88E0-C47F1884E97D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -299,6 +301,10 @@ Global
 		{5A724605-2C93-4488-8DF0-607DBB499D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A724605-2C93-4488-8DF0-607DBB499D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A724605-2C93-4488-8DF0-607DBB499D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F3C7073-D292-480D-88E0-C47F1884E97D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3C7073-D292-480D-88E0-C47F1884E97D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3C7073-D292-480D-88E0-C47F1884E97D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3C7073-D292-480D-88E0-C47F1884E97D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -348,6 +354,7 @@ Global
 		{EB4AAACB-123F-4F4E-8F7E-EFF70797B438} = {56071E1E-24A8-471A-880A-BD143853614E}
 		{E18C69EA-5078-4F12-9FBB-FBF13002D277} = {FF939C62-3B0D-4759-B5A6-A89EBE8A4C59}
 		{5A724605-2C93-4488-8DF0-607DBB499D66} = {FF939C62-3B0D-4759-B5A6-A89EBE8A4C59}
+		{8F3C7073-D292-480D-88E0-C47F1884E97D} = {B6905E0B-759A-4928-B38A-9210B5CC8988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3E8B7F7-3F7C-4D6C-8B7B-48F1AF4694B9}

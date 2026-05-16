@@ -1,0 +1,38 @@
+﻿@if (isLoading)
+{
+    <div class="loader-backdrop">
+        <div class="center">
+            @if(ChildContent is null)
+            {
+                <h2>Loading...</h2>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private bool isLoading = true;
+
+    /// <summary>
+    /// Child content of the loader component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Simulated loading delay timeout in milliseconds.
+    /// </summary>
+    [Parameter]
+    public int DelayTimeOut { get; set; } = 1500;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate loading delay
+        await Task.Delay(DelayTimeOut);
+        isLoading = false;
+    }
+}
