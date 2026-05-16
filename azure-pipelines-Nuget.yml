@@ -123,6 +123,13 @@ jobs:
     #         #(Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
     #       }
 
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Nugets'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'nuget'
+        publishLocation: 'Container'
+
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'
       inputs:
