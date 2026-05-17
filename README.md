@@ -17,14 +17,14 @@ All components are free and available on [NuGet](https://www.nuget.org/profiles/
 You can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/). **Note: this app is hosted on _Azure Static website_ feature. Which uses aggressive caching you might have to use HARD reload (CTRL + F5 or CMD + SHIFT + R), or clear browser cache.**
 
 ## About the project
-**Majorsoft Blazor Components** is one of the newest but the most modern Blazor library. Using the fastest ever .NET 5 Framework leveraging CSS and JS isolation. 
+**Majorsoft Blazor Components** is one of the newest but the most modern Blazor library. Using the fastest ever .NET 8+ Framework leveraging CSS and JS isolation. 
 The main goal of this project is to provide an easy to use, feature reach set of customizable components with other 
 useful extensions. Which can boost Blazor App developments by:
 
 - Providing reusable components which are the main building blocks of Blazor.
 - Hiding CSS details but allowing component customizations as well (no dependency on CSS libraries).
 - Hiding JS implementations but exposing many reusable JS functionality and events via new C# APIs (no dependency on JS libraries).
-- All running on the fastest ever .NET framework: **.NET 5**. Fully leveraging CSS and JS isolation, JS object reference and modul exports, etc.
+- All running on the fastest ever .NET framework: **.NET 8+**. Fully leveraging CSS and JS isolation, JS object reference and modul exports, etc.
 - Modular project each package has "single responsibility" install only what you need, reduce download size.
 - As simple as possible setup (custom JS referencing not required) all documented with usage examples and demo app.
 - All components work on Blazor Server and Clint side.
@@ -38,8 +38,8 @@ useful extensions. Which can boost Blazor App developments by:
 :warning: For the full **release history with detailed change description and _breaking change announcements_** please see: [release notes](https://github.com/majorimi/blazor-components/releases).  
 
 ## Prerequisites
-- .NET 5
-- Visual Studio 2019/Visual Studio Code.
+- .NET 8.0 SDK or later.
+- Visual Studio 2026/Visual Studio Code.
 
 ## Majorsoft Blazor Components and Extensions
 
@@ -76,6 +76,7 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.Maps**: [Google/Bing Maps components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md) that renders **Google/Bing maps** wrapped into Blazor components allowing to control and mange maps with .Net code.
 - **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
 - **Majorsoft.Blazor.Components.Notifications**: [Notification components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Notifications.md) injectable INotificationService service to handle HTML5 Notifications and ServiceWorker Notifications and components that renders customizable Alert and Toast notification message elements.
+- **Majorsoft.Blazor.Components.WASM.AppLoader**: [WebAssembly App Loader component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/AppLoader.md) that can be used to display a loading indicator (Splash Screen) while the Blazor WebAssembly app is initializing.
 
 ## Community
 - [Contributing](CONTRIBUTING.md)
