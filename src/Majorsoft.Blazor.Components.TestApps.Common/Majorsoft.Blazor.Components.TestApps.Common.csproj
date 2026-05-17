@@ -4,6 +4,7 @@
 	<TargetFramework>net10.0</TargetFramework>
 	<nullable>enable</nullable>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
