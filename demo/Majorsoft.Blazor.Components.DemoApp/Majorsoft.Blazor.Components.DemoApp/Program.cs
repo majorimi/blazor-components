@@ -1,4 +1,14 @@
+using Majorsoft.Blazor.Components.Common.JsInterop;
+using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Components.DemoApp.Components;
+using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Components.Maps;
+using Majorsoft.Blazor.Components.Notifications;
+using Majorsoft.Blazor.Components.PermaLink;
+using Majorsoft.Blazor.Extensions.Analytics;
+using Majorsoft.Blazor.Extensions.BrowserStorage;
+
+using Microsoft.AspNetCore.Components;
 
 namespace Majorsoft.Blazor.Components.DemoApp
 {
@@ -11,6 +21,21 @@ namespace Majorsoft.Blazor.Components.DemoApp
 			// Add services to the container.
 			builder.Services.AddRazorComponents()
 				.AddInteractiveWebAssemblyComponents();
+
+			//builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+			builder.Services.AddTransient(sp =>
+			{
+				NavigationManager navigation = sp.GetRequiredService<NavigationManager>();
+				return new HttpClient { BaseAddress = new Uri(navigation.BaseUri) };
+			});
+			builder.Services.AddCssEvents();
+			builder.Services.AddJsInteropExtensions();
+			builder.Services.AddPermaLinkWatcher();
+			builder.Services.AddMapExtensions();
+			builder.Services.AddBrowserStorage();
+			builder.Services.AddGoogleAnalytics();
+			builder.Services.AddGdprConsent();
+			builder.Services.AddNotifications();
 
 			var app = builder.Build();
 

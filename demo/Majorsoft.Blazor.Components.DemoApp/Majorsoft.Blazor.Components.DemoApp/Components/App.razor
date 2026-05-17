@@ -7,9 +7,9 @@
     <title>Majorsoft Blazor Components Demo</title>
     <base href="/" />
     <ResourcePreloader />
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["Majorsoft.Blazor.Components.DemoApp.styles.css"]" />
-    <link href="@Assets["css/bootstrap/bootstrap.min.css"]" rel="stylesheet" />
     <ImportMap />
     <HeadOutlet @rendermode="InteractiveWebAssembly" />
     <link href="manifest.json" rel="manifest" />
@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveWebAssembly" />
+    <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 

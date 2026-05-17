@@ -1,0 +1,59 @@
+﻿@page "/Support/location-Map-1"
+
+@using Majorsoft.Blazor.Components.Maps
+@using Majorsoft.Blazor.Components.Maps.Google
+
+@*@layout SiteLayout*@
+@implements IAsyncDisposable
+
+@*@Inject UserStateServices UserStateDictionary*@
+
+<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
+           @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
+           OnMapInitialized="@(() => {})"
+           ApiKey="@_googleMapsApiKey" />
+
+
+@code {
+    GoogleMap gMap;
+
+    private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
+
+    private GeolocationData _jsMapCenter = new GeolocationData("london");
+    private byte _jsMapZoomLevel = 12;
+
+    public double Longitude { get; set; }
+    public double Latitude { get; set; }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return null;
+
+        GetDictionaryData();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void GetDictionaryData()
+    {
+        //var locData = UserStateDictionary;
+
+        //var dicData = (dynamic)this.UserStateDictionary.Items["geolocation"];
+
+        Longitude = 15;//dicData.Longitude;
+        Latitude = 7;//dicData.Latitude;
+
+        _jsMapCenter = new GeolocationData(Latitude, Longitude);
+
+        //Console.WriteLine(dicData);
+
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        //if (gMap != null)
+        //    await gMap.DisposeAsync();
+
+    }
+}
