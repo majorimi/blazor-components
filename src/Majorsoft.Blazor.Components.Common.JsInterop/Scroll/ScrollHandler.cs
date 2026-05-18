@@ -121,10 +121,17 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 		{
 			if (_scrollJs is not null)
 			{
-				await _scrollJs.InvokeVoidAsync("dispose",
-					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
-
-				await _scrollJs.DisposeAsync();
+				try
+				{
+					await _scrollJs.InvokeVoidAsync("dispose",
+						(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+				
+					await _scrollJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException ex)
+				{
+					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
+				}
 			}
 		}
 	}

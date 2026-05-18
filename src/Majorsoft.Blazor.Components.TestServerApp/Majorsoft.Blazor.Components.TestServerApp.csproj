@@ -7,4 +7,9 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Majorsoft.Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj" />
+    <ProjectReference Include="..\Majorsoft.Blazor.Server.Logging.Console\Majorsoft.Blazor.Server.Logging.Console.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -48,10 +48,17 @@ namespace Majorsoft.Blazor.Server.Logging.Console
 
 		public async ValueTask DisposeAsync()
 		{
-			if (_hubConnection is not null)
+			if (_hubConnection is not null && _hubConnection.State != HubConnectionState.Disconnected)
 			{
-				await _hubConnection.StopAsync();
-				await _hubConnection.DisposeAsync();
+				try
+				{
+					await _hubConnection.StopAsync();
+					await _hubConnection.DisposeAsync();
+				}
+				catch (JSDisconnectedException ex)
+				{
+					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
+				}
 			}
 		}
 	}
