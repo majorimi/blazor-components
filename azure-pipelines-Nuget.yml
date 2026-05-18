@@ -70,9 +70,11 @@ jobs:
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore packages'
       inputs:
+        azureSubscription: '8b3s(ccf8dfff-5ba9-4caf-848c-6ff133c46088)'
         command: 'restore'
         projects: '$(solution)'
         feedsToUse: 'select'
+        vstsFeed: '4f8b1f2e-37e5-4c51-b721-13f56be6a30d'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
