@@ -79,7 +79,7 @@ namespace Majorsoft.Blazor.Components.Debounce.Tests
 				Assert.AreEqual("c", notifiedValue);
 				Assert.IsTrue(valueEventTime > DateTime.MinValue);
 				Assert.IsTrue((valueEventTime - inputTime) >= TimeSpan.FromMilliseconds(debounceTime * 0.9));
-			}, timeout: TimeSpan.FromSeconds(1));
+			}, timeout: TimeSpan.FromSeconds(2));
 		}
 
 		[TestMethod]

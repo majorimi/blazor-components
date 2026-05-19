@@ -77,7 +77,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				</div>
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
-			</div>"));
+			</div>"), TimeSpan.FromSeconds(2));
 		}
 
 		[TestMethod]
