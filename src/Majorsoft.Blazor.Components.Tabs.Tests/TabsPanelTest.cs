@@ -33,8 +33,8 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			var div = rendered.Find("div");
@@ -52,7 +52,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_rendered_Disabled_correctly()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Disabled, true));
 
 			var div = rendered.Find("div");
@@ -65,12 +65,12 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_add_TabItem_correctly()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Disabled, true));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
 			var div = rendered.Find("div");
@@ -83,16 +83,16 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_html()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.TabItemsHeight, 20)
 					.Add(p => p.TabItemsWidth, 200));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 					.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -110,26 +110,26 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabItems_Header_and_Content()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Animate, false));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 1")
 					.Add(p => p.Content, "tab content 1"));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 2")
 					.Add(p => p.Content, "tab content 2"));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
 			Assert.AreEqual(rendered.Instance.ActiveTab, tab1.Instance);
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 					.Add(p => p.ActiveTab, tab1.Instance));
 			tab1.Render();
 			tab2.Render();
@@ -150,20 +150,20 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabItem_Disabled()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Animate, false));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 1")
 					.Add(p => p.Content, "tab content 1"));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 2")
 					.Add(p => p.Content, "tab content 2")
 					.Add(p => p.Disabled, true));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -186,20 +186,20 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabItem_Hidden()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Animate, false));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 1")
 					.Add(p => p.Content, "tab content 1"));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Header, "Tab header 2")
 					.Add(p => p.Content, "tab content 2")
 					.Add(p => p.Hidden, true));
 			
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -221,15 +221,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_ActiveColor()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.ActiveColor, "red"));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -247,15 +247,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_InactiveColor()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.InactiveColor, "red"));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -273,15 +273,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public async Task TabsPanel_should_render_correct_HoverColor_on_active_Tab()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.HoverColor, "red"));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -312,15 +312,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public async Task TabsPanel_should_render_correct_HoverColor_on_inactive_Tab()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.HoverColor, "red"));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -351,15 +351,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_non_Animate()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.Animate, false));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -377,15 +377,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabItemsHeight()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.TabItemsHeight, 0));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -403,15 +403,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabItemsWidth()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.TabItemsWidth, 0));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -431,14 +431,14 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		{
 			_peramalinkMock.Setup(s => s.ChangePermalink(It.IsAny<string?>(), It.IsAny<bool>()));
 
-			var rendered = _testContext.RenderComponent<TabsPanel>();
+			var rendered = _testContext.Render<TabsPanel>();
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -470,15 +470,15 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 		[TestMethod]
 		public void TabsPanel_should_render_correct_TabPositon()
 		{
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.TabPositon, TabPositons.Left));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance));
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 				.Add(p => p.ActiveTab, tab1.Instance)); //This works automatically but Unit tests not render components at once
 
 			var div = rendered.Find("div");
@@ -487,7 +487,7 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 			var id = div.GetAttribute("id");
 			foreach (var item in Enum.GetValues<TabPositons>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters
+				rendered.Render(parameters => parameters
 					.Add(p => p.TabPositon, item));
 
 				div.MarkupMatches(@$"<div id=""{id}"" class=""tabsPanel"" tabindex=""200""  >
@@ -506,13 +506,13 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 			_peramalinkMock.SetupAdd(s => s.PermalinkDetected += It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
 			_peramalinkMock.SetupRemove(s => s.PermalinkDetected -= It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
 
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.AllowTabActivationByPermalink, true));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab1"));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab2"));
 
@@ -540,13 +540,13 @@ namespace Majorsoft.Blazor.Components.Tabs.Tests
 			_peramalinkMock.SetupAdd(s => s.PermalinkDetected += It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
 			_peramalinkMock.SetupRemove(s => s.PermalinkDetected -= It.IsAny<EventHandler<PermalinkDetectedEventArgs>>());
 
-			var rendered = _testContext.RenderComponent<TabsPanel>(parameters => parameters
+			var rendered = _testContext.Render<TabsPanel>(parameters => parameters
 					.Add(p => p.AllowTabActivationByPermalink, false));
 
-			var tab1 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab1 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab1"));
-			var tab2 = _testContext.RenderComponent<TabItem>(parameters => parameters
+			var tab2 = _testContext.Render<TabItem>(parameters => parameters
 					.Add(p => p.Parent, rendered.Instance)
 					.Add(p => p.Permalink, "tab2"));
 

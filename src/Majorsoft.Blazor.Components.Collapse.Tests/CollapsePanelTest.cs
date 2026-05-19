@@ -15,9 +15,10 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(
-				("title", "text") //HTML attributes
-				);
+			var rendered = _testContext.Render<CollapsePanel>(parameters =>
+			{
+				parameters.AddUnmatched("title", "text"); //HTML attributes
+			});
 
 			var div = rendered.Find("div");
 
@@ -34,7 +35,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_Disabled()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.Disabled, true));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -50,7 +51,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_CommonHeader()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.CommonHeader, "Common header")
 					.Add(p => p.ExpandedHeaderContent, "Expanded header")
 					.Add(p => p.CollapsedHeaderContent, "Collapsed header"));
@@ -74,7 +75,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_ExpandedHeaderContent()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.ExpandedHeaderContent, "Expanded header"));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -96,7 +97,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_CollapsedHeaderContent()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.CollapsedHeaderContent, "Collapsed header"));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -118,7 +119,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_ExpandedColor()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.ExpandedHeaderContent, "Expanded header")
 					.Add(p => p.ExpandedColor, "red"));
 
@@ -141,7 +142,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_CollapsedColor()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.CollapsedHeaderContent, "Collapsed header")
 					.Add(p => p.CollapsedColor, "red"));
 
@@ -164,7 +165,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public async Task CollapsePanel_should_rendered_correctly_HoverColor()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.HoverColor, "red"));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -200,7 +201,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_Content()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.Content, "Content...")
 					.Add(p => p.ExpandedHeaderContent, "Expanded header")
 					.Add(p => p.CollapsedHeaderContent, "Collapsed header"));
@@ -214,7 +215,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 			  <div class=""collapseContent animate"" style=""opacity: 1; overflow: hidden; max-height: 200px;"" >Content...</div>
 			</div>");
 
-			rendered.SetParametersAndRender(parameters => parameters
+			rendered.Render(parameters => parameters
 					.Add(p => p.Collapsed, true));
 			rendered.MarkupMatches(@$"<div class=""collapsePanel"" tabindex=""200"" >
 			  <div id=""{id}"" class=""collapseHeader animate"" style=""background-color: rgb(211,211,211);"">Collapsed header</div>
@@ -225,7 +226,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_ContentHeight()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.ContentHeight, 55));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -241,7 +242,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_Animate()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.Animate, false));
 
 			var div = rendered.Find("div").FirstElementChild;
@@ -257,7 +258,7 @@ namespace Majorsoft.Blazor.Components.Collapse.Tests
 		[TestMethod]
 		public void CollapsePanel_should_rendered_correctly_ShowContentOverflow()
 		{
-			var rendered = _testContext.RenderComponent<CollapsePanel>(parameters => parameters
+			var rendered = _testContext.Render<CollapsePanel>(parameters => parameters
 					.Add(p => p.Animate, false)
 					.Add(p => p.ShowContentOverflow, true));
 

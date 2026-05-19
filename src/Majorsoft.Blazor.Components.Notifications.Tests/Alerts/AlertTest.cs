@@ -34,10 +34,10 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_not_rendered_anything_until_IsVisible()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(
-				("id", "id1"), //HTML attributes
-				("title", "text"), //HTML attributes
-				(nameof(Alert.AutoClose), false)
+			var rendered = _testContext.Render<Alert>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
+				.Add(p => p.AutoClose, false)
 				);
 
 			Assert.AreEqual(false, rendered.Instance.IsVisible);
@@ -47,13 +47,13 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_rendered_correctly_html_when_IsVisible()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<Alert>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			//Open
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IsVisible, true));
+			rendered.Render(parameters => parameters.Add(p => p.IsVisible, true));
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
@@ -79,7 +79,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_not_render_ShowIcon_false()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.ShowIcon, false));
 
 			//Open
@@ -105,7 +105,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_not_render_ShowCloseButton_false()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false));
@@ -125,7 +125,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_render_Content()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false)
@@ -148,7 +148,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_render_CustomIconSvgPath()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, true)
 				.Add(p => p.ShowCloseButton, false)
@@ -177,7 +177,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_render_Types()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false));
@@ -188,7 +188,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 
 			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
+				rendered.Render(parameters => parameters.Add(p => p.Type, types));
 
 				rendered.WaitForAssertion(() => rendered.MarkupMatches($@"<div class=""balert-main bnotify-normal-{types.ToString().ToLower()}"" style=""opacity: 1; margin-bottom: 12px; box-shadow: 0px 0px 0px 0px #c7c7c7;"" tabindex=""750""  >
 			  <div class=""balert-body"" >
@@ -203,7 +203,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_render_NotificationStyles()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false));
@@ -214,11 +214,11 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 
 			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Type, types));
+				rendered.Render(parameters => parameters.Add(p => p.Type, types));
 
 				foreach (var style in Enum.GetValues<NotificationStyles>())
 				{
-					rendered.SetParametersAndRender(parameters => parameters
+					rendered.Render(parameters => parameters
 						.Add(p => p.NotificationStyle, style));
 
 					var progress = style != NotificationStyles.Strong ? $" { types.ToString().ToLower()}" : " strong";
@@ -237,7 +237,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_not_render_ShowCloseCountdownProgress_false()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.AutoClose, true)
 				.Add(p => p.ShowIcon, false)
@@ -262,7 +262,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_render_ShadowEffect()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.AutoClose, true)
 				.Add(p => p.ShowIcon, false)
@@ -288,7 +288,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 		[TestMethod]
 		public void Alert_should_not_AutoClose()
 		{
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false)
@@ -319,7 +319,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Alerts
 				})
 				.Returns(Task.CompletedTask);
 
-			var rendered = _testContext.RenderComponent<Alert>(parameters => parameters
+			var rendered = _testContext.Render<Alert>(parameters => parameters
 				.Add(p => p.IsVisible, true)
 				.Add(p => p.ShowIcon, false)
 				.Add(p => p.ShowCloseButton, false)

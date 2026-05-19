@@ -89,7 +89,15 @@ namespace Majorsoft.Blazor.Components.Notifications
 			{
 				var module = await _moduleTask.Value;
 				//await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.Id).ToArray());
-				await module.DisposeAsync();
+
+				try
+				{
+					await module.DisposeAsync();
+				}
+				catch (JSDisconnectedException ex)
+				{
+					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

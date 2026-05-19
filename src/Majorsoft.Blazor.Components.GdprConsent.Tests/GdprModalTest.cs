@@ -53,7 +53,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 					AnswerValidUntil = DateTime.Now.AddDays(1),
 				});
 
-			var rendered = _testContext.RenderComponent<GdprModal>();
+			var rendered = _testContext.Render<GdprModal>();
 			rendered.MarkupMatches("");
 
 			_dprConsentServiceMock.Verify(v => v.GetGdprConsentDataAsync(), Times.Once);
@@ -63,10 +63,10 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void ModalDialog_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<GdprModal>(
-				("id", "id1"), //HTML attributes
-				("title", "text"), //HTML attributes
-				(nameof(ModalDialog.OverlayOpacity), 0.5)
+			var rendered = _testContext.Render<GdprModal>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
+				.Add(p => p.OverlayOpacity, 0.5)
 				);
 
 
@@ -118,7 +118,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 					new GdprConsentDetail() { ConsentName = "Session", IsAccepted = true },
 				};
 
-			var rendered = _testContext.RenderComponent<GdprModal>(parameters => parameters
+			var rendered = _testContext.Render<GdprModal>(parameters => parameters
 				.Add(p => p.ConsentDetails, details));
 
 			await rendered.Instance.SaveChoice();

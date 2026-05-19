@@ -15,9 +15,9 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(
-				("id", "id1"), //HTML attributes
-				("class", "form-control w-100") //HTML attributes
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("class", "form-control w-100") //HTML attributes
 				);
 
 			var input = rendered.Find("textarea");
@@ -32,7 +32,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_initial_value()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.Value, "test"));
 
 			var input = rendered.Find("textarea");
@@ -47,7 +47,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_initial_value_with_countdown_text()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.Value, "test")
 				.Add(p => p.CountdownText, "Remaining chars: "));
 
@@ -63,7 +63,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_initial_MaxAllowedChars()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.MaxAllowedChars, 11));
 
 			var input = rendered.Find("textarea");
@@ -78,7 +78,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_without_ShowRemainingChars()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.ShowRemainingChars, false));
 
 			var input = rendered.Find("textarea");
@@ -93,7 +93,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		[TestMethod]
 		public void MaxLengthTextarea_should_rendered_initial_CountdownTextClass()
 		{
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.CountdownTextClass, "css1 css2"));
 
 			var input = rendered.Find("textarea");
@@ -111,7 +111,7 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 			string text = string.Empty;
 			int remaining = 0;
 
-			var rendered = _testContext.RenderComponent<MaxLengthTextarea>(parameters => parameters
+			var rendered = _testContext.Render<MaxLengthTextarea>(parameters => parameters
 				.Add(p => p.OnInput, val => { text = val; })
 				.Add(p => p.OnRemainingCharsChanged, val => { remaining = val; }));
 

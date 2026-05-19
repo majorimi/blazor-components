@@ -30,19 +30,20 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermalinkBlazorWasmInitializer_should_not_rendered_Content()
 		{
-			var rendered = _testContext.RenderComponent<PermalinkBlazorWasmInitializer>();
+			var rendered = _testContext.Render<PermalinkBlazorWasmInitializer>();
 			rendered.MarkupMatches("");
 
 			_permaLinkWatcherServiceMock.Verify(v => v.WatchPermaLinks(), Times.Once);
 		}
 
-		[ExpectedException(typeof(ApplicationException))]
 		[TestMethod]
 		public void PermalinkBlazorWasmInitializer_should_not_rendered_mulitple_instances()
 		{
-			var rendered = _testContext.RenderComponent<PermalinkBlazorWasmInitializer>();
-
-			var rendered2 = _testContext.RenderComponent<PermalinkBlazorWasmInitializer>();
+			Assert.ThrowsExactly<ApplicationException>(() =>
+			{
+				var rendered = _testContext.Render<PermalinkBlazorWasmInitializer>();
+				var rendered2 = _testContext.Render<PermalinkBlazorWasmInitializer>();
+			});
 		}
 	}
 }

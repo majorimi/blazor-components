@@ -39,7 +39,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_not_rendered_html_when_not_IsVisible()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings() { IsVisible = false }));
 
 			Assert.AreEqual(false, rendered.Instance.Settings.IsVisible);
@@ -50,7 +50,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_rendered_correctly_html_when_IsVisible()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings() { IsVisible = true }));
 
 			var div = rendered.Find("div");
@@ -77,7 +77,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_not_render_ShowIcon_false()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings() 
 				{ 
 					IsVisible = true,
@@ -103,7 +103,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_not_render_ShowCloseButton_false()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings() 
 				{ 
 					IsVisible = true,
@@ -126,7 +126,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_not_render_IsLastItem_true()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -151,7 +151,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_render_Content()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -176,7 +176,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_render_CustomIconSvgPath()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -207,7 +207,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_render_Types()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -220,7 +220,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 
 			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
+				rendered.Render(parameters => parameters.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
 					ShowIcon = false,
@@ -240,7 +240,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_render_NotificationStyles()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -253,7 +253,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 
 			foreach (var types in Enum.GetValues<NotificationTypes>())
 			{
-				rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
+				rendered.Render(parameters => parameters.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
 					ShowIcon = false,
@@ -263,7 +263,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 
 				foreach (var style in Enum.GetValues<NotificationStyles>())
 				{
-					rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Settings, new ToastSettings()
+					rendered.Render(parameters => parameters.Add(p => p.Settings, new ToastSettings()
 					{
 						IsVisible = true,
 						ShowIcon = false,
@@ -288,7 +288,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_not_render_ShowCloseCountdownProgress_false()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -315,7 +315,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void Toast_should_render_ShadowEffect()
 		{
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,
@@ -350,7 +350,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				})
 				.Returns(Task.CompletedTask);
 
-			var rendered = _testContext.RenderComponent<Toast>(parameters => parameters
+			var rendered = _testContext.Render<Toast>(parameters => parameters
 				.Add(p => p.Settings, new ToastSettings()
 				{
 					IsVisible = true,

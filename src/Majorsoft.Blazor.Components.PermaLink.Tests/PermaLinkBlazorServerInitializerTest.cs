@@ -40,17 +40,18 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkBlazorServerInitializer_should_not_rendered_Content()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkBlazorServerInitializer>();
+			var rendered = _testContext.Render<PermaLinkBlazorServerInitializer>();
 			rendered.MarkupMatches("");
 		}
 
-		[ExpectedException(typeof(ApplicationException))]
 		[TestMethod]
 		public void PermaLinkBlazorServerInitializer_should_not_rendered_mulitple_instances()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkBlazorServerInitializer>();
-
-			var rendered2 = _testContext.RenderComponent<PermaLinkBlazorServerInitializer>();
+			Assert.ThrowsExactly<ApplicationException>(() =>
+			{
+				var rendered = _testContext.Render<PermaLinkBlazorServerInitializer>();
+				var rendered2 = _testContext.Render<PermaLinkBlazorServerInitializer>();
+			});
 		}
 	}
 }

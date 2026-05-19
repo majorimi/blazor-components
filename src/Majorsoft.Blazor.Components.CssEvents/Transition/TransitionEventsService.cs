@@ -99,9 +99,16 @@ namespace Majorsoft.Blazor.Components.CssEvents.Transition
 			{
 				var registeredElements = _dotNetObjectReferences
 					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.TransitionPropertyName));
-				await _transitionJs.InvokeVoidAsync("dispose", registeredElements.ToArray());
 
-				await _transitionJs.DisposeAsync();
+				try
+				{
+					await _transitionJs.InvokeVoidAsync("dispose", registeredElements.ToArray());
+					await _transitionJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException ex)
+				{
+					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

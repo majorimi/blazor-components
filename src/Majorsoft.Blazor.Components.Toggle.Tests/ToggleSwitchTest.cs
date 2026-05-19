@@ -12,8 +12,8 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			var input = rendered.Find("input");
@@ -29,7 +29,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_value_true()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Checked, true));
 
 			var input = rendered.Find("input");
@@ -46,7 +46,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_value_false()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Checked, false));
 
 			var input = rendered.Find("input");
@@ -63,7 +63,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_disabled()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Disabled, true)
 					.Add(p => p.Checked, true));
 
@@ -75,7 +75,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 			var id = input.GetAttribute("id");
 			input.MarkupMatches(@$"<input id=""{id}"" type=""range"" min=""0"" max=""1""  style=""width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(230, 230, 230, 0.50);"" value=""1"" disabled="""">");
 
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Checked, false));
+			rendered.Render(parameters => parameters.Add(p => p.Checked, false));
 			rendered.WaitForAssertion(() =>
 			{
 				input.MarkupMatches(@$"<input id=""{id}"" type=""range"" min=""0"" max=""1""  style=""width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(230, 230, 230, 0.50);"" value=""0"" disabled="""">");
@@ -85,7 +85,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_width()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Width, 110));
 
 			var input = rendered.Find("input");
@@ -98,7 +98,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_height()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Height, 110));
 
 			var input = rendered.Find("input");
@@ -111,7 +111,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_onColor()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.OnColor, "red"));
 
 			var input = rendered.Find("input");
@@ -124,7 +124,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_offColor()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.OffColor, "240,240,240")
 					.Add(p => p.Checked, false));
 
@@ -138,14 +138,14 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_when_toggled()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.Checked, false));
 
 			var input = rendered.Find("input");
 
 			Assert.IsNotNull(input);
 
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.Checked, true));
+			rendered.Render(parameters => parameters.Add(p => p.Checked, true));
 			rendered.WaitForAssertion(() =>
 			{
 				var value = input.GetAttribute("value");
@@ -158,7 +158,7 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 		[TestMethod]
 		public void ToggleSwitch_should_rendered_correctly_HandleStyle()
 		{
-			var rendered = _testContext.RenderComponent<ToggleSwitch>(parameters => parameters
+			var rendered = _testContext.Render<ToggleSwitch>(parameters => parameters
 					.Add(p => p.HandleStyle, ToggleSwitchStyle.Circle));
 
 			var input = rendered.Find("input");
@@ -166,14 +166,14 @@ namespace Majorsoft.Blazor.Components.Toggle.Tests
 
 			input.MarkupMatches(@$"<input id=""{id}"" type=""range"" min=""0"" max=""1""  style=""width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.50);"" value=""1"">");
 
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.HandleStyle, ToggleSwitchStyle.Ellipse));
+			rendered.Render(parameters => parameters.Add(p => p.HandleStyle, ToggleSwitchStyle.Ellipse));
 			rendered.WaitForAssertion(() =>
 			{
 				input.MarkupMatches(@$"<input id=""{id}"" type=""range"" min=""0"" max=""1""  style=""width:80px; height:30px; cursor: pointer; border-radius: 15px; background-color: rgba(0, 0, 255, 0.50);"" value=""1"">");
 			});
 
 
-			rendered.SetParametersAndRender(parameters => parameters.Add(p => p.HandleStyle, ToggleSwitchStyle.Square));
+			rendered.Render(parameters => parameters.Add(p => p.HandleStyle, ToggleSwitchStyle.Square));
 			rendered.WaitForAssertion(() =>
 			{
 				input.MarkupMatches(@$"<input id=""{id}"" type=""range"" min=""0"" max=""1""  style=""width:80px; height:30px; cursor: pointer; border-radius: 0px; background-color: rgba(0, 0, 255, 0.50);"" value=""1"">");

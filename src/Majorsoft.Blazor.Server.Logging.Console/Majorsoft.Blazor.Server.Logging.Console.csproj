@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Server.Logging.Console</PackageId>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<Authors>Imre Toth</Authors>
 		<Product>Majorsoft Blazor Components</Product>
 		<Description>Blazor extension for logging to browser console. Important NOTE: only works for apps using Server Hosting Model! Part of Majorsoft Blazor library.</Description>
@@ -33,10 +36,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.9" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.25" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

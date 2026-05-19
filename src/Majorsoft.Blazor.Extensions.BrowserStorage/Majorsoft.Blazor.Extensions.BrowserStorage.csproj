@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net8.0</TargetFramework>
 	<nullable>enable</nullable>
 	<Version>1.0.0.0</Version>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<IsTrimmable>true</IsTrimmable>
+	<TrimMode>partial</TrimMode>
+	<InvariantGlobalization>false</InvariantGlobalization>
 	<PackageIcon>blazor.components.png</PackageIcon>
 	<PackageId>Majorsoft.Blazor.Extensions.BrowserStorage</PackageId>
 	<Authors>Imre Toth</Authors>
@@ -50,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
   </ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

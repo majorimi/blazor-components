@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <nullable>enable</nullable>
+    <Version>1.0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsTrimmable>true</IsTrimmable>
+    <TrimMode>full</TrimMode>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <PackageIcon>blazor.components.png</PackageIcon>
+    <PackageId>Majorsoft.Blazor.Components.WASM.AppLoader</PackageId>
+    <Authors>Imre Toth</Authors>
+    <Company>Majorsoft</Company>
+    <Product>Blazor Components</Product>
+    <Copyright>©2021 Imre Toth</Copyright>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/AppLoader.md</PackageProjectUrl>
+    <PackageReadmeFile>AppLoader.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>.Net8+ Blazor WASM AppLoader</PackageTags>
+    <PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+    <Description>Blazor component that can render a customized Loader screen during WASM application loading time (used to could be added to the removed Index.html file).</Description>
+    <Title>Blazor Components for AppLoader</Title>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\.github\docs\AppLoader.md" Link="AppLoader.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\.github\Images\blazor.components.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\.github\License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>  
+</Project>

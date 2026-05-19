@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net10.0</TargetFramework>
 	<nullable>enable</nullable>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,6 +42,7 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Toggle\Majorsoft.Blazor.Components.Toggle.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Tooltips\Majorsoft.Blazor.Components.Tooltips.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Typeahead\Majorsoft.Blazor.Components.Typeahead.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.WASM.AppLoader\Majorsoft.Blazor.Components.WASM.AppLoader.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.Analytics\Majorsoft.Blazor.Extensions.Analytics.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Extensions.BrowserStorage\Majorsoft.Blazor.Extensions.BrowserStorage.csproj" />
   </ItemGroup>

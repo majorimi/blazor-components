@@ -1,13 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Components.CssEvents</PackageId>
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<Product>Blazor Components</Product>
 		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
@@ -53,7 +56,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

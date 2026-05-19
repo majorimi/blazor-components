@@ -60,9 +60,9 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		[TestMethod]
 		public void TypeaheadInput_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<TypeaheadInput<string>>(
-				("id", "id1"), //HTML attributes
-				("class", "form-control w-100") //HTML attributes
+			var rendered = _testContext.Render<TypeaheadInput<string>>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("class", "form-control w-100") //HTML attributes
 				);
 
 			var input = rendered.Find("input");
@@ -74,7 +74,7 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		[TestMethod]
 		public void TypeaheadInput_should_rendered_correctly()
 		{
-			var rendered = _testContext.RenderComponent<TypeaheadInput<string>>(parameters => parameters
+			var rendered = _testContext.Render<TypeaheadInput<string>>(parameters => parameters
 					.Add(p => p.InProgressContent, "<strong>Searching...</strong>")
 					.Add(p => p.Data, _testData.Select(x => x.Name))
 					.Add(p => p.MinLength, 5));
@@ -89,7 +89,7 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		public async Task TypeaheadInput_should_rendered_correctly_DropdownHeight()
 		{
 			//TODO: it should open dropdown....
-			var rendered = _testContext.RenderComponent<TypeaheadInput<string>>(parameters => parameters
+			var rendered = _testContext.Render<TypeaheadInput<string>>(parameters => parameters
 					.Add(p => p.InProgressContent, "<strong>Searching...</strong>")
 					.Add(p => p.NoResultContent, "<strong>Not found...</strong>")
 					.Add(p => p.Data, _testData.Select(x => x.Name))
@@ -103,7 +103,7 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 			//input.Focus();
 			//await input.TriggerEventAsync("onmouseenter", new MouseEventArgs());
 			input.Input("t");
-			rendered.SetParametersAndRender();
+			rendered.Render();
 
 			Assert.IsNotNull(input);
 			rendered.WaitForAssertion(() => input.MarkupMatches(@"<input value=""t"" autocomplete=""off"" class=""typeahead"" />"));
@@ -114,7 +114,7 @@ namespace Majorsoft.Blazor.Components.Typeahead.Tests
 		{
 			string selectedItem = "";
 			int eventCounter = 0;
-			var rendered = _testContext.RenderComponent<TypeaheadInput<string>>(parameters => parameters
+			var rendered = _testContext.Render<TypeaheadInput<string>>(parameters => parameters
 					.Add(p => p.InProgressContent, "<strong>Searching...</strong>")
 					.Add(p => p.Data, _testData.Select(x => x.Name))
 					.Add(p => p.OnSelectedItemChanged, x => { selectedItem = x; eventCounter++; })

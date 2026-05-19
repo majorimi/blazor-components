@@ -45,9 +45,9 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(
-				("title", "Test"), //HTML attributes
-				("style", "style") //HTML attributes
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
+				.AddUnmatched("title", "Test") //HTML attributes
+				.AddUnmatched("style", "style") //HTML attributes
 				);
 
 			var input = rendered.Find("div");
@@ -59,7 +59,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_Content_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.Content, "<h2>Hower over</h2>"));
 
 			var input = rendered.Find("div");
@@ -71,7 +71,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_PermaLinkName_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.PermaLinkName, "#linkName"));
 
 			var input = rendered.Find("div");
@@ -83,7 +83,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_IconMarginTop_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
 					.Add(p => p.IconMarginTop, 8));
 
@@ -96,7 +96,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_IconSize_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
 					.Add(p => p.IconSize, 34));
 
@@ -111,11 +111,11 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		{
 			foreach (var item in Enum.GetValues<PermaLinkIconPosition>())
 			{
-				var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
 					.Add(p => p.IconPosition, item));
 
-				//rendered.SetParametersAndRender(parameters => parameters.Add(p => p.IconPosition, item));
+				//rendered.Render(parameters => parameters.Add(p => p.IconPosition, item));
 				var input = rendered.Find("div");
 
 				Assert.IsNotNull(input);
@@ -131,7 +131,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		{
 			foreach (var item in Enum.GetValues<PermaLinkStyle>())
 			{
-				var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+				var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always)
 					.Add(p => p.IconStyle, item));
 
@@ -147,7 +147,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_No_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.No));
 
 			var input = rendered.Find("div");
@@ -158,7 +158,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public void PermaLinkElement_should_rendered_ShowPermaLinkIcon_Always_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.Always));
 
 			var input = rendered.Find("div");
@@ -169,7 +169,7 @@ namespace Majorsoft.Blazor.Components.PermaLink.Tests
 		[TestMethod]
 		public async Task PermaLinkElement_should_rendered_ShowPermaLinkIcon_OnHover_correctly()
 		{
-			var rendered = _testContext.RenderComponent<PermaLinkElement>(parameters => parameters
+			var rendered = _testContext.Render<PermaLinkElement>(parameters => parameters
 					.Add(p => p.ShowIcon, ShowPermaLinkIcon.OnHover));
 
 			var input = rendered.Find("div");

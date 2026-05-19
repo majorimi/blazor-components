@@ -39,9 +39,9 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 		[TestMethod]
 		public void ToastContainer_should_not_rendered_anything_until_has_Toasts()
 		{
-			var rendered = _testContext.RenderComponent<ToastContainer>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<ToastContainer>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			rendered.MarkupMatches("");
@@ -53,9 +53,9 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new  ToastContainerGlobalSettings());
 
-			var rendered = _testContext.RenderComponent<ToastContainer>(
-				("id", "id1"), //HTML attributes
-				("title", "text") //HTML attributes
+			var rendered = _testContext.Render<ToastContainer>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
 				);
 
 			var div = rendered.Find("div");
@@ -77,7 +77,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 				</div>
 				<div class=""btoast-progress primary start"" style=""transition: width 10s linear;"" ></div>
 			  </div>
-			</div>"));
+			</div>"), TimeSpan.FromSeconds(2));
 		}
 
 		[TestMethod]
@@ -86,7 +86,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { Width = 50 });
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
@@ -117,7 +117,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
@@ -169,7 +169,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(settings);
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
@@ -217,7 +217,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			_toastInternalsMock.SetupGet(g => g.AllToasts).Returns(new ToastSettings[] { new ToastSettings() });
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			foreach (var item in Enum.GetValues<ToastPositions>())
 			{
@@ -264,7 +264,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			});
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
@@ -299,7 +299,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			});
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings());
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
@@ -351,7 +351,7 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			});
 			_toastServiceMock.SetupGet(g => g.GlobalSettings).Returns(new ToastContainerGlobalSettings() { });
 
-			var rendered = _testContext.RenderComponent<ToastContainer>();
+			var rendered = _testContext.Render<ToastContainer>();
 
 			var div = rendered.Find("div");
 			Assert.IsNotNull(div);
@@ -364,13 +364,14 @@ namespace Majorsoft.Blazor.Components.Notifications.Tests.Toasts
 			</div>"));
 		}
 
-		[ExpectedException(typeof(ApplicationException))]
 		[TestMethod]
 		public void ToastContainer_should_not_rendered_mulitple_instances()
 		{
-			var rendered = _testContext.RenderComponent<ToastContainer>();
-
-			var rendered2 = _testContext.RenderComponent<ToastContainer>();
+			Assert.ThrowsExactly<ApplicationException>(() =>
+			{
+				var rendered = _testContext.Render<ToastContainer>();
+				var rendered2 = _testContext.Render<ToastContainer>();
+			});
 		}
 	}
 }

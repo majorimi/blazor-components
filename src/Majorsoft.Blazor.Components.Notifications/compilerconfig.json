@@ -10,5 +10,13 @@
   {
     "outputFile": "Toast/Toast.razor.css",
     "inputFile": "Toast/Toast.razor.scss"
+  },
+  {
+    "outputFile": "Toasts/Toast.razor.css",
+    "inputFile": "Toasts/Toast.razor.scss"
+  },
+  {
+    "outputFile": "Alerts/Alert.razor.css",
+    "inputFile": "Alerts/Alert.razor.scss"
   }
 ]

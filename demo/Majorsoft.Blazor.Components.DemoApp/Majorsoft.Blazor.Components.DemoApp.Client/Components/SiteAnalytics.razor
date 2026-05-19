@@ -1,0 +1,83 @@
+﻿<PageScroll />
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h1>Website Analytics extensions</h1>
+	<p>
+		Blazor extension that enables analytics services usage for Blazor applications e.g. Google Analytics, etc. For usage see source code and docs on
+		<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Analytics.md" target="_blank">Github</a>.
+		<br /><strong>Majorsoft.Blazor.Extensions.Analytics</strong> package is available on <a href="https://www.nuget.org/packages/Majorsoft.Blazor.Extensions.Analytics" target="_blank">Nuget</a>
+	</p>
+
+	<div>
+		<h3>Supported Analytics service providers:</h3>
+		<ul>
+			<li><NavLink href="analytics#google">Google Analytics</NavLink></li>
+		</ul>
+	</div>
+
+	<div class="container-fluid p-3 mb-3 border rounded">
+		<PermaLinkElement PermaLinkName="google" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Google Analytics</h3></Content>
+		</PermaLinkElement>
+		<p>
+			<strong>Google Analytics</strong> is a web analytics service offered by Google that tracks and reports website traffic, etc. inside the Google Marketing Platform.
+			<br />
+			<strong><code>IGoogleAnalyticsService</code> is an injectable service</strong> for enabling
+			<a href="https://support.google.com/analytics/answer/1008015?hl=en#" target="_blank">Google Analytics</a> page tracking in Blazor Apps.
+			To make the initialization simple use <code>GoogleAnalyticsInitializer</code> component in your <code>MainLayout.razor</code> page and provide Google Analytics TrackingId.
+		</p>
+
+		<p>
+			<strong>To see how Majorsoft.Blazor.Extensions.Analytics works please check the demo code. And Google 
+				<a href="https://developers.google.com/gtagjs/reference/api">analytics features</a> since this extension mostly a JS wrapper for <code>gtag.js</code>.
+			</strong>
+		</p>
+	</div>
+
+</div>
+
+@using System.Dynamic
+@inject IGoogleAnalyticsService _googleAnalytincsService
+@inject ILogger<SiteAnalytics> _logger
+@implements IAsyncDisposable
+
+@code { 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			await _googleAnalytincsService.GetAsync("session_id", async (res) => { _logger.LogInformation($"Google analytics Get result: {res}"); });
+
+			//Custom set
+			dynamic exp = new ExpandoObject();
+			exp.test = 27;
+
+			await _googleAnalytincsService.SetAsync(exp);
+
+			//Get cutoms set value
+			await _googleAnalytincsService.GetAsync("test", async (res) => { _logger.LogInformation($"Google analytics Get result: {res}"); });
+
+			//Built in Search event usage
+			dynamic exp2 = new ExpandoObject();
+			exp2.search_term = "Searching custom event...";
+			await _googleAnalytincsService.EventAsync(GoogleAnalyticsEventTypes.search, exp2);
+
+			//Custom event usage
+			await _googleAnalytincsService.CustomEventAsync("testEvent", new GoogleAnalyticsCustomEventArgs()
+			{
+				Action = "Test action",
+				Category = "Test category",
+				Label = "Test label",
+				Value = 1234
+			});
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if(_googleAnalytincsService is not null)
+		{
+			await _googleAnalytincsService.DisposeAsync();
+		}
+	}
+}

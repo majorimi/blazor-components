@@ -6,7 +6,7 @@
 trigger: none
 pr: none
 
-name: 1.0.$(rev:r)
+name: 'Nuget packages $(AssemblyVersion)$(PreviewPackageVersion)'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -25,11 +25,11 @@ variables:
 
 parameters:
 - name: AssemblyVersion
-  displayName: 'Required Nuget package version e.g. "1.0.0"'
+  displayName: 'Required Nuget package version e.g. "2.0.0"'
   type: string
   default: ''
 - name: PreviewPackageVersion
-  displayName: 'Optional Preview version e.g. "-rc.2.20479.15"'
+  displayName: 'Optional Preview version e.g. "-rc.2.0.0"'
   type: string
   default: $(empty)
 
@@ -39,10 +39,10 @@ jobs:
     steps:
 
     - task: UseDotNet@2
-      displayName: Install .NET 8
+      displayName: Install .NET 10
       inputs:
        packageType: 'sdk'
-       version: '8.0.x' # replace this value with the version that you need for your project
+       version: '10.0.x' # replace this value with the version that you need for your project
 
     - task: Assembly-Info-NetCore@2
       displayName: 'Update Web Assembly Info'
@@ -70,9 +70,11 @@ jobs:
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore packages'
       inputs:
+        azureSubscription: '8b3s(ccf8dfff-5ba9-4caf-848c-6ff133c46088)'
         command: 'restore'
         projects: '$(solution)'
         feedsToUse: 'select'
+        vstsFeed: '4f8b1f2e-37e5-4c51-b721-13f56be6a30d'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
@@ -93,7 +95,7 @@ jobs:
       displayName: 'dotnet pack'
       inputs:
         command: 'pack'
-        packagesToPack: 'src/**/*.csproj;!**/*.Test[s].csproj'
+        packagesToPack: 'src/**/*.csproj;!**/*.Test[s].csproj;!**/*App*.csproj'
         configuration: '$(buildConfiguration)'
         packDirectory: '$(Build.ArtifactStagingDirectory)/nupkgs'
         nobuild: true
@@ -122,6 +124,13 @@ jobs:
     #         #(Get-Content -path $file -Raw) -replace $verRegex, $newVersion | Set-Content -Path $file
     #         #(Get-Content -path $file -Raw) -replace $nugetRegex, "`${1}$version`${3}" | Set-Content -Path $file
     #       }
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Nugets'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/nupkgs/'
+        ArtifactName: 'nuget'
+        publishLocation: 'Container'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet upload Nuget'

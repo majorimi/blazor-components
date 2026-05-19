@@ -1,0 +1,225 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="toasts" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Toast</h3></Content>
+	</PermaLinkElement>
+	<p>
+		Renders <strong>single <code>ToastContainer</code> component per application (place it to a global component after all HTML elements to be able to work with <code>position: relative;</code> elements)</strong> which can be placed to 6 different places of a page.
+		With <strong>injectable <code>IToastService</code> service</strong> individual <code>Toast</code> components can be added, removed or events tracked. By using Global settings or override all values per Toast notification.
+		Importance can be emphasized by <code>Type</code> and <code>NotificationStyle</code> styling with customizable content.
+		<br />
+		All Toast components will close itself automatically when given timeout elapsed.
+	</p>
+
+	@*ToastContainer MUST initialized once per application in a common component at the bottom of the rendered HTML in order to work with all Relative elements!!*@
+	@*<ToastContainer />*@
+
+	<h4>Toast Container settings:</h4>
+	<p>
+		Settings applied on <code>ToastContainer</code> which have impact on shown Toasts <code>Width</code> and <code>Position</code>.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Container Position (apply to all Toasts): <select class="form-control selectpicker w-100" @bind="_toastService.GlobalSettings.Position">
+				@foreach (var item in Enum.GetValues<ToastPositions>())
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+
+			Container Width (apply to all Toasts): <strong>@(_toastService.GlobalSettings.Width) px</strong>
+			<input type="range" class="w-100" min="200" max="450" @bind="_toastService.GlobalSettings.Width" @oninput="(e => _toastService.GlobalSettings.Width = int.Parse(e.Value?.ToString()))" />
+			<br />
+			Remove Toasts OnNavigation: <input class="mr-2" type="checkbox" @bind="_toastService.GlobalSettings.RemoveToastsOnNavigation" />
+			<br />
+			Margin from Left/Right side <strong>@(_toastService.GlobalSettings.PaddingFromSide) px</strong> (-1 use default CSS):
+			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromSide" @oninput="(e => _toastService.GlobalSettings.PaddingFromSide = int.Parse(e.Value?.ToString()))" />
+			<br />
+			Margin from Top/Bottom <strong>@(_toastService.GlobalSettings.PaddingFromTopOrBottom) px</strong> (-1 use default CSS):
+			<input type="range" class="w-100" min="-1" max="50" @bind="_toastService.GlobalSettings.PaddingFromTopOrBottom" @oninput="(e => _toastService.GlobalSettings.PaddingFromTopOrBottom = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+	<hr />
+
+	<h4>Toasts Global defaults:</h4>
+	<p>
+		Global defaults for all Toasts all notification will be shown with these default settings. Can be overwritten in <code>ToastSettings</code> for individual Toasts.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Show Close button: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowCloseButton" />
+			Show icon: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowIcon" />
+			<br />
+			Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="ToastContainerGlobalSettings.DefaultToastsShowCloseCountdownProgress" />
+			Close in <strong>@(ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec) sec.</strong> <input type="range" class="w-100" min="1" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
+			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="ToastContainerGlobalSettings.DefaultToastsShadowEffect" @oninput="(e => ToastContainerGlobalSettings.DefaultToastsShadowEffect = uint.Parse(e.Value?.ToString()))" />
+
+			Toasts Style: <select class="form-control selectpicker w-100" @bind="ToastContainerGlobalSettings.DefaultToastsNotificationStyle">
+				@foreach (var item in Enum.GetValues(typeof(NotificationStyles)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<button class="btn btn-primary" @onclick="ShowAllToast">Show all Toasts with default</button>
+	<hr />
+
+	<h4>Toast customization:</h4>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Show Close button: <input class="mr-2" type="checkbox" @bind="_toastShowCloseButton" />
+			Show icon: <input class="mr-2" type="checkbox" @bind="_toastShowIcon" />
+			<br />
+			Show Countdown Progress: <input class="mr-2" type="checkbox" @bind="_toastShowCountdownProgress" />
+			Close in <strong>@(_toastAutoCloseInSec) sec.</strong> <input type="range" class="w-100" min="1" max="20" @bind="_toastAutoCloseInSec" @oninput="(e => _toastAutoCloseInSec = uint.Parse(e.Value?.ToString()))" />
+			Shadow (3D) effect: <input type="range" class="w-100" min="0" max="20" @bind="_toastShadowEffect" @oninput="(e =>_toastShadowEffect = uint.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Message: <textarea class="form-control w-100" @bind="_toastText" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toast Style: <select class="form-control selectpicker w-100" @bind="_toastStyle">
+				@foreach (var item in Enum.GetValues(typeof(NotificationStyles)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Toast Type:
+			<select class="form-control selectpicker w-100"
+					@onchange="@(e => { _toastTypeLevel = Enum.Parse<NotificationTypes>(e.Value?.ToString()); _toastText = $@"<strong>Toast:</strong> This is a(n) {_toastTypeLevel} notification"; })">
+				@foreach (var item in Enum.GetValues(typeof(NotificationTypes)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<button class="btn btn-primary" @onclick="ShowCustomToast">Show Customized Toast</button>
+			<button class="btn btn-primary" @onclick="RemoveLastToasts" disabled="@(_lastToastId == Guid.Empty)">Remove last Toast</button>
+			<button class="btn btn-primary" @onclick="RemoveAllToasts" disabled="@(_toastService.Toasts.Count() == 0)">
+				Remove all (@(_toastService.Toasts.Count())) Toast(s)
+			</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Toasts Event log</strong>:</label>
+			<textarea @ref="log1" @bind="_toastLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@inject IToastService _toastService
+@implements IDisposable
+
+@code { 
+	protected override void OnInitialized()
+	{
+		_toastService.OnToastShow += ToastShow;
+		_toastService.OnToastClosed += ToastClosed;
+		_toastService.OnToastCloseButtonClicked += ToastCloseButtonClicked;
+	}
+
+	private string _toastText = $@"<strong>Toast:</strong> This is a(n) {NotificationTypes.Primary} notification";
+	private bool _toastShowIcon = true;
+	private bool _toastShowCloseButton = true;
+	private bool _toastShowCountdownProgress = true;
+	private uint _toastAutoCloseInSec = 5;
+	private uint _toastShadowEffect = 5;
+	private NotificationStyles _toastStyle;
+	private NotificationTypes _toastTypeLevel;
+
+	private ElementReference log1;
+	private string _toastLog = "";
+
+	private async Task ShowAllToast()
+	{
+		foreach (var item in Enum.GetValues<NotificationTypes>())
+		{
+			_toastService.ShowToast($@"<strong>Toast:</strong> This is a(n) {item} notification", item);
+		}
+	}
+
+	private Guid _lastToastId;
+	private async Task ShowCustomToast()
+	{
+		_lastToastId = _toastService.ShowToast(new ToastSettings()
+		{
+			Content = builder => builder.AddMarkupContent(0, _toastText),
+			NotificationStyle = _toastStyle,
+			Type = _toastTypeLevel,
+			AutoCloseInSec = _toastAutoCloseInSec,
+			ShadowEffect = _toastShadowEffect,
+			ShowCloseButton = _toastShowCloseButton,
+			ShowCloseCountdownProgress = _toastShowCountdownProgress,
+			ShowIcon = _toastShowIcon
+		});
+	}
+
+	private async Task RemoveAllToasts()
+	{
+		_toastService.ClearAll();
+	}
+	private async Task RemoveLastToasts()
+	{
+		if(_lastToastId != Guid.Empty)
+		{
+			_toastService.RemoveToast(_lastToastId);
+		}
+	}
+
+	private void ToastShow(Guid id)
+	{
+		_toastLog = WriteLog(_toastLog, $"Toast event OnShow Id: '{id}'");
+	}
+	private void ToastClosed(Guid id)
+	{
+		if(id == _lastToastId)
+		{
+			_lastToastId = Guid.Empty;
+		}
+
+		_toastLog = WriteLog(_toastLog, $"Toast event OnClosed Id: '{id}'");
+	}
+	private void ToastCloseButtonClicked(Guid id)
+	{
+		_toastLog = WriteLog(_toastLog, $"Toast event OnCloseButtonClicked Id: '{id}'");
+	}
+
+	private string WriteLog(string log, string message)
+	{
+		log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+
+		InvokeAsync( async() =>
+		{
+			await log1.ScrollToEndAsync();
+			StateHasChanged();
+		});
+
+		return log;
+	}
+
+	public void Dispose()
+	{
+		_toastService.OnToastShow -= ToastShow;
+		_toastService.OnToastClosed -= ToastClosed;
+		_toastService.OnToastCloseButtonClicked -= ToastCloseButtonClicked;
+	}}

@@ -41,7 +41,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 					AnswerValidUntil = DateTime.Now.AddDays(1),
 				});
 
-			var rendered = _testContext.RenderComponent<GdprBanner>();
+			var rendered = _testContext.Render<GdprBanner>();
 			rendered.MarkupMatches("");
 
 			_dprConsentServiceMock.Verify(v => v.GetGdprConsentDataAsync(), Times.Once);
@@ -50,10 +50,10 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_rendered_correctly_html_attributes()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(
-				("id", "id1"), //HTML attributes
-				("title", "text"), //HTML attributes
-				(nameof(GdprBanner.BannerOpacity), 0.5)
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
+				.AddUnmatched("id", "id1") //HTML attributes
+				.AddUnmatched("title", "text") //HTML attributes
+				.Add(p => p.BannerOpacity, 0.5)
 				);
 
 			var div = rendered.Find("div");
@@ -65,7 +65,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_rendered_correctly_BannerOpacity()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(parameters => parameters
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
 				.Add(p => p.BannerOpacity, 0.99));
 
 			var div = rendered.Find("div");
@@ -77,7 +77,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_rendered_correctly_BannerBackgroundColor()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(parameters => parameters
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
 				.Add(p => p.BannerBackgroundColor, "red"));
 
 			var div = rendered.Find("div");
@@ -89,7 +89,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public void GdprBanner_should_rendered_correctly_Content()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(parameters => parameters
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
 				.Add(p => p.Content, "<div><p>Banner text</p></div>"));
 
 			var div = rendered.Find("div");
@@ -101,7 +101,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public async Task GdprBanner_should_accept_all_ConsentDetails()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(parameters => parameters
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
 				.Add(p => p.ConsentDetails, new GdprConsentDetail[]
 				{
 					new GdprConsentDetail() { ConsentName = "All", IsAccepted = false },
@@ -117,7 +117,7 @@ namespace Majorsoft.Blazor.Components.GdprConsent.Tests
 		[TestMethod]
 		public async Task GdprBanner_should_reject_all_ConsentDetails()
 		{
-			var rendered = _testContext.RenderComponent<GdprBanner>(parameters => parameters
+			var rendered = _testContext.Render<GdprBanner>(parameters => parameters
 				.Add(p => p.ConsentDetails, new GdprConsentDetail[]
 				{
 					new GdprConsentDetail() { ConsentName = "All", IsAccepted = true },

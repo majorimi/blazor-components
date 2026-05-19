@@ -1,26 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageId>Majorsoft.Blazor.Components.Maps</PackageId>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
+		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md</PackageProjectUrl>
+    <PackageReadmeFile>Maps.md</PackageReadmeFile>
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
-		<Copyright>©2021 Imre Toth</Copyright>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md</PackageProjectUrl>
-    <PackageReadmeFile>Maps.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
-		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryType>Git</RepositoryType>
-		<Description>Blazor component that renders Google/Bing maps wrapped into Blazor components allowing to mange maps with .Net code. Part of Majorsoft Blazor library.</Description>
-		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-		<PackageTags>.Net5 Blazor Maps Google Bing Pins Cluster Geo Location Geolocation Position GPS</PackageTags>
-		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<PackageTags>.Net5 Blazor GoogleMaps Leaflet Maps</PackageTags>
+		<PackageIcon>blazor.components.png</PackageIcon>
+		<PackageId>Majorsoft.Blazor.Components.Maps</PackageId>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases </PackageReleaseNotes>
+		<Copyright>©2021 Imre Toth</Copyright>
+		<Description>Blazor component for Google Maps and Leaflet maps integration. Part of Majorsoft Blazor library.</Description>
 		<Title>Blazor Components Maps</Title>  
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
@@ -34,7 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -64,7 +67,7 @@
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0</PackagePath>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
 

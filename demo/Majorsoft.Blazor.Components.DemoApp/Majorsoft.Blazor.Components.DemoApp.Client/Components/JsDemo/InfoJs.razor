@@ -1,0 +1,51 @@
+﻿<div class="container-fluid p-3 mb-3 border rounded" @ref="_infoDiv" @onclick="InfoDivClick">
+	<PermaLinkElement PermaLinkName="info-js" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Element info  JS</h3></Content>
+	</PermaLinkElement>
+	<p>
+		<strong>Element info JS</strong> is a set of <strong>Extension methods</strong> for <code>ElementReference</code> objects.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label>Click on different elements to read out HTML DomRect:</label>
+			<button class="btn btn-primary" @ref="_info1" @onclick="GetInfo1" @onclick:stopPropagation="true">Get element Client rect</button>
+			<button class="btn btn-primary" style="width:300px;" @ref="_info2" @onclick="GetInfo2" @onclick:stopPropagation="true">Get very  <br /> large element <br />Client rect</button>
+
+			<br />
+			<label><strong>Element info</strong>:</label>
+			<textarea @ref="_infoMsg" @onclick="InfoMsgClick" @bind="_infoMessage" @onclick:stopPropagation="true" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@using System.Text.Json
+
+@code {
+	//Element info examples
+	private string _infoMessage;
+	private ElementReference _info1;
+	private ElementReference _info2;
+	private ElementReference _infoMsg;
+	private ElementReference _infoDiv;
+	private async Task GetInfo1()
+	{
+		var info = await _info1.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task GetInfo2()
+	{
+		var info = await _info2.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task InfoMsgClick()
+	{
+		var info = await _infoMsg.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+	private async Task InfoDivClick()
+	{
+		var info = await _infoDiv.GetClientRectAsync();
+		_infoMessage = JsonSerializer.Serialize(info);
+	}
+}

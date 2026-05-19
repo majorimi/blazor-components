@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Components.PermaLink</PackageId>
 		<Version>1.0.0.0</Version>
+		<IsTrimmable>true</IsTrimmable>
+		<TrimMode>full</TrimMode>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<Authors>Imre Toth</Authors>
 		<Company>Majorsoft</Company>
 		<Product>Blazor Components</Product>
@@ -32,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
 	</ItemGroup>
 
   <PropertyGroup>
@@ -49,7 +52,7 @@
 	<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
-			<PackagePath>lib\net5.0</PackagePath>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</_PackageFiles>
 	</ItemGroup>
 
