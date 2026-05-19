@@ -6,7 +6,7 @@
 trigger: none
 pr: none
 
-name: 2.0.$(rev:r)
+name: 'Nuget packages $(AssemblyVersion)$(PreviewPackageVersion)'
 
 pool:
   vmImage: 'ubuntu-latest'
