@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<Configurations>Debug;Release</Configurations>
 		<nullable>enable</nullable>
 		<Version>1.0.0.0</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -19,7 +20,7 @@
     <PackageReadmeFile>Collapse.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<PackageTags>.Net5 Blazor Collapse Expand Accordion</PackageTags>
+		<PackageTags>.NET8 .NET9 .NET10 Blazor Collapse Expand Accordion</PackageTags>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<Description>Blazor component that renders a customizable Expand/Collapse element also supports Collapse group (accordion). Part of Majorsoft Blazor library.</Description>
 		<Title>Blazor Components Expand/Collapse</Title>
@@ -48,8 +49,14 @@
 	</ItemGroup>
 
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET10.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET9.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.16" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET8.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.27" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -59,11 +66,15 @@
 	<ItemGroup>
 		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
-			<BuildAction>None</BuildAction>
-			<PackagePath>lib\$(TargetFramework)</PackagePath>
-		</_PackageFiles>
-	</ItemGroup>
+
+	<!-- Use Target to include Core DLL per TFM - _PackageFiles doesn't resolve $(TargetFramework) in Include -->
+	<PropertyGroup>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeCoreDllInPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+	<Target Name="IncludeCoreDllInPackage">
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(OutputPath)Majorsoft.Blazor.Components.Core.dll" PackagePath="lib/$(TargetFramework)" />
+		</ItemGroup>
+	</Target>
 
 </Project>
