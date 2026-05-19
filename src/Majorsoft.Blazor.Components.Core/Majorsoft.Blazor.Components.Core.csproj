@@ -6,7 +6,8 @@
 	<IsTrimmable>true</IsTrimmable>
 	<TrimMode>full</TrimMode>
 	<InvariantGlobalization>false</InvariantGlobalization>
-	<PackageId>Majorsoft.Blazor.Components.Core</PackageId>
+  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  <PackageId>Majorsoft.Blazor.Components.Core</PackageId>
   </PropertyGroup>
 
 
