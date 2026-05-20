@@ -1,5 +1,5 @@
 ﻿<div id="@_mapContainerId" @ref="_jsMap"
-	 style="position: relative; overflow: hidden; width: @(Width)px; height: @(Height)px;" @attributes=AllOtherAttributes>
+	 style="position: relative; overflow: hidden; width: @(IsMapDimensionInPixels ? $"{Width}px" : $"{Width}%"); height: @(IsMapDimensionInPixels ? $"{Height}px" : $"{Height}%");"	 @attributes=AllOtherAttributes>
 </div>
 
 @implements IAsyncDisposable
@@ -457,7 +457,7 @@
 	//Size
 	private int _width = 400;
 	/// <summary>
-	/// Maps image Width in px.
+	/// Maps image Width in px or %.
 	/// </summary>
 	[Parameter]
 	public int Width
@@ -474,7 +474,7 @@
 	}
 	private int _height = 300;
 	/// <summary>
-	/// Maps image Height in px.
+	/// Maps image Height in px or %.
 	/// </summary>
 	[Parameter]
 	public int Height
@@ -489,6 +489,12 @@
 			}
 		}
 	}
+
+	/// <summary>
+	/// Gets or sets True indicating whether the map dimensions are specified in pixels, False means %.
+	/// </summary>
+	[Parameter]
+	public bool IsMapDimensionInPixels { get; set; } = true;
 
 	private GeolocationData? _center;
 	/// <summary>
