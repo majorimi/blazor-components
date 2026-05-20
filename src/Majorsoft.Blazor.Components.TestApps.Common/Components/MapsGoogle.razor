@@ -331,7 +331,7 @@
 
 			</div>
 		</div>
-		<div class="row pb-2">
+		<div class="row pb-2 mt-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkersTmp.AddRange(_jsMarkers); _jsMarkers.Clear(); })">Hide all Markers</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
@@ -340,12 +340,12 @@
 
 			</div>
 		</div>
-		<div class="row pb-2">
+		<div class="row pb-2 mt-2">
 			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawings">Add drawings:</button>
-				<select style="display: inline" class="form-control selectpicker w-25">
-					<option>Polyline</option>
-				</select>
+				<button class="btn btn-primary" @onclick="@AddMapDrawings">Add Polyline</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLinesTmp.AddRange(_jsPolyLines); _jsPolyLines.Clear(); })">Hide all Polylines</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.AddRange(_jsPolyLinesTmp); _jsPolyLinesTmp.Clear(); })">Show Polylines</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.Clear(); _jsPolyLinesTmp.Clear(); _jsPhotosAdded = false; })">Remove Polylines</button>
 			</div>
 		</div>
 
@@ -559,6 +559,7 @@
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp = new ObservableRangeCollection<GoogleMapMarker>();
 
 	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLines = new ObservableRangeCollection<GoogleMapPolylineOptions>();
+	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLinesTmp = new ObservableRangeCollection<GoogleMapPolylineOptions>();
 
 
 	private ElementReference _log;
@@ -617,16 +618,17 @@
 		});
 	}
 
+	//Drawings
 	public async Task AddMapDrawings()
 	{
 		var polylines = new GoogleMapPolylineOptions()
 		{
 			Path = new GoogleMapLatLng[] 
 				{
-					new GoogleMapLatLng() { Latitude = 37.772, Longitude = -122.214 },
-					new GoogleMapLatLng() { Latitude = 21.291, Longitude = -157.821 },
-					new GoogleMapLatLng() { Latitude = -18.142, Longitude = 178.431 },
-					new GoogleMapLatLng() { Latitude = -27.467, Longitude = 153.027 },
+					new GoogleMapLatLng() { Latitude = 37.772 + _jsPolyLines.Count(), Longitude = -122.214 + _jsPolyLines.Count()},
+					new GoogleMapLatLng() { Latitude = 21.291 + _jsPolyLines.Count(), Longitude = -157.821 + _jsPolyLines.Count()},
+					new GoogleMapLatLng() { Latitude = -18.142 + _jsPolyLines.Count(), Longitude = 178.431 + _jsPolyLines.Count()},
+					new GoogleMapLatLng() { Latitude = -27.467 + _jsPolyLines.Count(), Longitude = 153.027 + _jsPolyLines.Count()},
 				},
 			Geodesic = true,
 			Draggable = true,
@@ -636,7 +638,6 @@
 			StrokeWeight = 5
 		};
 
-		//await _googleMap.GoogleMapService.AddPolyline(polylines);
 		_jsPolyLines.Add(polylines);
 	}
 

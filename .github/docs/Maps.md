@@ -28,7 +28,7 @@ Injecting and protecting this _Token_ or _API Key_ in your Blazor application is
 - **`IGoogleMapService`**: Injectable service to handle Google JavaScript Maps functionalities. Available on the instance of `GoogleMap` object ref as well.
 
 #### Bing:
-- **`BindMap`**: _Planned in release v1.6.0_
+- **`BindMap`**: _Planned in release TBD_
 
 Maps using `IGeolocationService` (see "Dependences") to center current position.
 It can be omitted and injected separately to your components as well to get or track device location. 
@@ -135,6 +135,9 @@ This option can only be set when the map is initialized. Use `OnInitialized` met
 - **`Markers`: `ObservableRangeCollection<GoogleMapMarker>? { get; set; }` (default: NULL)** <br />
 MarkerOptions object used to define the properties that can be set on a Marker.
 ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+- **`PolyLines`: `ObservableRangeCollection<GoogleStaticMapPolyLine>? { get; set; }` (default: _NULL_)** <br />
+PolylineOptions object used to define the properties that can be set on the map as PolyLines.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
 - **`Zoom`: `byte { get; set; }` (default: 12)** <br />
 Defines the zoom level of the map, which determines the magnification level of the map.
 - **`ZoomControl`: `bool { get; set; }` (default: true)** <br />

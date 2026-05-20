@@ -257,12 +257,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 						.Cast<GoogleMapPolylineOptions>()
 						.ToArray());
 
-				_dotNetObjectReference.Value.RemoveMarkers(_dotNetObjectReference.Value.Markers.Select(s => s.Value));
+				_dotNetObjectReference.Value.RemovePolylines(_dotNetObjectReference.Value.Polilynes.Select(s => s.Value));
 
 				return;
 			}
 
-			//Add new Markers
+			//Add new Polylines
 			if (newPolylines is not null)
 			{
 				_dotNetObjectReference.Value.AddPolylines(newPolylines);
@@ -275,7 +275,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			if (polylines is not null)
 			{
-				//Detect switched objects add new markers to the map
+				//Detect switched objects add new Polylines to the map
 				newPolylines = polylines.Select(x => new KeyValuePair<string, GoogleMapPolylineOptions>(x.Id, x))
 					.Except(_dotNetObjectReference.Value.Polilynes)
 					.Distinct().Select(s => s.Value).ToList();
@@ -288,17 +288,17 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 						(object)newPolylines.Cast<GoogleMapMarkerBase>().ToArray());
 				}
 
-				//Detect removed markers from the map
-				var removedMarkers = _dotNetObjectReference.Value.Polilynes
+				//Detect removed Polylines from the map
+				var removedPolylines = _dotNetObjectReference.Value.Polilynes
 					.Except(polylines.Select(x => new KeyValuePair<string, GoogleMapPolylineOptions>(x.Id, x)))
 					.Distinct().Select(s => s.Value).ToList();
 
-				if (removedMarkers.Count() > 0)
+				if (removedPolylines.Count() > 0)
 				{
-					_dotNetObjectReference.Value.RemovePolylines(removedMarkers);
+					_dotNetObjectReference.Value.RemovePolylines(removedPolylines);
 
 					await _mapsJs.InvokeVoidAsync("removePolylines", MapContainerId,
-						(object)removedMarkers.Cast<GoogleMapPolylineOptions>().ToArray());
+						(object)removedPolylines.Cast<GoogleMapPolylineOptions>().ToArray());
 				}
 			}
 		}

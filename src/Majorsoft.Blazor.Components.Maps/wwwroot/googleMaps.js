@@ -614,7 +614,7 @@ function setMarkerData(markerData, marker) {
 	marker.setZIndex(markerData.zIndex);
 }
 
-//Drawing
+//Drawing Polylines
 export function createPolylines(elementId, polylineOptions) {
 	if (elementId && polylineOptions && polylineOptions.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -626,9 +626,7 @@ export function createPolylines(elementId, polylineOptions) {
 
 				let polyline = new google.maps.Polyline(options);
 				polyline.setMap(mapWithDotnetRef.map);
-				_mapsPolylines.push(marker);
-
-
+				_mapsPolylines.push(polyline);
 			}
 		}
 	}
@@ -636,7 +634,6 @@ export function createPolylines(elementId, polylineOptions) {
 export function removePolylines(elementId, polylineOptions) {
 	if (elementId && polylineOptions && polylineOptions.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 
 			for (var i = 0; i < polylineOptions.length; i++) {
@@ -653,6 +650,14 @@ export function removePolylines(elementId, polylineOptions) {
 		}
 	}
 }
+
+//Drawing Circles
+
+//Drawing Rectangles
+
+//Drawing Triangles
+
+
 
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {

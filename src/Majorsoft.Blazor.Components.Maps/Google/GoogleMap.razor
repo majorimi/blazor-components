@@ -301,7 +301,7 @@
 
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
-	/// MarkerOptions object used to define the properties that can be set on a Marker.
+	/// MarkerOptions object used to define the properties that can be set on map as Markers.
 	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
@@ -326,8 +326,8 @@
 
 	private ObservableRangeCollection<GoogleMapPolylineOptions>? _polyLines;
 	/// <summary>
-	/// MarkerOptions object used to define the properties that can be set on a Marker.
-	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
+	/// PolylineOptions object used to define the properties that can be set on map as PolyLines.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapPolylineOptions>? PolyLines
 	{
@@ -343,9 +343,9 @@
 	}
 	private void PolyLinesChanges(object? sender, NotifyCollectionChangedEventArgs e)
 	{
-		WriteDiag($"{nameof(MarkersChanges)} PolyLines collection has changed, item Count: '{_markers?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+		WriteDiag($"{nameof(MarkersChanges)} PolyLines collection has changed, item Count: '{_polyLines?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
 
-		InvokeAsync(async () => await _mapService.CreatePolylinesAsync(e.NewItems?.Cast<GoogleMapPolylineOptions>(), _markers?.Cast<GoogleMapPolylineOptions>()));
+		InvokeAsync(async () => await _mapService.CreatePolylinesAsync(e.NewItems?.Cast<GoogleMapPolylineOptions>(), _polyLines?.Cast<GoogleMapPolylineOptions>()));
 	}
 
 	private byte _zoomLevel = 12;
