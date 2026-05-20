@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -62,7 +63,18 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Focus
 		{
 			if (_focusJs is not null)
 			{
-				await _focusJs.DisposeAsync();
+				try
+				{
+					await _focusJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 		}
 	}

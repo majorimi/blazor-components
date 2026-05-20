@@ -72,9 +72,20 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Click
 		{
 			if (_clickJs is not null)
 			{
-				await _clickJs.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.ElementRef).ToArray());
+				try
+				{
+					await _clickJs.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.ElementRef).ToArray());
 
-				await _clickJs.DisposeAsync();
+					await _clickJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

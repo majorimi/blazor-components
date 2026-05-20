@@ -155,16 +155,27 @@ namespace Majorsoft.Blazor.Components.CssEvents.Animation
 		{
 			if (_animationJs is not null)
 			{
-				var start = _registeredStartEvents
-					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
-				var iteration = _registeredIterationEvents
-					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
-				var end = _registeredEndEvents
-					.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+				try
+				{
+					var start = _registeredStartEvents
+						.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+					var iteration = _registeredIterationEvents
+						.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
+					var end = _registeredEndEvents
+						.Select(s => new KeyValuePair<ElementReference, string>(s.Value.Element, s.Value.AnimationName));
 
-				await _animationJs.InvokeVoidAsync("dispose", start.ToArray(), iteration.ToArray(), end.ToArray());
+					await _animationJs.InvokeVoidAsync("dispose", start.ToArray(), iteration.ToArray(), end.ToArray());
 
-				await _animationJs.DisposeAsync();
+					await _animationJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _registeredStartEvents)

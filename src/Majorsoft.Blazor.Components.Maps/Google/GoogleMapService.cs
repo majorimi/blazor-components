@@ -320,9 +320,20 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		{
 			if (_mapsJs is not null)
 			{
-				await _mapsJs.InvokeVoidAsync("dispose", MapContainerId);
+				try
+				{
+					await _mapsJs.InvokeVoidAsync("dispose", MapContainerId);
 
-				await _mapsJs.DisposeAsync();
+					await _mapsJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			_dotNetObjectReference?.Dispose();

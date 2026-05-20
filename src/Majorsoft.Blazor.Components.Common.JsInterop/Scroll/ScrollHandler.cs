@@ -128,10 +128,14 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Scroll
 				
 					await _scrollJs.DisposeAsync();
 				}
-				catch (JSDisconnectedException ex)
-				{
-					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
-				}
+				catch (JSDisconnectedException)
+					{
+						// Circuit disconnected, ignore.
+					}
+					catch (ObjectDisposedException)
+					{
+						// JS runtime already disposed, ignore.
+					}
 			}
 		}
 	}

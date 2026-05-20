@@ -94,9 +94,13 @@ namespace Majorsoft.Blazor.Components.Notifications
 				{
 					await module.DisposeAsync();
 				}
-				catch (JSDisconnectedException ex)
+				catch (JSDisconnectedException)
 				{
-					// In case of JS runtime is already disposed, we can ignore this exception as we are disposing the handler.
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
 				}
 			}
 

@@ -113,9 +113,20 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.GlobalMouseEvents
 		{
 			if (_mouseJs is not null)
 			{
-				await _mouseJs.InvokeVoidAsync("dispose", 
-					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).Distinct().ToArray());
-				await _mouseJs.DisposeAsync();
+				try
+				{
+					await _mouseJs.InvokeVoidAsync("dispose", 
+						(object)_dotNetObjectReferences.Select(s => s.Value.EventId).Distinct().ToArray());
+					await _mouseJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)
