@@ -42,6 +42,8 @@ Opacity of the overlay `<div>`. Value should be **between 0..1**. Where 0 means 
 When `true` Modal dialog will be closed when Overlay (background) clicked. It works even if Overlay not visible (Opacity is set to 0)
 - **`CloseOnEscapeKey`: `bool { get; set; }` (default: true)** <br />
 When `true` Modal dialog will be closed when **Esc** (Escape) key pressed.
+- **`IsModalDimensionInPixels`: `bool { get; set; }` (default: true)** <br />
+Determines if the Modal component Width and Height dimensions are declared in px or %.
 - **`Height`: `double { get; set; }` (default: 0)** <br />
 Modal dialog window Height in **px** if set to **0** Height is set **auto**.
 - **`Width`: `double { get; set; }` (default: 0)** <br />

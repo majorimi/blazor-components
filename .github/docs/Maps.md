@@ -119,7 +119,7 @@ Map HTML container Id. It can be used when multiple Maps added to one page.
 - **`GoogleMapService`: `string { get; }`** <br />
 Exposes `IGeolocationService` which is handling JsInterop. This instance can be used for access more GoogleMap features.
 - **`IsMapDimensionInPixels`: `int { get; set; }` (default: true)** <br />
-Maps component Width and Height dimensions are declared in px or %.
+Determines if the Maps component Width and Height dimensions are declared in px or %.
 - **`Width`: `int { get; set; }` (default: 400)** <br />
 Maps component Width in px or %.
 - **`Height`: `int { get; set; }` (default: 300)** <br />

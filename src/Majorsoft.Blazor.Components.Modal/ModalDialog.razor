@@ -38,8 +38,8 @@
 			left: 50%;
 			min-width:@(MinWidth)px;
 			min-height:@(MinHeight)px;
-			width:@(Width == 0 ? "auto": $"{Width}px");
-			height:@(Height == 0 ? "auto": $"{Height}px");
+			width: @(Width == 0 ? "auto" : (IsModalDimensionInPixels ? $"{Width}px" : $"{Width}%"));
+			height:@(Height == 0 ? "auto": (IsModalDimensionInPixels ? $"{Height}px" : $"{Height}%"));
 			transition: top @((_animationDuration).ToString().Replace(',', '.'))s ease-in-out;
 		}
 	</style>
@@ -81,13 +81,18 @@
 
 	//Size
 	/// <summary>
-	/// Modal dialog window Height in px if set to 0 Height is set auto.
+	/// Modal dialog window Height in px or %, if set to 0 Height is set auto.
 	/// </summary>
 	[Parameter] public double Height { get; set; } = 0;
 	/// <summary>
-	/// Modal dialog window Width in px if set to 0 Width is set auto.
+	/// Modal dialog window Width in px or %, if set to 0 Width is set auto.
 	/// </summary>
 	[Parameter] public double Width { get; set; } = 0;
+	/// <summary>
+	/// Gets or sets True indicating whether the map dimensions are specified in pixels, False means %.
+	/// </summary>
+	[Parameter]
+	public bool IsModalDimensionInPixels { get; set; } = true;
 	/// <summary>
 	/// Modal dialog window minimum Height in px.
 	/// </summary>
