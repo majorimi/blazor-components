@@ -193,13 +193,19 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
-				Maps height: @($"{_jsMapHeight}px")
+				Are dimensions in pixel (otherwise %):
+			<input class="mr-2" type="checkbox" @bind="_jsDimensionInPx" />
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				Maps height: @($"{_jsMapHeight} {(_jsDimensionInPx ? "px" : "%")}")
 				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapHeight" @oninput="(e => _jsMapHeight = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
-				Maps width: @($"{_jsMapWidth}px")
+				Maps width: @($"{_jsMapWidth} {(_jsDimensionInPx ? "px" : "%")}")
 				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
@@ -258,6 +264,7 @@
 				<GoogleMap @ref="_googleMap"
 						   Height="@_jsMapHeight"
 						   Width="@_jsMapWidth"
+						   IsMapDimensionInPixels="@_jsDimensionInPx"
 						   BackgroundColor="@_jsMapBackgroundColor"
 						   Restriction="@(_jsRestrictMap ? _restriction : null)"
 						   ControlSize="@_jsMapControlSize"
@@ -366,7 +373,7 @@
 @inject IGeolocationService _geolocationService;
 
 @code {
-	private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
+	private string _googleMapsApiKey = "AIzaSyAufT8xIX8upTMoH4XkRckrbpMthBujUl4";
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -521,6 +528,7 @@
 	};
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
+	private bool _jsDimensionInPx = true;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 250;
 	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services

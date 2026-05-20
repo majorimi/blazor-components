@@ -118,10 +118,12 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 Map HTML container Id. It can be used when multiple Maps added to one page.
 - **`GoogleMapService`: `string { get; }`** <br />
 Exposes `IGeolocationService` which is handling JsInterop. This instance can be used for access more GoogleMap features.
+- **`IsMapDimensionInPixels`: `int { get; set; }` (default: true)** <br />
+Maps component Width and Height dimensions are declared in px or %.
 - **`Width`: `int { get; set; }` (default: 400)** <br />
-Maps image Width in px.
+Maps component Width in px or %.
 - **`Height`: `int { get; set; }` (default: 300)** <br />
-Maps image Height in px.
+Maps component Height in px or %.
 - **`BackgroundColor`: `string? { get; set; }` (default: NULL)** <br />
 Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
 This option can only be set when the map is initialized.

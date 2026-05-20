@@ -104,9 +104,9 @@
 					</table>
 				}
 
-				<button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Local Storage list</button>
-				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Local Storage</button>
-				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Local Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(RefreshSessionStorageItems)">Refresh Session Storage list</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await _sessionStorageService.ClearAsync(); await RefreshSessionStorageItems(); })">Clear Session Storage</button>
+				<button class="btn btn-primary mb-2" @onclick="@(async () => { await InsertSessionStorageItems(); await RefreshSessionStorageItems(); })">Insert predefined Session Storage</button>
 			</div>
 		</div>
 	</div>
