@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.Maps.Google
@@ -61,21 +62,25 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <summary>
 		/// Callback function called when shape was clicked.
 		/// </summary>
+		[JsonIgnore]
 		public Func<string, Task>? OnClickCallback { get; set; }
 
 		/// <summary>
 		/// Callback function called when shape is being dragged.
 		/// </summary>
+		[JsonIgnore]
 		public Func<string, GeolocationCoordinate, Task>? OnDragCallback { get; set; }
 
 		/// <summary>
 		/// Callback function called when shape drag ended.
 		/// </summary>
+		[JsonIgnore]
 		public Func<string, GeolocationCoordinate, Task>? OnDragEndCallback { get; set; }
 
 		/// <summary>
 		/// Callback function called when shape drag started.
 		/// </summary>
+		[JsonIgnore]
 		public Func<string, GeolocationCoordinate, Task>? OnDragStartCallback { get; set; }
 
 		/// <summary>

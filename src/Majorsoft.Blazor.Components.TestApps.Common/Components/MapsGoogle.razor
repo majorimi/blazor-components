@@ -1,5 +1,5 @@
 ﻿<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="google-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+	<PermaLinkElement PermaLinkName="google-maps" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Google Maps</h3></Content>
 	</PermaLinkElement>
 	<p>
@@ -43,10 +43,10 @@
 	</div>
 
 	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
-		<PermaLinkElement PermaLinkName="google-static-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<PermaLinkElement PermaLinkName="google-static-maps" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 			<Content><h4>Google Maps Static API</h4></Content>
 		</PermaLinkElement>
-		
+
 		<p>
 			The Maps Static API returns an image (either GIF, PNG or JPEG) in response to an HTTP request via a URL.
 			For each request, you can specify the location of the map, the size of the image, the zoom level, the type of map, and the placement of optional markers at locations on the map. You can additionally label your markers using alphanumeric characters.
@@ -95,299 +95,299 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Maps Type: <select class="form-control selectpicker w-100" @bind="_staticMapType">
-					@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
-					{
-						<option value="@item">@item</option>
-					}
-				</select>
-			</div>
+				@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Maps Image format:  <select class="form-control selectpicker w-100" @bind="_staticMapImageFormat">
-					@foreach (var item in Enum.GetValues(typeof(GoogleStaticMapImageFormats)))
-					{
-						<option value="@item">@item</option>
-					}
-				</select>
-			</div>
-		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<p>Other features:</p>
-				Show defined Path: <input class="mr-2" type="checkbox" @bind="_staticMapShowPath" />
-				Defined points must visible: <input class="mr-2" type="checkbox" @bind="_staticMapShowVisiblePoints" />
-				Show defined Markers: <input class="mr-2" type="checkbox" @bind="_staticMapShowMarkers" />
-				<br />
-				High Resolution Map: <input type="checkbox" @bind="_staticMapHighResolution" />
-			</div>
-		</div>
-
-
-		<div class="row pb-2">
-			<div class="col-12">
-				<p><strong>Rendered Google Static Maps image:</strong></p>
-
-					<GoogleStaticMap @ref="_googleStaticMap"
-									ApiKey="@_googleMapsApiKey"
-									@bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
-									CenterCurrentLocationOnLoad="@_staticMapCenterCurrentLocation"
-									ZoomLevel="@_staticMapZoomLevel"
-									Width="@_staticMapWidth"
-									Height="@_staticMapHeight"
-									HighResolution="@_staticMapHighResolution"
-									MapType="@_staticMapType"
-									ImageFormat="@_staticMapImageFormat"
-									Path="@(_staticMapShowPath ? _staticMapPaths : null)"
-									VisibleLocations="@(_staticMapShowVisiblePoints ? _staticMapVisiblePoints : null)"
-									Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)" />
-			</div>
-		</div>
-
-		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithStaticMap)">Center my location with Map</button>
-		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedService)">Center my location with GeolocationService</button>
 	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Maps Image format:  <select class="form-control selectpicker w-100" @bind="_staticMapImageFormat">
+			@foreach (var item in Enum.GetValues(typeof(GoogleStaticMapImageFormats)))
+			{
+				<option value="@item">@item</option>
+			}
+		</select>
+	</div>
+</div>
+<div class="row pb-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<p>Other features:</p>
+		Show defined Path: <input class="mr-2" type="checkbox" @bind="_staticMapShowPath" />
+		Defined points must visible: <input class="mr-2" type="checkbox" @bind="_staticMapShowVisiblePoints" />
+		Show defined Markers: <input class="mr-2" type="checkbox" @bind="_staticMapShowMarkers" />
+		<br />
+		High Resolution Map: <input type="checkbox" @bind="_staticMapHighResolution" />
+	</div>
+</div>
 
-	<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
-		<PermaLinkElement PermaLinkName="google-js-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-			<Content><h4>Google Maps JavaScript API</h4></Content>
-		</PermaLinkElement>
 
-		<p>
-			The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
-			The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers and styles, controls and events, and various services and libraries.
-		</p>
+<div class="row pb-2">
+	<div class="col-12">
+		<p><strong>Rendered Google Static Maps image:</strong></p>
 
-		<p>
-			A Maps JavaScript API renders a complex customizable map within <code>&lt;div&gt;</code> tag's also allowing to receive events.
-			<br />
-			You can learn about Google JavaScript Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
-			<br />
-			Google Maps JavaScript API has many features and since it renders an interactive control user interactions will change original parameters. <strong>Which means for some Map properties two-way bindings must be applied.</strong>
-		</p>
+		<GoogleStaticMap @ref="_googleStaticMap"
+						 ApiKey="@_googleMapsApiKey"
+						 @bind-Center="_staticMapCenter" @bind-Center:event="OnCurrentLocationDetected"
+						 CenterCurrentLocationOnLoad="@_staticMapCenterCurrentLocation"
+						 ZoomLevel="@_staticMapZoomLevel"
+						 Width="@_staticMapWidth"
+						 Height="@_staticMapHeight"
+						 HighResolution="@_staticMapHighResolution"
+						 MapType="@_staticMapType"
+						 ImageFormat="@_staticMapImageFormat"
+						 Path="@(_staticMapShowPath ? _staticMapPaths : null)"
+						 VisibleLocations="@(_staticMapShowVisiblePoints ? _staticMapVisiblePoints : null)"
+						 Markers="@(_staticMapShowMarkers ? _staticMapMarkers : null)" />
+	</div>
+</div>
 
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<h6>Map center position (Coordinates or Address):</h6>
-				Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", ".")), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
-				Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", "."))))" type="number" placeholder="Longitude" />
+<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithStaticMap)">Center my location with Map</button>
+<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedService)">Center my location with GeolocationService</button>
+</div>
 
-				Or full Address (omitted when coordinates supplied):
-				<input class="form-control w-100 mb-3" value="@_jsMapCenter.Address" @onchange="@((e) => _jsMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
-				<p>
-					Center device location on load (overrides <code>Center</code> property):
-					<strong>NOTE: Async operation which might fail!</strong>
-					<input type="checkbox" @bind="_jsMapCenterCurrentLocation" disabled="disabled" />
-					<br /> Center Map on click: <input type="checkbox" @bind="_jsMapCenterOnClick" />
-					Add Marker on click: <input type="checkbox" @bind="_jsMapAddMarkerOnClick" />
-				</p>
+<div class="container-fluid p-1 mb-3 border border-bottom-0 border-right-0 border-left-0">
+	<PermaLinkElement PermaLinkName="google-js-maps" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h4>Google Maps JavaScript API</h4></Content>
+	</PermaLinkElement>
 
-				Maps Center position: <strong>@_jsMapCenter.ToString()</strong>
-			</div>
+	<p>
+		The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
+		The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers and styles, controls and events, and various services and libraries.
+	</p>
+
+	<p>
+		A Maps JavaScript API renders a complex customizable map within <code>&lt;div&gt;</code> tag's also allowing to receive events.
+		<br />
+		You can learn about Google JavaScript Maps features and usage <a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple" target="_blank">here</a>.
+		<br />
+		Google Maps JavaScript API has many features and since it renders an interactive control user interactions will change original parameters. <strong>Which means for some Map properties two-way bindings must be applied.</strong>
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			<h6>Map center position (Coordinates or Address):</h6>
+			Latitude: <input class="form-control w-100" value="@_jsMapCenter.Latitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", ".")), _jsMapCenter.Longitude))" type="number" placeholder="Latitude" />
+			Longitude: <input class="form-control w-100 mb-2" value="@_jsMapCenter.Longitude" @oninput="@((e) => _jsMapCenter = new GeolocationData(_jsMapCenter.Latitude, string.IsNullOrEmpty(e.Value?.ToString()) ? null : double.Parse(e.Value?.ToString()?.Replace(",", "."))))" type="number" placeholder="Longitude" />
+
+			Or full Address (omitted when coordinates supplied):
+			<input class="form-control w-100 mb-3" value="@_jsMapCenter.Address" @onchange="@((e) => _jsMapCenter = new GeolocationData(e.Value?.ToString()))" placeholder="Full address" />
+			<p>
+				Center device location on load (overrides <code>Center</code> property):
+				<strong>NOTE: Async operation which might fail!</strong>
+				<input type="checkbox" @bind="_jsMapCenterCurrentLocation" disabled="disabled" />
+				<br /> Center Map on click: <input type="checkbox" @bind="_jsMapCenterOnClick" />
+				Add Marker on click: <input type="checkbox" @bind="_jsMapAddMarkerOnClick" />
+			</p>
+
+			Maps Center position: <strong>@_jsMapCenter.ToString()</strong>
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Map zoom level: @(_jsMapZoomLevel)
-				<input type="range" class="w-100" min="0" max="21" @bind="_jsMapZoomLevel" @oninput="(e => _jsMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
-			</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Map zoom level: @(_jsMapZoomLevel)
+			<input type="range" class="w-100" min="0" max="21" @bind="_jsMapZoomLevel" @oninput="(e => _jsMapZoomLevel = byte.Parse(e.Value?.ToString()))" />
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Are dimensions in pixel (otherwise %):
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Are dimensions in pixel (otherwise %):
 			<input class="mr-2" type="checkbox" @bind="_jsDimensionInPx" />
-			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Maps height: @($"{_jsMapHeight} {(_jsDimensionInPx ? "px" : "%")}")
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Maps height: @($"{_jsMapHeight} {(_jsDimensionInPx ? "px" : "%")}")
 			<input type="range" class="w-100" min="0" max="@(_jsDimensionInPx ? 1000 : 100)" @bind="_jsMapHeight" @oninput="(e => _jsMapHeight = int.Parse(e.Value?.ToString()))" />
-			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Maps width: @($"{_jsMapWidth} {(_jsDimensionInPx ? "px" : "%")}")
-				<input type="range" class="w-100" min="0" max="@(_jsDimensionInPx ? 1000 : 100)" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
-			</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Maps width: @($"{_jsMapWidth} {(_jsDimensionInPx ? "px" : "%")}")
+			<input type="range" class="w-100" min="0" max="@(_jsDimensionInPx ? 1000 : 100)" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
 		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Maps Type: <select class="form-control selectpicker w-100" @bind="_jsMapType">
-					@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
-					{
-						<option value="@item">@item</option>
-					}
-				</select>
-			</div>
-		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				Maps Gesture Handling Types: <select class="form-control selectpicker w-100" @bind="_jsGestureHandling">
-					@foreach (var item in Enum.GetValues(typeof(GoogleMapGestureHandlingTypes)))
-					{
-						<option value="@item">@item</option>
-					}
-				</select>
-			</div>
-		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				ClickableIcons: <input class="mr-2" type="checkbox" @bind="_jsClickableIcons" />
-				DisableDefaultUI: <input class="mr-2" type="checkbox" @bind="_jsDisableDefaultUI" />
-				DisableDoubleClickZoom: <input class="mr-2" type="checkbox" @bind="_jsDisableDoubleClickZoom" />
-				AnimateCenterChange <input class="mr-2" type="checkbox" @bind="_jsMapAnimateCenterChange" />
-				FullscreenControl: <input class="mr-2" type="checkbox" @bind="_jsFullscreenControl" />
-				KeyboardShortcuts: <input class="mr-2" type="checkbox" @bind="_jsKeyboardShortcuts" />
-				MapTypeControl: <input class="mr-2" type="checkbox" @bind="_jsMapTypeControl" />
-				RotateControl: <input class="mr-2" type="checkbox" @bind="_jsRotateControl" />
-				ScaleControl: <input class="mr-2" type="checkbox" @bind="_jsScaleControl" />
-				StreetViewControl: <input class="mr-2" type="checkbox" @bind="_jsStreetViewControl" />
-				ZoomControl: <input class="mr-2" type="checkbox" @bind="_jsZoomControl" />
-			</div>
-		</div>
-		<div class="row pb-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<p>
-					<h5>Maps Pre-render settings:</h5>
-					<ul>
-						<li>Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong></li>
-						<li>Control size: <strong>@(_jsMapControlSize)px</strong></li>
-						<li>Restrict map to New Zealand: <input class="mr-2" type="checkbox" @bind="_jsRestrictMap" disabled="disabled" /></li>
-					</ul>
-				</p>
-			</div>
-		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-6">
+			Maps Type: <select class="form-control selectpicker w-100" @bind="_jsMapType">
+			@foreach (var item in Enum.GetValues(typeof(GoogleMapTypes)))
+			{
+				<option value="@item">@item</option>
+			}
+		</select>
+	</div>
+</div>
+<div class="row pb-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		Maps Gesture Handling Types: <select class="form-control selectpicker w-100" @bind="_jsGestureHandling">
+		@foreach (var item in Enum.GetValues(typeof(GoogleMapGestureHandlingTypes)))
+		{
+			<option value="@item">@item</option>
+		}
+	</select>
+</div>
+</div>
+<div class="row pb-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		ClickableIcons: <input class="mr-2" type="checkbox" @bind="_jsClickableIcons" />
+		DisableDefaultUI: <input class="mr-2" type="checkbox" @bind="_jsDisableDefaultUI" />
+		DisableDoubleClickZoom: <input class="mr-2" type="checkbox" @bind="_jsDisableDoubleClickZoom" />
+		AnimateCenterChange <input class="mr-2" type="checkbox" @bind="_jsMapAnimateCenterChange" />
+		FullscreenControl: <input class="mr-2" type="checkbox" @bind="_jsFullscreenControl" />
+		KeyboardShortcuts: <input class="mr-2" type="checkbox" @bind="_jsKeyboardShortcuts" />
+		MapTypeControl: <input class="mr-2" type="checkbox" @bind="_jsMapTypeControl" />
+		RotateControl: <input class="mr-2" type="checkbox" @bind="_jsRotateControl" />
+		ScaleControl: <input class="mr-2" type="checkbox" @bind="_jsScaleControl" />
+		StreetViewControl: <input class="mr-2" type="checkbox" @bind="_jsStreetViewControl" />
+		ZoomControl: <input class="mr-2" type="checkbox" @bind="_jsZoomControl" />
+	</div>
+</div>
+<div class="row pb-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<p>
+			<h5>Maps Pre-render settings:</h5>
+			<ul>
+				<li>Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong></li>
+				<li>Control size: <strong>@(_jsMapControlSize)px</strong></li>
+				<li>Restrict map to New Zealand: <input class="mr-2" type="checkbox" @bind="_jsRestrictMap" disabled="disabled" /></li>
+			</ul>
+		</p>
+	</div>
+</div>
 
-		<div class="row pb-2">
-			<div class="col-12">
-				<p><strong>Rendered Google JavaScript Maps:</strong></p>
+<div class="row pb-2">
+	<div class="col-12">
+		<p><strong>Rendered Google JavaScript Maps:</strong></p>
 
-				<GoogleMap @ref="_googleMap"
-						   Height="@_jsMapHeight"
-						   Width="@_jsMapWidth"
-						   IsMapDimensionInPixels="@_jsDimensionInPx"
-						   BackgroundColor="@_jsMapBackgroundColor"
-						   Restriction="@(_jsRestrictMap ? _restriction : null)"
-						   ControlSize="@_jsMapControlSize"
-						   Center="@_jsMapCenter"
-						   AnimateCenterChange="@_jsMapAnimateCenterChange"
-						   @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
-						   ZoomControl="@_jsZoomControl"
-						   ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
-						   MaxZoom="null"
-						   MinZoom="null"
-						   MapType="@_jsMapType"
-						   Heading="@_jsHeading"
-						   Tilt="@_jsTilt"
-						   RotateControl="@_jsRotateControl"
-						   RotateControlOptionsPosition="GoogleMapControlPositions.RIGHT_TOP"
-						   ScaleControl="@_jsScaleControl"
-						   StreetViewControl="@_jsStreetViewControl"
-						   StreetViewControlOptionsPosition="GoogleMapControlPositions.TOP_CENTER"
-						   ClickableIcons="@_jsClickableIcons"
-						   DisableDefaultUI="@_jsDisableDefaultUI"
-						   DisableDoubleClickZoom="@_jsDisableDoubleClickZoom"
-						   DraggableCursor="crosshair"
-						   DraggingCursor="move"
-						   FullscreenControl="@_jsFullscreenControl"
-						   FullscreenControlPositon="@_jsFullscreenControlPositon"
-						   GestureHandling="@_jsGestureHandling"
-						   KeyboardShortcuts="@_jsKeyboardShortcuts"
-						   MapTypeControl="@_jsMapTypeControl"
-						   MapTypeControlOptions="@_jsMapTypeControlOptions"
-						   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
-						   CustomControls="@_jsCustomControls"
-						   Markers="@_jsMarkers"
-						   PolyLines="@_jsPolyLines"
-						   Circles="@_jsCircles"
-						   Rectangles="@_jsRectangles"
-						   Polygons="@_jsPolygons"
-						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
-						   OnMapInitialized="@OnMapInitialized"
-						   OnMapClicked="@OnMapClicked"
-						   OnMapDoubleClicked="@OnMapDoubleClicked"
-						   OnMapContextMenu="@OnMapContextMenu"
-						   OnMapMouseUp="@OnMapMouseUp"
-						   OnMapMouseDown="@OnMapMouseDown"
-						   OnMouseMove="@OnMouseMove"
-						   OnMapMouseOver="@OnMapMouseOver"
-						   OnMapMouseOut="@OnMapMouseOut"
-						   OnMapCenterChanged="@OnMapCenterChanged"
-						   OnMapTypeChanged="@OnMapTypeChanged"
-						   OnMapHeadingChanged="@OnMapHeadingChanged"
-						   OnMapTiltChanged="@OnMapTiltChanged"
-						   OnMapBoundsChanged="@OnMapBoundsChanged"
-						   OnMapProjectionChanged="@OnMapProjectionChanged"
-						   OnMapDraggableChanged="@OnMapDraggableChanged"
-						   OnMapStreetviewChanged="@OnMapStreetviewChanged"
-						   OnMapDrag="@OnMapDrag"
-						   OnMapDragEnd="@OnMapDragEnd"
-						   OnMapDragStart="@OnMapDragStart"
-						   OnMapResized="@OnMapResized"
-						   OnMapTilesLoaded="@OnMapTilesLoaded"
-						   OnMapIdle="@OnMapIdle"
-						   ApiKey="@_googleMapsApiKey" />
+		<GoogleMap @ref="_googleMap"
+				   Height="@_jsMapHeight"
+				   Width="@_jsMapWidth"
+				   IsMapDimensionInPixels="@_jsDimensionInPx"
+				   BackgroundColor="@_jsMapBackgroundColor"
+				   Restriction="@(_jsRestrictMap ? _restriction : null)"
+				   ControlSize="@_jsMapControlSize"
+				   Center="@_jsMapCenter"
+				   AnimateCenterChange="@_jsMapAnimateCenterChange"
+				   @bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
+				   ZoomControl="@_jsZoomControl"
+				   ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
+				   MaxZoom="null"
+				   MinZoom="null"
+				   MapType="@_jsMapType"
+				   Heading="@_jsHeading"
+				   Tilt="@_jsTilt"
+				   RotateControl="@_jsRotateControl"
+				   RotateControlOptionsPosition="GoogleMapControlPositions.RIGHT_TOP"
+				   ScaleControl="@_jsScaleControl"
+				   StreetViewControl="@_jsStreetViewControl"
+				   StreetViewControlOptionsPosition="GoogleMapControlPositions.TOP_CENTER"
+				   ClickableIcons="@_jsClickableIcons"
+				   DisableDefaultUI="@_jsDisableDefaultUI"
+				   DisableDoubleClickZoom="@_jsDisableDoubleClickZoom"
+				   DraggableCursor="crosshair"
+				   DraggingCursor="move"
+				   FullscreenControl="@_jsFullscreenControl"
+				   FullscreenControlPositon="@_jsFullscreenControlPositon"
+				   GestureHandling="@_jsGestureHandling"
+				   KeyboardShortcuts="@_jsKeyboardShortcuts"
+				   MapTypeControl="@_jsMapTypeControl"
+				   MapTypeControlOptions="@_jsMapTypeControlOptions"
+				   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
+				   CustomControls="@_jsCustomControls"
+				   Markers="@_jsMarkers"
+				   PolyLines="@_jsPolyLines"
+				   Circles="@_jsCircles"
+				   Rectangles="@_jsRectangles"
+				   Polygons="@_jsPolygons"
+				   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
+				   OnMapInitialized="@OnMapInitialized"
+				   OnMapClicked="@OnMapClicked"
+				   OnMapDoubleClicked="@OnMapDoubleClicked"
+				   OnMapContextMenu="@OnMapContextMenu"
+				   OnMapMouseUp="@OnMapMouseUp"
+				   OnMapMouseDown="@OnMapMouseDown"
+				   OnMouseMove="@OnMouseMove"
+				   OnMapMouseOver="@OnMapMouseOver"
+				   OnMapMouseOut="@OnMapMouseOut"
+				   OnMapCenterChanged="@OnMapCenterChanged"
+				   OnMapTypeChanged="@OnMapTypeChanged"
+				   OnMapHeadingChanged="@OnMapHeadingChanged"
+				   OnMapTiltChanged="@OnMapTiltChanged"
+				   OnMapBoundsChanged="@OnMapBoundsChanged"
+				   OnMapProjectionChanged="@OnMapProjectionChanged"
+				   OnMapDraggableChanged="@OnMapDraggableChanged"
+				   OnMapStreetviewChanged="@OnMapStreetviewChanged"
+				   OnMapDrag="@OnMapDrag"
+				   OnMapDragEnd="@OnMapDragEnd"
+				   OnMapDragStart="@OnMapDragStart"
+				   OnMapResized="@OnMapResized"
+				   OnMapTilesLoaded="@OnMapTilesLoaded"
+				   OnMapIdle="@OnMapIdle"
+				   ApiKey="@_googleMapsApiKey" />
 
-				@*<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
+		@*<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
 				@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 				OnMapInitialized="@(() => {})"
 				ApiKey="@_googleMapsApiKey" />*@
 
-			</div>
-		</div>
-		<div class="row pb-2 mt-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@(() => { _jsMarkersTmp.AddRange(_jsMarkers); _jsMarkers.Clear(); })">Hide all Markers</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.Clear(); _jsMarkersTmp.Clear(); _jsPhotosAdded = false; })">Remove Markers</button>
-				<button class="btn btn-primary" @onclick="@AddPhotos">Add photo Markers</button>
-
-			</div>
-		</div>
-		<div class="row pb-2 mt-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawingsPolyline">Add Polyline</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLinesTmp.AddRange(_jsPolyLines); _jsPolyLines.Clear(); })">Hide all Polylines</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.AddRange(_jsPolyLinesTmp); _jsPolyLinesTmp.Clear(); })">Show Polylines</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.Clear(); _jsPolyLinesTmp.Clear(); _jsPhotosAdded = false; })">Remove Polylines</button>
-			</div>
-		</div>
-		<div class="row pb-2 mt-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawingsCircle">Add Circle</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsCircles.Clear(); })">Remove Circles</button>
-			</div>
-		</div>
-		<div class="row pb-2 mt-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawingsRectangle">Add Rectangle</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsRectangles.Clear(); })">Remove Rectangles</button>
-			</div>
-		</div>
-		<div class="row pb-2 mt-2">
-			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawingsPolygon">Add Polygon (Bermuda triangle)</button>
-				<button class="btn btn-primary" @onclick="@(() => { _jsPolygons.Clear(); })">Remove Polygons</button>
-			</div>
-		</div>
-
-		<div class="row pb-2">
-			<div class="col-12">
-				<label><strong>Google JavaScript Maps Event log</strong>:</label>
-				<br />
-				Log Mouse move: <input class="mr-2" type="checkbox" @bind="_logMouseMove" />
-				Log other Mouse events: <input class="mr-2" type="checkbox" @bind="_logOtherMouseEvents" />
-				Log Drag events: <input class="mr-2" type="checkbox" @bind="_logDragEvents" />
-				Log Center change: <input class="mr-2" type="checkbox" @bind="_logCenterChangeEvents" />
-				Log Other events: <input class="mr-2" type="checkbox" @bind="_logOtherEvents" />
-				Log Marker events: <input class="mr-2" type="checkbox" @bind="_logMarkerEvents" />
-
-				<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
-			</div>
-		</div>
-
-		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
-		<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
 	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<button class="btn btn-primary" @onclick="@(() => { _jsMarkersTmp.AddRange(_jsMarkers); _jsMarkers.Clear(); })">Hide all Markers</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.Clear(); _jsMarkersTmp.Clear(); _jsPhotosAdded = false; })">Remove Markers</button>
+		<button class="btn btn-primary" @onclick="@AddPhotos">Add photo Markers</button>
+
+	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<button class="btn btn-primary" @onclick="@AddMapDrawingsPolyline">Add Polyline</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsPolyLinesTmp.AddRange(_jsPolyLines); _jsPolyLines.Clear(); })">Hide all Polylines</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.AddRange(_jsPolyLinesTmp); _jsPolyLinesTmp.Clear(); })">Show Polylines</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.Clear(); _jsPolyLinesTmp.Clear(); _jsPhotosAdded = false; })">Remove Polylines</button>
+	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<button class="btn btn-primary" @onclick="@AddMapDrawingsCircle">Add Circle</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsCircles.Clear(); })">Remove Circles</button>
+	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<button class="btn btn-primary" @onclick="@AddMapDrawingsRectangle">Add Rectangle</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsRectangles.Clear(); })">Remove Rectangles</button>
+	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<button class="btn btn-primary" @onclick="@AddMapDrawingsPolygon">Add Polygon (Bermuda triangle)</button>
+		<button class="btn btn-primary" @onclick="@(() => { _jsPolygons.Clear(); })">Remove Polygons</button>
+	</div>
+</div>
+
+<div class="row pb-2">
+	<div class="col-12">
+		<label><strong>Google JavaScript Maps Event log</strong>:</label>
+		<br />
+		Log Mouse move: <input class="mr-2" type="checkbox" @bind="_logMouseMove" />
+		Log other Mouse events: <input class="mr-2" type="checkbox" @bind="_logOtherMouseEvents" />
+		Log Drag events: <input class="mr-2" type="checkbox" @bind="_logDragEvents" />
+		Log Center change: <input class="mr-2" type="checkbox" @bind="_logCenterChangeEvents" />
+		Log Other events: <input class="mr-2" type="checkbox" @bind="_logOtherEvents" />
+		Log Marker and Drawing events: <input class="mr-2" type="checkbox" @bind="_logMarkerAndDrawingEvents" />
+
+		<textarea @ref="_log" @bind="_mapsLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+	</div>
+</div>
+
+<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithJavaScriptMap)">Center my location with Map</button>
+<button class="btn btn-primary mb-2" @onclick="@(CenterMyLocationWithInjectedServiceJavaScript)">Center my location with GeolocationService</button>
+</div>
 </div>
 
 @implements IAsyncDisposable
@@ -438,9 +438,10 @@
 			ControlPosition = GoogleMapControlPositions.TOP_CENTER,
 		});
 
+		//Marker events
 		_jsMapMarkersClickCallback = async (id) =>
 		{
-			if (_logMarkerEvents)
+			if (_logMarkerAndDrawingEvents)
 			{
 				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
 				_mapsLog = await WriteLog(_mapsLog, $"User added Marker was clicked Id: '{id}', at position: '{clickedMarker?.Position?.ToString()}'");
@@ -448,7 +449,7 @@
 		};
 		_jsMapMarkersDragCallback = async (id, pos) =>
 		{
-			if (_logMarkerEvents)
+			if (_logMarkerAndDrawingEvents)
 			{
 				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
 				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', dragging at position: '{pos?.ToString()}'");
@@ -456,7 +457,7 @@
 		};
 		_jsMapMarkersDragEndCallback = async (id, pos) =>
 		{
-			if (_logMarkerEvents)
+			if (_logMarkerAndDrawingEvents)
 			{
 				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
 				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag ended at position: '{pos?.ToString()}'");
@@ -464,10 +465,146 @@
 		};
 		_jsMapMarkersDragStartCallback = async (id, pos) =>
 		{
-			if (_logMarkerEvents)
+			if (_logMarkerAndDrawingEvents)
 			{
 				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
 				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+
+		//Polygon events
+		_jsMapPolygonsClickCallback = async (id) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolygon = _jsPolygons.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Polygon was clicked Id: '{id}', at position: '{clickedPolygon?.Paths?.ToString()}'");
+			}
+		};
+		_jsMapPolygonsDragCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolygon = _jsPolygons.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Polygon Id: '{id}', dragging at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapPolygonsDragEndCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolygon = _jsPolygons.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Polygon Id: '{id}', drag ended at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapPolygonsDragStartCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolygon = _jsPolygons.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Polygon Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+
+		//PolyLine events
+		_jsMapPolyLinesClickCallback = async (id) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolyLine = _jsPolyLines.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added PolyLine was clicked Id: '{id}', at position: '{clickedPolyLine?.Path?.ToString()}'");
+			}
+		};
+		_jsMapPolyLinesDragCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolyLine = _jsPolyLines.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added PolyLine Id: '{id}', dragging at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapPolyLinesDragEndCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolyLine = _jsPolyLines.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added PolyLine Id: '{id}', drag ended at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapPolyLinesDragStartCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedPolyLine = _jsPolyLines.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added PolyLine Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+
+		//Circle events
+		_jsMapCirclesClickCallback = async (id) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedCircle = _jsCircles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Circle was clicked Id: '{id}', at position: '{clickedCircle?.Center?.ToString()}'");
+			}
+		};
+		_jsMapCirclesDragCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedCircle = _jsCircles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Circle Id: '{id}', dragging at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapCirclesDragEndCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedCircle = _jsCircles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Circle Id: '{id}', drag ended at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapCirclesDragStartCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedCircle = _jsCircles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Circle Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+
+		//Rectangle events
+		_jsMapRectanglesClickCallback = async (id) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedRectangle = _jsRectangles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Rectangle was clicked Id: '{id}', at position: '{clickedRectangle?.Bounds?.ToString()}'");
+			}
+		};
+		_jsMapRectanglesDragCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedRectangle = _jsRectangles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Rectangle Id: '{id}', dragging at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapRectanglesDragEndCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedRectangle = _jsRectangles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Rectangle Id: '{id}', drag ended at position: '{pos?.ToString()}'");
+			}
+		};
+		_jsMapRectanglesDragStartCallback = async (id, pos) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				var clickedRectangle = _jsRectangles.SingleOrDefault(x => x.Id == id);
+				_mapsLog = await WriteLog(_mapsLog, $"User added Rectangle Id: '{id}', drag started at position: '{pos?.ToString()}'");
 			}
 		};
 	}
@@ -593,15 +730,40 @@
 	private bool _logDragEvents = true;
 	private bool _logCenterChangeEvents = true;
 	private bool _logOtherEvents = true;
-	private bool _logMarkerEvents = true;
+	private bool _logMarkerAndDrawingEvents = true;
 
 	private bool _jsMapCenterOnClick = true;
 	private bool _jsMapAddMarkerOnClick = true;
 
+	//Marker events
 	private Func<string, Task> _jsMapMarkersClickCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragEndCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragStartCallback;
+
+	//PolyLine events
+	private Func<string, Task> _jsMapPolyLinesClickCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolyLinesDragCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolyLinesDragEndCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolyLinesDragStartCallback;
+
+	//Circle events
+	private Func<string, Task> _jsMapCirclesClickCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapCirclesDragCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapCirclesDragEndCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapCirclesDragStartCallback;
+
+	//Rectangle events
+	private Func<string, Task> _jsMapRectanglesClickCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapRectanglesDragCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapRectanglesDragEndCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapRectanglesDragStartCallback;
+
+	//Polygon events
+	private Func<string, Task> _jsMapPolygonsClickCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolygonsDragCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolygonsDragEndCallback;
+	private Func<string, GeolocationCoordinate, Task> _jsMapPolygonsDragStartCallback;
 
 	private bool _jsPhotosAdded = false;
 	public async Task AddPhotos()
@@ -647,7 +809,7 @@
 	{
 		var polylines = new GoogleMapPolylineOptions()
 		{
-			Path = new GoogleMapLatLng[] 
+			Path = new GoogleMapLatLng[]
 				{
 					new GoogleMapLatLng() { Latitude = 37.772 + _jsPolyLines.Count(), Longitude = -122.214 + _jsPolyLines.Count()},
 					new GoogleMapLatLng() { Latitude = 21.291 + _jsPolyLines.Count(), Longitude = -157.821 + _jsPolyLines.Count()},
@@ -659,7 +821,12 @@
 			Clickable = true,
 			StrokeColor = "#FF0000",
 			StrokeOpacity = 0.5,
-			StrokeWeight = 5
+			StrokeWeight = 5,
+
+			OnClickCallback = _jsMapPolyLinesClickCallback,
+			OnDragCallback = _jsMapPolyLinesDragCallback,
+			OnDragStartCallback = _jsMapPolyLinesDragStartCallback,
+			OnDragEndCallback = _jsMapPolyLinesDragEndCallback
 		};
 
 		_jsMapCenter = new GeolocationData(polylines.Path[1].Latitude, polylines.Path[1].Longitude);
@@ -688,6 +855,11 @@
 				Content = $"NUKE radius: {500000} meters",
 				MaxWidth = 400
 			},
+
+			OnClickCallback = _jsMapCirclesClickCallback,
+			OnDragCallback = _jsMapCirclesDragCallback,
+			OnDragStartCallback = _jsMapCirclesDragStartCallback,
+			OnDragEndCallback = _jsMapCirclesDragEndCallback
 		};
 
 		_jsMapCenter = new GeolocationData(circle.Center.Latitude, circle.Center.Longitude);
@@ -718,6 +890,11 @@
 				Content = $"Huge rect...",
 				MaxWidth = 400
 			},
+
+			OnClickCallback = _jsMapRectanglesClickCallback,
+			OnDragCallback = _jsMapRectanglesDragCallback,
+			OnDragStartCallback = _jsMapRectanglesDragStartCallback,
+			OnDragEndCallback = _jsMapRectanglesDragEndCallback
 		};
 
 		_jsMapCenter = new GeolocationData(40.714, -74.005); // Center approximately
@@ -751,6 +928,11 @@
 				Content = $"Bermuda Triangle is DANGEROUS!!!!",
 				MaxWidth = 400
 			},
+
+			OnClickCallback = _jsMapPolygonsClickCallback,
+			OnDragCallback = _jsMapPolygonsDragCallback,
+			OnDragStartCallback = _jsMapPolygonsDragStartCallback,
+			OnDragEndCallback = _jsMapPolygonsDragEndCallback
 		};
 
 		_jsMapCenter = new GeolocationData(25.774, -80.190); // Miami

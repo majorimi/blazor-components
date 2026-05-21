@@ -524,6 +524,7 @@ export function createMarkers(elementId, markers) {
 
 						//If marker has info window
 						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
 							infoWindow.open(mapWithDotnetRef.map, marker);
 						}
 					});
@@ -613,6 +614,47 @@ export function createPolylines(elementId, polylineOptions) {
 				let polyline = new google.maps.Polyline(options);
 				polyline.setMap(mapWithDotnetRef.map);
 				_mapsPolylines.push(polyline);
+
+				//Polyline events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
+
+					polyline.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("PolylineClicked", options.id);
+
+						//If polyline has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					polyline.addListener("drag", () => {
+						polylineDragEvents("PolylineDrag", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+					polyline.addListener("dragend", () => {
+						polylineDragEvents("PolylineDragEnd", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+					polyline.addListener("dragstart", () => {
+						polylineDragEvents("PolylineDragStart", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+
+					function polylineDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
 			}
 		}
 	}
@@ -627,6 +669,7 @@ export function removePolylines(elementId, polylineOptions) {
 
 				_mapsPolylines.forEach((element, index) => {
 					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
 						_mapsPolylines.splice(index, 1);
 						return;
@@ -664,6 +707,47 @@ export function createCircles(elementId, circleOptions) {
 				});
 				circle.setMap(mapWithDotnetRef.map);
 				_mapsCircles.push(circle);
+
+				//Circle events
+					if (options.clickable) {
+						//Create infoWindow
+						let infoWindow = null;
+						if (options.infoWindow) {
+							infoWindow = new google.maps.InfoWindow({
+								content: options.infoWindow.content,
+								maxWidth: options.infoWindow.maxWidth
+							});
+						}
+
+						circle.addListener("click", (event) => {
+							mapWithDotnetRef.ref.invokeMethodAsync("CircleClicked", options.id);
+
+							//If circle has info window
+							if (infoWindow) {
+								infoWindow.setPosition(event.latLng);
+								infoWindow.open(mapWithDotnetRef.map);
+							}
+						});
+					}
+					if (options.draggable) {
+						circle.addListener("drag", () => {
+							circleDragEvents("CircleDrag", options.id, circle.getCenter().toJSON());
+						});
+						circle.addListener("dragend", () => {
+							circleDragEvents("CircleDragEnd", options.id, circle.getCenter().toJSON());
+						});
+						circle.addListener("dragstart", () => {
+							circleDragEvents("CircleDragStart", options.id, circle.getCenter().toJSON());
+						});
+
+						function circleDragEvents(callBackName, id, pos) {
+							let arg = {
+								Latitude: pos.lat,
+								Longitude: pos.lng
+							};
+							mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+						}
+					}
 			}
 		}
 	}
@@ -678,6 +762,7 @@ export function removeCircles(elementId, circleOptions) {
 
 				_mapsCircles.forEach((element, index) => {
 					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
 						_mapsCircles.splice(index, 1);
 						return;
@@ -719,6 +804,47 @@ export function createRectangles(elementId, rectangleOptions) {
 				});
 				rectangle.setMap(mapWithDotnetRef.map);
 				_mapsRectangles.push(rectangle);
+
+				//Rectangle events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
+
+					rectangle.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("RectangleClicked", options.id);
+
+						//If rectangle has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					rectangle.addListener("drag", () => {
+						rectangleDragEvents("RectangleDrag", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+					rectangle.addListener("dragend", () => {
+						rectangleDragEvents("RectangleDragEnd", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+					rectangle.addListener("dragstart", () => {
+						rectangleDragEvents("RectangleDragStart", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+
+					function rectangleDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
 			}
 		}
 	}
@@ -733,6 +859,7 @@ export function removeRectangles(elementId, rectangleOptions) {
 
 				_mapsRectangles.forEach((element, index) => {
 					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
 						_mapsRectangles.splice(index, 1);
 						return;
@@ -778,6 +905,47 @@ export function createPolygons(elementId, polygonOptions) {
 				});
 				polygon.setMap(mapWithDotnetRef.map);
 				_mapsPolygons.push(polygon);
+
+				//Polygon events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
+
+					polygon.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("PolygonClicked", options.id);
+
+						//If polygon has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					polygon.addListener("drag", () => {
+						polygonDragEvents("PolygonDrag", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+					polygon.addListener("dragend", () => {
+						polygonDragEvents("PolygonDragEnd", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+					polygon.addListener("dragstart", () => {
+						polygonDragEvents("PolygonDragStart", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+
+					function polygonDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
 			}
 		}
 	}
@@ -792,6 +960,7 @@ export function removePolygons(elementId, polygonOptions) {
 
 				_mapsPolygons.forEach((element, index) => {
 					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
 						_mapsPolygons.splice(index, 1);
 						return;

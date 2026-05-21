@@ -80,7 +80,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapResizedCallback">Callback function for Map resized event</param>
 		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
-		public GoogleMapEventInfo(string mapContainerId, 
+		public GoogleMapEventInfo(string mapContainerId,
 			Func<string, Task>? mapInitializedCallback = null,
 			Func<GeolocationCoordinate, Task>? mapClickedCallback = null,
 			Func<GeolocationCoordinate, Task>? mapDoubleClickedCallback = null,
@@ -266,7 +266,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		[JSInvokable("MapInitialized")]
 		public async Task MapInitialized(string mapContainerId)
 		{
-			if(_mapContainerId != mapContainerId)
+			if (_mapContainerId != mapContainerId)
 			{
 				throw new InvalidProgramException($"{nameof(MapInitialized)} method was called with invalid Map container Div Id: {mapContainerId}, expected Id isL {_mapContainerId}.");
 			}
@@ -469,7 +469,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		[JSInvokable("CustomControlClicked")]
 		public async Task CustomControlClicked(string id)
 		{
-			if(_customControls.ContainsKey(id))
+			if (_customControls.ContainsKey(id))
 			{
 				var callback = _customControls[id].OnClickCallback;
 				await CustomEvent(callback, id);
@@ -515,8 +515,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		}
 
 		//Polylines events.
-		[JSInvokable("PolylinesClicked")]
-		public async Task PolylinesClicked(string id)
+		[JSInvokable("PolylineClicked")]
+		public async Task PolylineClicked(string id)
 		{
 			if (_polilynes.ContainsKey(id))
 			{
@@ -524,8 +524,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				await CustomEvent(callback, id);
 			}
 		}
-		[JSInvokable("PolylinesDrag")]
-		public async Task PolylinesDrag(string id, GeolocationCoordinate geolocation)
+		[JSInvokable("PolylineDrag")]
+		public async Task PolylineDrag(string id, GeolocationCoordinate geolocation)
 		{
 			if (_polilynes.ContainsKey(id))
 			{
@@ -533,8 +533,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				await CustomEvent(callback, id, geolocation);
 			}
 		}
-		[JSInvokable("PolylinesDragEnd")]
-		public async Task PolylinesDragEnd(string id, GeolocationCoordinate geolocation)
+		[JSInvokable("PolylineDragEnd")]
+		public async Task PolylineDragEnd(string id, GeolocationCoordinate geolocation)
 		{
 			if (_polilynes.ContainsKey(id))
 			{
@@ -542,12 +542,126 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				await CustomEvent(callback, id, geolocation);
 			}
 		}
-		[JSInvokable("PolylinesDragStart")]
-		public async Task PolylinesDragStart(string id, GeolocationCoordinate geolocation)
+		[JSInvokable("PolylineDragStart")]
+		public async Task PolylineDragStart(string id, GeolocationCoordinate geolocation)
 		{
 			if (_polilynes.ContainsKey(id))
 			{
 				var callback = _polilynes[id].OnDragStartCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+
+		//Circle events.
+		[JSInvokable("CircleClicked")]
+		public async Task CircleClicked(string id)
+		{
+			if (_circles.ContainsKey(id))
+			{
+				var callback = _circles[id].OnClickCallback;
+				await CustomEvent(callback, id);
+			}
+		}
+		[JSInvokable("CircleDrag")]
+		public async Task CircleDrag(string id, GeolocationCoordinate geolocation)
+		{
+			if (_circles.ContainsKey(id))
+			{
+				var callback = _circles[id].OnDragCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("CircleDragEnd")]
+		public async Task CircleDragEnd(string id, GeolocationCoordinate geolocation)
+		{
+			if (_circles.ContainsKey(id))
+			{
+				var callback = _circles[id].OnDragEndCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("CircleDragStart")]
+		public async Task CircleDragStart(string id, GeolocationCoordinate geolocation)
+		{
+			if (_circles.ContainsKey(id))
+			{
+				var callback = _circles[id].OnDragStartCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+
+		//Rectangle events.
+		[JSInvokable("RectangleClicked")]
+		public async Task RectangleClicked(string id)
+		{
+			if (_rectangles.ContainsKey(id))
+			{
+				var callback = _rectangles[id].OnClickCallback;
+				await CustomEvent(callback, id);
+			}
+		}
+		[JSInvokable("RectangleDrag")]
+		public async Task RectangleDrag(string id, GeolocationCoordinate geolocation)
+		{
+			if (_rectangles.ContainsKey(id))
+			{
+				var callback = _rectangles[id].OnDragCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("RectangleDragEnd")]
+		public async Task RectangleDragEnd(string id, GeolocationCoordinate geolocation)
+		{
+			if (_rectangles.ContainsKey(id))
+			{
+				var callback = _rectangles[id].OnDragEndCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("RectangleDragStart")]
+		public async Task RectangleDragStart(string id, GeolocationCoordinate geolocation)
+		{
+			if (_rectangles.ContainsKey(id))
+			{
+				var callback = _rectangles[id].OnDragStartCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+
+		//Polygon events.
+		[JSInvokable("PolygonClicked")]
+		public async Task PolygonClicked(string id)
+		{
+			if (_polygons.ContainsKey(id))
+			{
+				var callback = _polygons[id].OnClickCallback;
+				await CustomEvent(callback, id);
+			}
+		}
+		[JSInvokable("PolygonDrag")]
+		public async Task PolygonDrag(string id, GeolocationCoordinate geolocation)
+		{
+			if (_polygons.ContainsKey(id))
+			{
+				var callback = _polygons[id].OnDragCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("PolygonDragEnd")]
+		public async Task PolygonDragEnd(string id, GeolocationCoordinate geolocation)
+		{
+			if (_polygons.ContainsKey(id))
+			{
+				var callback = _polygons[id].OnDragEndCallback;
+				await CustomEvent(callback, id, geolocation);
+			}
+		}
+		[JSInvokable("PolygonDragStart")]
+		public async Task PolygonDragStart(string id, GeolocationCoordinate geolocation)
+		{
+			if (_polygons.ContainsKey(id))
+			{
+				var callback = _polygons[id].OnDragStartCallback;
 				await CustomEvent(callback, id, geolocation);
 			}
 		}
