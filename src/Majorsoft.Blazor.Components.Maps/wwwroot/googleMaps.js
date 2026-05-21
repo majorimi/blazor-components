@@ -553,24 +553,6 @@ export function createMarkers(elementId, markers) {
 		}
 	}
 }
-//export function updateMarkers(elementId, markers) {
-//	if (elementId && markers && markers.length) {
-//		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-//		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-
-//			for (var i = 0; i < markers.length; i++) {
-//				let markerData = markers[i];
-
-//				_mapsMarkers.forEach(element => {
-//					if (markerData.id == element.id) {
-//						setMarkerData(markerData, element);
-//						return;
-//					}
-//				});
-//			}
-//		}
-//	}
-//}
 export function removeMarkers(elementId, markers) {
 	if (elementId && markers && markers.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -581,6 +563,7 @@ export function removeMarkers(elementId, markers) {
 
 				_mapsMarkers.forEach( (element, index) => {
 					if (markerData.id == element.id) {
+						google.maps.event.clearInstanceListeners(element); // Remove all event listeners
 						element.setMap(null);
 						_mapsMarkers.splice(index, 1);
 						return;

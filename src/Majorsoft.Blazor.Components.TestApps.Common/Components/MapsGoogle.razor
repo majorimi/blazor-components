@@ -200,13 +200,13 @@
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Maps height: @($"{_jsMapHeight} {(_jsDimensionInPx ? "px" : "%")}")
-				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapHeight" @oninput="(e => _jsMapHeight = int.Parse(e.Value?.ToString()))" />
+			<input type="range" class="w-100" min="0" max="@(_jsDimensionInPx ? 1000 : 100)" @bind="_jsMapHeight" @oninput="(e => _jsMapHeight = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
 			<div class="col-12 col-lg-8 col-xl-6">
 				Maps width: @($"{_jsMapWidth} {(_jsDimensionInPx ? "px" : "%")}")
-				<input type="range" class="w-100" min="0" max="1000" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
+				<input type="range" class="w-100" min="0" max="@(_jsDimensionInPx ? 1000 : 100)" @bind="_jsMapWidth" @oninput="(e => _jsMapWidth = int.Parse(e.Value?.ToString()))" />
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -674,15 +674,20 @@
 		{
 			Center = new GeolocationCoordinate(34.052234, -118.243685), // Los Angeles
 			Radius = 500000, // 500km
-			StrokeColor = "#FF0000",
+			StrokeColor = "#ffdd00ff",
 			StrokeOpacity = 0.8,
 			StrokeWeight = 2,
-			FillColor = "#FF0000",
+			FillColor = "#ffdd00ff",
 			FillOpacity = 0.35,
 			Clickable = true,
 			Draggable = true,
 			Editable = false,
-			Visible = true
+			Visible = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"NUKE radius: {500000} meters",
+				MaxWidth = 400
+			},
 		};
 
 		_jsMapCenter = new GeolocationData(circle.Center.Latitude, circle.Center.Longitude);
@@ -707,7 +712,12 @@
 			Clickable = true,
 			Draggable = true,
 			Editable = false,
-			Visible = true
+			Visible = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"Huge rect...",
+				MaxWidth = 400
+			},
 		};
 
 		_jsMapCenter = new GeolocationData(40.714, -74.005); // Center approximately
@@ -735,7 +745,12 @@
 			Clickable = true,
 			Draggable = true,
 			Editable = false,
-			Visible = true
+			Visible = true,
+			InfoWindow = new GoogleMapInfoWindow()
+			{
+				Content = $"Bermuda Triangle is DANGEROUS!!!!",
+				MaxWidth = 400
+			},
 		};
 
 		_jsMapCenter = new GeolocationData(25.774, -80.190); // Miami

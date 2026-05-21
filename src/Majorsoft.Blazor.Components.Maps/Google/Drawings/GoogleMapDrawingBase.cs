@@ -54,6 +54,11 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		public int ZIndex { get; set; }
 
 		/// <summary>
+		/// Info Window to show for Marker on click.
+		/// </summary>
+		public GoogleMapInfoWindow? InfoWindow { get; set; }
+
+		/// <summary>
 		/// Callback function called when shape was clicked.
 		/// </summary>
 		public Func<string, Task>? OnClickCallback { get; set; }
