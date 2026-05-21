@@ -25,6 +25,177 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_jsRuntime = jsRuntime;
 		}
 
+		public async Task CreateCirclesAsync(IEnumerable<GoogleMapCircleOptions>? newCircles, IEnumerable<GoogleMapCircleOptions>? circles)
+			{
+				await CheckJsObjectAsync();
+
+				if (newCircles is null && circles is null) //Clear
+				{
+					await _mapsJs.InvokeVoidAsync("removeCircles", MapContainerId,
+						(object)_dotNetObjectReference.Value.Circles
+							.Select(s => s.Value)
+							.ToArray());
+
+					_dotNetObjectReference.Value.RemoveCircles(_dotNetObjectReference.Value.Circles.Select(s => s.Value));
+
+					return;
+				}
+
+				//Add new Circles
+				if (newCircles is not null)
+				{
+					_dotNetObjectReference.Value.AddCircles(newCircles);
+					if (newCircles.Count() > 0)
+					{
+						await _mapsJs.InvokeVoidAsync("createCircles", MapContainerId,
+							(object)newCircles.ToArray());
+					}
+				}
+
+				if (circles is not null)
+				{
+					//Detect switched objects add new Circles to the map
+					newCircles = circles.Select(x => new KeyValuePair<string, GoogleMapCircleOptions>(x.Id, x))
+						.Except(_dotNetObjectReference.Value.Circles)
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (newCircles.Count() > 0)
+					{
+						_dotNetObjectReference.Value.AddCircles(newCircles);
+
+						await _mapsJs.InvokeVoidAsync("createCircles", MapContainerId,
+							(object)newCircles.ToArray());
+					}
+
+					//Detect removed Circles from the map
+					var removedCircles = _dotNetObjectReference.Value.Circles
+						.Except(circles.Select(x => new KeyValuePair<string, GoogleMapCircleOptions>(x.Id, x)))
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (removedCircles.Count() > 0)
+					{
+						_dotNetObjectReference.Value.RemoveCircles(removedCircles);
+
+						await _mapsJs.InvokeVoidAsync("removeCircles", MapContainerId,
+							(object)removedCircles.ToArray());
+					}
+				}
+			}
+
+			public async Task CreateRectanglesAsync(IEnumerable<GoogleMapRectangleOptions>? newRectangles, IEnumerable<GoogleMapRectangleOptions>? rectangles)
+			{
+				await CheckJsObjectAsync();
+
+				if (newRectangles is null && rectangles is null) //Clear
+				{
+					await _mapsJs.InvokeVoidAsync("removeRectangles", MapContainerId,
+						(object)_dotNetObjectReference.Value.Rectangles
+							.Select(s => s.Value)
+							.ToArray());
+
+					_dotNetObjectReference.Value.RemoveRectangles(_dotNetObjectReference.Value.Rectangles.Select(s => s.Value));
+
+					return;
+				}
+
+				//Add new Rectangles
+				if (newRectangles is not null)
+				{
+					_dotNetObjectReference.Value.AddRectangles(newRectangles);
+					if (newRectangles.Count() > 0)
+					{
+						await _mapsJs.InvokeVoidAsync("createRectangles", MapContainerId,
+							(object)newRectangles.ToArray());
+					}
+				}
+
+				if (rectangles is not null)
+				{
+					//Detect switched objects add new Rectangles to the map
+					newRectangles = rectangles.Select(x => new KeyValuePair<string, GoogleMapRectangleOptions>(x.Id, x))
+						.Except(_dotNetObjectReference.Value.Rectangles)
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (newRectangles.Count() > 0)
+					{
+						_dotNetObjectReference.Value.AddRectangles(newRectangles);
+
+						await _mapsJs.InvokeVoidAsync("createRectangles", MapContainerId,
+							(object)newRectangles.ToArray());
+					}
+
+					//Detect removed Rectangles from the map
+					var removedRectangles = _dotNetObjectReference.Value.Rectangles
+						.Except(rectangles.Select(x => new KeyValuePair<string, GoogleMapRectangleOptions>(x.Id, x)))
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (removedRectangles.Count() > 0)
+					{
+						_dotNetObjectReference.Value.RemoveRectangles(removedRectangles);
+
+						await _mapsJs.InvokeVoidAsync("removeRectangles", MapContainerId,
+							(object)removedRectangles.ToArray());
+					}
+				}
+			}
+
+			public async Task CreatePolygonsAsync(IEnumerable<GoogleMapPolygonOptions>? newPolygons, IEnumerable<GoogleMapPolygonOptions>? polygons)
+			{
+				await CheckJsObjectAsync();
+
+				if (newPolygons is null && polygons is null) //Clear
+				{
+					await _mapsJs.InvokeVoidAsync("removePolygons", MapContainerId,
+						(object)_dotNetObjectReference.Value.Polygons
+							.Select(s => s.Value)
+							.ToArray());
+
+					_dotNetObjectReference.Value.RemovePolygons(_dotNetObjectReference.Value.Polygons.Select(s => s.Value));
+
+					return;
+				}
+
+				//Add new Polygons
+				if (newPolygons is not null)
+				{
+					_dotNetObjectReference.Value.AddPolygons(newPolygons);
+					if (newPolygons.Count() > 0)
+					{
+						await _mapsJs.InvokeVoidAsync("createPolygons", MapContainerId,
+							(object)newPolygons.ToArray());
+					}
+				}
+
+				if (polygons is not null)
+				{
+					//Detect switched objects add new Polygons to the map
+					newPolygons = polygons.Select(x => new KeyValuePair<string, GoogleMapPolygonOptions>(x.Id, x))
+						.Except(_dotNetObjectReference.Value.Polygons)
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (newPolygons.Count() > 0)
+					{
+						_dotNetObjectReference.Value.AddPolygons(newPolygons);
+
+						await _mapsJs.InvokeVoidAsync("createPolygons", MapContainerId,
+							(object)newPolygons.ToArray());
+					}
+
+					//Detect removed Polygons from the map
+					var removedPolygons = _dotNetObjectReference.Value.Polygons
+						.Except(polygons.Select(x => new KeyValuePair<string, GoogleMapPolygonOptions>(x.Id, x)))
+						.Distinct().Select(s => s.Value).ToList();
+
+					if (removedPolygons.Count() > 0)
+					{
+						_dotNetObjectReference.Value.RemovePolygons(removedPolygons);
+
+						await _mapsJs.InvokeVoidAsync("removePolygons", MapContainerId,
+							(object)removedPolygons.ToArray());
+					}
+				}
+			}
+
 		public async Task InitMapAsync(string apiKey,
 			string mapContainerId,
 			string backgroundColor,

@@ -40,11 +40,17 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Dictionary<string, GoogleMapCustomControl> _customControls;
 		private readonly Dictionary<string, GoogleMapMarker> _markers;
 		private readonly Dictionary<string, GoogleMapPolylineOptions> _polilynes;
+		private readonly Dictionary<string, GoogleMapCircleOptions> _circles;
+		private readonly Dictionary<string, GoogleMapRectangleOptions> _rectangles;
+		private readonly Dictionary<string, GoogleMapPolygonOptions> _polygons;
 
 		public Dictionary<string, GoogleMapCustomControl> CustomControls => _customControls;
 
 		public Dictionary<string, GoogleMapMarker> Markers => _markers;
 		public Dictionary<string, GoogleMapPolylineOptions> Polilynes => _polilynes;
+		public Dictionary<string, GoogleMapCircleOptions> Circles => _circles;
+		public Dictionary<string, GoogleMapRectangleOptions> Rectangles => _rectangles;
+		public Dictionary<string, GoogleMapPolygonOptions> Polygons => _polygons;
 
 		/// <summary>
 		/// Default constructor.
@@ -104,6 +110,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 
 			_markers = new Dictionary<string, GoogleMapMarker>();
 			_polilynes = new Dictionary<string, GoogleMapPolylineOptions>();
+			_circles = new Dictionary<string, GoogleMapCircleOptions>();
+			_rectangles = new Dictionary<string, GoogleMapRectangleOptions>();
+			_polygons = new Dictionary<string, GoogleMapPolygonOptions>();
 			_customControls = new Dictionary<string, GoogleMapCustomControl>();
 
 			_mapInitializedCallback = mapInitializedCallback;
@@ -183,6 +192,72 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				if (_polilynes.ContainsKey(item.Id))
 				{
 					_polilynes.Remove(item.Id);
+				}
+			}
+		}
+
+		//Circles
+		public void AddCircles(IEnumerable<GoogleMapCircleOptions> circles)
+		{
+			foreach (var item in circles)
+			{
+				if (!_circles.ContainsKey(item.Id))
+				{
+					_circles.Add(item.Id, item);
+				}
+			}
+		}
+		public void RemoveCircles(IEnumerable<GoogleMapCircleOptions> circles)
+		{
+			foreach (var item in circles)
+			{
+				if (_circles.ContainsKey(item.Id))
+				{
+					_circles.Remove(item.Id);
+				}
+			}
+		}
+
+		//Rectangles
+		public void AddRectangles(IEnumerable<GoogleMapRectangleOptions> rectangles)
+		{
+			foreach (var item in rectangles)
+			{
+				if (!_rectangles.ContainsKey(item.Id))
+				{
+					_rectangles.Add(item.Id, item);
+				}
+			}
+		}
+		public void RemoveRectangles(IEnumerable<GoogleMapRectangleOptions> rectangles)
+		{
+			foreach (var item in rectangles)
+			{
+				if (_rectangles.ContainsKey(item.Id))
+				{
+					_rectangles.Remove(item.Id);
+				}
+			}
+		}
+
+		//Polygons
+		public void AddPolygons(IEnumerable<GoogleMapPolygonOptions> polygons)
+		{
+			foreach (var item in polygons)
+			{
+				if (!_polygons.ContainsKey(item.Id))
+				{
+					_polygons.Add(item.Id, item);
+				}
+			}
+		}
+		public void RemovePolygons(IEnumerable<GoogleMapPolygonOptions> polygons)
+		{
+			foreach (var item in polygons)
+			{
+				if (_polygons.ContainsKey(item.Id))
+				{
+					_polygons.Remove(item.Id);
 				}
 			}
 		}

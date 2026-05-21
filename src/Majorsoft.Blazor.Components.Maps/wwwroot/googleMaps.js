@@ -317,6 +317,9 @@ function getElementIdWithDotnetRef(dict, elementId) {
 let _mapsElementDict = [];
 let _mapsMarkers = [];
 let _mapsPolylines = [];
+let _mapsCircles = [];
+let _mapsRectangles = [];
+let _mapsPolygons = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -652,10 +655,169 @@ export function removePolylines(elementId, polylineOptions) {
 }
 
 //Drawing Circles
+export function createCircles(elementId, circleOptions) {
+	if (elementId && circleOptions && circleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < circleOptions.length; i++) {
+				let options = circleOptions[i];
+
+				let circle = new google.maps.Circle({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					center: { lat: options.center.latitude, lng: options.center.longitude },
+					radius: options.radius,
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				circle.setMap(mapWithDotnetRef.map);
+				_mapsCircles.push(circle);
+			}
+		}
+	}
+}
+export function removeCircles(elementId, circleOptions) {
+	if (elementId && circleOptions && circleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < circleOptions.length; i++) {
+				let options = circleOptions[i];
+
+				_mapsCircles.forEach((element, index) => {
+					if (options.id == element.id) {
+						element.setMap(null);
+						_mapsCircles.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
 
 //Drawing Rectangles
+export function createRectangles(elementId, rectangleOptions) {
+	if (elementId && rectangleOptions && rectangleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < rectangleOptions.length; i++) {
+				let options = rectangleOptions[i];
+
+				let rectangle = new google.maps.Rectangle({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					bounds: {
+						north: options.bounds.northEast.lat,
+						south: options.bounds.southWest.lat,
+						east: options.bounds.northEast.lng,
+						west: options.bounds.southWest.lng
+					},
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				rectangle.setMap(mapWithDotnetRef.map);
+				_mapsRectangles.push(rectangle);
+			}
+		}
+	}
+}
+export function removeRectangles(elementId, rectangleOptions) {
+	if (elementId && rectangleOptions && rectangleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < rectangleOptions.length; i++) {
+				let options = rectangleOptions[i];
+
+				_mapsRectangles.forEach((element, index) => {
+					if (options.id == element.id) {
+						element.setMap(null);
+						_mapsRectangles.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
 
 //Drawing Polygons (triangle, square, etc.)
+export function createPolygons(elementId, polygonOptions) {
+	if (elementId && polygonOptions && polygonOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < polygonOptions.length; i++) {
+				let options = polygonOptions[i];
+
+				// Convert paths from C# format to Google Maps format
+				let paths = [];
+				if (options.paths && options.paths.length) {
+					for (var j = 0; j < options.paths.length; j++) {
+						paths.push({ lat: options.paths[j].lat, lng: options.paths[j].lng });
+					}
+				}
+
+				let polygon = new google.maps.Polygon({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					paths: paths,
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					geodesic: options.geodesic,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				polygon.setMap(mapWithDotnetRef.map);
+				_mapsPolygons.push(polygon);
+			}
+		}
+	}
+}
+export function removePolygons(elementId, polygonOptions) {
+	if (elementId && polygonOptions && polygonOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < polygonOptions.length; i++) {
+				let options = polygonOptions[i];
+
+				_mapsPolygons.forEach((element, index) => {
+					if (options.id == element.id) {
+						element.setMap(null);
+						_mapsPolygons.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
 
 
 

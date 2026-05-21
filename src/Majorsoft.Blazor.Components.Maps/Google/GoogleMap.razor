@@ -348,6 +348,78 @@
 		InvokeAsync(async () => await _mapService.CreatePolylinesAsync(e.NewItems?.Cast<GoogleMapPolylineOptions>(), _polyLines?.Cast<GoogleMapPolylineOptions>()));
 	}
 
+	private ObservableRangeCollection<GoogleMapCircleOptions>? _circles;
+	/// <summary>
+	/// CircleOptions object used to define the properties that can be set on map as Circles.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change circle properties (Circle properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapCircleOptions>? Circles
+	{
+		get => _circles;
+		set
+		{
+			if (_circles is null && value is not null) //Subscribe to events only once!
+			{
+				_circles = value;
+				_circles.CollectionChanged += CirclesChanges;
+			}
+		}
+	}
+	private void CirclesChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(CirclesChanges)} Circles collection has changed, item Count: '{_circles?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateCirclesAsync(e.NewItems?.Cast<GoogleMapCircleOptions>(), _circles?.Cast<GoogleMapCircleOptions>()));
+	}
+
+	private ObservableRangeCollection<GoogleMapRectangleOptions>? _rectangles;
+	/// <summary>
+	/// RectangleOptions object used to define the properties that can be set on map as Rectangles.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change rectangle properties (Rectangle properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapRectangleOptions>? Rectangles
+	{
+		get => _rectangles;
+		set
+		{
+			if (_rectangles is null && value is not null) //Subscribe to events only once!
+			{
+				_rectangles = value;
+				_rectangles.CollectionChanged += RectanglesChanges;
+			}
+		}
+	}
+	private void RectanglesChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(RectanglesChanges)} Rectangles collection has changed, item Count: '{_rectangles?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateRectanglesAsync(e.NewItems?.Cast<GoogleMapRectangleOptions>(), _rectangles?.Cast<GoogleMapRectangleOptions>()));
+	}
+
+	private ObservableRangeCollection<GoogleMapPolygonOptions>? _polygons;
+	/// <summary>
+	/// PolygonOptions object used to define the properties that can be set on map as Polygons.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polygon properties (Polygon properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapPolygonOptions>? Polygons
+	{
+		get => _polygons;
+		set
+		{
+			if (_polygons is null && value is not null) //Subscribe to events only once!
+			{
+				_polygons = value;
+				_polygons.CollectionChanged += PolygonsChanges;
+			}
+		}
+	}
+	private void PolygonsChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(PolygonsChanges)} Polygons collection has changed, item Count: '{_polygons?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreatePolygonsAsync(e.NewItems?.Cast<GoogleMapPolygonOptions>(), _polygons?.Cast<GoogleMapPolygonOptions>()));
+	}
+
 	private byte _zoomLevel = 12;
 	/// <summary>
 	/// Defines the zoom level of the map, which determines the magnification level of the map.

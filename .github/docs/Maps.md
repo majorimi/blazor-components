@@ -135,9 +135,18 @@ This option can only be set when the map is initialized. Use `OnInitialized` met
 - **`Markers`: `ObservableRangeCollection<GoogleMapMarker>? { get; set; }` (default: NULL)** <br />
 MarkerOptions object used to define the properties that can be set on a Marker.
 ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
-- **`PolyLines`: `ObservableRangeCollection<GoogleStaticMapPolyLine>? { get; set; }` (default: _NULL_)** <br />
+- **`PolyLines`: `ObservableRangeCollection<GoogleMapPolylineOptions>? { get; set; }` (default: _NULL_)** <br />
 PolylineOptions object used to define the properties that can be set on the map as PolyLines.
 ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
+- **`Circles`: `ObservableRangeCollection<GoogleMapCircleOptions>? { get; set; }` (default: _NULL_)** <br />
+CircleOptions object used to define the properties that can be set on the map as Circles.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change circle properties (Circle properties value changes not detected).
+- **`Rectangles`: `ObservableRangeCollection<GoogleMapRectangleOptions>? { get; set; }` (default: _NULL_)** <br />
+RectangleOptions object used to define the properties that can be set on the map as Rectangles.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change rectangle properties (Rectangle properties value changes not detected).
+- **`Polygons`: `ObservableRangeCollection<GoogleMapPolygonOptions>? { get; set; }` (default: _NULL_)** <br />
+PolygonOptions object used to define the properties that can be set on the map as Polygons.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polygon properties (Polygon properties value changes not detected).
 - **`Zoom`: `byte { get; set; }` (default: 12)** <br />
 Defines the zoom level of the map, which determines the magnification level of the map.
 - **`ZoomControl`: `bool { get; set; }` (default: true)** <br />

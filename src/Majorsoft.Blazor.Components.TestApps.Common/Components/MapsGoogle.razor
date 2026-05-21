@@ -298,6 +298,9 @@
 						   CustomControls="@_jsCustomControls"
 						   Markers="@_jsMarkers"
 						   PolyLines="@_jsPolyLines"
+						   Circles="@_jsCircles"
+						   Rectangles="@_jsRectangles"
+						   Polygons="@_jsPolygons"
 						   OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 						   OnMapInitialized="@OnMapInitialized"
 						   OnMapClicked="@OnMapClicked"
@@ -342,10 +345,28 @@
 		</div>
 		<div class="row pb-2 mt-2">
 			<div class="col-12 col-lg-8 col-xl-6">
-				<button class="btn btn-primary" @onclick="@AddMapDrawings">Add Polyline</button>
+				<button class="btn btn-primary" @onclick="@AddMapDrawingsPolyline">Add Polyline</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLinesTmp.AddRange(_jsPolyLines); _jsPolyLines.Clear(); })">Hide all Polylines</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.AddRange(_jsPolyLinesTmp); _jsPolyLinesTmp.Clear(); })">Show Polylines</button>
 				<button class="btn btn-primary" @onclick="@(() => { _jsPolyLines.Clear(); _jsPolyLinesTmp.Clear(); _jsPhotosAdded = false; })">Remove Polylines</button>
+			</div>
+		</div>
+		<div class="row pb-2 mt-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<button class="btn btn-primary" @onclick="@AddMapDrawingsCircle">Add Circle</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsCircles.Clear(); })">Remove Circles</button>
+			</div>
+		</div>
+		<div class="row pb-2 mt-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<button class="btn btn-primary" @onclick="@AddMapDrawingsRectangle">Add Rectangle</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsRectangles.Clear(); })">Remove Rectangles</button>
+			</div>
+		</div>
+		<div class="row pb-2 mt-2">
+			<div class="col-12 col-lg-8 col-xl-6">
+				<button class="btn btn-primary" @onclick="@AddMapDrawingsPolygon">Add Polygon (Bermuda triangle)</button>
+				<button class="btn btn-primary" @onclick="@(() => { _jsPolygons.Clear(); })">Remove Polygons</button>
 			</div>
 		</div>
 
@@ -561,6 +582,9 @@
 	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLines = new ObservableRangeCollection<GoogleMapPolylineOptions>();
 	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLinesTmp = new ObservableRangeCollection<GoogleMapPolylineOptions>();
 
+	private ObservableRangeCollection<GoogleMapCircleOptions> _jsCircles = new ObservableRangeCollection<GoogleMapCircleOptions>();
+	private ObservableRangeCollection<GoogleMapRectangleOptions> _jsRectangles = new ObservableRangeCollection<GoogleMapRectangleOptions>();
+	private ObservableRangeCollection<GoogleMapPolygonOptions> _jsPolygons = new ObservableRangeCollection<GoogleMapPolygonOptions>();
 
 	private ElementReference _log;
 	private string _mapsLog;
@@ -618,8 +642,8 @@
 		});
 	}
 
-	//Drawings
-	public async Task AddMapDrawings()
+	//Drawings Polyline  - based on https://developers.google.com/maps/documentation/javascript/examples/polyline-simple
+	public async Task AddMapDrawingsPolyline()
 	{
 		var polylines = new GoogleMapPolylineOptions()
 		{
@@ -638,7 +662,85 @@
 			StrokeWeight = 5
 		};
 
+		_jsMapCenter = new GeolocationData(polylines.Path[1].Latitude, polylines.Path[1].Longitude);
+		_jsMapZoomLevel = 2;
 		_jsPolyLines.Add(polylines);
+	}
+
+	//Drawings Circle - based on https://developers.google.com/maps/documentation/javascript/examples/circle-simple
+	public async Task AddMapDrawingsCircle()
+	{
+		var circle = new GoogleMapCircleOptions()
+		{
+			Center = new GeolocationCoordinate(34.052234, -118.243685), // Los Angeles
+			Radius = 500000, // 500km
+			StrokeColor = "#FF0000",
+			StrokeOpacity = 0.8,
+			StrokeWeight = 2,
+			FillColor = "#FF0000",
+			FillOpacity = 0.35,
+			Clickable = true,
+			Draggable = true,
+			Editable = false,
+			Visible = true
+		};
+
+		_jsMapCenter = new GeolocationData(circle.Center.Latitude, circle.Center.Longitude);
+		_jsMapZoomLevel = 5;
+		_jsCircles.Add(circle);
+	}
+
+	//Drawings Rectangle - based on https://developers.google.com/maps/documentation/javascript/examples/rectangle-simple
+	public async Task AddMapDrawingsRectangle()
+	{
+		var rectangle = new GoogleMapRectangleOptions()
+		{
+			Bounds = new GoogleMapLatLngBounds(
+				new GoogleMapLatLng() { Latitude = 33.671068, Longitude = -116.25 },  // SW corner
+				new GoogleMapLatLng() { Latitude = 44.341442, Longitude = -123.005 }  // NE corner
+			),
+			StrokeColor = "#FF0000",
+			StrokeOpacity = 0.8,
+			StrokeWeight = 2,
+			FillColor = "#FF0000",
+			FillOpacity = 0.35,
+			Clickable = true,
+			Draggable = true,
+			Editable = false,
+			Visible = true
+		};
+
+		_jsMapCenter = new GeolocationData(40.714, -74.005); // Center approximately
+		_jsMapZoomLevel = 4;
+		_jsRectangles.Add(rectangle);
+	}
+
+	//Drawings Polygon - based on https://developers.google.com/maps/documentation/javascript/examples/polygon-arrays (Bermuda Triangle)
+	public async Task AddMapDrawingsPolygon()
+	{
+		var polygon = new GoogleMapPolygonOptions()
+		{
+			Paths = new GoogleMapLatLng[]
+			{
+				new GoogleMapLatLng() { Latitude = 25.774, Longitude = -80.190 },  // Miami
+				new GoogleMapLatLng() { Latitude = 18.466, Longitude = -66.118 },  // San Juan
+				new GoogleMapLatLng() { Latitude = 32.321, Longitude = -64.757 },  // Bermuda
+			},
+			StrokeColor = "#FF0000",
+			StrokeOpacity = 0.8,
+			StrokeWeight = 2,
+			FillColor = "#FF0000",
+			FillOpacity = 0.35,
+			Geodesic = false,
+			Clickable = true,
+			Draggable = true,
+			Editable = false,
+			Visible = true
+		};
+
+		_jsMapCenter = new GeolocationData(25.774, -80.190); // Miami
+		_jsMapZoomLevel = 5;
+		_jsPolygons.Add(polygon);
 	}
 
 	//Events

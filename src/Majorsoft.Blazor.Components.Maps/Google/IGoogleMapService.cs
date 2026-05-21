@@ -203,5 +203,20 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="polylines"></param>
 		/// <returns></returns>
 		Task CreatePolylinesAsync(IEnumerable<GoogleMapPolylineOptions>? newPolylines, IEnumerable<GoogleMapPolylineOptions>? polylines);
+
+		/// <summary>
+		/// Creates and removes Circle shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreateCirclesAsync(IEnumerable<GoogleMapCircleOptions>? newCircles, IEnumerable<GoogleMapCircleOptions>? circles);
+
+		/// <summary>
+		/// Creates and removes Rectangle shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreateRectanglesAsync(IEnumerable<GoogleMapRectangleOptions>? newRectangles, IEnumerable<GoogleMapRectangleOptions>? rectangles);
+
+		/// <summary>
+		/// Creates and removes Polygon shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreatePolygonsAsync(IEnumerable<GoogleMapPolygonOptions>? newPolygons, IEnumerable<GoogleMapPolygonOptions>? polygons);
 	}
 }
