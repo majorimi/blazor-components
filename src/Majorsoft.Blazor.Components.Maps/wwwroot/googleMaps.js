@@ -655,7 +655,7 @@ export function removePolylines(elementId, polylineOptions) {
 
 //Drawing Rectangles
 
-//Drawing Triangles
+//Drawing Polygons (triangle, square, etc.)
 
 
 
