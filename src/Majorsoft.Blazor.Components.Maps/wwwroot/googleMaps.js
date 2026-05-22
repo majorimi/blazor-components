@@ -64,7 +64,6 @@ function waitForMarkerClusterer() {
 
 
 //Global function for Google Js callback. It will be called when "https://maps.googleapis.com/maps/api/js" loaded.
-//TODO: multiple instances of Js Maps if registered must be stored before callback happens. In the future it might causes timing issues...
 window.initGoogleMaps = async () => {
 	// Wait for MarkerClusterer to be available
 	await waitForMarkerClusterer();
@@ -331,7 +330,19 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null, clusterer: null, mapMarkers: [], bgColor: backgroundColor, ctrSize: controlSize, restriction: restriction }
+			value: {
+				ref: dotnetRef,
+				map: null,
+				clusterer: null,
+				mapMarkers: [],
+				polylines: [],
+				circles: [],
+				rectangles: [],
+                polygons: [],
+				bgColor: backgroundColor,
+				ctrSize: controlSize,
+				restriction: restriction
+			}
 		});
 	}
 }
@@ -354,11 +365,6 @@ function getElementIdWithDotnetRef(dict, elementId) {
 }
 
 let _mapsElementDict = [];
-let _mapsMarkers = [];
-let _mapsPolylines = [];
-let _mapsCircles = [];
-let _mapsRectangles = [];
-let _mapsPolygons = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -544,7 +550,6 @@ export function createMarkers(elementId, markers) {
 
 				marker.setMap(mapWithDotnetRef.map);
 				setMarkerData(markerData, marker);
-				_mapsMarkers.push(marker);
 				mapWithDotnetRef.mapMarkers.push(marker); //Add to per-map markers array
 
 				//Marker events
@@ -610,18 +615,11 @@ export function removeMarkers(elementId, markers) {
 			for (var i = 0; i < markers.length; i++) {
 				let markerData = markers[i];
 
-				_mapsMarkers.forEach( (element, index) => {
+				//Remove from per-map markers array
+				mapWithDotnetRef.mapMarkers.forEach( (element, index) => {
 					if (markerData.id == element.id) {
 						google.maps.event.clearInstanceListeners(element); // Remove all event listeners
 						element.setMap(null);
-						_mapsMarkers.splice(index, 1);
-						return;
-					}
-				});
-
-				//Also remove from per-map markers array
-				mapWithDotnetRef.mapMarkers.forEach( (element, index) => {
-					if (markerData.id == element.id) {
 						mapWithDotnetRef.mapMarkers.splice(index, 1);
 						return;
 					}
@@ -677,7 +675,7 @@ export function createPolylines(elementId, polylineOptions) {
 
 				let polyline = new google.maps.Polyline(options);
 				polyline.setMap(mapWithDotnetRef.map);
-				_mapsPolylines.push(polyline);
+				mapWithDotnetRef.polylines.push(polyline);
 
 				//Polyline events
 				if (options.clickable) {
@@ -731,11 +729,11 @@ export function removePolylines(elementId, polylineOptions) {
 			for (var i = 0; i < polylineOptions.length; i++) {
 				let options = polylineOptions[i];
 
-				_mapsPolylines.forEach((element, index) => {
+				mapWithDotnetRef.polylines.forEach((element, index) => {
 					if (options.id == element.id) {
 						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
-						_mapsPolylines.splice(index, 1);
+						mapWithDotnetRef.polylines.splice(index, 1);
 						return;
 					}
 				});
@@ -770,7 +768,7 @@ export function createCircles(elementId, circleOptions) {
 					zIndex: options.zIndex
 				});
 				circle.setMap(mapWithDotnetRef.map);
-				_mapsCircles.push(circle);
+				mapWithDotnetRef.circles.push(circle);
 
 				//Circle events
 					if (options.clickable) {
@@ -824,11 +822,11 @@ export function removeCircles(elementId, circleOptions) {
 			for (var i = 0; i < circleOptions.length; i++) {
 				let options = circleOptions[i];
 
-				_mapsCircles.forEach((element, index) => {
+				mapWithDotnetRef.circles.forEach((element, index) => {
 					if (options.id == element.id) {
 						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
-						_mapsCircles.splice(index, 1);
+						mapWithDotnetRef.circles.splice(index, 1);
 						return;
 					}
 				});
@@ -867,7 +865,7 @@ export function createRectangles(elementId, rectangleOptions) {
 					zIndex: options.zIndex
 				});
 				rectangle.setMap(mapWithDotnetRef.map);
-				_mapsRectangles.push(rectangle);
+				mapWithDotnetRef.rectangles.push(rectangle);
 
 				//Rectangle events
 				if (options.clickable) {
@@ -921,11 +919,11 @@ export function removeRectangles(elementId, rectangleOptions) {
 			for (var i = 0; i < rectangleOptions.length; i++) {
 				let options = rectangleOptions[i];
 
-				_mapsRectangles.forEach((element, index) => {
+				mapWithDotnetRef.rectangles.forEach((element, index) => {
 					if (options.id == element.id) {
 						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
-						_mapsRectangles.splice(index, 1);
+						mapWithDotnetRef.rectangles.splice(index, 1);
 						return;
 					}
 				});
@@ -968,7 +966,7 @@ export function createPolygons(elementId, polygonOptions) {
 					zIndex: options.zIndex
 				});
 				polygon.setMap(mapWithDotnetRef.map);
-				_mapsPolygons.push(polygon);
+				mapWithDotnetRef.polygons.push(polygon);
 
 				//Polygon events
 				if (options.clickable) {
@@ -1022,11 +1020,11 @@ export function removePolygons(elementId, polygonOptions) {
 			for (var i = 0; i < polygonOptions.length; i++) {
 				let options = polygonOptions[i];
 
-				_mapsPolygons.forEach((element, index) => {
+				mapWithDotnetRef.polygons.forEach((element, index) => {
 					if (options.id == element.id) {
 						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
-						_mapsPolygons.splice(index, 1);
+						mapWithDotnetRef.polygons.splice(index, 1);
 						return;
 					}
 				});
@@ -1070,6 +1068,18 @@ export function dispose(elementId) {
 		}
 		if (mapWithDotnetRef.mapMarkers) {
 			mapWithDotnetRef.mapMarkers = [];
+		}
+		if (mapWithDotnetRef.polylines) {
+			mapWithDotnetRef.polylines = [];
+		}
+		if (mapWithDotnetRef.circles) {
+			mapWithDotnetRef.circles = [];
+		}
+		if (mapWithDotnetRef.rectangles) {
+			mapWithDotnetRef.rectangles = [];
+		}
+		if (mapWithDotnetRef.polygons) {
+			mapWithDotnetRef.polygons = [];
 		}
 		mapWithDotnetRef.map = null;
 		mapWithDotnetRef.ref = null;

@@ -126,12 +126,15 @@ Maps component Width in px or %.
 Maps component Height in px or %.
 - **`BackgroundColor`: `string? { get; set; }` (default: NULL)** <br />
 Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
-This option can only be set when the map is initialized.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
 - **`ControlSize`: `int { get; set; }` (default: 0)** <br />
 Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
 - **`CustomControls`: `IEnumerable<GoogleMapCustomControl>? { get; set; }` (default: NULL)** <br />
 Custom controls to add to the Map that will execute callbacks for events.
-This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
+- **`Restriction`: `IEnumerable<GoogleMapRestriction>? { get; set; }` (default: NULL)** <br />
+Restrictions for Maps by coordinates SW/NE.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
 - **`Markers`: `ObservableRangeCollection<GoogleMapMarker>? { get; set; }` (default: NULL)** <br />
 MarkerOptions object used to define the properties that can be set on a Marker.
 ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
