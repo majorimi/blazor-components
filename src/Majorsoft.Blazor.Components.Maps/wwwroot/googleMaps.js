@@ -36,11 +36,39 @@
 	importedMaps.src = src;
 	importedMaps.defer = true;
 	document.head.appendChild(importedMaps);
+
+	//Inject Marker Clusterer JS - load WITHOUT defer so it's available before Google Maps callback
+	let importedMarkerClusterer = document.createElement('script');
+	importedMarkerClusterer.src = "https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js";
+	document.head.appendChild(importedMarkerClusterer);
 }
+
+// Helper function to wait for MarkerClusterer library to be available
+function waitForMarkerClusterer() {
+	return new Promise((resolve) => {
+		// Check every 100ms for markerClusterer availability
+		const checkInterval = setInterval(() => {
+			if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+				clearInterval(checkInterval);
+				resolve();
+			}
+		}, 100);
+
+		// Fallback: resolve after 5 seconds anyway (in case library fails to load)
+		setTimeout(() => {
+			clearInterval(checkInterval);
+			resolve();
+		}, 5000);
+	});
+}
+
 
 //Global function for Google Js callback. It will be called when "https://maps.googleapis.com/maps/api/js" loaded.
 //TODO: multiple instances of Js Maps if registered must be stored before callback happens. In the future it might causes timing issues...
-window.initGoogleMaps = () => {
+window.initGoogleMaps = async () => {
+	// Wait for MarkerClusterer to be available
+	await waitForMarkerClusterer();
+
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
 		let mapInfo = _mapsElementDict[i].value;
@@ -72,6 +100,17 @@ window.initGoogleMaps = () => {
 		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
+
+		//Marker clusters - initialize with empty markers array, will be populated when markers are added
+		if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+			_mapsElementDict[i].value.clusterer = new window.markerClusterer.MarkerClusterer({ 
+				markers: _mapsElementDict[i].value.mapMarkers, 
+				map: map 
+			});
+			console.log('MarkerClusterer initialized for map:', elementId);
+		} else {
+			console.warn('MarkerClusterer library not available for map:', elementId);
+		}
 
 		function mouseEventHandlers(mapsMouseEvent, callbackFuncName) {
 			if (map && map.elementId && mapsMouseEvent) {
@@ -292,7 +331,7 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize, restriction: restriction }
+			value: { ref: dotnetRef, map: null, clusterer: null, mapMarkers: [], bgColor: backgroundColor, ctrSize: controlSize, restriction: restriction }
 		});
 	}
 }
@@ -493,7 +532,6 @@ export function createMarkers(elementId, markers) {
 	if (elementId && markers && markers.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-
 			for (var i = 0; i < markers.length; i++) {
 
 				let markerData = markers[i];
@@ -507,6 +545,7 @@ export function createMarkers(elementId, markers) {
 				marker.setMap(mapWithDotnetRef.map);
 				setMarkerData(markerData, marker);
 				_mapsMarkers.push(marker);
+				mapWithDotnetRef.mapMarkers.push(marker); //Add to per-map markers array
 
 				//Marker events
 				if (markerData.clickable) {
@@ -552,6 +591,15 @@ export function createMarkers(elementId, markers) {
 				}
 			}
 		}
+
+		//Rebuild marker clusterer with all markers for this map to trigger proper clustering
+		if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
+			mapWithDotnetRef.clusterer.clearMarkers();
+			mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+			console.log('MarkerClusterer updated with', mapWithDotnetRef.mapMarkers.length, 'markers for map:', elementId);
+		} else if (!mapWithDotnetRef.clusterer) {
+			console.warn('No clusterer available for map:', elementId, '- markers will not be clustered');
+		}
 	}
 }
 export function removeMarkers(elementId, markers) {
@@ -570,6 +618,22 @@ export function removeMarkers(elementId, markers) {
 						return;
 					}
 				});
+
+				//Also remove from per-map markers array
+				mapWithDotnetRef.mapMarkers.forEach( (element, index) => {
+					if (markerData.id == element.id) {
+						mapWithDotnetRef.mapMarkers.splice(index, 1);
+						return;
+					}
+				});
+			}
+
+			//Rebuild marker clusterer after removing markers
+			if (mapWithDotnetRef.clusterer) {
+				mapWithDotnetRef.clusterer.clearMarkers();
+				if (mapWithDotnetRef.mapMarkers.length > 0) {
+					mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+				}
 			}
 		}
 	}
@@ -1000,6 +1064,13 @@ function geocodeAddress(address, successCallback) {
 export function dispose(elementId) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef.clusterer) {
+			mapWithDotnetRef.clusterer.clearMarkers();
+			mapWithDotnetRef.clusterer = null;
+		}
+		if (mapWithDotnetRef.mapMarkers) {
+			mapWithDotnetRef.mapMarkers = [];
+		}
 		mapWithDotnetRef.map = null;
 		mapWithDotnetRef.ref = null;
 

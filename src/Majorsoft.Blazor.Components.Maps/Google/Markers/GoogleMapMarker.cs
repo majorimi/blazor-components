@@ -5,10 +5,11 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 {
 	/// <summary>
 	/// MarkerOptions object used to define the properties that can be set on a Marker with event callbacks.
-	/// Contains only event callbacks, since JSInterop fails when trying to serialize Func as a property of GoogleMapMarkerBase class, so we need to split it into two classes.
 	/// </summary>
 	public class GoogleMapMarker : GoogleMapMarkerBase
 	{
+		//Contains only event callbacks, since JSInterop fails when trying to serialize Func as a property of GoogleMapMarkerBase class, so we need to split it into two classes.
+
 		/// <summary>
 		/// Callback function called when Marker was clicked.
 		/// </summary>
