@@ -298,6 +298,23 @@
 	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
 	[Parameter] public GoogleMapRestriction? Restriction { get; set; }
+	
+	private bool _enableMarkerClustering = true;
+	/// <summary>
+	/// Enables marker clustering for the map. Default is true;
+	/// </summary>
+	[Parameter] public bool EnableMarkerClustering
+	{
+        get => _enableMarkerClustering;
+        set
+        {
+            if (_mapInitialized && value != _enableMarkerClustering)
+            {
+                _enableMarkerClustering = value;
+                InvokeAsync(async () => await _mapService.SetMarkerClusteringAsync(_enableMarkerClustering));
+            }
+        }
+	}
 
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
@@ -1218,7 +1235,12 @@
 
 		if (_markers is not null)
 		{
+			//add null checks
 			_markers.CollectionChanged -= MarkersChanges;
+			_polygons.CollectionChanged -= MarkersChanges;
+			_polyLines.CollectionChanged -= MarkersChanges;
+			_rectangles.CollectionChanged -= MarkersChanges;
+			_circles.CollectionChanged -= MarkersChanges;
 		}
 	}
 }

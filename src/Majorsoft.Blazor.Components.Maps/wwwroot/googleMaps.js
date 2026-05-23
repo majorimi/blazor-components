@@ -334,11 +334,12 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 				ref: dotnetRef,
 				map: null,
 				clusterer: null,
+				enableMarkerClustering: true,
 				mapMarkers: [],
 				polylines: [],
 				circles: [],
 				rectangles: [],
-                polygons: [],
+				polygons: [],
 				bgColor: backgroundColor,
 				ctrSize: controlSize,
 				restriction: restriction
@@ -501,6 +502,31 @@ export function setOptions(elementId, options) {
 	}
 }
 
+export function setMarkerClustering(elementId, enable) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			// Store the state so it's respected when markers are recreated
+			mapWithDotnetRef.enableMarkerClustering = enable;
+
+			if (enable) {
+				// Enable clustering: add all markers to the clusterer
+				if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
+					mapWithDotnetRef.clusterer.clearMarkers();
+					mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+					console.log('Marker clustering enabled for map:', elementId);
+				}
+			} else {
+				// Disable clustering: clear the clusterer but keep the markers on the map
+				if (mapWithDotnetRef.clusterer) {
+					mapWithDotnetRef.clusterer.clearMarkers();
+					console.log('Marker clustering disabled for map:', elementId);
+				}
+			}
+		}
+	}
+}
+
 export function resizeMap(elementId) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -600,8 +626,13 @@ export function createMarkers(elementId, markers) {
 		//Rebuild marker clusterer with all markers for this map to trigger proper clustering
 		if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
 			mapWithDotnetRef.clusterer.clearMarkers();
-			mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
-			console.log('MarkerClusterer updated with', mapWithDotnetRef.mapMarkers.length, 'markers for map:', elementId);
+			// Only add markers to clusterer if clustering is enabled
+			if (mapWithDotnetRef.enableMarkerClustering) {
+				mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+				console.log('MarkerClusterer updated with', mapWithDotnetRef.mapMarkers.length, 'markers for map:', elementId);
+			} else {
+				console.log('Marker clustering disabled - skipping clusterer update for map:', elementId);
+			}
 		} else if (!mapWithDotnetRef.clusterer) {
 			console.warn('No clusterer available for map:', elementId, '- markers will not be clustered');
 		}

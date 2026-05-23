@@ -1,5 +1,4 @@
-﻿
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
@@ -485,6 +484,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.min.js");
 #endif
 			}
+		}
+
+		public async Task SetMarkerClusteringAsync(bool enable)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setMarkerClustering", MapContainerId, enable);
 		}
 
 		public async ValueTask DisposeAsync()

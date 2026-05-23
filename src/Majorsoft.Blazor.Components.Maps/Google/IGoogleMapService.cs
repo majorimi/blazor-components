@@ -218,5 +218,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// Creates and removes Polygon shapes on the Map with given values and event callbacks.
 		/// </summary>
 		Task CreatePolygonsAsync(IEnumerable<GoogleMapPolygonOptions>? newPolygons, IEnumerable<GoogleMapPolygonOptions>? polygons);
+
+		/// <summary>
+		/// Enables or disables marker clustering on the Map.
+		/// </summary>
+		/// <param name="enable">True to enable marker clustering, false to disable</param>
+		/// <returns>Async task</returns>
+		Task SetMarkerClusteringAsync(bool enable);
 	}
 }

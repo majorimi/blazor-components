@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Majorsoft.Blazor.Components.Core.Extensions;
+
 namespace Majorsoft.Blazor.Components.Maps.Google
 {
 	/// <summary>
