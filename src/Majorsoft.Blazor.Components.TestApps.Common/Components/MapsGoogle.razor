@@ -252,6 +252,9 @@
 				<li>Background color: <strong style="color: @_jsMapBackgroundColor;">@_jsMapBackgroundColor</strong></li>
 				<li>Control size: <strong>@(_jsMapControlSize)px</strong></li>
 				<li>Restrict map to New Zealand: <input class="mr-2" type="checkbox" @bind="_jsRestrictMap" disabled="disabled" /></li>
+				<li>
+					Enable Marker Clustering: <input type="checkbox" @bind="_enableMarkerClustering" disabled="disabled" />
+				</li>
 			</ul>
 		</p>
 	</div>
@@ -297,6 +300,7 @@
 				   CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 				   CustomControls="@_jsCustomControls"
 				   Markers="@_jsMarkers"
+				   EnableMarkerClustering="@_enableMarkerClustering"
 				   PolyLines="@_jsPolyLines"
 				   Circles="@_jsCircles"
 				   Rectangles="@_jsRectangles"
@@ -325,14 +329,15 @@
 				   OnMapResized="@OnMapResized"
 				   OnMapTilesLoaded="@OnMapTilesLoaded"
 				   OnMapIdle="@OnMapIdle"
+				   OnClusterClicked="@HandleClusterClicked"
 				   ApiKey="@_googleMapsApiKey" />
 
-		<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
+@* 		<GoogleMap @bind-Center="_jsMapCenter" @bind-Center:event="OnMapCenterChanged"
 				@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 				OnMapInitialized="@(() => {})"
 				   OnMapClicked="@OnMapClicked2"
 				   Markers="@_jsMarkers2"
-				ApiKey="@_googleMapsApiKey" />
+				ApiKey="@_googleMapsApiKey" /> *@
 
 	</div>
 </div>
@@ -342,7 +347,6 @@
 		<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.AddRange(_jsMarkersTmp); _jsMarkersTmp.Clear(); })">Show Markers</button>
 		<button class="btn btn-primary" @onclick="@(() => { _jsMarkers.Clear(); _jsMarkersTmp.Clear(); _jsPhotosAdded = false; })">Remove Markers</button>
 		<button class="btn btn-primary" @onclick="@AddPhotos">Add photo Markers</button>
-
 	</div>
 </div>
 <div class="row pb-2 mt-2">
@@ -394,6 +398,8 @@
 
 @implements IAsyncDisposable
 @inject IGeolocationService _geolocationService;
+
+@using Majorsoft.Blazor.Components.Maps.Google.Markers
 
 @code {
 	private string _googleMapsApiKey = "AIzaSyAufT8xIX8upTMoH4XkRckrbpMthBujUl4";
@@ -471,6 +477,15 @@
 			{
 				var clickedMarker = _jsMarkers.SingleOrDefault(x => x.Id == id);
 				_mapsLog = await WriteLog(_mapsLog, $"User added Marker Id: '{id}', drag started at position: '{pos?.ToString()}'");
+			}
+		};
+
+		//Cluster events
+		_jsMapClusterClickedCallback = async (clusterData) =>
+		{
+			if (_logMarkerAndDrawingEvents)
+			{
+				_mapsLog = await WriteLog(_mapsLog, $"Cluster was clicked with {clusterData.Count} markers at position: '{clusterData.Position?.ToString()}'");
 			}
 		};
 
@@ -686,6 +701,8 @@
 		LatLngBounds = new GoogleMapLatLngBounds(new GoogleMapLatLng() { Latitude = -47.35, Longitude = 166.28 },
 				new GoogleMapLatLng() { Latitude = -34.36, Longitude = -175.81 })
 	};
+	private bool _enableMarkerClustering = true;
+
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
 	private bool _jsDimensionInPx = true;
@@ -747,7 +764,8 @@
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragEndCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapMarkersDragStartCallback;
 
-	//PolyLine events
+	//Cluster events
+	private Func<GoogleMapClusterData, Task> _jsMapClusterClickedCallback;
 	private Func<string, Task> _jsMapPolyLinesClickCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapPolyLinesDragCallback;
 	private Func<string, GeolocationCoordinate, Task> _jsMapPolyLinesDragEndCallback;
@@ -1177,6 +1195,14 @@
 		if (_logOtherEvents)
 		{
 			_mapsLog = await WriteLog(_mapsLog, $"Map idle");
+		}
+	}
+
+	private async Task HandleClusterClicked(GoogleMapClusterData clusterData)
+	{
+		if (_logMarkerAndDrawingEvents)
+		{
+			_mapsLog = await WriteLog(_mapsLog, $"Cluster was clicked with {clusterData.Count} markers at position: '{clusterData.Position?.ToString()}'");
 		}
 	}
 

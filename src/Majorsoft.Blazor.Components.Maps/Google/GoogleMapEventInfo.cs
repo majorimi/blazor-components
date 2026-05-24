@@ -34,8 +34,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		private readonly Func<GeolocationCoordinate, Task>? _mapDragEndCallback;
 		private readonly Func<GeolocationCoordinate, Task>? _mapDragStartCallback;
 		private readonly Func<Rect, Task>? _mapResizedCallback;
-		private readonly Func<Task>? _mapTilesLoadedCallback;
-		private readonly Func<Task>? _mapIdleCallback;
+			private readonly Func<Task>? _mapTilesLoadedCallback;
+			private readonly Func<Task>? _mapIdleCallback;
+			private readonly Func<Markers.GoogleMapClusterData, Task>? _clusterClickedCallback;
 
 		private readonly Dictionary<string, GoogleMapCustomControl> _customControls;
 		private readonly Dictionary<string, GoogleMapMarker> _markers;
@@ -104,7 +105,8 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<GeolocationCoordinate, Task>? mapDragStartCallback = null,
 			Func<Rect, Task>? mapResizedCallback = null,
 			Func<Task>? mapTilesLoadedCallback = null,
-			Func<Task>? mapIdleCallback = null)
+			Func<Task>? mapIdleCallback = null,
+			Func<Markers.GoogleMapClusterData, Task>? clusterClickedCallback = null)
 		{
 			_mapContainerId = mapContainerId;
 
@@ -139,6 +141,7 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			_mapResizedCallback = mapResizedCallback;
 			_mapTilesLoadedCallback = mapTilesLoadedCallback;
 			_mapIdleCallback = mapIdleCallback;
+			_clusterClickedCallback = clusterClickedCallback;
 		}
 
 		public void AddCustomControls(IEnumerable<GoogleMapCustomControl> mapCustomControls)
@@ -511,6 +514,16 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			{
 				var callback = _markers[id].OnDragStartCallback;
 				await CustomEvent(callback, id, geolocation);
+			}
+		}
+
+		//Cluster events.
+		[JSInvokable("ClusterClicked")]
+		public async Task ClusterClicked(Markers.GoogleMapClusterData clusterData)
+		{
+			if (_clusterClickedCallback is not null)
+			{
+				await _clusterClickedCallback.Invoke(clusterData);
 			}
 		}
 

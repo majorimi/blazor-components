@@ -38,6 +38,7 @@
 				backgroundColor: BackgroundColor,
 				controlSize: ControlSize,
 				restriction: Restriction,
+                isMarkerClusteringEnabled: EnableMarkerClustering,
 				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
@@ -274,6 +275,15 @@
 					{
 						await OnMapIdle.InvokeAsync();
 					}
+				},
+				clusterClickedCallback: async (clusterData) =>
+				{
+					WriteDiag($"Cluster clicked with {clusterData.Count} markers.");
+
+					if (OnClusterClicked.HasDelegate)
+					{
+						await OnClusterClicked.InvokeAsync(clusterData);
+					}
 				});
 		}
 	}
@@ -281,9 +291,9 @@
 	//Settings only for initialization time.
 	/// <summary>
 	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
-	/// This option can only be set when the map is initialized.
+	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public string? BackgroundColor { get; set; }
+	[Parameter] public string? BackgroundColor { get; init; }
 	/// <summary>
 	/// Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
 	/// </summary>
@@ -292,29 +302,18 @@
 	/// Custom controls to add to the Map that will execute callbacks for events.
 	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public IEnumerable<GoogleMapCustomControl>? CustomControls { get; set; }
+	[Parameter] public IEnumerable<GoogleMapCustomControl>? CustomControls { get; init; }
 	/// <summary>
 	/// Restrictions for Maps by coordinates SW/NE.
 	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public GoogleMapRestriction? Restriction { get; set; }
-	
-	private bool _enableMarkerClustering = true;
+	[Parameter] public GoogleMapRestriction? Restriction { get; init; }
+
 	/// <summary>
 	/// Enables marker clustering for the map. Default is true;
+	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public bool EnableMarkerClustering
-	{
-        get => _enableMarkerClustering;
-        set
-        {
-            if (_mapInitialized && value != _enableMarkerClustering)
-            {
-                _enableMarkerClustering = value;
-                InvokeAsync(async () => await _mapService.SetMarkerClusteringAsync(_enableMarkerClustering));
-            }
-        }
-	}
+    [Parameter] public bool EnableMarkerClustering { get; init; } = true;
 
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
@@ -1173,6 +1172,11 @@
 	/// Callback function for Google Map idle event.
 	/// </summary>
 	[Parameter] public EventCallback OnMapIdle { get; set; }
+
+	/// <summary>
+	/// Callback function for marker cluster clicked event.
+	/// </summary>
+	[Parameter] public EventCallback<Markers.GoogleMapClusterData> OnClusterClicked { get; set; }
 
 	#endregion
 

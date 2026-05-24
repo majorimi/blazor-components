@@ -223,7 +223,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Rect, Task>? mapResizedCallback = null,
 			Func<Task>? mapTilesLoadedCallback = null,
 			Func<Task>? mapIdleCallback = null,
-			GoogleMapRestriction restriction = null)
+			Func<Markers.GoogleMapClusterData, Task>? clusterClickedCallback = null,
+			GoogleMapRestriction restriction = null,
+			bool isMarkerClusteringEnabled = true)
 		{
 			if(MapContainerId == mapContainerId)
 			{
@@ -257,11 +259,12 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				mapDragStartCallback: mapDragStartCallback,
 				mapResizedCallback: mapResizedCallback,
 				mapTilesLoadedCallback: mapTilesLoadedCallback,
-				mapIdleCallback: mapIdleCallback);
+				mapIdleCallback: mapIdleCallback,
+				clusterClickedCallback: clusterClickedCallback);
 
 			_dotNetObjectReference = DotNetObjectReference.Create<GoogleMapEventInfo>(info);
 
-			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize, restriction);
+			await _mapsJs.InvokeVoidAsync("init", apiKey, mapContainerId, _dotNetObjectReference, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled);
 		}
 
 		public async Task SetCenterAsync(double latitude, double longitude)
@@ -484,12 +487,6 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 				_mapsJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.Maps/googleMaps.min.js");
 #endif
 			}
-		}
-
-		public async Task SetMarkerClusteringAsync(bool enable)
-		{
-			await CheckJsObjectAsync();
-			await _mapsJs.InvokeVoidAsync("setMarkerClustering", MapContainerId, enable);
 		}
 
 		public async ValueTask DisposeAsync()

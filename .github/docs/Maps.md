@@ -138,6 +138,9 @@ Restrictions for Maps by coordinates SW/NE.
 - **`Markers`: `ObservableRangeCollection<GoogleMapMarker>? { get; set; }` (default: NULL)** <br />
 MarkerOptions object used to define the properties that can be set on a Marker.
 ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+- **`EnableMarkerClustering`: `bool { get; set; }` (default: true)** <br />
+Enable/disable marker clustering. When enabled, markers are grouped into clusters based on their proximity.
+When a cluster is clicked, the map automatically zooms to fit all markers in that cluster. ==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
 - **`PolyLines`: `ObservableRangeCollection<GoogleMapPolylineOptions>? { get; set; }` (default: _NULL_)** <br />
 PolylineOptions object used to define the properties that can be set on the map as PolyLines.
 ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
@@ -278,6 +281,10 @@ Callback function for Google Map resized event.
 Callback function for Google Map tiles loaded event.
 - **`OnMapIdle`: `EventCallback`** <br />
 Callback function for Google Map idle event.
+- **`OnClusterClicked`: `EventCallback<GoogleMapClusterData>`** <br />
+Callback function for marker cluster clicked event. This event is triggered when a user clicks on a cluster marker.
+The cluster data includes the number of markers in the cluster and the cluster position (latitude/longitude).
+When a cluster is clicked, the map automatically zooms to fit all markers within the cluster.
 
 ### Functions
 - **`CenterCurrentLocationOnMapAsync()`: `Task CenterCurrentLocationOnMapAsync()`** <br />

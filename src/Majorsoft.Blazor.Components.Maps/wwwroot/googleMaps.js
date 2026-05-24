@@ -1,9 +1,9 @@
-﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
+﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled) {
 	if (!key || !elementId || !dotnetRef) {
 		return;
 	}
 
-	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize, restriction); //Store map info
+	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled); //Store map info
 
 	let src = "https://maps.googleapis.com/maps/api/js?key=";
 	let scriptsIncluded = false;
@@ -101,14 +101,36 @@ window.initGoogleMaps = async () => {
 		_mapsElementDict[i].value.map = map;
 
 		//Marker clusters - initialize with empty markers array, will be populated when markers are added
-		if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+		if (_mapsElementDict[i].value.enableMarkerClustering && window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+			let onClusterClickHandler = (e, cluster, map) => {
+
+				// Call the default cluster click handler to maintain original zoom behavior
+				window.markerClusterer.defaultOnClusterClickHandler(e, cluster, map);
+
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+				if (mapWithDotnetRef) {
+
+					let coord = cluster.position.toJSON();
+					let pos = {
+						Latitude: coord.lat,
+						Longitude: coord.lng
+					};
+
+					let clusterData = {
+						Count: cluster.count,
+						Position: pos
+					};
+					mapWithDotnetRef.ref.invokeMethodAsync("ClusterClicked", clusterData);
+
+
+				}
+			};
+
 			_mapsElementDict[i].value.clusterer = new window.markerClusterer.MarkerClusterer({ 
 				markers: _mapsElementDict[i].value.mapMarkers, 
-				map: map 
+				map: map,
+				onClusterClick: onClusterClickHandler
 			});
-			console.log('MarkerClusterer initialized for map:', elementId);
-		} else {
-			console.warn('MarkerClusterer library not available for map:', elementId);
 		}
 
 		function mouseEventHandlers(mapsMouseEvent, callbackFuncName) {
@@ -319,7 +341,7 @@ window.initGoogleMaps = async () => {
 };
 
 //Store elementId with .NET Ref
-function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
+function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled) {
 	let elementFound = false;
 	for (let i = 0; i < dict.length; i++) {
 		if (dict[i].key === elementId) {
@@ -334,7 +356,7 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 				ref: dotnetRef,
 				map: null,
 				clusterer: null,
-				enableMarkerClustering: true,
+				enableMarkerClustering: isMarkerClusteringEnabled,
 				mapMarkers: [],
 				polylines: [],
 				circles: [],
@@ -502,31 +524,6 @@ export function setOptions(elementId, options) {
 	}
 }
 
-export function setMarkerClustering(elementId, enable) {
-	if (elementId) {
-		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-			// Store the state so it's respected when markers are recreated
-			mapWithDotnetRef.enableMarkerClustering = enable;
-
-			if (enable) {
-				// Enable clustering: add all markers to the clusterer
-				if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
-					mapWithDotnetRef.clusterer.clearMarkers();
-					mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
-					console.log('Marker clustering enabled for map:', elementId);
-				}
-			} else {
-				// Disable clustering: clear the clusterer but keep the markers on the map
-				if (mapWithDotnetRef.clusterer) {
-					mapWithDotnetRef.clusterer.clearMarkers();
-					console.log('Marker clustering disabled for map:', elementId);
-				}
-			}
-		}
-	}
-}
-
 export function resizeMap(elementId) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -625,16 +622,14 @@ export function createMarkers(elementId, markers) {
 
 		//Rebuild marker clusterer with all markers for this map to trigger proper clustering
 		if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
-			mapWithDotnetRef.clusterer.clearMarkers();
 			// Only add markers to clusterer if clustering is enabled
 			if (mapWithDotnetRef.enableMarkerClustering) {
+				mapWithDotnetRef.clusterer.clearMarkers();
 				mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
 				console.log('MarkerClusterer updated with', mapWithDotnetRef.mapMarkers.length, 'markers for map:', elementId);
 			} else {
 				console.log('Marker clustering disabled - skipping clusterer update for map:', elementId);
 			}
-		} else if (!mapWithDotnetRef.clusterer) {
-			console.warn('No clusterer available for map:', elementId, '- markers will not be clustered');
 		}
 	}
 }
@@ -658,7 +653,7 @@ export function removeMarkers(elementId, markers) {
 			}
 
 			//Rebuild marker clusterer after removing markers
-			if (mapWithDotnetRef.clusterer) {
+			if (mapWithDotnetRef.enableMarkerClustering && mapWithDotnetRef.clusterer) {
 				mapWithDotnetRef.clusterer.clearMarkers();
 				if (mapWithDotnetRef.mapMarkers.length > 0) {
 					mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
