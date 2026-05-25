@@ -487,11 +487,13 @@ See usage above with empty event handler.
 <GoogleMap @ref="_googleMap"
 	Height="@_jsMapHeight"
 	Width="@_jsMapWidth"
+	IsMapDimensionInPixels="@_jsDimensionInPx"
 	BackgroundColor="@_jsMapBackgroundColor"
+	Restriction="@(_jsRestrictMap ? _restriction : null)"
 	ControlSize="@_jsMapControlSize"
 	Center="@_jsMapCenter"
 	AnimateCenterChange="@_jsMapAnimateCenterChange"
-	Zoom="@_jsMapZoomLevel"
+	@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 	ZoomControl="@_jsZoomControl"
 	ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
 	MaxZoom="null"
@@ -518,6 +520,11 @@ See usage above with empty event handler.
 	CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 	CustomControls="@_jsCustomControls"
 	Markers="@_jsMarkers"
+	EnableMarkerClustering="@_enableMarkerClustering"
+	PolyLines="@_jsPolyLines"
+	Circles="@_jsCircles"
+	Rectangles="@_jsRectangles"
+	Polygons="@_jsPolygons"
 	OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 	OnMapInitialized="@OnMapInitialized"
 	OnMapClicked="@OnMapClicked"
@@ -529,7 +536,6 @@ See usage above with empty event handler.
 	OnMapMouseOver="@OnMapMouseOver"
 	OnMapMouseOut="@OnMapMouseOut"
 	OnMapCenterChanged="@OnMapCenterChanged"
-	OnMapZoomLevelChanged="@OnMapZoomLevelChanged"
 	OnMapTypeChanged="@OnMapTypeChanged"
 	OnMapHeadingChanged="@OnMapHeadingChanged"
 	OnMapTiltChanged="@OnMapTiltChanged"
@@ -543,6 +549,7 @@ See usage above with empty event handler.
 	OnMapResized="@OnMapResized"
 	OnMapTilesLoaded="@OnMapTilesLoaded"
 	OnMapIdle="@OnMapIdle"
+	OnClusterClicked="@HandleClusterClicked"
 	ApiKey="@_googleMapsApiKey" />
 
 @code {
@@ -551,12 +558,22 @@ See usage above with empty event handler.
 	//Javascript Maps
 	private GoogleMap _googleMap;
 	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
-	private string _jsMapBackgroundColor = "lightblue";
+	private string _jsMapBackgroundColor = "lightblue"; //must be set before Init...
+	private bool _jsRestrictMap = false; //must be set before Init...
+	private GoogleMapRestriction _restriction = new GoogleMapRestriction()
+	{
+		LatLngBounds = new GoogleMapLatLngBounds(new GoogleMapLatLng() { Latitude = -47.35, Longitude = 166.28 },
+				new GoogleMapLatLng() { Latitude = -34.36, Longitude = -175.81 })
+	};
+	private bool _enableMarkerClustering = true; //must be set before Init...
+
+	//Other options
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
+	private bool _jsDimensionInPx = true;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 250;
-	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which might fail with Location services
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
 	private int _jsHeading = 0;
@@ -579,7 +596,21 @@ See usage above with empty event handler.
 	private bool _jsZoomControl = true;
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
+
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers = new ObservableRangeCollection<GoogleMapMarker>();
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp = new ObservableRangeCollection<GoogleMapMarker>();
+
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers2 = new ObservableRangeCollection<GoogleMapMarker>();
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp2 = new ObservableRangeCollection<GoogleMapMarker>();
+
+	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLines = new ObservableRangeCollection<GoogleMapPolylineOptions>();
+	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLinesTmp = new ObservableRangeCollection<GoogleMapPolylineOptions>();
+
+	private ObservableRangeCollection<GoogleMapCircleOptions> _jsCircles = new ObservableRangeCollection<GoogleMapCircleOptions>();
+	private ObservableRangeCollection<GoogleMapRectangleOptions> _jsRectangles = new ObservableRangeCollection<GoogleMapRectangleOptions>();
+	private ObservableRangeCollection<GoogleMapPolygonOptions> _jsPolygons = new ObservableRangeCollection<GoogleMapPolygonOptions>();
+
+	....
+	//Check other settings and event handlers in the demo app: https://blazorextensions.z6.web.core.windows.net/maps#google-js-maps
 }
 ```

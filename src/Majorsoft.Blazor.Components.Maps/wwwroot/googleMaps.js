@@ -43,22 +43,23 @@
 	document.head.appendChild(importedMarkerClusterer);
 }
 
-// Helper function to wait for MarkerClusterer library to be available
-function waitForMarkerClusterer() {
+// Helper function to wait for Google Maps and MarkerClusterer libraries to be available
+function waitForMapAndMarkerClusterer() {
 	return new Promise((resolve) => {
-		// Check every 100ms for markerClusterer availability
+		// Check every 100ms for both Google Maps and MarkerClusterer availability
 		const checkInterval = setInterval(() => {
-			if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+			if (window.google && window.google.maps && 
+				window.markerClusterer && window.markerClusterer.MarkerClusterer) {
 				clearInterval(checkInterval);
 				resolve();
 			}
 		}, 100);
 
-		// Fallback: resolve after 5 seconds anyway (in case library fails to load)
+		// Fallback: resolve after 3 seconds anyway (in case library fails to load)
 		setTimeout(() => {
 			clearInterval(checkInterval);
 			resolve();
-		}, 5000);
+		}, 3000);
 	});
 }
 
@@ -66,7 +67,7 @@ function waitForMarkerClusterer() {
 //Global function for Google Js callback. It will be called when "https://maps.googleapis.com/maps/api/js" loaded.
 window.initGoogleMaps = async () => {
 	// Wait for MarkerClusterer to be available
-	await waitForMarkerClusterer();
+	await waitForMapAndMarkerClusterer();
 
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
@@ -436,6 +437,11 @@ export function getBounds(elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			let bounds = mapWithDotnetRef.map.getBounds();
+
+			// Check if bounds is null before accessing its methods
+			if (!bounds) {
+				return null;
+			}
 
 			let ret = {
 				Center: convertToLatLng(bounds.getCenter()),

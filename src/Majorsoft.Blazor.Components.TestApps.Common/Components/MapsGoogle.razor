@@ -402,7 +402,7 @@
 @using Majorsoft.Blazor.Components.Maps.Google.Markers
 
 @code {
-	private string _googleMapsApiKey = "AIzaSyAufT8xIX8upTMoH4XkRckrbpMthBujUl4";
+	private string _googleMapsApiKey = "AIzaSyAv-6SailPQN1R5PytUAkbdaGI9IHZTU5s";
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -695,14 +695,16 @@
 	//Javascript Maps
 	private GoogleMap _googleMap;
 	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
-	private string _jsMapBackgroundColor = "lightblue";
+	private string _jsMapBackgroundColor = "lightblue"; //must be set before Init...
+	private bool _jsRestrictMap = false; //must be set before Init...
 	private GoogleMapRestriction _restriction = new GoogleMapRestriction()
 	{
 		LatLngBounds = new GoogleMapLatLngBounds(new GoogleMapLatLng() { Latitude = -47.35, Longitude = 166.28 },
 				new GoogleMapLatLng() { Latitude = -34.36, Longitude = -175.81 })
 	};
-	private bool _enableMarkerClustering = true;
+	private bool _enableMarkerClustering = true; //must be set before Init...
 
+    //Other options
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
 	private bool _jsDimensionInPx = true;
@@ -729,7 +731,6 @@
 	private bool _jsScaleControl = true;
 	private bool _jsStreetViewControl = true;
 	private bool _jsZoomControl = true;
-	private bool _jsRestrictMap = false; //must be set before Init...
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
 
