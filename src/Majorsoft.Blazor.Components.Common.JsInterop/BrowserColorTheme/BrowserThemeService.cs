@@ -75,9 +75,20 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.BrowserColorTheme
 		{
 			if (_moduleTask.IsValueCreated)
 			{
-				var module = await _moduleTask.Value;
-				await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
-				await module.DisposeAsync();
+				try
+				{
+					var module = await _moduleTask.Value;
+					await module.InvokeVoidAsync("dispose", (object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+					await module.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

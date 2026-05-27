@@ -28,7 +28,7 @@ Injecting and protecting this _Token_ or _API Key_ in your Blazor application is
 - **`IGoogleMapService`**: Injectable service to handle Google JavaScript Maps functionalities. Available on the instance of `GoogleMap` object ref as well.
 
 #### Bing:
-- **`BindMap`**: _Planned in release v1.6.0_
+- **`BindMap`**: _Planned in release TBD_
 
 Maps using `IGeolocationService` (see "Dependences") to center current position.
 It can be omitted and injected separately to your components as well to get or track device location. 
@@ -118,21 +118,41 @@ Exposes a Blazor `ElementReference` of the wrapped around HTML element. It can b
 Map HTML container Id. It can be used when multiple Maps added to one page.
 - **`GoogleMapService`: `string { get; }`** <br />
 Exposes `IGeolocationService` which is handling JsInterop. This instance can be used for access more GoogleMap features.
+- **`IsMapDimensionInPixels`: `int { get; set; }` (default: true)** <br />
+Determines if the Maps component Width and Height dimensions are declared in px or %.
 - **`Width`: `int { get; set; }` (default: 400)** <br />
-Maps image Width in px.
+Maps component Width in px or %.
 - **`Height`: `int { get; set; }` (default: 300)** <br />
-Maps image Height in px.
+Maps component Height in px or %.
 - **`BackgroundColor`: `string? { get; set; }` (default: NULL)** <br />
 Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
-This option can only be set when the map is initialized.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
 - **`ControlSize`: `int { get; set; }` (default: 0)** <br />
 Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
 - **`CustomControls`: `IEnumerable<GoogleMapCustomControl>? { get; set; }` (default: NULL)** <br />
 Custom controls to add to the Map that will execute callbacks for events.
-This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
+- **`Restriction`: `IEnumerable<GoogleMapRestriction>? { get; set; }` (default: NULL)** <br />
+Restrictions for Maps by coordinates SW/NE.
+==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
 - **`Markers`: `ObservableRangeCollection<GoogleMapMarker>? { get; set; }` (default: NULL)** <br />
 MarkerOptions object used to define the properties that can be set on a Marker.
 ObservableCollection can be initialized only once! Add or remove items to the collection the change marker properties (Marker properties value changes not detected).
+- **`EnableMarkerClustering`: `bool { get; set; }` (default: true)** <br />
+Enable/disable marker clustering. When enabled, markers are grouped into clusters based on their proximity.
+When a cluster is clicked, the map automatically zooms to fit all markers in that cluster. ==This option can only be set when the map is initialized. Use `OnInitialized` method to set it up.==
+- **`PolyLines`: `ObservableRangeCollection<GoogleMapPolylineOptions>? { get; set; }` (default: _NULL_)** <br />
+PolylineOptions object used to define the properties that can be set on the map as PolyLines.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
+- **`Circles`: `ObservableRangeCollection<GoogleMapCircleOptions>? { get; set; }` (default: _NULL_)** <br />
+CircleOptions object used to define the properties that can be set on the map as Circles.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change circle properties (Circle properties value changes not detected).
+- **`Rectangles`: `ObservableRangeCollection<GoogleMapRectangleOptions>? { get; set; }` (default: _NULL_)** <br />
+RectangleOptions object used to define the properties that can be set on the map as Rectangles.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change rectangle properties (Rectangle properties value changes not detected).
+- **`Polygons`: `ObservableRangeCollection<GoogleMapPolygonOptions>? { get; set; }` (default: _NULL_)** <br />
+PolygonOptions object used to define the properties that can be set on the map as Polygons.
+ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polygon properties (Polygon properties value changes not detected).
 - **`Zoom`: `byte { get; set; }` (default: 12)** <br />
 Defines the zoom level of the map, which determines the magnification level of the map.
 - **`ZoomControl`: `bool { get; set; }` (default: true)** <br />
@@ -261,6 +281,10 @@ Callback function for Google Map resized event.
 Callback function for Google Map tiles loaded event.
 - **`OnMapIdle`: `EventCallback`** <br />
 Callback function for Google Map idle event.
+- **`OnClusterClicked`: `EventCallback<GoogleMapClusterData>`** <br />
+Callback function for marker cluster clicked event. This event is triggered when a user clicks on a cluster marker.
+The cluster data includes the number of markers in the cluster and the cluster position (latitude/longitude).
+When a cluster is clicked, the map automatically zooms to fit all markers within the cluster.
 
 ### Functions
 - **`CenterCurrentLocationOnMapAsync()`: `Task CenterCurrentLocationOnMapAsync()`** <br />
@@ -463,11 +487,13 @@ See usage above with empty event handler.
 <GoogleMap @ref="_googleMap"
 	Height="@_jsMapHeight"
 	Width="@_jsMapWidth"
+	IsMapDimensionInPixels="@_jsDimensionInPx"
 	BackgroundColor="@_jsMapBackgroundColor"
+	Restriction="@(_jsRestrictMap ? _restriction : null)"
 	ControlSize="@_jsMapControlSize"
 	Center="@_jsMapCenter"
 	AnimateCenterChange="@_jsMapAnimateCenterChange"
-	Zoom="@_jsMapZoomLevel"
+	@bind-Zoom="_jsMapZoomLevel" @bind-Zoom:event="OnMapZoomLevelChanged"
 	ZoomControl="@_jsZoomControl"
 	ZoomControlOptionsPosition="GoogleMapControlPositions.RIGHT_BOTTOM"
 	MaxZoom="null"
@@ -494,6 +520,11 @@ See usage above with empty event handler.
 	CenterCurrentLocationOnLoad="@_jsMapCenterCurrentLocation"
 	CustomControls="@_jsCustomControls"
 	Markers="@_jsMarkers"
+	EnableMarkerClustering="@_enableMarkerClustering"
+	PolyLines="@_jsPolyLines"
+	Circles="@_jsCircles"
+	Rectangles="@_jsRectangles"
+	Polygons="@_jsPolygons"
 	OnCurrentLocationDetected="@JavaScripMapLocationDetected"
 	OnMapInitialized="@OnMapInitialized"
 	OnMapClicked="@OnMapClicked"
@@ -505,7 +536,6 @@ See usage above with empty event handler.
 	OnMapMouseOver="@OnMapMouseOver"
 	OnMapMouseOut="@OnMapMouseOut"
 	OnMapCenterChanged="@OnMapCenterChanged"
-	OnMapZoomLevelChanged="@OnMapZoomLevelChanged"
 	OnMapTypeChanged="@OnMapTypeChanged"
 	OnMapHeadingChanged="@OnMapHeadingChanged"
 	OnMapTiltChanged="@OnMapTiltChanged"
@@ -519,6 +549,7 @@ See usage above with empty event handler.
 	OnMapResized="@OnMapResized"
 	OnMapTilesLoaded="@OnMapTilesLoaded"
 	OnMapIdle="@OnMapIdle"
+	OnClusterClicked="@HandleClusterClicked"
 	ApiKey="@_googleMapsApiKey" />
 
 @code {
@@ -527,12 +558,22 @@ See usage above with empty event handler.
 	//Javascript Maps
 	private GoogleMap _googleMap;
 	private GeolocationData _jsMapCenter = new GeolocationData("Times Square New York");
-	private string _jsMapBackgroundColor = "lightblue";
+	private string _jsMapBackgroundColor = "lightblue"; //must be set before Init...
+	private bool _jsRestrictMap = false; //must be set before Init...
+	private GoogleMapRestriction _restriction = new GoogleMapRestriction()
+	{
+		LatLngBounds = new GoogleMapLatLngBounds(new GoogleMapLatLng() { Latitude = -47.35, Longitude = 166.28 },
+				new GoogleMapLatLng() { Latitude = -34.36, Longitude = -175.81 })
+	};
+	private bool _enableMarkerClustering = true; //must be set before Init...
+
+	//Other options
 	private int _jsMapControlSize = 38;
 	private byte _jsMapZoomLevel = 10;
+	private bool _jsDimensionInPx = true;
 	private int _jsMapWidth = 450;
 	private int _jsMapHeight = 250;
-	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which might fail with Location services
+	private bool _jsMapCenterCurrentLocation = true; //Overrides Center. Async operation which micht fail with Location services
 	private GoogleMapTypes _jsMapType = GoogleMapTypes.Roadmap;
 	private byte _jsTilt = 0;
 	private int _jsHeading = 0;
@@ -555,7 +596,21 @@ See usage above with empty event handler.
 	private bool _jsZoomControl = true;
 
 	private List<GoogleMapCustomControl> _jsCustomControls = new List<GoogleMapCustomControl>();
+
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers = new ObservableRangeCollection<GoogleMapMarker>();
 	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp = new ObservableRangeCollection<GoogleMapMarker>();
+
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkers2 = new ObservableRangeCollection<GoogleMapMarker>();
+	private ObservableRangeCollection<GoogleMapMarker> _jsMarkersTmp2 = new ObservableRangeCollection<GoogleMapMarker>();
+
+	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLines = new ObservableRangeCollection<GoogleMapPolylineOptions>();
+	private ObservableRangeCollection<GoogleMapPolylineOptions> _jsPolyLinesTmp = new ObservableRangeCollection<GoogleMapPolylineOptions>();
+
+	private ObservableRangeCollection<GoogleMapCircleOptions> _jsCircles = new ObservableRangeCollection<GoogleMapCircleOptions>();
+	private ObservableRangeCollection<GoogleMapRectangleOptions> _jsRectangles = new ObservableRangeCollection<GoogleMapRectangleOptions>();
+	private ObservableRangeCollection<GoogleMapPolygonOptions> _jsPolygons = new ObservableRangeCollection<GoogleMapPolygonOptions>();
+
+	....
+	//Check other settings and event handlers in the demo app: https://blazorextensions.z6.web.core.windows.net/maps#google-js-maps
 }
 ```

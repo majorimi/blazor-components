@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Majorsoft.Blazor.Components.PermaLink
 {
@@ -36,6 +37,6 @@ namespace Majorsoft.Blazor.Components.PermaLink
 		/// <summary>
 		/// Starts a navigation watcher which will check for Permalinks in the URLs.
 		/// </summary>
-		void WatchPermaLinks();
+		Task WatchPermaLinksAsync();
 	}
 }

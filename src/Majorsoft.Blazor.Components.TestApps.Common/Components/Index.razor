@@ -108,7 +108,11 @@
 				<li><NavLink href="tooltips#popover">Popover</NavLink></li>
 			</ul>
 		</li>
+		<li><NavLink href="/" @onclick="() => navigationManager.Refresh(true)">WASM App loader</NavLink>: this application loading screen</li>
+
 		@*<li><NavLink href="draganddrop">Drag and Drop</NavLink></li>
 		<li><NavLink href="colorpicker">Color Picker</NavLink></li>*@
 	</ul>
 </p>
+
+@inject NavigationManager navigationManager;

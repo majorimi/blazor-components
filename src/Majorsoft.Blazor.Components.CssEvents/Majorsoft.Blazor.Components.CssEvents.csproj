@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<Configurations>Debug;Release</Configurations>
 		<nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Components.CssEvents</PackageId>
@@ -19,7 +20,7 @@
     <PackageReadmeFile>CssEvents.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<PackageTags>.Net5 Blazor CSS Animation Transition Events</PackageTags>
+		<PackageTags>.NET8 .NET9 .NET10 Blazor CSS Animation Transition Events</PackageTags>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
@@ -55,8 +56,14 @@
 	</ItemGroup>
 
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET10.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET9.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.16" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET8.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.27" />
 	</ItemGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

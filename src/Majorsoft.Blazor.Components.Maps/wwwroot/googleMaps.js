@@ -1,9 +1,9 @@
-﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
+﻿export function init(key, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled) {
 	if (!key || !elementId || !dotnetRef) {
 		return;
 	}
 
-	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize, restriction); //Store map info
+	storeElementIdWithDotnetRef(_mapsElementDict, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled); //Store map info
 
 	let src = "https://maps.googleapis.com/maps/api/js?key=";
 	let scriptsIncluded = false;
@@ -36,11 +36,39 @@
 	importedMaps.src = src;
 	importedMaps.defer = true;
 	document.head.appendChild(importedMaps);
+
+	//Inject Marker Clusterer JS - load WITHOUT defer so it's available before Google Maps callback
+	let importedMarkerClusterer = document.createElement('script');
+	importedMarkerClusterer.src = "https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js";
+	document.head.appendChild(importedMarkerClusterer);
 }
 
+// Helper function to wait for Google Maps and MarkerClusterer libraries to be available
+function waitForMapAndMarkerClusterer() {
+	return new Promise((resolve) => {
+		// Check every 100ms for both Google Maps and MarkerClusterer availability
+		const checkInterval = setInterval(() => {
+			if (window.google && window.google.maps && 
+				window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+				clearInterval(checkInterval);
+				resolve();
+			}
+		}, 100);
+
+		// Fallback: resolve after 3 seconds anyway (in case library fails to load)
+		setTimeout(() => {
+			clearInterval(checkInterval);
+			resolve();
+		}, 3000);
+	});
+}
+
+
 //Global function for Google Js callback. It will be called when "https://maps.googleapis.com/maps/api/js" loaded.
-//TODO: multiple instances of Js Maps if registered must be stored before callback happens. In the future it might causes timing issues...
-window.initGoogleMaps = () => {
+window.initGoogleMaps = async () => {
+	// Wait for MarkerClusterer to be available
+	await waitForMapAndMarkerClusterer();
+
 	for (let i = 0; i < _mapsElementDict.length; i++) {
 		let elementId = _mapsElementDict[i].key;
 		let mapInfo = _mapsElementDict[i].value;
@@ -72,6 +100,39 @@ window.initGoogleMaps = () => {
 		});
 		map.elementId = elementId;
 		_mapsElementDict[i].value.map = map;
+
+		//Marker clusters - initialize with empty markers array, will be populated when markers are added
+		if (_mapsElementDict[i].value.enableMarkerClustering && window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+			let onClusterClickHandler = (e, cluster, map) => {
+
+				// Call the default cluster click handler to maintain original zoom behavior
+				window.markerClusterer.defaultOnClusterClickHandler(e, cluster, map);
+
+				let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+				if (mapWithDotnetRef) {
+
+					let coord = cluster.position.toJSON();
+					let pos = {
+						Latitude: coord.lat,
+						Longitude: coord.lng
+					};
+
+					let clusterData = {
+						Count: cluster.count,
+						Position: pos
+					};
+					mapWithDotnetRef.ref.invokeMethodAsync("ClusterClicked", clusterData);
+
+
+				}
+			};
+
+			_mapsElementDict[i].value.clusterer = new window.markerClusterer.MarkerClusterer({ 
+				markers: _mapsElementDict[i].value.mapMarkers, 
+				map: map,
+				onClusterClick: onClusterClickHandler
+			});
+		}
 
 		function mouseEventHandlers(mapsMouseEvent, callbackFuncName) {
 			if (map && map.elementId && mapsMouseEvent) {
@@ -281,7 +342,7 @@ window.initGoogleMaps = () => {
 };
 
 //Store elementId with .NET Ref
-function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize, restriction) {
+function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor, controlSize, restriction, isMarkerClusteringEnabled) {
 	let elementFound = false;
 	for (let i = 0; i < dict.length; i++) {
 		if (dict[i].key === elementId) {
@@ -292,7 +353,20 @@ function storeElementIdWithDotnetRef(dict, elementId, dotnetRef, backgroundColor
 	if (!elementFound) {
 		dict.push({
 			key: elementId,
-			value: { ref: dotnetRef, map: null, bgColor: backgroundColor, ctrSize: controlSize, restriction: restriction }
+			value: {
+				ref: dotnetRef,
+				map: null,
+				clusterer: null,
+				enableMarkerClustering: isMarkerClusteringEnabled,
+				mapMarkers: [],
+				polylines: [],
+				circles: [],
+				rectangles: [],
+				polygons: [],
+				bgColor: backgroundColor,
+				ctrSize: controlSize,
+				restriction: restriction
+			}
 		});
 	}
 }
@@ -315,8 +389,6 @@ function getElementIdWithDotnetRef(dict, elementId) {
 }
 
 let _mapsElementDict = [];
-let _mapsMarkers = [];
-let _mapsPolylines = [];
 
 //Google JS Maps Features
 export function setCenterCoords(elementId, latitude, longitude) {
@@ -365,6 +437,11 @@ export function getBounds(elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			let bounds = mapWithDotnetRef.map.getBounds();
+
+			// Check if bounds is null before accessing its methods
+			if (!bounds) {
+				return null;
+			}
 
 			let ret = {
 				Center: convertToLatLng(bounds.getCenter()),
@@ -490,7 +567,6 @@ export function createMarkers(elementId, markers) {
 	if (elementId && markers && markers.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-
 			for (var i = 0; i < markers.length; i++) {
 
 				let markerData = markers[i];
@@ -503,7 +579,7 @@ export function createMarkers(elementId, markers) {
 
 				marker.setMap(mapWithDotnetRef.map);
 				setMarkerData(markerData, marker);
-				_mapsMarkers.push(marker);
+				mapWithDotnetRef.mapMarkers.push(marker); //Add to per-map markers array
 
 				//Marker events
 				if (markerData.clickable) {
@@ -521,6 +597,7 @@ export function createMarkers(elementId, markers) {
 
 						//If marker has info window
 						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
 							infoWindow.open(mapWithDotnetRef.map, marker);
 						}
 					});
@@ -548,26 +625,20 @@ export function createMarkers(elementId, markers) {
 				}
 			}
 		}
+
+		//Rebuild marker clusterer with all markers for this map to trigger proper clustering
+		if (mapWithDotnetRef.clusterer && mapWithDotnetRef.mapMarkers.length > 0) {
+			// Only add markers to clusterer if clustering is enabled
+			if (mapWithDotnetRef.enableMarkerClustering) {
+				mapWithDotnetRef.clusterer.clearMarkers();
+				mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+				console.log('MarkerClusterer updated with', mapWithDotnetRef.mapMarkers.length, 'markers for map:', elementId);
+			} else {
+				console.log('Marker clustering disabled - skipping clusterer update for map:', elementId);
+			}
+		}
 	}
 }
-//export function updateMarkers(elementId, markers) {
-//	if (elementId && markers && markers.length) {
-//		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-//		if (mapWithDotnetRef && mapWithDotnetRef.map) {
-
-//			for (var i = 0; i < markers.length; i++) {
-//				let markerData = markers[i];
-
-//				_mapsMarkers.forEach(element => {
-//					if (markerData.id == element.id) {
-//						setMarkerData(markerData, element);
-//						return;
-//					}
-//				});
-//			}
-//		}
-//	}
-//}
 export function removeMarkers(elementId, markers) {
 	if (elementId && markers && markers.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -576,13 +647,23 @@ export function removeMarkers(elementId, markers) {
 			for (var i = 0; i < markers.length; i++) {
 				let markerData = markers[i];
 
-				_mapsMarkers.forEach( (element, index) => {
+				//Remove from per-map markers array
+				mapWithDotnetRef.mapMarkers.forEach( (element, index) => {
 					if (markerData.id == element.id) {
+						google.maps.event.clearInstanceListeners(element); // Remove all event listeners
 						element.setMap(null);
-						_mapsMarkers.splice(index, 1);
+						mapWithDotnetRef.mapMarkers.splice(index, 1);
 						return;
 					}
 				});
+			}
+
+			//Rebuild marker clusterer after removing markers
+			if (mapWithDotnetRef.enableMarkerClustering && mapWithDotnetRef.clusterer) {
+				mapWithDotnetRef.clusterer.clearMarkers();
+				if (mapWithDotnetRef.mapMarkers.length > 0) {
+					mapWithDotnetRef.clusterer.addMarkers(mapWithDotnetRef.mapMarkers);
+				}
 			}
 		}
 	}
@@ -614,7 +695,7 @@ function setMarkerData(markerData, marker) {
 	marker.setZIndex(markerData.zIndex);
 }
 
-//Drawing
+//Drawing Polylines
 export function createPolylines(elementId, polylineOptions) {
 	if (elementId && polylineOptions && polylineOptions.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
@@ -626,9 +707,48 @@ export function createPolylines(elementId, polylineOptions) {
 
 				let polyline = new google.maps.Polyline(options);
 				polyline.setMap(mapWithDotnetRef.map);
-				_mapsPolylines.push(marker);
+				mapWithDotnetRef.polylines.push(polyline);
 
+				//Polyline events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
 
+					polyline.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("PolylineClicked", options.id);
+
+						//If polyline has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					polyline.addListener("drag", () => {
+						polylineDragEvents("PolylineDrag", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+					polyline.addListener("dragend", () => {
+						polylineDragEvents("PolylineDragEnd", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+					polyline.addListener("dragstart", () => {
+						polylineDragEvents("PolylineDragStart", options.id, polyline.getPath().getAt(0).toJSON());
+					});
+
+					function polylineDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
 			}
 		}
 	}
@@ -636,16 +756,16 @@ export function createPolylines(elementId, polylineOptions) {
 export function removePolylines(elementId, polylineOptions) {
 	if (elementId && polylineOptions && polylineOptions.length) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
-
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 
 			for (var i = 0; i < polylineOptions.length; i++) {
 				let options = polylineOptions[i];
 
-				_mapsPolylines.forEach((element, index) => {
+				mapWithDotnetRef.polylines.forEach((element, index) => {
 					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
 						element.setMap(null);
-						_mapsPolylines.splice(index, 1);
+						mapWithDotnetRef.polylines.splice(index, 1);
 						return;
 					}
 				});
@@ -653,6 +773,299 @@ export function removePolylines(elementId, polylineOptions) {
 		}
 	}
 }
+
+//Drawing Circles
+export function createCircles(elementId, circleOptions) {
+	if (elementId && circleOptions && circleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < circleOptions.length; i++) {
+				let options = circleOptions[i];
+
+				let circle = new google.maps.Circle({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					center: { lat: options.center.latitude, lng: options.center.longitude },
+					radius: options.radius,
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				circle.setMap(mapWithDotnetRef.map);
+				mapWithDotnetRef.circles.push(circle);
+
+				//Circle events
+					if (options.clickable) {
+						//Create infoWindow
+						let infoWindow = null;
+						if (options.infoWindow) {
+							infoWindow = new google.maps.InfoWindow({
+								content: options.infoWindow.content,
+								maxWidth: options.infoWindow.maxWidth
+							});
+						}
+
+						circle.addListener("click", (event) => {
+							mapWithDotnetRef.ref.invokeMethodAsync("CircleClicked", options.id);
+
+							//If circle has info window
+							if (infoWindow) {
+								infoWindow.setPosition(event.latLng);
+								infoWindow.open(mapWithDotnetRef.map);
+							}
+						});
+					}
+					if (options.draggable) {
+						circle.addListener("drag", () => {
+							circleDragEvents("CircleDrag", options.id, circle.getCenter().toJSON());
+						});
+						circle.addListener("dragend", () => {
+							circleDragEvents("CircleDragEnd", options.id, circle.getCenter().toJSON());
+						});
+						circle.addListener("dragstart", () => {
+							circleDragEvents("CircleDragStart", options.id, circle.getCenter().toJSON());
+						});
+
+						function circleDragEvents(callBackName, id, pos) {
+							let arg = {
+								Latitude: pos.lat,
+								Longitude: pos.lng
+							};
+							mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+						}
+					}
+			}
+		}
+	}
+}
+export function removeCircles(elementId, circleOptions) {
+	if (elementId && circleOptions && circleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < circleOptions.length; i++) {
+				let options = circleOptions[i];
+
+				mapWithDotnetRef.circles.forEach((element, index) => {
+					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
+						element.setMap(null);
+						mapWithDotnetRef.circles.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
+
+//Drawing Rectangles
+export function createRectangles(elementId, rectangleOptions) {
+	if (elementId && rectangleOptions && rectangleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < rectangleOptions.length; i++) {
+				let options = rectangleOptions[i];
+
+				let rectangle = new google.maps.Rectangle({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					bounds: {
+						north: options.bounds.northEast.lat,
+						south: options.bounds.southWest.lat,
+						east: options.bounds.northEast.lng,
+						west: options.bounds.southWest.lng
+					},
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				rectangle.setMap(mapWithDotnetRef.map);
+				mapWithDotnetRef.rectangles.push(rectangle);
+
+				//Rectangle events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
+
+					rectangle.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("RectangleClicked", options.id);
+
+						//If rectangle has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					rectangle.addListener("drag", () => {
+						rectangleDragEvents("RectangleDrag", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+					rectangle.addListener("dragend", () => {
+						rectangleDragEvents("RectangleDragEnd", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+					rectangle.addListener("dragstart", () => {
+						rectangleDragEvents("RectangleDragStart", options.id, rectangle.getBounds().getCenter().toJSON());
+					});
+
+					function rectangleDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
+			}
+		}
+	}
+}
+export function removeRectangles(elementId, rectangleOptions) {
+	if (elementId && rectangleOptions && rectangleOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < rectangleOptions.length; i++) {
+				let options = rectangleOptions[i];
+
+				mapWithDotnetRef.rectangles.forEach((element, index) => {
+					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
+						element.setMap(null);
+						mapWithDotnetRef.rectangles.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
+
+//Drawing Polygons (triangle, square, etc.)
+export function createPolygons(elementId, polygonOptions) {
+	if (elementId && polygonOptions && polygonOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < polygonOptions.length; i++) {
+				let options = polygonOptions[i];
+
+				// Convert paths from C# format to Google Maps format
+				let paths = [];
+				if (options.paths && options.paths.length) {
+					for (var j = 0; j < options.paths.length; j++) {
+						paths.push({ lat: options.paths[j].lat, lng: options.paths[j].lng });
+					}
+				}
+
+				let polygon = new google.maps.Polygon({
+					id: options.id,
+					strokeColor: options.strokeColor,
+					strokeOpacity: options.strokeOpacity,
+					strokeWeight: options.strokeWeight,
+					fillColor: options.fillColor,
+					fillOpacity: options.fillOpacity,
+					paths: paths,
+					clickable: options.clickable,
+					draggable: options.draggable,
+					editable: options.editable,
+					geodesic: options.geodesic,
+					visible: options.visible,
+					zIndex: options.zIndex
+				});
+				polygon.setMap(mapWithDotnetRef.map);
+				mapWithDotnetRef.polygons.push(polygon);
+
+				//Polygon events
+				if (options.clickable) {
+					//Create infoWindow
+					let infoWindow = null;
+					if (options.infoWindow) {
+						infoWindow = new google.maps.InfoWindow({
+							content: options.infoWindow.content,
+							maxWidth: options.infoWindow.maxWidth
+						});
+					}
+
+					polygon.addListener("click", (event) => {
+						mapWithDotnetRef.ref.invokeMethodAsync("PolygonClicked", options.id);
+
+						//If polygon has info window
+						if (infoWindow) {
+							infoWindow.setPosition(event.latLng);
+							infoWindow.open(mapWithDotnetRef.map);
+						}
+					});
+				}
+				if (options.draggable) {
+					polygon.addListener("drag", () => {
+						polygonDragEvents("PolygonDrag", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+					polygon.addListener("dragend", () => {
+						polygonDragEvents("PolygonDragEnd", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+					polygon.addListener("dragstart", () => {
+						polygonDragEvents("PolygonDragStart", options.id, polygon.getPath().getAt(0).toJSON());
+					});
+
+					function polygonDragEvents(callBackName, id, pos) {
+						let arg = {
+							Latitude: pos.lat,
+							Longitude: pos.lng
+						};
+						mapWithDotnetRef.ref.invokeMethodAsync(callBackName, id, arg);
+					}
+				}
+			}
+		}
+	}
+}
+export function removePolygons(elementId, polygonOptions) {
+	if (elementId && polygonOptions && polygonOptions.length) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+
+			for (var i = 0; i < polygonOptions.length; i++) {
+				let options = polygonOptions[i];
+
+				mapWithDotnetRef.polygons.forEach((element, index) => {
+					if (options.id == element.id) {
+						google.maps.event.clearInstanceListeners(element);
+						element.setMap(null);
+						mapWithDotnetRef.polygons.splice(index, 1);
+						return;
+					}
+				});
+			}
+		}
+	}
+}
+
+
 
 //Google GeoCoder
 export function getAddressCoordinates(elementId, address) {
@@ -681,6 +1094,25 @@ function geocodeAddress(address, successCallback) {
 export function dispose(elementId) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef.clusterer) {
+			mapWithDotnetRef.clusterer.clearMarkers();
+			mapWithDotnetRef.clusterer = null;
+		}
+		if (mapWithDotnetRef.mapMarkers) {
+			mapWithDotnetRef.mapMarkers = [];
+		}
+		if (mapWithDotnetRef.polylines) {
+			mapWithDotnetRef.polylines = [];
+		}
+		if (mapWithDotnetRef.circles) {
+			mapWithDotnetRef.circles = [];
+		}
+		if (mapWithDotnetRef.rectangles) {
+			mapWithDotnetRef.rectangles = [];
+		}
+		if (mapWithDotnetRef.polygons) {
+			mapWithDotnetRef.polygons = [];
+		}
 		mapWithDotnetRef.map = null;
 		mapWithDotnetRef.ref = null;
 

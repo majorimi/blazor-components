@@ -28,7 +28,7 @@
         {
             //setup permalink
             _permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger, _navigationHistoryService);
-            _permalinkWatcher.WatchPermaLinks();
+            await _permalinkWatcher.WatchPermaLinksAsync();
         }
     }
 

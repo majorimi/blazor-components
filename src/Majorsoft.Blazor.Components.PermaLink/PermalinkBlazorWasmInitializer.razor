@@ -5,7 +5,7 @@
 
 @code {
     private static bool Initialized = false;
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (_singleton.Initialized)
         {
@@ -14,7 +14,7 @@
 
         _singleton.Initialized = true;
 
-        _permalinkWatcher.WatchPermaLinks();
+        await _permalinkWatcher.WatchPermaLinksAsync();
     }
 
     /// <summary>

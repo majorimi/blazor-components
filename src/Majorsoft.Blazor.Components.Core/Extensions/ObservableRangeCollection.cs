@@ -4,9 +4,44 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Majorsoft.Blazor.Components.Core.Extensions
 {
+	/// <summary>
+	/// Provides a base implementation of INotifyPropertyChanged with helpers to raise PropertyChanged and update backing
+	/// fields.
+	/// </summary>
+	/// <remarks>Derive from this type and call SetProperty in property setters to assign values and raise change
+	/// notifications. SetProperty treats two null values as equal and uses Equals for comparison. OnPropertyChanged
+	/// accepts one or more property names to raise notifications for multiple properties.</remarks>
+	public class NotifyPropertyChanged : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged;
+		public void OnPropertyChanged(params string[] props)
+		{
+			foreach (var prop in props)
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+		}
+
+		public bool SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string prop = "")
+		{
+			if (oldValue == null && newValue == null)
+			{
+				return false;
+			}
+
+			if (oldValue != null && oldValue.Equals(newValue))
+			{
+				return false;
+			}
+
+			oldValue = newValue;
+			OnPropertyChanged(prop);
+			return true;
+		}
+	}
+
 	/// <summary> 
 	/// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. 
 	/// </summary> 
@@ -32,8 +67,10 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void AddRange(IEnumerable<T> collection)
 		{
-			if (collection == null) 
+			if (collection == null)
+			{
 				throw new ArgumentNullException("collection");
+			}
 
 			foreach (var i in collection)
 			{
@@ -50,8 +87,10 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void RemoveRange(IEnumerable<T> collection)
 		{
-			if (collection == null) 
+			if (collection == null)
+			{
 				throw new ArgumentNullException("collection");
+			}
 
 			foreach (var i in collection)
 			{
@@ -76,8 +115,10 @@ namespace Majorsoft.Blazor.Components.Core.Extensions
 		/// </summary> 
 		public void ReplaceRange(IEnumerable<T> collection)
 		{
-			if (collection == null) 
+			if (collection == null)
+			{
 				throw new ArgumentNullException("collection");
+			}
 
 			var old = new List<T>();
 			old.AddRange(Items);

@@ -1,5 +1,5 @@
 ﻿<div id="@_mapContainerId" @ref="_jsMap"
-	 style="position: relative; overflow: hidden; width: @(Width)px; height: @(Height)px;" @attributes=AllOtherAttributes>
+	 style="position: relative; overflow: hidden; width: @(IsMapDimensionInPixels ? $"{Width}px" : $"{Width}%"); height: @(IsMapDimensionInPixels ? $"{Height}px" : $"{Height}%");"	 @attributes=AllOtherAttributes>
 </div>
 
 @implements IAsyncDisposable
@@ -38,6 +38,7 @@
 				backgroundColor: BackgroundColor,
 				controlSize: ControlSize,
 				restriction: Restriction,
+                isMarkerClusteringEnabled: EnableMarkerClustering,
 				mapInitializedCallback: async (mapId) =>
 				{
 					WriteDiag($"Google JavaScript API Map initialzied with DIV Id: '{_mapContainerId}'.");
@@ -274,6 +275,15 @@
 					{
 						await OnMapIdle.InvokeAsync();
 					}
+				},
+				clusterClickedCallback: async (clusterData) =>
+				{
+					WriteDiag($"Cluster clicked with {clusterData.Count} markers.");
+
+					if (OnClusterClicked.HasDelegate)
+					{
+						await OnClusterClicked.InvokeAsync(clusterData);
+					}
 				});
 		}
 	}
@@ -281,9 +291,9 @@
 	//Settings only for initialization time.
 	/// <summary>
 	/// Color used for the background of the Map div. This color will be visible when tiles have not yet loaded as the user pans.
-	/// This option can only be set when the map is initialized.
+	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public string? BackgroundColor { get; set; }
+	[Parameter] public string? BackgroundColor { get; init; }
 	/// <summary>
 	/// Size in pixels of the controls appearing on the map. This value must be supplied directly when creating the Map.
 	/// </summary>
@@ -292,16 +302,22 @@
 	/// Custom controls to add to the Map that will execute callbacks for events.
 	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public IEnumerable<GoogleMapCustomControl>? CustomControls { get; set; }
+	[Parameter] public IEnumerable<GoogleMapCustomControl>? CustomControls { get; init; }
 	/// <summary>
 	/// Restrictions for Maps by coordinates SW/NE.
 	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
 	/// </summary>
-	[Parameter] public GoogleMapRestriction? Restriction { get; set; }
+	[Parameter] public GoogleMapRestriction? Restriction { get; init; }
+
+	/// <summary>
+	/// Enables marker clustering for the map. Default is true;
+	/// This option can only be set when the map is initialized. Use <see cref="OnInitialized"/> method to set it up.
+	/// </summary>
+    [Parameter] public bool EnableMarkerClustering { get; init; } = true;
 
 	private ObservableRangeCollection<GoogleMapMarker>? _markers;
 	/// <summary>
-	/// MarkerOptions object used to define the properties that can be set on a Marker.
+	/// MarkerOptions object used to define the properties that can be set on map as Markers.
 	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapMarker>? Markers
@@ -326,8 +342,8 @@
 
 	private ObservableRangeCollection<GoogleMapPolylineOptions>? _polyLines;
 	/// <summary>
-	/// MarkerOptions object used to define the properties that can be set on a Marker.
-	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change marker properties (Marker properties value changes not detected).
+	/// PolylineOptions object used to define the properties that can be set on map as PolyLines.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polyline properties (Polyline properties value changes not detected).
 	/// </summary>
 	[Parameter] public ObservableRangeCollection<GoogleMapPolylineOptions>? PolyLines
 	{
@@ -343,9 +359,81 @@
 	}
 	private void PolyLinesChanges(object? sender, NotifyCollectionChangedEventArgs e)
 	{
-		WriteDiag($"{nameof(MarkersChanges)} PolyLines collection has changed, item Count: '{_markers?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+		WriteDiag($"{nameof(MarkersChanges)} PolyLines collection has changed, item Count: '{_polyLines?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
 
-		InvokeAsync(async () => await _mapService.CreatePolylinesAsync(e.NewItems?.Cast<GoogleMapPolylineOptions>(), _markers?.Cast<GoogleMapPolylineOptions>()));
+		InvokeAsync(async () => await _mapService.CreatePolylinesAsync(e.NewItems?.Cast<GoogleMapPolylineOptions>(), _polyLines?.Cast<GoogleMapPolylineOptions>()));
+	}
+
+	private ObservableRangeCollection<GoogleMapCircleOptions>? _circles;
+	/// <summary>
+	/// CircleOptions object used to define the properties that can be set on map as Circles.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change circle properties (Circle properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapCircleOptions>? Circles
+	{
+		get => _circles;
+		set
+		{
+			if (_circles is null && value is not null) //Subscribe to events only once!
+			{
+				_circles = value;
+				_circles.CollectionChanged += CirclesChanges;
+			}
+		}
+	}
+	private void CirclesChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(CirclesChanges)} Circles collection has changed, item Count: '{_circles?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateCirclesAsync(e.NewItems?.Cast<GoogleMapCircleOptions>(), _circles?.Cast<GoogleMapCircleOptions>()));
+	}
+
+	private ObservableRangeCollection<GoogleMapRectangleOptions>? _rectangles;
+	/// <summary>
+	/// RectangleOptions object used to define the properties that can be set on map as Rectangles.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change rectangle properties (Rectangle properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapRectangleOptions>? Rectangles
+	{
+		get => _rectangles;
+		set
+		{
+			if (_rectangles is null && value is not null) //Subscribe to events only once!
+			{
+				_rectangles = value;
+				_rectangles.CollectionChanged += RectanglesChanges;
+			}
+		}
+	}
+	private void RectanglesChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(RectanglesChanges)} Rectangles collection has changed, item Count: '{_rectangles?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreateRectanglesAsync(e.NewItems?.Cast<GoogleMapRectangleOptions>(), _rectangles?.Cast<GoogleMapRectangleOptions>()));
+	}
+
+	private ObservableRangeCollection<GoogleMapPolygonOptions>? _polygons;
+	/// <summary>
+	/// PolygonOptions object used to define the properties that can be set on map as Polygons.
+	/// ObservableCollection can be initialized only once! Add or remove items to the collection (use `OnMapInitialized` event or user interactions) the change polygon properties (Polygon properties value changes not detected).
+	/// </summary>
+	[Parameter] public ObservableRangeCollection<GoogleMapPolygonOptions>? Polygons
+	{
+		get => _polygons;
+		set
+		{
+			if (_polygons is null && value is not null) //Subscribe to events only once!
+			{
+				_polygons = value;
+				_polygons.CollectionChanged += PolygonsChanges;
+			}
+		}
+	}
+	private void PolygonsChanges(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		WriteDiag($"{nameof(PolygonsChanges)} Polygons collection has changed, item Count: '{_polygons?.Count}', NewItems Count: '{e.NewItems?.Count}', OldItems Count: '{e.OldItems?.Count}', Action: '{e.Action}'");
+
+		InvokeAsync(async () => await _mapService.CreatePolygonsAsync(e.NewItems?.Cast<GoogleMapPolygonOptions>(), _polygons?.Cast<GoogleMapPolygonOptions>()));
 	}
 
 	private byte _zoomLevel = 12;
@@ -457,7 +545,7 @@
 	//Size
 	private int _width = 400;
 	/// <summary>
-	/// Maps image Width in px.
+	/// Maps image Width in px or %.
 	/// </summary>
 	[Parameter]
 	public int Width
@@ -474,7 +562,7 @@
 	}
 	private int _height = 300;
 	/// <summary>
-	/// Maps image Height in px.
+	/// Maps image Height in px or %.
 	/// </summary>
 	[Parameter]
 	public int Height
@@ -489,6 +577,12 @@
 			}
 		}
 	}
+
+	/// <summary>
+	/// Gets or sets True indicating whether the map dimensions are specified in pixels, False means %.
+	/// </summary>
+	[Parameter]
+	public bool IsMapDimensionInPixels { get; set; } = true;
 
 	private GeolocationData? _center;
 	/// <summary>
@@ -1079,6 +1173,11 @@
 	/// </summary>
 	[Parameter] public EventCallback OnMapIdle { get; set; }
 
+	/// <summary>
+	/// Callback function for marker cluster clicked event.
+	/// </summary>
+	[Parameter] public EventCallback<Markers.GoogleMapClusterData> OnClusterClicked { get; set; }
+
 	#endregion
 
 	/// <summary>
@@ -1140,7 +1239,12 @@
 
 		if (_markers is not null)
 		{
+			//add null checks
 			_markers.CollectionChanged -= MarkersChanges;
+			_polygons.CollectionChanged -= MarkersChanges;
+			_polyLines.CollectionChanged -= MarkersChanges;
+			_rectangles.CollectionChanged -= MarkersChanges;
+			_circles.CollectionChanged -= MarkersChanges;
 		}
 	}
 }

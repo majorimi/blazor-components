@@ -48,6 +48,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="mapResizedCallback">Callback function for Map resized event</param>
 		/// <param name="mapTilesLoadedCallback">Callback function for Map tiles loaded event</param>
 		/// <param name="mapIdleCallback">Callback function for Map idle event</param>
+		/// <param name="clusterClickedCallback">Callback function for marker cluster clicked event</param>
+		/// <param name="restriction">Restriction for the map boundaries</param>
+		/// <param name="isMarkerClusteringEnabled">Indicates whether marker clustering is enabled</param>
 		/// <returns>Async task</returns>
 		Task InitMapAsync(string apiKey, 
 			string mapContainerId,
@@ -77,7 +80,9 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			Func<Rect, Task> mapResizedCallback = null,
 			Func<Task> mapTilesLoadedCallback = null,
 			Func<Task> mapIdleCallback = null,
-			GoogleMapRestriction restriction = null);
+			Func<Markers.GoogleMapClusterData, Task> clusterClickedCallback = null,
+			GoogleMapRestriction restriction = null,
+			bool isMarkerClusteringEnabled = true);
 
 		/// <summary>
 		/// Sets the center point as coordinates of the Map.
@@ -203,5 +208,20 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		/// <param name="polylines"></param>
 		/// <returns></returns>
 		Task CreatePolylinesAsync(IEnumerable<GoogleMapPolylineOptions>? newPolylines, IEnumerable<GoogleMapPolylineOptions>? polylines);
+
+		/// <summary>
+		/// Creates and removes Circle shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreateCirclesAsync(IEnumerable<GoogleMapCircleOptions>? newCircles, IEnumerable<GoogleMapCircleOptions>? circles);
+
+		/// <summary>
+		/// Creates and removes Rectangle shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreateRectanglesAsync(IEnumerable<GoogleMapRectangleOptions>? newRectangles, IEnumerable<GoogleMapRectangleOptions>? rectangles);
+
+		/// <summary>
+		/// Creates and removes Polygon shapes on the Map with given values and event callbacks.
+		/// </summary>
+		Task CreatePolygonsAsync(IEnumerable<GoogleMapPolygonOptions>? newPolygons, IEnumerable<GoogleMapPolygonOptions>? polygons);
 	}
 }

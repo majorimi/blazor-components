@@ -113,12 +113,23 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Resize
 		{
 			if (_resizeJs is not null)
 			{
-				await _resizeJs.InvokeVoidAsync("dispose", 
-					(object)_dotNetObjectReferences.Select(s => s.Value.ElementReference).ToArray());
-				await _resizeJs.InvokeVoidAsync("disposeGlobal", 
-					(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
+				try
+				{
+					await _resizeJs.InvokeVoidAsync("dispose", 
+						(object)_dotNetObjectReferences.Select(s => s.Value.ElementReference).ToArray());
+					await _resizeJs.InvokeVoidAsync("disposeGlobal", 
+						(object)_dotNetObjectReferences.Select(s => s.Value.EventId).ToArray());
 
-				await _resizeJs.DisposeAsync();
+					await _resizeJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

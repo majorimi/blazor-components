@@ -87,10 +87,21 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Geo
 		{
 			if (_geoJs is not null)
 			{
-				await _geoJs.InvokeVoidAsync("dispose", 
-					(object)_dotNetObjectReferences.Select(s => s.Value.HandlerId).Distinct().ToArray());
+				try
+				{
+					await _geoJs.InvokeVoidAsync("dispose", 
+						(object)_dotNetObjectReferences.Select(s => s.Value.HandlerId).Distinct().ToArray());
 
-				await _geoJs.DisposeAsync();
+					await _geoJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 
 			foreach (var item in _dotNetObjectReferences)

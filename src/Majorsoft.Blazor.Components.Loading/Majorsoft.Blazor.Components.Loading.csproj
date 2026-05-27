@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<nullable>enable</nullable>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <Configurations>Debug;Release</Configurations>
+    <nullable>enable</nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Majorsoft.Blazor.Components.Loading</PackageId>
 		<Version>1.0.0.0</Version>
@@ -23,7 +24,7 @@
 			Blazor components that renders Overlays for the whole page on load or for specific element on custom event. Also HTML Button with customizable content for showing async operation in progress/loading state. Part of Majorsoft Blazor library.
 		</Description>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-		<PackageTags>.Net5 Blazor Htlm.Button Overlay PageLoading Loading Progress</PackageTags>
+		<PackageTags>.NET8 .NET9 .NET10 Blazor Htlm.Button Overlay PageLoading Loading Progress</PackageTags>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<Title>Blazor Components Loading</Title>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -33,10 +34,16 @@
 		<Content Remove="bundleconfig.json" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.25" />
-	</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'NET10.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'NET9.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.16" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'NET8.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.27" />
+  </ItemGroup>
+  
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
@@ -61,11 +68,22 @@
 	<ItemGroup>
 		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
 	</ItemGroup>
-	<ItemGroup>
+
+  <!-- Use Target to include Core DLL per TFM - _PackageFiles doesn't resolve $(TargetFramework) in Include -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeCoreDllInPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="IncludeCoreDllInPackage">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)Majorsoft.Blazor.Components.Core.dll" PackagePath="lib/$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
+
+	<!--<ItemGroup>
 		<_PackageFiles Include="$(OutputPath)\Majorsoft.Blazor.Components.Core.dll">
 			<BuildAction>None</BuildAction>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</_PackageFiles>
-	</ItemGroup>
+	</ItemGroup>-->
 
 </Project>

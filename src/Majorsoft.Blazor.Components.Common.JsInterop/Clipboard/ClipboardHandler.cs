@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -46,7 +47,18 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Clipboard
 		{
 			if (_clipboardJs is not null)
 			{
-				await _clipboardJs.DisposeAsync();
+				try
+				{
+					await _clipboardJs.DisposeAsync();
+				}
+				catch (JSDisconnectedException)
+				{
+					// Circuit disconnected, ignore.
+				}
+				catch (ObjectDisposedException)
+				{
+					// JS runtime already disposed, ignore.
+				}
 			}
 		}
 	}

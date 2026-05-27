@@ -29,7 +29,7 @@
     <PackageReference Include="Majorsoft.Blazor.Extensions.Analytics" Version="2.0.0" />
     <PackageReference Include="Majorsoft.Blazor.Extensions.BrowserStorage" Version="2.0.0" />
     <PackageReference Include="Majorsoft.Blazor.WebAssembly.Logging.Console" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.8" />
   </ItemGroup>
 
 </Project>

@@ -409,7 +409,7 @@ Then `Toast` notifications can be configured, prompted, removed and listened for
 Following code example shows how to use **`IHtmlNotificationService`** service.
 
 **NOTE**: *in order to show System notifications user Consent is required for the given Website per Browser. 
-Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist allowing notifications to shown by the App in the given time, etc...*
+Also Operating System must allow Notification to show e.g.: Notification center Turned On, Focus assist/Silent mode, etc. allowing notifications to shown by the App in the given time, etc...*
 
 This example shows how to **check HTML notification is supported by Browser and ask User consent (permission) to prompt HTML notification**:
 ```
@@ -515,7 +515,7 @@ This example shows how to prompt "simple" (**without Custom Actions with callbac
 ```
 
 This example shows how to prompt "simple" (**Custom Actions with callbacks are possible with registered [Service Worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification)**) 
-HTML notification.
+HTML notification. Demo contains a simple Service Worker. It must be hosted by your App.
 ```
 @inject IHtmlNotificationService _notificationService
 @implements IAsyncDisposable

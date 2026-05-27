@@ -30,7 +30,7 @@ This is the main service which makes Permalink navigation possible. **Should be 
 For more details see Usage section.
 
 ### Functions
-- **`WatchPermaLinks()`**: **`void WatchPermaLinks()`** <br />
+- **`WatchPermaLinksAsync()`**: **`Task WatchPermaLinksAsync()`** <br />
 Starts a navigation watcher which will check for Permalinks in the URLs.
 - **`ChangePermalink()`**: **`void ChangePermalink(string? newPermalink, bool doNotNavigate)`** <br />
 Modify the current URL with given new peralink value and trigger navigation or just update browser History.
@@ -140,9 +140,9 @@ Also instance should be disposed.
 @implements IDisposable
 
 @code {
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		_permalinkWatcher.WatchPermaLinks();
+		await _permalinkWatcher.WatchPermaLinksAsync();
 	}
 
 	public void Dispose()
@@ -202,7 +202,7 @@ It has to be instantiated manually by using the following code. Also instance sh
 		{
 			//setup permalink
 			_permalinkWatcher = new PermaLinkWatcherService(_scrollHandler, _navigationManager, _logger);
-			_permalinkWatcher.WatchPermaLinks();
+			await _permalinkWatcher.WatchPermaLinksAsync();
 		}
 	}
 
@@ -219,6 +219,9 @@ It has to be instantiated manually by using the following code. Also instance sh
 	}
 }
 ```
+**From v2.1.0 project is .NET 6.0 or later. Which does not support the URL fragment navigation. Because of this activation method is now async `WatchPermaLinksAsync()`.**
+
+Method is now using polling, since no event fired by the Framework when URL fragment changed. Recommended to check your app performance. If you are using the Initializer components below, then no code changes needed.
 
 **From v1.4.0 a simpler initializer is available!** **Only one Initializer component allowed per Application.**
 ```
