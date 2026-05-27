@@ -57,5 +57,11 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Navigation
 		/// <param name="url">New URL to show and add to history</param>
 		/// <returns>ValueTask</returns>
 		ValueTask PushStateAsync(ExpandoObject? state, string title, string url);
+
+		/// <summary>
+		/// Gets the current URL of the page, including the query string and fragment identifier.
+		/// </summary>
+		/// <returns>Returns window.location.href</returns>
+		ValueTask<string> GetCurrentLocation();
 	}
 }

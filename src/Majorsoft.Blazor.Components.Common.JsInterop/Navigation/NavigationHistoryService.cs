@@ -34,5 +34,9 @@ namespace Majorsoft.Blazor.Components.Common.JsInterop.Navigation
 
 		public async ValueTask ReplaceStateAsync(ExpandoObject? state, string title, string url)
 			=> await _jSRuntime.InvokeVoidAsync("history.replaceState", state, title, url);
+
+		public async ValueTask<string> GetCurrentLocation()
+			=> await _jSRuntime.InvokeAsync<string>("eval", "window.location.href");
+
 	}
 }

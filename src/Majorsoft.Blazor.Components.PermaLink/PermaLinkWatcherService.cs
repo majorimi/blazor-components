@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Majorsoft.Blazor.Components.Common.JsInterop.Navigation;
 using Majorsoft.Blazor.Components.Common.JsInterop.Scroll;
@@ -15,7 +17,10 @@ namespace Majorsoft.Blazor.Components.PermaLink
 	/// </summary>
 	public class PermaLinkWatcherService : IPermaLinkWatcherService
 	{
+		PeriodicTimer periodicTimer;
+		private string _lastUrl = "";
 		private bool _subscribed = false;
+
 		private readonly Regex _poundRegex = new Regex("#(.*)$", RegexOptions.Singleline|RegexOptions.Compiled);
 		private readonly IScrollHandler _scrollHandler;
 		private readonly NavigationManager _navigationManager;
@@ -37,31 +42,42 @@ namespace Majorsoft.Blazor.Components.PermaLink
 			_logger = logger;
 			_navigationHistoryService = navigationHistoryService;
 			SmoothScroll = smoothScroll;
+			periodicTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
 		}
 
-		public void WatchPermaLinks()
+		public async Task WatchPermaLinksAsync()
 		{
 			if (!_subscribed)
 			{
-				_navigationManager.LocationChanged += HandleLocationChanged;
 				_subscribed = true;
-				HandleLocationChanged(this, new LocationChangedEventArgs(_navigationManager.Uri, false));
+
+				while (_subscribed)
+				{
+					await periodicTimer.WaitForNextTickAsync();
+					await CheckUrlPeriodically();
+				}
 			}
 		}
 
-		private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+		private async Task CheckUrlPeriodically()
 		{
-			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(HandleLocationChanged)}: navigation happened new URL: '{e.Location}'");
-			var perma = DetectPermalink(e.Location);
+			var url = await _navigationHistoryService.GetCurrentLocation();
+			_logger.LogDebug($"{nameof(PermaLinkWatcherService)} - {nameof(CheckUrlPeriodically)}: Timer elapsed. Previous URL: '{_lastUrl}', new URL: '{url}'");
 
-			if(!string.IsNullOrWhiteSpace(perma))
+			if (url != _lastUrl)
 			{
-				if(PermalinkDetected is not null)
-				{
-					PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(e, perma));
-				}
+				_lastUrl = url;
+				var perma = DetectPermalink(url);
 
-				_scrollHandler.ScrollToElementByNameAsync(perma, SmoothScroll);
+				if (!string.IsNullOrWhiteSpace(perma))
+				{
+					if (PermalinkDetected is not null)
+					{
+						PermalinkDetected.Invoke(this, new PermalinkDetectedEventArgs(new LocationChangedEventArgs(url, false), perma));
+					}
+
+					await _scrollHandler.ScrollToElementByNameAsync(perma, SmoothScroll);
+				}
 			}
 		}
 
@@ -130,7 +146,7 @@ namespace Majorsoft.Blazor.Components.PermaLink
 
 		public void Dispose()
 		{
-			_navigationManager.LocationChanged -= HandleLocationChanged;
+			_subscribed = false;
 		}
 	}
 }
