@@ -95,7 +95,7 @@ jobs:
       displayName: 'dotnet pack'
       inputs:
         command: 'pack'
-        packagesToPack: 'src/**/*.csproj;!**/*.Test[s].csproj;!**/*App*.csproj'
+        packagesToPack: 'src/**/*.csproj;!**/*.Test[s].csproj;!**/*Test*.csproj;!**/*Demo*.csproj'
         configuration: '$(buildConfiguration)'
         packDirectory: '$(Build.ArtifactStagingDirectory)/nupkgs'
         nobuild: true
