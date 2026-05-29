@@ -23,6 +23,7 @@ namespace Majorsoft.Blazor.Components.Maps
 			}
 
 			services.AddTransient<IGoogleMapService, GoogleMapService>();
+			services.AddTransient<Majorsoft.Blazor.Components.Maps.Bing.IBingMapService, Majorsoft.Blazor.Components.Maps.Bing.BingMapService>();
 
 			return services;
 		}
