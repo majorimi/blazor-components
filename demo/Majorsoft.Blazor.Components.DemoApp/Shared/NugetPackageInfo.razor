@@ -1,0 +1,54 @@
+@*Renders a Nuget package reference: package name as Strong text, a formatted link to Nuget.org and the installed version read from the referenced assembly (DLL).*@
+@using System.Linq
+@using System.Reflection
+
+<strong>@PackageName</strong> package@(string.IsNullOrEmpty(Version) ? "" : $" (v{Version})") is available on <a href="https://www.nuget.org/packages/@PackageName" target="_blank">Nuget</a>
+
+@code {
+	/// <summary>
+	/// Nuget package name. It is also the assembly (DLL) name which is used to read the installed package version.
+	/// </summary>
+	[Parameter] public string PackageName { get; set; } = "";
+
+	private string? Version { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		Version = GetInstalledVersion(PackageName);
+	}
+
+	private static string? GetInstalledVersion(string packageName)
+	{
+		if (string.IsNullOrWhiteSpace(packageName))
+		{
+			return null;
+		}
+
+		//Nuget name equals the DLL/assembly name, so try to find it among the loaded assemblies first.
+		var assembly = AppDomain.CurrentDomain.GetAssemblies()
+			.FirstOrDefault(a => string.Equals(a.GetName().Name, packageName, StringComparison.OrdinalIgnoreCase));
+
+		if (assembly is null)
+		{
+			try
+			{
+				assembly = Assembly.Load(new AssemblyName(packageName));
+			}
+			catch
+			{
+				return null; //Package is not referenced by this demo app, so no version can be shown.
+			}
+		}
+
+		//AssemblyInformationalVersion is closest to the published Nuget version. Strip the Source Link
+		//build metadata (e.g. "1.0.0.0+commitHash") when present.
+		var informational = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+		if (!string.IsNullOrWhiteSpace(informational))
+		{
+			var index = informational.IndexOf('+');
+			return index >= 0 ? informational.Substring(0, index) : informational;
+		}
+
+		return assembly.GetName().Version?.ToString();
+	}
+}
