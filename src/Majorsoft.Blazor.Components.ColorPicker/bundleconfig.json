@@ -4,5 +4,11 @@
     "inputFiles": [
       "HslColorSelector.razor.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/colorPicker.min.js",
+    "inputFiles": [
+      "wwwroot/colorPicker.js"
+    ]
   }
 ]

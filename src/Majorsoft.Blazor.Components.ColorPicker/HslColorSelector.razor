@@ -1,332 +1,671 @@
-﻿<div class="picker-container" style="height:@(HueAreaHeight + 2)px; width: @(HueAreaWidth + 2)px; background-color: @_sliderThumbHex;">
-	<div @ref="_colorPicker" class="picker-color" @onclick="ClickInColor"></div>
-	<span class="picker-handler" tabindex="0" @onclick="ClickInHandler" @onmousedown="@DragStart"
-		style="height:@(_selectorThumbSize)px; width:@(_selectorThumbSize)px; left:@(_selectorThumbLeft)px; top: @(_selectorThumbTop)px; background:@_selectorThumbHex;">
-	</span>
-</div>
-
-<input id="@($"_hue_{_componentId}")" class="hue" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;" 
-	   type="range" min="0" max="360" step="1" @bind="_hue" @oninput="HueChanged" />
-
-@if(ShowInfoArea) {
-	<div style="width:@(HueSliderWidth)px; margin-top:1rem;">
-		<div>
-			<div class="colorInfoWrapper" style="width: 49%">
-				<div class="colorInfoData" style="background:@_selectorThumbHex; border: lightgray solid 0.5px;"></div>
-				<div class="colorInfoWrapperLabel">Sample</div>
-			</div>
-			<div class="colorInfoWrapper" style="width: 49%">
-				<div class="colorInfoData">
-					<input class="colorInfoDataInput" value="@(SelectedColor.IsKnownColor ? SelectedColor.Name : "-")" />
-				</div>
-				<div class="colorInfoWrapperLabel">Name</div>		
-			</div>
-		</div>
-
-		<div>
-			<div class="colorInfoWrapper">
-				<div class="colorInfoData">
-					<input class="colorInfoDataInput" value="@($"{SelectedColor.R}, {SelectedColor.G}, {SelectedColor.B}")" />
-				</div>
-				<div class="colorInfoWrapperLabel">RGB</div>
-			</div>
-			<div class="colorInfoWrapper">
-				<div class="colorInfoData">
-					<input class="colorInfoDataInput" value="@(ColorTranslator.ToHtml(SelectedColor))" />
-				</div>
-				<div class="colorInfoWrapperLabel">HEX</div>		
-			</div>
-			<div class="colorInfoWrapper">
-				<div class="colorInfoData">
-					<input class="colorInfoDataInput" value="@("")" />
-				</div>
-				<div class="colorInfoWrapperLabel">HSL</div>		
-			</div>
-		</div>
-	</div>
-}
-
-<style>
-	input[id=@($"_hue_{_componentId}")].hue::-webkit-slider-thumb {
-		background: @_sliderThumbHex;
-		width: @(_sliderThumbSize)px;
-		height: @(_sliderThumbSize)px;
-	}
-	input[id=@($"_hue_{_componentId}")].hue::-moz-range-thumb {
-		background: @_sliderThumbHex;
-		width: @(_sliderThumbSize)px;
-		height: @(_sliderThumbSize)px;
-	}
-	input[id=@($"_hue_{_componentId}")].hue::-ms-thumb {
-		background: @_sliderThumbHex;
-		width: @(_sliderThumbSize)px;
-		height: @(_sliderThumbSize)px;
-	}
-</style>
-
 @inject ILogger<HslColorSelector> _logger;
 @inject IGlobalMouseEventHandler _globalMouseEventHandler;
+@inject IClipboardHandler _clipboardHandler;
+@inject IJSRuntime _jsRuntime;
 
 @implements IAsyncDisposable
 
+<div class="majorsoft-color-picker @Class" style="width:@(HueAreaWidth)px; @Style" @attributes="AllOtherAttributes">
+
+	@*Saturation / Brightness (HSV) selection area*@
+	<div class="picker-container" style="height:@(HueAreaHeight)px; width:@(HueAreaWidth)px; background-color: @_hueHex;">
+		<div @ref="_colorPicker" class="picker-color" @onmousedown="SvDragStart" @onmousedown:preventDefault="true"></div>
+		<span class="picker-handler" tabindex="0"
+			  style="left:@(_selectorThumbLeft.ToString(_ci))px; top:@(_selectorThumbTop.ToString(_ci))px; background:@_colorHexNoAlpha;">
+		</span>
+	</div>
+
+	@*Hue slider*@
+	<input id="@($"_hue_{_componentId}")" class="hue-slider" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;"
+		   type="range" min="0" max="360" step="1" value="@_hue" @oninput="HueChanged" aria-label="Hue" />
+
+	@*Alpha (opacity) slider*@
+	@if (EnableAlpha)
+	{
+		<div class="alpha-track" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;">
+			<div class="alpha-track-color" style="background:linear-gradient(to right, transparent, @_colorHexNoAlpha);"></div>
+			<input id="@($"_alpha_{_componentId}")" class="alpha-slider" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;"
+				   type="range" min="0" max="100" step="1" value="@_alphaPercent" @oninput="AlphaChanged" aria-label="Alpha" />
+		</div>
+	}
+
+	@if (ShowInfoArea)
+	{
+		<div class="info-area" style="width:@(HueSliderWidth)px;">
+
+			@*Preview + HEX with action buttons*@
+			<div class="info-row">
+				<div class="preview-wrapper">
+					<div class="preview-transparency"></div>
+					<div class="preview-color" style="background:@_colorCss;"></div>
+				</div>
+
+				<div class="colorInfoWrapper hex-wrapper">
+					<input class="colorInfoDataInput" value="@_hexText" @onchange="HexChanged" spellcheck="false" aria-label="HEX value" />
+					<div class="colorInfoWrapperLabel">HEX</div>
+				</div>
+
+				@if (ShowEyeDropper && _eyeDropperSupported)
+				{
+					<button type="button" class="picker-action-btn" title="Pick a color from screen" @onclick="EyeDropperAsync">
+						<svg class="picker-action-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+							<path d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.39.4-1.02.01-1.41zM6.92 19L5 17.08l8.06-8.06 1.92 1.92L6.92 19z"
+								  fill="currentColor" />
+						</svg>
+					</button>
+				}
+				@if (ShowCopyButton)
+				{
+					<button type="button" class="picker-action-btn" title="Copy color to clipboard" @onclick="CopyAsync">
+						@if (_copied)
+						{
+							<svg class="picker-action-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+								<path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor" />
+							</svg>
+						}
+						else
+						{
+							<svg class="picker-action-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+								<path d="M16 1H4a2 2 0 0 0-2 2v12a1 1 0 1 0 2 0V3h12a1 1 0 1 0 0-2zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z" fill="currentColor" />
+							</svg>
+						}
+					</button>
+				}
+			</div>
+
+			@*RGB(A) inputs*@
+			<div class="info-row">
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="255" class="colorInfoDataInput" value="@_color.R" @onchange="RedChanged" aria-label="Red" />
+					<div class="colorInfoWrapperLabel">R</div>
+				</div>
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="255" class="colorInfoDataInput" value="@_color.G" @onchange="GreenChanged" aria-label="Green" />
+					<div class="colorInfoWrapperLabel">G</div>
+				</div>
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="255" class="colorInfoDataInput" value="@_color.B" @onchange="BlueChanged" aria-label="Blue" />
+					<div class="colorInfoWrapperLabel">B</div>
+				</div>
+				@if (EnableAlpha)
+				{
+					<div class="colorInfoWrapper">
+						<input type="number" min="0" max="100" class="colorInfoDataInput" value="@_alphaPercent" @onchange="AlphaInputChanged" aria-label="Alpha percent" />
+						<div class="colorInfoWrapperLabel">A %</div>
+					</div>
+				}
+			</div>
+
+			@*HSL inputs*@
+			<div class="info-row">
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="360" class="colorInfoDataInput" value="@((int)Math.Round(_hsl.Hue))" @onchange="HslHueChanged" aria-label="Hue degrees" />
+					<div class="colorInfoWrapperLabel">H &deg;</div>
+				</div>
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="100" class="colorInfoDataInput" value="@((int)Math.Round(_hsl.Saturation))" @onchange="HslSaturationChanged" aria-label="Saturation percent" />
+					<div class="colorInfoWrapperLabel">S %</div>
+				</div>
+				<div class="colorInfoWrapper">
+					<input type="number" min="0" max="100" class="colorInfoDataInput" value="@((int)Math.Round(_hsl.Luminosity))" @onchange="HslLuminosityChanged" aria-label="Lightness percent" />
+					<div class="colorInfoWrapperLabel">L %</div>
+				</div>
+			</div>
+
+			@if (ShowColorName)
+			{
+				<div class="info-row">
+					<div class="colorInfoWrapper name-wrapper">
+						<input class="colorInfoDataInput" readonly value="@(_color.IsKnownColor ? _color.Name : "-")" aria-label="Color name" />
+						<div class="colorInfoWrapperLabel">Name</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+	@*Predefined color palette*@
+	@if (ShowPalette && _palette.Length > 0)
+	{
+		<div class="palette" style="width:@(HueSliderWidth)px;">
+			@foreach (var swatch in _palette)
+			{
+				<button type="button" class="palette-swatch" title="@swatch.ToHtmlHex()"
+						style="background:@swatch.ToHtmlHex();"
+						@onclick="@(() => SwatchClickedAsync(swatch))">
+				</button>
+			}
+		</div>
+	}
+</div>
+
+@*Per-instance range thumb coloring*@
+<style>
+	input[id=@($"_hue_{_componentId}")].hue-slider::-webkit-slider-thumb { background: @_hueHex; width: @(_sliderThumbSize)px; height: @(_sliderThumbSize)px; }
+	input[id=@($"_hue_{_componentId}")].hue-slider::-moz-range-thumb { background: @_hueHex; width: @(_sliderThumbSize)px; height: @(_sliderThumbSize)px; }
+</style>
+
 @code {
-	private string _componentId = Guid.NewGuid().ToString("n");
+	private readonly System.Globalization.CultureInfo _ci = System.Globalization.CultureInfo.InvariantCulture;
+	private readonly string _componentId = Guid.NewGuid().ToString("n");
+
 	private ElementReference _colorPicker;
-	private DomRect _colorPickerRect;
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		_colorPickerRect = await _colorPicker.GetClientRectAsync();
-	}
-	protected override async Task OnInitializedAsync()
-	{
-		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.5);
-		_hue = (int)Math.Round(SelectedColor.GetHue());
+	private DomRect _colorPickerRect = new DomRect();
 
-		_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
-		_selectorThumbTop = 0 - (_selectorThumbSize / 2);
+	//HSV state: single source of truth for the picker area + hue slider.
+	private int _hue;            //0..360
+	private double _saturation;  //0..1
+	private double _brightness;  //0..1 (HSV "Value")
+	private double _alpha = 1.0; //0..1
 
-		await SetSliderColorAsync();
-	}
+	private Color _color = Color.FromArgb(66, 135, 245);
+	private HslColor _hsl = HslColor.FromRgb(Color.FromArgb(66, 135, 245));
+	private int _currentArgb;
 
-	private int _hue;
-	private int _sliderThumbSize;
-	private string _sliderThumbHex = "";
+	//Derived display values
+	private string _hueHex = "#0000FF";        //full saturation/brightness color for current hue
+	private string _colorHexNoAlpha = "#4287F5";
+	private string _colorCss = "#4287F5";
+	private string _hexText = "#4287F5";
+	private int _alphaPercent = 100;
 
-	private int _selectorThumbSize = 23;
+	//Selector thumb position
+	private const int _selectorThumbSize = 22;
 	private double _selectorThumbLeft;
 	private double _selectorThumbTop;
-	private string _selectorThumbHex = "";
 
-	private bool _handlerDragging = false;
-	
-	private int _divsMinWidth= 300;
-	private int _divsMinHeight = 150;
-	private int _hueAreaHeight = 300;
-	[Parameter] public int HueAreaHeight 
-	{ 
-		get => _hueAreaHeight;
-		set
-		{
-			if(value < _divsMinHeight)
-			{
-				value = _divsMinHeight;
-			}
+	//Hue slider thumb size
+	private int _sliderThumbSize;
 
-			_hueAreaHeight = value;
-		}
-	}
-	private int _hueAreaWidth = 450;
-	[Parameter] public int HueAreaWidth
-	{ 
-		get => _hueAreaWidth;
-		set
-		{
-			if(value < _divsMinWidth)
-			{
-				value = _divsMinWidth;
-			}
+	private bool _eyeDropperSupported;
+	private bool _copied;
+	private bool _dragging;
+	private string? _moveEventId;
+	private string? _mouseUpEventId;
+	private IJSObjectReference? _colorPickerJs;
 
-			_hueAreaWidth = value;
-		}
-	}
-	[Parameter] public int HueSliderHeight { get; set; } = 10;
-	private int _hueSliderWidth = 450;
-	[Parameter] public int HueSliderWidth
-	{ 
-		get => _hueSliderWidth;
-		set
-		{
-			if(value < _divsMinWidth)
-			{
-				value = _divsMinWidth;
-			}
+	#region Parameters
+	private int _divsMinWidth = 200;
+	private int _divsMinHeight = 100;
 
-			_hueSliderWidth = value;
-		}
-	}
+	private int _hueAreaHeight = 250;
+	/// <summary>
+	/// Height of the Saturation/Brightness selection area in pixels.
+	/// </summary>
+	[Parameter] public int HueAreaHeight { get => _hueAreaHeight; set => _hueAreaHeight = value < _divsMinHeight ? _divsMinHeight : value; }
+
+	private int _hueAreaWidth = 300;
+	/// <summary>
+	/// Width of the Saturation/Brightness selection area in pixels.
+	/// </summary>
+	[Parameter] public int HueAreaWidth { get => _hueAreaWidth; set => _hueAreaWidth = value < _divsMinWidth ? _divsMinWidth : value; }
+
+	/// <summary>
+	/// Height of the Hue and Alpha sliders in pixels.
+	/// </summary>
+	[Parameter] public int HueSliderHeight { get; set; } = 12;
+
+	private int _hueSliderWidth = 300;
+	/// <summary>
+	/// Width of the Hue and Alpha sliders in pixels.
+	/// </summary>
+	[Parameter] public int HueSliderWidth { get => _hueSliderWidth; set => _hueSliderWidth = value < _divsMinWidth ? _divsMinWidth : value; }
+
+	/// <summary>
+	/// Shows or hides the HEX/RGB/HSL info and input area.
+	/// </summary>
 	[Parameter] public bool ShowInfoArea { get; set; } = true;
 
-	private Color _selectedColor = Color.Blue;
-	[Parameter] public Color SelectedColor 
-	{ 
-		get => _selectedColor;
-		set
+	/// <summary>
+	/// Shows or hides the known color Name field. Requires <see cref="ShowInfoArea"/>.
+	/// </summary>
+	[Parameter] public bool ShowColorName { get; set; } = true;
+
+	/// <summary>
+	/// Enables the Alpha (opacity) slider and ARGB output.
+	/// </summary>
+	[Parameter] public bool EnableAlpha { get; set; } = false;
+
+	/// <summary>
+	/// Shows or hides the predefined color palette (swatches).
+	/// </summary>
+	[Parameter] public bool ShowPalette { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the screen color picker (EyeDropper) button. Only rendered when the browser supports the EyeDropper API.
+	/// </summary>
+	[Parameter] public bool ShowEyeDropper { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the 'copy to clipboard' button.
+	/// </summary>
+	[Parameter] public bool ShowCopyButton { get; set; } = true;
+
+	/// <summary>
+	/// Predefined color swatches to show. When not set a default palette is used.
+	/// </summary>
+	[Parameter] public IEnumerable<Color>? PaletteColors { get; set; }
+
+	/// <summary>
+	/// Currently selected <see cref="Color"/>. Supports two-way binding with <c>@bind-SelectedColor</c>.
+	/// </summary>
+	[Parameter] public Color SelectedColor { get; set; } = Color.FromArgb(66, 135, 245);
+
+	/// <summary>
+	/// Callback for two-way binding. Invoked with the new <see cref="Color"/> when selection changes.
+	/// </summary>
+	[Parameter] public EventCallback<Color> SelectedColorChanged { get; set; }
+
+	/// <summary>
+	/// Notification callback invoked with the new <see cref="Color"/> when selection changes.
+	/// </summary>
+	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
+
+	/// <summary>
+	/// Custom CSS class applied to the root element.
+	/// </summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>
+	/// Custom inline style applied to the root element.
+	/// </summary>
+	[Parameter] public string? Style { get; set; }
+
+	/// <summary>
+	/// Captures all other (unmatched) attributes and applies them to the root element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AllOtherAttributes { get; set; }
+	#endregion
+
+	private Color[] _palette = Array.Empty<Color>();
+
+	protected override void OnInitialized()
+	{
+		_sliderThumbSize = (int)Math.Ceiling(HueSliderHeight * 2.0);
+		_palette = (PaletteColors ?? _defaultPalette).ToArray();
+	}
+
+	protected override void OnParametersSet()
+	{
+		_palette = (PaletteColors ?? _defaultPalette).ToArray();
+
+		//Only react to externally set colors (avoids feedback loop with our own emits).
+		if (SelectedColor.ToArgb() != _currentArgb)
 		{
-			if (_selectedColor.Name != value.Name)
+			DecomposeFromColor(SelectedColor);
+			Recalculate();
+		}
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender && ShowEyeDropper)
+		{
+			try
 			{
-				_selectedColor = value;
-				//RGB to HSL
-				var hsl = HslColor.FromRgb(value);
-				_hue = (int)Math.Round(hsl.Hue);
-
-				WriteDiag($"SelectedColor.Set() changed Hue: '{_hue}', Saturation: '{hsl.Luminosity}', Luminosity: '{hsl.Saturation}' HEX: '{ColorTranslator.ToHtml(SelectedColor)}'.");
-
-				//TODO: Position is not correct not all color is at the corner if saturation!=100 or luminosity!=50.0
-				@*_selectorThumbLeft = HueAreaWidth - (_selectorThumbSize / 2);
-				_selectorThumbTop = 0 - (_selectorThumbSize / 2);
-				SetSliderColorAsync();*@
-
-				var hslColor = new HslColor(_hue, 100, 50);
-				var hueColor = (Color)hslColor;
-				_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
-
-				_selectorThumbLeft = MathExtensions.ReverseLinearInterpolationCalculator(0, 255, _hueAreaWidth, hueColor.B, _selectedColor.B) - (_selectorThumbSize / 2);
-				_selectorThumbTop = MathExtensions.ReverseLinearInterpolationCalculator(0, hueColor.B, _hueAreaHeight, 0, _selectedColor.B) - (_selectorThumbSize / 2);
+				await EnsureJsAsync();
+				_eyeDropperSupported = await _colorPickerJs!.InvokeAsync<bool>("isEyeDropperSupported");
+				if (_eyeDropperSupported)
+				{
+					StateHasChanged();
+				}
+			}
+			catch (Exception ex)
+			{
+				WriteDiag($"EyeDropper support check failed: {ex.Message}");
 			}
 		}
 	}
 
-	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
-
-	//Slider event
+	#region Input event handlers
 	private async Task HueChanged(ChangeEventArgs e)
 	{
-		var val = int.Parse(e?.Value?.ToString());
-		if(_hue == val)
+		_hue = ParseInt(e?.Value, _hue, 0, 360);
+		await ApplyFromHsvAsync();
+	}
+
+	private async Task AlphaChanged(ChangeEventArgs e)
+	{
+		_alpha = ParseInt(e?.Value, _alphaPercent, 0, 100) / 100.0;
+		await ApplyFromHsvAsync();
+	}
+	private async Task AlphaInputChanged(ChangeEventArgs e) => await AlphaChanged(e);
+
+	private async Task HexChanged(ChangeEventArgs e)
+	{
+		if (TryParseHex(e?.Value?.ToString(), out var color))
 		{
-			return;
+			await ApplyFromColorAsync(color);
 		}
-
-		_hue = val;
-		WriteDiag($"{nameof(HueChanged)} Hue sliced changed Hue: '{_hue}'.");
-
-		await SetSliderColorAsync();
-	}
-
-	private async Task SetSliderColorAsync()
-	{
-		// Hue: slider value, saturation: 100.0 (full), luminosity: 50.0 (normal)
-		var hslColor = new HslColor(_hue, 100, 50);
-		var hueColor = (Color)hslColor;
-
-		_sliderThumbHex = ColorTranslator.ToHtml(hueColor);
-
-		await GetBilinearColor(_selectorThumbLeft +(_selectorThumbSize / 2), _selectorThumbTop + (_selectorThumbSize / 2), hueColor);
-	}
-
-	//Click
-	private async Task ClickInColor(MouseEventArgs args)
-	{
-		WriteDiag($"{nameof(ClickInColor)} Color selector area activated at X: '{args.OffsetX}', Y: '{args.OffsetY}', Hue: '{_hue}', HueColor: '{_sliderThumbHex}'.");
-
-		var left = (int)Math.Round(args.OffsetX - (_selectorThumbSize / 2));
-		var top = (int)Math.Round(args.OffsetY - (_selectorThumbSize / 2));
-
-		if(left == _selectorThumbLeft && top == _selectorThumbTop)
+		else
 		{
-			return;
-		}		
-
-		_selectorThumbLeft = left;
-		_selectorThumbTop = top;
-
-		await GetBilinearColor(args.OffsetX, args.OffsetY, ColorTranslator.FromHtml(_sliderThumbHex));
-	}
-	private async Task ClickInHandler(MouseEventArgs args)
-	{
-		if(_handlerDragging)
-		{
-			return;
+			Recalculate(); //revert invalid input back to last valid value
 		}
-
-		args.OffsetX += _selectorThumbLeft;
-		args.OffsetY += _selectorThumbTop;
-
-		await ClickInColor(args);
 	}
 
-	//Drag
-	private string _moveEventId;
-	private string _mouseUpEventId;
-	private async Task DragStart(MouseEventArgs args)
+	private async Task RedChanged(ChangeEventArgs e)
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, ParseInt(e?.Value, _color.R, 0, 255), _color.G, _color.B));
+	private async Task GreenChanged(ChangeEventArgs e)
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, ParseInt(e?.Value, _color.G, 0, 255), _color.B));
+	private async Task BlueChanged(ChangeEventArgs e)
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, _color.G, ParseInt(e?.Value, _color.B, 0, 255)));
+
+	private async Task HslHueChanged(ChangeEventArgs e)
+		=> await ApplyFromHslAsync(ParseInt(e?.Value, (int)Math.Round(_hsl.Hue), 0, 360), _hsl.Saturation, _hsl.Luminosity);
+	private async Task HslSaturationChanged(ChangeEventArgs e)
+		=> await ApplyFromHslAsync(_hsl.Hue, ParseInt(e?.Value, (int)Math.Round(_hsl.Saturation), 0, 100), _hsl.Luminosity);
+	private async Task HslLuminosityChanged(ChangeEventArgs e)
+		=> await ApplyFromHslAsync(_hsl.Hue, _hsl.Saturation, ParseInt(e?.Value, (int)Math.Round(_hsl.Luminosity), 0, 100));
+
+	private async Task SwatchClickedAsync(Color color)
+		=> await ApplyFromColorAsync(EnableAlpha ? color : Color.FromArgb(255, color));
+	#endregion
+
+	#region Picker area drag
+	private async Task SvDragStart(MouseEventArgs args)
 	{
-		_handlerDragging = true;
-		WriteDiag($"{nameof(DragStart)} Color picker dragging started allowed: '{_handlerDragging}'.");
+		_dragging = true;
+		_colorPickerRect = await _colorPicker.GetClientRectAsync();
+
+		SetSvFromPoint(args.OffsetX, args.OffsetY);
+		await ApplyFromHsvAsync();
 
 		_moveEventId = await _globalMouseEventHandler.RegisterPageMouseMoveAsync(Dragging);
 		_mouseUpEventId = await _globalMouseEventHandler.RegisterPageMouseUpAsync(DragEnd);
 	}
+
 	private async Task Dragging(MouseEventArgs args)
 	{
-		if(_handlerDragging)
+		if (!_dragging)
 		{
-			WriteDiag($"{nameof(Dragging)} Color picker dragging allowed: '{_handlerDragging}' X: '{args.ClientX}', Y: '{args.ClientY}', Color DIV Left: '{_colorPickerRect.Left}', Top: '{_colorPickerRect.Top}'.");
-
-			args.OffsetX = args.ClientX - _colorPickerRect.Left; //x position within the element.
-			args.OffsetY = args.ClientY - _colorPickerRect.Top;  //y position within the element.
-			
-			if(args.OffsetX < 0)
-				args.OffsetX = 0;
-			if(args.OffsetX > HueAreaWidth)
-				args.OffsetX = HueAreaWidth;
-			if(args.OffsetY < 0)
-				args.OffsetY = 0;
-			if(args.OffsetY > HueAreaHeight)
-				args.OffsetY = HueAreaHeight;
-
-			await ClickInColor(args);
-			StateHasChanged(); //External event listener..
+			return;
 		}
+
+		SetSvFromPoint(args.ClientX - _colorPickerRect.Left, args.ClientY - _colorPickerRect.Top);
+		await ApplyFromHsvAsync();
+		StateHasChanged(); //triggered from a global JS event listener
 	}
+
 	private async Task DragEnd(MouseEventArgs args)
 	{
-		await Task.Delay(50); //Hack: MouseUp triggers click in handler Wait to 'ClickInHandler' run! Also events can be removed added during drag...
+		_dragging = false;
 
-		_handlerDragging = false;
-		WriteDiag($"{nameof(DragEnd)} Color picker dragging ended allowed: '{_handlerDragging}'.");
-
-		await _globalMouseEventHandler.RemovePageMouseMoveAsync(_moveEventId);
-		await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUpEventId);
-	}
-
-	//Calculations
-	private async Task GetBilinearColor(double x, double y, Color mainColor)
-	{
-		var r = BilinearInterpolationCalculator(x, y, mainColor.R);
-		var g = BilinearInterpolationCalculator(x, y, mainColor.G);
-		var b = BilinearInterpolationCalculator(x, y, mainColor.B);
-
-		var bilinearColor = Color.FromArgb(r, g, b);
-		_selectorThumbHex = ColorTranslator.ToHtml(bilinearColor);
-
-		_selectedColor = bilinearColor;
-		
-		WriteDiag($"{nameof(GetBilinearColor)}: calculated values R: '{r}', G: '{g}', B: '{b}', selected Color HEX: '{_selectorThumbHex}'.");
-
-		if(OnColorChanged.HasDelegate)
+		if (_moveEventId is not null)
 		{
-			await OnColorChanged.InvokeAsync(bilinearColor);
+			await _globalMouseEventHandler.RemovePageMouseMoveAsync(_moveEventId);
+		}
+		if (_mouseUpEventId is not null)
+		{
+			await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUpEventId);
 		}
 	}
-	private int BilinearInterpolationCalculator(double x, double y, int q21)
+
+	private void SetSvFromPoint(double x, double y)
 	{
-		var p = MathExtensions.BilinearInterpolationCalculator(
-		0, 0, HueAreaWidth, HueAreaHeight, //0,0 to DIV height/width
-		x, y,	//Click pos
-		255,	//Top-R = white
-		0,		//Bottom-R = black
-		q21,	//Top-L = Q21, Hue value 
-		0);     //Bottom-L = black
+		x = Math.Clamp(x, 0, HueAreaWidth);
+		y = Math.Clamp(y, 0, HueAreaHeight);
 
-		if (p < 0)
-			return 0;
+		_saturation = x / HueAreaWidth;
+		_brightness = 1.0 - (y / HueAreaHeight);
+	}
+	#endregion
 
-		if (p > 255)
-			return 255;
-
-		return (int)Math.Round(p);
+	#region Apply / recalculate
+	private async Task ApplyFromHsvAsync()
+	{
+		var rgb = HsvToRgb(_hue, _saturation, _brightness);
+		_color = Color.FromArgb(AlphaByte, rgb);
+		Recalculate(recalcHsv: false);
+		await EmitAsync();
 	}
 
-	private void WriteDiag(string message)
+	private async Task ApplyFromColorAsync(Color color)
 	{
-		_logger.LogDebug($"Component {this.GetType()}: {message}");
+		_color = color;
+		DecomposeFromColor(color);
+		Recalculate(recalcHsv: false);
+		await EmitAsync();
 	}
+
+	private async Task ApplyFromHslAsync(double h, double s, double l)
+	{
+		var rgb = (Color)new HslColor(h, s, l);
+		await ApplyFromColorAsync(Color.FromArgb(AlphaByte, rgb));
+	}
+
+	private void DecomposeFromColor(Color color)
+	{
+		var (h, s, v) = RgbToHsv(color);
+		if (s > 0) //keep current hue for grayscale colors to avoid the slider jumping
+		{
+			_hue = (int)Math.Round(h);
+		}
+		_saturation = s;
+		_brightness = v;
+		_alpha = EnableAlpha ? color.A / 255.0 : 1.0;
+		_color = EnableAlpha ? color : Color.FromArgb(255, color);
+	}
+
+	private void Recalculate(bool recalcHsv = true)
+	{
+		if (recalcHsv)
+		{
+			DecomposeFromColor(_color);
+		}
+
+		_alphaPercent = (int)Math.Round(_alpha * 100);
+		_hsl = HslColor.FromRgb(_color);
+
+		_hueHex = "#" + HsvToRgb(_hue, 1, 1).ToHex();
+		_colorHexNoAlpha = "#" + _color.ToHex();
+		_hexText = (EnableAlpha && AlphaByte < 255) ? $"#{_color.ToHex()}{AlphaByte:X2}" : _colorHexNoAlpha;
+		_colorCss = (EnableAlpha && AlphaByte < 255)
+			? $"rgba({_color.R}, {_color.G}, {_color.B}, {_alpha.ToString("0.##", _ci)})"
+			: _colorHexNoAlpha;
+
+		_selectorThumbLeft = (_saturation * HueAreaWidth) - (_selectorThumbSize / 2.0);
+		_selectorThumbTop = ((1.0 - _brightness) * HueAreaHeight) - (_selectorThumbSize / 2.0);
+
+		_copied = false;
+	}
+
+	private async Task EmitAsync()
+	{
+		SelectedColor = _color;
+		_currentArgb = _color.ToArgb();
+
+		WriteDiag($"Color changed to HEX: '{_hexText}', RGB: '{_color.ToRgbString()}', Alpha: '{_alpha}'.");
+
+		if (SelectedColorChanged.HasDelegate)
+		{
+			await SelectedColorChanged.InvokeAsync(_color);
+		}
+		if (OnColorChanged.HasDelegate)
+		{
+			await OnColorChanged.InvokeAsync(_color);
+		}
+	}
+	#endregion
+
+	#region Actions (copy / eyedropper)
+	private async Task CopyAsync()
+	{
+		_copied = await _clipboardHandler.CopyTextToClipboardAsync(_hexText);
+		WriteDiag($"Copy to clipboard '{_hexText}' result: '{_copied}'.");
+	}
+
+	private async Task EyeDropperAsync()
+	{
+		try
+		{
+			await EnsureJsAsync();
+			var hex = await _colorPickerJs!.InvokeAsync<string?>("openEyeDropper");
+			if (!string.IsNullOrWhiteSpace(hex) && TryParseHex(hex, out var color))
+			{
+				await ApplyFromColorAsync(EnableAlpha ? Color.FromArgb(AlphaByte, color) : color);
+			}
+		}
+		catch (Exception ex)
+		{
+			WriteDiag($"EyeDropper failed: {ex.Message}");
+		}
+	}
+
+	private async Task EnsureJsAsync()
+	{
+		if (_colorPickerJs is null)
+		{
+#if DEBUG
+			_colorPickerJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.ColorPicker/colorPicker.js");
+#else
+			_colorPickerJs = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Majorsoft.Blazor.Components.ColorPicker/colorPicker.min.js");
+#endif
+		}
+	}
+	#endregion
+
+	#region Color math (HSV <-> RGB)
+	private byte AlphaByte => EnableAlpha ? (byte)Math.Round(_alpha * 255) : (byte)255;
+
+	private static Color HsvToRgb(double hue, double saturation, double value)
+	{
+		hue %= 360.0;
+		if (hue < 0) hue += 360.0;
+
+		var c = value * saturation;
+		var x = c * (1 - Math.Abs((hue / 60.0) % 2 - 1));
+		var m = value - c;
+
+		double r, g, b;
+		if (hue < 60) { r = c; g = x; b = 0; }
+		else if (hue < 120) { r = x; g = c; b = 0; }
+		else if (hue < 180) { r = 0; g = c; b = x; }
+		else if (hue < 240) { r = 0; g = x; b = c; }
+		else if (hue < 300) { r = x; g = 0; b = c; }
+		else { r = c; g = 0; b = x; }
+
+		return Color.FromArgb(
+			(int)Math.Round((r + m) * 255),
+			(int)Math.Round((g + m) * 255),
+			(int)Math.Round((b + m) * 255));
+	}
+
+	private static (double hue, double saturation, double value) RgbToHsv(Color color)
+	{
+		double r = color.R / 255.0, g = color.G / 255.0, b = color.B / 255.0;
+		var max = Math.Max(r, Math.Max(g, b));
+		var min = Math.Min(r, Math.Min(g, b));
+		var delta = max - min;
+
+		double hue = 0;
+		if (delta > 0)
+		{
+			if (max == r) hue = 60 * (((g - b) / delta) % 6);
+			else if (max == g) hue = 60 * (((b - r) / delta) + 2);
+			else hue = 60 * (((r - g) / delta) + 4);
+		}
+		if (hue < 0) hue += 360;
+
+		var saturation = max == 0 ? 0 : delta / max;
+		return (hue, saturation, max);
+	}
+	#endregion
+
+	#region Parsing helpers
+	private int ParseInt(object? value, int fallback, int min, int max)
+	{
+		if (int.TryParse(value?.ToString(), System.Globalization.NumberStyles.Integer, _ci, out var result))
+		{
+			return Math.Clamp(result, min, max);
+		}
+		return fallback;
+	}
+
+	private static bool TryParseHex(string? text, out Color color)
+	{
+		color = Color.Black;
+		if (string.IsNullOrWhiteSpace(text))
+		{
+			return false;
+		}
+
+		text = text.Trim().TrimStart('#');
+		if (text.Length is not (3 or 6 or 8))
+		{
+			return false;
+		}
+
+		if (text.Length == 3) //#RGB shorthand
+		{
+			text = $"{text[0]}{text[0]}{text[1]}{text[1]}{text[2]}{text[2]}";
+		}
+
+		try
+		{
+			var r = Convert.ToInt32(text.Substring(0, 2), 16);
+			var g = Convert.ToInt32(text.Substring(2, 2), 16);
+			var b = Convert.ToInt32(text.Substring(4, 2), 16);
+			var a = text.Length == 8 ? Convert.ToInt32(text.Substring(6, 2), 16) : 255;
+			color = Color.FromArgb(a, r, g, b);
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+	#endregion
+
+	private static readonly Color[] _defaultPalette = new[]
+	{
+		Color.FromArgb(244, 67, 54),   //red
+		Color.FromArgb(233, 30, 99),   //pink
+		Color.FromArgb(156, 39, 176),  //purple
+		Color.FromArgb(103, 58, 183),  //deep purple
+		Color.FromArgb(63, 81, 181),   //indigo
+		Color.FromArgb(33, 150, 243),  //blue
+		Color.FromArgb(3, 169, 244),   //light blue
+		Color.FromArgb(0, 188, 212),   //cyan
+		Color.FromArgb(0, 150, 136),   //teal
+		Color.FromArgb(76, 175, 80),   //green
+		Color.FromArgb(139, 195, 74),  //light green
+		Color.FromArgb(205, 220, 57),  //lime
+		Color.FromArgb(255, 235, 59),  //yellow
+		Color.FromArgb(255, 193, 7),   //amber
+		Color.FromArgb(255, 152, 0),   //orange
+		Color.FromArgb(255, 87, 34),   //deep orange
+		Color.FromArgb(121, 85, 72),   //brown
+		Color.FromArgb(158, 158, 158), //grey
+		Color.FromArgb(0, 0, 0),       //black
+		Color.FromArgb(255, 255, 255), //white
+	};
+
+	private void WriteDiag(string message) => _logger.LogDebug($"Component {GetType()}: {message}");
 
 	public async ValueTask DisposeAsync()
 	{
+		if (_moveEventId is not null)
+		{
+			try { await _globalMouseEventHandler.RemovePageMouseMoveAsync(_moveEventId); } catch { }
+		}
+		if (_mouseUpEventId is not null)
+		{
+			try { await _globalMouseEventHandler.RemovePageMouseUpAsync(_mouseUpEventId); } catch { }
+		}
+
 		if (_globalMouseEventHandler is not null)
 		{
 			await _globalMouseEventHandler.DisposeAsync();
+		}
+		if (_clipboardHandler is not null)
+		{
+			await _clipboardHandler.DisposeAsync();
+		}
+		if (_colorPickerJs is not null)
+		{
+			try { await _colorPickerJs.DisposeAsync(); }
+			catch (JSDisconnectedException) { }
+			catch (ObjectDisposedException) { }
 		}
 	}
 }
