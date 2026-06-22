@@ -116,7 +116,7 @@
 			{
 				<div class="info-row">
 					<div class="colorInfoWrapper name-wrapper">
-						<input class="colorInfoDataInput" readonly value="@(_color.IsKnownColor ? _color.Name : "-")" aria-label="Color name" />
+						<input class="colorInfoDataInput" readonly value="@(_colorName ?? "-")" aria-label="Color name" />
 						<div class="colorInfoWrapperLabel">Name</div>
 					</div>
 				</div>
@@ -168,6 +168,7 @@
 	private string _colorCss = "#4287F5";
 	private string _hexText = "#4287F5";
 	private int _alphaPercent = 100;
+	private string? _colorName;
 
 	//Selector thumb position
 	private const int _selectorThumbSize = 22;
@@ -466,6 +467,8 @@
 		_selectorThumbLeft = (_saturation * HueAreaWidth) - (_selectorThumbSize / 2.0);
 		_selectorThumbTop = ((1.0 - _brightness) * HueAreaHeight) - (_selectorThumbSize / 2.0);
 
+		_colorName = _knownColorNames.TryGetValue(_color.ToArgb() & 0x00FFFFFF, out var name) ? name : null;
+
 		_copied = false;
 	}
 
@@ -639,6 +642,30 @@
 		Color.FromArgb(0, 0, 0),       //black
 		Color.FromArgb(255, 255, 255), //white
 	};
+
+	//Maps RGB (alpha ignored) to a named color so typed/palette colors resolve a name too.
+	//Color.IsKnownColor is only true for colors created from a KnownColor, not from FromArgb(r,g,b).
+	private static readonly Dictionary<int, string> _knownColorNames = BuildKnownColorNames();
+
+	private static Dictionary<int, string> BuildKnownColorNames()
+	{
+		var map = new Dictionary<int, string>();
+		foreach (KnownColor known in Enum.GetValues(typeof(KnownColor)))
+		{
+			var color = Color.FromKnownColor(known);
+			if (color.IsSystemColor || color.A == 0) //skip system palette and Transparent
+			{
+				continue;
+			}
+
+			var rgb = color.ToArgb() & 0x00FFFFFF;
+			if (!map.ContainsKey(rgb)) //keep the first name for duplicate RGBs (e.g. Aqua/Cyan)
+			{
+				map[rgb] = color.Name;
+			}
+		}
+		return map;
+	}
 
 	private void WriteDiag(string message) => _logger.LogDebug($"Component {GetType()}: {message}");
 
