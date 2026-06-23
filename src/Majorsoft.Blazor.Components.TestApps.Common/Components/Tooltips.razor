@@ -1,14 +1,178 @@
-﻿<Tooltip Text="heee">
-    <h3>Tooltips</h3>
-</Tooltip>
+<h1>Tooltip control</h1>
+<p>
+	Blazor component that renders a customizable Tooltip (Popover) for any element on hover or focus.
+	It supports 4 positions, configurable show/hide delays, plain text or rich HTML content, an optional arrow,
+	custom styling and show/hide events.
+	For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tooltips.md" target="_blank">Github</a>.
+	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Tooltips" />
+</p>
 
-<div>
-    <Tooltip Text="hhhhhhhhhhhhhhhhhhhheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee">
-        <button class="btn btn-primary">Click</button>
-    </Tooltip>
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Simple Tooltips</h3>
+	<p>
+		Wrap any content with the <code>&lt;Tooltip&gt;</code> component and set the <code>Text</code> parameter.
+		Hover (or keyboard focus) the elements below to show the Tooltip.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<Tooltip Text="I am a simple text Tooltip.">
+				<span class="font-weight-bold" style="border-bottom: 1px dotted #555; cursor: help;">Hover this text</span>
+			</Tooltip>
+			<span class="mx-3"></span>
+			<Tooltip Text="Tooltips work on any element, e.g. buttons. Focus me with the Tab key too.">
+				<button class="btn btn-primary">Hover or focus this button</button>
+			</Tooltip>
+			<span class="mx-3"></span>
+			<Tooltip Text="Long Tooltip text wraps automatically once it reaches the maximum width so it stays readable.">
+				<button class="btn btn-outline-secondary">Long text Tooltip</button>
+			</Tooltip>
+		</div>
+	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Tooltip positions</h3>
+	<p>
+		Use the <code>Position</code> parameter to place the Tooltip <code>Top</code>, <code>Right</code>, <code>Bottom</code> or <code>Left</code> of the trigger element.
+	</p>
+
+	<div class="row pb-2 text-center" style="padding: 40px 0;">
+		@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+		{
+			<div class="col-3">
+				<Tooltip Text="@($"Tooltip on the {position}.")" Position="position">
+					<button class="btn btn-info">@position</button>
+				</Tooltip>
+			</div>
+		}
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Customizable Tooltip</h3>
+	<p>
+		Configure a Tooltip live: change its position, show/hide delays, arrow, disabled state and content.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-6">
+			<div class="form-group">
+				<label>Position:</label>
+				<select class="form-control" @bind="_position">
+					@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+					{
+						<option value="@position">@position</option>
+					}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Delay before show (ms):</label>
+				<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeShow" />
+			</div>
+			<div class="form-group">
+				<label>Delay before hide (ms):</label>
+				<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeHide" />
+			</div>
+			<div class="form-group">
+				<label>Tooltip text:</label>
+				<input type="text" class="form-control" @bind="_text" />
+			</div>
+			<div>
+				Show arrow: <input class="mr-3" type="checkbox" @bind="_showArrow" />
+				Disabled: <input class="mr-3" type="checkbox" @bind="_disabled" />
+				Rich content: <input class="mr-3" type="checkbox" @bind="_richContent" />
+			</div>
+		</div>
+		<div class="col-12 col-lg-6 text-center" style="padding: 60px 0;">
+			@if (_richContent)
+			{
+				<Tooltip Position="_position"
+						 DelayBeforeShow="_delayBeforeShow"
+						 DelayBeforeHide="_delayBeforeHide"
+						 ShowArrow="_showArrow"
+						 Disabled="_disabled"
+						 OnShow="OnTooltipShow"
+						 OnHide="OnTooltipHide">
+					<ChildContent>
+						<button class="btn btn-success">Hover me</button>
+					</ChildContent>
+					<TooltipContent>
+						<div class="text-left">
+							<strong>Rich Tooltip</strong>
+							<hr class="my-1" style="border-color: #888;" />
+							Tooltips can render any markup, e.g. an
+							<span style="color: #ffd54f;">icon</span> &#9733; or a
+							<a href="https://github.com/majorimi/blazor-components" target="_blank" style="color: #90caf9;">link</a>.
+						</div>
+					</TooltipContent>
+				</Tooltip>
+			}
+			else
+			{
+				<Tooltip Text="@_text"
+						 Position="_position"
+						 DelayBeforeShow="_delayBeforeShow"
+						 DelayBeforeHide="_delayBeforeHide"
+						 ShowArrow="_showArrow"
+						 Disabled="_disabled"
+						 OnShow="OnTooltipShow"
+						 OnHide="OnTooltipHide">
+					<button class="btn btn-success">Hover me</button>
+				</Tooltip>
+			}
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Events log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Custom styled Tooltip</h3>
+	<p>
+		Use <code>TooltipClass</code> and <code>TooltipStyle</code> to override the Tooltip popup appearance, and
+		<code>Class</code> / <code>Style</code> for the trigger container.
+	</p>
+
+	<div class="row pb-2" style="padding: 30px 0;">
+		<div class="col-12">
+			<Tooltip Text="Custom colored Tooltip with no arrow."
+					 ShowArrow="false"
+					 TooltipStyle="background-color: #6f42c1; color: #fff; font-weight: bold;">
+				<button class="btn btn-outline-primary">Custom styled Tooltip</button>
+			</Tooltip>
+		</div>
+	</div>
+</div>
 
 @code {
+	//Customizable example state
+	private TooltipPositions _position = TooltipPositions.Top;
+	private int _delayBeforeShow = 0;
+	private int _delayBeforeHide = 250;
+	private bool _showArrow = true;
+	private bool _disabled = false;
+	private bool _richContent = false;
+	private string _text = "Customize me using the controls on the left!";
 
+	private ElementReference _log;
+	private string _logMessage = "";
+
+	private async Task OnTooltipShow()
+	{
+		_logMessage += $"Tooltip shown ({_position}). {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
+	}
+
+	private async Task OnTooltipHide()
+	{
+		_logMessage += $"Tooltip hidden. {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
+	}
 }

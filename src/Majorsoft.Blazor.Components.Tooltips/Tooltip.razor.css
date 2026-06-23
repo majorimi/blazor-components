@@ -1,33 +1,87 @@
-﻿.btooltip-container {
+.btooltip-container {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
-    cursor: help;
 }
 
-span {
+.btooltip {
     position: absolute;
-    min-width: 120px;
-    width: auto;
-    bottom: 100%;
-    left: 50%;
-    margin-left: calc(100% * -0.5 - 0px);
-    /*transform: translateY(-50%);*/
+    z-index: 1000;
+    width: max-content;
+    max-width: 260px;
     background-color: #363636;
     color: #fff;
     text-align: center;
-    padding: 5px;
+    padding: 6px 10px;
     border-radius: 6px;
-    z-index: 10;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    white-space: normal;
+    word-wrap: break-word;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
 }
 
-    span::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #555 transparent transparent transparent;
-    }
+/*Position variants*/
+.btooltip-top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+}
+
+.btooltip-bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+}
+
+.btooltip-left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
+}
+
+.btooltip-right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+}
+
+/*Arrow*/
+.with-arrow::after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+}
+
+.btooltip-top.with-arrow::after {
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-color: #363636 transparent transparent transparent;
+}
+
+.btooltip-bottom.with-arrow::after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-color: transparent transparent #363636 transparent;
+}
+
+.btooltip-left.with-arrow::after {
+    left: 100%;
+    top: 50%;
+    margin-top: -5px;
+    border-color: transparent transparent transparent #363636;
+}
+
+.btooltip-right.with-arrow::after {
+    right: 100%;
+    top: 50%;
+    margin-top: -5px;
+    border-color: transparent #363636 transparent transparent;
+}

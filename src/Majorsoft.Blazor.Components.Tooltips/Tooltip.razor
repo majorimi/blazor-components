@@ -1,97 +1,188 @@
-﻿<div class="btooltip-container"  @onmouseenter="HandleMouseOver" @onmouseleave="HandleMouseOut" @attributes=AdditionalAttributes>
-    @if (_isVisible)
-    {
-        <span>@Text</span>
-    }
-    @ChildContent
+@using System.Threading
+
+@implements IDisposable
+
+<div class="btooltip-container @Class" style="@Style"
+	 @onmouseenter="ShowAsync" @onmouseleave="HideAsync"
+	 @onfocusin="ShowAsync" @onfocusout="HideAsync"
+	 @attributes="AdditionalAttributes">
+
+	@ChildContent
+
+	@if (_isVisible && !Disabled && (TooltipContent is not null || !string.IsNullOrEmpty(Text)))
+	{
+		<div class="btooltip @PositionCss @(ShowArrow ? "with-arrow" : null) @TooltipClass"
+			 role="tooltip" style="@TooltipStyle">
+			@if (TooltipContent is not null)
+			{
+				@TooltipContent
+			}
+			else
+			{
+				@Text
+			}
+		</div>
+	}
 </div>
 
-@inject IGlobalMouseEventHandler _mouseEvents
-@implements IAsyncDisposable
-
 @code {
-    public bool _isVisible = false;
-    private string _eventId;
-    private MouseEventArgs _mouseEventArgs;
+	private bool _isVisible;
+	private CancellationTokenSource? _cts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        _eventId = await _mouseEvents.RegisterPageMouseMoveAsync(async args =>
-        {
-            _mouseEventArgs = args;
-            Console.WriteLine(_mouseEventArgs.OffsetX);
-        });
-    }
+	/// <summary>
+	/// Required: the trigger content (element) the Tooltip is attached to and shown for on hover/focus.
+	/// </summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
+	/// <summary>
+	/// Plain text content shown inside the Tooltip popup. Ignored when <see cref="TooltipContent"/> is set.
+	/// </summary>
+	[Parameter] public string Text { get; set; } = "";
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public string Text { get; set; } = "";
+	/// <summary>
+	/// Optional rich (HTML) content shown inside the Tooltip popup. Takes precedence over <see cref="Text"/>.
+	/// </summary>
+	[Parameter] public RenderFragment? TooltipContent { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public int DelayBeforShow { get; set; } = 0;
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public int DelayBeforHide { get; set; } = 250;
+	/// <summary>
+	/// Position of the Tooltip popup relative to the trigger element. Default is <see cref="TooltipPositions.Top"/>.
+	/// </summary>
+	[Parameter] public TooltipPositions Position { get; set; } = TooltipPositions.Top;
 
+	/// <summary>
+	/// Delay in milliseconds before the Tooltip is shown after the pointer enters the trigger. Default is 0.
+	/// </summary>
+	[Parameter] public int DelayBeforeShow { get; set; } = 0;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Parameter] public TooltipsPositons Positon { get; set; } = TooltipsPositons.Top;
+	/// <summary>
+	/// Delay in milliseconds before the Tooltip is hidden after the pointer leaves the trigger. Default is 250.
+	/// </summary>
+	[Parameter] public int DelayBeforeHide { get; set; } = 250;
 
-    //Events
-    /// <summary>
-    /// Callback function called when the Tooltip is showing.
-    /// </summary>
-    [Parameter] public EventCallback OnShow { get; set; }
-    /// <summary>
-    /// Callback function called when the Tooltip is hiding.
-    /// </summary>
-    [Parameter] public EventCallback OnHide { get; set; }
+	/// <summary>
+	/// When true the Tooltip is never shown (the trigger content still renders normally). Default is false.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
 
-    /// <summary>
-    /// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AdditionalAttributes { get; set; }
+	/// <summary>
+	/// Shows or hides the small arrow pointing from the Tooltip popup to the trigger element. Default is true.
+	/// </summary>
+	[Parameter] public bool ShowArrow { get; set; } = true;
 
-    private async Task HandleMouseOver()
-    {
-        var cursorY = _mouseEventArgs.ScreenY;
-        var cursorX = _mouseEventArgs.ScreenY;
+	/// <summary>
+	/// Custom CSS class(es) applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Class { get; set; }
 
-        await Task.Delay(DelayBeforShow);
+	/// <summary>
+	/// Custom inline style applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Style { get; set; }
 
-        _isVisible = true;
+	/// <summary>
+	/// Custom CSS class(es) applied to the Tooltip popup element.
+	/// </summary>
+	[Parameter] public string? TooltipClass { get; set; }
 
-        if(OnShow.HasDelegate)
-        {
-            await OnShow.InvokeAsync();
-        }
-    }
-    private async Task HandleMouseOut()
-    {
-        await Task.Delay(DelayBeforHide);
+	/// <summary>
+	/// Custom inline style applied to the Tooltip popup element.
+	/// </summary>
+	[Parameter] public string? TooltipStyle { get; set; }
 
-        _isVisible = false;
+	/// <summary>
+	/// Callback function called when the Tooltip is showing.
+	/// </summary>
+	[Parameter] public EventCallback OnShow { get; set; }
 
-        if (OnHide.HasDelegate)
-        {
-            await OnHide.InvokeAsync();
-        }
-    }
+	/// <summary>
+	/// Callback function called when the Tooltip is hiding.
+	/// </summary>
+	[Parameter] public EventCallback OnHide { get; set; }
 
-    public async ValueTask DisposeAsync()
-    {
-        await _mouseEvents.RemovePageMouseMoveAsync(_eventId);
-    }
+	/// <summary>
+	/// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered (root) HTML element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+	private string PositionCss => Position switch
+	{
+		TooltipPositions.Right => "btooltip-right",
+		TooltipPositions.Bottom => "btooltip-bottom",
+		TooltipPositions.Left => "btooltip-left",
+		_ => "btooltip-top",
+	};
+
+	private async Task ShowAsync()
+	{
+		if (Disabled)
+		{
+			return;
+		}
+
+		var token = ResetDelay();
+		if (!await TryDelayAsync(DelayBeforeShow, token) || _isVisible)
+		{
+			return;
+		}
+
+		_isVisible = true;
+		StateHasChanged();
+
+		if (OnShow.HasDelegate)
+		{
+			await OnShow.InvokeAsync();
+		}
+	}
+
+	private async Task HideAsync()
+	{
+		var token = ResetDelay();
+		if (!await TryDelayAsync(DelayBeforeHide, token) || !_isVisible)
+		{
+			return;
+		}
+
+		_isVisible = false;
+		StateHasChanged();
+
+		if (OnHide.HasDelegate)
+		{
+			await OnHide.InvokeAsync();
+		}
+	}
+
+	//Cancels any pending show/hide so a quick enter-then-leave (or vice versa) doesn't flicker.
+	private CancellationToken ResetDelay()
+	{
+		_cts?.Cancel();
+		_cts?.Dispose();
+		_cts = new CancellationTokenSource();
+		return _cts.Token;
+	}
+
+	//Returns false when the wait was cancelled by a newer interaction.
+	private static async Task<bool> TryDelayAsync(int delayMs, CancellationToken token)
+	{
+		if (delayMs <= 0)
+		{
+			return !token.IsCancellationRequested;
+		}
+
+		try
+		{
+			await Task.Delay(delayMs, token);
+			return true;
+		}
+		catch (TaskCanceledException)
+		{
+			return false;
+		}
+	}
+
+	public void Dispose()
+	{
+		_cts?.Cancel();
+		_cts?.Dispose();
+	}
 }
