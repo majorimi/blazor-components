@@ -321,20 +321,20 @@
 	#region Input event handlers
 	private async Task HueChanged(ChangeEventArgs e)
 	{
-		_hue = ParseInt(e?.Value, _hue, 0, 360);
+		_hue = ColorExtension.ParseInt(e?.Value, _hue, 0, 360);
 		await ApplyFromHsvAsync();
 	}
 
 	private async Task AlphaChanged(ChangeEventArgs e)
 	{
-		_alpha = ParseInt(e?.Value, _alphaPercent, 0, 100) / 100.0;
+		_alpha = ColorExtension.ParseInt(e?.Value, _alphaPercent, 0, 100) / 100.0;
 		await ApplyFromHsvAsync();
 	}
 	private async Task AlphaInputChanged(ChangeEventArgs e) => await AlphaChanged(e);
 
 	private async Task HexChanged(ChangeEventArgs e)
 	{
-		if (TryParseHex(e?.Value?.ToString(), out var color))
+		if (ColorExtension.TryParseHex(e?.Value?.ToString(), out var color))
 		{
 			await ApplyFromColorAsync(color);
 		}
@@ -345,18 +345,18 @@
 	}
 
 	private async Task RedChanged(ChangeEventArgs e)
-		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, ParseInt(e?.Value, _color.R, 0, 255), _color.G, _color.B));
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, ColorExtension.ParseInt(e?.Value, _color.R, 0, 255), _color.G, _color.B));
 	private async Task GreenChanged(ChangeEventArgs e)
-		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, ParseInt(e?.Value, _color.G, 0, 255), _color.B));
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, ColorExtension.ParseInt(e?.Value, _color.G, 0, 255), _color.B));
 	private async Task BlueChanged(ChangeEventArgs e)
-		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, _color.G, ParseInt(e?.Value, _color.B, 0, 255)));
+		=> await ApplyFromColorAsync(Color.FromArgb(AlphaByte, _color.R, _color.G, ColorExtension.ParseInt(e?.Value, _color.B, 0, 255)));
 
 	private async Task HslHueChanged(ChangeEventArgs e)
-		=> await ApplyFromHslAsync(ParseInt(e?.Value, (int)Math.Round(_hsl.Hue), 0, 360), _hsl.Saturation, _hsl.Luminosity);
+		=> await ApplyFromHslAsync(ColorExtension.ParseInt(e?.Value, (int)Math.Round(_hsl.Hue), 0, 360), _hsl.Saturation, _hsl.Luminosity);
 	private async Task HslSaturationChanged(ChangeEventArgs e)
-		=> await ApplyFromHslAsync(_hsl.Hue, ParseInt(e?.Value, (int)Math.Round(_hsl.Saturation), 0, 100), _hsl.Luminosity);
+		=> await ApplyFromHslAsync(_hsl.Hue, ColorExtension.ParseInt(e?.Value, (int)Math.Round(_hsl.Saturation), 0, 100), _hsl.Luminosity);
 	private async Task HslLuminosityChanged(ChangeEventArgs e)
-		=> await ApplyFromHslAsync(_hsl.Hue, _hsl.Saturation, ParseInt(e?.Value, (int)Math.Round(_hsl.Luminosity), 0, 100));
+		=> await ApplyFromHslAsync(_hsl.Hue, _hsl.Saturation, ColorExtension.ParseInt(e?.Value, (int)Math.Round(_hsl.Luminosity), 0, 100));
 
 	private async Task SwatchClickedAsync(Color color)
 		=> await ApplyFromColorAsync(EnableAlpha ? color : Color.FromArgb(255, color));
@@ -414,7 +414,7 @@
 	#region Apply / recalculate
 	private async Task ApplyFromHsvAsync()
 	{
-		var rgb = HsvToRgb(_hue, _saturation, _brightness);
+		var rgb = (Color)new HsvColor(_hue, _saturation * 100, _brightness * 100);
 		_color = Color.FromArgb(AlphaByte, rgb);
 		Recalculate(recalcHsv: false);
 		await EmitAsync();
@@ -436,13 +436,13 @@
 
 	private void DecomposeFromColor(Color color)
 	{
-		var (h, s, v) = RgbToHsv(color);
-		if (s > 0) //keep current hue for grayscale colors to avoid the slider jumping
+		var hsv = HsvColor.FromRgb(color);
+		if (hsv.Saturation > 0) //keep current hue for grayscale colors to avoid the slider jumping
 		{
-			_hue = (int)Math.Round(h);
+			_hue = (int)Math.Round(hsv.Hue);
 		}
-		_saturation = s;
-		_brightness = v;
+		_saturation = hsv.Saturation / 100.0;
+		_brightness = hsv.Value / 100.0;
 		_alpha = EnableAlpha ? color.A / 255.0 : 1.0;
 		_color = EnableAlpha ? color : Color.FromArgb(255, color);
 	}
@@ -457,7 +457,7 @@
 		_alphaPercent = (int)Math.Round(_alpha * 100);
 		_hsl = HslColor.FromRgb(_color);
 
-		_hueHex = "#" + HsvToRgb(_hue, 1, 1).ToHex();
+		_hueHex = "#" + ((Color)new HsvColor(_hue, 100, 100)).ToHex();
 		_colorHexNoAlpha = "#" + _color.ToHex();
 		_hexText = (EnableAlpha && AlphaByte < 255) ? $"#{_color.ToHex()}{AlphaByte:X2}" : _colorHexNoAlpha;
 		_colorCss = (EnableAlpha && AlphaByte < 255)
@@ -467,7 +467,7 @@
 		_selectorThumbLeft = (_saturation * HueAreaWidth) - (_selectorThumbSize / 2.0);
 		_selectorThumbTop = ((1.0 - _brightness) * HueAreaHeight) - (_selectorThumbSize / 2.0);
 
-		_colorName = _knownColorNames.TryGetValue(_color.ToArgb() & 0x00FFFFFF, out var name) ? name : null;
+		_colorName = HtmlColorHelper.NamedHtmlColors.FirstOrDefault(x => x.Value == _color.ToHex()).Key;
 
 		_copied = false;
 	}
@@ -503,7 +503,7 @@
 		{
 			await EnsureJsAsync();
 			var hex = await _colorPickerJs!.InvokeAsync<string?>("openEyeDropper");
-			if (!string.IsNullOrWhiteSpace(hex) && TryParseHex(hex, out var color))
+			if (!string.IsNullOrWhiteSpace(hex) && ColorExtension.TryParseHex(hex, out var color))
 			{
 				await ApplyFromColorAsync(EnableAlpha ? Color.FromArgb(AlphaByte, color) : color);
 			}
@@ -527,97 +527,7 @@
 	}
 	#endregion
 
-	#region Color math (HSV <-> RGB)
 	private byte AlphaByte => EnableAlpha ? (byte)Math.Round(_alpha * 255) : (byte)255;
-
-	private static Color HsvToRgb(double hue, double saturation, double value)
-	{
-		hue %= 360.0;
-		if (hue < 0) hue += 360.0;
-
-		var c = value * saturation;
-		var x = c * (1 - Math.Abs((hue / 60.0) % 2 - 1));
-		var m = value - c;
-
-		double r, g, b;
-		if (hue < 60) { r = c; g = x; b = 0; }
-		else if (hue < 120) { r = x; g = c; b = 0; }
-		else if (hue < 180) { r = 0; g = c; b = x; }
-		else if (hue < 240) { r = 0; g = x; b = c; }
-		else if (hue < 300) { r = x; g = 0; b = c; }
-		else { r = c; g = 0; b = x; }
-
-		return Color.FromArgb(
-			(int)Math.Round((r + m) * 255),
-			(int)Math.Round((g + m) * 255),
-			(int)Math.Round((b + m) * 255));
-	}
-
-	private static (double hue, double saturation, double value) RgbToHsv(Color color)
-	{
-		double r = color.R / 255.0, g = color.G / 255.0, b = color.B / 255.0;
-		var max = Math.Max(r, Math.Max(g, b));
-		var min = Math.Min(r, Math.Min(g, b));
-		var delta = max - min;
-
-		double hue = 0;
-		if (delta > 0)
-		{
-			if (max == r) hue = 60 * (((g - b) / delta) % 6);
-			else if (max == g) hue = 60 * (((b - r) / delta) + 2);
-			else hue = 60 * (((r - g) / delta) + 4);
-		}
-		if (hue < 0) hue += 360;
-
-		var saturation = max == 0 ? 0 : delta / max;
-		return (hue, saturation, max);
-	}
-	#endregion
-
-	#region Parsing helpers
-	private int ParseInt(object? value, int fallback, int min, int max)
-	{
-		if (int.TryParse(value?.ToString(), System.Globalization.NumberStyles.Integer, _ci, out var result))
-		{
-			return Math.Clamp(result, min, max);
-		}
-		return fallback;
-	}
-
-	private static bool TryParseHex(string? text, out Color color)
-	{
-		color = Color.Black;
-		if (string.IsNullOrWhiteSpace(text))
-		{
-			return false;
-		}
-
-		text = text.Trim().TrimStart('#');
-		if (text.Length is not (3 or 6 or 8))
-		{
-			return false;
-		}
-
-		if (text.Length == 3) //#RGB shorthand
-		{
-			text = $"{text[0]}{text[0]}{text[1]}{text[1]}{text[2]}{text[2]}";
-		}
-
-		try
-		{
-			var r = Convert.ToInt32(text.Substring(0, 2), 16);
-			var g = Convert.ToInt32(text.Substring(2, 2), 16);
-			var b = Convert.ToInt32(text.Substring(4, 2), 16);
-			var a = text.Length == 8 ? Convert.ToInt32(text.Substring(6, 2), 16) : 255;
-			color = Color.FromArgb(a, r, g, b);
-			return true;
-		}
-		catch
-		{
-			return false;
-		}
-	}
-	#endregion
 
 	private static readonly Color[] _defaultPalette = new[]
 	{
@@ -642,30 +552,6 @@
 		Color.FromArgb(0, 0, 0),       //black
 		Color.FromArgb(255, 255, 255), //white
 	};
-
-	//Maps RGB (alpha ignored) to a named color so typed/palette colors resolve a name too.
-	//Color.IsKnownColor is only true for colors created from a KnownColor, not from FromArgb(r,g,b).
-	private static readonly Dictionary<int, string> _knownColorNames = BuildKnownColorNames();
-
-	private static Dictionary<int, string> BuildKnownColorNames()
-	{
-		var map = new Dictionary<int, string>();
-		foreach (KnownColor known in Enum.GetValues(typeof(KnownColor)))
-		{
-			var color = Color.FromKnownColor(known);
-			if (color.IsSystemColor || color.A == 0) //skip system palette and Transparent
-			{
-				continue;
-			}
-
-			var rgb = color.ToArgb() & 0x00FFFFFF;
-			if (!map.ContainsKey(rgb)) //keep the first name for duplicate RGBs (e.g. Aqua/Cyan)
-			{
-				map[rgb] = color.Name;
-			}
-		}
-		return map;
-	}
 
 	private void WriteDiag(string message) => _logger.LogDebug($"Component {GetType()}: {message}");
 
