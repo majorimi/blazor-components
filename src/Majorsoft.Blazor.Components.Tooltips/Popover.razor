@@ -1,0 +1,292 @@
+@inject ILogger<Popover> _logger;
+@inject IClickBoundariesHandler _clickHandler;
+
+@implements IAsyncDisposable
+
+<div @ref="_container" class="bpopover-container @Class" style="@Style" @attributes="AdditionalAttributes">
+
+	<div class="bpopover-trigger" @onclick="OnTriggerClickAsync">
+		@ChildContent
+	</div>
+
+	@if (_isOpened)
+	{
+		<div @ref="_panel" class="bpopover @PositionCss @PopoverClass" style="@PanelStyle"
+			 role="dialog" tabindex="0" @onkeydown="OnKeyDownAsync">
+
+			@if (ShowHeader)
+			{
+				<div class="bpopover-header">
+					<span class="bpopover-title">
+						@if (HeaderContent is not null)
+						{
+							@HeaderContent
+						}
+						else
+						{
+							@HeaderText
+						}
+					</span>
+					@if (ShowCloseButton)
+					{
+						<button type="button" class="bpopover-close" @onclick="CloseAsync" aria-label="Close">&times;</button>
+					}
+				</div>
+			}
+
+			<div class="bpopover-body">
+				@PopoverContent
+			</div>
+		</div>
+	}
+</div>
+
+@code {
+	private ElementReference _container;
+	private ElementReference _panel;
+	private bool _isOpened;
+	private bool _clickHandlerRegistered;
+
+	/// <summary>
+	/// Required: the trigger content (element) the Popover is attached to. Clicking it toggles the Popover when <see cref="OpenOnClick"/> is true.
+	/// </summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>
+	/// Required: the HTML content rendered inside the Popover panel body. Can host any component, e.g. a color selector or date picker.
+	/// </summary>
+	[Parameter] public RenderFragment? PopoverContent { get; set; }
+
+	/// <summary>
+	/// Plain text shown in the Popover header. Ignored when <see cref="HeaderContent"/> is set.
+	/// </summary>
+	[Parameter] public string? HeaderText { get; set; }
+
+	/// <summary>
+	/// Optional rich (HTML) header content. Takes precedence over <see cref="HeaderText"/>.
+	/// </summary>
+	[Parameter] public RenderFragment? HeaderContent { get; set; }
+
+	/// <summary>
+	/// Shows or hides the header close (x) button. Default is true.
+	/// </summary>
+	[Parameter] public bool ShowCloseButton { get; set; } = true;
+
+	/// <summary>
+	/// Position of the Popover panel relative to the trigger element. Default is <see cref="TooltipPositions.Bottom"/>.
+	/// </summary>
+	[Parameter] public TooltipPositions Position { get; set; } = TooltipPositions.Bottom;
+
+	/// <summary>
+	/// Fixed Popover panel width in pixels. When 0 (default) the width is sized to the content.
+	/// </summary>
+	[Parameter] public int Width { get; set; } = 0;
+
+	/// <summary>
+	/// Fixed Popover panel height in pixels. When 0 (default) the height is sized to the content.
+	/// </summary>
+	[Parameter] public int Height { get; set; } = 0;
+
+	/// <summary>
+	/// When true clicking the trigger element toggles the Popover. Default is true.
+	/// </summary>
+	[Parameter] public bool OpenOnClick { get; set; } = true;
+
+	/// <summary>
+	/// When true the Popover closes when the user clicks outside of it. Default is true.
+	/// </summary>
+	[Parameter] public bool CloseOnOutsideClick { get; set; } = true;
+
+	/// <summary>
+	/// When true the Popover closes when the Esc (Escape) key is pressed while it has focus. Default is true.
+	/// </summary>
+	[Parameter] public bool CloseOnEscapeKey { get; set; } = true;
+
+	/// <summary>
+	/// When true the trigger does not open the Popover and programmatic <see cref="OpenAsync"/> calls are ignored. Default is false.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+
+	/// <summary>
+	/// Custom CSS class(es) applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>
+	/// Custom inline style applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Style { get; set; }
+
+	/// <summary>
+	/// Custom CSS class(es) applied to the Popover panel element.
+	/// </summary>
+	[Parameter] public string? PopoverClass { get; set; }
+
+	/// <summary>
+	/// Custom inline style applied to the Popover panel element.
+	/// </summary>
+	[Parameter] public string? PopoverStyle { get; set; }
+
+	/// <summary>
+	/// Callback function called when the Popover is opening.
+	/// </summary>
+	[Parameter] public EventCallback OnOpen { get; set; }
+
+	/// <summary>
+	/// Callback function called when the Popover is closing.
+	/// </summary>
+	[Parameter] public EventCallback OnClose { get; set; }
+
+	/// <summary>
+	/// Arbitrary HTML attributes that will be passed to the rendered root (container) HTML element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+	/// <summary>
+	/// Returns true when the Popover is currently open, otherwise false.
+	/// </summary>
+	public bool IsOpen => _isOpened;
+
+	private bool ShowHeader => ShowCloseButton || HeaderContent is not null || !string.IsNullOrEmpty(HeaderText);
+
+	private string PositionCss => Position switch
+	{
+		TooltipPositions.Top => "bpopover-top",
+		TooltipPositions.Right => "bpopover-right",
+		TooltipPositions.Left => "bpopover-left",
+		_ => "bpopover-bottom",
+	};
+
+	private string PanelStyle
+	{
+		get
+		{
+			var style = "";
+			if (Width > 0)
+			{
+				style += $"width:{Width}px;";
+			}
+			if (Height > 0)
+			{
+				style += $"height:{Height}px;";
+			}
+			return style + PopoverStyle;
+		}
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		//Register the outside-click listener only while open, AFTER the opening render. Doing it on open
+		//(not on first render) avoids the click that opened the Popover being detected as an outside click
+		//and closing it again immediately.
+		if (_isOpened && !_clickHandlerRegistered)
+		{
+			_clickHandlerRegistered = true;
+			await _clickHandler.RegisterClickBoundariesAsync(_container,
+				outsideClickCallback: async args => await OnOutsideClickAsync(args));
+
+			try { await _panel.FocusAsync(); } catch { }
+		}
+	}
+
+	private async Task OnTriggerClickAsync()
+	{
+		if (!OpenOnClick)
+		{
+			return;
+		}
+
+		await ToggleAsync();
+	}
+
+	private async Task OnOutsideClickAsync(MouseEventArgs args)
+	{
+		if (_isOpened && CloseOnOutsideClick)
+		{
+			WriteDiag("Clicked outside, closing Popover.");
+			await CloseAsync();
+		}
+	}
+
+	private async Task OnKeyDownAsync(KeyboardEventArgs args)
+	{
+		if (CloseOnEscapeKey && string.Equals(args.Key, "Escape", StringComparison.OrdinalIgnoreCase))
+		{
+			await CloseAsync();
+		}
+	}
+
+	/// <summary>
+	/// Opens the Popover programmatically. Has no effect when <see cref="Disabled"/> is true or it is already open.
+	/// </summary>
+	public async Task OpenAsync()
+	{
+		if (Disabled || _isOpened)
+		{
+			return;
+		}
+
+		_isOpened = true;
+		WriteDiag("Popover opened.");
+		StateHasChanged();
+
+		if (OnOpen.HasDelegate)
+		{
+			await OnOpen.InvokeAsync();
+		}
+	}
+
+	/// <summary>
+	/// Closes the Popover programmatically. Has no effect when it is already closed.
+	/// </summary>
+	public async Task CloseAsync()
+	{
+		if (!_isOpened)
+		{
+			return;
+		}
+
+		_isOpened = false;
+		WriteDiag("Popover closed.");
+
+		if (_clickHandlerRegistered)
+		{
+			_clickHandlerRegistered = false;
+			try { await _clickHandler.RemoveClickBoundariesAsync(_container); } catch { }
+		}
+
+		StateHasChanged();
+
+		if (OnClose.HasDelegate)
+		{
+			await OnClose.InvokeAsync();
+		}
+	}
+
+	/// <summary>
+	/// Toggles the Popover open/closed state programmatically.
+	/// </summary>
+	public async Task ToggleAsync()
+	{
+		if (_isOpened)
+		{
+			await CloseAsync();
+		}
+		else
+		{
+			await OpenAsync();
+		}
+	}
+
+	private void WriteDiag(string message) => _logger.LogDebug($"Component {GetType()}: {message}");
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_clickHandler is not null)
+		{
+			try { await _clickHandler.RemoveClickBoundariesAsync(_container); } catch { }
+			await _clickHandler.DisposeAsync();
+		}
+	}
+}

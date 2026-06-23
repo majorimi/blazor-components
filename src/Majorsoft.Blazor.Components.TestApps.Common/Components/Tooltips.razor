@@ -151,6 +151,125 @@
 	</div>
 </div>
 
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Popover</h3>
+	<p>
+		The <code>&lt;Popover&gt;</code> component shows a click-triggered, anchored panel with an optional header, a
+		<code>PopoverContent</code> body and programmatic open/close. It is meant to host richer content such as a color
+		selector or a date picker.
+	</p>
+
+	<h5>Customizable Popover</h5>
+	<p>Change the settings below and toggle the Popover to see the effect.</p>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-6">
+			<div class="form-group">
+				<label>Position:</label>
+				<select class="form-control" @bind="_popoverPosition">
+					@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+					{
+						<option value="@position">@position</option>
+					}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Header text:</label>
+				<input type="text" class="form-control" @bind="_popoverHeader" />
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<label>Width (px, 0 = auto):</label>
+					<input type="number" min="0" step="20" class="form-control" @bind="_popoverWidth" />
+				</div>
+				<div class="col-6">
+					<label>Height (px, 0 = auto):</label>
+					<input type="number" min="0" step="20" class="form-control" @bind="_popoverHeight" />
+				</div>
+			</div>
+			<div class="mt-2">
+				Show close button: <input class="mr-3" type="checkbox" @bind="_popoverShowClose" />
+				Open on click: <input class="mr-3" type="checkbox" @bind="_popoverOpenOnClick" />
+				Disabled: <input class="mr-3" type="checkbox" @bind="_popoverDisabled" />
+			</div>
+			<div>
+				Close on outside click: <input class="mr-3" type="checkbox" @bind="_popoverCloseOutside" />
+				Close on Esc: <input class="mr-3" type="checkbox" @bind="_popoverCloseEsc" />
+			</div>
+		</div>
+		<div class="col-12 col-lg-6 text-center" style="padding: 40px 0;">
+			<Popover @ref="_customPopover"
+					 HeaderText="@_popoverHeader"
+					 Position="_popoverPosition"
+					 Width="_popoverWidth"
+					 Height="_popoverHeight"
+					 ShowCloseButton="_popoverShowClose"
+					 OpenOnClick="_popoverOpenOnClick"
+					 CloseOnOutsideClick="_popoverCloseOutside"
+					 CloseOnEscapeKey="_popoverCloseEsc"
+					 Disabled="_popoverDisabled"
+					 OnOpen="OnPopoverOpen"
+					 OnClose="OnPopoverClose">
+				<ChildContent>
+					<button class="btn btn-primary">Toggle Popover</button>
+				</ChildContent>
+				<PopoverContent>
+					<p class="mb-0">
+						Popovers can contain any HTML content. Click outside, press <kbd>Esc</kbd> or use the
+						close button to dismiss (depending on the settings).
+					</p>
+				</PopoverContent>
+			</Popover>
+			<div class="mt-3">
+				<button class="btn btn-sm btn-success mr-2" @onclick="@(() => _customPopover?.OpenAsync() ?? Task.CompletedTask)">Open</button>
+				<button class="btn btn-sm btn-danger mr-2" @onclick="@(() => _customPopover?.CloseAsync() ?? Task.CompletedTask)">Close</button>
+				<button class="btn btn-sm btn-secondary" @onclick="@(() => _customPopover?.ToggleAsync() ?? Task.CompletedTask)">Toggle</button>
+			</div>
+		</div>
+	</div>
+
+	<hr />
+
+	<h5>Color selector Popover</h5>
+	<p>
+		Hosting a <code>ColorPalette</code> inside a Popover. The Popover stays open while picking and only closes on
+		<strong>Apply</strong>, the close button or an outside click &mdash; it does not close on every color change.
+	</p>
+	<div class="row pb-2">
+		<div class="col-12">
+			<Popover @ref="_colorPopover" HeaderText="Pick a color" Position="TooltipPositions.Bottom" Width="340"
+					 CloseOnOutsideClick="true" OnOpen="OnPopoverOpen" OnClose="OnPopoverClose">
+				<ChildContent>
+					<button class="btn btn-outline-secondary">
+						<span style="display:inline-block; width:14px; height:14px; vertical-align:middle; border:1px solid #ccc; border-radius:3px; background:@_pickedColor.ToHtmlHex();"></span>
+						@_pickedColor.ToHtmlHex()
+					</button>
+				</ChildContent>
+				<PopoverContent>
+					<ColorPalette SelectedColor="_pickedColor"
+								  HueAreaWidth="300"
+								  HueAreaHeight="180"
+								  HueSliderWidth="300"
+								  ShowInfoArea="false"
+								  OnColorChanged="OnColorPicked" />
+					<div class="text-right mt-2">
+						<button class="btn btn-sm btn-primary" @onclick="CloseColorPopover">Apply</button>
+					</div>
+				</PopoverContent>
+			</Popover>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Events log</strong>:</label>
+			<textarea @ref="_popoverLog" @bind="_popoverLogMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@using System.Drawing
+@using Majorsoft.Blazor.Components.Core.HtmlColors
+
 @code {
 	//Customizable example state
 	private TooltipPositions _position = TooltipPositions.Top;
@@ -174,5 +293,52 @@
 	{
 		_logMessage += $"Tooltip hidden. {Environment.NewLine}";
 		await _log.ScrollToEndAsync();
+	}
+
+	//Popover example state
+	private Popover? _customPopover;
+	private Popover? _colorPopover;
+	private Color _pickedColor = Color.FromArgb(66, 135, 245);
+
+	//Customizable Popover settings
+	private TooltipPositions _popoverPosition = TooltipPositions.Bottom;
+	private string _popoverHeader = "Popover header";
+	private int _popoverWidth = 280;
+	private int _popoverHeight = 0;
+	private bool _popoverShowClose = true;
+	private bool _popoverOpenOnClick = true;
+	private bool _popoverDisabled = false;
+	private bool _popoverCloseOutside = true;
+	private bool _popoverCloseEsc = true;
+
+	private ElementReference _popoverLog;
+	private string _popoverLogMessage = "";
+
+	private async Task OnPopoverOpen()
+	{
+		_popoverLogMessage += $"Popover opened. {Environment.NewLine}";
+		await _popoverLog.ScrollToEndAsync();
+	}
+
+	private async Task OnPopoverClose()
+	{
+		_popoverLogMessage += $"Popover closed. {Environment.NewLine}";
+		await _popoverLog.ScrollToEndAsync();
+	}
+
+	private async Task CloseColorPopover()
+	{
+		if (_colorPopover is not null)
+		{
+			await _colorPopover.CloseAsync();
+		}
+	}
+
+	private async Task OnColorPicked(Color color)
+	{
+		//Only update the preview/log. The Popover stays open so the user can keep adjusting the color.
+		_pickedColor = color;
+		_popoverLogMessage += $"Color changed: {color.ToHtmlHex()}. {Environment.NewLine}";
+		await _popoverLog.ScrollToEndAsync();
 	}
 }
