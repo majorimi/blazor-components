@@ -48,7 +48,7 @@
 	private bool _clickHandlerRegistered;
 
 	/// <summary>
-	/// Required: the trigger content (element) the Popover is attached to. Clicking it toggles the Popover when <see cref="OpenOnClick"/> is true.
+	/// Required: the trigger content (element) the Popover is attached to. Clicking it toggles the Popover (unless <see cref="Disabled"/> is true).
 	/// </summary>
 	[Parameter] public RenderFragment? ChildContent { get; set; }
 
@@ -86,11 +86,6 @@
 	/// Fixed Popover panel height in pixels. When 0 (default) the height is sized to the content.
 	/// </summary>
 	[Parameter] public int Height { get; set; } = 0;
-
-	/// <summary>
-	/// When true clicking the trigger element toggles the Popover. Default is true.
-	/// </summary>
-	[Parameter] public bool OpenOnClick { get; set; } = true;
 
 	/// <summary>
 	/// When true the Popover closes when the user clicks outside of it. Default is true.
@@ -190,15 +185,7 @@
 		}
 	}
 
-	private async Task OnTriggerClickAsync()
-	{
-		if (!OpenOnClick)
-		{
-			return;
-		}
-
-		await ToggleAsync();
-	}
+	private async Task OnTriggerClickAsync() => await ToggleAsync();
 
 	private async Task OnOutsideClickAsync(MouseEventArgs args)
 	{

@@ -188,7 +188,6 @@
 			</div>
 			<div class="mt-2">
 				Show close button: <input class="mr-3" type="checkbox" @bind="_popoverShowClose" />
-				Open on click: <input class="mr-3" type="checkbox" @bind="_popoverOpenOnClick" />
 				Disabled: <input class="mr-3" type="checkbox" @bind="_popoverDisabled" />
 			</div>
 			<div>
@@ -203,7 +202,6 @@
 					 Width="_popoverWidth"
 					 Height="_popoverHeight"
 					 ShowCloseButton="_popoverShowClose"
-					 OpenOnClick="_popoverOpenOnClick"
 					 CloseOnOutsideClick="_popoverCloseOutside"
 					 CloseOnEscapeKey="_popoverCloseEsc"
 					 Disabled="_popoverDisabled"
@@ -306,7 +304,6 @@
 	private int _popoverWidth = 280;
 	private int _popoverHeight = 0;
 	private bool _popoverShowClose = true;
-	private bool _popoverOpenOnClick = true;
 	private bool _popoverDisabled = false;
 	private bool _popoverCloseOutside = true;
 	private bool _popoverCloseEsc = true;
