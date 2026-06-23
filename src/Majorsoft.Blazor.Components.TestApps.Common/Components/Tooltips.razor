@@ -42,7 +42,7 @@
 		@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
 		{
 			<div class="col-3">
-				<Tooltip Text="@($"Tooltip on the {position}.")" Position="position">
+				<Tooltip Text="@($"Tooltip on the {position}.")" Position="@position">
 					<button class="btn btn-info">@position</button>
 				</Tooltip>
 			</div>
@@ -88,13 +88,13 @@
 		<div class="col-12 col-lg-6 text-center" style="padding: 60px 0;">
 			@if (_richContent)
 			{
-				<Tooltip Position="_position"
-						 DelayBeforeShow="_delayBeforeShow"
-						 DelayBeforeHide="_delayBeforeHide"
-						 ShowArrow="_showArrow"
-						 Disabled="_disabled"
-						 OnShow="OnTooltipShow"
-						 OnHide="OnTooltipHide">
+				<Tooltip Position="@_position"
+						 DelayBeforeShow="@_delayBeforeShow"
+						 DelayBeforeHide="@_delayBeforeHide"
+						 ShowArrow="@_showArrow"
+						 Disabled="@_disabled"
+						 OnShow="@OnTooltipShow"
+						 OnHide="@OnTooltipHide">
 					<ChildContent>
 						<button class="btn btn-success">Hover me</button>
 					</ChildContent>
@@ -112,13 +112,13 @@
 			else
 			{
 				<Tooltip Text="@_text"
-						 Position="_position"
-						 DelayBeforeShow="_delayBeforeShow"
-						 DelayBeforeHide="_delayBeforeHide"
-						 ShowArrow="_showArrow"
-						 Disabled="_disabled"
-						 OnShow="OnTooltipShow"
-						 OnHide="OnTooltipHide">
+						 Position="@_position"
+						 DelayBeforeShow="@_delayBeforeShow"
+						 DelayBeforeHide="@_delayBeforeHide"
+						 ShowArrow="@_showArrow"
+						 Disabled="@_disabled"
+						 OnShow="@OnTooltipShow"
+						 OnHide="@OnTooltipHide">
 					<button class="btn btn-success">Hover me</button>
 				</Tooltip>
 			}
@@ -198,15 +198,15 @@
 		<div class="col-12 col-lg-6 text-center" style="padding: 40px 0;">
 			<Popover @ref="_customPopover"
 					 HeaderText="@_popoverHeader"
-					 Position="_popoverPosition"
-					 Width="_popoverWidth"
-					 Height="_popoverHeight"
-					 ShowCloseButton="_popoverShowClose"
-					 CloseOnOutsideClick="_popoverCloseOutside"
-					 CloseOnEscapeKey="_popoverCloseEsc"
-					 Disabled="_popoverDisabled"
-					 OnOpen="OnPopoverOpen"
-					 OnClose="OnPopoverClose">
+					 Position="@_popoverPosition"
+					 Width="@_popoverWidth"
+					 Height="@_popoverHeight"
+					 ShowCloseButton="@_popoverShowClose"
+					 CloseOnOutsideClick="@_popoverCloseOutside"
+					 CloseOnEscapeKey="@_popoverCloseEsc"
+					 Disabled="@_popoverDisabled"
+					 OnOpen="@OnPopoverOpen"
+					 OnClose="@OnPopoverClose">
 				<ChildContent>
 					<button class="btn btn-primary">Toggle Popover</button>
 				</ChildContent>
@@ -234,8 +234,8 @@
 	</p>
 	<div class="row pb-2">
 		<div class="col-12">
-			<Popover @ref="_colorPopover" HeaderText="Pick a color" Position="TooltipPositions.Bottom" Width="340"
-					 CloseOnOutsideClick="true" OnOpen="OnPopoverOpen" OnClose="OnPopoverClose">
+			<Popover @ref="_colorPopover" HeaderText="Pick a color" Position="@TooltipPositions.Bottom" Width="340"
+					 CloseOnOutsideClick="true" OnOpen="@OnPopoverOpen" OnClose="@OnPopoverClose">
 				<ChildContent>
 					<button class="btn btn-outline-secondary">
 						<span style="display:inline-block; width:14px; height:14px; vertical-align:middle; border:1px solid #ccc; border-radius:3px; background:@_pickedColor.ToHtmlHex();"></span>
@@ -243,12 +243,12 @@
 					</button>
 				</ChildContent>
 				<PopoverContent>
-					<ColorPalette SelectedColor="_pickedColor"
+					<ColorPalette SelectedColor="@_pickedColor"
 								  HueAreaWidth="300"
 								  HueAreaHeight="180"
 								  HueSliderWidth="300"
 								  ShowInfoArea="false"
-								  OnColorChanged="OnColorPicked" />
+								  OnColorChanged="@OnColorPicked" />
 					<div class="text-right mt-2">
 						<button class="btn btn-sm btn-primary" @onclick="CloseColorPopover">Apply</button>
 					</div>

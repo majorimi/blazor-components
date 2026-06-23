@@ -1,0 +1,308 @@
+@using System.Globalization
+
+<Popover @ref="_popover"
+		 Class="@($"bcolorpicker {Class}")"
+		 Style="@Style"
+		 HeaderText="@HeaderText"
+		 Position="@Position"
+		 CloseOnOutsideClick="@CloseOnOutsideClick"
+		 Disabled="@Disabled"
+		 OnOpen="@OnPopoverOpenAsync"
+		 OnClose="@OnPopoverCloseAsync"
+		 AdditionalAttributes="@AllOtherAttributes">
+	<ChildContent>
+		<button type="button" class="bcolorpicker-trigger" disabled="@Disabled">
+			<span class="bcolorpicker-preview"
+				  style="width:@(PreviewSize)px; height:@(PreviewSize)px; background:@ColorToCss(_committedColor);"></span>
+			@if (ShowHex)
+			{
+				<span class="bcolorpicker-hex">@HexText(_committedColor)</span>
+			}
+		</button>
+	</ChildContent>
+	<PopoverContent>
+		<ColorPalette SelectedColor="@_workingColor"
+					  EnableAlpha="@EnableAlpha"
+					  ShowInfoArea="@ShowInfoArea"
+					  ShowColorName="@ShowColorName"
+					  ShowPalette="@ShowPalette"
+					  ShowEyeDropper="@ShowEyeDropper"
+					  ShowCopyButton="@ShowCopyButton"
+					  HueAreaWidth="@HueAreaWidth"
+					  HueAreaHeight="@HueAreaHeight"
+					  HueSliderWidth="@HueSliderWidth"
+					  HueSliderHeight="@HueSliderHeight"
+					  PaletteColors="@PaletteColors"
+					  OnColorChanged="@OnPaletteColorChangedAsync" />
+
+		@if (RequireApply)
+		{
+			<div class="bcolorpicker-actions">
+				<button type="button" class="bcolorpicker-apply" @onclick="ApplyAsync">@ApplyButtonText</button>
+			</div>
+		}
+	</PopoverContent>
+</Popover>
+
+@code {
+	private Popover? _popover;
+	private bool _isOpen;
+
+	private Color _committedColor = Color.Empty; //last applied/selected color shown on the trigger
+	private Color _workingColor;                 //live color being edited inside the palette
+
+	#region Color value / events
+	/// <summary>
+	/// Currently selected (committed) <see cref="Color"/>. Supports two-way binding with <c>@bind-SelectedColor</c>.
+	/// </summary>
+	[Parameter] public Color SelectedColor { get; set; } = Color.FromArgb(66, 135, 245);
+
+	/// <summary>
+	/// Callback for two-way binding. Invoked with the committed <see cref="Color"/> (on Apply when <see cref="RequireApply"/> is true, otherwise on every change).
+	/// </summary>
+	[Parameter] public EventCallback<Color> SelectedColorChanged { get; set; }
+
+	/// <summary>
+	/// Notification callback invoked with the committed <see cref="Color"/> (on Apply when <see cref="RequireApply"/> is true, otherwise on every change).
+	/// </summary>
+	[Parameter] public EventCallback<Color> OnColorSelected { get; set; }
+
+	/// <summary>
+	/// Notification callback invoked with the live <see cref="Color"/> on every change inside the palette, even before it is applied.
+	/// </summary>
+	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
+	#endregion
+
+	#region Popover events
+	/// <summary>
+	/// Callback function called when the color selector Popover is opening.
+	/// </summary>
+	[Parameter] public EventCallback OnOpen { get; set; }
+
+	/// <summary>
+	/// Callback function called when the color selector Popover is closing.
+	/// </summary>
+	[Parameter] public EventCallback OnClose { get; set; }
+	#endregion
+
+	#region Behavior
+	/// <summary>
+	/// When true the selected color is only committed (and the Popover closed) after the Apply button is clicked.
+	/// When false (default) every change is committed immediately and the Popover stays open.
+	/// </summary>
+	[Parameter] public bool RequireApply { get; set; } = false;
+
+	/// <summary>
+	/// Text shown on the Apply button. Only used when <see cref="RequireApply"/> is true.
+	/// </summary>
+	[Parameter] public string ApplyButtonText { get; set; } = "Apply";
+
+	/// <summary>
+	/// Header text shown on the color selector Popover.
+	/// </summary>
+	[Parameter] public string HeaderText { get; set; } = "Pick a color";
+
+	/// <summary>
+	/// Position of the Popover relative to the trigger button. Default is <see cref="TooltipPositions.Top"/>.
+	/// </summary>
+	[Parameter] public TooltipPositions Position { get; set; } = TooltipPositions.Top;
+
+	/// <summary>
+	/// When true the Popover closes when the user clicks outside of it. Default is true.
+	/// </summary>
+	[Parameter] public bool CloseOnOutsideClick { get; set; } = true;
+
+	/// <summary>
+	/// When true the picker is disabled and cannot be opened.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; } = false;
+	#endregion
+
+	#region Trigger button
+	/// <summary>
+	/// Shows or hides the HEX value text next to the color preview on the trigger button. Default is true.
+	/// </summary>
+	[Parameter] public bool ShowHex { get; set; } = true;
+
+	/// <summary>
+	/// Size (width and height) of the color preview square on the trigger button, in pixels. Default is 28.
+	/// </summary>
+	[Parameter] public int PreviewSize { get; set; } = 28;
+	#endregion
+
+	#region ColorPalette pass-through
+	/// <summary>
+	/// Enables the Alpha (opacity) slider and ARGB output of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool EnableAlpha { get; set; } = false;
+
+	/// <summary>
+	/// Shows or hides the HEX/RGB/HSL info and input area of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool ShowInfoArea { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the known color Name field of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool ShowColorName { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the predefined color palette (swatches) of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool ShowPalette { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the screen color picker (EyeDropper) button of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool ShowEyeDropper { get; set; } = true;
+
+	/// <summary>
+	/// Shows or hides the 'copy to clipboard' button of the inner <see cref="ColorPalette"/>.
+	/// </summary>
+	[Parameter] public bool ShowCopyButton { get; set; } = true;
+
+	/// <summary>
+	/// Width of the Saturation/Brightness selection area in pixels.
+	/// </summary>
+	[Parameter] public int HueAreaWidth { get; set; } = 300;
+
+	/// <summary>
+	/// Height of the Saturation/Brightness selection area in pixels.
+	/// </summary>
+	[Parameter] public int HueAreaHeight { get; set; } = 250;
+
+	/// <summary>
+	/// Width of the Hue and Alpha sliders in pixels.
+	/// </summary>
+	[Parameter] public int HueSliderWidth { get; set; } = 300;
+
+	/// <summary>
+	/// Height of the Hue and Alpha sliders in pixels.
+	/// </summary>
+	[Parameter] public int HueSliderHeight { get; set; } = 12;
+
+	/// <summary>
+	/// Predefined color swatches to show. When not set a default palette is used.
+	/// </summary>
+	[Parameter] public IEnumerable<Color>? PaletteColors { get; set; }
+	#endregion
+
+	/// <summary>
+	/// Custom CSS class(es) applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>
+	/// Custom inline style applied to the root (trigger) container element.
+	/// </summary>
+	[Parameter] public string? Style { get; set; }
+
+	/// <summary>
+	/// Captures all other (unmatched) attributes and applies them to the root element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AllOtherAttributes { get; set; }
+
+	/// <summary>
+	/// Returns true when the color selector Popover is currently open, otherwise false.
+	/// </summary>
+	public bool IsOpen => _isOpen;
+
+	protected override void OnParametersSet()
+	{
+		//React to externally set color only (avoids feedback loop with our own commits).
+		if (SelectedColor.ToArgb() != _committedColor.ToArgb())
+		{
+			_committedColor = SelectedColor;
+			if (!_isOpen)
+			{
+				_workingColor = SelectedColor;
+			}
+		}
+	}
+
+	private async Task OnPaletteColorChangedAsync(Color color)
+	{
+		_workingColor = color;
+
+		if (OnColorChanged.HasDelegate)
+		{
+			await OnColorChanged.InvokeAsync(color);
+		}
+
+		if (!RequireApply)
+		{
+			//Auto-commit: update the trigger preview and notify, but keep the Popover open for further adjustments.
+			await CommitAsync(color, close: false);
+		}
+	}
+
+	private async Task ApplyAsync() => await CommitAsync(_workingColor, close: true);
+
+	private async Task CommitAsync(Color color, bool close)
+	{
+		_committedColor = color;
+		SelectedColor = color;
+
+		if (SelectedColorChanged.HasDelegate)
+		{
+			await SelectedColorChanged.InvokeAsync(color);
+		}
+		if (OnColorSelected.HasDelegate)
+		{
+			await OnColorSelected.InvokeAsync(color);
+		}
+
+		if (close)
+		{
+			await CloseAsync();
+		}
+	}
+
+	private async Task OnPopoverOpenAsync()
+	{
+		_isOpen = true;
+		_workingColor = _committedColor; //start editing from the committed value
+
+		if (OnOpen.HasDelegate)
+		{
+			await OnOpen.InvokeAsync();
+		}
+	}
+
+	private async Task OnPopoverCloseAsync()
+	{
+		_isOpen = false;
+		if (RequireApply)
+		{
+			_workingColor = _committedColor; //discard not-applied changes
+		}
+
+		if (OnClose.HasDelegate)
+		{
+			await OnClose.InvokeAsync();
+		}
+	}
+
+	/// <summary>
+	/// Opens the color selector Popover programmatically.
+	/// </summary>
+	public Task OpenAsync() => _popover?.OpenAsync() ?? Task.CompletedTask;
+
+	/// <summary>
+	/// Closes the color selector Popover programmatically.
+	/// </summary>
+	public Task CloseAsync() => _popover?.CloseAsync() ?? Task.CompletedTask;
+
+	/// <summary>
+	/// Toggles the color selector Popover open/closed state programmatically.
+	/// </summary>
+	public Task ToggleAsync() => _popover?.ToggleAsync() ?? Task.CompletedTask;
+
+	private string ColorToCss(Color c)
+		=> (EnableAlpha && c.A < 255)
+			? $"rgba({c.R}, {c.G}, {c.B}, {(c.A / 255.0).ToString("0.##", CultureInfo.InvariantCulture)})"
+			: "#" + c.ToHex();
+
+	private string HexText(Color c)
+		=> (EnableAlpha && c.A < 255) ? $"#{c.ToHex()}{c.A:X2}" : "#" + c.ToHex();
+}
