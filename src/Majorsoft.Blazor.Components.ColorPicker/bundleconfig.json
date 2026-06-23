@@ -1,8 +1,8 @@
 [
   {
-    "outputFileName": "HslColorSelector.razor.min.css",
+    "outputFileName": "ColorPalette.razor.min.css",
     "inputFiles": [
-      "HslColorSelector.razor.css"
+      "ColorPalette.razor.css"
     ]
   },
   {

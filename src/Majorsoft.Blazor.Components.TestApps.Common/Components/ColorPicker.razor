@@ -29,15 +29,15 @@ textarea {
 
 	<div class="row pb-2">
 		<div class="col-12 col-md-6 col-lg-5">
-			<HslColorSelector @bind-SelectedColor="_selectedColor"
-							  ShowInfoArea="_showInfo"
-							  EnableAlpha="_enableAlpha"
-							  ShowPalette="_showPalette"
-							  HueSliderWidth="_sliderlWidth"
-							  HueAreaHeight="_panelHeight"
-							  HueAreaWidth="_panelWidth"
-							  OnColorChanged="ColorSelected">
-			</HslColorSelector>
+			<ColorPalette @bind-SelectedColor="_selectedColor"
+						  ShowInfoArea="_showInfo"
+						  EnableAlpha="_enableAlpha"
+						  ShowPalette="_showPalette"
+						  HueSliderWidth="_sliderlWidth"
+						  HueAreaHeight="_panelHeight"
+						  HueAreaWidth="_panelWidth"
+						  OnColorChanged="ColorSelected">
+			</ColorPalette>
 		</div>
 		<div class="col-12 col-md-6 col-lg-7">
 			<p>
