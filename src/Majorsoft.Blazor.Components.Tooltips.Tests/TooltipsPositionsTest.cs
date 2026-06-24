@@ -9,74 +9,74 @@ namespace Majorsoft.Blazor.Components.Tooltips.Tests
         public void TooltipsPositions_enum_should_have_all_expected_values()
         {
             // Arrange & Act
-            var values = System.Enum.GetValues(typeof(TooltipsPositons));
+            var values = System.Enum.GetValues(typeof(TooltipPositions));
 
             // Assert
             Assert.IsNotNull(values);
             Assert.AreEqual(4, values.Length);
-            Assert.AreEqual(TooltipsPositons.Top, values.GetValue(0));
-            Assert.AreEqual(TooltipsPositons.Right, values.GetValue(1));
-            Assert.AreEqual(TooltipsPositons.Bottom, values.GetValue(2));
-            Assert.AreEqual(TooltipsPositons.Left, values.GetValue(3));
+            Assert.AreEqual(TooltipPositions.Top, values.GetValue(0));
+            Assert.AreEqual(TooltipPositions.Right, values.GetValue(1));
+            Assert.AreEqual(TooltipPositions.Bottom, values.GetValue(2));
+            Assert.AreEqual(TooltipPositions.Left, values.GetValue(3));
         }
 
         [TestMethod]
         public void TooltipsPositions_Top_should_have_correct_value()
         {
             // Arrange & Act
-            var position = TooltipsPositons.Top;
+            var position = TooltipPositions.Top;
 
             // Assert
-            Assert.AreEqual(TooltipsPositons.Top, position);
-            Assert.AreNotEqual(TooltipsPositons.Bottom, position);
-            Assert.AreNotEqual(TooltipsPositons.Left, position);
-            Assert.AreNotEqual(TooltipsPositons.Right, position);
+            Assert.AreEqual(TooltipPositions.Top, position);
+            Assert.AreNotEqual(TooltipPositions.Bottom, position);
+            Assert.AreNotEqual(TooltipPositions.Left, position);
+            Assert.AreNotEqual(TooltipPositions.Right, position);
         }
 
         [TestMethod]
         public void TooltipsPositions_Right_should_have_correct_value()
         {
             // Arrange & Act
-            var position = TooltipsPositons.Right;
+            var position = TooltipPositions.Right;
 
             // Assert
-            Assert.AreEqual(TooltipsPositons.Right, position);
-            Assert.AreNotEqual(TooltipsPositons.Top, position);
-            Assert.AreNotEqual(TooltipsPositons.Bottom, position);
-            Assert.AreNotEqual(TooltipsPositons.Left, position);
+            Assert.AreEqual(TooltipPositions.Right, position);
+            Assert.AreNotEqual(TooltipPositions.Top, position);
+            Assert.AreNotEqual(TooltipPositions.Bottom, position);
+            Assert.AreNotEqual(TooltipPositions.Left, position);
         }
 
         [TestMethod]
         public void TooltipsPositions_Bottom_should_have_correct_value()
         {
             // Arrange & Act
-            var position = TooltipsPositons.Bottom;
+            var position = TooltipPositions.Bottom;
 
             // Assert
-            Assert.AreEqual(TooltipsPositons.Bottom, position);
-            Assert.AreNotEqual(TooltipsPositons.Top, position);
-            Assert.AreNotEqual(TooltipsPositons.Left, position);
-            Assert.AreNotEqual(TooltipsPositons.Right, position);
+            Assert.AreEqual(TooltipPositions.Bottom, position);
+            Assert.AreNotEqual(TooltipPositions.Top, position);
+            Assert.AreNotEqual(TooltipPositions.Left, position);
+            Assert.AreNotEqual(TooltipPositions.Right, position);
         }
 
         [TestMethod]
         public void TooltipsPositions_Left_should_have_correct_value()
         {
             // Arrange & Act
-            var position = TooltipsPositons.Left;
+            var position = TooltipPositions.Left;
 
             // Assert
-            Assert.AreEqual(TooltipsPositons.Left, position);
-            Assert.AreNotEqual(TooltipsPositons.Top, position);
-            Assert.AreNotEqual(TooltipsPositons.Right, position);
-            Assert.AreNotEqual(TooltipsPositons.Bottom, position);
+            Assert.AreEqual(TooltipPositions.Left, position);
+            Assert.AreNotEqual(TooltipPositions.Top, position);
+            Assert.AreNotEqual(TooltipPositions.Right, position);
+            Assert.AreNotEqual(TooltipPositions.Bottom, position);
         }
 
         [TestMethod]
         public void TooltipsPositions_enum_should_be_comparable()
         {
             // Arrange
-            var positions = new[] { TooltipsPositons.Top, TooltipsPositons.Right, TooltipsPositons.Bottom, TooltipsPositons.Left };
+            var positions = new[] { TooltipPositions.Top, TooltipPositions.Right, TooltipPositions.Bottom, TooltipPositions.Left };
 
             // Act & Assert
             Assert.IsTrue(positions[0] < positions[1]);
@@ -88,10 +88,10 @@ namespace Majorsoft.Blazor.Components.Tooltips.Tests
         public void TooltipsPositions_ToString_should_return_position_name()
         {
             // Arrange
-            var topPosition = TooltipsPositons.Top;
-            var rightPosition = TooltipsPositons.Right;
-            var bottomPosition = TooltipsPositons.Bottom;
-            var leftPosition = TooltipsPositons.Left;
+            var topPosition = TooltipPositions.Top;
+            var rightPosition = TooltipPositions.Right;
+            var bottomPosition = TooltipPositions.Bottom;
+            var leftPosition = TooltipPositions.Left;
 
             // Act & Assert
             Assert.AreEqual("Top", topPosition.ToString());

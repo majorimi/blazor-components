@@ -196,7 +196,7 @@
 			</div>
 		</div>
 		<div class="col-12 col-lg-6 text-center" style="padding: 40px 0;">
-			<Popover @ref="_customPopover"
+			<Popover @bind-IsOpen="_customPopoverOpen"
 					 HeaderText="@_popoverHeader"
 					 Position="@_popoverPosition"
 					 Width="@_popoverWidth"
@@ -218,9 +218,9 @@
 				</PopoverContent>
 			</Popover>
 			<div class="mt-3">
-				<button class="btn btn-sm btn-success mr-2" @onclick="@(() => _customPopover?.OpenAsync() ?? Task.CompletedTask)">Open</button>
-				<button class="btn btn-sm btn-danger mr-2" @onclick="@(() => _customPopover?.CloseAsync() ?? Task.CompletedTask)">Close</button>
-				<button class="btn btn-sm btn-secondary" @onclick="@(() => _customPopover?.ToggleAsync() ?? Task.CompletedTask)">Toggle</button>
+				<button class="btn btn-sm btn-success mr-2" @onclick="@(() => _customPopoverOpen = true)">Open</button>
+				<button class="btn btn-sm btn-danger mr-2" @onclick="@(() => _customPopoverOpen = false)">Close</button>
+				<button class="btn btn-sm btn-secondary" @onclick="@(() => _customPopoverOpen = !_customPopoverOpen)">Toggle</button>
 			</div>
 		</div>
 	</div>
@@ -234,7 +234,7 @@
 	</p>
 	<div class="row pb-2">
 		<div class="col-12">
-			<Popover @ref="_colorPopover" HeaderText="Pick a color" Position="@TooltipPositions.Bottom" Width="340"
+			<Popover @bind-IsOpen="_colorPopoverOpen" HeaderText="Pick a color" Position="@TooltipPositions.Bottom" Width="340"
 					 CloseOnOutsideClick="true" OnOpen="@OnPopoverOpen" OnClose="@OnPopoverClose">
 				<ChildContent>
 					<button class="btn btn-outline-secondary">
@@ -294,8 +294,8 @@
 	}
 
 	//Popover example state
-	private Popover? _customPopover;
-	private Popover? _colorPopover;
+	private bool _customPopoverOpen;
+	private bool _colorPopoverOpen;
 	private Color _pickedColor = Color.FromArgb(66, 135, 245);
 
 	//Customizable Popover settings
@@ -323,13 +323,7 @@
 		await _popoverLog.ScrollToEndAsync();
 	}
 
-	private async Task CloseColorPopover()
-	{
-		if (_colorPopover is not null)
-		{
-			await _colorPopover.CloseAsync();
-		}
-	}
+	private void CloseColorPopover() => _colorPopoverOpen = false;
 
 	private async Task OnColorPicked(Color color)
 	{

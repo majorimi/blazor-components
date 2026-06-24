@@ -1,6 +1,7 @@
 @using System.Globalization
 
-<Popover @ref="_popover"
+<Popover IsOpen="_isOpen"
+		 IsOpenChanged="OnPopoverIsOpenChangedAsync"
 		 Class="@($"bcolorpicker {Class}")"
 		 Style="@Style"
 		 HeaderText="@HeaderText"
@@ -45,13 +46,12 @@
 </Popover>
 
 @code {
-	private Popover? _popover;
 	private bool _isOpen;
+	private bool? _requestedIsOpen;
 
 	private Color _committedColor = Color.Empty; //last applied/selected color shown on the trigger
 	private Color _workingColor;                 //live color being edited inside the palette
 
-	#region Color value / events
 	/// <summary>
 	/// Currently selected (committed) <see cref="Color"/>. Supports two-way binding with <c>@bind-SelectedColor</c>.
 	/// </summary>
@@ -71,9 +71,7 @@
 	/// Notification callback invoked with the live <see cref="Color"/> on every change inside the palette, even before it is applied.
 	/// </summary>
 	[Parameter] public EventCallback<Color> OnColorChanged { get; set; }
-	#endregion
 
-	#region Popover events
 	/// <summary>
 	/// Callback function called when the color selector Popover is opening.
 	/// </summary>
@@ -83,9 +81,7 @@
 	/// Callback function called when the color selector Popover is closing.
 	/// </summary>
 	[Parameter] public EventCallback OnClose { get; set; }
-	#endregion
 
-	#region Behavior
 	/// <summary>
 	/// When true the selected color is only committed (and the Popover closed) after the Apply button is clicked.
 	/// When false (default) every change is committed immediately and the Popover stays open.
@@ -116,9 +112,7 @@
 	/// When true the picker is disabled and cannot be opened.
 	/// </summary>
 	[Parameter] public bool Disabled { get; set; } = false;
-	#endregion
 
-	#region Trigger button
 	/// <summary>
 	/// Shows or hides the HEX value text next to the color preview on the trigger button. Default is true.
 	/// </summary>
@@ -128,9 +122,7 @@
 	/// Size (width and height) of the color preview square on the trigger button, in pixels. Default is 28.
 	/// </summary>
 	[Parameter] public int PreviewSize { get; set; } = 28;
-	#endregion
 
-	#region ColorPalette pass-through
 	/// <summary>
 	/// Enables the Alpha (opacity) slider and ARGB output of the inner <see cref="ColorPalette"/>.
 	/// </summary>
@@ -185,7 +177,6 @@
 	/// Predefined color swatches to show. When not set a default palette is used.
 	/// </summary>
 	[Parameter] public IEnumerable<Color>? PaletteColors { get; set; }
-	#endregion
 
 	/// <summary>
 	/// Custom CSS class(es) applied to the root (trigger) container element.
@@ -203,9 +194,20 @@
 	[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AllOtherAttributes { get; set; }
 
 	/// <summary>
-	/// Returns true when the color selector Popover is currently open, otherwise false.
+	/// Gets or sets whether the color selector Popover is open. Supports two-way binding with <c>@bind-IsOpen</c>.
+	/// Set to true to open the Popover, false to close it. Reading it returns the current open/closed state.
 	/// </summary>
-	public bool IsOpen => _isOpen;
+	[Parameter]
+	public bool IsOpen
+	{
+		get => _isOpen;
+		set => _requestedIsOpen = value;
+	}
+
+	/// <summary>
+	/// Callback for two-way binding. Invoked with the new open/closed state whenever the Popover opens or closes.
+	/// </summary>
+	[Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
 
 	protected override void OnParametersSet()
 	{
@@ -217,6 +219,13 @@
 			{
 				_workingColor = SelectedColor;
 			}
+		}
+
+		//React to externally set IsOpen (e.g. @bind-IsOpen). The inner Popover binding then opens/closes it.
+		//Opening is ignored while Disabled, matching the inner Popover behavior.
+		if (_requestedIsOpen.HasValue && _requestedIsOpen.Value != _isOpen && !(_requestedIsOpen.Value && Disabled))
+		{
+			_isOpen = _requestedIsOpen.Value;
 		}
 	}
 
@@ -254,13 +263,27 @@
 
 		if (close)
 		{
-			await CloseAsync();
+			//Setting the bound state closes the inner Popover, which relays the change back via OnPopoverIsOpenChangedAsync.
+			_isOpen = false;
+			_requestedIsOpen = false;
+		}
+	}
+
+	//Relays the inner Popover open/close (trigger click, Esc, outside click or our own state change) up to the IsOpen binding.
+	private async Task OnPopoverIsOpenChangedAsync(bool isOpen)
+	{
+		_isOpen = isOpen;
+		_requestedIsOpen = isOpen;
+
+		if (IsOpenChanged.HasDelegate)
+		{
+			await IsOpenChanged.InvokeAsync(isOpen);
 		}
 	}
 
 	private async Task OnPopoverOpenAsync()
 	{
-		_isOpen = true;
+		//_isOpen is kept in sync through OnPopoverIsOpenChangedAsync.
 		_workingColor = _committedColor; //start editing from the committed value
 
 		if (OnOpen.HasDelegate)
@@ -271,7 +294,7 @@
 
 	private async Task OnPopoverCloseAsync()
 	{
-		_isOpen = false;
+		//_isOpen is kept in sync through OnPopoverIsOpenChangedAsync.
 		if (RequireApply)
 		{
 			_workingColor = _committedColor; //discard not-applied changes
@@ -282,21 +305,6 @@
 			await OnClose.InvokeAsync();
 		}
 	}
-
-	/// <summary>
-	/// Opens the color selector Popover programmatically.
-	/// </summary>
-	public Task OpenAsync() => _popover?.OpenAsync() ?? Task.CompletedTask;
-
-	/// <summary>
-	/// Closes the color selector Popover programmatically.
-	/// </summary>
-	public Task CloseAsync() => _popover?.CloseAsync() ?? Task.CompletedTask;
-
-	/// <summary>
-	/// Toggles the color selector Popover open/closed state programmatically.
-	/// </summary>
-	public Task ToggleAsync() => _popover?.ToggleAsync() ?? Task.CompletedTask;
 
 	private string ColorToCss(Color c)
 		=> (EnableAlpha && c.A < 255)

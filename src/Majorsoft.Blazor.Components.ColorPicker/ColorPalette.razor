@@ -185,7 +185,6 @@
 	private string? _mouseUpEventId;
 	private IJSObjectReference? _colorPickerJs;
 
-	#region Parameters
 	private int _divsMinWidth = 200;
 	private int _divsMinHeight = 100;
 
@@ -276,7 +275,6 @@
 	/// Captures all other (unmatched) attributes and applies them to the root element.
 	/// </summary>
 	[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AllOtherAttributes { get; set; }
-	#endregion
 
 	private Color[] _palette = Array.Empty<Color>();
 
@@ -318,7 +316,6 @@
 		}
 	}
 
-	#region Input event handlers
 	private async Task HueChanged(ChangeEventArgs e)
 	{
 		_hue = ColorExtension.ParseInt(e?.Value, _hue, 0, 360);
@@ -360,9 +357,7 @@
 
 	private async Task SwatchClickedAsync(Color color)
 		=> await ApplyFromColorAsync(EnableAlpha ? color : Color.FromArgb(255, color));
-	#endregion
 
-	#region Picker area drag
 	private async Task SvDragStart(MouseEventArgs args)
 	{
 		_dragging = true;
@@ -409,9 +404,7 @@
 		_saturation = x / HueAreaWidth;
 		_brightness = 1.0 - (y / HueAreaHeight);
 	}
-	#endregion
 
-	#region Apply / recalculate
 	private async Task ApplyFromHsvAsync()
 	{
 		var rgb = (Color)new HsvColor(_hue, _saturation * 100, _brightness * 100);
@@ -488,9 +481,7 @@
 			await OnColorChanged.InvokeAsync(_color);
 		}
 	}
-	#endregion
 
-	#region Actions (copy / eyedropper)
 	private async Task CopyAsync()
 	{
 		_copied = await _clipboardHandler.CopyTextToClipboardAsync(_hexText);
@@ -525,7 +516,6 @@
 #endif
 		}
 	}
-	#endregion
 
 	private byte AlphaByte => EnableAlpha ? (byte)Math.Round(_alpha * 255) : (byte)255;
 

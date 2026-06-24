@@ -45,6 +45,7 @@
 	private ElementReference _container;
 	private ElementReference _panel;
 	private bool _isOpened;
+	private bool? _requestedIsOpen;
 	private bool _clickHandlerRegistered;
 
 	/// <summary>
@@ -139,9 +140,20 @@
 	public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
 	/// <summary>
-	/// Returns true when the Popover is currently open, otherwise false.
+	/// Gets or sets whether the Popover is open. Supports two-way binding with <c>@bind-IsOpen</c>.
+	/// Set to true to open the Popover programmatically, false to close it. Reading it returns the current open/closed state.
 	/// </summary>
-	public bool IsOpen => _isOpened;
+	[Parameter]
+	public bool IsOpen
+	{
+		get => _isOpened;
+		set => _requestedIsOpen = value;
+	}
+
+	/// <summary>
+	/// Callback for two-way binding. Invoked with the new open/closed state whenever the Popover opens or closes.
+	/// </summary>
+	[Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
 
 	private bool ShowHeader => ShowCloseButton || HeaderContent is not null || !string.IsNullOrEmpty(HeaderText);
 
@@ -170,6 +182,22 @@
 		}
 	}
 
+	protected override async Task OnParametersSetAsync()
+	{
+		//React to externally set IsOpen (e.g. @bind-IsOpen) by syncing the internal open/closed state.
+		if (_requestedIsOpen.HasValue && _requestedIsOpen.Value != _isOpened)
+		{
+			if (_requestedIsOpen.Value)
+			{
+				await OpenAsync();
+			}
+			else
+			{
+				await CloseAsync();
+			}
+		}
+	}
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		//Register the outside-click listener only while open, AFTER the opening render. Doing it on open
@@ -185,7 +213,17 @@
 		}
 	}
 
-	private async Task OnTriggerClickAsync() => await ToggleAsync();
+	private async Task OnTriggerClickAsync()
+	{
+		if (_isOpened)
+		{
+			await CloseAsync();
+		}
+		else
+		{
+			await OpenAsync();
+		}
+	}
 
 	private async Task OnOutsideClickAsync(MouseEventArgs args)
 	{
@@ -204,10 +242,8 @@
 		}
 	}
 
-	/// <summary>
-	/// Opens the Popover programmatically. Has no effect when <see cref="Disabled"/> is true or it is already open.
-	/// </summary>
-	public async Task OpenAsync()
+	//Opens the Popover. Has no effect when Disabled is true or it is already open.
+	private async Task OpenAsync()
 	{
 		if (Disabled || _isOpened)
 		{
@@ -215,8 +251,11 @@
 		}
 
 		_isOpened = true;
+		_requestedIsOpen = true;
 		WriteDiag("Popover opened.");
 		StateHasChanged();
+
+		await IsOpenChanged.InvokeAsync(true);
 
 		if (OnOpen.HasDelegate)
 		{
@@ -224,10 +263,8 @@
 		}
 	}
 
-	/// <summary>
-	/// Closes the Popover programmatically. Has no effect when it is already closed.
-	/// </summary>
-	public async Task CloseAsync()
+	//Closes the Popover. Has no effect when it is already closed.
+	private async Task CloseAsync()
 	{
 		if (!_isOpened)
 		{
@@ -235,6 +272,7 @@
 		}
 
 		_isOpened = false;
+		_requestedIsOpen = false;
 		WriteDiag("Popover closed.");
 
 		if (_clickHandlerRegistered)
@@ -245,26 +283,14 @@
 
 		StateHasChanged();
 
+		await IsOpenChanged.InvokeAsync(false);
+
 		if (OnClose.HasDelegate)
 		{
 			await OnClose.InvokeAsync();
 		}
 	}
 
-	/// <summary>
-	/// Toggles the Popover open/closed state programmatically.
-	/// </summary>
-	public async Task ToggleAsync()
-	{
-		if (_isOpened)
-		{
-			await CloseAsync();
-		}
-		else
-		{
-			await OpenAsync();
-		}
-	}
 
 	private void WriteDiag(string message) => _logger.LogDebug($"Component {GetType()}: {message}");
 
