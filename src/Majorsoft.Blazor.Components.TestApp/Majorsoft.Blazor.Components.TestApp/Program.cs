@@ -1,5 +1,6 @@
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.DragAndDrop;
 using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Components.Notifications;
@@ -38,6 +39,7 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
 			builder.Services.AddNotifications();
+			builder.Services.AddDragAndDrop();
 
 			var app = builder.Build();
 

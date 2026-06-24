@@ -101,6 +101,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.ColorPicker.Tests", "Majorsoft.Blazor.Components.ColorPicker.Tests\Majorsoft.Blazor.Components.ColorPicker.Tests.csproj", "{F7A3C2E1-9B4D-4A6F-8C2E-1D5B7A9E3C40}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.DragAndDrop.Tests", "Majorsoft.Blazor.Components.DragAndDrop.Tests\Majorsoft.Blazor.Components.DragAndDrop.Tests.csproj", "{B8D4F0A6-3C71-4E29-A5D8-6F1B2C9E4A70}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Collapse.Tests", "Majorsoft.Blazor.Components.Collapse.Tests\Majorsoft.Blazor.Components.Collapse.Tests.csproj", "{A9828B4C-46C6-410C-BD56-6813E5632273}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Tabs.Tests", "Majorsoft.Blazor.Components.Tabs.Tests\Majorsoft.Blazor.Components.Tabs.Tests.csproj", "{754A241A-238E-48BA-A0F4-3A234F74CCA6}"
@@ -277,6 +279,10 @@ Global
 		{F7A3C2E1-9B4D-4A6F-8C2E-1D5B7A9E3C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7A3C2E1-9B4D-4A6F-8C2E-1D5B7A9E3C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7A3C2E1-9B4D-4A6F-8C2E-1D5B7A9E3C40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D4F0A6-3C71-4E29-A5D8-6F1B2C9E4A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D4F0A6-3C71-4E29-A5D8-6F1B2C9E4A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D4F0A6-3C71-4E29-A5D8-6F1B2C9E4A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D4F0A6-3C71-4E29-A5D8-6F1B2C9E4A70}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9828B4C-46C6-410C-BD56-6813E5632273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9828B4C-46C6-410C-BD56-6813E5632273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9828B4C-46C6-410C-BD56-6813E5632273}.Release|Any CPU.ActiveCfg = Release|Any CPU

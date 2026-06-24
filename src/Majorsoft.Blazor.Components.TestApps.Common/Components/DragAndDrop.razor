@@ -1,5 +1,178 @@
-﻿<h3>DragAndDrop</h3>
+@using System.Linq
+
+<h3>Drag and Drop</h3>
+<p>
+	Wrapper components that expose the full <a href="https://developer.mozilla.org/docs/Web/API/HTML_Drag_and_Drop_API" target="_blank">HTML Drag and Drop API</a>:
+	all drag/drop events, strongly-typed payload transfer, <code>effectAllowed</code>/<code>dropEffect</code>,
+	custom <code>DataTransfer</code> data, a custom drag image and dropped file access.
+</p>
+
+<h5>Kanban board &mdash; move strongly-typed items between zones</h5>
+<div class="row">
+	@foreach (var column in _columns)
+	{
+		<div class="col-12 col-md-4 mb-3">
+			<DropZone TItem="TaskItem"
+					  DropEffect="DropEffect.Move"
+					  OnItemDrop="@(item => MoveTask(item, column.Key))"
+					  Class="board-column"
+					  Style="min-height: 160px; padding: 8px; border: 1px solid #ddd; border-radius: 6px;">
+				<div class="font-weight-bold mb-2">@column.Key <span class="badge badge-secondary">@column.Value.Count</span></div>
+
+				@foreach (var task in column.Value)
+				{
+					<Draggable TItem="TaskItem"
+							   @key="task"
+							   Item="task"
+							   EffectAllowed="DragDropEffects.Move"
+							   OnDragStart="@(() => Log($"Drag started: '{task.Title}'"))"
+							   OnDragEnd="@(() => Log($"Drag ended: '{task.Title}'"))"
+							   Class="board-card"
+							   Style="@($"padding: 6px 10px; margin-bottom: 6px; background:{task.Color}; color:#fff; border-radius: 4px;")">
+						@task.Title
+					</Draggable>
+				}
+			</DropZone>
+		</div>
+	}
+</div>
+
+<hr />
+
+<h5>Copy vs Move &mdash; accept condition and <code>dropEffect</code></h5>
+<p>Drag a fruit below. The <strong>Basket</strong> only accepts fruits that are in season.</p>
+<div class="row">
+	<div class="col-12 col-md-6 mb-3">
+		<div style="display:flex; flex-wrap:wrap; gap:8px;">
+			@foreach (var fruit in _fruits)
+			{
+				<Draggable TItem="Fruit"
+						   Item="fruit"
+						   EffectAllowed="DragDropEffects.CopyMove"
+						   Data="@(new Dictionary<string, string> { ["text/plain"] = fruit.Name })"
+						   Class="fruit-chip"
+						   Style="padding: 6px 12px; border: 1px solid #4caf50; border-radius: 16px; background:#fff;">
+					@fruit.Name @(fruit.InSeason ? "" : "(off-season)")
+				</Draggable>
+			}
+		</div>
+	</div>
+	<div class="col-12 col-md-6 mb-3">
+		<DropZone TItem="Fruit"
+				  DropEffect="DropEffect.Copy"
+				  AcceptCondition="@(f => f is not null && f.InSeason)"
+				  OnItemDrop="@(f => { _basket.Add(f!); Log($"Added '{f!.Name}' to the basket."); })"
+				  Style="min-height: 90px; padding: 10px; border: 2px dashed #4caf50; border-radius: 6px;">
+			<strong>Basket:</strong>
+			@if (_basket.Count == 0)
+			{
+				<em>empty &mdash; drop in-season fruit here</em>
+			}
+			else
+			{
+				@string.Join(", ", _basket.Select(b => b.Name))
+			}
+		</DropZone>
+	</div>
+</div>
+
+<hr />
+
+<h5>Custom drag image and native file drop</h5>
+<div class="row">
+	<div class="col-12 col-md-6 mb-3">
+		<div id="dragImage" style="display:inline-block; padding:6px 10px; background:#673ab7; color:#fff; border-radius:4px;">
+			📦 Custom drag image
+		</div>
+		<Draggable TItem="string"
+				   Item="@("Box with custom drag image")"
+				   DragImageElementId="dragImage"
+				   DragImageOffsetX="24"
+				   DragImageOffsetY="24"
+				   Style="padding: 20px; border: 1px solid #999; border-radius: 6px; text-align:center;">
+			Drag me &mdash; I use a custom drag image
+		</Draggable>
+	</div>
+	<div class="col-12 col-md-6 mb-3">
+		<DropZone TItem="string"
+				  OnDrop="OnFilesDropped"
+				  Style="min-height: 90px; padding: 10px; border: 2px dashed #999; border-radius: 6px;">
+			<strong>Drop files from your machine here</strong>
+			@if (_droppedFiles.Count > 0)
+			{
+				<ul class="mb-0 mt-2">
+					@foreach (var file in _droppedFiles)
+					{
+						<li>@file</li>
+					}
+				</ul>
+			}
+		</DropZone>
+	</div>
+</div>
+
+<hr />
+<h6>Event log</h6>
+<textarea class="form-control" rows="6" readonly>@_log</textarea>
+
+<style>
+	.board-card { cursor: grab; }
+	.board-card.bdraggable-dragging { opacity: .5; }
+	.fruit-chip { cursor: grab; }
+	.bdropzone.bdropzone-active { background-color: rgba(33,150,243,.08); }
+	.bdropzone.bdropzone-reject { background-color: rgba(229,57,53,.08); border-color:#e53935 !important; cursor:no-drop; }
+</style>
 
 @code {
+	public record TaskItem(string Title, string Color);
+	public record Fruit(string Name, bool InSeason);
 
+	private readonly Dictionary<string, List<TaskItem>> _columns = new()
+	{
+		["To do"] = new() { new("Design API", "#3f51b5"), new("Write docs", "#3f51b5") },
+		["In progress"] = new() { new("Implement components", "#ff9800") },
+		["Done"] = new() { new("Create project", "#4caf50") },
+	};
+
+	private readonly List<Fruit> _fruits = new()
+	{
+		new("Apple", true), new("Strawberry", false), new("Pear", true), new("Cherry", false),
+	};
+
+	private readonly List<Fruit> _basket = new();
+	private readonly List<string> _droppedFiles = new();
+	private string _log = "";
+
+	private void MoveTask(TaskItem? task, string targetColumn)
+	{
+		if (task is null)
+		{
+			return;
+		}
+
+		foreach (var column in _columns.Values)
+		{
+			column.Remove(task);
+		}
+		_columns[targetColumn].Add(task);
+		Log($"Moved '{task.Title}' to '{targetColumn}'.");
+	}
+
+	private void OnFilesDropped(DragEventArgs e)
+	{
+		var files = e.DataTransfer?.Files;
+		if (files is { Length: > 0 })
+		{
+			foreach (var file in files)
+			{
+				_droppedFiles.Add(file);
+			}
+			Log($"Dropped {files.Length} file(s): {string.Join(", ", files)}");
+		}
+	}
+
+	private void Log(string message)
+	{
+		_log = $"{DateTime.Now:HH:mm:ss}  {message}{Environment.NewLine}{_log}";
+	}
 }
