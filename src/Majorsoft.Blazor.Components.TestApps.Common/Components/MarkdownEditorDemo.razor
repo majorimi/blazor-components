@@ -1,0 +1,123 @@
+@using Majorsoft.Blazor.Components.Inputs
+
+@* The editor's CSS ships in the NuGet package; consumers link it once (e.g. in index.html / App.razor). *@
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/editor.css" />
+
+<h1>Markdown RichText editor</h1>
+<p>
+    Blazor <code>MarkdownEditor</code> component: a Markdown text editor with a customizable, sectioned
+    Tooltip toolbar and a live HTML preview. Every toolbar section can be turned on/off individually.
+    For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md" target="_blank">Github</a>.
+    <br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Inputs" />
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Full featured editor</h3>
+    <p>All toolbar sections enabled with a live <strong>Split</strong> preview and a 2000 char limit.</p>
+
+    <MarkdownEditor @bind-Value="_text"
+                    View="MarkdownEditorView.Split"
+                    MaxAllowedChars="2000"
+                    Rows="14"
+                    Placeholder="Start typing Markdown..." />
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Toggle toolbar sections</h3>
+    <p>Each section is independent &mdash; turn the ones you don't need off and they disappear from the toolbar.</p>
+
+    <div class="row pb-2">
+        <div class="col-12 col-md-6 col-lg-4">
+            <label><input type="checkbox" @bind="_showHeadings" /> Headings</label><br />
+            <label><input type="checkbox" @bind="_showTextStyle" /> Text style</label><br />
+            <label><input type="checkbox" @bind="_showLists" /> Lists</label><br />
+            <label><input type="checkbox" @bind="_showBlocks" /> Blocks</label><br />
+            <label><input type="checkbox" @bind="_showInsert" /> Insert</label><br />
+            <label><input type="checkbox" @bind="_showView" /> View switch</label>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <label><input type="checkbox" @bind="_showTooltips" /> Button Tooltips</label><br />
+            <label><input type="checkbox" @bind="_showFooter" /> Footer</label><br />
+            <label><input type="checkbox" @bind="_disabled" /> Disabled</label><br />
+            <label><input type="checkbox" @bind="_readOnly" /> Read only</label>
+        </div>
+    </div>
+
+    <MarkdownEditor @bind-Value="_text2"
+                    ShowHeadingSection="_showHeadings"
+                    ShowTextStyleSection="_showTextStyle"
+                    ShowListSection="_showLists"
+                    ShowBlockSection="_showBlocks"
+                    ShowInsertSection="_showInsert"
+                    ShowViewSection="_showView"
+                    ShowButtonTooltips="_showTooltips"
+                    ShowFooter="_showFooter"
+                    Disabled="_disabled"
+                    ReadOnly="_readOnly"
+                    Rows="8" />
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Custom toolbar section &amp; minimal setup</h3>
+    <p>Only Text style + Lists are shown, plus a custom button added via <code>CustomToolbarContent</code>.</p>
+
+    <MarkdownEditor @bind-Value="_text3"
+                    ShowHeadingSection="false"
+                    ShowBlockSection="false"
+                    ShowInsertSection="false"
+                    ShowViewSection="false"
+                    Rows="5">
+        <CustomToolbarContent>
+            <button type="button" class="bmde-btn" tabindex="-1" title="Insert signature"
+                    @onclick="@(() => _text3 += "\n\n— Sent from Majorsoft Blazor")">✍</button>
+        </CustomToolbarContent>
+    </MarkdownEditor>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Rendered HTML output</h3>
+    <p>The full-featured editor's source converted to HTML by the built-in <code>MarkdownConverter</code>:</p>
+    <textarea class="form-control" rows="6" readonly>@MarkdownConverter.ToHtml(_text)</textarea>
+</div>
+
+@code {
+    private string _text = @"# Hello Markdown
+
+Type on the left and see the **live preview** on the right.
+
+## Features
+- **Bold**, *italic*, <u>underline</u> and ~~strikethrough~~
+- `inline code` and code blocks
+- [Links](https://github.com/majorimi/blazor-components) and images
+- Task lists:
+  - [x] Headings
+  - [x] Tables
+  - [ ] Your content
+
+> Tip: select text and click a toolbar button to wrap it.
+
+| Feature | Supported |
+| ------- | :-------: |
+| Tables  | yes       |
+| Lists   | yes       |
+
+```
+var editor = new MarkdownEditor();
+```
+";
+
+    private string _text2 = "Toggle the sections above to customize this toolbar.";
+    private string _text3 = "Minimal editor with a custom button.";
+
+    private bool _showHeadings = true;
+    private bool _showTextStyle = true;
+    private bool _showLists = true;
+    private bool _showBlocks = true;
+    private bool _showInsert = true;
+    private bool _showView = true;
+    private bool _showTooltips = true;
+    private bool _showFooter = true;
+    private bool _disabled = false;
+    private bool _readOnly = false;
+}

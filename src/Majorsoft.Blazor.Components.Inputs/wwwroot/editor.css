@@ -1,0 +1,316 @@
+/* Majorsoft Blazor editor styles, shared by MarkdownEditor and RichTextEditor.
+   All class names are prefixed with 'bmde' to avoid clashes. */
+
+.bmde {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	background: #fff;
+	/* visible (not hidden) so the toolbar's insert Popover can extend past the editor bounds */
+	overflow: visible;
+	font-family: inherit;
+}
+
+.bmde.bmde-disabled {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* Toolbar */
+.bmde-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 2px;
+	padding: 4px 6px;
+	border-bottom: 1px solid #e3e6ea;
+	background: #f7f8fa;
+}
+
+.bmde-section {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+}
+
+	.bmde-section:not(:last-child)::after {
+		content: "";
+		width: 1px;
+		align-self: stretch;
+		margin: 4px 4px;
+		background: #d7dbe0;
+	}
+
+.bmde-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 6px;
+	border: 1px solid transparent;
+	border-radius: 3px;
+	background: transparent;
+	color: #2b2f33;
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+	transition: background-color 0.12s ease-in-out, border-color 0.12s ease-in-out;
+}
+
+	.bmde-btn:hover {
+		background: #e9edf1;
+		border-color: #d0d5da;
+	}
+
+	.bmde-btn:active {
+		background: #dde3e8;
+	}
+
+	.bmde-btn.bmde-btn-active {
+		background: #dbe7ff;
+		border-color: #9bbcff;
+		color: #0b5ed7;
+	}
+
+	.bmde-btn:disabled {
+		cursor: default;
+		opacity: 0.5;
+	}
+
+.bmde-icon {
+	width: 16px;
+	height: 16px;
+	display: block;
+	pointer-events: none;
+}
+
+.bmde-btn-bold {
+	font-weight: 700;
+}
+
+.bmde-btn-italic {
+	font-style: italic;
+}
+
+.bmde-btn-underline {
+	text-decoration: underline;
+}
+
+.bmde-btn-strike {
+	text-decoration: line-through;
+}
+
+/* Body: editor + preview */
+.bmde-body {
+	display: flex;
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.bmde-pane {
+	flex: 1 1 50%;
+	min-width: 0;
+	overflow: auto;
+}
+
+	.bmde-pane.bmde-pane-split {
+		border-right: 1px solid #e3e6ea;
+	}
+
+.bmde-textarea {
+	width: 100%;
+	height: 100%;
+	min-height: 180px;
+	margin: 0;
+	padding: 10px 12px;
+	border: 0;
+	outline: none;
+	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #24292f;
+	background: transparent;
+	box-sizing: border-box;
+}
+
+/* WYSIWYG contenteditable surface */
+.bmde-richarea {
+	min-height: 180px;
+	padding: 10px 14px;
+	outline: none;
+	color: #24292f;
+	box-sizing: border-box;
+}
+
+	.bmde-richarea:empty::before {
+		content: attr(data-placeholder);
+		color: #8b949e;
+		pointer-events: none;
+	}
+
+.bmde-preview {
+	padding: 10px 14px;
+	min-height: 180px;
+	color: #24292f;
+	word-wrap: break-word;
+}
+
+/* Footer */
+.bmde-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 3px 10px;
+	border-top: 1px solid #e3e6ea;
+	background: #f7f8fa;
+	font-size: 12px;
+	color: #6a737d;
+}
+
+	.bmde-footer .bmde-counter.bmde-counter-warn {
+		color: #d1242f;
+		font-weight: 600;
+	}
+
+/* Insert popovers (Link / Image / Table) shown in the Tooltips Popover panel */
+.bmde-insert-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 240px;
+	font-size: 14px;
+	color: #24292f;
+}
+
+.bmde-field {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 12px;
+	color: #57606a;
+}
+
+.bmde-input {
+	padding: 5px 8px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	font-size: 14px;
+	color: #24292f;
+}
+
+	.bmde-input:focus {
+		outline: none;
+		border-color: #9bbcff;
+		box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+	}
+
+.bmde-popover-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+	.bmde-popover-actions .bmde-btn {
+		min-width: 64px;
+		padding: 0 12px;
+	}
+
+/* Rendered rich content, shared by the preview pane and the WYSIWYG surface.
+   Scoped under .bmde so this (0,2,0) rule reliably beats host/Bootstrap font-size rules that were
+   overriding the single-class .bmde-preview / .bmde-richarea declarations. */
+.bmde .bmde-richtext {
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.bmde-richtext h1, .bmde-richtext h2, .bmde-richtext h3,
+.bmde-richtext h4, .bmde-richtext h5, .bmde-richtext h6 {
+	margin: 0.6em 0 0.4em;
+	line-height: 1.25;
+}
+
+.bmde-richtext h1 {
+	padding-bottom: .3em;
+	border-bottom: 1px solid #e3e6ea;
+}
+
+.bmde-richtext h2 {
+	padding-bottom: .3em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.bmde-richtext p {
+	margin: 0 0 0.8em;
+}
+
+.bmde-richtext a {
+	color: #0969da;
+	cursor: pointer;
+}
+
+.bmde-richtext code {
+	padding: 0.2em 0.4em;
+	margin: 0;
+	font-size: 90%;
+	background: rgba(175, 184, 193, 0.2);
+	border-radius: 4px;
+	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.bmde-richtext pre {
+	padding: 12px;
+	overflow: auto;
+	background: #f6f8fa;
+	border-radius: 6px;
+}
+
+	.bmde-richtext pre code {
+		padding: 0;
+		background: transparent;
+	}
+
+.bmde-richtext blockquote {
+	margin: 0 0 0.8em;
+	padding: 0 1em;
+	color: #57606a;
+	border-left: 0.25em solid #d0d7de;
+}
+
+.bmde-richtext ul, .bmde-richtext ol {
+	margin: 0 0 0.8em;
+	padding-left: 2em;
+}
+
+.bmde-richtext ul.bmde-tasklist {
+	list-style: none;
+	padding-left: 1.2em;
+}
+
+.bmde-richtext table {
+	border-collapse: collapse;
+	margin: 0 0 0.8em;
+}
+
+.bmde-richtext th, .bmde-richtext td {
+	padding: 6px 13px;
+	border: 1px solid #d0d7de;
+}
+
+.bmde-richtext th {
+	background: #f6f8fa;
+}
+
+.bmde-richtext hr {
+	height: 1px;
+	margin: 1em 0;
+	border: 0;
+	background: #d0d7de;
+}
+
+.bmde-richtext img {
+	max-width: 100%;
+}

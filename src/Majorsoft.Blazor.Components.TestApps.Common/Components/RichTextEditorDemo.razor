@@ -1,0 +1,76 @@
+@using Majorsoft.Blazor.Components.Inputs
+
+@* The editor's CSS ships in the NuGet package; consumers link it once (e.g. in index.html / App.razor). *@
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/editor.css" />
+
+<h1>RichText editor</h1>
+<p>
+    Blazor <code>RichTextEditor</code> component: a Word-like WYSIWYG editor where formatting is applied
+    <strong>inline as you type</strong> &mdash; no markup is shown. The bound value is kept as Markdown
+    behind the scenes, so it round-trips cleanly with the <code>MarkdownEditor</code>. The sectioned
+    Tooltip toolbar and the Markdown engine are shared between both components. For usage see
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md" target="_blank">Github</a>.
+    <br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Inputs" />
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>RichText editor</h3>
+    <p>Select text and click a toolbar button (or use Ctrl+B / Ctrl+I / Ctrl+U). Formatting shows inline.</p>
+
+    <RichTextEditor @bind-Value="_text" Placeholder="Start writing..." />
+
+    <hr />
+
+    <h4>Underlying Markdown value</h4>
+    <p>
+        The rich content above is stored as Markdown. Edit this raw value and the RichText editor updates, proving both components share one format.
+    </p>
+    <textarea class="form-control" rows="6" @bind="_text" @bind:event="oninput"></textarea>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>RichText toolbar features</h3>
+    <p>Toggle on/off the same sectioned toolbar as the Markdown editor &mdash; turn off what you don't need.</p>
+
+    <div class="row pb-2">
+        <div class="col-12 col-md-6 col-lg-4">
+            <label><input type="checkbox" @bind="_showHeadings" /> Headings</label><br />
+            <label><input type="checkbox" @bind="_showTextStyle" /> Text style</label><br />
+            <label><input type="checkbox" @bind="_showLists" /> Lists</label><br />
+            <label><input type="checkbox" @bind="_showBlocks" /> Blocks</label><br />
+            <label><input type="checkbox" @bind="_showInsert" /> Insert</label>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <label><input type="checkbox" @bind="_showTooltips" /> Button Tooltips</label><br />
+            <label><input type="checkbox" @bind="_showFooter" /> Footer</label><br />
+            <label><input type="checkbox" @bind="_disabled" /> Disabled</label><br />
+            <label><input type="checkbox" @bind="_readOnly" /> Read only</label>
+        </div>
+    </div>
+
+    <RichTextEditor @bind-Value="_text2"
+                    ShowHeadingSection="_showHeadings"
+                    ShowTextStyleSection="_showTextStyle"
+                    ShowListSection="_showLists"
+                    ShowBlockSection="_showBlocks"
+                    ShowInsertSection="_showInsert"
+                    ShowButtonTooltips="_showTooltips"
+                    ShowFooter="_showFooter"
+                    Disabled="_disabled"
+                    ReadOnly="_readOnly" />
+</div>
+
+@code {
+    private string _text = "# Welcome\n\nThis is a **WYSIWYG** editor with *inline* formatting and a shared toolbar.\n\n- Bullet one\n- Bullet two\n\n> Try selecting text and clicking a button.";
+    private string _text2 = "Toggle the sections above to customize this toolbar.";
+
+    private bool _showHeadings = true;
+    private bool _showTextStyle = true;
+    private bool _showLists = true;
+    private bool _showBlocks = true;
+    private bool _showInsert = true;
+    private bool _showTooltips = true;
+    private bool _showFooter = true;
+    private bool _disabled = false;
+    private bool _readOnly = false;
+}

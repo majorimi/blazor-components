@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/richTextEditor.min.js",
+    "inputFiles": [
+      "wwwroot/richTextEditor.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/markdownEditor.min.js",
+    "inputFiles": [
+      "wwwroot/markdownEditor.js"
+    ]
+  }
+]

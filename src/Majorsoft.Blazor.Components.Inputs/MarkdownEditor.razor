@@ -1,0 +1,70 @@
+<div class="bmde @(Disabled ? "bmde-disabled" : null) @Class" style="@Style" @attributes="AdditionalAttributes">
+
+	@if (ShowToolbar)
+	{
+		@* In Preview mode the formatting sections are hidden but the view switch stays so the user can return to Edit. *@
+		<EditorToolbar ShowHeadingSection="@(ShowHeadingSection && !IsPreview)"
+					   ShowTextStyleSection="@(ShowTextStyleSection && !IsPreview)"
+					   ShowListSection="@(ShowListSection && !IsPreview)"
+					   ShowIndentSection="@(ShowIndentSection && !IsPreview)"
+					   ShowBlockSection="@(ShowBlockSection && !IsPreview)"
+					   ShowInsertSection="@(ShowInsertSection && !IsPreview)"
+					   ShowButtonTooltips="ShowButtonTooltips"
+					   Disabled="@(Disabled || ReadOnly)"
+					   CustomToolbarContent="@(IsPreview ? null : CustomToolbarContent)"
+					   ToolbarClass="@ToolbarClass"
+					   OnCommand="HandleCommandAsync"
+					   TrailingContent="@(ShowViewSection ? RenderViewButtons : null)" />
+	}
+
+	<div class="bmde-body">
+		@if (View != MarkdownEditorView.Preview)
+		{
+			<div class="bmde-pane @(View == MarkdownEditorView.Split ? "bmde-pane-split" : null)">
+				<textarea @ref="_editorRef"
+						  class="bmde-textarea @EditorClass"
+						  value="@Value"
+						  @oninput="OnEditorInputAsync"
+						  placeholder="@Placeholder"
+						  rows="@Rows"
+						  spellcheck="@(SpellCheck ? "true" : "false")"
+						  maxlength="@(MaxAllowedChars > 0 ? MaxAllowedChars.ToString() : null)"
+						  disabled="@Disabled"
+						  readonly="@ReadOnly"></textarea>
+			</div>
+		}
+		@if (View != MarkdownEditorView.Edit)
+		{
+			<div class="bmde-pane bmde-preview bmde-richtext @PreviewClass">@((MarkupString)Html)</div>
+		}
+	</div>
+
+	@if (ShowFooter)
+	{
+		<div class="bmde-footer">
+			<span class="bmde-hint">@FooterText</span>
+			@if (MaxAllowedChars > 0 && View != MarkdownEditorView.Preview)
+			{
+				<span class="bmde-counter @(RemainingChars <= MaxAllowedChars * 0.1 ? "bmde-counter-warn" : null)">
+					@RemainingChars / @MaxAllowedChars
+				</span>
+			}
+		</div>
+	}
+</div>
+
+@code {
+	//Right-aligned Edit / Split / Preview switch passed to the shared toolbar as its trailing section.
+	private RenderFragment RenderViewButtons => __builder =>
+	{
+		@RenderViewButton(MarkdownEditorView.Edit, "Edit", "Edit only")
+		@RenderViewButton(MarkdownEditorView.Split, "Split", "Side by side")
+		@RenderViewButton(MarkdownEditorView.Preview, "Preview", "Preview only")
+	};
+
+	private RenderFragment RenderViewButton(MarkdownEditorView view, string face, string tip) => __builder =>
+	{
+		<button type="button" class="bmde-btn @(View == view ? "bmde-btn-active" : null)" tabindex="-1"
+				title="@tip" @onclick="() => SetViewAsync(view)">@face</button>
+	};
+}
