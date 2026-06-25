@@ -16,22 +16,22 @@
 	</div>
 
 	@*Hue slider*@
-	<input id="@($"_hue_{_componentId}")" class="hue-slider" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;"
+	<input id="@($"_hue_{_componentId}")" class="hue-slider" style="width:@(InfoAreaWidth)px; height:@(HueSliderHeight)px;"
 		   type="range" min="0" max="360" step="1" value="@_hue" @oninput="HueChanged" aria-label="Hue" />
 
 	@*Alpha (opacity) slider*@
 	@if (EnableAlpha)
 	{
-		<div class="alpha-track" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;">
+		<div class="alpha-track" style="width:@(InfoAreaWidth)px; height:@(HueSliderHeight)px;">
 			<div class="alpha-track-color" style="background:linear-gradient(to right, transparent, @_colorHexNoAlpha);"></div>
-			<input id="@($"_alpha_{_componentId}")" class="alpha-slider" style="width:@(HueSliderWidth)px; height:@(HueSliderHeight)px;"
+			<input id="@($"_alpha_{_componentId}")" class="alpha-slider" style="width:@(InfoAreaWidth)px; height:@(HueSliderHeight)px;"
 				   type="range" min="0" max="100" step="1" value="@_alphaPercent" @oninput="AlphaChanged" aria-label="Alpha" />
 		</div>
 	}
 
 	@if (ShowInfoArea)
 	{
-		<div class="info-area" style="width:@(HueSliderWidth)px;">
+		<div class="info-area" style="width:@(InfoAreaWidth)px;">
 
 			@*Preview + HEX with action buttons*@
 			<div class="info-row">
@@ -127,7 +127,7 @@
 	@*Predefined color palette*@
 	@if (ShowPalette && _palette.Length > 0)
 	{
-		<div class="palette" style="width:@(HueSliderWidth)px;">
+		<div class="palette" style="width:@(InfoAreaWidth)px;">
 			@foreach (var swatch in _palette)
 			{
 				<button type="button" class="palette-swatch" title="@swatch.ToHtmlHex()"
@@ -205,11 +205,11 @@
 	/// </summary>
 	[Parameter] public int HueSliderHeight { get; set; } = 12;
 
-	private int _hueSliderWidth = 300;
+	private int _infoAreaWidth = 300;
 	/// <summary>
-	/// Width of the Hue and Alpha sliders in pixels.
+	/// Width of the info area (Hue/Alpha sliders, color info and predefined palette) in pixels.
 	/// </summary>
-	[Parameter] public int HueSliderWidth { get => _hueSliderWidth; set => _hueSliderWidth = value < _divsMinWidth ? _divsMinWidth : value; }
+	[Parameter] public int InfoAreaWidth { get => _infoAreaWidth; set => _infoAreaWidth = value < _divsMinWidth ? _divsMinWidth : value; }
 
 	/// <summary>
 	/// Shows or hides the HEX/RGB/HSL info and input area.

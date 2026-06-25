@@ -31,19 +31,19 @@ textarea {
 	</div>
 	<div class="row pb-2">
 		<div class="col-6 col-md-3">
-			<label>Area width (px):</label>
+			<label>Hue Area width (px):</label>
 			<input type="number" min="200" step="10" class="form-control" @bind="_panelWidth" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Area height (px):</label>
+			<label>Hue Area height (px):</label>
 			<input type="number" min="100" step="10" class="form-control" @bind="_panelHeight" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Slider width (px):</label>
+			<label>Info Area width (px):</label>
 			<input type="number" min="200" step="10" class="form-control" @bind="_sliderlWidth" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Slider height (px):</label>
+			<label>Hue Slider height (px):</label>
 			<input type="number" min="4" step="1" class="form-control" @bind="_sliderHeight" />
 		</div>
 	</div>
@@ -58,7 +58,7 @@ textarea {
 						  ShowPalette="@_showPalette"
 						  ShowEyeDropper="@_showEyeDropper"
 						  ShowCopyButton="@_showCopy"
-						  HueSliderWidth="@_sliderlWidth"
+						  InfoAreaWidth="@_sliderlWidth"
 						  HueSliderHeight="@_sliderHeight"
 						  HueAreaHeight="@_panelHeight"
 						  HueAreaWidth="@_panelWidth"
@@ -173,7 +173,7 @@ textarea {
 						 ShowCopyButton="@_pickerShowCopy"
 						 HueAreaWidth="@_pickerAreaWidth"
 						 HueAreaHeight="@_pickerAreaHeight"
-						 HueSliderWidth="@_pickerSliderWidth"
+						 InfoAreaWidth="@_pickerSliderWidth"
 						 HueSliderHeight="@_pickerSliderHeight"
 						 OnColorChanged="@OnPickerColorChanged"
 						 OnColorSelected="@OnPickerColorSelected"

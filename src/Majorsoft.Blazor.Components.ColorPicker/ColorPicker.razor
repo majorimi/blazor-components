@@ -31,7 +31,7 @@
 					  ShowCopyButton="@ShowCopyButton"
 					  HueAreaWidth="@HueAreaWidth"
 					  HueAreaHeight="@HueAreaHeight"
-					  HueSliderWidth="@HueSliderWidth"
+					  InfoAreaWidth="@InfoAreaWidth"
 					  HueSliderHeight="@HueSliderHeight"
 					  PaletteColors="@PaletteColors"
 					  OnColorChanged="@OnPaletteColorChangedAsync" />
@@ -164,9 +164,9 @@
 	[Parameter] public int HueAreaHeight { get; set; } = 250;
 
 	/// <summary>
-	/// Width of the Hue and Alpha sliders in pixels.
+	/// Width of the info area (Hue/Alpha sliders, color info and predefined palette) in pixels.
 	/// </summary>
-	[Parameter] public int HueSliderWidth { get; set; } = 300;
+	[Parameter] public int InfoAreaWidth { get; set; } = 300;
 
 	/// <summary>
 	/// Height of the Hue and Alpha sliders in pixels.

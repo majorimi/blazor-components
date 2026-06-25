@@ -244,7 +244,7 @@ namespace Majorsoft.Blazor.Components.ColorPicker.Tests
 			var rendered = _testContext.Render<ColorPalette>(parameters => parameters
 				.Add(p => p.HueAreaWidth, 10)    //below 200 min
 				.Add(p => p.HueAreaHeight, 10)   //below 100 min
-				.Add(p => p.HueSliderWidth, 10));
+				.Add(p => p.InfoAreaWidth, 10));
 
 			var root = rendered.Find(".majorsoft-color-picker");
 			Assert.IsTrue(root.GetAttribute("style").Contains("width:200px"));
