@@ -404,7 +404,7 @@ export function setCenterAddress(elementId, address) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			geocodeAddress(address, function (results) {
-				if (results) {
+				if (results && mapWithDotnetRef && mapWithDotnetRef.map) {
 					mapWithDotnetRef.map.setCenter(results[0].geometry.location);
 				}
 			});
@@ -424,7 +424,7 @@ export function panToAddress(elementId, address) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			geocodeAddress(address, function (results) {
-				if (results) {
+				if (results && mapWithDotnetRef && mapWithDotnetRef.map) {
 					mapWithDotnetRef.map.panTo(results[0].geometry.location);
 				}
 			});

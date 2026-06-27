@@ -40,6 +40,13 @@
 
 	/// <summary>
 	/// The kind of operations allowed for this drag source (HTML <c>effectAllowed</c>). Default is <see cref="DragDropEffects.All"/>.
+	/// <para>
+	/// <b>Advisory only.</b> Like the underlying HTML Drag and Drop API, this value is purely advisory: it drives the cursor
+	/// feedback and is used to <i>negotiate</i> the drop with a target's <see cref="DropZone{TItem}.DropEffect"/> &mdash; if
+	/// the target requests an effect not listed here the browser shows <c>no-drop</c> and suppresses the drop. It does
+	/// <b>not</b> perform any copy/move/link; the browser never carries out the operation. Implement the actual data change
+	/// in the target's <see cref="DropZone{TItem}.OnItemDrop"/> / <see cref="DropZone{TItem}.OnDrop"/> handler.
+	/// </para>
 	/// </summary>
 	[Parameter] public DragDropEffects EffectAllowed { get; set; } = DragDropEffects.All;
 

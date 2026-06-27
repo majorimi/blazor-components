@@ -78,6 +78,88 @@
 
 <hr />
 
+<h5><code>DropEffect</code> and <code>DragDropEffects</code> &mdash; choose the effect</h5>
+<p>
+	<code>Draggable.EffectAllowed</code> (HTML <code>effectAllowed</code>) declares which operations a drag source permits,
+	while <code>DropZone.DropEffect</code> (HTML <code>dropEffect</code>) sets the feedback cursor the browser shows over the
+	target. Pick a combination and drag the box into the zone: the cursor changes (copy <strong>+</strong>, move, link) and the
+	browser shows <em>no-drop</em> when the zone's effect is not permitted by the source. Every change is written to the log.
+</p>
+<p class="text-muted">
+	<strong>Note:</strong> these effects are <strong>advisory only</strong> &mdash; exactly like the native HTML Drag and Drop
+	API. The browser uses them for the cursor and to negotiate whether a drop is allowed, but it never copies, moves or links
+	anything itself. The actual operation is up to <em>you</em>: this demo's <code>OnItemDrop</code> handler reads the chosen
+	<code>DropEffect</code> and relocates the box for <code>Move</code>, or adds a new box (leaving the original) for
+	<code>Copy</code>/<code>Link</code>. A real app could instead branch on the browser-negotiated
+	<code>DragEventArgs.DataTransfer.DropEffect</code> exposed by <code>OnDrop</code>.
+</p>
+<div class="row">
+	<div class="col-12 col-md-6 mb-2">
+		<div class="form-group">
+			<label>Source <code>EffectAllowed</code> (DragDropEffects):</label>
+			<select class="form-control" @bind="_selectedEffectAllowed">
+				@foreach (var effect in (DragDropEffects[])Enum.GetValues(typeof(DragDropEffects)))
+				{
+					<option value="@effect">@effect</option>
+				}
+			</select>
+		</div>
+	</div>
+	<div class="col-12 col-md-6 mb-2">
+		<div class="form-group">
+			<label>Target zone <code>DropEffect</code>:</label>
+			<select class="form-control" @bind="_selectedDropEffect">
+				@foreach (var effect in (DropEffect[])Enum.GetValues(typeof(DropEffect)))
+				{
+					<option value="@effect">@effect</option>
+				}
+			</select>
+		</div>
+	</div>
+</div>
+<p class="text-muted mb-2">
+	Drag a box between the two zones. The drop handler honors the selected <code>DropEffect</code>: <strong>Move</strong>
+	relocates the box, while <strong>Copy</strong> and <strong>Link</strong> keep the original and add a new box to the target.
+	The browser only completes the drop when the source's <code>EffectAllowed</code> permits the target's
+	<code>DropEffect</code> &mdash; otherwise it shows <em>no-drop</em> and nothing happens. These zones use a strongly-typed
+	<code>EffectBox</code> payload, so unrelated draggables (e.g. the custom drag image box below) are not accepted here.
+</p>
+<div class="row">
+	@foreach (var zone in new[] { "Left zone", "Right zone" })
+	{
+		var boxes = zone == "Left zone" ? _leftZoneBoxes : _rightZoneBoxes;
+		<div class="col-12 col-md-6 mb-3">
+			<DropZone TItem="EffectBox"
+					  DropEffect="_selectedDropEffect"
+					  OnDragEnter="@(_ => Log($"Drag over {zone} — DropEffect='{_selectedDropEffect}', source allows '{_selectedEffectAllowed}'."))"
+					  OnItemDrop="@(box => DropEffectBox(box, zone))"
+					  Style="min-height: 120px; padding: 10px; border: 2px dashed #673ab7; border-radius: 6px;">
+				<div class="font-weight-bold mb-2">@zone</div>
+				@if (boxes.Count == 0)
+				{
+					<em class="text-muted">Drop a box here</em>
+				}
+				else
+				{
+					@foreach (var box in boxes)
+					{
+						<Draggable TItem="EffectBox"
+								   @key="box"
+								   Item="box"
+								   EffectAllowed="_selectedEffectAllowed"
+								   OnDragStart="@(() => Log($"Drag started — '{box.Label}', EffectAllowed='{_selectedEffectAllowed}'."))"
+								   Style="padding: 14px; margin-bottom: 6px; background:#673ab7; color:#fff; border-radius: 6px; text-align:center; cursor:grab;">
+							@box.Label
+						</Draggable>
+					}
+				}
+			</DropZone>
+		</div>
+	}
+</div>
+
+<hr />
+
 <h5>Custom drag image and native file drop</h5>
 <div class="row">
 	<div class="col-12 col-md-6 mb-3">
@@ -93,6 +175,12 @@
 			Drag me &mdash; I use a custom drag image
 		</Draggable>
 	</div>
+</div>
+
+<hr />
+
+<h5>Attach files &#x1F4CE; with File Drag&Drop</h5>
+<div class="row">
 	<div class="col-12 col-md-6 mb-3">
 		<DropZone TItem="string"
 				  OnDrop="OnFilesDropped"
@@ -142,6 +230,54 @@
 	private readonly List<Fruit> _basket = new();
 	private readonly List<string> _droppedFiles = new();
 	private string _log = "";
+
+	//DropEffect / DragDropEffects demo state
+	public record EffectBox(int Id, string Label);
+
+	private DragDropEffects _selectedEffectAllowed = DragDropEffects.All;
+	private DropEffect _selectedDropEffect = DropEffect.Move;
+	private readonly List<EffectBox> _leftZoneBoxes = new() { new(1, "Box #1") };
+	private readonly List<EffectBox> _rightZoneBoxes = new();
+	private int _nextEffectBoxId = 2;
+
+	private void DropEffectBox(EffectBox? box, string targetZone)
+	{
+		if (box is null)
+		{
+			return;
+		}
+
+		var target = targetZone == "Left zone" ? _leftZoneBoxes : _rightZoneBoxes;
+		var source = targetZone == "Left zone" ? _rightZoneBoxes : _leftZoneBoxes;
+
+		//Dropped back on the zone it already belongs to: nothing to do.
+		if (target.Contains(box))
+		{
+			return;
+		}
+
+		switch (_selectedDropEffect)
+		{
+			case DropEffect.Move:
+				source.Remove(box);
+				target.Add(box);
+				Log($"MOVE: '{box.Label}' moved to '{targetZone}'.");
+				break;
+			case DropEffect.Copy:
+				target.Add(new EffectBox(_nextEffectBoxId, $"Box #{_nextEffectBoxId} (copy)"));
+				_nextEffectBoxId++;
+				Log($"COPY: '{box.Label}' copied to '{targetZone}' (original kept).");
+				break;
+			case DropEffect.Link:
+				target.Add(new EffectBox(_nextEffectBoxId, $"Box #{_nextEffectBoxId} (link)"));
+				_nextEffectBoxId++;
+				Log($"LINK: '{box.Label}' linked into '{targetZone}' (original kept).");
+				break;
+			default:
+				Log($"NONE: drop on '{targetZone}' ignored.");
+				break;
+		}
+	}
 
 	private void MoveTask(TaskItem? task, string targetColumn)
 	{

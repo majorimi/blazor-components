@@ -3,6 +3,11 @@ namespace Majorsoft.Blazor.Components.DragAndDrop
 	/// <summary>
 	/// Mirrors the HTML Drag and Drop API <c>DataTransfer.effectAllowed</c> values.
 	/// Specifies the kind of operations that are allowed for a drag source.
+	/// <para>
+	/// These values are <b>advisory</b>: the browser uses them for cursor feedback and to negotiate/permit a drop, but it
+	/// never performs the copy/move/link operation itself. The integrator must implement the actual data change in the
+	/// drop handler. See <see cref="DropEffect"/> for the target-side counterpart.
+	/// </para>
 	/// </summary>
 	public enum DragDropEffects
 	{
@@ -43,6 +48,12 @@ namespace Majorsoft.Blazor.Components.DragAndDrop
 	/// <summary>
 	/// Mirrors the HTML Drag and Drop API <c>DataTransfer.dropEffect</c> values.
 	/// Controls the feedback (cursor) shown by the browser over a drop target.
+	/// <para>
+	/// These values are <b>advisory</b>: they set the cursor and take part in drop negotiation with the source's
+	/// <see cref="DragDropEffects"/>, but the browser does not actually copy, move or link anything. The integrator is
+	/// responsible for performing the operation (e.g. relocating the item for <see cref="Move"/>, duplicating it for
+	/// <see cref="Copy"/>, creating a reference for <see cref="Link"/>) inside the drop handler.
+	/// </para>
 	/// </summary>
 	public enum DropEffect
 	{

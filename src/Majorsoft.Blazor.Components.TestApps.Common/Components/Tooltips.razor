@@ -1,162 +1,215 @@
+<PageScroll />
+
 <h1>Tooltip control</h1>
 <p>
-	Blazor component that renders a customizable Tooltip (Popover) for any element on hover or focus.
-	It supports 4 positions, configurable show/hide delays, plain text or rich HTML content, an optional arrow,
-	custom styling and show/hide events.
+	Blazor component that renders a simple Tooltip with plain text any element on hover or focus. And customizable Popover (small popup) attached to any element type which clicked.
+	It supports 4 positions, configurable show/hide delays, plain text or rich HTML content, an optional arrow, custom styling and show/hide events.
 	For usage see source code and docs on
 	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tooltips.md" target="_blank">Github</a>.
 	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Tooltips" />
 </p>
 
-<div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Simple Tooltips</h3>
-	<p>
-		Wrap any content with the <code>&lt;Tooltip&gt;</code> component and set the <code>Text</code> parameter.
-		Hover (or keyboard focus) the elements below to show the Tooltip.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12">
-			<Tooltip Text="I am a simple text Tooltip.">
-				<span class="font-weight-bold" style="border-bottom: 1px dotted #555; cursor: help;">Hover this text</span>
-			</Tooltip>
-			<span class="mx-3"></span>
-			<Tooltip Text="Tooltips work on any element, e.g. buttons. Focus me with the Tab key too.">
-				<button class="btn btn-primary">Hover or focus this button</button>
-			</Tooltip>
-			<span class="mx-3"></span>
-			<Tooltip Text="Long Tooltip text wraps automatically once it reaches the maximum width so it stays readable.">
-				<button class="btn btn-outline-secondary">Long text Tooltip</button>
-			</Tooltip>
-		</div>
-	</div>
-</div>
+<h3>Tooltips features:</h3>
+<ul>
+	<li><NavLink href="tooltips#simpleTooltips">Tooltips</NavLink></li>
+	<li><NavLink href="tooltips#popover">Popover</NavLink></li>
+</ul>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Tooltip positions</h3>
-	<p>
-		Use the <code>Position</code> parameter to place the Tooltip <code>Top</code>, <code>Right</code>, <code>Bottom</code> or <code>Left</code> of the trigger element.
-	</p>
+	<div>
+		<PermaLinkElement PermaLinkName="simpleTooltips" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Simple Tooltips</h3></Content>
+		</PermaLinkElement>
+		<p>
+			Wrap any content with the <code>&lt;Tooltip&gt;</code> component and set the <code>Text</code> parameter.
+			Hover (or keyboard focus) the elements below to show the Tooltip.
+		</p>
 
-	<div class="row pb-2 text-center" style="padding: 40px 0;">
-		@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
-		{
-			<div class="col-3">
-				<Tooltip Text="@($"Tooltip on the {position}.")" Position="@position">
-					<button class="btn btn-info">@position</button>
+		<div class="row pb-2">
+			<div class="col-12">
+				<Tooltip Text="I am a simple text Tooltip.">
+					<span class="font-weight-bold" style="border-bottom: 1px dotted #555; cursor: help;">Hover this text</span>
+				</Tooltip>
+				<span class="mx-3"></span>
+				<Tooltip Text="Tooltips work on any element, e.g. buttons. Focus me with the Tab key too.">
+					<button class="btn btn-primary">Hover or focus this button</button>
+				</Tooltip>
+				<span class="mx-3"></span>
+				<Tooltip Text="Long Tooltip text wraps automatically once it reaches the maximum width so it stays readable.">
+					<button class="btn btn-outline-secondary">Long text Tooltip</button>
 				</Tooltip>
 			</div>
-		}
-	</div>
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Customizable Tooltip</h3>
-	<p>
-		Configure a Tooltip live: change its position, show/hide delays, arrow, disabled state and content.
-	</p>
-
-	<div class="row pb-2">
-		<div class="col-12 col-lg-6">
-			<div class="form-group">
-				<label>Position:</label>
-				<select class="form-control" @bind="_position">
-					@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
-					{
-						<option value="@position">@position</option>
-					}
-				</select>
-			</div>
-			<div class="form-group">
-				<label>Delay before show (ms):</label>
-				<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeShow" />
-			</div>
-			<div class="form-group">
-				<label>Delay before hide (ms):</label>
-				<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeHide" />
-			</div>
-			<div class="form-group">
-				<label>Tooltip text:</label>
-				<input type="text" class="form-control" @bind="_text" />
-			</div>
-			<div>
-				Show arrow: <input class="mr-3" type="checkbox" @bind="_showArrow" />
-				Disabled: <input class="mr-3" type="checkbox" @bind="_disabled" />
-				Rich content: <input class="mr-3" type="checkbox" @bind="_richContent" />
-			</div>
 		</div>
-		<div class="col-12 col-lg-6 text-center" style="padding: 60px 0;">
-			@if (_richContent)
-			{
-				<Tooltip Position="@_position"
-						 DelayBeforeShow="@_delayBeforeShow"
-						 DelayBeforeHide="@_delayBeforeHide"
-						 ShowArrow="@_showArrow"
-						 Disabled="@_disabled"
-						 OnShow="@OnTooltipShow"
-						 OnHide="@OnTooltipHide">
-					<ChildContent>
+	</div>
+	<hr />
+
+	<div>
+		<PermaLinkElement PermaLinkName="positions" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Tooltip positions</h3></Content>
+		</PermaLinkElement>
+        <p>
+            Use the <code>Position</code> parameter to place the Tooltip <code>Top</code>, <code>Right</code>, <code>Bottom</code> or <code>Left</code> of the trigger element.
+        </p>
+
+        <div class="row pb-2 text-center" style="padding: 40px 0;">
+            @foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+            {
+                <div class="col-3">
+                    <Tooltip Text="@($"Tooltip on the {position}.")" Position="@position">
+                        <button class="btn btn-info">@position</button>
+                    </Tooltip>
+                </div>
+            }
+        </div>
+	</div>
+
+	<hr />
+
+	<div>
+		<PermaLinkElement PermaLinkName="customizable" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+			<Content><h3>Customizable Tooltip</h3></Content>
+		</PermaLinkElement>
+		<p>
+			Configure a Tooltip live: change its position, show/hide delays, arrow, disabled state, content and
+			appearance. Toggle <strong>Show arrow</strong> and tweak the CSS controls to see how the popup reacts.
+		</p>
+
+		<div class="row pb-2">
+			<div class="col-12 col-lg-6">
+				<div class="form-group">
+					<label>Position:</label>
+					<select class="form-control" @bind="_position">
+						@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+						{
+							<option value="@position">@position</option>
+						}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Delay before show (ms):</label>
+					<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeShow" />
+				</div>
+				<div class="form-group">
+					<label>Delay before hide (ms):</label>
+					<input type="number" min="0" step="50" class="form-control" @bind="_delayBeforeHide" />
+				</div>
+				<div class="form-group">
+					<label>Tooltip text:</label>
+					<input type="text" class="form-control" @bind="_text" />
+				</div>
+				<div>
+					Show arrow: <input class="mr-3" type="checkbox" @bind="_showArrow" @bind:event="oninput" />
+					Disabled: <input class="mr-3" type="checkbox" @bind="_disabled" />
+					Rich content: <input class="mr-3" type="checkbox" @bind="_richContent" />
+				</div>
+
+				<hr />
+				<label><strong>CSS customization</strong> (applied via <code>TooltipStyle</code>):</label>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label>Background color:</label>
+						<input type="color" class="form-control" @bind="_bgColor" @bind:event="oninput" />
+					</div>
+					<div class="col-6 form-group">
+						<label>Text color:</label>
+						<input type="color" class="form-control" @bind="_textColor" @bind:event="oninput" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label>Corner radius (px):</label>
+						<input type="number" min="0" max="30" step="1" class="form-control" @bind="_cornerRadius" @bind:event="oninput" />
+					</div>
+					<div class="col-6 form-group">
+						<label>Font size (px):</label>
+						<input type="number" min="8" max="32" step="1" class="form-control" @bind="_fontSize" @bind:event="oninput" />
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 text-center" style="padding: 60px 0;">
+				@if (_richContent)
+				{
+					<Tooltip Position="@_position"
+							 DelayBeforeShow="@_delayBeforeShow"
+							 DelayBeforeHide="@_delayBeforeHide"
+							 ShowArrow="@_showArrow"
+							 Disabled="@_disabled"
+							 TooltipClass="demo-arrow"
+							 TooltipStyle="@CustomTooltipStyle"
+							 OnShow="@OnTooltipShow"
+							 OnHide="@OnTooltipHide">
+						<ChildContent>
+							<button class="btn btn-success">Hover me</button>
+						</ChildContent>
+						<TooltipContent>
+							<div class="text-left">
+								<strong>Rich Tooltip</strong>
+								<hr class="my-1" style="border-color: #888;" />
+								Tooltips can render any markup, e.g. an
+								<span style="color: #ffd54f;">icon</span> &#9733; or a
+								<a href="https://github.com/majorimi/blazor-components" target="_blank" style="color: #90caf9;">link</a>.
+							</div>
+						</TooltipContent>
+					</Tooltip>
+				}
+				else
+				{
+					<Tooltip Text="@_text"
+							 Position="@_position"
+							 DelayBeforeShow="@_delayBeforeShow"
+							 DelayBeforeHide="@_delayBeforeHide"
+							 ShowArrow="@_showArrow"
+							 Disabled="@_disabled"
+							 TooltipClass="demo-arrow"
+							 TooltipStyle="@CustomTooltipStyle"
+							 OnShow="@OnTooltipShow"
+							 OnHide="@OnTooltipHide">
 						<button class="btn btn-success">Hover me</button>
-					</ChildContent>
-					<TooltipContent>
-						<div class="text-left">
-							<strong>Rich Tooltip</strong>
-							<hr class="my-1" style="border-color: #888;" />
-							Tooltips can render any markup, e.g. an
-							<span style="color: #ffd54f;">icon</span> &#9733; or a
-							<a href="https://github.com/majorimi/blazor-components" target="_blank" style="color: #90caf9;">link</a>.
-						</div>
-					</TooltipContent>
-				</Tooltip>
-			}
-			else
-			{
-				<Tooltip Text="@_text"
-						 Position="@_position"
-						 DelayBeforeShow="@_delayBeforeShow"
-						 DelayBeforeHide="@_delayBeforeHide"
-						 ShowArrow="@_showArrow"
-						 Disabled="@_disabled"
-						 OnShow="@OnTooltipShow"
-						 OnHide="@OnTooltipHide">
-					<button class="btn btn-success">Hover me</button>
-				</Tooltip>
-			}
+					</Tooltip>
+				}
+			</div>
 		</div>
-	</div>
 
-	<div class="row pb-2">
-		<div class="col-12">
-			<label><strong>Events log</strong>:</label>
-			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		<div class="row pb-2">
+			<div class="col-12">
+				<label><strong>Events log</strong>:</label>
+				<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" rows="8" readonly></textarea>
+			</div>
 		</div>
 	</div>
 </div>
+<style>
+	/* Recolor the Tooltip arrow to match the custom background in the live demo below.
+	   The arrow is a ::after pseudo-element, so it can't be styled inline; we read the
+	   --demo-tt-bg custom property that the demo sets through TooltipStyle. */
+	.btooltip-top.with-arrow.demo-arrow::after {
+		border-top-color: var(--demo-tt-bg) !important;
+	}
+
+	.btooltip-bottom.with-arrow.demo-arrow::after {
+		border-bottom-color: var(--demo-tt-bg) !important;
+	}
+
+	.btooltip-left.with-arrow.demo-arrow::after {
+		border-left-color: var(--demo-tt-bg) !important;
+	}
+
+	.btooltip-right.with-arrow.demo-arrow::after {
+		border-right-color: var(--demo-tt-bg) !important;
+	}
+</style>
+
+
+<hr />
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Custom styled Tooltip</h3>
+	<PermaLinkElement PermaLinkName="popover" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Popover</h3></Content>
+	</PermaLinkElement>
 	<p>
-		Use <code>TooltipClass</code> and <code>TooltipStyle</code> to override the Tooltip popup appearance, and
-		<code>Class</code> / <code>Style</code> for the trigger container.
-	</p>
-
-	<div class="row pb-2" style="padding: 30px 0;">
-		<div class="col-12">
-			<Tooltip Text="Custom colored Tooltip with no arrow."
-					 ShowArrow="false"
-					 TooltipStyle="background-color: #6f42c1; color: #fff; font-weight: bold;">
-				<button class="btn btn-outline-primary">Custom styled Tooltip</button>
-			</Tooltip>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Popover</h3>
-	<p>
-		The <code>&lt;Popover&gt;</code> component shows a click-triggered, anchored panel with an optional header, a
+		The <code>&lt;Popover&gt;</code> component shows a click-triggered, anchored panel (small popup) with an optional header, a
 		<code>PopoverContent</code> body and programmatic open/close. It is meant to host richer content such as a color
-		selector or a date picker.
+		selector or a date picker, any anchored small form, ect...
 	</p>
 
 	<h5>Customizable Popover</h5>
@@ -217,7 +270,7 @@
 					</p>
 				</PopoverContent>
 			</Popover>
-			<div class="mt-3">
+			<div class="mt-5">
 				<button class="btn btn-sm btn-success mr-2" @onclick="@(() => _customPopoverOpen = true)">Open</button>
 				<button class="btn btn-sm btn-danger mr-2" @onclick="@(() => _customPopoverOpen = false)">Close</button>
 				<button class="btn btn-sm btn-secondary" @onclick="@(() => _customPopoverOpen = !_customPopoverOpen)">Toggle</button>
@@ -277,6 +330,16 @@
 	private bool _disabled = false;
 	private bool _richContent = false;
 	private string _text = "Customize me using the controls on the left!";
+
+	//Customizable CSS settings applied through the TooltipStyle parameter
+	private string _bgColor = "#6f42c1";
+	private string _textColor = "#ffffff";
+	private int _cornerRadius = 6;
+	private int _fontSize = 14;
+
+	//--demo-tt-bg is consumed by the <style> block above to recolor the arrow to match the background.
+	private string CustomTooltipStyle =>
+		$"--demo-tt-bg: {_bgColor}; background-color: {_bgColor}; color: {_textColor}; border-radius: {_cornerRadius}px; font-size: {_fontSize}px;";
 
 	private ElementReference _log;
 	private string _logMessage = "";

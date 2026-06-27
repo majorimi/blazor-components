@@ -80,6 +80,17 @@ namespace Majorsoft.Blazor.Components.Inputs
 		/// <summary>Enables/disables the browser native spellchecker. Default is true.</summary>
 		[Parameter] public bool SpellCheck { get; set; } = true;
 
+		/// <summary>
+		/// Fixed editor height in pixels (the whole component: toolbar, content and footer). When greater than
+		/// 0 the content area scrolls once it overflows; when 0 (default) the height grows with the content.
+		/// </summary>
+		[Parameter] public int Height { get; set; }
+
+		/// <summary>
+		/// Fixed editor width in pixels. When 0 (default) the width is <c>auto</c> (it fills its container).
+		/// </summary>
+		[Parameter] public int Width { get; set; }
+
 		#endregion
 
 		#region Toolbar sections
@@ -126,6 +137,24 @@ namespace Majorsoft.Blazor.Components.Inputs
 
 		/// <summary>Custom inline style applied to the root element.</summary>
 		[Parameter] public string? Style { get; set; }
+
+		//Composes the root inline style: explicit Width/Height (0 means auto) followed by any custom Style.
+		private string? RootStyle
+		{
+			get
+			{
+				var style = "";
+				if (Width > 0)
+				{
+					style += $"width:{Width}px;";
+				}
+				if (Height > 0)
+				{
+					style += $"height:{Height}px;";
+				}
+				return style.Length > 0 ? style + Style : Style;
+			}
+		}
 
 		/// <summary>Custom CSS class(es) applied to the toolbar element.</summary>
 		[Parameter] public string? ToolbarClass { get; set; }

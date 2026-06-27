@@ -4,6 +4,8 @@ textarea {
 }
 </style>
 
+<PageScroll />
+
 <h1>Html Color Picker control</h1>
 <p>
 	Blazor components that renders a fully featured Color Picker control: HSV Saturation/Brightness area, Hue and Alpha sliders,
@@ -13,8 +15,16 @@ textarea {
 	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.ColorPicker" />
 </p>
 
+<h3>Color Picker features:</h3>
+<ul>
+	<li><NavLink href="colorpicker#colorPalette">Html Color Palette</NavLink></li>
+	<li><NavLink href="colorpicker#colorPicker">Color Picker (Popover)</NavLink></li>
+</ul>
+
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Html Color Palette</h3>
+	<PermaLinkElement PermaLinkName="colorPalette" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Html Color Palette</h3></Content>
+	</PermaLinkElement>
 	<p>
 		This example shows the Color Palette with all features enabled and <strong>two-way binding</strong> with <code>@@bind-SelectedColor</code>.
 	</p>
@@ -86,7 +96,9 @@ textarea {
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
-	<h3>Color Picker (Popover)</h3>
+	<PermaLinkElement PermaLinkName="colorPicker" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Color Picker (Popover)</h3></Content>
+	</PermaLinkElement>
 	<p>
 		The <code>ColorPicker</code> component shows a compact trigger button with a color preview and opens the
 		<code>ColorPalette</code> inside a <code>Popover</code>. With <strong>Require Apply</strong> the color is only

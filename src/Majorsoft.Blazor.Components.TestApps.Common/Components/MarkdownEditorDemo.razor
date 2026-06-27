@@ -19,7 +19,7 @@
     <MarkdownEditor @bind-Value="_text"
                     View="MarkdownEditorView.Split"
                     MaxAllowedChars="2000"
-                    Rows="14"
+                    VisibleRows="14"
                     Placeholder="Start typing Markdown..." />
 </div>
 
@@ -32,6 +32,7 @@
             <label><input type="checkbox" @bind="_showHeadings" /> Headings</label><br />
             <label><input type="checkbox" @bind="_showTextStyle" /> Text style</label><br />
             <label><input type="checkbox" @bind="_showLists" /> Lists</label><br />
+            <label><input type="checkbox" @bind="_showIndent" /> Indentation</label><br />
             <label><input type="checkbox" @bind="_showBlocks" /> Blocks</label><br />
             <label><input type="checkbox" @bind="_showInsert" /> Insert</label><br />
             <label><input type="checkbox" @bind="_showView" /> View switch</label>
@@ -39,8 +40,16 @@
         <div class="col-12 col-md-6 col-lg-4">
             <label><input type="checkbox" @bind="_showTooltips" /> Button Tooltips</label><br />
             <label><input type="checkbox" @bind="_showFooter" /> Footer</label><br />
+            <label><input type="checkbox" @bind="_spellCheck" /> Spell check</label><br />
+            <label><input type="checkbox" @bind="_tabIndents" /> Tab indents</label><br />
             <label><input type="checkbox" @bind="_disabled" /> Disabled</label><br />
             <label><input type="checkbox" @bind="_readOnly" /> Read only</label>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <label>Visible rows</label>
+            <input type="number" min="1" max="40" class="form-control mb-2" @bind="_visibleRows" />
+            <label>Max allowed chars (0 = unlimited)</label>
+            <input type="number" min="0" step="100" class="form-control" @bind="_maxChars" />
         </div>
     </div>
 
@@ -48,14 +57,18 @@
                     ShowHeadingSection="_showHeadings"
                     ShowTextStyleSection="_showTextStyle"
                     ShowListSection="_showLists"
+                    ShowIndentSection="_showIndent"
                     ShowBlockSection="_showBlocks"
                     ShowInsertSection="_showInsert"
                     ShowViewSection="_showView"
                     ShowButtonTooltips="_showTooltips"
                     ShowFooter="_showFooter"
+                    SpellCheck="_spellCheck"
+                    TabIndents="_tabIndents"
                     Disabled="_disabled"
                     ReadOnly="_readOnly"
-                    Rows="8" />
+                    MaxAllowedChars="_maxChars"
+                    VisibleRows="_visibleRows" />
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -67,7 +80,7 @@
                     ShowBlockSection="false"
                     ShowInsertSection="false"
                     ShowViewSection="false"
-                    Rows="5">
+                    VisibleRows="5">
         <CustomToolbarContent>
             <button type="button" class="bmde-btn" tabindex="-1" title="Insert signature"
                     @onclick="@(() => _text3 += "\n\n— Sent from Majorsoft Blazor")">✍</button>
@@ -113,11 +126,16 @@ var editor = new MarkdownEditor();
     private bool _showHeadings = true;
     private bool _showTextStyle = true;
     private bool _showLists = true;
+    private bool _showIndent = true;
     private bool _showBlocks = true;
     private bool _showInsert = true;
     private bool _showView = true;
     private bool _showTooltips = true;
     private bool _showFooter = true;
+    private bool _spellCheck = true;
+    private bool _tabIndents = true;
     private bool _disabled = false;
     private bool _readOnly = false;
+    private int _visibleRows = 8;
+    private int _maxChars = 0;
 }

@@ -121,6 +121,30 @@ namespace Majorsoft.Blazor.Components.Inputs.Tests
 		}
 
 		[TestMethod]
+		public void RichTextEditor_should_apply_fixed_height_and_width_to_root()
+		{
+			var rendered = _testContext.Render<RichTextEditor>(p => p
+				.Add(c => c.Height, 300)
+				.Add(c => c.Width, 500));
+
+			var style = rendered.Find(".bmde").GetAttribute("style") ?? "";
+			StringAssert.Contains(style, "height:300px");
+			StringAssert.Contains(style, "width:500px");
+		}
+
+		[TestMethod]
+		public void RichTextEditor_should_not_emit_width_or_height_when_zero()
+		{
+			var rendered = _testContext.Render<RichTextEditor>(p => p
+				.Add(c => c.Value, ""));
+
+			//Defaults are 0 == auto, so no width/height is written into the root style.
+			var style = rendered.Find(".bmde").GetAttribute("style") ?? "";
+			Assert.IsFalse(style.Contains("width"), "width should be auto (absent) by default");
+			Assert.IsFalse(style.Contains("height"), "height should be auto (absent) by default");
+		}
+
+		[TestMethod]
 		public void RichTextEditor_should_not_show_any_insert_popover_initially()
 		{
 			var rendered = _testContext.Render<RichTextEditor>(p => p

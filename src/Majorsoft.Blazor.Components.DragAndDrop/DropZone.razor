@@ -40,6 +40,16 @@
 
 	/// <summary>
 	/// The feedback (cursor) shown by the browser while dragging over this target (HTML <c>dropEffect</c>). Default is <see cref="DropEffect.Move"/>.
+	/// <para>
+	/// <b>Advisory only.</b> Like the underlying HTML Drag and Drop API, this value is purely advisory: it controls the
+	/// cursor the browser shows and takes part in <i>negotiation</i> (if it is not permitted by the drag source's
+	/// <see cref="Draggable{TItem}.EffectAllowed"/> the browser forces it to <c>none</c> and the drop is suppressed).
+	/// It does <b>not</b> make the component copy, move or link anything &mdash; the browser never performs the operation
+	/// itself. The actual data change (e.g. relocating an item for <see cref="DropEffect.Move"/>, duplicating it for
+	/// <see cref="DropEffect.Copy"/>, creating a reference for <see cref="DropEffect.Link"/>) must be implemented by the
+	/// integrator in <see cref="OnItemDrop"/> / <see cref="OnDrop"/>. The browser-negotiated effect is available as
+	/// <c>DragEventArgs.DataTransfer.DropEffect</c> on the <see cref="OnDrop"/> callback.
+	/// </para>
 	/// </summary>
 	[Parameter] public DropEffect DropEffect { get; set; } = DropEffect.Move;
 
@@ -72,6 +82,12 @@
 
 	/// <summary>
 	/// Fired when an accepted <c>Draggable</c> item is dropped on the target. Provides the strongly-typed payload.
+	/// <para>
+	/// This is where the integrator performs the actual operation implied by <see cref="DropEffect"/>: the component only
+	/// negotiates the effect and the cursor, it does not copy/move/link anything itself. To branch on the
+	/// browser-negotiated effect (rather than the configured <see cref="DropEffect"/>) read
+	/// <c>DragEventArgs.DataTransfer.DropEffect</c> in <see cref="OnDrop"/>, which fires immediately before this callback.
+	/// </para>
 	/// </summary>
 	[Parameter] public EventCallback<TItem?> OnItemDrop { get; set; }
 

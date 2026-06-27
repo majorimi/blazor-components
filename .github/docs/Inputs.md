@@ -8,6 +8,7 @@ Blazor Components Inputs controls
 # About
 
 Blazor components that renders an HTML `<input>`, `<textarea>` elements also extending `InputText` and `InputTextArea` Blazor provided components with `maxlength` set and counter to show remaining characters.
+The package also ships a **`MarkdownEditor`** and a Word-like **`RichTextEditor`** that share a customizable sectioned toolbar and a Markdown engine.
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/MaxLengthInputPage.razor).
 
@@ -21,6 +22,8 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`MaxLengthInputText`**: extends `InputText` Blazor provided component (it supports form validation and `@bind-Value=`) and sets `maxlength` property with notification onChange.
 - **`MaxLengthTextarea`**: wraps and renders HTML `<textarea>` field and sets `maxlength` property with notification onChange.
 - **`MaxLengthInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validation and `@bind-Value=`) and sets `maxlength` property with notification onChange.
+- **`MarkdownEditor`**: Markdown source editor with a customizable sectioned toolbar and a live HTML preview (Edit / Split / Preview views).
+- **`RichTextEditor`**: Word-like WYSIWYG editor that applies formatting inline on a `contenteditable` surface while keeping the bound value as Markdown, so it round-trips cleanly with `MarkdownEditor`.
 
 ## `MaxLengthInput` and `MaxLengthInputText` components
 
@@ -75,6 +78,95 @@ Should show remaining character values at the end of the `CountdownText` or not.
 - **`OnRemainingCharsChanged`: `EventCallback<int>` delegate** <br />
   Callback function called when HTML control received keyboard inputs remaining allowed chars calculated and sent as even args.
   Can be used to style or change the Countdown message.
+
+## `MarkdownEditor` and `RichTextEditor` components
+
+Two editors that share one sectioned, Tooltip-powered toolbar and a dependency-free Markdown engine, so
+content round-trips cleanly between them. The **`MarkdownEditor`** edits Markdown *source* with a live
+preview; the **`RichTextEditor`** is a Word-like *WYSIWYG* surface whose bound `Value` is always Markdown.
+
+The toolbar is split into independently toggleable sections: **Headings**, **Text style** (bold, italic,
+underline, strikethrough), **Lists** (bullet, numbered, task), **Indentation** (decrease / increase),
+**Blocks** (quote, inline code, code block, horizontal rule) and **Insert** (link, image, table). In the
+`RichTextEditor` the Insert buttons open a small `Popover` (anchored under the icon) to enter the link
+text/URL, image URL or table dimensions; pressing **Enter** accepts and **Esc** closes it.
+
+> **\* Note**: the editors render the `Popover` from the Tooltips package, which relies on the JS interop
+> services. Register them once in your host app(s): `services.AddJsInteropExtensions();`
+
+### Styles
+
+The editor CSS ships in the package; link it once (e.g. in `index.html` / `App.razor` / `_Host.cshtml`):
+
+```
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/editor.css" />
+```
+
+### Shared properties
+
+Both editors expose the same set of common properties:
+
+- **`Value`: `string? { get; set; }`** — the Markdown text. Supports two-way binding via `@bind-Value`.
+- **`Placeholder`: `string { get; set; }`** — hint shown when the editor is empty.
+- **`Disabled`: `bool { get; set; }` (default: false)** — disables input and all toolbar actions.
+- **`ReadOnly`: `bool { get; set; }` (default: false)** — content is read only (toolbar actions disabled too).
+- **`SpellCheck`: `bool { get; set; }` (default: true)** — toggles the browser native spellchecker.
+- **`ShowToolbar`: `bool { get; set; }` (default: true)** — shows/hides the whole toolbar.
+- **`ShowHeadingSection` / `ShowTextStyleSection` / `ShowListSection` / `ShowIndentSection` / `ShowBlockSection` / `ShowInsertSection`: `bool { get; set; }` (default: true)** — show/hide individual toolbar sections.
+- **`ShowFooter`: `bool { get; set; }` (default: true)** — shows/hides the footer (hint + counter).
+- **`ShowButtonTooltips`: `bool { get; set; }` (default: true)** — each button shows a Tooltip; otherwise a native `title`.
+- **`CustomToolbarContent`: `RenderFragment? { get; set; }`** — extra toolbar content rendered as an additional section.
+- **`FooterText`: `string { get; set; }`** — text shown on the left side of the footer.
+- **`Class` / `Style` / `ToolbarClass` / `EditorClass`: `string? { get; set; }`** — custom CSS class(es) / inline style for the root, toolbar and editing surface.
+- **`InnerElementReference`: `ElementReference { get; }`** — the wrapped editing element (the `<textarea>` for Markdown, the `contenteditable` for RichText).
+
+**Shared events and functions:**
+
+- **`ValueChanged`: `EventCallback<string?>`** — enables `@bind-Value`.
+- **`OnInput`: `EventCallback<string?>`** — invoked on every edit with the new Markdown value.
+- **`OnHtmlChanged`: `EventCallback<string>`** — invoked with the rendered HTML whenever the value changes.
+- **`GetHtml()`: `string`** — returns the rendered HTML of the current value.
+- **`FocusAsync()`: `Task`** — sets focus to the editing surface.
+
+### `MarkdownEditor` specific properties
+
+- **`View`: `MarkdownEditorView { get; set; }` (default: `Edit`)** — which pane(s) are visible: `Edit`, `Split` or `Preview`. Supports two-way binding via `@bind-View` (`ViewChanged`).
+- **`ShowViewSection`: `bool { get; set; }` (default: true)** — shows/hides the Edit / Split / Preview switch.
+- **`VisibleRows`: `int { get; set; }` (default: 8)** — number of visible text rows of the source `<textarea>` (its `rows` attribute).
+- **`MaxAllowedChars`: `int { get; set; }` (default: 0)** — when greater than 0 a `maxlength` is applied and a remaining-characters counter is shown.
+- **`TabIndents`: `bool { get; set; }` (default: true)** and **`TabIndent`: `string { get; set; }` (default: two spaces)** — pressing Tab inserts `TabIndent` instead of moving focus.
+- **`PreviewClass`: `string? { get; set; }`** — custom CSS class(es) for the rendered preview pane.
+
+### `RichTextEditor` specific properties
+
+- **`Height`: `int { get; set; }` (default: 0)** — fixed editor height in pixels (toolbar + content + footer). When greater than 0 the content area scrolls once it overflows; when **0** the height is **auto** and grows with the content.
+- **`Width`: `int { get; set; }` (default: 0)** — fixed editor width in pixels. When **0** the width is **auto** (it fills its container).
+
+### Usage
+
+```
+@using Majorsoft.Blazor.Components.Inputs
+
+@* Link the editor stylesheet once in your app, e.g. in index.html / App.razor. *@
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/editor.css" />
+
+<MarkdownEditor @bind-Value="_markdown"
+                View="MarkdownEditorView.Split"
+                VisibleRows="14"
+                MaxAllowedChars="2000"
+                Placeholder="Start typing Markdown..." />
+
+<RichTextEditor @bind-Value="_markdown"
+                Height="300"
+                Placeholder="Start writing..." />
+
+@code {
+    private string _markdown = "# Hello\n\nThis is **shared** Markdown.";
+}
+```
+
+Both editors are bound to the same `_markdown` value above, demonstrating that the WYSIWYG and Markdown
+representations share one format.
 
 # Configuration
 

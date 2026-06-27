@@ -64,9 +64,9 @@ namespace Majorsoft.Blazor.Components.Inputs
 		[Parameter] public string Placeholder { get; set; } = "Write Markdown here...";
 
 		/// <summary>
-		/// Number of visible text rows of the source editor. Default is 8.
+		/// Number of visible text rows of the source &lt;textarea&gt; editor (its <c>rows</c> attribute). Default is 8.
 		/// </summary>
-		[Parameter] public int Rows { get; set; } = 8;
+		[Parameter] public int VisibleRows { get; set; } = 8;
 
 		/// <summary>
 		/// Maximum allowed characters. When greater than 0 a <c>maxlength</c> is applied and a remaining
