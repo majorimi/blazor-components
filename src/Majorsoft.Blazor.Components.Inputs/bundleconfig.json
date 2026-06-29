@@ -10,5 +10,11 @@
     "inputFiles": [
       "wwwroot/markdownEditor.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/passwordInput.min.js",
+    "inputFiles": [
+      "wwwroot/passwordInput.js"
+    ]
   }
 ]

@@ -33,7 +33,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<None Include="..\..\.github\docs\Color.md" Link="Color.md" />
+	<None Include="..\..\.github\docs\ColorPicker.md" Link="ColorPicker.md" />
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>
 		<PackagePath></PackagePath>

@@ -43,6 +43,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+	<None Include="..\..\.github\docs\DragAndDrop.md" Link="DragAndDrop.md" />
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>
 		<PackagePath></PackagePath>

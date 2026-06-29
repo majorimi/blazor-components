@@ -24,6 +24,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`MaxLengthInputTextArea`**: extends `InputTextArea` Blazor provided component (it supports form validation and `@bind-Value=`) and sets `maxlength` property with notification onChange.
 - **`MarkdownEditor`**: Markdown source editor with a customizable sectioned toolbar and a live HTML preview (Edit / Split / Preview views).
 - **`RichTextEditor`**: Word-like WYSIWYG editor that applies formatting inline on a `contenteditable` surface while keeping the bound value as Markdown, so it round-trips cleanly with `MarkdownEditor`.
+- **`PasswordInput`**: secret text input with a customizable mask character (dot, star, bullet, etc.), a customizable layout and a reveal (eye) button that shows or hides the entered value.
 
 ## `MaxLengthInput` and `MaxLengthInputText` components
 
@@ -167,6 +168,81 @@ Both editors expose the same set of common properties:
 
 Both editors are bound to the same `_markdown` value above, demonstrating that the WYSIWYG and Markdown
 representations share one format.
+
+## `PasswordInput` component
+
+Blazor component that renders a secret text `<input>` with a **customizable mask character**, a **customizable layout**
+and a reveal (**eye**) button to show or hide the entered value. The real value is always kept in C# and exposed via
+`@bind-Value` (reading it always returns the plain text); while masked the input shows a run of the chosen mask
+character. Editing in the middle of the value, text selection, paste and delete are all supported because the real
+value is reconstructed from the caret position after each input.
+
+### Styles
+
+`PasswordInput` ships a stylesheet in the package. Link it **once** in your app (e.g. `index.html` / `App.razor`):
+
+```
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/passwordInput.css" />
+```
+
+All class names are prefixed with `bpwd` and every part is overridable via the `Class`, `InputClass` and
+`RevealButtonClass` parameters.
+
+### Properties
+
+- **`Value`: `string? { get; set; }`** <br />
+  The secret value. Supports two-way binding via `@bind-Value`; reading it always returns the plain text.
+- **`MaskCharacter`: `char { get; set; }` (default: `'●'`)** <br />
+  Character used to mask the value while hidden, e.g. `'●'`, `'*'` or `'•'`. Set to `'\0'` to disable masking.
+- **`ShowPassword`: `bool { get; set; }` (default: false)** <br />
+  Whether the value is currently revealed (plain text) or masked. Supports two-way binding via `@bind-ShowPassword`.
+- **`ShowRevealButton`: `bool { get; set; }` (default: true)** <br />
+  Whether the reveal (eye) button is rendered.
+- **`ShowTitle` / `HideTitle`: `string { get; set; }`** <br />
+  Tooltip/aria-label shown on the reveal button while masked / revealed.
+- **`Placeholder`: `string? { get; set; }`** <br />
+  Placeholder text shown when the input is empty.
+- **`MaxLength`: `int { get; set; }` (default: 0)** <br />
+  Maximum allowed characters. `0` means unlimited.
+- **`Disabled` / `ReadOnly`: `bool { get; set; }`** <br />
+  Standard disabled / read only states.
+- **`AutoComplete`: `string { get; set; }` (default: "new-password")** <br />
+  Value of the rendered `autocomplete` attribute.
+- **`Class` / `Style` / `InputClass` / `RevealButtonClass`: `string? { get; set; }`** <br />
+  CSS hooks to customize the wrapper, the `<input>` and the reveal button.
+- **`ShowIconContent` / `HideIconContent`: `RenderFragment?`** <br />
+  Optional custom content for the reveal button replacing the default eye icons (masked / revealed state).
+- **`AdditionalAttributes`: `Dictionary<string, object>?`** <br />
+  Arbitrary HTML attributes splatted onto the inner `<input>`.
+
+### Events
+
+- **`ValueChanged`: `EventCallback<string?>`** — enables `@bind-Value`.
+- **`OnInput`: `EventCallback<string?>`** — invoked on every input with the new plain value.
+- **`ShowPasswordChanged`: `EventCallback<bool>`** — enables `@bind-ShowPassword`.
+
+### Functions
+
+- **`FocusAsync()`** — sets focus to the inner `<input>`.
+- **`TogglePasswordVisibilityAsync()`** — toggles between the masked and revealed states.
+
+### Usage
+
+```
+@using Majorsoft.Blazor.Components.Inputs
+
+@* Link the stylesheet once in your app, e.g. in index.html / App.razor. *@
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/passwordInput.css" />
+
+<PasswordInput @bind-Value="_password"
+               MaskCharacter="*"
+               MaxLength="20"
+               Placeholder="Enter your password" />
+
+@code {
+    private string? _password;
+}
+```
 
 # Configuration
 
