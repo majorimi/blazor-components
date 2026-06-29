@@ -50,6 +50,12 @@
 					_mapInitialized = true;
 					StateHasChanged(); //Must reset all parameter values in JS after Maps initialized
 
+					//Push all current parameter values to the freshly created map. The JS init() only receives
+					//backgroundColor/controlSize/restriction, and the option setters are no-ops before the map
+					//exists, so any non-default initial values (e.g. ScaleControl, StreetViewControl) would be
+					//lost without this. See https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions
+					await ApplyInitialOptionsAsync();
+
 					if (CustomControls?.Any() ?? false)
 					{
 						await _mapService.CreateCustomControlsAsync(CustomControls);
@@ -974,7 +980,7 @@
 				_scaleControl = value;
 
 				dynamic options = new ExpandoObject();
-				options.rotateControl = _scaleControl;
+				options.scaleControl = _scaleControl;
 				InvokeAsync(async () => await _mapService.SetOptionsAsync(options));
 			}
 		}
@@ -1218,6 +1224,100 @@
 				await OnCurrentLocationDetected.InvokeAsync(Center);
 			}
 		}
+	}
+
+	//Applies every option-based parameter once, right after the map was created in JS, so initial values
+	//(not just runtime changes) take effect. Mirrors the payloads built in the individual property setters.
+	private async Task ApplyInitialOptionsAsync()
+	{
+		dynamic options = new ExpandoObject();
+		options.zoomControl = _zoomControl;
+		options.zoomControlOptions = new { position = _zoomControlOptionsPosition };
+		options.mapTypeControl = _mapTypeControl;
+		options.rotateControl = _rotateControl;
+		options.rotateControlOptions = new { position = _rotateControlOptionsPosition };
+		options.scaleControl = _scaleControl;
+		options.streetViewControl = _streetViewControl;
+		options.streetViewControlOptions = new { position = _streetViewControlOptionsPosition };
+		options.fullscreenControl = _fullscreenControl;
+		options.fullscreenControlOptions = new { position = _fullscreenControlPosition };
+		options.disableDefaultUI = _disableDefaultUI;
+		options.disableDoubleClickZoom = _disableDoubleClickZoom;
+		options.keyboardShortcuts = _keyboardShortcuts;
+		options.gestureHandling = _gestureHandling.ToString().ToLower();
+		options.clickableIcons = _clickableIcons;
+
+		if (_maxZoom is not null) options.maxZoom = _maxZoom;
+		if (_minZoom is not null) options.minZoom = _minZoom;
+		if (!string.IsNullOrEmpty(_draggableCursor)) options.draggableCursor = _draggableCursor;
+		if (!string.IsNullOrEmpty(_draggingCursor)) options.draggingCursor = _draggingCursor;
+
+		if (_mapTypeControlOptions?.MapTypeIds is not null)
+		{
+			options.mapTypeControlOptions = new
+			{
+				mapTypeIds = _mapTypeControlOptions.MapTypeIds.Select(s => s.ToString().ToLower()).ToArray(),
+				position = _mapTypeControlOptions.Position,
+				style = _mapTypeControlOptions.MapTypeControlStyle
+			};
+		}
+
+		if (_styles is not null)
+		{
+			options.styles = _styles.Select(s =>
+			{
+				dynamic obj = new ExpandoObject();
+				obj.stylers = s.Stylers;
+				obj.elementType = s.ElementType;
+				obj.featureType = s.FeatureType;
+
+				return obj;
+			}).ToArray();
+		}
+
+		await _mapService.SetOptionsAsync(options);
+
+		//Settings exposed through dedicated JS methods rather than the options bag.
+		if (_mapType != GoogleMapTypes.Roadmap)
+		{
+			await _mapService.SetMapTypeAsync(_mapType);
+		}
+		if (_heading != 0)
+		{
+			await _mapService.SetHeadingAsync(_heading);
+		}
+		if (_tilt != 0)
+		{
+			await _mapService.SetTiltAsync(_tilt);
+		}
+
+		WriteDiag($"Initial Map options applied for DIV Id: '{_mapContainerId}'.");
+	}
+
+	/// <summary>
+	/// Programmatically opens the Street View panorama at the given location with the given camera point of view.
+	/// Uses the Map's built-in Street View panorama (<c>map.getStreetView()</c>), so the <see cref="OnMapStreetviewChanged"/> event fires.
+	/// </summary>
+	/// <param name="latitude">Latitude of the Street View position.</param>
+	/// <param name="longitude">Longitude of the Street View position.</param>
+	/// <param name="heading">Camera heading in degrees clockwise from North. Default is 0.</param>
+	/// <param name="pitch">Camera pitch in degrees (-90 down to 90 up). Default is 0.</param>
+	/// <param name="zoom">Camera zoom level. Default is 1.</param>
+	/// <returns>Async task</returns>
+	public async Task ShowStreetViewAsync(double latitude, double longitude, int heading = 0, int pitch = 0, byte zoom = 1)
+	{
+		WriteDiag($"Showing Street View at: '{latitude},{longitude}', heading: '{heading}', pitch: '{pitch}', zoom: '{zoom}'.");
+		await _mapService.SetStreetViewAsync(latitude, longitude, heading, pitch, zoom, true);
+	}
+
+	/// <summary>
+	/// Hides the Street View panorama and returns to the map view.
+	/// </summary>
+	/// <returns>Async task</returns>
+	public async Task HideStreetViewAsync()
+	{
+		WriteDiag($"Hiding Street View.");
+		await _mapService.SetStreetViewVisibleAsync(false);
 	}
 
 	private void WriteDiag(string message)

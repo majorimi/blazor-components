@@ -1,4 +1,7 @@
-﻿<div class="container-fluid p-3 mb-3 border rounded">
+﻿@* PasswordInput CSS ships in the Inputs NuGet package; linked here to mask the API key. *@
+<link rel="stylesheet" href="_content/Majorsoft.Blazor.Components.Inputs/passwordInput.css" />
+
+<div class="container-fluid p-3 mb-3 border rounded">
 	<PermaLinkElement PermaLinkName="google-maps" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
 		<Content><h3>Google Maps</h3></Content>
 	</PermaLinkElement>
@@ -38,7 +41,7 @@
 	<div class="row pb-2">
 		<div class="col-12 col-lg-8 col-xl-6">
 			Enter your <strong>Google API key</strong> here (Check it has selected: <strong>Maps Static</strong>, <strong>Maps JavaScript</strong> and <strong>Geocoding</strong> APIs):
-			<input class="form-control w-100 bg-warning" @bind="_googleMapsApiKey" placeholder="Google Maps API key REQUIRED!" />
+			<PasswordInput @bind-Value="_googleMapsApiKey" MaskCharacter="@('*')" Class="w-100 bg-warning" Placeholder="Google Maps API key REQUIRED!" />
 		</div>
 	</div>
 
@@ -373,6 +376,17 @@
 	<div class="col-12 col-lg-8 col-xl-6">
 		<button class="btn btn-primary" @onclick="@AddMapDrawingsPolygon">Add Polygon (Bermuda triangle)</button>
 		<button class="btn btn-primary" @onclick="@(() => { _jsPolygons.Clear(); })">Remove Polygons</button>
+	</div>
+</div>
+<div class="row pb-2 mt-2">
+	<div class="col-12 col-lg-8 col-xl-6">
+		<h6>Street View (open the built-in panorama programmatically):</h6>
+		Heading: <input type="number" class="mr-2" style="width:90px;" @bind="_streetViewHeading" />
+		Pitch: <input type="number" class="mr-2" style="width:90px;" @bind="_streetViewPitch" />
+		<br />
+		<button class="btn btn-primary mt-1" @onclick="@ShowStreetViewAtCenter">Show Street View at Map center</button>
+		<button class="btn btn-primary mt-1" @onclick="@ShowStreetViewAtTimesSquare">Show Street View at Times Square</button>
+		<button class="btn btn-secondary mt-1" @onclick="@HideStreetView">Hide Street View</button>
 	</div>
 </div>
 
@@ -1203,6 +1217,24 @@
 		{
 			_mapsLog = await WriteLog(_mapsLog, $"Cluster was clicked with {clusterData.Count} markers at position: '{clusterData.Position?.ToString()}'");
 		}
+	}
+
+	//Street View programmatic control
+	private int _streetViewHeading = 90;
+	private int _streetViewPitch = 0;
+
+	private async Task ShowStreetViewAtCenter()
+	{
+		var center = await _googleMap.GoogleMapService.GetCenterAsync();
+		await _googleMap.ShowStreetViewAsync(center.Latitude, center.Longitude, _streetViewHeading, _streetViewPitch);
+	}
+	private async Task ShowStreetViewAtTimesSquare()
+	{
+		await _googleMap.ShowStreetViewAsync(40.7580, -73.9855, _streetViewHeading, _streetViewPitch);
+	}
+	private async Task HideStreetView()
+	{
+		await _googleMap.HideStreetViewAsync();
 	}
 
 	//Geolocation current position detection

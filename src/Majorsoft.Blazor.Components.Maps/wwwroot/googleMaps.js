@@ -530,6 +530,28 @@ export function setOptions(elementId, options) {
 	}
 }
 
+//Street View - drive the Map's built-in panorama programmatically.
+export function setStreetView(elementId, lat, lng, heading, pitch, zoom, visible) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			let panorama = mapWithDotnetRef.map.getStreetView();
+			panorama.setPosition({ lat: lat, lng: lng });
+			panorama.setPov({ heading: heading, pitch: pitch });
+			panorama.setZoom(zoom);
+			panorama.setVisible(visible);
+		}
+	}
+}
+export function setStreetViewVisible(elementId, visible) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.getStreetView().setVisible(visible);
+		}
+	}
+}
+
 export function resizeMap(elementId) {
 	if (elementId) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
