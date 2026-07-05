@@ -165,6 +165,25 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 		Task SetOptionsAsync(ExpandoObject options);
 
 		/// <summary>
+		/// Programmatically positions and shows/hides the Map's built-in Street View panorama (<c>map.getStreetView()</c>).
+		/// </summary>
+		/// <param name="latitude">Latitude of the Street View position</param>
+		/// <param name="longitude">Longitude of the Street View position</param>
+		/// <param name="heading">Camera heading in degrees clockwise from North</param>
+		/// <param name="pitch">Camera pitch in degrees (-90 down to 90 up)</param>
+		/// <param name="zoom">Camera zoom level</param>
+		/// <param name="visible">Whether the panorama is shown</param>
+		/// <returns>Async task</returns>
+		Task SetStreetViewAsync(double latitude, double longitude, int heading = 0, int pitch = 0, byte zoom = 1, bool visible = true);
+
+		/// <summary>
+		/// Shows or hides the Map's built-in Street View panorama without changing its position.
+		/// </summary>
+		/// <param name="visible">Whether the panorama is shown</param>
+		/// <returns>Async task</returns>
+		Task SetStreetViewVisibleAsync(bool visible);
+
+		/// <summary>
 		/// Creates Custom Controls on the Map on the given position with event callbacks.
 		/// </summary>
 		/// <param name="mapCustomControls">Enumerable CustomControl elements</param>

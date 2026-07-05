@@ -1,0 +1,33 @@
+.bdraggable {
+	cursor: grab;
+}
+
+	.bdraggable.bdraggable-dragging {
+		opacity: 0.5;
+		cursor: grabbing;
+	}
+
+	.bdraggable.bdraggable-disabled {
+		cursor: default;
+		opacity: 0.6;
+	}
+
+.bdropzone {
+	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+	.bdropzone.bdropzone-active {
+		outline: 2px dashed #2196f3;
+		outline-offset: -2px;
+		background-color: rgba(33, 150, 243, 0.08);
+	}
+
+	.bdropzone.bdropzone-reject {
+		outline-color: #e53935;
+		background-color: rgba(229, 57, 53, 0.08);
+		cursor: no-drop;
+	}
+
+	.bdropzone.bdropzone-disabled {
+		opacity: 0.6;
+	}

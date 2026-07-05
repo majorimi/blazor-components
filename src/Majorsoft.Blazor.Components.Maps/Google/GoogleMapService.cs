@@ -333,6 +333,18 @@ namespace Majorsoft.Blazor.Components.Maps.Google
 			await _mapsJs.InvokeVoidAsync("setOptions", MapContainerId, options);
 		}
 
+		public async Task SetStreetViewAsync(double latitude, double longitude, int heading = 0, int pitch = 0, byte zoom = 1, bool visible = true)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setStreetView", MapContainerId, latitude, longitude, heading, pitch, zoom, visible);
+		}
+
+		public async Task SetStreetViewVisibleAsync(bool visible)
+		{
+			await CheckJsObjectAsync();
+			await _mapsJs.InvokeVoidAsync("setStreetViewVisible", MapContainerId, visible);
+		}
+
 		public async Task CreateCustomControlsAsync(IEnumerable<GoogleMapCustomControl> mapCustomControls)
 		{
 			await CheckJsObjectAsync();

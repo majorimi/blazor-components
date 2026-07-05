@@ -21,14 +21,18 @@
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageTags>.NET8 .NET9 .NET10 Blazor Htlm.Input Inputs MaxLength Counter</PackageTags>
-	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with maxlength set and counter to show remaining characters. Part of Majorsoft Blazor library.</Description>
+	<PackageTags>.NET8 .NET9 .NET10 Blazor Htlm.Input Inputs MaxLength Counter Markdown MarkdownEditor RichText Editor</PackageTags>
+	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with maxlength set and counter to show remaining characters; and a Markdown RichText editor with a customizable sectioned toolbar and live preview. Part of Majorsoft Blazor library.</Description>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
 	<SupportedPlatform Include="browser" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.Tooltips\Majorsoft.Blazor.Components.Tooltips.csproj" />
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'NET10.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
@@ -45,6 +49,11 @@
   </PropertyGroup>
   
   <ItemGroup>
+	<Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="bundleconfig.json" />
 	<None Include="..\..\.github\docs\Inputs.md" Link="Inputs.md">
     <Pack>True</Pack>
     <PackagePath></PackagePath>

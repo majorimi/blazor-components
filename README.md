@@ -18,16 +18,16 @@ You can try out all components and extensions by launching the [demo app](https:
 
 ## About the project
 **Majorsoft Blazor Components** is one of the newest but the most modern Blazor library. Using the fastest ever .NET 8+ Framework leveraging CSS and JS isolation. 
-The main goal of this project is to provide an easy to use, feature reach set of customizable components with other 
+The main goal of this project is to provide an easy to use, feature rich set of customizable components with other 
 useful extensions. Which can boost Blazor App developments by:
 
 - Providing reusable components which are the main building blocks of Blazor.
 - Hiding CSS details but allowing component customizations as well (no dependency on CSS libraries).
 - Hiding JS implementations but exposing many reusable JS functionality and events via new C# APIs (no dependency on JS libraries).
-- All running on the fastest ever .NET framework: **.NET 8+**. Fully leveraging CSS and JS isolation, JS object reference and modul exports, etc.
+- All running on the fastest ever .NET framework: **.NET 8+**. Fully leveraging CSS and JS isolation, JS object reference and module exports, etc.
 - Modular project each package has "single responsibility" install only what you need, reduce download size.
 - As simple as possible setup (custom JS referencing not required) all documented with usage examples and demo app.
-- All components work on Blazor Server and Clint side.
+- All components work on Blazor Server and Client side.
 - Components are extensible, provided extensions and services can be used in other components.
 - All components and extensions written in C# (with some required JS) and unit tested with [bUnit](https://github.com/egil/bUnit).
 
@@ -46,11 +46,11 @@ useful extensions. Which can boost Blazor App developments by:
 Detailed descriptions and usage code samples are available on separated docs files. 
 Please follow the link provided on each bullet points. Also you can try out all components and extensions by launching the [demo app](https://blazorextensions.z6.web.core.windows.net/).
 
-Check out our planned components and extensions on the project [Wiki page](https://github.com/majorimi/blazor-components/wiki). If you have any prefered component to have priority or new component ideas please submit it.
+Check out our planned components and extensions on the project [Wiki page](https://github.com/majorimi/blazor-components/wiki). If you have any preferred component to have priority or new component ideas please submit it.
 
 ### **Majorsoft Blazor Extensions**
 
-**Majorsoft Blazor Extensions are providing useful features to develop Balazor applications:**
+**Majorsoft Blazor Extensions are providing useful features to develop Blazor applications:**
 
 - **Majorsoft.Blazor.Server.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ServerHostedLogging.md) for Blazor applications using **Server Hosted model**.
 - **Majorsoft.Blazor.WebAssembly.Logging.Console**: Enables [Browser console logging](https://github.com/majorimi/blazor-components/blob/master/.github/docs/WebAssemblyHostedLogging.md) for Blazor applications using **WebAssembly Hosting model**.
@@ -59,12 +59,12 @@ Check out our planned components and extensions on the project [Wiki page](https
 
 ### **Majorsoft Blazor Components**
 
-**Majorsoft Blazor Components are providing custom UI components to develop Balazor applications:**
+**Majorsoft Blazor Components are providing custom UI components to develop Blazor applications:**
 
 - **Majorsoft.Blazor.Components.Common.JsInterop**: [Js Interop components, injectable services and extensions](https://github.com/majorimi/blazor-components/blob/master/.github/docs/JsInterop.md) that provides useful functionality and event notifications which can be achieved only with JS Interop e.g. scroll, clipboard, focus, resize, language detection, Geolocation, HTML Head (title, meta, SEO), etc..
 - **Majorsoft.Blazor.Components.Debounce**: [Debounce components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DebounceInputs.md) that renders an Input, InputText, Textarea or InputTextarea, etc. element with debounced `onChange` event.
 - **Majorsoft.Blazor.Components.Typeahead**: [Typeahead components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Typeahead.md) that renders an HTML Input or InputText with Typeahead panel.
-- **Majorsoft.Blazor.Components.Inputs**: [Inputs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md) renders an Input, InputText, Textarea or InputTextarea, etc. element with `maxlength` set and counter to show remaining characters.
+- **Majorsoft.Blazor.Components.Inputs**: [Inputs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md) that renders MaxLength Input, InputText, Textarea or InputTextarea, etc. elements with `maxlength` set and counter to show remaining characters. Also provides a `MarkdownEditor` with live HTML preview, a Word-like WYSIWYG `RichTextEditor` (both sharing one Markdown format and a customizable sectioned toolbar) and a `PasswordInput` with customizable mask character and reveal (eye) button.
 - **Majorsoft.Blazor.Components.Loading**: [Loading and Overlay components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Loading.md) that renders Overlays for the whole page on load or for specific element on custom event. Also HTML `button` with customizable content for showing async operation in progress/loading state.
 - **Majorsoft.Blazor.Components.Timer**: [Timer component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Timer.md) that can be used for scheduled and periodically repeated tasks to call custom code.
 - **Majorsoft.Blazor.Components.CssEvents**: [CSS Transition and Animation events](https://github.com/majorimi/blazor-components/blob/master/.github/docs/CssEvents.md) injectable Services and wrapper Components to notify on CSS Transition and Animation events.
@@ -74,8 +74,11 @@ Check out our planned components and extensions on the project [Wiki page](https
 - **Majorsoft.Blazor.Components.Tabs**: [Tabs components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tabs.md) that renders customizable Tabs panel with many tabs and custom content.
 - **Majorsoft.Blazor.Components.Collapse**: [Collapse components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Collapse.md) that renders customizable Collapsible/Expandable panel and Accordion with many but only one active panel also custom content and header.
 - **Majorsoft.Blazor.Components.Maps**: [Google/Bing Maps components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Maps.md) that renders **Google/Bing maps** wrapped into Blazor components allowing to control and mange maps with .Net code.
-- **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup witch Accept/Reject for cookie settings chosen value is persisted to Browser storage.
+- **Majorsoft.Blazor.Components.GdprConsent**: [GDPR Consent components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/GdprConsent.md) injectable service and components that renders a customizable GDPR consent Banner or Popup with Accept/Reject for cookie settings, chosen value is persisted to Browser storage.
 - **Majorsoft.Blazor.Components.Notifications**: [Notification components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Notifications.md) injectable INotificationService service to handle HTML5 Notifications and ServiceWorker Notifications and components that renders customizable Alert and Toast notification message elements.
+- **Majorsoft.Blazor.Components.Tooltips**: [Tooltip and Popover components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tooltip.md) that renders a simple text Tooltip on hover or focus and a customizable, click-triggered Popover panel attached to any element with 4 positions, rich HTML content and show/hide events.
+- **Majorsoft.Blazor.Components.DragAndDrop**: [Drag and Drop components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md) `Draggable` and `DropZone` wrapper components exposing the full HTML Drag and Drop API with strongly-typed payload transfer, accept conditions, custom drag image and dropped file access.
+- **Majorsoft.Blazor.Components.ColorPicker**: [ColorPicker components](https://github.com/majorimi/blazor-components/blob/master/.github/docs/ColorPicker.md) that renders a fully featured HTML Color Picker: HSV Saturation/Brightness area, Hue and Alpha sliders, editable HEX/RGB/HSL inputs, EyeDropper and predefined palette. Available as an always-visible `ColorPalette` or a compact `ColorPicker` hosted in a Popover.
 - **Majorsoft.Blazor.Components.WASM.AppLoader**: [WebAssembly App Loader component](https://github.com/majorimi/blazor-components/blob/master/.github/docs/AppLoader.md) that can be used to display a loading indicator (Splash Screen) while the Blazor WebAssembly app is initializing.
 
 ## Community

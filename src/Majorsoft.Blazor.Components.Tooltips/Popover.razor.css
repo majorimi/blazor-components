@@ -1,0 +1,85 @@
+.bpopover-container {
+    position: relative;
+    display: inline-block;
+}
+
+.bpopover-trigger {
+    display: inline-block;
+}
+
+.bpopover {
+    position: absolute;
+    z-index: 1010;
+    min-width: 180px;
+    max-width: 90vw;
+    background-color: #fff;
+    color: #212529;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    outline: none;
+}
+
+/*Position variants*/
+.bpopover-bottom {
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+}
+
+.bpopover-top {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 8px;
+}
+
+.bpopover-right {
+    left: 100%;
+    top: 0;
+    margin-left: 8px;
+}
+
+.bpopover-left {
+    right: 100%;
+    top: 0;
+    margin-right: 8px;
+}
+
+/*Header*/
+.bpopover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.bpopover-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
+}
+
+.bpopover-close {
+    border: none;
+    background: transparent;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #555;
+    padding: 0 4px;
+    margin-left: 8px;
+}
+
+.bpopover-close:hover {
+    color: #000;
+}
+
+/*Body*/
+.bpopover-body {
+    padding: 12px;
+    overflow: auto;
+}

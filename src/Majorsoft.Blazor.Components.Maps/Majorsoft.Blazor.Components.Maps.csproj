@@ -89,8 +89,4 @@
 		</_PackageFiles>
 	</ItemGroup>-->
 
-	<ItemGroup>
-	  <Folder Include="Bing\" />
-	</ItemGroup>
-
 </Project>

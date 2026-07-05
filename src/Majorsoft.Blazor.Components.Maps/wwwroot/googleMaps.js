@@ -28,7 +28,7 @@
 
 	//Inject required Google JS scripts to HTML (only once!)
 	let importedPoly = document.createElement('script');
-	importedPoly.src = "https://polyfill.io/v3/polyfill.min.js?features=default";
+	importedPoly.src = "https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=default";
 	document.head.appendChild(importedPoly);
 
 	src = src + key + "&callback=initGoogleMaps&libraries=&v=weekly";
@@ -404,7 +404,7 @@ export function setCenterAddress(elementId, address) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			geocodeAddress(address, function (results) {
-				if (results) {
+				if (results && mapWithDotnetRef && mapWithDotnetRef.map) {
 					mapWithDotnetRef.map.setCenter(results[0].geometry.location);
 				}
 			});
@@ -424,7 +424,7 @@ export function panToAddress(elementId, address) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			geocodeAddress(address, function (results) {
-				if (results) {
+				if (results && mapWithDotnetRef && mapWithDotnetRef.map) {
 					mapWithDotnetRef.map.panTo(results[0].geometry.location);
 				}
 			});
@@ -526,6 +526,28 @@ export function setOptions(elementId, options) {
 		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
 		if (mapWithDotnetRef && mapWithDotnetRef.map) {
 			mapWithDotnetRef.map.setOptions(options);
+		}
+	}
+}
+
+//Street View - drive the Map's built-in panorama programmatically.
+export function setStreetView(elementId, lat, lng, heading, pitch, zoom, visible) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			let panorama = mapWithDotnetRef.map.getStreetView();
+			panorama.setPosition({ lat: lat, lng: lng });
+			panorama.setPov({ heading: heading, pitch: pitch });
+			panorama.setZoom(zoom);
+			panorama.setVisible(visible);
+		}
+	}
+}
+export function setStreetViewVisible(elementId, visible) {
+	if (elementId) {
+		let mapWithDotnetRef = getElementIdWithDotnetRef(_mapsElementDict, elementId);
+		if (mapWithDotnetRef && mapWithDotnetRef.map) {
+			mapWithDotnetRef.map.getStreetView().setVisible(visible);
 		}
 	}
 }

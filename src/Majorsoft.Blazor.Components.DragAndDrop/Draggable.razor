@@ -1,0 +1,202 @@
+@typeparam TItem
+
+@inject IJSRuntime _jsRuntime
+@inject IDragDropStateService _dragDropState
+
+@implements IAsyncDisposable
+
+<div @ref="_element"
+	 class="bdraggable @(_isDragging ? "bdraggable-dragging" : null) @(Disabled ? "bdraggable-disabled" : null) @Class"
+	 style="@Style"
+	 draggable="@(Disabled ? "false" : "true")"
+	 @ondragstart="OnDragStartAsync"
+	 @ondrag="OnDragAsync"
+	 @ondragend="OnDragEndAsync"
+	 @attributes="AdditionalAttributes">
+
+	@ChildContent
+</div>
+
+@code {
+	private ElementReference _element;
+	private IJSObjectReference? _jsModule;
+	private string? _registeredOptions;
+	private bool _isDragging;
+
+	/// <summary>
+	/// The content rendered inside the draggable element.
+	/// </summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>
+	/// The strongly-typed payload transferred to the <c>DropZone</c> when this element is dropped.
+	/// </summary>
+	[Parameter] public TItem? Item { get; set; }
+
+	/// <summary>
+	/// When true the element cannot be dragged (<c>draggable="false"</c>). Default is false.
+	/// </summary>
+	[Parameter] public bool Disabled { get; set; }
+
+	/// <summary>
+	/// The kind of operations allowed for this drag source (HTML <c>effectAllowed</c>). Default is <see cref="DragDropEffects.All"/>.
+	/// <para>
+	/// <b>Advisory only.</b> Like the underlying HTML Drag and Drop API, this value is purely advisory: it drives the cursor
+	/// feedback and is used to <i>negotiate</i> the drop with a target's <see cref="DropZone{TItem}.DropEffect"/> &mdash; if
+	/// the target requests an effect not listed here the browser shows <c>no-drop</c> and suppresses the drop. It does
+	/// <b>not</b> perform any copy/move/link; the browser never carries out the operation. Implement the actual data change
+	/// in the target's <see cref="DropZone{TItem}.OnItemDrop"/> / <see cref="DropZone{TItem}.OnDrop"/> handler.
+	/// </para>
+	/// </summary>
+	[Parameter] public DragDropEffects EffectAllowed { get; set; } = DragDropEffects.All;
+
+	/// <summary>
+	/// Optional native <c>DataTransfer</c> data set on drag start, keyed by format (e.g. <c>text/plain</c>, <c>text/uri-list</c>).
+	/// Useful for interoperating with native drops or other applications.
+	/// </summary>
+	[Parameter] public IReadOnlyDictionary<string, string>? Data { get; set; }
+
+	/// <summary>
+	/// Optional <c>id</c> of an element to use as the custom drag image (HTML <c>setDragImage</c>).
+	/// </summary>
+	[Parameter] public string? DragImageElementId { get; set; }
+
+	/// <summary>
+	/// Horizontal offset (px) of the custom drag image relative to the pointer.
+	/// </summary>
+	[Parameter] public int DragImageOffsetX { get; set; }
+
+	/// <summary>
+	/// Vertical offset (px) of the custom drag image relative to the pointer.
+	/// </summary>
+	[Parameter] public int DragImageOffsetY { get; set; }
+
+	/// <summary>
+	/// Fired when a drag operation starts (HTML <c>dragstart</c>).
+	/// </summary>
+	[Parameter] public EventCallback<DragEventArgs> OnDragStart { get; set; }
+
+	/// <summary>
+	/// Fired continuously while the element is being dragged (HTML <c>drag</c>).
+	/// </summary>
+	[Parameter] public EventCallback<DragEventArgs> OnDrag { get; set; }
+
+	/// <summary>
+	/// Fired when the drag operation ends, regardless of whether it was dropped (HTML <c>dragend</c>).
+	/// </summary>
+	[Parameter] public EventCallback<DragEventArgs> OnDragEnd { get; set; }
+
+	/// <summary>
+	/// Custom CSS class(es) applied to the draggable element.
+	/// </summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>
+	/// Custom inline style applied to the draggable element.
+	/// </summary>
+	[Parameter] public string? Style { get; set; }
+
+	/// <summary>
+	/// Arbitrary HTML attributes applied to the rendered draggable element.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+	/// <summary>
+	/// Reference to the rendered draggable HTML element.
+	/// </summary>
+	public ElementReference Element => _element;
+
+	private async Task OnDragStartAsync(DragEventArgs e)
+	{
+		if (Disabled)
+		{
+			return;
+		}
+
+		_isDragging = true;
+		_dragDropState.SetActiveItem(Item);
+
+		if (OnDragStart.HasDelegate)
+		{
+			await OnDragStart.InvokeAsync(e);
+		}
+	}
+
+	private async Task OnDragAsync(DragEventArgs e)
+	{
+		if (OnDrag.HasDelegate)
+		{
+			await OnDrag.InvokeAsync(e);
+		}
+	}
+
+	private async Task OnDragEndAsync(DragEventArgs e)
+	{
+		_isDragging = false;
+		_dragDropState.Clear();
+
+		if (OnDragEnd.HasDelegate)
+		{
+			await OnDragEnd.InvokeAsync(e);
+		}
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await SyncJsRegistrationAsync();
+	}
+
+	//Applies the write-side DataTransfer options (effectAllowed, custom data, drag image) via a native
+	//dragstart listener. Only (re)registers when the relevant options actually change.
+	private async Task SyncJsRegistrationAsync()
+	{
+		var options = new DraggableJsOptions
+		{
+			EffectAllowed = EffectAllowed.ToJsValue(),
+			Data = Data,
+			DragImageElementId = DragImageElementId,
+			DragImageOffsetX = DragImageOffsetX,
+			DragImageOffsetY = DragImageOffsetY,
+		};
+
+		var key = $"{options.EffectAllowed}|{options.DragImageElementId}|{options.DragImageOffsetX}|{options.DragImageOffsetY}|{(Data is null ? "" : string.Join(";", Data))}|{Disabled}";
+		if (key == _registeredOptions)
+		{
+			return;
+		}
+
+		try
+		{
+			_jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
+				"./_content/Majorsoft.Blazor.Components.DragAndDrop/dragDrop.js");
+
+			if (Disabled)
+			{
+				await _jsModule.InvokeVoidAsync("unregisterDraggable", _element);
+			}
+			else
+			{
+				await _jsModule.InvokeVoidAsync("registerDraggable", _element, options);
+			}
+
+			_registeredOptions = key;
+		}
+		catch (JSDisconnectedException) { }
+		catch (ObjectDisposedException) { }
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_jsModule is not null)
+		{
+			try
+			{
+				await _jsModule.InvokeVoidAsync("unregisterDraggable", _element);
+				await _jsModule.DisposeAsync();
+			}
+			catch (JSDisconnectedException) { }
+			catch (ObjectDisposedException) { }
+		}
+	}
+}

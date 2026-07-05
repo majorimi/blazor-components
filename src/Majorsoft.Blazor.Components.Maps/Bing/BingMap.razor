@@ -1,0 +1,359 @@
+<div id="@_mapContainerId" @ref="_jsMap" style="position: relative; overflow: hidden; width: @(IsMapDimensionInPixels ? $"{Width}px" : $"{Width}%"); height: @(IsMapDimensionInPixels ? $"{Height}px" : $"{Height}%");" @attributes=AllOtherAttributes></div>
+
+@implements IAsyncDisposable
+
+@inject ILogger<BingMap> _logger
+@inject IBingMapService _mapService
+@inject IGeolocationService _geolocationService
+
+@code {
+    private string _mapContainerId = $"bingmap_{Guid.NewGuid().ToString("n")}";
+    /// <summary>
+    /// Map HTML container Id. It can be used when multiple Maps are added to one page.
+    /// </summary>
+    public string MapId => _mapContainerId;
+
+    private ElementReference _jsMap;
+    /// <summary>
+    /// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+    /// </summary>
+    public ElementReference InnerElementReference => _jsMap;
+    
+    /// <summary>
+    /// Exposes <see cref="IBingMapService"/> which is handling JsInterop. This instance can be used for access more BingMap features.
+    /// </summary>
+    public IBingMapService GoogleMapService => _mapService;
+
+    private bool _mapInitialized;
+    protected override async Task OnInitializedAsync()
+    {
+        await _mapService.InitMapAsync(ApiKey, _mapContainerId,
+            mapInitializedCallback: async (id) =>
+            {
+                _mapInitialized = true;
+                await InvokeAsync(StateHasChanged);
+                if (OnMapInitialized.HasDelegate) await OnMapInitialized.InvokeAsync();
+            },
+            mapClickedCallback: async (coords) =>
+            {
+                if (OnMapClicked.HasDelegate) await OnMapClicked.InvokeAsync(coords);
+            },
+            mapDoubleClickedCallback: async (coords) =>
+            {
+                if (OnMapDoubleClicked.HasDelegate) await OnMapDoubleClicked.InvokeAsync(coords);
+            },
+            mapContextMenuCallback: async (coords) =>
+            {
+                if (OnMapContextMenu.HasDelegate) await OnMapContextMenu.InvokeAsync(coords);
+            },
+            mapMouseUpCallback: async (coords) =>
+            {
+                if (OnMapMouseUp.HasDelegate) await OnMapMouseUp.InvokeAsync(coords);
+            },
+            mapMouseDownCallback: async (coords) =>
+            {
+                if (OnMapMouseDown.HasDelegate) await OnMapMouseDown.InvokeAsync(coords);
+            },
+            mapMouseMoveCallback: async (coords) =>
+            {
+                if (OnMapMouseMove.HasDelegate) await OnMapMouseMove.InvokeAsync(coords);
+            },
+            mapMouseOverCallback: async () =>
+            {
+                if (OnMapMouseOver.HasDelegate) await OnMapMouseOver.InvokeAsync();
+            },
+            mapMouseOutCallback: async () =>
+            {
+                if (OnMapMouseOut.HasDelegate) await OnMapMouseOut.InvokeAsync();
+            },
+            mapCenterChangedCallback: async (coords) =>
+            {
+                // center changed handled already via MapCenterChanged in callbacks above
+            },
+            mapZoomChangedCallback: async (zoom) =>
+            {
+                // zoom changed already handled above
+            },
+            mapBoundsChangedCallback: async () => { if (OnMapBoundsChanged.HasDelegate) await OnMapBoundsChanged.InvokeAsync(); },
+            mapDragCallback: async (coords) => { if (OnMapDrag.HasDelegate) await OnMapDrag.InvokeAsync(coords); },
+            mapDragEndCallback: async (coords) => { if (OnMapDragEnd.HasDelegate) await OnMapDragEnd.InvokeAsync(coords); },
+            mapDragStartCallback: async (coords) => { if (OnMapDragStart.HasDelegate) await OnMapDragStart.InvokeAsync(coords); },
+            mapTilesLoadedCallback: async () => { if (OnMapTilesLoaded.HasDelegate) await OnMapTilesLoaded.InvokeAsync(); },
+            mapIdleCallback: async () => { if (OnMapIdle.HasDelegate) await OnMapIdle.InvokeAsync(); },
+            mapResizedCallback: async (rect) =>
+            {
+                if (OnMapResized.HasDelegate) await OnMapResized.InvokeAsync(rect);
+            });
+    }
+
+    /// <summary>
+    /// Bing Maps API key used to initialize JavaScript Bing Maps control.
+    /// </summary>
+    [Parameter] public string ApiKey { get; init; }
+    // Initialization-only settings similar to GoogleMap
+    /// <summary>
+    /// Color used for the background of the map container while tiles are loading.
+    /// Can only be set when the map is initialized.
+    /// </summary>
+    [Parameter] public string? BackgroundColor { get; init; }
+
+    /// <summary>
+    /// Size in pixels of the built-in controls appearing on the map. Applied during initialization.
+    /// </summary>
+    [Parameter] public int ControlSize { get; set; }
+
+    /// <summary>
+    /// Custom controls to add to the map. Provided for API parity with Google Map custom controls.
+    /// </summary>
+    [Parameter] public IEnumerable<Majorsoft.Blazor.Components.Maps.Google.GoogleMapCustomControl>? CustomControls { get; init; }
+
+    /// <summary>
+    /// Optional restriction for the map boundaries (provided for parity; Bing implementation may ignore).
+    /// </summary>
+    [Parameter] public Majorsoft.Blazor.Components.Maps.Google.GoogleMapRestriction? Restriction { get; init; }
+
+    /// <summary>
+    /// Indicates whether marker clustering is enabled when supported by the JavaScript library.
+    /// </summary>
+    [Parameter] public bool EnableMarkerClustering { get; init; } = true;
+
+    /// <summary>
+    /// When true Width/Height are treated as pixels; when false they are treated as percentage values.
+    /// </summary>
+    [Parameter] public bool IsMapDimensionInPixels { get; set; } = true;
+    /// <summary>
+    /// Arbitrary HTML attributes e.g.: tabindex="1" will be passed to the corresponding rendered HTML element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AllOtherAttributes { get; set; }
+    /// <summary>
+    /// Invoked when the map is clicked. Receives the coordinates of the click.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapClicked { get; set; }
+
+    /// <summary>
+    /// Invoked when the map is double clicked. Receives the coordinates of the event.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapDoubleClicked { get; set; }
+
+    /// <summary>
+    /// Invoked when the context menu is requested on the map (right-click / long press). Receives coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapContextMenu { get; set; }
+
+    /// <summary>
+    /// Invoked when a mouse button is released over the map. Receives coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseUp { get; set; }
+
+    /// <summary>
+    /// Invoked when a mouse button is pressed over the map. Receives coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseDown { get; set; }
+
+    /// <summary>
+    /// Invoked when the mouse moves over the map. Receives coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapMouseMove { get; set; }
+
+    /// <summary>
+    /// Invoked when the mouse enters the map area.
+    /// </summary>
+    [Parameter] public EventCallback OnMapMouseOver { get; set; }
+
+    /// <summary>
+    /// Invoked when the mouse leaves the map area.
+    /// </summary>
+    [Parameter] public EventCallback OnMapMouseOut { get; set; }
+
+    /// <summary>
+    /// Invoked when the map has been initialized and is ready to use.
+    /// </summary>
+    [Parameter] public EventCallback OnMapInitialized { get; set; }
+
+    /// <summary>
+    /// Invoked when the map container is resized. Receives new bounding Rect.
+    /// </summary>
+    [Parameter] public EventCallback<Rect> OnMapResized { get; set; }
+
+    /// <summary>
+    /// Invoked when map bounds are changed.
+    /// </summary>
+    [Parameter] public EventCallback OnMapBoundsChanged { get; set; }
+
+    /// <summary>
+    /// Invoked repeatedly while the map is being dragged. Receives current center coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapDrag { get; set; }
+
+    /// <summary>
+    /// Invoked when the map drag operation ends. Receives final center coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapDragEnd { get; set; }
+
+    /// <summary>
+    /// Invoked when the map drag operation starts. Receives starting center coordinates.
+    /// </summary>
+    [Parameter] public EventCallback<GeolocationCoordinate> OnMapDragStart { get; set; }
+
+    /// <summary>
+    /// Invoked when map tiles have finished loading.
+    /// </summary>
+    [Parameter] public EventCallback OnMapTilesLoaded { get; set; }
+
+    /// <summary>
+    /// Invoked when the map becomes idle (no ongoing animations or interactions).
+    /// </summary>
+    [Parameter] public EventCallback OnMapIdle { get; set; }
+
+    // Map configuration parameters (some are no-op for Bing but provided for parity)
+    /// <summary>
+    /// Initial zoom level for the map. Valid range depends on the Bing Maps service.
+    /// </summary>
+    [Parameter] public byte Zoom { get; set; }
+
+    /// <summary>
+    /// When true built-in zoom controls are visible on the map.
+    /// </summary>
+    [Parameter] public bool ZoomControl { get; set; } = true;
+
+    /// <summary>
+    /// Optional maximum zoom level allowed by the map.
+    /// </summary>
+    [Parameter] public byte? MaxZoom { get; set; }
+
+    /// <summary>
+    /// Optional minimum zoom level allowed by the map.
+    /// </summary>
+    [Parameter] public byte? MinZoom { get; set; }
+
+    private ObservableRangeCollection<Majorsoft.Blazor.Components.Maps.Bing.Markers.BingMapMarker>? _markers;
+    /// <summary>
+    /// Marker collection used to add and remove markers from the map. The collection should be created once and then modified.
+    /// The component subscribes to CollectionChanged event to update markers in JavaScript.
+    /// </summary>
+    [Parameter]
+    public ObservableRangeCollection<Majorsoft.Blazor.Components.Maps.Bing.Markers.BingMapMarker>? Markers
+    {
+        get => _markers;
+        set
+        {
+            if (_markers is null && value is not null)
+            {
+                _markers = value;
+                _markers.CollectionChanged += MarkersChanges;
+            }
+        }
+    }
+
+    private void MarkersChanges(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        InvokeAsync(async () => await _mapService.CreateMarkersAsync(e.NewItems?.Cast<Majorsoft.Blazor.Components.Maps.Bing.Markers.BingMapMarker>(), _markers?.Cast<Majorsoft.Blazor.Components.Maps.Bing.Markers.BingMapMarker>()));
+    }
+
+    private int _width = 600;
+    /// <summary>
+    /// Map Width in pixels or percent (depending on IsMapDimensionInPixels).
+    /// Changing width after initialization triggers a JS resize call.
+    /// </summary>
+    [Parameter]
+    public int Width
+    {
+        get => _width;
+        set
+        {
+            if (_mapInitialized && value != _width)
+            {
+                _width = value;
+                InvokeAsync(async () => await _mapService.ResizeMapAsync());
+            }
+            else
+            {
+                _width = value;
+            }
+        }
+    }
+
+    private int _height = 400;
+    [Parameter]
+    public int Height
+    {
+        get => _height;
+        set
+        {
+            if (_mapInitialized && value != _height)
+            {
+                _height = value;
+                InvokeAsync(async () => await _mapService.ResizeMapAsync());
+            }
+            else
+            {
+                _height = value;
+            }
+        }
+    }
+
+    // Dynamic options setters
+    private void ApplyOption(string name, object value)
+    {
+        if (!_mapInitialized) return;
+        var eo = new System.Dynamic.ExpandoObject();
+        var dict = (IDictionary<string, object>)eo;
+        dict[name] = value;
+        InvokeAsync(async () => await _mapService.SetOptionsAsync(eo));
+    }
+
+    // Example property setters that propagate to JS
+    /// <summary>
+    /// Helper property that applies MapTypeControl option to JS when changed after initialization.
+    /// </summary>
+    public bool MapTypeControlProp
+    {
+        get => MapTypeControl;
+        set
+        {
+            if (_mapInitialized && value != MapTypeControl)
+            {
+                MapTypeControl = value;
+                ApplyOption("mapTypeControl", MapTypeControl);
+            }
+            else
+            {
+                MapTypeControl = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// When true the map type control UI is displayed.
+    /// </summary>
+    [Parameter] public bool MapTypeControl { get; set; } = true;
+    [Parameter] public bool Clickable { get; set; } = true;
+
+
+    /// <summary>
+    /// Performs component cleanup. Unsubscribes from collection events and disposes underlying map service.
+    /// </summary>
+    public async ValueTask DisposeAsync()
+    {
+        // Unsubscribe collection changed and remove markers from JS (which also removes handlers)
+        if (_markers is not null)
+        {
+            try
+            {
+                _markers.CollectionChanged -= MarkersChanges;
+                await _mapService.CreateMarkersAsync(null, _markers);
+            }
+            catch
+            {
+                // ignore errors during cleanup
+            }
+        }
+
+        if (_mapService is not null)
+        {
+            await _mapService.DisposeAsync();
+        }
+    }
+}
+

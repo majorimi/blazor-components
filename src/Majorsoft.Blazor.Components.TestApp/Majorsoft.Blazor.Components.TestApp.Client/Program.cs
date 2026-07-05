@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 using Majorsoft.Blazor.WebAssembly.Logging.Console;
 using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.DragAndDrop;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.PermaLink;
 using Majorsoft.Blazor.Components.Maps;
@@ -27,6 +28,7 @@ namespace Majorsoft.Blazor.Components.TestApp.Client
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
 			builder.Services.AddNotifications();
+			builder.Services.AddDragAndDrop();
 
 			await builder.Build().RunAsync();
 		}

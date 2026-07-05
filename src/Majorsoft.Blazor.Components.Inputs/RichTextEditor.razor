@@ -1,0 +1,68 @@
+<div class="bmde @(Disabled ? "bmde-disabled" : null) @Class" style="@RootStyle" @attributes="AdditionalAttributes">
+
+	@if (ShowToolbar)
+	{
+		<EditorToolbar ShowHeadingSection="ShowHeadingSection"
+					   ShowTextStyleSection="ShowTextStyleSection"
+					   ShowListSection="ShowListSection"
+					   ShowIndentSection="ShowIndentSection"
+					   ShowBlockSection="ShowBlockSection"
+					   ShowInsertSection="ShowInsertSection"
+					   ShowButtonTooltips="ShowButtonTooltips"
+					   Disabled="@(Disabled || ReadOnly)"
+					   CustomToolbarContent="CustomToolbarContent"
+					   ToolbarClass="@ToolbarClass"
+					   OnCommand="HandleCommandAsync"
+					   OnInsertPopoverOpen="OnInsertPopoverOpenAsync">
+			<InsertPopoverTemplate Context="ctx">
+				<div class="bmde-insert-form" @onkeydown="e => OnPopoverFormKeyDownAsync(e, ctx)">
+					@if (ctx.Command == EditorCommand.Link)
+					{
+						<label class="bmde-field">Text<input type="text" class="bmde-input" @bind="_linkText" @bind:event="oninput" placeholder="Link text" /></label>
+						<label class="bmde-field">URL<input type="url" class="bmde-input" @bind="_linkUrl" @bind:event="oninput" placeholder="https://" /></label>
+						<div class="bmde-popover-actions">
+							<button type="button" class="bmde-btn bmde-btn-active"
+									@onclick="async () => { await ConfirmLinkAsync(); await ctx.Close.InvokeAsync(); }">Insert</button>
+						</div>
+					}
+					else if (ctx.Command == EditorCommand.Image)
+					{
+						<label class="bmde-field">URL<input type="url" class="bmde-input" @bind="_imageUrl" @bind:event="oninput" placeholder="https://..." /></label>
+						<label class="bmde-field">Alt text<input type="text" class="bmde-input" @bind="_imageAlt" @bind:event="oninput" placeholder="Description" /></label>
+						<div class="bmde-popover-actions">
+							<button type="button" class="bmde-btn bmde-btn-active" disabled="@string.IsNullOrEmpty(_imageUrl)"
+									@onclick="async () => { await ConfirmImageAsync(); await ctx.Close.InvokeAsync(); }">Insert</button>
+						</div>
+					}
+					else if (ctx.Command == EditorCommand.Table)
+					{
+						<label class="bmde-field">Rows<input type="number" min="1" max="50" class="bmde-input" @bind="_tableRows" /></label>
+						<label class="bmde-field">Columns<input type="number" min="1" max="20" class="bmde-input" @bind="_tableColumns" /></label>
+						<div class="bmde-popover-actions">
+							<button type="button" class="bmde-btn bmde-btn-active"
+									@onclick="async () => { await ConfirmTableAsync(); await ctx.Close.InvokeAsync(); }">Insert</button>
+						</div>
+					}
+				</div>
+			</InsertPopoverTemplate>
+		</EditorToolbar>
+	}
+
+	<div class="bmde-body">
+		<div @ref="_editorRef"
+			 class="bmde-pane bmde-richarea bmde-richtext @EditorClass"
+			 contenteditable="@((!Disabled && !ReadOnly) ? "true" : "false")"
+			 data-placeholder="@Placeholder"
+			 spellcheck="@(SpellCheck ? "true" : "false")"
+			 @oninput="OnContentInputAsync"></div>
+	</div>
+
+	@if (ShowFooter)
+	{
+		<div class="bmde-footer">
+			<span class="bmde-hint">@FooterText</span>
+			<span class="bmde-counter">@WordCount words</span>
+		</div>
+	}
+
+</div>

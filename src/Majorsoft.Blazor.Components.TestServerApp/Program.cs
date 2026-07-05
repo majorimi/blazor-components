@@ -1,7 +1,6 @@
-using System.Net;
-
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.DragAndDrop;
 using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Components.Notifications;
@@ -44,6 +43,7 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
 			builder.Services.AddNotifications();
+			builder.Services.AddDragAndDrop();
 
 			var app = builder.Build();
 
@@ -58,16 +58,16 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 			app.UseHttpsRedirection();
 
-			app.UseAntiforgery();
-
 			//Add Blazor and Server Console Logging Hub
 			app.UseRouting();
+			app.UseAntiforgery();
 			app.MapBlazorHub("/App/_blazor").WithOrder(-1);
 			app.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HubUrl);
 
 			app.MapStaticAssets();
 			app.MapRazorComponents<App>()
-				.AddInteractiveServerRenderMode();
+				.AddInteractiveServerRenderMode()
+				.AddAdditionalAssemblies(typeof(TestApps.Common.Shared.NavMenu).Assembly);
 
 			app.Run();
 		}

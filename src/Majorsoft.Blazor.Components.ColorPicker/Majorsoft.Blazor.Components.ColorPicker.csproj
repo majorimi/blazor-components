@@ -33,6 +33,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	<None Include="..\..\.github\docs\ColorPicker.md" Link="ColorPicker.md" />
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>
 		<PackagePath></PackagePath>
@@ -62,6 +63,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
 		<ProjectReference PrivateAssets="all" Include="..\Majorsoft.Blazor.Components.Core\Majorsoft.Blazor.Components.Core.csproj" />
+		<ProjectReference Include="..\Majorsoft.Blazor.Components.Tooltips\Majorsoft.Blazor.Components.Tooltips.csproj" />
 	</ItemGroup>
 
   <!-- Use Target to include Core DLL per TFM - _PackageFiles doesn't resolve $(TargetFramework) in Include -->
