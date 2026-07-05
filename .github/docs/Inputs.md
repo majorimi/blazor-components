@@ -82,6 +82,10 @@ Should show remaining character values at the end of the `CountdownText` or not.
 
 ## `MarkdownEditor` and `RichTextEditor` components
 
+![MarkdownEditor demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/markdownEditor.gif)
+
+![RichTextEditor demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/richTextEditor.gif)
+
 Two editors that share one sectioned, Tooltip-powered toolbar and a dependency-free Markdown engine, so
 content round-trips cleanly between them. The **`MarkdownEditor`** edits Markdown *source* with a live
 preview; the **`RichTextEditor`** is a Word-like *WYSIWYG* surface whose bound `Value` is always Markdown.
@@ -170,6 +174,8 @@ Both editors are bound to the same `_markdown` value above, demonstrating that t
 representations share one format.
 
 ## `PasswordInput` component
+
+![PasswordInput demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/passwordInput.gif)
 
 Blazor component that renders a secret text `<input>` with a **customizable mask character**, a **customizable layout**
 and a reveal (**eye**) button to show or hide the entered value. The real value is always kept in C# and exposed via

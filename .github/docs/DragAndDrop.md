@@ -15,6 +15,8 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/draganddrop).
 
+![DragAndDrop demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/dragAndDrop.gif)
+
 ## Features
 
 - Wraps **any HTML content/component** as a drag source (`Draggable`) or a drop target (`DropZone`).

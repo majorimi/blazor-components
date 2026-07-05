@@ -13,6 +13,10 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/tooltips).
 
+![Tooltip demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/tooltip.gif)
+
+![Popover demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/popover.gif)
+
 ## Features
 
 - Wrap **any element or component** and show a popup attached to it.

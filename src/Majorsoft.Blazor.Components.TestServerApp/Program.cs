@@ -58,16 +58,16 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 			app.UseHttpsRedirection();
 
-			app.UseAntiforgery();
-
 			//Add Blazor and Server Console Logging Hub
 			app.UseRouting();
+			app.UseAntiforgery();
 			app.MapBlazorHub("/App/_blazor").WithOrder(-1);
 			app.MapHub<BlazorServerConsoleLoggingHub>(BlazorServerConsoleLoggingHub.HubUrl);
 
 			app.MapStaticAssets();
 			app.MapRazorComponents<App>()
-				.AddInteractiveServerRenderMode();
+				.AddInteractiveServerRenderMode()
+				.AddAdditionalAssemblies(typeof(TestApps.Common.Shared.NavMenu).Assembly);
 
 			app.Run();
 		}

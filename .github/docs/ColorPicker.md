@@ -13,6 +13,10 @@ For code examples [see usage](https://github.com/majorimi/blazor-components/blob
 
 You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/colorpicker).
 
+![ColorPalette demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/colorPalette.gif)
+
+![ColorPicker demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/colorPicker.gif)
+
 ## Features
 
 - **HSV Saturation/Brightness** selection area with a draggable handle.
