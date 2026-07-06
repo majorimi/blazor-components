@@ -1,0 +1,8 @@
+@inherits CanvasComponentBase
+
+@*
+	Canvas 2D component: renders an HTML <canvas> element and exposes its CanvasRenderingContext2D
+	to .NET code as Canvas2DContext via the OnContextCreated event or the Context property.
+*@
+
+<canvas @ref="_canvasRef" width="@CanvasWidthAttribute" height="@CanvasHeightAttribute" tabindex="@TabIndex" class="@Class" style="@CanvasStyle" @attributes="AdditionalAttributes"></canvas>

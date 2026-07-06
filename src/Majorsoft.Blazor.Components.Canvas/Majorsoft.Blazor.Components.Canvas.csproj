@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+	<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+	<Configurations>Debug;Release</Configurations>
+	<PackageId>Majorsoft.Blazor.Components.Canvas</PackageId>
+	<nullable>enable</nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>1.0.0.0</Version>
+	<IsTrimmable>true</IsTrimmable>
+	<TrimMode>full</TrimMode>
+	<InvariantGlobalization>false</InvariantGlobalization>
+	<Authors>Imre Toth</Authors>
+	<Company>Majorsoft</Company>
+	<Product>Blazor Components</Product>
+	<Copyright>©2021 Imre Toth</Copyright>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Canvas.md</PackageProjectUrl>
+  <PackageReadmeFile>Canvas.md</PackageReadmeFile>
+	<PackageIcon>blazor.components.png</PackageIcon>
+	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
+	<RepositoryType>Git</RepositoryType>
+	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
+	<PackageTags>.NET8 .NET9 .NET10 Blazor Canvas Canvas2D WebGL GPU Graphics Drawing Shader 2D 3D</PackageTags>
+	<Description>Blazor components that wrap the HTML canvas element: a Canvas2D component exposing the Canvas 2D drawing API and a WebGLCanvas component exposing the WebGL/WebGL2 rendering API to .NET code via JS interop, with batching and render loop support. Part of Majorsoft Blazor library.</Description>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET10.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET9.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.16" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'NET8.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.27" />
+	</ItemGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="bundleconfig.json" />
+	<None Include="..\..\.github\docs\Canvas.md" Link="Canvas.md">
+    <Pack>True</Pack>
+    <PackagePath></PackagePath>
+  </None>
+	<None Include="..\..\.github\Images\blazor.components.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+	<None Include="..\..\.github\License.txt">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+	</None>
+  </ItemGroup>
+</Project>
