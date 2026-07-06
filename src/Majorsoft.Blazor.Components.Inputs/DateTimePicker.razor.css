@@ -1,0 +1,241 @@
+/*Input (trigger)*/
+.bdtp {
+    position: relative;
+    display: inline-block;
+}
+
+.bdtp-input {
+    padding: 6px 32px 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;
+    min-width: 170px;
+    box-sizing: border-box;
+}
+
+.bdtp-input:focus {
+    outline: none;
+    border-color: #1b6ec2;
+    box-shadow: 0 0 0 2px rgba(27, 110, 194, 0.25);
+}
+
+.bdtp-toggle {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #555;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.bdtp-toggle:hover:not(:disabled) {
+    color: #000;
+}
+
+.bdtp-toggle:disabled {
+    color: #bbb;
+    cursor: default;
+}
+
+.bdtp-disabled .bdtp-input {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+/*Picker panel*/
+.bdtp-picker {
+    width: 264px;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+/*Header (month/year navigation)*/
+.bdtp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.bdtp-nav,
+.bdtp-title {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font: inherit;
+    line-height: 1.2;
+}
+
+.bdtp-title {
+    flex: 1;
+    font-weight: 600;
+}
+
+.bdtp-nav:hover,
+.bdtp-title:hover {
+    background-color: #f0f0f0;
+}
+
+/*Days grid*/
+.bdtp-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.bdtp-grid-wk {
+    grid-template-columns: auto repeat(7, 1fr);
+}
+
+.bdtp-weekday {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    padding: 4px 0;
+}
+
+.bdtp-weeknum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: #aaa;
+    padding: 0 6px 0 2px;
+}
+
+.bdtp-day {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 6px 0;
+    border-radius: 4px;
+    font: inherit;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.bdtp-day:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+.bdtp-day:disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+.bdtp-muted {
+    color: #aaa;
+}
+
+.bdtp-weekend {
+    color: #b05c5c;
+}
+
+.bdtp-muted.bdtp-weekend {
+    color: #cfa5a5;
+}
+
+.bdtp-today {
+    outline: 1px solid #1b6ec2;
+    outline-offset: -1px;
+}
+
+.bdtp-selected,
+.bdtp-selected:hover:not(:disabled) {
+    background-color: #1b6ec2;
+    color: #fff;
+}
+
+/*Month and year grids*/
+.bdtp-grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.bdtp-cell {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 12px 0;
+    border-radius: 4px;
+    font: inherit;
+    text-align: center;
+}
+
+.bdtp-cell:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+.bdtp-cell:disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+/*Time editors*/
+.bdtp-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.bdtp-timesel {
+    font: inherit;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.bdtp-timesep {
+    font-weight: 600;
+    color: #555;
+}
+
+/*Footer buttons*/
+.bdtp-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.bdtp-btn {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+}
+
+.bdtp-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.bdtp-btn-primary {
+    background-color: #1b6ec2;
+    border-color: #1b6ec2;
+    color: #fff;
+}
+
+.bdtp-btn-primary:hover {
+    background-color: #1861ac;
+}

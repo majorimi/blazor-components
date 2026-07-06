@@ -1,0 +1,181 @@
+@using Majorsoft.Blazor.Components.Tooltips
+
+@*
+	Date or DateTime picker rendered as a text input with a calendar (and optional time) editor
+	shown in a Popover. Supports culture or custom format string based formatting/parsing,
+	configurable first day of week, min/max limits, month/year drill-down views, week numbers
+	and full CSS customization.
+*@
+
+<Popover IsOpen="@_isOpen"
+		 IsOpenChanged="OnPopoverIsOpenChanged"
+		 Position="@Position"
+		 Disabled="@(Disabled || ReadOnly)"
+		 ShowCloseButton="false"
+		 CloseOnOutsideClick="@CloseOnOutsideClick"
+		 Class="@Class"
+		 Style="@Style"
+		 PopoverClass="@PickerClass"
+		 OnOpen="OnPopoverOpenedAsync"
+		 OnClose="OnPopoverClosedAsync">
+	<ChildContent>
+		<div class="bdtp @(Disabled ? "bdtp-disabled" : null)">
+			<input @ref="_inputRef"
+				   @key="_inputKey"
+				   type="text"
+				   class="bdtp-input @InputClass"
+				   value="@FormattedValue"
+				   placeholder="@Placeholder"
+				   disabled="@Disabled"
+				   readonly="@(ReadOnly || !AllowTextInput)"
+				   autocomplete="off"
+				   spellcheck="false"
+				   @onclick="OnInputClickAsync" @onclick:stopPropagation="true"
+				   @onkeydown="OnInputKeyDownAsync"
+				   @onchange="OnTextChangedAsync"
+				   @attributes="AdditionalAttributes" />
+
+			<button type="button" class="bdtp-toggle" tabindex="-1" disabled="@(Disabled || ReadOnly)" aria-label="Toggle calendar">
+				@if (CalendarIconContent is not null)
+				{
+					@CalendarIconContent
+				}
+				else
+				{
+					<svg class="bdtp-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<rect x="3" y="4" width="18" height="17" rx="2" ry="2" />
+						<line x1="16" y1="2" x2="16" y2="6" />
+						<line x1="8" y1="2" x2="8" y2="6" />
+						<line x1="3" y1="10" x2="21" y2="10" />
+					</svg>
+				}
+			</button>
+		</div>
+	</ChildContent>
+	<PopoverContent>
+		<div class="bdtp-picker">
+			<div class="bdtp-header">
+				<button type="button" class="bdtp-nav" @onclick="NavigatePrevious" aria-label="Previous">&#8249;</button>
+				<button type="button" class="bdtp-title" @onclick="SwitchViewUp">@HeaderLabel</button>
+				<button type="button" class="bdtp-nav" @onclick="NavigateNext" aria-label="Next">&#8250;</button>
+			</div>
+
+			@if (_view == PickerView.Days)
+			{
+				<div class="bdtp-grid @(ShowWeekNumbers ? "bdtp-grid-wk" : null)">
+					@if (ShowWeekNumbers)
+					{
+						<span class="bdtp-weekday"></span>
+					}
+					@foreach (var dayName in WeekdayNames)
+					{
+						<span class="bdtp-weekday">@dayName</span>
+					}
+
+					@foreach (var week in CalendarWeeks)
+					{
+						@if (ShowWeekNumbers)
+						{
+							<span class="bdtp-weeknum">@GetWeekNumber(week[0])</span>
+						}
+						@foreach (var day in week)
+						{
+							<button type="button"
+									class="bdtp-day @(day.Month != _viewDate.Month ? "bdtp-muted" : null) @(day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday ? "bdtp-weekend" : null) @(day.Date == DateTime.Today ? "bdtp-today" : null) @(Value?.Date == day.Date ? "bdtp-selected" : null)"
+									disabled="@IsDayDisabled(day)"
+									@onclick="() => SelectDayAsync(day)">
+								@day.Day
+							</button>
+						}
+					}
+				</div>
+
+				@if (Mode == DateTimePickerMode.DateTime)
+				{
+					<div class="bdtp-time">
+						<select class="bdtp-timesel" value="@DisplayHour" @onchange="OnHourChangedAsync" aria-label="Hour">
+							@foreach (var hour in HourOptions)
+							{
+								<option value="@hour">@hour.ToString(Use12HourClock ? "0" : "00")</option>
+							}
+						</select>
+						<span class="bdtp-timesep">:</span>
+						<select class="bdtp-timesel" value="@BaselineValue.Minute" @onchange="OnMinuteChangedAsync" aria-label="Minute">
+							@foreach (var minute in MinuteOptions)
+							{
+								<option value="@minute">@minute.ToString("00")</option>
+							}
+						</select>
+						@if (ShowSeconds)
+						{
+							<span class="bdtp-timesep">:</span>
+							<select class="bdtp-timesel" value="@BaselineValue.Second" @onchange="OnSecondChangedAsync" aria-label="Second">
+								@for (var second = 0; second < 60; second++)
+								{
+									<option value="@second">@second.ToString("00")</option>
+								}
+							</select>
+						}
+						@if (Use12HourClock)
+						{
+							<select class="bdtp-timesel bdtp-ampm" value="@AmPmValue" @onchange="OnAmPmChangedAsync" aria-label="AM/PM">
+								<option value="@EffectiveCulture.DateTimeFormat.AMDesignator">@EffectiveCulture.DateTimeFormat.AMDesignator</option>
+								<option value="@EffectiveCulture.DateTimeFormat.PMDesignator">@EffectiveCulture.DateTimeFormat.PMDesignator</option>
+							</select>
+						}
+					</div>
+				}
+			}
+			else if (_view == PickerView.Months)
+			{
+				<div class="bdtp-grid3">
+					@for (var i = 1; i <= 12; i++)
+					{
+						var month = i;
+						<button type="button"
+								class="bdtp-cell @(Value?.Year == _viewDate.Year && Value?.Month == month ? "bdtp-selected" : null)"
+								disabled="@IsMonthDisabled(month)"
+								@onclick="() => SelectMonth(month)">
+							@EffectiveCulture.DateTimeFormat.AbbreviatedMonthNames[month - 1]
+						</button>
+					}
+				</div>
+			}
+			else
+			{
+				<div class="bdtp-grid3">
+					@for (var i = 0; i < 12; i++)
+					{
+						var year = YearRangeStart + i;
+						<button type="button"
+								class="bdtp-cell @(Value?.Year == year ? "bdtp-selected" : null)"
+								disabled="@IsYearDisabled(year)"
+								@onclick="() => SelectYear(year)">
+							@year
+						</button>
+					}
+				</div>
+			}
+
+			@if (ShowTodayButton || ShowClearButton || Mode == DateTimePickerMode.DateTime)
+			{
+				<div class="bdtp-footer">
+					@if (ShowTodayButton)
+					{
+						<button type="button" class="bdtp-btn" @onclick="SelectTodayAsync">
+							@(Mode == DateTimePickerMode.DateTime ? NowButtonText : TodayButtonText)
+						</button>
+					}
+					@if (ShowClearButton)
+					{
+						<button type="button" class="bdtp-btn" @onclick="ClearAsync">@ClearButtonText</button>
+					}
+					@if (Mode == DateTimePickerMode.DateTime)
+					{
+						<button type="button" class="bdtp-btn bdtp-btn-primary" @onclick="() => SetOpenAsync(false)">@OkButtonText</button>
+					}
+				</div>
+			}
+		</div>
+	</PopoverContent>
+</Popover>
