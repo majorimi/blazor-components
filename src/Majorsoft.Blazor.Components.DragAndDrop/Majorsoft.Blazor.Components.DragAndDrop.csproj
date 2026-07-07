@@ -18,7 +18,7 @@
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<Description>Blazor component that renders wrapper components to enables Drag and Drop in Blazor Apps. Part of Majorsoft Blazor library.</Description>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/DragAndDrop.md</PackageProjectUrl>
-    <!--<PackageReadmeFile>DragAndDrop.md</PackageReadmeFile>-->
+    <PackageReadmeFile>DragAndDrop.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
@@ -43,7 +43,10 @@
   </ItemGroup>
 
 	<ItemGroup>
-	<None Include="..\..\.github\docs\DragAndDrop.md" Link="DragAndDrop.md" />
+	<None Include="..\..\.github\docs\DragAndDrop.md" Link="DragAndDrop.md">
+    <Pack>True</Pack>
+    <PackagePath></PackagePath>
+  </None>
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>
 		<PackagePath></PackagePath>

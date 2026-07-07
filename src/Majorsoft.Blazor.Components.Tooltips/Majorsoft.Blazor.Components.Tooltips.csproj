@@ -16,7 +16,7 @@
 		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/Tooltip.md</PackageProjectUrl>
-		<!--<PackageReadmeFile>Tooltip.md</PackageReadmeFile>-->
+		<PackageReadmeFile>Tooltip.md</PackageReadmeFile>
 		<PackageIcon>blazor.components.png</PackageIcon>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
@@ -75,7 +75,10 @@
 	</ItemGroup>-->
 
   <ItemGroup>
-	<None Include="..\..\.github\docs\Tooltip.md" Link="Tooltip.md" />
+	<None Include="..\..\.github\docs\Tooltip.md" Link="Tooltip.md">
+    <Pack>True</Pack>
+    <PackagePath></PackagePath>
+  </None>
 	<None Include="..\..\.github\Images\blazor.components.png">
 	  <Pack>True</Pack>
 	  <PackagePath></PackagePath>

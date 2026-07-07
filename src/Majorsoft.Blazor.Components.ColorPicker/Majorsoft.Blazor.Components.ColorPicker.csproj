@@ -17,7 +17,7 @@
 		<Copyright>©2021 Imre Toth</Copyright>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/majorimi/blazor-components/blob/master/.github/docs/ColorPicker.md</PackageProjectUrl>
-    <!--<PackageReadmeFile>ColorPicker.md</PackageReadmeFile>-->
+    <PackageReadmeFile>ColorPicker.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageTags>.NET8 .NET9 .NET10 Blazor Color Picker, RGB, HEX, HSL</PackageTags>
@@ -33,7 +33,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	<None Include="..\..\.github\docs\ColorPicker.md" Link="ColorPicker.md" />
+	<None Include="..\..\.github\docs\ColorPicker.md" Link="ColorPicker.md">
+    <Pack>True</Pack>
+    <PackagePath></PackagePath>
+  </None>
 	<None Include="..\..\.github\Images\blazor.components.png">
 		<Pack>True</Pack>
 		<PackagePath></PackagePath>
