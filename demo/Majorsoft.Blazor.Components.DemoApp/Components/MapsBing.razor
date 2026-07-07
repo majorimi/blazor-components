@@ -1,24 +1,39 @@
 ﻿<div class="container-fluid p-3 mb-3 border rounded">
-	<PermaLinkElement PermaLinkName="bing-maps" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
-		<Content><h3>Bing Maps</h3></Content>
-	</PermaLinkElement>
+    <PermaLinkElement PermaLinkName="bing-maps" IconActions="PermaLinkIconActions.Copy | PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+        <Content><h3>Bing Maps</h3></Content>
+    </PermaLinkElement>
 
-	<p>
+    <p>
+        <code>BingMap</code> components are wrapping Bing Maps services
+        into Blazor components. Allowing you to configure, control maps, receive events in your Blazor App purely with .Net code.
+    </p>
 
-	</p>
-	<h1 class="text-info">Under development...</h1>
+    <div class="row pb-2">
+        <div class="col-12">
+            <p><strong>Rendered Bing JavaScript Maps:</strong></p>
 
+            <BingMap />
+        </div>
+    </div>
 </div>
 
 @implements IAsyncDisposable
 @inject IGeolocationService _geolocationService;
 
 @code {
-	public async ValueTask DisposeAsync()
-	{
-		if (_geolocationService is not null)
-		{
-			await _geolocationService.DisposeAsync();
-		}
-	}
+    private string _bingMapsApiKey = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_geolocationService is not null)
+        {
+            await _geolocationService.DisposeAsync();
+        }
+    }
 }

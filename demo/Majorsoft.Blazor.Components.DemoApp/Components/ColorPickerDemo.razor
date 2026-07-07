@@ -1,0 +1,297 @@
+<style>
+textarea {
+	height: 150px !important;
+}
+</style>
+
+<PageScroll />
+
+<h1>Html Color Picker control</h1>
+<p>
+	Blazor components that renders a fully featured <strong>Color Palette</strong>(for inline/expanded use or custom wrapping) and <strong>Color Picker</strong> (Popover for in form use) control: HSV Saturation/Brightness area, Hue and Alpha sliders,
+	editable HEX/RGB/HSL inputs, copy to clipboard, screen color picker (EyeDropper) and a predefined color palette.
+	For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/ColorPicker.md" target="_blank">Github</a>.
+	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.ColorPicker" />
+</p>
+
+<h3>Color Picker features:</h3>
+<ul>
+	<li><NavLink href="colorpicker#colorPalette">Html Color Palette</NavLink></li>
+	<li><NavLink href="colorpicker#colorPicker">Color Picker (Popover)</NavLink></li>
+</ul>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="colorPalette" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Html Color Palette</h3></Content>
+	</PermaLinkElement>
+	<p>
+		This example shows the Color Palette with all features enabled and <strong>two-way binding</strong> with <code>@@bind-SelectedColor</code>.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label class="mr-3">Show info area: <input type="checkbox" @bind="_showInfo" /></label>
+			<label class="mr-3">Show color name: <input type="checkbox" @bind="_showName" /></label>
+			<label class="mr-3">Enable alpha: <input type="checkbox" @bind="_enableAlpha" /></label>
+			<label class="mr-3">Show palette: <input type="checkbox" @bind="_showPalette" /></label>
+			<label class="mr-3">Show EyeDropper: <input type="checkbox" @bind="_showEyeDropper" /></label>
+			<label class="mr-3">Show copy button: <input type="checkbox" @bind="_showCopy" /></label>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-6 col-md-3">
+			<label>Hue Area width (px):</label>
+			<input type="number" min="200" step="10" class="form-control" @bind="_panelWidth" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Hue Area height (px):</label>
+			<input type="number" min="100" step="10" class="form-control" @bind="_panelHeight" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Info Area width (px):</label>
+			<input type="number" min="200" step="10" class="form-control" @bind="_sliderlWidth" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Hue Slider height (px):</label>
+			<input type="number" min="4" step="1" class="form-control" @bind="_sliderHeight" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-md-6 col-lg-5">
+			<ColorPalette SelectedColor="@_selectedColor"
+						  SelectedColorChanged="@OnPaletteSelectedColorChanged"
+						  ShowInfoArea="@_showInfo"
+						  ShowColorName="@_showName"
+						  EnableAlpha="@_enableAlpha"
+						  ShowPalette="@_showPalette"
+						  ShowEyeDropper="@_showEyeDropper"
+						  ShowCopyButton="@_showCopy"
+						  InfoAreaWidth="@_sliderlWidth"
+						  HueSliderHeight="@_sliderHeight"
+						  HueAreaHeight="@_panelHeight"
+						  HueAreaWidth="@_panelWidth"
+						  OnColorChanged="@OnPaletteColorChanged">
+			</ColorPalette>
+		</div>
+		<div class="col-12 col-md-6 col-lg-7">
+			<p>
+				Bound selected color:
+				<span style="display:inline-block; width:24px; height:24px; vertical-align:middle; border:1px solid #ccc; border-radius:4px; background:@_selectedColor.ToHtmlHex();"></span>
+				<strong>@_selectedColor.ToHtmlHex()</strong> (@_selectedColor.ToRgbString())
+			</p>
+			<button class="btn btn-sm btn-outline-primary mr-2" @onclick="@(() => _selectedColor = System.Drawing.Color.OrangeRed)">Set OrangeRed</button>
+			<button class="btn btn-sm btn-outline-primary mr-2" @onclick="@(() => _selectedColor = System.Drawing.Color.RebeccaPurple)">Set RebeccaPurple</button>
+			<button class="btn btn-sm btn-outline-secondary" @onclick="@(() => _selectedColor = System.Drawing.Color.FromArgb(_rnd.Next(256), _rnd.Next(256), _rnd.Next(256)))">Random</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Events log</strong>:</label>
+			<textarea @ref="_log" @bind="_logMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+<hr />
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<PermaLinkElement PermaLinkName="colorPicker" IconActions="PermaLinkIconActions.Copy|PermaLinkIconActions.Navigate" IconMarginTop="8" IconSize="18">
+		<Content><h3>Color Picker (Popover)</h3></Content>
+	</PermaLinkElement>
+	<p>
+		The <code>ColorPicker</code> component shows a compact trigger button with a color preview and opens the
+		<code>ColorPalette</code> inside a <code>Popover</code>. With <strong>Require Apply</strong> the color is only
+		committed when the Apply button is clicked; otherwise it is committed on every change while the Popover stays open.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label class="mr-3">Require Apply: <input type="checkbox" @bind="_pickerRequireApply" /></label>
+			<label class="mr-3">Disabled: <input type="checkbox" @bind="_pickerDisabled" /></label>
+			<label class="mr-3">Close on outside click: <input type="checkbox" @bind="_pickerCloseOutside" /></label>
+			<label class="mr-3">Show HEX: <input type="checkbox" @bind="_pickerShowHex" /></label>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12">
+			<label class="mr-3">Enable alpha: <input type="checkbox" @bind="_pickerEnableAlpha" /></label>
+			<label class="mr-3">Show info area: <input type="checkbox" @bind="_pickerShowInfo" /></label>
+			<label class="mr-3">Show color name: <input type="checkbox" @bind="_pickerShowName" /></label>
+			<label class="mr-3">Show palette: <input type="checkbox" @bind="_pickerShowPalette" /></label>
+			<label class="mr-3">Show EyeDropper: <input type="checkbox" @bind="_pickerShowEyeDropper" /></label>
+			<label class="mr-3">Show copy button: <input type="checkbox" @bind="_pickerShowCopy" /></label>
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-6 col-md-3">
+			<label>Position:</label>
+			<select class="form-control" @bind="_pickerPosition">
+				@foreach (var position in (TooltipPositions[])Enum.GetValues(typeof(TooltipPositions)))
+				{
+					<option value="@position">@position</option>
+				}
+			</select>
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Header text:</label>
+			<input type="text" class="form-control" @bind="_pickerHeaderText" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Apply button text:</label>
+			<input type="text" class="form-control" @bind="_pickerApplyText" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Preview size (px):</label>
+			<input type="number" min="12" step="2" class="form-control" @bind="_pickerPreviewSize" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-6 col-md-3">
+			<label>Area width (px):</label>
+			<input type="number" min="200" step="10" class="form-control" @bind="_pickerAreaWidth" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Area height (px):</label>
+			<input type="number" min="100" step="10" class="form-control" @bind="_pickerAreaHeight" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Slider width (px):</label>
+			<input type="number" min="200" step="10" class="form-control" @bind="_pickerSliderWidth" />
+		</div>
+		<div class="col-6 col-md-3">
+			<label>Slider height (px):</label>
+			<input type="number" min="4" step="1" class="form-control" @bind="_pickerSliderHeight" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-md-6">
+			<ColorPicker SelectedColor="@_pickerColor"
+						 SelectedColorChanged="@OnPickerSelectedColorChanged"
+						 RequireApply="@_pickerRequireApply"
+						 ApplyButtonText="@_pickerApplyText"
+						 HeaderText="@_pickerHeaderText"
+						 Position="@_pickerPosition"
+						 CloseOnOutsideClick="@_pickerCloseOutside"
+						 Disabled="@_pickerDisabled"
+						 ShowHex="@_pickerShowHex"
+						 PreviewSize="@_pickerPreviewSize"
+						 EnableAlpha="@_pickerEnableAlpha"
+						 ShowInfoArea="@_pickerShowInfo"
+						 ShowColorName="@_pickerShowName"
+						 ShowPalette="@_pickerShowPalette"
+						 ShowEyeDropper="@_pickerShowEyeDropper"
+						 ShowCopyButton="@_pickerShowCopy"
+						 HueAreaWidth="@_pickerAreaWidth"
+						 HueAreaHeight="@_pickerAreaHeight"
+						 InfoAreaWidth="@_pickerSliderWidth"
+						 HueSliderHeight="@_pickerSliderHeight"
+						 OnColorChanged="@OnPickerColorChanged"
+						 OnColorSelected="@OnPickerColorSelected"
+						 OnOpen="@OnPickerOpen"
+						 OnClose="@OnPickerClose" />
+		</div>
+		<div class="col-12 col-md-6">
+			<p>
+				Bound selected color:
+				<span style="display:inline-block; width:24px; height:24px; vertical-align:middle; border:1px solid #ccc; border-radius:4px; background:@_pickerColor.ToHtmlHex();"></span>
+				<strong>@_pickerColor.ToHtmlHex()</strong> (@_pickerColor.ToRgbString())
+			</p>
+			<button class="btn btn-sm btn-outline-primary mr-2" @onclick="@(() => _pickerColor = System.Drawing.Color.SeaGreen)">Set SeaGreen</button>
+			<button class="btn btn-sm btn-outline-secondary" @onclick="@(() => _pickerColor = System.Drawing.Color.FromArgb(_rnd.Next(256), _rnd.Next(256), _rnd.Next(256)))">Random</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Events log</strong>:</label>
+			<textarea @ref="_pickerLog" @bind="_pickerLogMessage" class="form-control w-100 logText" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@using System.Drawing
+@using Majorsoft.Blazor.Components.Core.HtmlColors
+
+@code {
+	private int _panelHeight = 250;
+	private int _panelWidth = 320;
+	private int _sliderlWidth = 320;
+	private int _sliderHeight = 12;
+	private bool _showInfo = true;
+	private bool _showName = true;
+	private bool _enableAlpha = true;
+	private bool _showPalette = true;
+	private bool _showEyeDropper = true;
+	private bool _showCopy = true;
+	private readonly Random _rnd = new Random();
+
+	private Color _selectedColor = Color.FromArgb(66, 135, 245);
+
+	private ElementReference _log;
+	private string _logMessage = "";
+
+	//ColorPalette events
+	private async Task OnPaletteSelectedColorChanged(Color color)
+	{
+		_selectedColor = color; //two-way binding back to the field
+		_logMessage += $"SelectedColorChanged: {color.ToHtmlHex()} ({color.ToRgbString()}) Alpha: {color.A} {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
+	}
+
+	private async Task OnPaletteColorChanged(Color color)
+	{
+		_logMessage += $"OnColorChanged: {color.ToHtmlHex()} ({color.ToRgbString()}) Alpha: {color.A} {Environment.NewLine}";
+		await _log.ScrollToEndAsync();
+	}
+
+	//Color Picker (Popover) state
+	private Color _pickerColor = Color.FromArgb(66, 135, 245);
+	private bool _pickerRequireApply = false;
+	private bool _pickerDisabled = false;
+	private bool _pickerCloseOutside = true;
+	private bool _pickerShowHex = true;
+	private string _pickerApplyText = "Apply";
+	private string _pickerHeaderText = "Pick a color";
+	private TooltipPositions _pickerPosition = TooltipPositions.Top;
+	private int _pickerPreviewSize = 28;
+	private bool _pickerEnableAlpha = false;
+	private bool _pickerShowInfo = true;
+	private bool _pickerShowName = true;
+	private bool _pickerShowPalette = true;
+	private bool _pickerShowEyeDropper = true;
+	private bool _pickerShowCopy = true;
+	private int _pickerAreaWidth = 300;
+	private int _pickerAreaHeight = 250;
+	private int _pickerSliderWidth = 300;
+	private int _pickerSliderHeight = 12;
+
+	private ElementReference _pickerLog;
+	private string _pickerLogMessage = "";
+
+	//Color Picker (Popover) events
+	private async Task OnPickerSelectedColorChanged(Color color)
+	{
+		_pickerColor = color; //two-way binding back to the field
+		await LogPickerAsync($"SelectedColorChanged (committed): {color.ToHtmlHex()} ({color.ToRgbString()}) Alpha: {color.A}");
+	}
+
+	private async Task OnPickerColorSelected(Color color)
+		=> await LogPickerAsync($"OnColorSelected (committed): {color.ToHtmlHex()}");
+
+	private async Task OnPickerColorChanged(Color color)
+		=> await LogPickerAsync($"OnColorChanged (live): {color.ToHtmlHex()}");
+
+	private async Task OnPickerOpen() => await LogPickerAsync("OnOpen: Popover opened.");
+
+	private async Task OnPickerClose() => await LogPickerAsync("OnClose: Popover closed.");
+
+	private async Task LogPickerAsync(string message)
+	{
+		_pickerLogMessage += $"{message} {Environment.NewLine}";
+		await _pickerLog.ScrollToEndAsync();
+	}
+}
