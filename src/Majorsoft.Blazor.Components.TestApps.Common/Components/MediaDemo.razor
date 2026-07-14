@@ -1,0 +1,508 @@
+@using Majorsoft.Blazor.Components.Media
+@using Majorsoft.Blazor.Components.Media.Capture
+@using Majorsoft.Blazor.Components.Media.Players
+@using System.IO
+
+@inject IMediaDeviceService _mediaDeviceService
+@implements IAsyncDisposable
+
+<h1>Media capture and players</h1>
+<p>
+	Blazor components for <strong>capturing and playing media</strong>: camera photo/video capture with live preview
+	(<code>getUserMedia</code> + <code>MediaRecorder</code>), microphone audio recording with level metering,
+	simple HTML file capture and fully controllable <code>&lt;video&gt;</code>/<code>&lt;audio&gt;</code> players.
+	For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Media.md" target="_blank">Github</a>.
+	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Media" />
+</p>
+<p>
+	<strong>Note</strong>: camera and microphone access requires <strong>HTTPS</strong> (or localhost) and your permission.
+	Device names are only visible after permission was granted.
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Camera capture (live preview)</h3>
+	<p>
+		<code>CameraCapture</code> component: live camera preview in a <code>&lt;video&gt;</code> element.
+		Take <strong>photos</strong> in full camera resolution (<code>TakePhotoAsync</code>) or record
+		<strong>video</strong> (optionally with audio) using <code>StartRecordingAsync</code>/<code>StopRecordingAsync</code>.
+		Finished recordings are played back below with the <code>VideoPlayer</code> component from a Blob URL and
+		can be downloaded to .NET as a stream.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Camera:
+			<select class="form-control" @bind="_selectedCameraId">
+				<option value="">(default)</option>
+				@foreach (var device in _devices.Where(d => d.IsVideoInput))
+				{
+					<option value="@device.DeviceId">@(string.IsNullOrWhiteSpace(device.Label) ? device.DeviceId : device.Label)</option>
+				}
+			</select>
+		</div>
+		<div class="col-auto">
+			<label class="mt-4"><input type="checkbox" @bind="_recordAudio" disabled="@_cameraActive" /> Record audio too</label>
+		</div>
+		<div class="col-auto mt-3">
+			<button class="btn btn-primary btn-sm" @onclick="StartCameraAsync" disabled="@_cameraActive">Start camera</button>
+			<button class="btn btn-secondary btn-sm" @onclick="() => _camera!.StopCaptureAsync()" disabled="@(!_cameraActive)">Stop camera</button>
+			<button class="btn btn-outline-primary btn-sm" @onclick="RefreshDevicesAsync">List devices</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Preview width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_cameraWidth" />
+		</div>
+		<div class="col-auto">
+			Preview height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_cameraHeight" />
+		</div>
+		<div class="col-auto">
+			<label class="mt-4"><input type="checkbox" @bind="_cameraDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
+		</div>
+		<div class="col-auto mt-3">
+			<button class="btn btn-primary btn-sm" @onclick="ApplyCameraSize">Apply size</button>
+		</div>
+		<div class="col-auto mt-4">
+			In pixel mode the size is also the requested camera resolution: restart the camera to apply it.
+		</div>
+	</div>
+
+	<div style="@(_appliedCameraDimInPixels ? null : "height: 400px;")">
+	<CameraCapture @ref="_camera" Width="@_appliedCameraWidth" Height="@_appliedCameraHeight"
+				   IsCameraDimensionInPixels="@_appliedCameraDimInPixels"
+				   VideoDeviceId="@(string.IsNullOrEmpty(_selectedCameraId) ? null : _selectedCameraId)"
+				   RecordAudio="_recordAudio"
+				   Style="border: 1px solid #ccc; border-radius: 4px; background: #000;"
+				   OnCameraStarted="() => _cameraActive = true"
+				   OnCameraStopped="() => _cameraActive = false"
+				   OnPhotoTaken="photo => _photo = photo"
+				   OnRecordingStateChanged="state => _cameraRecordingState = state"
+				   OnRecordingFinished="CameraRecordingFinishedAsync"
+				   OnCaptureError="error => _cameraError = error" />
+	</div>
+
+	<div class="pt-2">
+		<button class="btn btn-primary btn-sm" @onclick="() => _camera!.TakePhotoAsync()" disabled="@(!_cameraActive)">Take photo</button>
+		<button class="btn btn-danger btn-sm" @onclick="() => _camera!.StartRecordingAsync()"
+				disabled="@(!_cameraActive || _cameraRecordingState != RecordingStates.Inactive)">&#9210; Record</button>
+		<button class="btn btn-warning btn-sm" @onclick="() => _camera!.PauseRecordingAsync()"
+				disabled="@(_cameraRecordingState != RecordingStates.Recording)">Pause</button>
+		<button class="btn btn-warning btn-sm" @onclick="() => _camera!.ResumeRecordingAsync()"
+				disabled="@(_cameraRecordingState != RecordingStates.Paused)">Resume</button>
+		<button class="btn btn-dark btn-sm" @onclick="() => _camera!.StopRecordingAsync()"
+				disabled="@(_cameraRecordingState == RecordingStates.Inactive)">Stop recording</button>
+		<span class="pl-2">Recording state: <strong>@_cameraRecordingState</strong></span>
+	</div>
+
+	@if (!string.IsNullOrEmpty(_cameraError))
+	{
+		<div class="alert alert-warning mt-2">@_cameraError</div>
+	}
+
+	@if (_photo is not null)
+	{
+		<div class="pt-3">
+			<h5>Last photo (@_photo.Width x @_photo.Height, @_photo.MimeType, @(_photo.SizeBytes / 1024) KB)</h5>
+			<img src="@_photo.Url" style="max-width: 480px; border: 1px solid #ccc; border-radius: 4px;" />
+		</div>
+	}
+
+	<div class="pt-3">
+		<h5>Recorded video</h5>
+		@if (_cameraRecording is not null)
+		{
+			<div class="pb-1">
+				Type: <strong>@_cameraRecording.MimeType</strong>,
+				size: <strong>@(_cameraRecording.SizeBytes / 1024) KB</strong>,
+				length: <strong>@_cameraRecording.Duration.ToString(@"mm\:ss")</strong>
+				<button class="btn btn-outline-primary btn-sm ml-2" @onclick="DownloadCameraRecordingAsync">Download bytes to .NET</button>
+				@if (_downloadedBytes > 0)
+				{
+					<span class="pl-2">Downloaded <strong>@(_downloadedBytes / 1024) KB</strong> to .NET stream.</span>
+				}
+			</div>
+		}
+		else
+		{
+			<div class="pb-1">No recording yet.</div>
+		}
+		<div class="row pb-2">
+			<div class="col-auto">
+				Playback width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_recordedWidth" />
+			</div>
+			<div class="col-auto">
+				Playback height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_recordedHeight" />
+			</div>
+			<div class="col-auto">
+				<label class="mt-4"><input type="checkbox" @bind="_recordedDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
+			</div>
+			<div class="col-auto mt-3">
+				<button class="btn btn-primary btn-sm" @onclick="ApplyRecordedSize">Apply size</button>
+			</div>
+		</div>
+		<div style="@(_appliedRecordedDimInPixels ? null : "height: 320px;")">
+			<VideoPlayer @ref="_recordedVideoPlayer" Width="@_appliedRecordedWidth" Height="@_appliedRecordedHeight"
+						 IsPlayerDimensionInPixels="@_appliedRecordedDimInPixels"
+						 Style="border: 1px solid #ccc; border-radius: 4px;" />
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Audio recording (microphone)</h3>
+	<p>
+		<code>AudioRecorder</code> component: records microphone audio with the <code>MediaRecorder</code> API.
+		It renders no HTML, everything is controlled from code. While the microphone is open a live
+		<strong>input level meter</strong> is reported via <code>OnAudioLevelChanged</code>.
+	</p>
+
+	<AudioRecorder @ref="_audioRecorder"
+				   AudioDeviceId="@(string.IsNullOrEmpty(_selectedMicrophoneId) ? null : _selectedMicrophoneId)"
+				   OnMicrophoneOpened="() => _microphoneOpen = true"
+				   OnMicrophoneClosed="MicrophoneClosed"
+				   OnAudioLevelChanged="level => _audioLevel = level"
+				   OnRecordingStateChanged="state => _audioRecordingState = state"
+				   OnRecordingFinished="AudioRecordingFinishedAsync"
+				   OnCaptureError="error => _audioError = error" />
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Microphone:
+			<select class="form-control" @bind="_selectedMicrophoneId">
+				<option value="">(default)</option>
+				@foreach (var device in _devices.Where(d => d.IsAudioInput))
+				{
+					<option value="@device.DeviceId">@(string.IsNullOrWhiteSpace(device.Label) ? device.DeviceId : device.Label)</option>
+				}
+			</select>
+		</div>
+		<div class="col-auto mt-3">
+			<button class="btn btn-primary btn-sm" @onclick="() => _audioRecorder!.OpenMicrophoneAsync()" disabled="@_microphoneOpen">Open microphone</button>
+			<button class="btn btn-secondary btn-sm" @onclick="() => _audioRecorder!.StopCaptureAsync()" disabled="@(!_microphoneOpen)">Close microphone</button>
+			<button class="btn btn-danger btn-sm" @onclick="() => _audioRecorder!.StartRecordingAsync()"
+					disabled="@(!_microphoneOpen || _audioRecordingState != RecordingStates.Inactive)">&#9210; Record</button>
+			<button class="btn btn-dark btn-sm" @onclick="() => _audioRecorder!.StopRecordingAsync()"
+					disabled="@(_audioRecordingState == RecordingStates.Inactive)">Stop recording</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Input level: <progress max="1" value="@_audioLevel.ToString(System.Globalization.CultureInfo.InvariantCulture)" style="width: 300px;"></progress>
+		</div>
+		<div class="col-auto">
+			Recording state: <strong>@_audioRecordingState</strong>
+		</div>
+	</div>
+
+	@if (!string.IsNullOrEmpty(_audioError))
+	{
+		<div class="alert alert-warning mt-2">@_audioError</div>
+	}
+
+	<h5>Recorded audio</h5>
+	@if (_audioRecording is not null)
+	{
+		<div class="pb-1">
+			Type: <strong>@_audioRecording.MimeType</strong>,
+			size: <strong>@(_audioRecording.SizeBytes / 1024) KB</strong>,
+			length: <strong>@_audioRecording.Duration.ToString(@"mm\:ss")</strong>
+		</div>
+	}
+	<AudioPlayer @ref="_recordedAudioPlayer" />
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Simple HTML media capture</h3>
+	<p>
+		<code>MediaFileCapture</code> component: the simple, JS interop free way. Renders
+		<code>&lt;input type="file"&gt;</code> with <code>accept</code> and <code>capture</code> attributes.
+		Mobile browsers open the <strong>native camera/recorder app</strong>, desktop browsers a file picker.
+		Files arrive as <code>IBrowserFile</code>.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Media type:
+			<select class="form-control" @bind="_captureMediaType">
+				<option value="@CaptureMediaTypes.Photo">Photo</option>
+				<option value="@CaptureMediaTypes.Video">Video</option>
+				<option value="@CaptureMediaTypes.Audio">Audio</option>
+				<option value="@CaptureMediaTypes.Any">Any</option>
+			</select>
+		</div>
+		<div class="col-auto">
+			Capture mode:
+			<select class="form-control" @bind="_captureMode">
+				<option value="@CameraFacingModes.Default">Default (file picker allowed)</option>
+				<option value="@CameraFacingModes.User">Front camera</option>
+				<option value="@CameraFacingModes.Environment">Rear camera</option>
+			</select>
+		</div>
+	</div>
+
+	<MediaFileCapture @key="@($"{_captureMediaType}-{_captureMode}")" MediaType="_captureMediaType" CaptureMode="_captureMode"
+					  OnFilesCaptured="FilesCapturedAsync" />
+
+	@if (_capturedFiles.Any())
+	{
+		<ul class="mt-2">
+			@foreach (var file in _capturedFiles)
+			{
+				<li>@file.Name (@file.ContentType, @(file.Size / 1024) KB)</li>
+			}
+		</ul>
+	}
+	@if (!string.IsNullOrEmpty(_capturedImagePreview))
+	{
+		<img src="@_capturedImagePreview" style="max-width: 480px; border: 1px solid #ccc; border-radius: 4px;" />
+	}
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Video player</h3>
+	<p>
+		<code>VideoPlayer</code> component: HTML <code>&lt;video&gt;</code> element with playback <strong>events</strong>
+		and full <strong>.NET control API</strong>: play, pause, seek, volume, playback rate, fullscreen,
+		Picture-in-Picture and current frame capture.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-8">
+			<input type="text" class="form-control" @bind="_videoUrl" />
+		</div>
+		<div class="col-auto">
+			<button class="btn btn-primary btn-sm" @onclick="() => _videoPlayer!.SetSourceAsync(_videoUrl)">Load URL</button>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_videoWidth" />
+		</div>
+		<div class="col-auto">
+			Height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_videoHeight" />
+		</div>
+		<div class="col-auto">
+			<label class="mt-4"><input type="checkbox" @bind="_videoDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
+		</div>
+		<div class="col-auto mt-3">
+			<button class="btn btn-primary btn-sm" @onclick="ApplyVideoSize">Apply size</button>
+		</div>
+	</div>
+
+	<div style="@(_appliedVideoDimInPixels ? null : "height: 320px;")">
+	<VideoPlayer @ref="_videoPlayer" Width="@_appliedVideoWidth" Height="@_appliedVideoHeight"
+				 IsPlayerDimensionInPixels="@_appliedVideoDimInPixels" Source="@_videoUrl"
+				 Style="border: 1px solid #ccc; border-radius: 4px;"
+				 OnPlay='state => _videoStatus = "playing"'
+				 OnPause='state => _videoStatus = "paused"'
+				 OnEnded='state => _videoStatus = "ended"'
+				 OnTimeUpdate="state => _videoState = state"
+				 OnMetadataLoaded="state => _videoState = state"
+				 OnError="error => _videoStatus = error" />
+	</div>
+
+	<div class="pt-2">
+		<button class="btn btn-primary btn-sm" @onclick="() => _videoPlayer!.PlayAsync()">Play</button>
+		<button class="btn btn-secondary btn-sm" @onclick="() => _videoPlayer!.PauseAsync()">Pause</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.SeekAsync(0)">Restart</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.SetMutedAsync(true)">Mute</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.SetMutedAsync(false)">Unmute</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.SetPlaybackRateAsync(2)">2x speed</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.SetPlaybackRateAsync(1)">1x speed</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.RequestFullscreenAsync()">Fullscreen</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _videoPlayer!.TogglePictureInPictureAsync()">PiP</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="CaptureVideoFrameAsync">Capture frame</button>
+	</div>
+	<div class="pt-1">
+		Status: <strong>@_videoStatus</strong>,
+		position: <strong>@_videoState.CurrentTime.ToString("0.0")s / @_videoState.Duration.ToString("0.0")s</strong>
+	</div>
+
+	@if (_videoFrame is not null)
+	{
+		<div class="pt-2">
+			<h5>Captured frame (@_videoFrame.Width x @_videoFrame.Height)</h5>
+			<img src="@_videoFrame.Url" style="max-width: 320px; border: 1px solid #ccc; border-radius: 4px;" />
+		</div>
+	}
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Audio player</h3>
+	<p>
+		<code>AudioPlayer</code> component: the same control API and events for an HTML <code>&lt;audio&gt;</code> element.
+	</p>
+
+	<AudioPlayer @ref="_audioPlayer" Source="@_audioUrl"
+				 OnPlay='state => _audioStatus = "playing"'
+				 OnPause='state => _audioStatus = "paused"'
+				 OnEnded='state => _audioStatus = "ended"' />
+
+	<div class="pt-2">
+		<button class="btn btn-primary btn-sm" @onclick="() => _audioPlayer!.PlayAsync()">Play</button>
+		<button class="btn btn-secondary btn-sm" @onclick="() => _audioPlayer!.PauseAsync()">Pause</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _audioPlayer!.SetVolumeAsync(0.2)">Volume 20%</button>
+		<button class="btn btn-outline-primary btn-sm" @onclick="() => _audioPlayer!.SetVolumeAsync(1)">Volume 100%</button>
+		<span class="pl-2">Status: <strong>@_audioStatus</strong></span>
+	</div>
+</div>
+
+@code {
+	//Camera capture
+	private CameraCapture? _camera;
+	private VideoPlayer? _recordedVideoPlayer;
+	private bool _cameraActive;
+	private bool _recordAudio = true;
+	private string _selectedCameraId = "";
+	private string? _cameraError;
+	private MediaPhotoInfo? _photo;
+	private RecordingStates _cameraRecordingState = RecordingStates.Inactive;
+	private MediaRecordingInfo? _cameraRecording;
+	private long _downloadedBytes;
+
+	//Audio recorder
+	private AudioRecorder? _audioRecorder;
+	private AudioPlayer? _recordedAudioPlayer;
+	private bool _microphoneOpen;
+	private string _selectedMicrophoneId = "";
+	private string? _audioError;
+	private double _audioLevel;
+	private RecordingStates _audioRecordingState = RecordingStates.Inactive;
+	private MediaRecordingInfo? _audioRecording;
+
+	//Devices
+	private IEnumerable<Majorsoft.Blazor.Components.Media.MediaDeviceInfo> _devices = Enumerable.Empty<Majorsoft.Blazor.Components.Media.MediaDeviceInfo>();
+
+	//File capture
+	private CaptureMediaTypes _captureMediaType = CaptureMediaTypes.Photo;
+	private CameraFacingModes _captureMode = CameraFacingModes.Default;
+	private IReadOnlyList<IBrowserFile> _capturedFiles = Array.Empty<IBrowserFile>();
+	private string? _capturedImagePreview;
+
+	//Players
+	private VideoPlayer? _videoPlayer;
+	private AudioPlayer? _audioPlayer;
+	private string _videoUrl = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+	private string _audioUrl = "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3";
+	private string _videoStatus = "-";
+	private string _audioStatus = "-";
+	private MediaPlayerState _videoState = new();
+	private MediaPhotoInfo? _videoFrame;
+
+	//Size controls: edited values are only applied on button click (like the Canvas demo).
+	private int _videoWidth = 480;
+	private int _videoHeight = 270;
+	private bool _videoDimInPixels = true;
+	private int _appliedVideoWidth = 480;
+	private int _appliedVideoHeight = 270;
+	private bool _appliedVideoDimInPixels = true;
+
+	private void ApplyVideoSize()
+	{
+		_appliedVideoWidth = _videoWidth;
+		_appliedVideoHeight = _videoHeight;
+		_appliedVideoDimInPixels = _videoDimInPixels;
+	}
+
+	//Camera preview size (in pixel mode also the requested camera resolution, applied on next start).
+	private int _cameraWidth = 480;
+	private int _cameraHeight = 360;
+	private bool _cameraDimInPixels = true;
+	private int _appliedCameraWidth = 480;
+	private int _appliedCameraHeight = 360;
+	private bool _appliedCameraDimInPixels = true;
+
+	private void ApplyCameraSize()
+	{
+		_appliedCameraWidth = _cameraWidth;
+		_appliedCameraHeight = _cameraHeight;
+		_appliedCameraDimInPixels = _cameraDimInPixels;
+	}
+
+	//Recorded video playback size.
+	private int _recordedWidth = 480;
+	private int _recordedHeight = 270;
+	private bool _recordedDimInPixels = true;
+	private int _appliedRecordedWidth = 480;
+	private int _appliedRecordedHeight = 270;
+	private bool _appliedRecordedDimInPixels = true;
+
+	private void ApplyRecordedSize()
+	{
+		_appliedRecordedWidth = _recordedWidth;
+		_appliedRecordedHeight = _recordedHeight;
+		_appliedRecordedDimInPixels = _recordedDimInPixels;
+	}
+
+	private async Task StartCameraAsync()
+	{
+		_cameraError = null;
+		await _camera!.StartCameraAsync();
+	}
+
+	private async Task RefreshDevicesAsync()
+	{
+		//Permission is needed to see the device labels.
+		await _mediaDeviceService.RequestPermissionsAsync(audio: true, video: true);
+		_devices = await _mediaDeviceService.GetMediaDevicesAsync();
+	}
+
+	private async Task CameraRecordingFinishedAsync(MediaRecordingInfo recording)
+	{
+		_cameraRecording = recording;
+		_downloadedBytes = 0;
+		await _recordedVideoPlayer!.SetSourceAsync(recording.Url);
+	}
+
+	private async Task DownloadCameraRecordingAsync()
+	{
+		//Pulls the recorded Blob from the browser into a .NET stream (e.g. to upload or save it).
+		await using var stream = await _camera!.GetRecordingStreamAsync();
+		if (stream is not null)
+		{
+			using var memory = new MemoryStream();
+			await stream.CopyToAsync(memory);
+			_downloadedBytes = memory.Length;
+		}
+	}
+
+	private void MicrophoneClosed()
+	{
+		_microphoneOpen = false;
+		_audioLevel = 0;
+	}
+
+	private async Task AudioRecordingFinishedAsync(MediaRecordingInfo recording)
+	{
+		_audioRecording = recording;
+		await _recordedAudioPlayer!.SetSourceAsync(recording.Url);
+	}
+
+	private async Task FilesCapturedAsync(IReadOnlyList<IBrowserFile> files)
+	{
+		_capturedFiles = files;
+		_capturedImagePreview = null;
+
+		var image = files.FirstOrDefault(f => f.ContentType.StartsWith("image/"));
+		if (image is not null && image.Size < 10 * 1024 * 1024)
+		{
+			using var memory = new MemoryStream();
+			await image.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).CopyToAsync(memory);
+			_capturedImagePreview = $"data:{image.ContentType};base64,{Convert.ToBase64String(memory.ToArray())}";
+		}
+	}
+
+	private async Task CaptureVideoFrameAsync()
+	{
+		_videoFrame = await _videoPlayer!.CaptureFrameAsync("image/jpeg", 0.9);
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		await _mediaDeviceService.DisposeAsync();
+	}
+}

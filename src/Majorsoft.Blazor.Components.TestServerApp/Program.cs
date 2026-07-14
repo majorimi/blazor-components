@@ -3,6 +3,7 @@ using Majorsoft.Blazor.Components.CssEvents;
 using Majorsoft.Blazor.Components.DragAndDrop;
 using Majorsoft.Blazor.Components.GdprConsent;
 using Majorsoft.Blazor.Components.Maps;
+using Majorsoft.Blazor.Components.Media;
 using Majorsoft.Blazor.Components.Notifications;
 using Majorsoft.Blazor.Components.PermaLink;
 using Majorsoft.Blazor.Components.TestServerApp.Components;
@@ -43,6 +44,7 @@ namespace Majorsoft.Blazor.Components.TestServerApp
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
 			builder.Services.AddNotifications();
+			builder.Services.AddMediaComponents();
 			builder.Services.AddDragAndDrop();
 
 			var app = builder.Build();

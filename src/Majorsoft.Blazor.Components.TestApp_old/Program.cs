@@ -13,6 +13,7 @@ using Majorsoft.Blazor.Components.Maps;
 using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Majorsoft.Blazor.Extensions.Analytics;
 using Majorsoft.Blazor.Components.GdprConsent;
+using Majorsoft.Blazor.Components.Media;
 using Majorsoft.Blazor.Components.Notifications;
 
 namespace Majorsoft.Blazor.Components.TestApp
@@ -33,6 +34,7 @@ namespace Majorsoft.Blazor.Components.TestApp
 			builder.Services.AddGoogleAnalytics();
 			builder.Services.AddGdprConsent();
 			builder.Services.AddNotifications();
+			builder.Services.AddMediaComponents();
 
 			builder.Logging.AddBrowserConsole()
 				.SetMinimumLevel(LogLevel.Debug).AddFilter("Microsoft", LogLevel.Information);
