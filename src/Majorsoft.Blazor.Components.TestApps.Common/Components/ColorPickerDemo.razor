@@ -41,20 +41,20 @@ textarea {
 	</div>
 	<div class="row pb-2">
 		<div class="col-6 col-md-3">
-			<label>Hue Area width (px):</label>
-			<input type="number" min="200" step="10" class="form-control" @bind="_panelWidth" />
+			<label>Hue Area width: <strong>@(_panelWidth)px</strong></label>
+			<input type="range" min="200" max="600" step="10" class="form-control-range" @bind="_panelWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Hue Area height (px):</label>
-			<input type="number" min="100" step="10" class="form-control" @bind="_panelHeight" />
+			<label>Hue Area height: <strong>@(_panelHeight)px</strong></label>
+			<input type="range" min="100" max="500" step="10" class="form-control-range" @bind="_panelHeight" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Info Area width (px):</label>
-			<input type="number" min="200" step="10" class="form-control" @bind="_sliderlWidth" />
+			<label>Info Area width: <strong>@(_sliderlWidth)px</strong></label>
+			<input type="range" min="200" max="600" step="10" class="form-control-range" @bind="_sliderlWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Hue Slider height (px):</label>
-			<input type="number" min="4" step="1" class="form-control" @bind="_sliderHeight" />
+			<label>Hue Slider height: <strong>@(_sliderHeight)px</strong></label>
+			<input type="range" min="4" max="40" step="1" class="form-control-range" @bind="_sliderHeight" @bind:event="oninput" />
 		</div>
 	</div>
 
@@ -144,26 +144,26 @@ textarea {
 			<input type="text" class="form-control" @bind="_pickerApplyText" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Preview size (px):</label>
-			<input type="number" min="12" step="2" class="form-control" @bind="_pickerPreviewSize" />
+			<label>Preview size: <strong>@(_pickerPreviewSize)px</strong></label>
+			<input type="range" min="12" max="100" step="2" class="form-control-range" @bind="_pickerPreviewSize" @bind:event="oninput" />
 		</div>
 	</div>
 	<div class="row pb-2">
 		<div class="col-6 col-md-3">
-			<label>Area width (px):</label>
-			<input type="number" min="200" step="10" class="form-control" @bind="_pickerAreaWidth" />
+			<label>Area width: <strong>@(_pickerAreaWidth)px</strong></label>
+			<input type="range" min="200" max="600" step="10" class="form-control-range" @bind="_pickerAreaWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Area height (px):</label>
-			<input type="number" min="100" step="10" class="form-control" @bind="_pickerAreaHeight" />
+			<label>Area height: <strong>@(_pickerAreaHeight)px</strong></label>
+			<input type="range" min="100" max="500" step="10" class="form-control-range" @bind="_pickerAreaHeight" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Slider width (px):</label>
-			<input type="number" min="200" step="10" class="form-control" @bind="_pickerSliderWidth" />
+			<label>Slider width: <strong>@(_pickerSliderWidth)px</strong></label>
+			<input type="range" min="200" max="600" step="10" class="form-control-range" @bind="_pickerSliderWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-6 col-md-3">
-			<label>Slider height (px):</label>
-			<input type="number" min="4" step="1" class="form-control" @bind="_pickerSliderHeight" />
+			<label>Slider height: <strong>@(_pickerSliderHeight)px</strong></label>
+			<input type="range" min="4" max="40" step="1" class="form-control-range" @bind="_pickerSliderHeight" @bind:event="oninput" />
 		</div>
 	</div>
 

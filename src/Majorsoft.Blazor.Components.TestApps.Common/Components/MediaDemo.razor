@@ -1,6 +1,7 @@
 @using Majorsoft.Blazor.Components.Media
 @using Majorsoft.Blazor.Components.Media.Capture
 @using Majorsoft.Blazor.Components.Media.Players
+@using Majorsoft.Blazor.Components.Media.Visualization
 @using System.IO
 
 @inject IMediaDeviceService _mediaDeviceService
@@ -53,25 +54,26 @@
 
 	<div class="row pb-2">
 		<div class="col-auto">
-			Preview width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_cameraWidth" />
+			Preview width: <strong>@_cameraWidth@(_cameraDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 200px;" min="@(_cameraDimInPixels ? 50 : 1)" max="@(_cameraDimInPixels ? 1280 : 100)"
+				   @bind="_cameraWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-auto">
-			Preview height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_cameraHeight" />
+			Preview height: <strong>@_cameraHeight@(_cameraDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 200px;" min="@(_cameraDimInPixels ? 50 : 1)" max="@(_cameraDimInPixels ? 720 : 100)"
+				   @bind="_cameraHeight" @bind:event="oninput" />
 		</div>
 		<div class="col-auto">
 			<label class="mt-4"><input type="checkbox" @bind="_cameraDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
 		</div>
-		<div class="col-auto mt-3">
-			<button class="btn btn-primary btn-sm" @onclick="ApplyCameraSize">Apply size</button>
-		</div>
 		<div class="col-auto mt-4">
-			In pixel mode the size is also the requested camera resolution: restart the camera to apply it.
+			Size changes are applied real time. In pixel mode the size is also the requested camera resolution: restart the camera to apply that.
 		</div>
 	</div>
 
-	<div style="@(_appliedCameraDimInPixels ? null : "height: 400px;")">
-	<CameraCapture @ref="_camera" Width="@_appliedCameraWidth" Height="@_appliedCameraHeight"
-				   IsCameraDimensionInPixels="@_appliedCameraDimInPixels"
+	<div style="@(_cameraDimInPixels ? null : "height: 400px;")">
+	<CameraCapture @ref="_camera" Width="@_cameraWidth" Height="@_cameraHeight"
+				   IsCameraDimensionInPixels="@_cameraDimInPixels"
 				   VideoDeviceId="@(string.IsNullOrEmpty(_selectedCameraId) ? null : _selectedCameraId)"
 				   RecordAudio="_recordAudio"
 				   Style="border: 1px solid #ccc; border-radius: 4px; background: #000;"
@@ -130,21 +132,22 @@
 		}
 		<div class="row pb-2">
 			<div class="col-auto">
-				Playback width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_recordedWidth" />
+				Playback width: <strong>@_recordedWidth@(_recordedDimInPixels ? "px" : "%")</strong><br />
+				<input type="range" style="width: 200px;" min="@(_recordedDimInPixels ? 50 : 1)" max="@(_recordedDimInPixels ? 1280 : 100)"
+					   @bind="_recordedWidth" @bind:event="oninput" />
 			</div>
 			<div class="col-auto">
-				Playback height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_recordedHeight" />
+				Playback height: <strong>@_recordedHeight@(_recordedDimInPixels ? "px" : "%")</strong><br />
+				<input type="range" style="width: 200px;" min="@(_recordedDimInPixels ? 50 : 1)" max="@(_recordedDimInPixels ? 720 : 100)"
+					   @bind="_recordedHeight" @bind:event="oninput" />
 			</div>
 			<div class="col-auto">
 				<label class="mt-4"><input type="checkbox" @bind="_recordedDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
 			</div>
-			<div class="col-auto mt-3">
-				<button class="btn btn-primary btn-sm" @onclick="ApplyRecordedSize">Apply size</button>
-			</div>
 		</div>
-		<div style="@(_appliedRecordedDimInPixels ? null : "height: 320px;")">
-			<VideoPlayer @ref="_recordedVideoPlayer" Width="@_appliedRecordedWidth" Height="@_appliedRecordedHeight"
-						 IsPlayerDimensionInPixels="@_appliedRecordedDimInPixels"
+		<div style="@(_recordedDimInPixels ? null : "height: 320px;")">
+			<VideoPlayer @ref="_recordedVideoPlayer" Width="@_recordedWidth" Height="@_recordedHeight"
+						 IsPlayerDimensionInPixels="@_recordedDimInPixels"
 						 Style="border: 1px solid #ccc; border-radius: 4px;" />
 		</div>
 	</div>
@@ -155,7 +158,10 @@
 	<p>
 		<code>AudioRecorder</code> component: records microphone audio with the <code>MediaRecorder</code> API.
 		It renders no HTML, everything is controlled from code. While the microphone is open a live
-		<strong>input level meter</strong> is reported via <code>OnAudioLevelChanged</code>.
+		<strong>input level meter</strong> is reported via <code>OnAudioLevelChanged</code> and the
+		<code>AudioVisualizer</code> component below shows the microphone input as a live
+		<strong>FFT frequency spectrum</strong> or <strong>waveform</strong> rendered onto a canvas
+		(drawing runs in JS, no interop traffic).
 	</p>
 
 	<AudioRecorder @ref="_audioRecorder"
@@ -197,6 +203,80 @@
 		</div>
 	</div>
 
+	<div class="row pb-2">
+		<div class="col-auto">
+			Visualization:
+			<select class="form-control" @bind="_micVisualizerMode">
+				<option value="@AudioVisualizerModes.FrequencyBars">FFT frequency spectrum</option>
+				<option value="@AudioVisualizerModes.Waveform">Waveform (oscilloscope)</option>
+			</select>
+		</div>
+		<div class="col-auto">
+			FFT size:
+			<select class="form-control" @bind="_vizFftSize">
+				<option value="256">256 (128 bins)</option>
+				<option value="512">512 (256 bins)</option>
+				<option value="1024">1024 (512 bins)</option>
+				<option value="2048">2048 (1024 bins)</option>
+				<option value="4096">4096 (2048 bins)</option>
+				<option value="8192">8192 (4096 bins)</option>
+			</select>
+		</div>
+		<div class="col-auto">
+			Bar count: <strong>@_vizBarCount</strong><br />
+			<input type="range" style="width: 150px;" min="8" max="128" @bind="_vizBarCount" @bind:event="oninput" />
+		</div>
+		<div class="col-auto">
+			Smoothing: <strong>@_vizSmoothing.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)</strong><br />
+			<input type="range" style="width: 150px;" min="0" max="0.95" step="0.05" @bind="_vizSmoothing" @bind:event="oninput" />
+		</div>
+		<div class="col-auto">
+			<label class="mt-4"><input type="checkbox" @bind="_vizLogScale" /> Logarithmic frequency scale</label>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-auto">
+			Bar/line color:<br />
+			<input type="color" @bind="_vizBarColor" />
+		</div>
+		<div class="col-auto">
+			Gradient top color:<br />
+			<input type="color" @bind="_vizBarGradientColor" disabled="@(!_vizUseGradient)" />
+			<label><input type="checkbox" @bind="_vizUseGradient" /> Use gradient</label>
+		</div>
+		<div class="col-auto">
+			Background:<br />
+			<input type="color" @bind="_vizBackgroundColor" disabled="@(!_vizUseBackground)" />
+			<label><input type="checkbox" @bind="_vizUseBackground" /> Fill (unchecked: transparent)</label>
+		</div>
+		<div class="col-auto">
+			Width: <strong>@_vizWidth@(_vizDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 150px;" min="@(_vizDimInPixels ? 100 : 1)" max="@(_vizDimInPixels ? 1280 : 100)"
+				   @bind="_vizWidth" @bind:event="oninput" />
+		</div>
+		<div class="col-auto">
+			Height: <strong>@_vizHeight@(_vizDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 150px;" min="@(_vizDimInPixels ? 40 : 1)" max="@(_vizDimInPixels ? 400 : 100)"
+				   @bind="_vizHeight" @bind:event="oninput" />
+		</div>
+		<div class="col-auto">
+			<label class="mt-4"><input type="checkbox" @bind="_vizDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
+		</div>
+	</div>
+
+	@*Size and dimension mode are applied real time; the @key recreates the visualizer when
+	  analyser/color options change since those are applied when the visualizer starts.*@
+	<div style="@(_vizDimInPixels ? null : "height: 200px;")">
+		<AudioVisualizer @key="@_micVisualizerKey" CaptureSource="_audioRecorder" Mode="_micVisualizerMode"
+						 Width="@_vizWidth" Height="@_vizHeight" IsVisualizerDimensionInPixels="@_vizDimInPixels"
+						 FftSize="@_vizFftSize" BarCount="@_vizBarCount" SmoothingTimeConstant="@_vizSmoothing"
+						 LogarithmicScale="@_vizLogScale"
+						 BarColor="@_vizBarColor" BarGradientColor="@(_vizUseGradient ? _vizBarGradientColor : null)"
+						 BackgroundColor="@(_vizUseBackground ? _vizBackgroundColor : null)"
+						 Style="border: 1px solid #ccc; border-radius: 4px; max-width: 100%;" />
+	</div>
+
 	@if (!string.IsNullOrEmpty(_audioError))
 	{
 		<div class="alert alert-warning mt-2">@_audioError</div>
@@ -212,6 +292,13 @@
 		</div>
 	}
 	<AudioPlayer @ref="_recordedAudioPlayer" />
+	<div class="pt-2">
+		Playback spectrum of the recorded audio (<code>AudioVisualizer</code> attached to the player):<br />
+		<AudioVisualizer PlayerSource="_recordedAudioPlayer"
+						 Width="640" Height="100" BarCount="48"
+						 BarColor="#4caf50" BarGradientColor="#ffeb3b" BackgroundColor="#101418"
+						 Style="border: 1px solid #ccc; border-radius: 4px; max-width: 100%;" />
+	</div>
 </div>
 
 <div class="container-fluid p-3 mb-3 border rounded">
@@ -280,22 +367,23 @@
 
 	<div class="row pb-2">
 		<div class="col-auto">
-			Width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_videoWidth" />
+			Width: <strong>@_videoWidth@(_videoDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 200px;" min="@(_videoDimInPixels ? 50 : 1)" max="@(_videoDimInPixels ? 1280 : 100)"
+				   @bind="_videoWidth" @bind:event="oninput" />
 		</div>
 		<div class="col-auto">
-			Height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_videoHeight" />
+			Height: <strong>@_videoHeight@(_videoDimInPixels ? "px" : "%")</strong><br />
+			<input type="range" style="width: 200px;" min="@(_videoDimInPixels ? 50 : 1)" max="@(_videoDimInPixels ? 720 : 100)"
+				   @bind="_videoHeight" @bind:event="oninput" />
 		</div>
 		<div class="col-auto">
 			<label class="mt-4"><input type="checkbox" @bind="_videoDimInPixels" /> Dimensions in pixels (unchecked: %)</label>
 		</div>
-		<div class="col-auto mt-3">
-			<button class="btn btn-primary btn-sm" @onclick="ApplyVideoSize">Apply size</button>
-		</div>
 	</div>
 
-	<div style="@(_appliedVideoDimInPixels ? null : "height: 320px;")">
-	<VideoPlayer @ref="_videoPlayer" Width="@_appliedVideoWidth" Height="@_appliedVideoHeight"
-				 IsPlayerDimensionInPixels="@_appliedVideoDimInPixels" Source="@_videoUrl"
+	<div style="@(_videoDimInPixels ? null : "height: 320px;")">
+	<VideoPlayer @ref="_videoPlayer" Width="@_videoWidth" Height="@_videoHeight"
+				 IsPlayerDimensionInPixels="@_videoDimInPixels" Source="@_videoUrl"
 				 Style="border: 1px solid #ccc; border-radius: 4px;"
 				 OnPlay='state => _videoStatus = "playing"'
 				 OnPause='state => _videoStatus = "paused"'
@@ -373,6 +461,30 @@
 	private double _audioLevel;
 	private RecordingStates _audioRecordingState = RecordingStates.Inactive;
 	private MediaRecordingInfo? _audioRecording;
+	private AudioVisualizerModes _micVisualizerMode = AudioVisualizerModes.FrequencyBars;
+	private int _vizFftSize = 2048;
+	private int _vizBarCount = 48;
+	private double _vizSmoothing = 0.8;
+	private bool _vizLogScale = true;
+	private string _vizBarColor = "#2196f3";
+	private string _vizBarGradientColor = "#e91e63";
+	private bool _vizUseGradient = true;
+	private string _vizBackgroundColor = "#101418";
+	private bool _vizUseBackground = true;
+
+	//Analyser/color options are applied when the visualizer starts, changing them recreates the component.
+	private string _micVisualizerKey =>
+		$"{_micVisualizerMode}-{_vizFftSize}-{_vizBarCount}-{_vizSmoothing}-{_vizLogScale}-{_vizBarColor}-{_vizBarGradientColor}-{_vizUseGradient}-{_vizBackgroundColor}-{_vizUseBackground}";
+
+	//Visualizer size (applied real time, no restart needed).
+	private int _vizWidth = 640;
+	private int _vizHeight = 120;
+	private bool _vizDimInPixelsValue = true;
+	private bool _vizDimInPixels
+	{
+		get => _vizDimInPixelsValue;
+		set => SetDimensionMode(ref _vizDimInPixelsValue, value, ref _vizWidth, ref _vizHeight);
+	}
 
 	//Devices
 	private IEnumerable<Majorsoft.Blazor.Components.Media.MediaDeviceInfo> _devices = Enumerable.Empty<Majorsoft.Blazor.Components.Media.MediaDeviceInfo>();
@@ -393,49 +505,45 @@
 	private MediaPlayerState _videoState = new();
 	private MediaPhotoInfo? _videoFrame;
 
-	//Size controls: edited values are only applied on button click (like the Canvas demo).
+	//Size controls: slider changes are applied real time. Switching from pixel to % mode
+	//clamps the values into the 1..100 range of the % sliders.
 	private int _videoWidth = 480;
 	private int _videoHeight = 270;
-	private bool _videoDimInPixels = true;
-	private int _appliedVideoWidth = 480;
-	private int _appliedVideoHeight = 270;
-	private bool _appliedVideoDimInPixels = true;
-
-	private void ApplyVideoSize()
+	private bool _videoDimInPixelsValue = true;
+	private bool _videoDimInPixels
 	{
-		_appliedVideoWidth = _videoWidth;
-		_appliedVideoHeight = _videoHeight;
-		_appliedVideoDimInPixels = _videoDimInPixels;
+		get => _videoDimInPixelsValue;
+		set => SetDimensionMode(ref _videoDimInPixelsValue, value, ref _videoWidth, ref _videoHeight);
 	}
 
 	//Camera preview size (in pixel mode also the requested camera resolution, applied on next start).
 	private int _cameraWidth = 480;
 	private int _cameraHeight = 360;
-	private bool _cameraDimInPixels = true;
-	private int _appliedCameraWidth = 480;
-	private int _appliedCameraHeight = 360;
-	private bool _appliedCameraDimInPixels = true;
-
-	private void ApplyCameraSize()
+	private bool _cameraDimInPixelsValue = true;
+	private bool _cameraDimInPixels
 	{
-		_appliedCameraWidth = _cameraWidth;
-		_appliedCameraHeight = _cameraHeight;
-		_appliedCameraDimInPixels = _cameraDimInPixels;
+		get => _cameraDimInPixelsValue;
+		set => SetDimensionMode(ref _cameraDimInPixelsValue, value, ref _cameraWidth, ref _cameraHeight);
 	}
 
 	//Recorded video playback size.
 	private int _recordedWidth = 480;
 	private int _recordedHeight = 270;
-	private bool _recordedDimInPixels = true;
-	private int _appliedRecordedWidth = 480;
-	private int _appliedRecordedHeight = 270;
-	private bool _appliedRecordedDimInPixels = true;
-
-	private void ApplyRecordedSize()
+	private bool _recordedDimInPixelsValue = true;
+	private bool _recordedDimInPixels
 	{
-		_appliedRecordedWidth = _recordedWidth;
-		_appliedRecordedHeight = _recordedHeight;
-		_appliedRecordedDimInPixels = _recordedDimInPixels;
+		get => _recordedDimInPixelsValue;
+		set => SetDimensionMode(ref _recordedDimInPixelsValue, value, ref _recordedWidth, ref _recordedHeight);
+	}
+
+	private static void SetDimensionMode(ref bool inPixels, bool value, ref int width, ref int height)
+	{
+		inPixels = value;
+		if (!value)
+		{
+			width = Math.Min(width, 100);
+			height = Math.Min(height, 100);
+		}
 	}
 
 	private async Task StartCameraAsync()

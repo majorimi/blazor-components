@@ -110,6 +110,11 @@ namespace Majorsoft.Blazor.Components.Media.Players
 			var module = await _moduleTask;
 			_dotNetRef = DotNetObjectReference.Create(this);
 			_playerId = await module.InvokeAsync<int>("initPlayer", _elementRef, _dotNetRef, OnTimeUpdate.HasDelegate);
+
+			if (PlayerInitialized is not null)
+			{
+				await PlayerInitialized.Invoke();
+			}
 		}
 
 		/// <summary>
@@ -190,7 +195,13 @@ namespace Majorsoft.Blazor.Components.Media.Players
 			await module.InvokeVoidAsync("playerSetStreamSource", _playerId, streamRef, mimeType);
 		}
 
-		private protected int PlayerId => _playerId;
+		internal int PlayerId => _playerId;
+
+		/// <summary>
+		/// Raised when the JS player instance was initialized after first render, lets an attached
+		/// <see cref="Visualization.AudioVisualizer"/> start regardless of the render order of the components.
+		/// </summary>
+		internal event Func<Task>? PlayerInitialized;
 
 		private protected async Task<IJSObjectReference> EnsurePlayerAsync()
 		{

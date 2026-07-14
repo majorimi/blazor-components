@@ -9,8 +9,9 @@ Blazor Components Media controls
 
 Blazor components for **capturing and playing media** in the browser:
 camera **photo and video capture** with live preview (`getUserMedia` + `MediaRecorder` APIs), **microphone audio
-recording** with live input level metering, a **simple HTML file capture** input (native camera app on mobile devices)
-and **video/audio player** components fully controllable from .NET code.
+recording** with live input level metering, a **simple HTML file capture** input (native camera app on mobile devices),
+**video/audio player** components fully controllable from .NET code and a live **audio visualizer**
+(FFT frequency spectrum / waveform) for recorders and players.
 **All components work with WebAssembly and Server hosted models**.
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/MediaDemo.razor).
 
@@ -51,6 +52,19 @@ played back directly by the player components, and the raw bytes can be download
 Player sources: regular URL (`Source` parameter or `SetSourceAsync(url)`), **Blob URL of a recording**
 (`MediaRecordingInfo.Url`) or **.NET stream** (`SetSourceAsync(stream, mimeType)` e.g. media from a database).
 
+## Visualization
+
+- **`AudioVisualizer`**: renders a live **audio visualization onto an HTML `<canvas>`** using the Web Audio
+  `AnalyserNode` API. Two modes: **FFT frequency spectrum bars** (spectrum analyzer) and **time domain waveform**
+  (oscilloscope). Attach it to a capture component (`CaptureSource`, e.g. `AudioRecorder` microphone input) or
+  to a player component (`PlayerSource`, e.g. `AudioPlayer` playback). Drawing runs entirely in JS with
+  `requestAnimationFrame` (60 fps, **no interop traffic**); the FFT reduced to configurable bands (0..1 values)
+  can additionally be reported to .NET via `OnSpectrumChanged` on a throttled timer for custom rendering.
+  Configurable: `FftSize`, `SmoothingTimeConstant`, `MinDecibels`/`MaxDecibels`, `BarCount`, logarithmic/linear
+  frequency scale, colors with optional gradient. `Width`/`Height` can be given in **px or %**
+  (`IsVisualizerDimensionInPixels`), the drawing resolution follows the CSS size automatically. **Note**: cross-origin player sources need CORS headers,
+  Blob URL recordings and .NET stream sources always work.
+
 ## Services
 
 - **`IMediaDeviceService`**: injectable service to list available **cameras, microphones and speakers**
@@ -79,6 +93,7 @@ Add the following usings to your components or `_Imports.razor`:
 @using Majorsoft.Blazor.Components.Media
 @using Majorsoft.Blazor.Components.Media.Capture
 @using Majorsoft.Blazor.Components.Media.Players
+@using Majorsoft.Blazor.Components.Media.Visualization
 ```
 
 # Usage
@@ -141,6 +156,46 @@ Add the following usings to your components or `_Imports.razor`:
 		=> await _audioPlayer.SetSourceAsync(recording.Url);
 
 	private void CaptureError(string error) { }
+}
+```
+
+## Voice recorder with FFT spectrum analyzer
+
+`AudioVisualizer` starts automatically when the attached source becomes active (`AutoStart`, default true).
+
+```razor
+<AudioRecorder @ref="_recorder" OnRecordingFinished="RecordingFinished" OnCaptureError="CaptureError" />
+<AudioVisualizer CaptureSource="_recorder" Width="640" Height="120"
+				 BarColor="#2196f3" BarGradientColor="#f321a7" BarCount="48" />
+
+<button @onclick="() => _recorder.OpenMicrophoneAsync()">Open microphone</button>
+<button @onclick="() => _recorder.StartRecordingAsync()">Record</button>
+<button @onclick="() => _recorder.StopRecordingAsync()">Stop</button>
+
+@code {
+	private AudioRecorder _recorder;
+
+	private async Task RecordingFinished(MediaRecordingInfo recording) { /* play or upload it */ }
+	private void CaptureError(string error) { }
+}
+```
+
+The same for playback, e.g. a player showing the spectrum of the played audio (works with recordings,
+.NET stream sources and same-origin/CORS enabled URLs):
+
+```razor
+<AudioPlayer @ref="_player" Source="music.mp3" />
+<AudioVisualizer PlayerSource="_player" Mode="AudioVisualizerModes.FrequencyBars" />
+```
+
+Waveform (oscilloscope) mode and .NET side FFT band data for custom rendering:
+
+```razor
+<AudioVisualizer CaptureSource="_recorder" Mode="AudioVisualizerModes.Waveform"
+				 OnSpectrumChanged="bands => _bands = bands" SpectrumBandCount="16" SpectrumIntervalMs="100" />
+
+@code {
+	private double[] _bands; //16 values 0..1, e.g. for custom bars/LED meters
 }
 ```
 

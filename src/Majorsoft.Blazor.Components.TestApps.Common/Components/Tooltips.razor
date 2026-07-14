@@ -230,12 +230,12 @@
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<label>Width (px, 0 = auto):</label>
-					<input type="number" min="0" step="20" class="form-control" @bind="_popoverWidth" />
+					<label>Width: <strong>@(_popoverWidth == 0 ? "auto" : $"{_popoverWidth}px")</strong></label>
+					<input type="range" min="0" max="600" step="20" class="form-control-range" @bind="_popoverWidth" @bind:event="oninput" />
 				</div>
 				<div class="col-6">
-					<label>Height (px, 0 = auto):</label>
-					<input type="number" min="0" step="20" class="form-control" @bind="_popoverHeight" />
+					<label>Height: <strong>@(_popoverHeight == 0 ? "auto" : $"{_popoverHeight}px")</strong></label>
+					<input type="range" min="0" max="600" step="20" class="form-control-range" @bind="_popoverHeight" @bind:event="oninput" />
 				</div>
 			</div>
 			<div class="mt-2">

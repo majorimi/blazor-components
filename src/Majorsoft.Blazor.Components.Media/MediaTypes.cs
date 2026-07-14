@@ -30,6 +30,17 @@ namespace Majorsoft.Blazor.Components.Media
 	}
 
 	/// <summary>
+	/// Rendering mode of the <see cref="Visualization.AudioVisualizer"/> component.
+	/// </summary>
+	public enum AudioVisualizerModes
+	{
+		/// <summary>FFT frequency spectrum drawn as vertical bars (spectrum analyzer).</summary>
+		FrequencyBars = 0,
+		/// <summary>Time domain waveform drawn as a line (oscilloscope).</summary>
+		Waveform
+	}
+
+	/// <summary>
 	/// Media type filter for the <see cref="Capture.MediaFileCapture"/> component (HTML <c>accept</c> attribute).
 	/// </summary>
 	public enum CaptureMediaTypes
@@ -185,5 +196,12 @@ namespace Majorsoft.Blazor.Components.Media
 	{
 		public string? Error { get; set; }
 		public string? MimeType { get; set; }
+	}
+
+	/// <summary>Result of starting an audio visualizer (internal interop DTO).</summary>
+	internal class VisualizerStartResult
+	{
+		public int Id { get; set; }
+		public string? Error { get; set; }
 	}
 }

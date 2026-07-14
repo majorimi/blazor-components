@@ -75,6 +75,7 @@ namespace Majorsoft.Blazor.Components.Media.Capture
 			}
 
 			_captureId = result.Id;
+			await NotifyCaptureStateChangedAsync();
 			return true;
 		}
 
@@ -91,6 +92,7 @@ namespace Majorsoft.Blazor.Components.Media.Capture
 			_captureId = 0;
 			RecordingState = RecordingStates.Inactive;
 			await module.InvokeVoidAsync("stopCapture", id);
+			await NotifyCaptureStateChangedAsync();
 		}
 
 		/// <summary>
@@ -170,7 +172,21 @@ namespace Majorsoft.Blazor.Components.Media.Capture
 			await module.InvokeVoidAsync("stopLevelMeter", _captureId, null);
 		}
 
-		private protected int CaptureId => _captureId;
+		internal int CaptureId => _captureId;
+
+		/// <summary>
+		/// Raised when the capture stream was opened or stopped, lets an attached
+		/// <see cref="Visualization.AudioVisualizer"/> follow the stream lifecycle.
+		/// </summary>
+		internal event Func<Task>? CaptureStateChanged;
+
+		private async Task NotifyCaptureStateChangedAsync()
+		{
+			if (CaptureStateChanged is not null)
+			{
+				await CaptureStateChanged.Invoke();
+			}
+		}
 
 		private protected void EnsureCaptureActive()
 		{
