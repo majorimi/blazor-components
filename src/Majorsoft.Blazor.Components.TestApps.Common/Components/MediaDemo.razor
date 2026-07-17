@@ -228,7 +228,7 @@
 		</div>
 		<div class="col-auto">
 			Smoothing: <strong>@_vizSmoothing.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)</strong><br />
-			<input type="range" style="width: 150px;" min="0" max="0.95" step="0.05" @bind="_vizSmoothing" @bind:event="oninput" />
+			<input type="range" style="width: 150px;" min="0" max="0.95" step="0.05" @bind="_vizSmoothing" @bind:event="oninput" @bind:culture="System.Globalization.CultureInfo.InvariantCulture" />
 		</div>
 		<div class="col-auto">
 			<label class="mt-4"><input type="checkbox" @bind="_vizLogScale" /> Logarithmic frequency scale</label>
