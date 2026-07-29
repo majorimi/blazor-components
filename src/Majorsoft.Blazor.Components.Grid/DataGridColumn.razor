@@ -1,0 +1,184 @@
+@typeparam TItem
+
+@code {
+	[CascadingParameter] internal DataGrid<TItem> Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (Parent == null)
+		{
+			throw new ArgumentNullException(nameof(Parent), $"{nameof(DataGridColumn<TItem>)} must exist within a {nameof(DataGrid<TItem>)}");
+		}
+
+		Parent.AddColumn(this);
+	}
+
+	private PropertyInfo? _propertyInfo;
+	private bool _propertyResolved = false;
+	private PropertyInfo? Property
+	{
+		get
+		{
+			if (!_propertyResolved && !string.IsNullOrWhiteSpace(Field))
+			{
+				_propertyInfo = ResolveProperty(Field);
+				_propertyResolved = true;
+			}
+
+			return _propertyInfo;
+		}
+	}
+
+	[UnconditionalSuppressMessage("Trimming", "IL2090",
+		Justification = "Data item properties are referenced by consuming code. For aggressively trimmed apps use CellTemplate and SortKeySelector instead of Field.")]
+	private static PropertyInfo? ResolveProperty(string field)
+		=> typeof(TItem).GetProperty(field, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+
+	private string? _field;
+	/// <summary>
+	/// Name of the data Field (public property of the data item Type) rendered to the cells.
+	/// Also used as fallback for Header text and for sorting when <see cref="SortKeySelector"/> was not provided.
+	/// </summary>
+	[Parameter]
+	public string? Field
+	{
+		get => _field;
+		set
+		{
+			if (_field != value)
+			{
+				_field = value;
+				_propertyResolved = false;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Header text of the column. When not set <see cref="Field"/> name is used.
+	/// </summary>
+	[Parameter] public string? Title { get; set; }
+
+	/// <summary>
+	/// Optional HTML content to render custom Header e.g. with icons as <see cref="RenderFragment"/>. It overrides <see cref="Title"/> text.
+	/// </summary>
+	[Parameter] public RenderFragment? HeaderTemplate { get; set; }
+
+	/// <summary>
+	/// Optional HTML content to render custom cell content as <see cref="RenderFragment{TItem}"/> with the current data item as context.
+	/// When not set the value of <see cref="Field"/> property is rendered.
+	/// </summary>
+	[Parameter] public RenderFragment<TItem>? CellTemplate { get; set; }
+
+	/// <summary>
+	/// Standard .NET Format string applied to the cell value when <see cref="CellTemplate"/> was not provided e.g. "{0:d}", "{0:C2}", etc.
+	/// </summary>
+	[Parameter] public string? Format { get; set; }
+
+	/// <summary>
+	/// Determines whether the column can be sorted or not. NOTE: it only works when `AllowSorting` was enabled on the parent <see cref="DataGrid{TItem}"/>.
+	/// </summary>
+	[Parameter] public bool Sortable { get; set; } = true;
+
+	/// <summary>
+	/// Optional Func to provide custom sort key for the column. When not set the value of <see cref="Field"/> property is used for sorting.
+	/// </summary>
+	[Parameter] public Func<TItem, object?>? SortKeySelector { get; set; }
+
+	/// <summary>
+	/// Determines whether the column can be resized or not. NOTE: it only works when `AllowColumnResize` was enabled on the parent <see cref="DataGrid{TItem}"/>.
+	/// </summary>
+	[Parameter] public bool Resizable { get; set; } = true;
+
+	private bool _hidden = false;
+	/// <summary>
+	/// Determines whether the current rendered column should be hidden or not.
+	/// </summary>
+	[Parameter]
+	public bool Hidden
+	{
+		get => _hidden;
+		set
+		{
+			if (_hidden != value)
+			{
+				_hidden = value;
+				Parent?.Refresh();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Sets the width of the column with CSS value e.g. "100px", "20%", "auto", etc.
+	/// </summary>
+	[Parameter] public string? Width { get; set; }
+
+	/// <summary>
+	/// Determines the text alignment of the rendered cells {Left, Center, Right}.
+	/// </summary>
+	[Parameter] public TextAligns TextAlign { get; set; } = TextAligns.Left;
+
+	/// <summary>
+	/// Custom CSS class applied to the column Header `th` HTML element.
+	/// </summary>
+	[Parameter] public string? HeaderCssClass { get; set; }
+
+	/// <summary>
+	/// Custom CSS style applied to the column Header `th` HTML element.
+	/// </summary>
+	[Parameter] public string? HeaderStyle { get; set; }
+
+	/// <summary>
+	/// Custom CSS class applied to all data cell `td` HTML elements of the column.
+	/// </summary>
+	[Parameter] public string? CellCssClass { get; set; }
+
+	/// <summary>
+	/// Custom CSS style applied to all data cell `td` HTML elements of the column.
+	/// </summary>
+	[Parameter] public string? CellStyle { get; set; }
+
+	/// <summary>
+	/// Returns the Header text of the column: <see cref="Title"/> or fallback <see cref="Field"/> name.
+	/// </summary>
+	public string HeaderText => Title ?? Field ?? string.Empty;
+
+	/// <summary>
+	/// Returns whether the column actually can be sorted: <see cref="Sortable"/> and has <see cref="Field"/> or <see cref="SortKeySelector"/> to sort by.
+	/// </summary>
+	public bool CanSort => Sortable && (SortKeySelector is not null || Property is not null);
+
+	internal object? GetSortKey(TItem item)
+	{
+		if (SortKeySelector is not null)
+		{
+			return SortKeySelector(item);
+		}
+
+		return Property?.GetValue(item);
+	}
+
+	internal string? GetCellValue(TItem item)
+	{
+		var value = Property?.GetValue(item);
+		if (value is null)
+		{
+			return null;
+		}
+
+		return string.IsNullOrWhiteSpace(Format)
+			? value.ToString()
+			: string.Format(Format, value);
+	}
+
+	internal RenderFragment RenderCell(TItem item) => builder =>
+	{
+		if (CellTemplate is not null)
+		{
+			builder.AddContent(0, CellTemplate(item));
+		}
+		else
+		{
+			builder.AddContent(1, GetCellValue(item));
+		}
+	};
+}

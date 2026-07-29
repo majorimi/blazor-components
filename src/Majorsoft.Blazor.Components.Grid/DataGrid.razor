@@ -1,0 +1,484 @@
+@typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
+
+<div @ref="_inputRef" id="@($"bgrid_{_componentId}")" class="bgridContainer" @attributes=AllOtherAttributes>
+	<CascadingValue Value="this" IsFixed="true">
+		@ChildContent
+	</CascadingValue>
+
+	<table class="@GetTableClass()" style="@GetTableStyle()">
+		<thead>
+			<tr>
+				@foreach (var column in VisibleColumns)
+				{
+					<th class="@GetHeaderClass(column)" style="@GetHeaderStyle(column)">
+						<div class="bgridHeaderClick" @onclick="() => SortingRequestedAsync(column)">
+							<span class="bgridHeaderContent">
+								@if (column.HeaderTemplate is not null)
+								{
+									@column.HeaderTemplate
+								}
+								else
+								{
+									@column.HeaderText
+								}
+							</span>
+							@if (AllowSorting && column.CanSort)
+							{
+								<span class="bgridSortIndicator">@GetSortIndicator(column)</span>
+							}
+						</div>
+					</th>
+				}
+			</tr>
+		</thead>
+		<tbody>
+			@if (!PagedItems.Any())
+			{
+				<tr>
+					<td class="bgridEmpty" colspan="@(VisibleColumns.Count())">
+						@if (EmptyDataTemplate is not null)
+						{
+							@EmptyDataTemplate
+						}
+						else
+						{
+							@("No data to display.")
+						}
+					</td>
+				</tr>
+			}
+			else
+			{
+				@foreach (var item in PagedItems)
+				{
+					<tr @key="item" @onclick="() => RowClickedAsync(item)">
+						@foreach (var column in VisibleColumns)
+						{
+							<td class="@column.CellCssClass" style="@GetCellStyle(column)">
+								@column.RenderCell(item)
+							</td>
+						}
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+
+	@if (AllowPaging && PageCount > 1)
+	{
+		<div class="bgridPager">
+			<button type="button" class="bgridPagerButton" disabled="@(CurrentPage <= 1)" @onclick="() => GoToPageAsync(1)">&#171;</button>
+			<button type="button" class="bgridPagerButton" disabled="@(CurrentPage <= 1)" @onclick="() => GoToPageAsync(CurrentPage - 1)">&#8249;</button>
+			@foreach (var page in GetPagerPages())
+			{
+				var pageNumber = page;
+				<button type="button" class="bgridPagerButton @(pageNumber == CurrentPage ? "active" : "")" @onclick="() => GoToPageAsync(pageNumber)">@pageNumber</button>
+			}
+			<button type="button" class="bgridPagerButton" disabled="@(CurrentPage >= PageCount)" @onclick="() => GoToPageAsync(CurrentPage + 1)">&#8250;</button>
+			<button type="button" class="bgridPagerButton" disabled="@(CurrentPage >= PageCount)" @onclick="() => GoToPageAsync(PageCount)">&#187;</button>
+
+			@if (ShowPagerInfo)
+			{
+				<span class="bgridPagerInfo">Page @CurrentPage of @PageCount (@TotalItemCount items)</span>
+			}
+		</div>
+	}
+</div>
+
+@inject ILogger<DataGrid<TItem>> _logger
+
+@code {
+	private string _componentId = Guid.NewGuid().ToString("n");
+	protected ElementReference _inputRef;
+	/// <summary>
+	/// Exposes a Blazor <see cref="ElementReference"/> of the wrapped around HTML element. It can be used e.g. for JS interop, etc.
+	/// </summary>
+	public ElementReference InnerElementReference => _inputRef;
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			//Columns are registered during first render, so table Header must be re-rendered.
+			StateHasChanged();
+		}
+	}
+
+	/// <summary>
+	/// Data source of the Grid as <see cref="IEnumerable{TItem}"/>.
+	/// </summary>
+	[Parameter] public IEnumerable<TItem>? Items { get; set; }
+
+	/// <summary>
+	/// Required HTML content to define <see cref="DataGridColumn{TItem}"/> columns as <see cref="RenderFragment"/>.
+	/// </summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>
+	/// Optional HTML content rendered when the Grid has no data to show as <see cref="RenderFragment"/>.
+	/// </summary>
+	[Parameter] public RenderFragment? EmptyDataTemplate { get; set; }
+
+	/// <summary>
+	/// Enables or disables column sorting for the whole Grid. Sorting can be disabled per column with <see cref="DataGridColumn{TItem}.Sortable"/>.
+	/// </summary>
+	[Parameter] public bool AllowSorting { get; set; } = false;
+
+	/// <summary>
+	/// Enables or disables paging of the Grid data.
+	/// </summary>
+	[Parameter] public bool AllowPaging { get; set; } = false;
+
+	/// <summary>
+	/// Enables or disables column resizing with native CSS `resize` for the whole Grid. Drag the handle at the bottom right corner of the column Header.
+	/// Resizing can be disabled per column with <see cref="DataGridColumn{TItem}.Resizable"/>.
+	/// </summary>
+	[Parameter] public bool AllowColumnResize { get; set; } = false;
+
+	private int _pageSize = 10;
+	/// <summary>
+	/// Number of data rows to show per page when <see cref="AllowPaging"/> was enabled.
+	/// </summary>
+	[Parameter]
+	public int PageSize
+	{
+		get => _pageSize;
+		set => _pageSize = Math.Max(1, value);
+	}
+
+	private int _currentPage = 1;
+	/// <summary>
+	/// Gets or sets the current page number (1 based) when <see cref="AllowPaging"/> was enabled.
+	/// </summary>
+	[Parameter]
+	public int CurrentPage
+	{
+		get => _currentPage;
+		set => _currentPage = Math.Max(1, value);
+	}
+
+	/// <summary>
+	/// Callback function called when the current page was changed. Also enables `bind-CurrentPage` two-way binding.
+	/// </summary>
+	[Parameter] public EventCallback<int> CurrentPageChanged { get; set; }
+
+	/// <summary>
+	/// Determines whether the pager should show page info text or not.
+	/// </summary>
+	[Parameter] public bool ShowPagerInfo { get; set; } = true;
+
+	/// <summary>
+	/// Number of page buttons to show in the pager.
+	/// </summary>
+	[Parameter] public int PagerButtonCount { get; set; } = 5;
+
+	/// <summary>
+	/// Renders the Grid with striped rows: even rows using <see cref="StripeColor"/> as background color.
+	/// </summary>
+	[Parameter] public bool Striped { get; set; } = false;
+
+	/// <summary>
+	/// Renders the Grid with borders on all cells using <see cref="BorderColor"/>.
+	/// </summary>
+	[Parameter] public bool Bordered { get; set; } = true;
+
+	/// <summary>
+	/// Enables row highlighting with <see cref="HoverColor"/> when mouse pointer is over a data row.
+	/// </summary>
+	[Parameter] public bool Hoverable { get; set; } = true;
+
+	private string _headerBackgroundColor = "245,245,245";//WhiteSmoke
+	/// <summary>
+	/// Sets the `style` of the `background-color` of the Grid Header. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string HeaderBackgroundColor
+	{
+		get => _headerBackgroundColor;
+		set => _headerBackgroundColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private string _headerTextColor = "0,0,0";//black
+	/// <summary>
+	/// Sets the `style` of the text `color` of the Grid Header. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string HeaderTextColor
+	{
+		get => _headerTextColor;
+		set => _headerTextColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private string _stripeColor = "245,245,245";//WhiteSmoke
+	/// <summary>
+	/// Sets the `style` of the `background-color` of even data rows when <see cref="Striped"/> was enabled. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string StripeColor
+	{
+		get => _stripeColor;
+		set => _stripeColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private string _hoverColor = "229,241,251";//light blue
+	/// <summary>
+	/// Sets the `style` of the `background-color` of hovered data row when <see cref="Hoverable"/> was enabled. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string HoverColor
+	{
+		get => _hoverColor;
+		set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	private string _borderColor = "211,211,211";//lightGray
+	/// <summary>
+	/// Sets the `style` of the `border-color` of the Grid when <see cref="Bordered"/> was enabled. Use HTML specified: **Color Names**, **RGB**, **HEX** or with **HSL** values.
+	/// </summary>
+	[Parameter]
+	public string BorderColor
+	{
+		get => _borderColor;
+		set => _borderColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+	}
+
+	/// <summary>
+	/// Custom CSS class(es) applied to the rendered `table` HTML element e.g. Bootstrap: "table table-sm".
+	/// </summary>
+	[Parameter] public string? TableCssClass { get; set; }
+
+	/// <summary>
+	/// Callback function called when a data row was clicked. Clicked data item is the callback parameter.
+	/// </summary>
+	[Parameter] public EventCallback<TItem> OnRowClicked { get; set; }
+
+	/// <summary>
+	/// Callback function called when Grid sorting was changed. Sorted Field name and direction in <see cref="DataGridSortEventArgs"/> is the callback parameter.
+	/// </summary>
+	[Parameter] public EventCallback<DataGridSortEventArgs> OnSortChanged { get; set; }
+
+	/// <summary>
+	/// Blazor capture for any unmatched HTML attributes.
+	/// </summary>
+	[Parameter(CaptureUnmatchedValues = true)]
+	public Dictionary<string, object>? AllOtherAttributes { get; set; }
+
+	private readonly IList<DataGridColumn<TItem>> _columns = new List<DataGridColumn<TItem>>();
+	/// <summary>
+	/// Returns all the <see cref="DataGridColumn{TItem}"/> references added to the Grid.
+	/// </summary>
+	public IEnumerable<DataGridColumn<TItem>> Columns => _columns;
+	/// <summary>
+	/// Returns the number of <see cref="DataGridColumn{TItem}"/> in the given Grid.
+	/// </summary>
+	public int ColumnCount => _columns.Count;
+
+	private DataGridColumn<TItem>? _sortedColumn;
+	/// <summary>
+	/// Returns the currently sorted <see cref="DataGridColumn{TItem}"/> or NULL.
+	/// </summary>
+	public DataGridColumn<TItem>? SortedColumn => _sortedColumn;
+
+	private SortDirections _sortDirection = SortDirections.None;
+	/// <summary>
+	/// Returns the currently applied <see cref="SortDirections"/> of the Grid.
+	/// </summary>
+	public SortDirections SortDirection => _sortDirection;
+
+	/// <summary>
+	/// Returns the total number of data items in the Grid data source.
+	/// </summary>
+	public int TotalItemCount => Items?.Count() ?? 0;
+
+	/// <summary>
+	/// Returns the total number of pages based on <see cref="TotalItemCount"/> and <see cref="PageSize"/>.
+	/// </summary>
+	public int PageCount => AllowPaging ? Math.Max(1, (int)Math.Ceiling(TotalItemCount / (double)PageSize)) : 1;
+
+	private IEnumerable<DataGridColumn<TItem>> VisibleColumns => _columns.Where(x => !x.Hidden);
+
+	private IEnumerable<TItem> OrderedItems
+	{
+		get
+		{
+			var items = Items ?? Enumerable.Empty<TItem>();
+
+			if (AllowSorting && _sortedColumn is not null && _sortDirection != SortDirections.None)
+			{
+				items = _sortDirection == SortDirections.Ascending
+					? items.OrderBy(_sortedColumn.GetSortKey)
+					: items.OrderByDescending(_sortedColumn.GetSortKey);
+			}
+
+			return items;
+		}
+	}
+
+	private IEnumerable<TItem> PagedItems
+	{
+		get
+		{
+			if (!AllowPaging)
+			{
+				return OrderedItems;
+			}
+
+			var page = Math.Min(CurrentPage, PageCount);
+			return OrderedItems.Skip((page - 1) * PageSize).Take(PageSize);
+		}
+	}
+
+	internal void AddColumn(DataGridColumn<TItem> column)
+	{
+		WriteDiag($"{nameof(AddColumn)}: {column.HeaderText}");
+
+		if (!_columns.Contains(column))
+		{
+			_columns.Add(column);
+			StateHasChanged();
+		}
+	}
+
+	/// <summary>
+	/// Re-renders the Grid. Can be used when the data source was changed externally.
+	/// </summary>
+	public void Refresh() => InvokeAsync(StateHasChanged);
+
+	/// <summary>
+	/// Sorts the Grid by the given column with the given direction.
+	/// </summary>
+	/// <param name="column">Column to sort by</param>
+	/// <param name="sortDirection">Direction to sort with</param>
+	public async Task SortByAsync(DataGridColumn<TItem> column, SortDirections sortDirection)
+	{
+		if (!AllowSorting || !column.CanSort)
+		{
+			return;
+		}
+
+		WriteDiag($"{nameof(SortByAsync)}: {column.HeaderText}, direction: {sortDirection}");
+
+		_sortedColumn = sortDirection == SortDirections.None ? null : column;
+		_sortDirection = sortDirection;
+
+		if (OnSortChanged.HasDelegate)
+		{
+			await OnSortChanged.InvokeAsync(new DataGridSortEventArgs(column.Field, _sortDirection));
+		}
+
+		StateHasChanged();
+	}
+
+	/// <summary>
+	/// Navigates the Grid to the given page number (1 based). Value is clamped between 1 and <see cref="PageCount"/>.
+	/// </summary>
+	/// <param name="page">Page number to navigate to</param>
+	public async Task GoToPageAsync(int page)
+	{
+		var newPage = Math.Clamp(page, 1, PageCount);
+		if (newPage == _currentPage)
+		{
+			return;
+		}
+
+		WriteDiag($"{nameof(GoToPageAsync)}: {newPage}");
+
+		_currentPage = newPage;
+
+		if (CurrentPageChanged.HasDelegate)
+		{
+			await CurrentPageChanged.InvokeAsync(_currentPage);
+		}
+
+		StateHasChanged();
+	}
+
+	private async Task SortingRequestedAsync(DataGridColumn<TItem> column)
+	{
+		if (!AllowSorting || !column.CanSort)
+		{
+			return;
+		}
+
+		var direction = _sortedColumn == column && _sortDirection == SortDirections.Ascending
+			? SortDirections.Descending
+			: SortDirections.Ascending;
+
+		await SortByAsync(column, direction);
+	}
+
+	private async Task RowClickedAsync(TItem item)
+	{
+		if (OnRowClicked.HasDelegate)
+		{
+			await OnRowClicked.InvokeAsync(item);
+		}
+	}
+
+	private IEnumerable<int> GetPagerPages()
+	{
+		var buttonCount = Math.Max(1, PagerButtonCount);
+		var start = Math.Max(1, CurrentPage - (buttonCount / 2));
+		var end = Math.Min(PageCount, start + buttonCount - 1);
+		start = Math.Max(1, end - buttonCount + 1);
+
+		return Enumerable.Range(start, end - start + 1);
+	}
+
+	private string GetSortIndicator(DataGridColumn<TItem> column)
+	{
+		if (_sortedColumn != column || _sortDirection == SortDirections.None)
+		{
+			return "";
+		}
+
+		return _sortDirection == SortDirections.Ascending ? "▲" : "▼";
+	}
+
+	private string GetTableClass()
+	{
+		var classes = new List<string>() { "bgrid" };
+
+		if (AllowColumnResize) classes.Add("resizable");
+		if (Striped) classes.Add("striped");
+		if (Bordered) classes.Add("bordered");
+		if (Hoverable) classes.Add("hoverable");
+		if (!string.IsNullOrWhiteSpace(TableCssClass)) classes.Add(TableCssClass);
+
+		return string.Join(' ', classes);
+	}
+
+	private string GetTableStyle()
+	{
+		return $"--bgridHeaderBg: rgb({HeaderBackgroundColor}); --bgridHeaderColor: rgb({HeaderTextColor}); --bgridStripe: rgb({StripeColor}); --bgridHover: rgb({HoverColor}); --bgridBorder: rgb({BorderColor});";
+	}
+
+	private string GetHeaderClass(DataGridColumn<TItem> column)
+	{
+		var classes = new List<string>();
+
+		if (AllowSorting && column.CanSort) classes.Add("sortable");
+		if (AllowColumnResize && column.Resizable) classes.Add("resizable");
+		if (!string.IsNullOrWhiteSpace(column.HeaderCssClass)) classes.Add(column.HeaderCssClass);
+
+		return string.Join(' ', classes);
+	}
+
+	private string GetHeaderStyle(DataGridColumn<TItem> column)
+	{
+		var style = string.IsNullOrWhiteSpace(column.Width) ? "" : $"width: {column.Width};";
+		return $"{style} {column.HeaderStyle}".Trim();
+	}
+
+	private string GetCellStyle(DataGridColumn<TItem> column)
+	{
+		var style = column.TextAlign == TextAligns.Left ? "" : $"text-align: {column.TextAlign.ToString().ToLower()};";
+		return $"{style} {column.CellStyle}".Trim();
+	}
+
+	private void WriteDiag(string message)
+	{
+		_logger.LogDebug($"Component {this.GetType()}: {message}");
+	}
+}
