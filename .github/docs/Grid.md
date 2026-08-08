@@ -9,6 +9,9 @@ Blazor Grid Components
 
 Blazor component that renders a customizable data Grid (HTML table) from any `IEnumerable<TItem>` data source.
 **All components work with WebAssembly and Server hosted models**.
+For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/GridDemo.razor).
+
+You can try it out by using the [demo app](https://blazorextensions.z6.web.core.windows.net/grid).
 
 Grid supports two usage "modes":
 - **Basic**: just define columns with `Field` names, Grid renders a plain HTML table.
