@@ -1,0 +1,8 @@
+@inherits Majorsoft.Blazor.Components.Canvas.CanvasComponentBase
+
+@*
+	WebGL component: renders an HTML <canvas> element and exposes its WebGL/WebGL2 rendering context
+	to .NET code as WebGLContext via the OnContextCreated event or the Context property.
+*@
+
+<canvas @ref="_canvasRef" width="@CanvasWidthAttribute" height="@CanvasHeightAttribute" tabindex="@TabIndex" class="@Class" style="@CanvasStyle" @attributes="AdditionalAttributes"></canvas>

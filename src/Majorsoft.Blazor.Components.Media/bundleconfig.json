@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/media.min.js",
+    "inputFiles": [
+      "wwwroot/media.js"
+    ]
+  }
+]

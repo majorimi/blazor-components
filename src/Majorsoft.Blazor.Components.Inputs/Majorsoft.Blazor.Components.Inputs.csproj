@@ -21,8 +21,8 @@
 	<RepositoryUrl>https://github.com/majorimi/blazor-components</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
 	<PackageReleaseNotes>See Releases here: https://github.com/majorimi/blazor-components/releases</PackageReleaseNotes>
-	<PackageTags>.NET8 .NET9 .NET10 Blazor Htlm.Input Inputs MaxLength Counter Markdown MarkdownEditor RichText Editor</PackageTags>
-	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with maxlength set and counter to show remaining characters; and a Markdown RichText editor with a customizable sectioned toolbar and live preview. Part of Majorsoft Blazor library.</Description>
+	<PackageTags>.NET8 .NET9 .NET10 Blazor Htlm.Input Inputs MaxLength Counter Markdown MarkdownEditor RichText Editor DateTimePicker DatePicker Calendar</PackageTags>
+	<Description>Blazor components that renders an Input, InputText, Textarea or InputTextarea, etc. element with maxlength set and counter to show remaining characters; a Markdown RichText editor with a customizable sectioned toolbar and live preview; and a Date/DateTime picker with calendar Popover, culture and format support. Part of Majorsoft Blazor library.</Description>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 

@@ -8,7 +8,7 @@ Blazor Components Inputs controls
 # About
 
 Blazor components that renders an HTML `<input>`, `<textarea>` elements also extending `InputText` and `InputTextArea` Blazor provided components with `maxlength` set and counter to show remaining characters.
-The package also ships a **`MarkdownEditor`** and a Word-like **`RichTextEditor`** that share a customizable sectioned toolbar and a Markdown engine.
+The package also ships a **`MarkdownEditor`** and a Word-like **`RichTextEditor`** that share a customizable sectioned toolbar and a Markdown engine, and a **`DateTimePicker`** with a calendar (and optional time) editor shown in a Popover.
 **All components work with WebAssembly and Server hosted models**. 
 For code examples [see usage](https://github.com/majorimi/blazor-components/blob/master/src/Majorsoft.Blazor.Components.TestApps.Common/Components/MaxLengthInputPage.razor).
 
@@ -25,6 +25,7 @@ You can try it out by using the [demo app](https://blazorextensions.z6.web.core.
 - **`MarkdownEditor`**: Markdown source editor with a customizable sectioned toolbar and a live HTML preview (Edit / Split / Preview views).
 - **`RichTextEditor`**: Word-like WYSIWYG editor that applies formatting inline on a `contenteditable` surface while keeping the bound value as Markdown, so it round-trips cleanly with `MarkdownEditor`.
 - **`PasswordInput`**: secret text input with a customizable mask character (dot, star, bullet, etc.), a customizable layout and a reveal (eye) button that shows or hides the entered value.
+- **`DateTimePicker`**: text input with a calendar (and optional time) editor shown in a `Popover`. Supports culture or custom format string based formatting/parsing, Date or DateTime mode, min/max limits, week numbers and full CSS customization.
 
 ## `MaxLengthInput` and `MaxLengthInputText` components
 
@@ -247,6 +248,100 @@ All class names are prefixed with `bpwd` and every part is overridable via the `
 
 @code {
     private string? _password;
+}
+```
+
+## `DateTimePicker` component
+
+![DateTimePicker demo](https://raw.githubusercontent.com/majorimi/blazor-components-docs/main/github/docs/gifs/dateTimePicker.gif)
+
+Blazor component that renders a text `<input>` with a **calendar (and optional time) editor** shown in a `Popover`.
+The value can be **picked** in the calendar or **typed** into the input; typed text is parsed with the effective
+format/culture and invalid entries are discarded. Clicking the calendar header drills up to **month** and **year**
+selection views. Formatting and parsing use `DateFormat` when set, otherwise the short date (and time) pattern of
+the given `Culture` (or the current culture). In DateTime mode a **12/24 hour clock** and the visibility of the
+**seconds** editor are derived from the effective format string (`hh` or `tt` &#8594; 12 hour clock with AM/PM,
+`ss` &#8594; seconds dropdown).
+
+> **\* Note**: the picker renders a `Popover` from the Tooltips package, which relies on the JS interop
+> services. Register them once in your host app(s): `services.AddJsInteropExtensions();`
+
+Component CSS is scoped and ships with the package, no stylesheet link is required. All panel parts expose
+`bdtp-*` prefixed CSS classes which can be targeted via the `Class`, `InputClass` and `PickerClass` parameters
+for full customization.
+
+### Properties
+
+- **`Value`: `DateTime? { get; set; }`** <br />
+  The picked date (and time). Supports two-way binding via `@bind-Value`. In `Date` mode the time part is always midnight.
+- **`Mode`: `DateTimePickerMode { get; set; }` (default: `Date`)** <br />
+  Whether the component picks a Date only or a Date with Time (`Date` or `DateTime`).
+- **`Position`: `TooltipPositions { get; set; }` (default: `Bottom`)** <br />
+  Position of the picker Popover relative to the input (`Top`, `Bottom`, `Left`, `Right`).
+- **`FirstDayOfWeek`: `DayOfWeek? { get; set; }` (default: null)** <br />
+  First day of week shown in the calendar. When null the first day of week of the effective culture is used.
+- **`DateFormat`: `string? { get; set; }` (default: null)** <br />
+  Custom .NET date/time format string used for formatting and parsing, e.g. `"yyyy-MM-dd"` or `"dd/MM/yyyy HH:mm"`.
+  When not set the short date (and short time in DateTime mode) pattern of the effective culture is used.
+- **`Culture`: `CultureInfo? { get; set; }` (default: null)** <br />
+  Culture used for formatting, parsing, day/month names and calendar rules. When null `CultureInfo.CurrentCulture` is used.
+- **`MinDate` / `MaxDate`: `DateTime? { get; set; }` (default: null)** <br />
+  Minimum / maximum selectable date (inclusive). Out of range days are disabled in the calendar and typed values are clamped.
+- **`MinuteStep`: `int { get; set; }` (default: 1)** <br />
+  Step of the minutes dropdown in DateTime mode, e.g. 5, 15, 30. The current value's minute is always offered even when it is off-step.
+- **`AllowTextInput`: `bool { get; set; }` (default: true)** <br />
+  When true the value can also be typed into the input. When false the input is read only and the value can only be picked.
+- **`CloseOnOutsideClick`: `bool { get; set; }` (default: true)** <br />
+  When true the picker Popover closes when the user clicks outside of it.
+- **`IsOpen`: `bool { get; set; }` (default: false)** <br />
+  Whether the picker Popover is open. Supports two-way binding via `@bind-IsOpen`, set it to open/close the picker programmatically.
+- **`Disabled` / `ReadOnly`: `bool { get; set; }` (default: false)** <br />
+  Standard disabled / read only states (both block typing and picking).
+- **`Placeholder`: `string? { get; set; }`** <br />
+  Placeholder text shown when the input is empty.
+- **`ShowWeekNumbers`: `bool { get; set; }` (default: false)** <br />
+  Whether the week number column is rendered in the calendar.
+- **`ShowTodayButton` / `ShowClearButton`: `bool { get; set; }` (default: true)** <br />
+  Whether the Today (Date mode) / Now (DateTime mode) and Clear footer buttons are rendered.
+- **`TodayButtonText` / `NowButtonText` / `ClearButtonText` / `OkButtonText`: `string { get; set; }`** <br />
+  Footer button texts to change or localize (defaults: "Today", "Now", "Clear", "OK").
+- **`Class` / `Style` / `InputClass` / `PickerClass`: `string? { get; set; }`** <br />
+  CSS hooks to customize the root element, the `<input>` and the picker Popover panel.
+- **`CalendarIconContent`: `RenderFragment? { get; set; }`** <br />
+  Optional custom content for the calendar toggle button replacing the default calendar icon.
+- **`AdditionalAttributes`: `Dictionary<string, object>?`** <br />
+  Arbitrary HTML attributes splatted onto the inner `<input>`.
+- **`InnerElementReference`: `ElementReference { get; }`** <br />
+  Exposes a Blazor `ElementReference` of the inner `<input>` element. It can be used e.g. for JS interop, focus, etc.
+
+### Events
+
+- **`ValueChanged`: `EventCallback<DateTime?>`** — enables `@bind-Value`, invoked whenever the value changes (picked, typed, cleared).
+- **`IsOpenChanged`: `EventCallback<bool>`** — enables `@bind-IsOpen`, invoked whenever the picker opens or closes.
+- **`OnOpen`: `EventCallback`** — callback function called when the picker Popover is opening.
+- **`OnClose`: `EventCallback`** — callback function called when the picker Popover is closing.
+
+### Usage
+
+```
+@using Majorsoft.Blazor.Components.Inputs
+@using System.Globalization
+
+<DateTimePicker @bind-Value="_date"
+                Mode="DateTimePickerMode.Date"
+                Placeholder="Pick or type a date..." />
+
+<DateTimePicker @bind-Value="_meeting"
+                Mode="DateTimePickerMode.DateTime"
+                DateFormat="MM/dd/yyyy hh:mm:ss tt"
+                Culture="@CultureInfo.GetCultureInfo("en-US")"
+                MinuteStep="5"
+                MinDate="@DateTime.Today"
+                ShowWeekNumbers="true" />
+
+@code {
+    private DateTime? _date = DateTime.Today;
+    private DateTime? _meeting;
 }
 ```
 

@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Canvas\Majorsoft.Blazor.Components.Canvas.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Collapse\Majorsoft.Blazor.Components.Collapse.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.ColorPicker\Majorsoft.Blazor.Components.ColorPicker.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Common.JsInterop\Majorsoft.Blazor.Components.Common.JsInterop.csproj" />
@@ -32,9 +33,11 @@
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.DragAndDrop\Majorsoft.Blazor.Components.DragAndDrop.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Debounce\Majorsoft.Blazor.Components.Debounce.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.GdprConsent\Majorsoft.Blazor.Components.GdprConsent.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Grid\Majorsoft.Blazor.Components.Grid.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Inputs\Majorsoft.Blazor.Components.Inputs.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Loading\Majorsoft.Blazor.Components.Loading.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Maps\Majorsoft.Blazor.Components.Maps.csproj" />
+	<ProjectReference Include="..\Majorsoft.Blazor.Components.Media\Majorsoft.Blazor.Components.Media.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Modal\Majorsoft.Blazor.Components.Modal.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.Notifications\Majorsoft.Blazor.Components.Notifications.csproj" />
 	<ProjectReference Include="..\Majorsoft.Blazor.Components.PermaLink\Majorsoft.Blazor.Components.PermaLink.csproj" />

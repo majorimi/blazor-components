@@ -1,0 +1,342 @@
+@using Majorsoft.Blazor.Components.Canvas
+
+<h1>Canvas 2D</h1>
+<p>
+    Blazor <code>Canvas2D</code> component: renders an HTML <code>&lt;canvas&gt;</code> element and exposes the
+    <strong>Canvas 2D drawing API</strong> (<code>CanvasRenderingContext2D</code>) to .NET code via JS interop with
+    <strong>command batching</strong> and an optional <strong>render loop</strong> (<code>OnFrame</code>).
+    For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Canvas.md" target="_blank">Github</a>.
+    <br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Canvas" />
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Static drawing</h3>
+    <p>
+        Shapes, gradients, dashed lines, shadows and text drawn once in <code>OnContextCreated</code> using a single batched interop call.
+        Canvas dimensions can be given in <strong>px or %</strong> with <code>IsCanvasDimensionInPixels</code>; in % mode the drawing
+        buffer is synced to the CSS layout size (the % height is relative to the wrapper <code>&lt;div&gt;</code> below).
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-auto">
+            Width: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_dimWidth" />
+        </div>
+        <div class="col-auto">
+            Height: <input type="number" class="form-control" style="width: 100px;" min="1" @bind="_dimHeight" />
+        </div>
+        <div class="col-auto">
+            <label class="mt-4"><input type="checkbox" @bind="_dimInPixels" /> Dimensions in pixels (unchecked: %)</label>
+        </div>
+        <div class="col-auto mt-3">
+            <button class="btn btn-primary btn-sm" @onclick="ApplyDimensionsAsync">Apply and redraw</button>
+        </div>
+    </div>
+
+    <div style="height: 220px;">
+        <Canvas2D @key="_dimKey" @ref="_showcaseCanvas" Width="@_dimWidth" Height="@_dimHeight" IsCanvasDimensionInPixels="@_dimInPixels"
+                  Style="border: 1px solid #ccc; border-radius: 4px;" OnContextCreated="DrawShowcaseAsync" />
+    </div>
+    <div class="pt-1">Drawing buffer size: <strong>@_bufferInfo</strong></div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Paint</h3>
+    <p>
+        Interactive drawing driven by the <strong>input capture API</strong>: <code>StartInputCaptureAsync</code> tracks the
+        mouse and keyboard on the canvas and every <code>OnFrame</code> callback carries the state in <code>args.Input</code>
+        (no per-event interop). <strong>Left drag</strong> paints, <strong>right drag</strong> erases,
+        <strong>mouse wheel</strong> changes the brush size and <strong>C</strong> clears (click the canvas to focus it,
+        <code>TabIndex="0"</code>). Canvas content can be exported with <code>ToDataURLAsync</code>.
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-auto">
+            Color: <input type="color" @bind="_paintColor" />
+        </div>
+        <div class="col-auto">
+            Brush size (mouse wheel): <input type="range" min="1" max="30" @bind="_paintWidth" /> @_paintWidth px
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary btn-sm" @onclick="ClearPaintAsync">Clear</button>
+            <button class="btn btn-primary btn-sm" @onclick="ExportPaintAsync">Export to PNG</button>
+        </div>
+    </div>
+
+    <Canvas2D @ref="_paintCanvas" Width="620" Height="300" TabIndex="0"
+              Style="border: 1px solid #ccc; border-radius: 4px; cursor: crosshair; touch-action: none; outline: none;"
+              OnContextCreated="PaintReadyAsync" OnFrame="PaintFrameAsync" />
+
+    @if (!string.IsNullOrEmpty(_exportedImage))
+    {
+        <div class="pt-2">
+            Exported image (<code>&lt;img&gt;</code> element fed by the data URL):<br />
+            <img src="@_exportedImage" style="max-width: 300px; border: 1px dashed #999;" />
+        </div>
+    }
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Animation with render loop</h3>
+    <p>Bouncing balls redrawn on every <code>requestAnimationFrame</code> via the <code>OnFrame</code> callback, all frame commands sent in one batch.</p>
+
+    <div class="row pb-2">
+        <div class="col-auto">
+            <button class="btn btn-primary btn-sm" @onclick="ToggleAnimationAsync">@(_animationRunning ? "Stop" : "Start") animation</button>
+        </div>
+        <div class="col-auto">
+            FPS: <strong>@_fps.ToString("0")</strong>
+        </div>
+    </div>
+
+    <Canvas2D @ref="_animCanvas" Width="620" Height="260" Style="border: 1px solid #ccc; border-radius: 4px;"
+              OnContextCreated="AnimationReadyAsync" OnFrame="AnimationFrameAsync" />
+</div>
+
+@code {
+    //Static showcase with px or % dimensions
+    private Canvas2D _showcaseCanvas = default!;
+    private int _dimWidth = 620;
+    private int _dimHeight = 220;
+    private bool _dimInPixels = true;
+    private int _dimKey = 0;
+    private string _bufferInfo = "";
+
+    private void ApplyDimensionsAsync()
+    {
+        //Recreate the component so the new dimensions apply and OnContextCreated redraws the scene.
+        _dimKey++;
+    }
+
+    private async Task DrawShowcaseAsync(Canvas2DContext ctx)
+    {
+        //Layout adapts to the actual drawing buffer size (differs from Width/Height in % mode).
+        var size = await _showcaseCanvas.GetCanvasSizeAsync();
+        double w = size.Width, h = size.Height;
+        _bufferInfo = $"{size.Width} x {size.Height} px";
+
+        ctx.BeginBatch();
+
+        var gradient = await ctx.CreateLinearGradientAsync(0, 0, w, 0);
+        await gradient.AddColorStopAsync(0, "#1b6ec2");
+        await gradient.AddColorStopAsync(1, "#7b2cbf");
+
+        await ctx.SetFillStyleAsync(gradient);
+        await ctx.FillRectAsync(0, 0, w, h);
+
+        //Rounded rectangle with shadow
+        var cardWidth = Math.Min(280, w * 0.45);
+        await ctx.SetShadowColorAsync("rgba(0,0,0,0.4)");
+        await ctx.SetShadowBlurAsync(8);
+        await ctx.SetShadowOffsetYAsync(4);
+        await ctx.SetFillStyleAsync("white");
+        await ctx.BeginPathAsync();
+        await ctx.RoundRectAsync(20, 20, cardWidth, h - 40, 12);
+        await ctx.FillAsync();
+        await ctx.SetShadowColorAsync("transparent");
+
+        //Pie chart from arcs
+        var pieX = 20 + (cardWidth / 2);
+        var pieY = h / 2;
+        var pieRadius = Math.Max(10, (Math.Min(cardWidth, h - 40) / 2) - 20);
+        var colors = new[] { "#1b6ec2", "#28a745", "#ffc107", "#dc3545" };
+        var shares = new[] { 0.35, 0.3, 0.2, 0.15 };
+        var start = -Math.PI / 2;
+        for (var i = 0; i < shares.Length; i++)
+        {
+            var end = start + (shares[i] * Math.PI * 2);
+            await ctx.SetFillStyleAsync(colors[i]);
+            await ctx.BeginPathAsync();
+            await ctx.MoveToAsync(pieX, pieY);
+            await ctx.ArcAsync(pieX, pieY, pieRadius, start, end);
+            await ctx.ClosePathAsync();
+            await ctx.FillAsync();
+            start = end;
+        }
+
+        //Dashed curve
+        var left = cardWidth + 50;
+        await ctx.SetStrokeStyleAsync("white");
+        await ctx.SetLineWidthAsync(3);
+        await ctx.SetLineDashAsync(new double[] { 10, 6 });
+        await ctx.BeginPathAsync();
+        await ctx.MoveToAsync(left, h * 0.8);
+        await ctx.BezierCurveToAsync(left + ((w - left) * 0.3), h * 0.2, left + ((w - left) * 0.6), h, w - 30, h * 0.35);
+        await ctx.StrokeAsync();
+        await ctx.SetLineDashAsync(Array.Empty<double>());
+
+        //Text
+        await ctx.SetFillStyleAsync("white");
+        await ctx.SetFontAsync("bold 28px Arial");
+        await ctx.FillTextAsync("Canvas 2D in Blazor", left, 50);
+        await ctx.SetFontAsync("14px Arial");
+        await ctx.FillTextAsync("gradients, paths, arcs, shadows, text...", left, 75);
+
+        await ctx.EndBatchAsync();
+        StateHasChanged(); //Update buffer size label.
+    }
+
+    //Paint (input capture API: mouse/keyboard state read from OnFrame args.Input)
+    private Canvas2D _paintCanvas = default!;
+    private string _paintColor = "#1b6ec2";
+    private int _paintWidth = 4;
+    private bool _paintWasDown;
+    private double _lastX, _lastY;
+    private string? _exportedImage;
+
+    private async Task PaintReadyAsync(Canvas2DContext ctx)
+        => await _paintCanvas.StartInputCaptureAsync();
+
+    private async Task PaintFrameAsync(CanvasFrameEventArgs args)
+    {
+        var input = args.Input;
+        var ctx = _paintCanvas.Context;
+        if (input is null || ctx is null)
+        {
+            return;
+        }
+
+        //Mouse wheel adjusts the brush size.
+        if (input.WheelDelta != 0)
+        {
+            _paintWidth = Math.Clamp(_paintWidth - Math.Sign(input.WheelDelta), 1, 30);
+            StateHasChanged();
+        }
+
+        //C clears the canvas (fire-once pressed key: a short tap between two frames is not missed).
+        if (input.WasKeyPressed("KeyC"))
+        {
+            await ClearPaintAsync();
+            StateHasChanged();
+        }
+
+        //Left button paints, right button erases (composite mode destination-out).
+        var down = input.IsButtonDown(0) || input.IsButtonDown(2);
+        if (down)
+        {
+            if (!_paintWasDown)
+            {
+                //Stroke starts here, do not connect to the previous stroke end.
+                _lastX = input.MousePath.Length >= 2 ? input.MousePath[0] : input.MouseX;
+                _lastY = input.MousePath.Length >= 2 ? input.MousePath[1] : input.MouseY;
+            }
+            var erase = input.IsButtonDown(2) && !input.IsButtonDown(0);
+
+            ctx.BeginBatch();
+            await ctx.SetGlobalCompositeOperationAsync(erase ? "destination-out" : "source-over");
+            await ctx.SetStrokeStyleAsync(_paintColor);
+            await ctx.SetLineWidthAsync(erase ? _paintWidth * 3 : _paintWidth);
+            await ctx.SetLineCapAsync(LineCap.Round);
+            await ctx.BeginPathAsync();
+            await ctx.MoveToAsync(_lastX, _lastY);
+            //MousePath carries every recorded position since the previous frame: fast strokes stay smooth.
+            for (var i = 0; i + 1 < input.MousePath.Length; i += 2)
+            {
+                await ctx.LineToAsync(input.MousePath[i], input.MousePath[i + 1]);
+            }
+            //+0.01 so a click without movement still draws a dot (zero length lines render nothing).
+            await ctx.LineToAsync(input.MouseX + 0.01, input.MouseY);
+            await ctx.StrokeAsync();
+            await ctx.SetGlobalCompositeOperationAsync("source-over");
+            await ctx.EndBatchAsync();
+
+            _lastX = input.MouseX;
+            _lastY = input.MouseY;
+        }
+        _paintWasDown = down;
+    }
+
+    private async Task ClearPaintAsync()
+    {
+        if (_paintCanvas.Context is not null)
+        {
+            await _paintCanvas.Context.ClearRectAsync(0, 0, 620, 300);
+            _exportedImage = null;
+        }
+    }
+
+    private async Task ExportPaintAsync()
+    {
+        if (_paintCanvas.Context is not null)
+        {
+            _exportedImage = await _paintCanvas.Context.ToDataURLAsync();
+        }
+    }
+
+    //Animation
+    private Canvas2D _animCanvas = default!;
+    private bool _animationRunning = true;
+    private double _fps;
+    private readonly Random _random = new Random();
+    private List<Ball> _balls = new List<Ball>();
+
+    private class Ball
+    {
+        public double X, Y, Dx, Dy, Radius;
+        public string Color = "#1b6ec2";
+    }
+
+    private Task AnimationReadyAsync(Canvas2DContext ctx)
+    {
+        var colors = new[] { "#1b6ec2", "#28a745", "#ffc107", "#dc3545", "#7b2cbf" };
+        for (var i = 0; i < 12; i++)
+        {
+            _balls.Add(new Ball
+            {
+                X = _random.Next(30, 590),
+                Y = _random.Next(30, 230),
+                Dx = (_random.NextDouble() * 200) - 100,
+                Dy = (_random.NextDouble() * 200) - 100,
+                Radius = _random.Next(8, 22),
+                Color = colors[i % colors.Length],
+            });
+        }
+        return Task.CompletedTask;
+    }
+
+    private async Task AnimationFrameAsync(CanvasFrameEventArgs args)
+    {
+        if (_animCanvas.Context is null)
+        {
+            return;
+        }
+
+        _fps = args.DeltaTime > 0 ? 1 / args.DeltaTime : 0;
+
+        foreach (var ball in _balls)
+        {
+            ball.X += ball.Dx * args.DeltaTime;
+            ball.Y += ball.Dy * args.DeltaTime;
+            if (ball.X < ball.Radius || ball.X > 620 - ball.Radius) ball.Dx = -ball.Dx;
+            if (ball.Y < ball.Radius || ball.Y > 260 - ball.Radius) ball.Dy = -ball.Dy;
+        }
+
+        var ctx = _animCanvas.Context;
+        ctx.BeginBatch();
+        await ctx.SetFillStyleAsync("#0d1b2a");
+        await ctx.FillRectAsync(0, 0, 620, 260);
+        foreach (var ball in _balls)
+        {
+            await ctx.SetFillStyleAsync(ball.Color);
+            await ctx.BeginPathAsync();
+            await ctx.ArcAsync(ball.X, ball.Y, ball.Radius, 0, Math.PI * 2);
+            await ctx.FillAsync();
+        }
+        await ctx.EndBatchAsync();
+
+        StateHasChanged(); //Update FPS label.
+    }
+
+    private async Task ToggleAnimationAsync()
+    {
+        if (_animationRunning)
+        {
+            await _animCanvas.StopRenderLoopAsync();
+        }
+        else
+        {
+            await _animCanvas.StartRenderLoopAsync();
+        }
+        _animationRunning = !_animationRunning;
+    }
+}

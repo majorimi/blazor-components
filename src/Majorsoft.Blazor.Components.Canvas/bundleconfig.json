@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/canvas.min.js",
+    "inputFiles": [
+      "wwwroot/canvas.js"
+    ]
+  }
+]
