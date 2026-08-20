@@ -19,6 +19,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.Timer", "Majorsoft.Blazor.Components.Timer\Majorsoft.Blazor.Components.Timer.csproj", "{AD60A5E4-D549-444A-9E5A-29346A3F3F1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Demo", "_Demo", "{FF939C62-3B0D-4759-B5A6-A89EBE8A4C59}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsoft.Blazor.Components.TestApps.Common", "Majorsoft.Blazor.Components.TestApps.Common\Majorsoft.Blazor.Components.TestApps.Common.csproj", "{272AB3A4-38DF-4940-8FCA-A01AF2548C8D}"
 EndProject

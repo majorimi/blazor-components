@@ -1,0 +1,230 @@
+@using System.Globalization
+@using Majorsoft.Blazor.Components.Inputs
+@using Majorsoft.Blazor.Components.Tooltips
+
+<style>
+    .purple-picker .bdtp-input {
+        border-color: #7b2cbf;
+        border-radius: 20px;
+        background-color: #f8f2fd;
+    }
+
+    .purple-panel {
+        border-color: #7b2cbf !important;
+        background-color: #f8f2fd !important;
+    }
+
+    .purple-panel .bdtp-selected,
+    .purple-panel .bdtp-btn-primary {
+        background-color: #7b2cbf;
+        border-color: #7b2cbf;
+    }
+
+    .purple-panel .bdtp-today {
+        outline-color: #7b2cbf;
+    }
+
+    .purple-panel .bdtp-title {
+        color: #7b2cbf;
+    }
+</style>
+
+<h1>Date and Time picker</h1>
+<p>
+    Blazor <code>DateTimePicker</code> component: a text input with a <strong>calendar (and optional time) editor</strong>
+    shown in a <code>Popover</code>. Supports <strong>culture</strong> or <strong>custom format string</strong> based
+    formatting/parsing, configurable Popover <strong>position</strong>, <strong>first day of week</strong>, Date or DateTime
+    <strong>mode</strong>, min/max limits, week numbers and full CSS customization with <code>bdtp-*</code> class hooks.
+    For usage see source code and docs on
+    <a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Inputs.md" target="_blank">Github</a>.
+    <br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Inputs" />
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>DateTimePicker playground</h3>
+    <p>All main features of the <strong>DateTimePicker</strong> component can be configured below.</p>
+
+    <div class="row pb-2">
+        <div class="col-6 col-lg-3 pb-2">
+            Mode: <select class="form-control" @bind="_mode">
+                <option value="@DateTimePickerMode.Date">Date</option>
+                <option value="@DateTimePickerMode.DateTime">DateTime</option>
+            </select>
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            Popover position: <select class="form-control" @bind="_position">
+                @foreach (TooltipPositions position in Enum.GetValues(typeof(TooltipPositions)))
+                {
+                    <option value="@position">@position</option>
+                }
+            </select>
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            First day of week: <select class="form-control" @bind="_firstDayName">
+                <option value="">Culture default</option>
+                @foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    <option value="@day">@day</option>
+                }
+            </select>
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            Culture: <select class="form-control" @bind="_cultureName">
+                <option value="">Current (@CultureInfo.CurrentCulture.Name)</option>
+                <option value="en-US">en-US</option>
+                <option value="en-GB">en-GB</option>
+                <option value="de-DE">de-DE</option>
+                <option value="fr-FR">fr-FR</option>
+                <option value="hu-HU">hu-HU</option>
+                <option value="ja-JP">ja-JP</option>
+            </select>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col-6 col-lg-3 pb-2">
+            Custom format string: <input class="form-control" placeholder="Culture default when empty" @bind="_format" />
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            Minute step (DateTime mode): <select class="form-control" @bind="_minuteStep">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+            </select>
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            <label class="mt-4"><input type="checkbox" @bind="_showWeekNumbers" /> Show week numbers</label>
+        </div>
+        <div class="col-6 col-lg-3 pb-2">
+            <label class="mt-4"><input type="checkbox" @bind="_limitRange" /> Limit range to &#177;10 days</label>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <DateTimePicker Value="_value"
+                            ValueChanged="OnValueChanged"
+                            @bind-IsOpen="_isPickerOpen"
+                            Mode="@_mode"
+                            Position="@_position"
+                            FirstDayOfWeek="@FirstDay"
+                            DateFormat="@_format"
+                            Culture="@SelectedCulture"
+                            MinuteStep="@_minuteStep"
+                            ShowWeekNumbers="@_showWeekNumbers"
+                            MinDate="@(_limitRange ? DateTime.Today.AddDays(-10) : null)"
+                            MaxDate="@(_limitRange ? DateTime.Today.AddDays(10) : null)"
+                            Placeholder="Pick or type a date..."
+                            OnOpen="OnPickerOpened"
+                            OnClose="OnPickerClosed" />
+        </div>
+    </div>
+
+    <div class="row pb-2 mt-2">
+        <div class="col-12">
+            <button class="btn btn-primary" @onclick="() => _isPickerOpen = !_isPickerOpen">@(_isPickerOpen ? "Close" : "Open") picker with @@bind-IsOpen</button>
+        </div>
+    </div>
+
+    <div>Selected value: <strong>@(_value?.ToString("yyyy-MM-dd HH:mm:ss") ?? "-")</strong> &#124; IsOpen: <strong>@_isPickerOpen</strong></div>
+
+    <div class="row pb-2 mt-2">
+        <div class="col-12">
+            <label><strong>Event log</strong>:</label>
+            <textarea @ref="_log" @bind="_eventLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Date and Time picking with seconds and 12 hour clock</h3>
+    <p>
+        Time editors are derived from the format string: <code>ss</code> shows the seconds dropdown, <code>hh</code> or <code>tt</code>
+        switches to 12 hour clock with AM/PM. This example uses format: <code>MM/dd/yyyy hh:mm:ss tt</code> with <code>en-US</code> culture.
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <DateTimePicker @bind-Value="_value12h"
+                            Mode="DateTimePickerMode.DateTime"
+                            DateFormat="MM/dd/yyyy hh:mm:ss tt"
+                            Culture="@CultureInfo.GetCultureInfo("en-US")"
+                            Placeholder="12 hour clock with seconds..." />
+        </div>
+    </div>
+
+    <div>Selected value: <strong>@(_value12h?.ToString("yyyy-MM-dd HH:mm:ss") ?? "-")</strong></div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+    <h3>Picker only (no typing) with custom CSS</h3>
+    <p>
+        Typing is disabled with <code>AllowTextInput="false"</code>, so the value can only be picked. The input is styled with
+        <code>Class</code> and the calendar panel with <code>PickerClass</code> targeting the
+        <code>bdtp-*</code> CSS classes of the component.
+    </p>
+
+    <div class="row pb-2">
+        <div class="col-12">
+            <DateTimePicker @bind-Value="_valueStyled"
+                            Mode="DateTimePickerMode.Date"
+                            AllowTextInput="false"
+                            Class="purple-picker"
+                            PickerClass="purple-panel"
+                            Placeholder="Click to pick a date..." />
+        </div>
+    </div>
+
+    <div>Selected value: <strong>@(_valueStyled?.ToString("yyyy-MM-dd") ?? "-")</strong></div>
+</div>
+
+@code {
+    //Playground
+    private DateTime? _value = DateTime.Now;
+    private DateTimePickerMode _mode = DateTimePickerMode.Date;
+    private TooltipPositions _position = TooltipPositions.Bottom;
+    private string _firstDayName = "";
+    private string _cultureName = "";
+    private string _format = "";
+    private int _minuteStep = 1;
+    private bool _showWeekNumbers = false;
+    private bool _limitRange = false;
+    private bool _isPickerOpen = false;
+
+    private ElementReference _log;
+    private string _eventLog = "";
+
+    private DayOfWeek? FirstDay => string.IsNullOrEmpty(_firstDayName) ? null : Enum.Parse<DayOfWeek>(_firstDayName);
+    private CultureInfo? SelectedCulture => string.IsNullOrEmpty(_cultureName) ? null : CultureInfo.GetCultureInfo(_cultureName);
+
+    private async Task OnValueChanged(DateTime? value)
+    {
+        _value = value;
+        _eventLog = WriteLog(_eventLog, $"Value changed to: '{value?.ToString("yyyy-MM-dd HH:mm:ss") ?? "null"}'");
+        await _log.ScrollToEndAsync();
+    }
+
+    private async Task OnPickerOpened()
+    {
+        _eventLog = WriteLog(_eventLog, "Picker opened");
+        await _log.ScrollToEndAsync();
+    }
+
+    private async Task OnPickerClosed()
+    {
+        _eventLog = WriteLog(_eventLog, "Picker closed");
+        await _log.ScrollToEndAsync();
+    }
+
+    private string WriteLog(string log, string message)
+    {
+        log += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+        return log;
+    }
+
+    //12 hour clock example
+    private DateTime? _value12h;
+
+    //Styled example
+    private DateTime? _valueStyled;
+}

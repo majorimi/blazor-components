@@ -1,0 +1,212 @@
+<PageScroll />
+
+<h1>Grid Components</h1>
+<p>
+	Blazor component that renders a customizable data Grid (table) with optional sorting, paging, templated columns and custom styling. For usage see source code and docs on
+	<a href="https://github.com/majorimi/blazor-components/blob/master/.github/docs/Grid.md" target="_blank">Github</a>.
+	<br /><NugetPackageInfo PackageName="Majorsoft.Blazor.Components.Grid" />
+</p>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Basic Grid</h3>
+	<p>
+		Renders a plain HTML table from any <strong><code>IEnumerable&lt;TItem&gt;</code></strong> data source. Columns are defined with
+		<strong><code>DataGridColumn</code></strong> components using only the <code>Field</code> property.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<DataGrid Items="_employees.Take(4)" Bordered="false" Hoverable="false">
+				<DataGridColumn TItem="Employee" Field="Name" />
+				<DataGridColumn TItem="Employee" Field="Position" />
+				<DataGridColumn TItem="Employee" Field="BirthDate" Title="Birth date" Format="{0:d}" />
+				<DataGridColumn TItem="Employee" Field="Salary" Format="{0:C0}" TextAlign="TextAligns.Right" />
+			</DataGrid>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-3 mb-3 border rounded">
+	<h3>Advanced Grid</h3>
+	<p>
+		Grid with <strong>Sorting</strong>, <strong>Paging</strong>, <strong>Column resizing</strong> (drag handle at bottom right corner of headers),
+		<strong>Header icons</strong> (templates), <strong>custom cell templates</strong> and <strong>custom styling</strong> features enabled.
+	</p>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Header background color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_headerBackgroundColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Header text color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_headerTextColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Stripe color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_stripeColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Row Hover color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_hoverColor" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Border color (Name, RGB, Hex, HSL): <input class="form-control w-100" @bind="_borderColor" />
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Allow Sorting: <input class="mr-3" type="checkbox" @bind="_allowSorting" />
+			Allow Paging: <input class="mr-3" type="checkbox" @bind="_allowPaging" />
+			Allow Column resize: <input class="mr-3" type="checkbox" @bind="_allowColumnResize" />
+			<br />
+			Striped rows: <input class="mr-3" type="checkbox" @bind="_striped" />
+			Bordered: <input class="mr-3" type="checkbox" @bind="_bordered" />
+			Hoverable rows: <input class="mr-3" type="checkbox" @bind="_hoverable" />
+			<br />
+			Hide Salary column: <input class="mr-3" type="checkbox" @bind="_salaryHidden" />
+		</div>
+	</div>
+	<div class="row pb-2">
+		<div class="col-12 col-lg-8 col-xl-5">
+			Page size: @(_pageSize)
+			<input type="range" class="w-100" min="2" max="10" @bind="_pageSize" @oninput="(e => _pageSize = int.Parse(e.Value?.ToString()))" />
+		</div>
+	</div>
+
+	<div class="row mb-3 m-1">
+		<div class="col-12">
+			<DataGrid @ref="_grid"
+					  TItem="Employee"
+					  Items="_employees"
+					  AllowSorting="@_allowSorting"
+					  AllowPaging="@_allowPaging"
+					  AllowColumnResize="@_allowColumnResize"
+					  PageSize="@_pageSize"
+					  CurrentPage="@_currentPage"
+					  CurrentPageChanged="OnPageChanged"
+					  Striped="@_striped"
+					  Bordered="@_bordered"
+					  Hoverable="@_hoverable"
+					  HeaderBackgroundColor="@_headerBackgroundColor"
+					  HeaderTextColor="@_headerTextColor"
+					  StripeColor="@_stripeColor"
+					  HoverColor="@_hoverColor"
+					  BorderColor="@_borderColor"
+					  OnRowClicked="OnRowClicked"
+					  OnSortChanged="OnSortChanged">
+				<DataGridColumn TItem="Employee" Field="Name" Width="220px">
+					<HeaderTemplate>
+						<span class="fa fa-lg fa-user" aria-hidden="true"></span> Name
+					</HeaderTemplate>
+				</DataGridColumn>
+				<DataGridColumn TItem="Employee" Field="Position" Width="180px">
+					<HeaderTemplate>
+						<span class="fa fa-lg fa-briefcase" aria-hidden="true"></span> Position
+					</HeaderTemplate>
+				</DataGridColumn>
+				<DataGridColumn TItem="Employee" Field="BirthDate" Title="Birth date" Format="{0:d}" Width="130px">
+					<HeaderTemplate>
+						<span class="fa fa-lg fa-calendar" aria-hidden="true"></span> Birth date
+					</HeaderTemplate>
+				</DataGridColumn>
+				<DataGridColumn TItem="Employee" Field="Salary" Format="{0:C0}" TextAlign="TextAligns.Right" Width="120px" Hidden="@_salaryHidden">
+					<HeaderTemplate>
+						<span class="fa fa-lg fa-money" aria-hidden="true"></span> Salary
+					</HeaderTemplate>
+				</DataGridColumn>
+				<DataGridColumn TItem="Employee" Field="IsActive" Title="Active" Sortable="false" TextAlign="TextAligns.Center" Width="80px">
+					<CellTemplate Context="employee">
+						@if (employee.IsActive)
+						{
+							<span class="fa fa-lg fa-check" style="color: green;" aria-hidden="true"></span>
+						}
+						else
+						{
+							<span class="fa fa-lg fa-times" style="color: red;" aria-hidden="true"></span>
+						}
+					</CellTemplate>
+				</DataGridColumn>
+			</DataGrid>
+		</div>
+	</div>
+
+	<div class="row pb-2">
+		<div class="col-12">
+			<label><strong>Grid Event log</strong>:</label>
+			<textarea @ref="_log" @bind="_gridLog" style="height:200px;" class="form-control w-100" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+@code {
+	private DataGrid<Employee> _grid;
+
+	private bool _allowSorting = true;
+	private bool _allowPaging = true;
+	private bool _striped = true;
+	private bool _bordered = true;
+	private bool _hoverable = true;
+	private bool _salaryHidden = false;
+	private bool _allowColumnResize = true;
+	private int _pageSize = 5;
+	private int _currentPage = 1;
+
+	private string _headerBackgroundColor = "whitesmoke";
+	private string _headerTextColor = "black";
+	private string _stripeColor = "whitesmoke";
+	private string _hoverColor = "229,241,251";
+	private string _borderColor = "lightgray";
+
+	private ElementReference _log;
+	private string _gridLog;
+
+	private async Task OnRowClicked(Employee employee)
+	{
+		await WriteLogAsync($"Row clicked: {employee.Name}");
+	}
+	private async Task OnSortChanged(DataGridSortEventArgs args)
+	{
+		await WriteLogAsync($"Sorting changed, Field: {args.Field}, Direction: {args.SortDirection}");
+	}
+	private async Task OnPageChanged(int page)
+	{
+		_currentPage = page;
+		await WriteLogAsync($"Current page changed: {page}");
+	}
+	private async Task WriteLogAsync(string message)
+	{
+		_gridLog += $"{DateTime.Now.TimeOfDay}: {message}. \r\n";
+		await _log.ScrollToEndAsync();
+	}
+
+	private readonly List<Employee> _employees = new List<Employee>()
+	{
+		new Employee { Name = "Ada Lovelace", Position = "Software Engineer", BirthDate = new DateTime(1985, 12, 10), Salary = 95000, IsActive = true },
+		new Employee { Name = "Grace Hopper", Position = "Compiler Architect", BirthDate = new DateTime(1980, 12, 9), Salary = 120000, IsActive = true },
+		new Employee { Name = "Alan Turing", Position = "Cryptographer", BirthDate = new DateTime(1982, 6, 23), Salary = 110000, IsActive = false },
+		new Employee { Name = "Linus Torvalds", Position = "Kernel Developer", BirthDate = new DateTime(1969, 12, 28), Salary = 135000, IsActive = true },
+		new Employee { Name = "Margaret Hamilton", Position = "Systems Engineer", BirthDate = new DateTime(1976, 8, 17), Salary = 105000, IsActive = true },
+		new Employee { Name = "Dennis Ritchie", Position = "Language Designer", BirthDate = new DateTime(1971, 9, 9), Salary = 125000, IsActive = false },
+		new Employee { Name = "Barbara Liskov", Position = "Professor", BirthDate = new DateTime(1979, 11, 7), Salary = 98000, IsActive = true },
+		new Employee { Name = "Donald Knuth", Position = "Algorithm Analyst", BirthDate = new DateTime(1968, 1, 10), Salary = 115000, IsActive = true },
+		new Employee { Name = "Katherine Johnson", Position = "Mathematician", BirthDate = new DateTime(1978, 8, 26), Salary = 99000, IsActive = false },
+		new Employee { Name = "Tim Berners-Lee", Position = "Web Architect", BirthDate = new DateTime(1975, 6, 8), Salary = 130000, IsActive = true },
+		new Employee { Name = "Anders Hejlsberg", Position = "Language Designer", BirthDate = new DateTime(1970, 12, 2), Salary = 128000, IsActive = true },
+		new Employee { Name = "Brian Kernighan", Position = "Author", BirthDate = new DateTime(1972, 1, 1), Salary = 102000, IsActive = true },
+	};
+
+	public class Employee
+	{
+		public string Name { get; set; }
+		public string Position { get; set; }
+		public DateTime BirthDate { get; set; }
+		public double Salary { get; set; }
+		public bool IsActive { get; set; }
+	}
+}
